@@ -1,42 +1,38 @@
 import re
+import random
 from django.core.management import BaseCommand
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration, Access, Levels
 from api.v1.v1_users.models import SystemUser, Organisation
 from api.v1.v1_forms.models import Forms, UserForms
-from api.v1.v1_forms.models import FormApprovalRule, FormApprovalAssignment
+from api.v1.v1_forms.models import FormApprovalAssignment
 from api.v1.v1_forms.constants import FormTypes
 
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        FormApprovalRule.objects.all().delete()
         form = Forms.objects.filter(
             type=FormTypes.county).order_by('?').first()
         print(f"\nForm Name: {form.name}\n\n")
-        last_level = Levels.objects.order_by('-level').first()
+        last_level = Levels.objects.order_by('-level')[1:2].first()
         organisation = Organisation.objects.first()
         administration = Administration.objects.filter(
             level=last_level).order_by('?').first()
         ancestors = administration.ancestors
-        # check if approval level rule are available
-        first_level = ancestors.filter(level__level=1).first()
-        approval_rule, created = FormApprovalRule.objects.get_or_create(
-            form=form, administration=first_level)
-        if created:
-            approval_rule.save()
-            approval_rule.levels.set(Levels.objects.filter(level__gte=1))
         # union the current administration also
         ancestors |= Administration.objects.filter(id=administration.id)
         print("Approvers:")
-        for ancestor in ancestors.filter(level__level__gte=1):
+        for ancestor in ancestors.filter(level__level__gte=1,
+                                         level__level__lt=4):
             # check if approval assignment for the path is not available
             assignment = FormApprovalAssignment.objects.filter(
                 form=form, administration=ancestor).first()
             if not assignment:
-                email = ("{}{}@test.com").format(
+                email = ("{}{}.{}@test.com").format(
                     re.sub('[^A-Za-z0-9]+', '', ancestor.name.lower()),
-                    ancestor.id)
+                    ancestor.id,
+                    random.randint(1, 1000)
+                )
                 last_name = "Approver"
                 role = UserRoleTypes.approver
                 if ancestor.level.level == 1:
@@ -62,6 +58,12 @@ class Command(BaseCommand):
                 print(f"- Administration Name: {ancestor.name}")
                 print("- Approver: {} ({})".format(assignment.user.email,
                                                    last_name))
+            else:
+                print("Level: {} ({})".format(ancestor.level.level,
+                                              ancestor.level.name))
+                print(f"- Administration Name: {ancestor.name}")
+                print("- Approver: {} ({})".format(assignment.user.email,
+                                                   assignment.user.last_name))
         # create user
         email = ("{}{}@user.com").format(
             re.sub('[^A-Za-z0-9]+', '', administration.name.lower()),

@@ -13,9 +13,12 @@ from api.v1.v1_profile.constants import UserRoleTypes, OrganisationTypes
 from api.v1.v1_profile.models import Administration, Access, Levels
 from api.v1.v1_users.models import SystemUser, \
         Organisation, OrganisationAttribute
+from api.v1.v1_mobile.models import MobileAssignment
 from utils.custom_serializer_fields import CustomEmailField, CustomCharField, \
     CustomPrimaryKeyRelatedField, CustomChoiceField, CustomBooleanField, \
     CustomMultipleChoiceField
+from utils.custom_helper import CustomPasscode
+from utils.custom_generator import update_sqlite
 
 
 class OrganisationSerializer(serializers.ModelSerializer):
@@ -74,6 +77,13 @@ class AddEditOrganisationSerializer(serializers.ModelSerializer):
         for attr in attributes:
             OrganisationAttribute.objects.create(organisation=instance,
                                                  type=attr)
+        update_sqlite(
+            model=Organisation,
+            data={
+                'id': instance.id,
+                'name': instance.name,
+            }
+        )
         return instance
 
     def update(self, instance, validated_data):
@@ -90,6 +100,11 @@ class AddEditOrganisationSerializer(serializers.ModelSerializer):
             attr, created = OrganisationAttribute.objects.get_or_create(
                 organisation=instance, type=attr)
             attr.save()
+        update_sqlite(
+            model=Organisation,
+            data={'name': instance.name},
+            id=instance.id
+        )
         return instance
 
     class Meta:
@@ -153,12 +168,19 @@ class SetUserPasswordSerializer(serializers.Serializer):
 
 
 class ListAdministrationChildrenSerializer(serializers.ModelSerializer):
+    full_name = serializers.SerializerMethodField()
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_full_name(self, instance: Administration):
+        return instance.full_path_name
+
     class Meta:
         model = Administration
-        fields = ['id', 'parent', 'name']
+        fields = ['id', 'parent', 'path', 'level', 'name', 'full_name']
 
 
 class ListAdministrationSerializer(serializers.ModelSerializer):
+    full_name = serializers.SerializerMethodField()
     children = serializers.SerializerMethodField()
     level_name = serializers.ReadOnlyField(source='level.name')
     level = serializers.ReadOnlyField(source='level.level')
@@ -182,10 +204,15 @@ class ListAdministrationSerializer(serializers.ModelSerializer):
             return child.level.name
         return None
 
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_full_name(self, instance: Administration):
+        return instance.full_path_name
+
     class Meta:
         model = Administration
         fields = [
-            'id', 'parent', 'name', 'level_name', 'level', 'children',
+            'id', 'full_name', 'path', 'parent', 'name',
+            'level_name', 'level', 'children',
             'children_level_name'
         ]
 
@@ -244,9 +271,10 @@ class AddEditUserSerializer(serializers.ModelSerializer):
                     [UserRoleTypes.approver, UserRoleTypes.user]:
                 raise ValidationError(
                     'You do not have permission to edit this user')
-        if attrs.get('role') not in [
-                UserRoleTypes.super_admin, UserRoleTypes.read_only
-        ] and attrs.get('administration').level.level == 0:
+        if (
+            attrs.get('role') != UserRoleTypes.super_admin and
+            attrs.get('administration').level.level == 0
+        ):
             raise ValidationError({
                 'administration':
                 'administration level is not valid with selected role'
@@ -266,20 +294,34 @@ class AddEditUserSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        # delete inform_user payload
-        validated_data.pop('inform_user')
-        administration = validated_data.pop('administration')
-        role = validated_data.pop('role')
-        forms = validated_data.pop('forms')
-        user = super(AddEditUserSerializer, self).create(validated_data)
-        Access.objects.create(user=user,
-                              administration=administration,
-                              role=role)
-        # add new user forms
-        if forms:
-            for form in forms:
-                UserForms.objects.create(user=user, form=form)
-        return user
+        try:
+            user_deleted = SystemUser.objects_deleted.get(
+                email=validated_data['email']
+            )
+            if user_deleted:
+                user_deleted.restore()
+                self.update(
+                    instance=user_deleted,
+                    validated_data=validated_data
+                )
+                return user_deleted
+        except SystemUser.DoesNotExist:
+            # delete inform_user payload
+            validated_data.pop('inform_user')
+            administration = validated_data.pop('administration')
+            role = validated_data.pop('role')
+            forms = validated_data.pop('forms')
+            user = super(AddEditUserSerializer, self).create(validated_data)
+            Access.objects.create(
+                user=user,
+                administration=administration,
+                role=role
+            )
+            # add new user forms
+            if forms:
+                for form in forms:
+                    UserForms.objects.create(user=user, form=form)
+            return user
 
     def update(self, instance, validated_data):
         # delete inform_user payload
@@ -315,10 +357,14 @@ class AddEditUserSerializer(serializers.ModelSerializer):
 
 class UserAdministrationSerializer(serializers.ModelSerializer):
     level = serializers.ReadOnlyField(source='level.level')
+    full_name = serializers.SerializerMethodField()
+
+    def get_full_name(self, instance: Administration):
+        return instance.full_name
 
     class Meta:
         model = Administration
-        fields = ['id', 'name', 'level']
+        fields = ['id', 'name', 'level', 'full_name']
 
 
 class UserFormSerializer(serializers.ModelSerializer):
@@ -406,6 +452,7 @@ class UserSerializer(serializers.ModelSerializer):
     role = serializers.SerializerMethodField()
     forms = serializers.SerializerMethodField()
     last_login = serializers.SerializerMethodField()
+    passcode = serializers.SerializerMethodField()
 
     @extend_schema_field(UserAdministrationSerializer)
     def get_administration(self, instance: SystemUser):
@@ -438,12 +485,21 @@ class UserSerializer(serializers.ModelSerializer):
             return instance.last_login.timestamp()
         return None
 
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_passcode(self, instance: SystemUser):
+        mobile_assignment = MobileAssignment \
+            .objects.filter(user=instance).first()
+        if mobile_assignment:
+            passcode = CustomPasscode().decode(mobile_assignment.passcode)
+            return passcode
+        return None
+
     class Meta:
         model = SystemUser
         fields = [
             'email', 'name', 'administration', 'trained', 'role',
             'phone_number', 'designation', 'forms', 'organisation',
-            'last_login'
+            'last_login', 'passcode'
         ]
 
 

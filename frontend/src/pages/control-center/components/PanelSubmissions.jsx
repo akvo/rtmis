@@ -1,6 +1,5 @@
 import React, { useMemo, useState, useEffect } from "react";
 import {
-  Card,
   Table,
   Input,
   Tabs,
@@ -13,10 +12,9 @@ import {
   Popover,
 } from "antd";
 import {
-  PlusSquareOutlined,
-  CloseSquareOutlined,
+  LeftCircleOutlined,
+  DownCircleOutlined,
   FileTextFilled,
-  InfoCircleOutlined,
   ClockCircleOutlined,
   CloseCircleOutlined,
   CheckCircleOutlined,
@@ -47,20 +45,12 @@ const columnsSelected = [
 
 const columnsBatch = [
   {
-    title: "",
-    dataIndex: "id",
-    key: "id",
-    align: "center",
-    render: () => <InfoCircleOutlined />,
-    width: 50,
-  },
-  {
     title: "Batch Name",
     dataIndex: "name",
     key: "name",
     render: (name, row) => (
       <Row align="middle">
-        <Col>
+        <Col style={{ marginRight: 20 }}>
           <FileTextFilled style={{ color: "#666666", fontSize: 28 }} />
         </Col>
         <Col>
@@ -139,19 +129,12 @@ const columnsBatch = [
 
 const columnsPending = [
   {
-    title: "",
-    dataIndex: "id",
-    key: "id",
-    render: () => <InfoCircleOutlined />,
-    width: 50,
-  },
-  {
     title: "Name",
     dataIndex: "name",
     key: "name",
     render: (name, row) => (
       <Row align="middle">
-        <Col>
+        <Col style={{ marginRight: 20 }}>
           <FileTextFilled style={{ color: "#666666", fontSize: 28 }} />
         </Col>
         <Col>
@@ -165,6 +148,24 @@ const columnsPending = [
     title: "Administration",
     dataIndex: "administration",
     key: "administration",
+    width: 200,
+  },
+  {
+    title: "Submitter Name",
+    dataIndex: "submitter",
+    key: "submitter",
+    render: (submitter, dt) => {
+      return submitter || dt.created_by;
+    },
+    width: 200,
+  },
+  {
+    title: "Duration",
+    dataIndex: "duration",
+    key: "duration",
+    render: (duration) => duration || "",
+    align: "center",
+    width: 100,
   },
 ];
 
@@ -369,7 +370,11 @@ const PanelSubmissions = () => {
     };
     if (!!selectedRows.length && modalButton) {
       return (
-        <Button type="primary" onClick={handleOnClickBatchSelectedDataset}>
+        <Button
+          type="primary"
+          shape="round"
+          onClick={handleOnClickBatchSelectedDataset}
+        >
           {text.batchSelectedDatasets}
         </Button>
       );
@@ -425,14 +430,14 @@ const PanelSubmissions = () => {
                 expandedRowRender: ApproverDetail,
                 expandIcon: (expand) => {
                   return expand.expanded ? (
-                    <CloseSquareOutlined
+                    <DownCircleOutlined
                       onClick={() => setExpandedKeys([])}
-                      style={{ color: "#e94b4c" }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
                     />
                   ) : (
-                    <PlusSquareOutlined
+                    <LeftCircleOutlined
                       onClick={() => setExpandedKeys([expand.record.id])}
-                      style={{ color: "#7d7d7d" }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
                     />
                   );
                 },
@@ -444,9 +449,9 @@ const PanelSubmissions = () => {
 
   return (
     <>
-      <Card id="panel-submission">
+      <div id="panel-submission">
         <h1 className="submission">Submissions</h1>
-        <DataFilters />
+        <DataFilters showAdm={false} />
         <Tabs
           activeKey={selectedTab}
           defaultActiveKey={selectedTab}
@@ -463,14 +468,14 @@ const PanelSubmissions = () => {
             <DataTable pane="approved-batch" />
           </TabPane>
         </Tabs>
-        <Link to="/data/submissions">
-          <Button className="view-all" type="primary">
+        <Link to="/control-center/data/submissions">
+          <Button className="view-all" type="primary" shape="round">
             View All
           </Button>
         </Link>
-      </Card>
+      </div>
       <Modal
-        visible={modalVisible}
+        open={modalVisible}
         onCancel={() => {
           setModalVisible(false);
         }}

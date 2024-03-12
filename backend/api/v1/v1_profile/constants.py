@@ -3,14 +3,12 @@ class UserRoleTypes:
     admin = 2
     approver = 3
     user = 4
-    read_only = 5
 
     FieldStr = {
         super_admin: 'Super Admin',
         admin: 'County Admin',
         approver: 'Data Approver',
-        user: 'Data Entry Staff',
-        read_only: 'Institutional User'
+        user: 'Data Entry Supervisor',
     }
 
 

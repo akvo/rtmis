@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Card, Table, Tabs, Row, Button } from "antd";
+import { Table, Tabs, Row, Button } from "antd";
 import { api, store, config, uiText } from "../../../lib";
 import { Link } from "react-router-dom";
 import { columnsApproval } from "../../approvals";
 import "./style.scss";
 import { DescriptionPanel } from "../../../components";
-
-const { TabPane } = Tabs;
 
 const PanelApprovals = () => {
   const [approvalsPending, setApprovalsPending] = useState([]);
@@ -14,7 +12,7 @@ const PanelApprovals = () => {
   const [loading, setLoading] = useState(true);
   const { user: authUser } = store.useState((s) => s);
 
-  const { checkAccess, approvalsLiteral } = config;
+  const { approvalsLiteral } = config;
 
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
@@ -25,6 +23,23 @@ const PanelApprovals = () => {
 
   const approvalsText = approvalsLiteral(authUser);
 
+  const panelItems = useMemo(() => {
+    const items = [
+      {
+        key: "my-pending",
+        label: `${text.approvalsTab1} ${approvalsText}`,
+      },
+      {
+        key: "subordinate",
+        label: text.approvalsTab2,
+      },
+    ];
+    if (authUser.role_detail.name === "Super Admin") {
+      return items.filter((item) => item.key !== "subordinate");
+    }
+    return items;
+  }, [authUser, text, approvalsText]);
+
   useEffect(() => {
     setLoading(true);
     let url = "/form-pending-batch/?page=1";
@@ -34,7 +49,11 @@ const PanelApprovals = () => {
     api
       .get(url)
       .then((res) => {
-        setApprovalsPending(res.data.batch);
+        const newData = res.data.batch.map((item, index) => ({
+          ...item,
+          key: index.toString(),
+        }));
+        setApprovalsPending(newData);
         setLoading(false);
       })
       .catch((e) => {
@@ -44,7 +63,7 @@ const PanelApprovals = () => {
   }, [approvalTab]);
 
   return (
-    <Card bordered={false} id="panel-approvals">
+    <div id="panel-approvals">
       <div className="row">
         <div className="flex-1">
           <h2>{approvalsText}</h2>
@@ -54,15 +73,11 @@ const PanelApprovals = () => {
         </div>
       </div>
       <DescriptionPanel description={<div>{text.panelApprovalsDesc}</div>} />
-      <Tabs defaultActiveKey={approvalTab} onChange={setApprovalTab}>
-        <TabPane
-          tab={`${text.approvalsTab1} ${approvalsText}`}
-          key="my-pending"
-        ></TabPane>
-        {authUser.role_detail.name !== "Super Admin" && (
-          <TabPane tab={text.approvalsTab2} key="subordinate"></TabPane>
-        )}
-      </Tabs>
+      <Tabs
+        defaultActiveKey={approvalTab}
+        items={panelItems}
+        onChange={setApprovalTab}
+      />
       <Table
         dataSource={approvalsPending}
         loading={loading}
@@ -71,16 +86,13 @@ const PanelApprovals = () => {
         scroll={{ y: 270 }}
       />
       <Row justify="space-between" className="approval-links">
-        <Link to="/approvals">
-          <Button type="primary">View All</Button>
+        <Link to="/control-center/approvals">
+          <Button type="primary" shape="round">
+            View All
+          </Button>
         </Link>
-        {checkAccess(authUser?.role_detail, "approvers") && (
-          <Link to="/approvers/tree">
-            <Button type="primary">Manage Data Validation Setup</Button>
-          </Link>
-        )}
       </Row>
-    </Card>
+    </div>
   );
 };
 

@@ -1,0 +1,1180 @@
+{
+  "id": 1701762893741,
+  "form": "RTMIS Healthcare Facility WASH Form",
+  "description": "Healthcare Facility Form",
+  "defaultLanguage": "en",
+  "languages": ["en"],
+  "version": 1,
+  "type": 1,
+  "translations": null,
+  "question_groups": [
+    {
+      "id": 1701762893742,
+      "order": 1,
+      "name": "hcf_wash_data",
+      "label": "HCF WASH: data",
+      "description": null,
+      "repeatable": false,
+      "translations": null,
+      "questions": [
+        {
+          "id": 1701762893743,
+          "order": 1,
+          "name": "new_HCF_monitoring_update",
+          "label": "New HCF or Monitoring upate?",
+          "short_label": null,
+          "type": "option",
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701770299704,
+              "order": 1,
+              "value": "new",
+              "label": "New"
+            },
+            {
+              "id": 1701770299705,
+              "order": 2,
+              "value": "upda",
+              "label": "Update"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1701770366285,
+      "order": 2,
+      "name": "hcf_location",
+      "label": "HCF: Location",
+      "description": null,
+      "repeatable": false,
+      "translations": null,
+      "questions": [
+        {
+          "id": 1701770366286,
+          "order": 1,
+          "name": "HCF_location",
+          "label": "What is the location of the hcf?",
+          "short_label": null,
+          "type": "administration",
+          "tooltip": {
+            "text": "This question contains a list of possible school locations, starting with government area or district, down to the community."
+          },
+          "required": false,
+          "meta": false
+        },
+        {
+          "id": 1701770462034,
+          "order": 2,
+          "name": "HCF_geolocation",
+          "label": "Geolocation of the household",
+          "short_label": null,
+          "type": "geo",
+          "tooltip": {
+            "text": "Record GPS coordinates of a central place in the HCF (e.g. outside main entrance)"
+          },
+          "required": false,
+          "meta": false,
+          "options": null
+        }
+      ]
+    },
+    {
+      "id": 1701772767993,
+      "order": 3,
+      "name": "interview_hcf_data_first_time",
+      "label": "INTERVIEW: HCF data (first time)",
+      "description": null,
+      "repeatable": false,
+      "translations": null,
+      "questions": [
+        {
+          "id": 1701772767994,
+          "order": 1,
+          "name": "HCF_respondent_role",
+          "label": "HCF respondent: role/position",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "List of HCF positions/roles"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701772879093,
+              "order": 1,
+              "label": "Nurse",
+              "value": "nurs"
+            },
+            {
+              "id": 1701772879094,
+              "order": 2,
+              "label": "Doctor",
+              "value": "doct"
+            },
+            {
+              "id": 1701772892891,
+              "order": 3,
+              "label": "Public Health Officer",
+              "value": "publ_heal_offi"
+            },
+            {
+              "id": 1701772899770,
+              "order": 4,
+              "label": "Clinical/Medical Officer",
+              "value": "clin_offi"
+            },
+            {
+              "id": 1701772908095,
+              "order": 5,
+              "label": "Medical Lab Technician",
+              "value": "medi_lab_tech"
+            },
+            {
+              "id": 1701772914771,
+              "order": 6,
+              "label": "Pharmacist",
+              "value": "phar"
+            },
+            {
+              "id": 1701772921512,
+              "order": 7,
+              "label": "Medical Superintendent",
+              "value": "medi_supe"
+            },
+            {
+              "id": 1701772931461,
+              "order": 8,
+              "label": "Director",
+              "value": "dire"
+            }
+          ]
+        },
+        {
+          "id": 1701772988782,
+          "order": 2,
+          "name": "total_beds_inpatients_HCF",
+          "label": "Total number of beds/inpatients in HCF",
+          "short_label": null,
+          "type": "number",
+          "tooltip": {
+            "text": "INTERVIEW: what is the total number of beds/inpatients in this healthcare facility?"
+          },
+          "required": false,
+          "meta": false,
+          "options": null
+        },
+        {
+          "id": 1701773124035,
+          "order": 3,
+          "name": "max_outpatients_HCF",
+          "label": "Maximum number of outpatients in HCF",
+          "short_label": null,
+          "type": "number",
+          "tooltip": {
+            "text": "INTERVIEW: what is the maximum number of outpatients in this healthcare facility?"
+          },
+          "required": false,
+          "meta": false,
+          "options": null
+        }
+      ]
+    },
+    {
+      "id": 1701773180227,
+      "order": 4,
+      "name": "interview_update_hcf_information",
+      "label": "INTERVIEW: Update HCF information",
+      "description": null,
+      "repeatable": false,
+      "translations": null,
+      "questions": [
+        {
+          "id": 1701773180228,
+          "order": 1,
+          "name": "change_in_patients_attending_HCF",
+          "label": "Change in number of patients attending the HCF?",
+          "short_label": null,
+          "type": "option",
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701773225595,
+              "order": 1,
+              "label": "Yes",
+              "value": "yes"
+            },
+            {
+              "id": 1701773225596,
+              "order": 2,
+              "label": "No",
+              "value": "no"
+            }
+          ],
+          "tooltip": null
+        },
+        {
+          "id": 1701773239332,
+          "order": 2,
+          "name": "update_total_beds_inpatients_HCF",
+          "label": "Update: total number of beds/inpatients in HCF",
+          "short_label": null,
+          "type": "number",
+          "required": false,
+          "meta": false,
+          "options": null,
+          "tooltip": {
+            "text": "INTERVIEW: what is the total number of beds/inpatients in this health care facility?"
+          }
+        },
+        {
+          "id": 1701773283024,
+          "order": 3,
+          "name": "update_max_outpatients_HCF",
+          "label": "Update: maximum number of outpatients in HCF",
+          "short_label": null,
+          "type": "number",
+          "required": false,
+          "meta": false,
+          "options": null,
+          "tooltip": {
+            "text": "INTERVIEW: what is the maximum number of outpatients in this health care facility?"
+          }
+        }
+      ]
+    },
+    {
+      "id": 1701773373078,
+      "order": 5,
+      "name": "interview_healthcare_facility_wash_outcomes",
+      "label": "INTERVIEW: HEALTHCARE FACILITY WASH OUTCOMES",
+      "description": null,
+      "repeatable": false,
+      "translations": null,
+      "questions": [
+        {
+          "id": 1701773373079,
+          "order": 1,
+          "name": "main_water_supply_facility",
+          "label": "Main source of water supply for facility",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE & INTERVIEW: what is the main source of water supply for the facility?\nMain source: if there is more than one water source, select the one used most frequently for drinking water"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701773444066,
+              "order": 1,
+              "label": "No water source",
+              "value": "no_wate_sour",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1701773444067,
+              "order": 2,
+              "label": "Surface water (lake, river, stream, dam)",
+              "value": "surf_wate_lake_rive_stre_dam",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1701773460159,
+              "order": 3,
+              "label": "Children bring water from home",
+              "value": "chil_brin_wate_from_home",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1701773466456,
+              "order": 4,
+              "label": "Piped water supply inside the building",
+              "value": "pipe_wate_supp_insi_buil",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1701773472788,
+              "order": 5,
+              "label": "Piped water supply outside the building",
+              "value": "pipe_wate_supp_outs_buil",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1701773479730,
+              "order": 6,
+              "label": "Protected well/spring/borehole",
+              "value": "prot_well",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1701773487913,
+              "order": 7,
+              "label": "Rainwater tank",
+              "value": "rain_tank",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1701773495679,
+              "order": 8,
+              "label": "Unprotected well/spring",
+              "value": "unpr_well",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1701773508880,
+              "order": 9,
+              "label": "Packaged water (bottles)",
+              "value": "pack_wate_bott",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1701773516714,
+              "order": 10,
+              "label": "Tanker truck or cart",
+              "value": "tank_truc_cart",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1701773523797,
+              "order": 11,
+              "label": "Other improved - specify",
+              "value": "othe_impr_spec",
+              "color": "#38A15A"
+            }
+          ]
+        },
+        {
+          "id": 1701774004571,
+          "order": 2,
+          "name": "water_supply_availability",
+          "label": "Water supply availability",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE & INTERVIEW: is water from the main water source currently available at the facility?\nCurrently available: drinking water is available at the time of the interview, either from the main source directly or stored water originally from the main source"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701774035997,
+              "order": 1,
+              "label": "Yes",
+              "value": "yes",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1701774035998,
+              "order": 2,
+              "label": "No",
+              "value": "no",
+              "color": "#DB3B3B"
+            }
+          ]
+        },
+        {
+          "id": 1701774054865,
+          "order": 3,
+          "name": "water_supply_quantity",
+          "label": "Water supply quantity",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE & INTERVIEW: is water available in sufficient quantity for all facility uses?\nSufficient quantity: water is available for handwashing, drinking, personal hygiene, medical activities, sterilization, decontamination, cleaning and laundry"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701774083411,
+              "order": 1,
+              "value": "no_insu_wate_quan_75_uses",
+              "label": "No, insufficient water quantity (<75% uses)",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1701774083412,
+              "order": 2,
+              "value": "no_wate_quan_only_suff_for_75_uses",
+              "label": "No, water quantity only sufficient for 75% uses",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1701774099088,
+              "order": 3,
+              "value": "yes_suff_wate_quan_for_all_uses",
+              "label": "Yes, sufficient water quantity for all uses",
+              "color": "#38A15A"
+            }
+          ]
+        },
+        {
+          "id": 1701774110056,
+          "order": 4,
+          "name": "num_toilets_inpatients",
+          "label": "Number of toilets for inpatients",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: count the number of toilets for inpatients\nOBSERVE: assess whether the inpatient toilets are usable (available, functional, and private). \nAvailable: toilet doors are unlocked or a key is available at all times; Functional: toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required); Private: there are closable doors that lock from the inside and no large gaps in the toilet enclosure. If any of the three criteria are not met, the toilet is not counted as usable"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701774140627,
+              "order": 1,
+              "label": "All inpatient toilets are NOT usable (enter number)",
+              "value": "all_inpa_toil_are_not_usab_ente_numb",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1701774140628,
+              "order": 2,
+              "label": "Some inpatient toilets are NOT usable (enter number non-usable, and number usable)",
+              "value": "some_inpa_toil_are_not_usab_ente_numb_nonu_numb_usab",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1701774189035,
+              "order": 3,
+              "label": "All inpatient toilets are usable (enter number)",
+              "value": "all_inpa_toil_are_usab_ente_numb",
+              "color": "#38A15A"
+            }
+          ]
+        },
+        {
+          "id": 168885172789111,
+          "order": 5,
+          "name": "total_usable_inpatient_toilets",
+          "label": "Total number of usable inpatient toilets",
+          "short_label": null,
+          "type": "number",
+          "dependency": [
+            {
+              "id": 1701774110056,
+              "options": [
+                "all_inpa_toil_are_usab_ente_numb",
+                "some_inpa_toil_are_not_usab_ente_numb_nonu_numb_usab"
+              ]
+            }
+          ],
+          "required": true,
+          "meta": false,
+          "rule": {
+            "min": 1
+          },
+          "options": null,
+          "fn": null
+        },
+        {
+          "id": 168885127879111,
+          "order": 6,
+          "name": "total_not_usable_inpatient_toilets",
+          "label": "Total number of not usable toilets inpatient toilets",
+          "short_label": null,
+          "type": "number",
+          "dependency": [
+            {
+              "id": 1701774110056,
+              "options": [
+                "all_inpa_toil_are_not_usab_ente_numb",
+                "some_inpa_toil_are_not_usab_ente_numb_nonu_numb_usab"
+              ]
+            }
+          ],
+          "required": true,
+          "meta": false,
+          "rule": {
+            "min": 1
+          },
+          "options": null,
+          "fn": null
+        },
+        {
+          "id": 1701774221650,
+          "order": 7,
+          "name": "num_toilets_outpatients",
+          "label": "Number of toilets for outpatients",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: count the number of toilets for outpatients\nOBSERVE: assess whether the outpatient toilets are usable (available, functional, and private)\nAvailable: toilet doors are unlocked or a key is available at all times; Functional: toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required); Private: there are closable doors that lock from the inside and no large gaps in the toilet enclosure"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701774250537,
+              "order": 1,
+              "label": "All outpatient toilets are NOT usable (enter number)",
+              "value": "all_outp_toil_are_not_usab_ente_numb",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1701774250538,
+              "order": 2,
+              "label": "Some outpatient toilets are NOT usable (enter number non-usable, and number usable)",
+              "value": "some_outp_toil_are_not_usab_ente_numb_nonu_numb_usab",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1701774268058,
+              "order": 3,
+              "label": "All outpatient toilets are usable (enter number)",
+              "value": "all_outp_toil_are_usab_ente_numb",
+              "color": "#38A15A"
+            }
+          ]
+        },
+        {
+          "id": 168885172789333,
+          "order": 8,
+          "name": "total_usable_outpatient_toilets",
+          "label": "Total number of usable outpatient toilets",
+          "short_label": null,
+          "type": "number",
+          "dependency": [
+            {
+              "id": 1701774221650,
+              "options": [
+                "all_outp_toil_are_usab_ente_numb",
+                "some_outp_toil_are_not_usab_ente_numb_nonu_numb_usab"
+              ]
+            }
+          ],
+          "required": true,
+          "meta": false,
+          "rule": {
+            "min": 1
+          },
+          "options": null,
+          "fn": null
+        },
+        {
+          "id": 168885127879441,
+          "order": 9,
+          "name": "total_not_usable_outpatient_toilets",
+          "label": "Total number of not usable outpatient toilets",
+          "short_label": null,
+          "type": "number",
+          "dependency": [
+            {
+              "id": 1701774221650,
+              "options": [
+                "all_outp_toil_are_not_usab_ente_numb",
+                "some_outp_toil_are_not_usab_ente_numb_nonu_numb_usab"
+              ]
+            }
+          ],
+          "required": true,
+          "meta": false,
+          "rule": {
+            "min": 1
+          },
+          "options": null,
+          "fn": null
+        },
+        {
+          "id": 1702312769667,
+          "order": 10,
+          "name": "inpatient_toilet_ratio",
+          "label": "Inpatient-toilet ratio",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "fn": {
+            "fnColor": {
+              "Inpatient: More than 20 inpatients to each USABLE inpatient toilet": "#DB3B3B",
+              "Inpatient: 20 or less inpatients to each USABLE inpatient toilet": "#38A15A"
+            },
+            "fnString": "(#total_beds_inpatients_HCF# / #total_usable_inpatient_toilets#) <= 20 ? \"Inpatient: 20 or less inpatients to each USABLE inpatient toilet\" : \"Inpatient: More than 20 inpatients to each USABLE inpatient toilet\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702312767767,
+          "order": 11,
+          "name": "usable_outpatient_toilets",
+          "label": "Number of usable outpatient toilets",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "fn": {
+            "fnColor": {
+              "Outpatient: Less than 2 USABLE outpatient toilets": "#DB3B3B",
+              "Outpatient: 2 or more USABLE outpatient toilets": "#38A15A"
+            },
+            "fnString": "#total_usable_outpatient_toilets# > 2 ? \"Outpatient: 2 or more USABLE outpatient toilets\" : \"Outpatient: Less than 2 USABLE outpatient toilets\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1701774299250,
+          "order": 12,
+          "name": "facility_toilet_type",
+          "label": "Type of facility toilet",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: What type of toilets are used by patients at the facility?\nToilet type: select the main type of toilet used\nPit latrine without slab: a dry toilet that does not have a squatting slab, platform or seat; or an open pit (or pit with large openings) where excreta are collected.\nPit latrine with slab: a dry toilet that collects excreta in a pit in the ground covered with a squatting slab or platform that is constructed from materials that are durable and easy to clean (e.g. concrete, bricks, stone, fibreglass, ceramic, metal, wooden planks or durable plastic)"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701774326363,
+              "order": 1,
+              "label": "No toilets",
+              "value": "no_toil",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1701774326364,
+              "order": 2,
+              "label": "Open container toilets (e.g. bucket latrines)",
+              "value": "open_cont_toil_eg_buck_latr",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1701774341343,
+              "order": 3,
+              "label": "Hanging latrines",
+              "value": "hang_latr",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1701774348564,
+              "order": 4,
+              "label": "Pit latrines without slab (open pit)",
+              "value": "pit_latr_with_slab_open_pit",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1701774356981,
+              "order": 5,
+              "label": "Flush or pour-flush toilets to open (field, open drain, water body)",
+              "value": "flus_pour_toil_to_open_fiel_open_drai_wate_body",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1701774365682,
+              "order": 6,
+              "label": "Pit latrines with slab",
+              "value": "pit_latr_with_slab",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1701774377864,
+              "order": 7,
+              "label": "Flush or pour-flush toilets to pit or tank",
+              "value": "flus_pour_toil_to_pit_tank",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1701774384832,
+              "order": 8,
+              "label": "Flush or pour-flush toilets to sewer connection",
+              "value": "flus_pour_toil_to_sewe_conn",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1701774409798,
+              "order": 9,
+              "label": "Composting toilets",
+              "value": "comp_toil",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1701774412617,
+              "order": 10,
+              "label": "Other improved toilet - specify",
+              "value": "othe_impr_toil_spec",
+              "color": "#38A15A"
+            }
+          ]
+        },
+        {
+          "id": 1701774431012,
+          "order": 13,
+          "name": "dedicated_toilets_facility_staff",
+          "label": "Dedicated toilets for facility staff",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: are separate toilets provided for use by facility staff?"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701774458310,
+              "order": 1,
+              "label": "No separate toilet exists for staff use, or toilets are unimproved",
+              "value": "no_sepa_toil_exis_for_staf_use_toil_are_unim",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1701774458311,
+              "order": 2,
+              "label": "Toilet exists for staff use, but is not clearly designated or not functional",
+              "value": "toil_exis_for_staf_use_but_not_clea_desi_not_func",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1701774474959,
+              "order": 3,
+              "label": "Yes, at least one functional toilet is clearly designated for staff",
+              "value": "yes_at_leas_one_func_toil_clea_desi_for_staf",
+              "color": "#38A15A"
+            }
+          ]
+        },
+        {
+          "id": 1701774484635,
+          "order": 14,
+          "name": "sex_separated_room_toilets",
+          "label": "Toilets in sex-separated rooms",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: are sex-separated or gender-neutral toilets available?\nSex-separated toilets: rooms with multiple toilet stalls, or a private room with a single toilet, that are dedicated for use by either women or men\nGender-neutral toilet: a private room with a single toilet that allows women and men to use the toilet separately."
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701774512898,
+              "order": 1,
+              "label": "No records, or toilets cleaned less than once per day",
+              "value": "no_reco_toil_clea_less_than_once_per_day",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1701774512899,
+              "order": 2,
+              "label": "Toilets cleaned less than twice a day",
+              "value": "toil_clea_less_than_twic_a_day",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1701774540650,
+              "order": 3,
+              "label": "Yes, all toilets cleaned at least twice a day",
+              "value": "yes_all_toil_clea_at_leas_twic_a_day",
+              "color": "#38A15A"
+            }
+          ]
+        },
+        {
+          "id": 1701774586397,
+          "order": 15,
+          "name": "toilets_menstrual_hygiene_facilities",
+          "label": "Toilets with menstrual hygiene facilities",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: is a toilet available with menstrual hygiene facilities?\nMenstrual hygiene facilities: including water and soap available in a private space for washing, and a disposal bin for disposal of used menstrual hygiene products"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1702282168919,
+              "order": 1,
+              "label": "No appropriate facilities are available or functional for menstrual hygiene",
+              "value": "no_appr_faci_are_avai_func_for_mens_hygi",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1702282168920,
+              "order": 2,
+              "label": "Space is available to wash, but with inadequate facilities",
+              "value": "spac_avai_to_wash_but_with_inad_faci",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1702282330299,
+              "order": 3,
+              "label": "Yes, usable toilet is available with menstrual hygiene facilities",
+              "value": "yes_usab_toil_avai_with_mens_hygi_faci",
+              "color": "#38A15A"
+            }
+          ]
+        },
+        {
+          "id": 1701774631031,
+          "order": 16,
+          "name": "toilets_accessible_reduced_mobility",
+          "label": "Toilets accessible for people with reduced mobility",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: is a toilet accessible for people with reduced mobility?\nAccessible for people with reduced mobility: can be accessed without stairs or steps; handrails provided for support; door is at least 80cm wide; and door handle and toilet seat are within reach of people using wheelchairs, crutches or walking sticks"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1702282406348,
+              "order": 1,
+              "label": "No appropriate toilets available for people with reduced mobility",
+              "value": "no_appr_toil_avai_for_peop_with_redu_mobi",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1702282406349,
+              "order": 2,
+              "label": "Toilet is inadequate for people with reduced mobility",
+              "value": "toil_inad_for_peop_with_redu_mobi",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1702286438460,
+              "order": 3,
+              "label": "Yes, at least one usable toilet is available for people with reduced mobility",
+              "value": "yes_at_leas_one_usab_toil_avai_for_peop_with_redu_mobi",
+              "color": "#38A15A"
+            }
+          ]
+        },
+        {
+          "id": 1701775062688,
+          "order": 17,
+          "name": "handwashing_facilities_points_of_care",
+          "label": "Availability of handwashing facilities at points of care",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: is there a functional hand hygiene facility at all points of care?\nFunctional hand hygiene facility: any device that enables staff, patients and visitors to clean their hands effectively, including a basin/pan with soap and water, or alcohol-based hand rub (ABHR).\nPoints of care: any location in the health care facility where care or treatment is delivered (e.g. consultation or exam room)."
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1702286448768,
+              "order": 1,
+              "label": "Less than 75% of Points of Care have functional hand hygiene facilities",
+              "value": "less_than_75_poin_care_have_func_hand_hygi_faci",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1702286448769,
+              "order": 2,
+              "label": "75% or more Points of Care have functional hand hygiene facilities",
+              "value": "75_more_poin_care_have_func_hand_hygi_faci",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1702286487475,
+              "order": 3,
+              "label": "Yes, all Points of Care have functional hand hygiene facilities",
+              "value": "yes_all_poin_care_have_func_hand_hygi_faci",
+              "color": "#38A15A"
+            }
+          ]
+        },
+        {
+          "id": 1701775201634,
+          "order": 18,
+          "name": "handwashing_facilities_facility_toilets",
+          "label": "Availability of handwashing facilities at facility toilets",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: do all facility toilets have a functional hand hygiene facility within 5m?\nFunctional hand hygiene facility for toilets: must be working, must include soap and water (NOT ABHR, as ABHR does not remove faecal matter), and must be within 5m of the toilet"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1702286506552,
+              "order": 1,
+              "label": "Less than 50% of toilets have hand hygiene facilities within 5 metres",
+              "value": "less_than_50_toil_have_hand_hygi_faci_with_5_metr",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1702286506553,
+              "order": 2,
+              "label": "50% or more of toilets have functioning hand hygiene facilities within 5 metres",
+              "value": "50_more_toil_have_func_hand_hygi_faci_with_5_metr",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1702286534909,
+              "order": 3,
+              "label": "All toilets have functional hand hygiene facilities within 5 metres",
+              "value": "all_toil_have_func_hand_hygi_faci_with_5_metr",
+              "color": "#38A15A"
+            }
+          ]
+        },
+        {
+          "id": 1701775273809,
+          "order": 19,
+          "name": "audit_hand_hygiene_materials",
+          "label": "Regular audit of availability of hand hygiene materials",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: are audit records (of hand hygiene materials) available dated less than three months ago?\nRegular audit: audits are undertaken every three months\nAvailability of hand hygiene materials: all hand hygiene facilities in the ward have hand rub, soap, single-use towels and other hand hygiene resources available"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1702286543863,
+              "order": 1,
+              "label": "No audit records available, or no materials available",
+              "value": "no_audi_reco_avai_no_mate_avai",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1702286543864,
+              "order": 2,
+              "label": "Ward-based audits are incomplete or irregular",
+              "value": "ward_audi_are_inco_irre",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1702286580715,
+              "order": 3,
+              "label": "Records available of regular ward-based audits reporting sufficient materials",
+              "value": "reco_avai_regu_ward_audi_repo_suff_mate",
+              "color": "#38A15A"
+            }
+          ]
+        },
+        {
+          "id": 1701775490261,
+          "order": 20,
+          "name": "waste_segregation",
+          "label": "Segregation of waste",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: are separate, functional waste collection containers available in close proximity to waste generation points for non-infectious (general) waste, infectious waste and sharps waste?\nSeparate functional waste collection containers: \"3-bin\" system with at least three containers that are leak-proof, covered with a lid, and clearly labelled (by colour/label or symbol). Bins should not be more than three-quarters full."
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1702286589725,
+              "order": 1,
+              "value": "no_wast_coll_cont_no_segr",
+              "label": "No waste collection containers or no segregation",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1702286589726,
+              "order": 2,
+              "value": "not_all_wast_gene_poin_have_func_wast_coll_cont",
+              "label": "Not all waste generation points have functional waste collection containers",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1702286611113,
+              "order": 3,
+              "value": "all_wast_gene_poin_have_func_wast_coll_cont_sepa_by_wast_type",
+              "label": "All waste generation points have functional waste collection containers separated by waste type",
+              "color": "#38A15A"
+            }
+          ]
+        },
+        {
+          "id": 1701775575661,
+          "order": 21,
+          "name": "non_infectious_waste_management",
+          "label": "Management of non-infectious/general waste",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "INTERVIEW: is there a functional disposal site for non-infectious waste?\nFunctional disposal site: operational burial pit, fenced waste dump or municipal pickup point\nInadequate disposal site: Open dumping, open burning, no waste collection or segregation"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1702286622640,
+              "order": 1,
+              "label": "No disposal site",
+              "value": "no_disp_site",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1702286622641,
+              "order": 2,
+              "label": "Disposal site is inadequate or non-functional",
+              "value": "disp_site_inad_nonf",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1702286641395,
+              "order": 3,
+              "label": "Yes, functional disposal site",
+              "value": "yes_func_disp_site",
+              "color": "#38A15A"
+            }
+          ]
+        },
+        {
+          "id": 1701775635195,
+          "order": 22,
+          "name": "infectious_waste_management",
+          "label": "Management of infectious waste and sharps",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "INTERVIEW: is there a functional disposal site for infectious waste and sharps waste?\nFunctional disposal site: operational incinerator or autoclave on-site, or licensed waste management service for off-site disposal\nInadequate disposal site: Open dumping, open burning, added to general waste (without treatment)"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1702286652304,
+              "order": 1,
+              "value": "no_disp_site",
+              "label": "No disposal site",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1702286652305,
+              "order": 2,
+              "value": "disp_site_inad_nonf",
+              "label": "Disposal site is inadequate or non-functional",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1702286682933,
+              "order": 3,
+              "value": "yes_func_disp_site",
+              "label": "Yes, functional disposal site",
+              "color": "#38A15A"
+            }
+          ]
+        },
+        {
+          "id": 1701775723946,
+          "order": 23,
+          "name": "cleaning_materials",
+          "label": "Materials for cleaning",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: are appropriate materials available for cleaning?\nAppropriate cleaning materials: detergent, mops, buckets etc"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1702286692356,
+              "order": 1,
+              "label": "No cleaning materials",
+              "value": "no_clea_mate",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1702286692357,
+              "order": 2,
+              "label": "Inadequate cleaning materials",
+              "value": "inad_clea_mate",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1702286712365,
+              "order": 3,
+              "label": "Yes, cleaning materials available",
+              "value": "yes_clea_mate_avai",
+              "color": "#38A15A"
+            }
+          ]
+        },
+        {
+          "id": 1701775784630,
+          "order": 24,
+          "name": "cleaning_records",
+          "label": "Cleaning records",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: is a record of cleaning activities (by day) available in the facility?\nDaily cleaning record: details of cleaning activities undertaken on each day, signed by cleaners and counter-signed by supervisors"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1702286723817,
+              "order": 1,
+              "label": "No cleaning records",
+              "value": "no_clea_reco",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1702286723818,
+              "order": 2,
+              "label": "Inadequate cleaning records",
+              "value": "inad_clea_reco",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1702286746346,
+              "order": 3,
+              "label": "Yes, daily cleaning records available for all areas",
+              "value": "yes_dail_clea_reco_avai_for_all_area",
+              "color": "#38A15A"
+            }
+          ]
+        },
+        {
+          "id": 1701775883414,
+          "order": 25,
+          "name": "toilet_cleaning_frequency",
+          "label": "Toilet cleaning frequency",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: do the cleaning roster and cleaning records confirm that toilets are cleaned twice a day?\nCleaning roster: schedule specifying responsibility for cleaning tasks, frequency of cleaning, and step-by-step protocol for specific cleaning tasks\nDaily cleaning record: details of cleaning activities undertaken on each day, signed by cleaners and counter-signed by supervisors"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1702286755559,
+              "order": 1,
+              "label": "No records, or toilets cleaned less than once per day",
+              "value": "no_reco_toil_clea_less_than_once_per_day",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1702286755560,
+              "order": 2,
+              "label": "Toilets cleaned less than twice a day",
+              "value": "toil_clea_less_than_twic_a_day",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1702286778572,
+              "order": 3,
+              "label": "Yes, all toilets cleaned at least twice a day",
+              "value": "yes_all_toil_clea_at_leas_twic_a_day",
+              "color": "#38A15A"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

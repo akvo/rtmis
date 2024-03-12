@@ -7,7 +7,7 @@ from django.utils.timezone import make_aware
 
 from faker import Faker
 
-from api.v1.v1_data.models import FormData, Answers
+from api.v1.v1_data.models import FormData, Answers, PendingAnswers
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_profile.constants import UserRoleTypes
@@ -34,12 +34,12 @@ def set_answer_data(data, question):
         value = fake.random_int(min=10, max=50)
     elif question.type == QuestionTypes.option:
         option = [
-            question.question_question_options.order_by('?').first().name
+            question.options.order_by('?').first().value
         ]
     elif question.type == QuestionTypes.multiple_option:
         option = list(
-            question.question_question_options.order_by('?').values_list(
-                'name', flat=True)[0:fake.random_int(min=1, max=3)])
+            question.options.order_by('?').values_list(
+                'value', flat=True)[0:fake.random_int(min=1, max=3)])
     elif question.type == QuestionTypes.photo:
         name = fake.image_url()
     elif question.type == QuestionTypes.date:
@@ -51,7 +51,9 @@ def set_answer_data(data, question):
     return name, value, option
 
 
-def add_fake_answers(data: FormData, form_type):
+def add_fake_answers(data: FormData,
+                     form_type=FormTypes.county,
+                     pending=False):
     form = data.form
     meta_name = []
     for question in form.form_questions.all().order_by('question_group__order',
@@ -73,20 +75,34 @@ def add_fake_answers(data: FormData, form_type):
         seed = True
         if question.dependency:
             for d in question.dependency:
-                prev_answer = Answers.objects.filter(
+                if not pending:
+                    prev_answer = Answers.objects.filter(
                         data=data, question_id=d.get('id')).first()
+                else:
+                    prev_answer = PendingAnswers.objects.filter(
+                        pending_data=data, question_id=d.get('id')).first()
                 if prev_answer:
                     seed = False
                     for o in prev_answer.options:
                         if o in d.get("options"):
                             seed = True
         if seed:
-            Answers.objects.create(data=data,
-                                   question=question,
-                                   name=name,
-                                   value=value,
-                                   options=option,
-                                   created_by=data.created_by)
+            if not pending:
+                Answers.objects.create(data=data,
+                                       question=question,
+                                       name=name,
+                                       value=value,
+                                       options=option,
+                                       created_by=data.created_by)
+            else:
+                PendingAnswers.objects.create(
+                    pending_data=data,
+                    question=question,
+                    name=name,
+                    value=value,
+                    options=option,
+                    created_by=data.created_by
+                )
     data.name = ' - '.join(meta_name) if \
         form_type != FormTypes.national else data.name
     data.save()
@@ -138,6 +154,7 @@ def seed_data(form, fake_geo, level_names, repeat, test):
                         created_by=SystemUser.objects.order_by('?').first())
                     data.created = make_aware(created)
                     level_id = administration.id
+                    data.save_to_file
                     data.save()
                     add_fake_answers(data, form.type)
         else:
@@ -149,6 +166,7 @@ def seed_data(form, fake_geo, level_names, repeat, test):
                 administration=Administration.objects.filter(
                     level=level).order_by('?').first(),
                 created_by=SystemUser.objects.order_by('?').first())
+            test_data.save_to_file
             test_data.save()
             add_fake_answers(test_data, form.type)
 
@@ -170,8 +188,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         test = options.get("test")
-        # FormData.objects.all().delete()
-        fake_geo = pd.read_csv("./source/kenya_random_points.csv")
+        FormData.objects.all().delete()
+        fake_geo = pd.read_csv("./source/kenya_random_points-2024.csv")
         fake_geo = fake_geo.sample(frac=1).reset_index(drop=True)
         level_names = list(
             filter(lambda x: True if "NAME_" in x else False, list(fake_geo)))

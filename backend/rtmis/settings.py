@@ -59,6 +59,8 @@ API_APPS = [
     'api.v1.v1_data',
     'api.v1.v1_jobs',
     'api.v1.v1_categories',
+    'api.v1.v1_mobile',
+    'api.v1.v1_files',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + API_APPS + EXTERNAL_APPS
@@ -97,7 +99,7 @@ WSGI_APPLICATION = 'rtmis.wsgi.application'
 # Rest Settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':
-        ('rest_framework_simplejwt.authentication.JWTAuthentication',),
+        ('api.v1.v1_mobile.authentication.AssignmentAwareJWTAuthentication',),
     'DEFAULT_VERSIONING_CLASS':
         'rest_framework.versioning.URLPathVersioning',
     'DATE_FORMAT':
@@ -123,6 +125,10 @@ SPECTACULAR_SETTINGS = {
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=12),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
+    'AUTH_TOKEN_CLASSES': (
+        'rest_framework_simplejwt.tokens.AccessToken',
+        'api.v1.v1_mobile.authentication.MobileAssignmentToken',
+    ),
 }
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -163,7 +169,7 @@ AUTH_PASSWORD_VALIDATORS = [{
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Nairobi'
 
 USE_I18N = True
 
@@ -190,6 +196,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "v1_users.SystemUser"
 
+# MOBILE ENV VARIABLES
+WEBDOMAIN = environ.get("WEBDOMAIN", "http://localhost:3000")
+APK_UPLOAD_SECRET = environ.get("APK_UPLOAD_SECRET")
+APP_NAME = "rtmis"
+MASTER_DATA = "./source"
+STORAGE_PATH = environ.get("STORAGE_PATH", "./storage")
+
 FORM_GEO_VALUE = {"lat": 9.145, "lng": 40.4897}
 
 BUCKET_NAME = "rtmis"
@@ -203,8 +216,8 @@ EMAIL_FROM = environ.get("EMAIL_FROM") or 'noreply@akvo.org'
 Q_CLUSTER = {
     'name': 'DjangORM',
     'workers': 4,
-    'timeout': 90,
-    'retry': 120,
+    'timeout': 600,
+    'retry': 1200,
     'queue_limit': 50,
     'bulk': 10,
     'orm': 'default'

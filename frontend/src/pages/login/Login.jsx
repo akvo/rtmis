@@ -3,21 +3,13 @@ import "./style.scss";
 import { Row, Col, Spin } from "antd";
 import { LoginForm, RegistrationForm, ResetForm } from "./components";
 import { ContactForm } from "../../components";
-import { Link, useParams } from "react-router-dom";
-import { api, config, store, uiText } from "../../lib";
-
-const styles = {
-  side: {
-    backgroundImage: `url("/assets/header-image-background.jpg")`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-  },
-};
+import { useParams } from "react-router-dom";
+import { api, store, uiText } from "../../lib";
 
 const ContactUsText = () => (
   <p className="contact-text">
-    Having trouble accessing the platform? Please{" "}
+    Please enter your account details <br /> Having trouble accessing the
+    platform? Please{" "}
     <a
       href="#"
       onClick={() => {
@@ -63,59 +55,35 @@ const Login = () => {
 
   return (
     <div id="login">
-      <div className="background" style={styles.side} />
-      <div className="logo">
-        <Link to="/">
-          <img src={config.siteLogo} alt={config.siteLogo} />
-          <h1>
-            {config.siteTitle}
-            <small>{config.siteSubTitle}</small>
-          </h1>
-        </Link>
-      </div>
       <Row className="wrapper" align="middle">
-        <Col span={12} className="left-side">
-          <div className="title">
-            <h1 className="welcome">{text.welcome}</h1>
-          </div>
-        </Col>
-        <Col span={12} className="right-side">
+        <Col span={24} className="right-side">
           {location.pathname.includes("forgot-password") ? (
-            <>
-              <h1>
-                {text.forgotTitle}
-                <br />
-                <small>{text.forgotDesc}</small>
-              </h1>
-              <br />
-              <ContactUsText />
+            <div className="login-form-container">
+              <h1>{text.forgotTitle}</h1>
+              <p className="contact-text">{text.forgotDesc}</p>
               <ResetForm />
-            </>
+            </div>
           ) : (
             <>
               {loading ? (
-                <div>
+                <div className="loading-container">
                   <Spin />
-                  <h2>
-                    Verifying
-                    <br />
-                    <small>Please wait..</small>
-                  </h2>
+                  <h2>{text.loginLoadingTex}</h2>
                 </div>
               ) : (
                 <>
                   {invitationId ? (
                     <div>
                       {invitedUser ? (
-                        // TODO
-                        <>
-                          <h1 data-testid="welcome-title">
-                            {text.welcomeShort}, {invitedUser.name}
-                            <br />
-                            <small>{text.resetHint}</small>
-                          </h1>
+                        <div className="login-form-container">
+                          <div className="login-content">
+                            <h1 data-testid="welcome-title">
+                              {text.welcomeShort}, {invitedUser.name}
+                            </h1>
+                            <p className="contact-text">{text.resetHint}</p>
+                          </div>
                           <RegistrationForm invite={invitedUser.invite} />
-                        </>
+                        </div>
                       ) : (
                         <div>
                           <h1>
@@ -127,11 +95,14 @@ const Login = () => {
                       )}
                     </div>
                   ) : (
-                    <>
-                      <h1>{text.loginTitle}</h1>
-                      <ContactUsText />
+                    <div className="login-form-container">
+                      <img src="./logo-black.png" alt="login-logo" />
+                      <div className="login-content">
+                        <h1>{text.loginTitle}</h1>
+                        <ContactUsText />
+                      </div>
                       <LoginForm />
-                    </>
+                    </div>
                   )}
                 </>
               )}

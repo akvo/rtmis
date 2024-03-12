@@ -1,0 +1,24 @@
+#add-assignment {
+  .ant-card {
+    margin-bottom: 16px;
+    .ant-space-vertical {
+      width: 100%;
+      justify-content: flex-start;
+      text-align: left;
+      margin-bottom: 16px;
+    }
+  }
+}
+#root {
+  .ant-form-item-feedback-icon {
+    display: none;
+  }
+  .ant-tag {
+    font-size: 14px;
+    border-radius: 2px;
+    padding: 4px 8px;
+  }
+}
+// #root .ant-space {
+//   width: 100%;
+// }

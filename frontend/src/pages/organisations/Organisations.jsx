@@ -3,7 +3,6 @@ import "./style.scss";
 import {
   Row,
   Col,
-  Card,
   Button,
   Divider,
   Table,
@@ -17,19 +16,10 @@ import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { api, store, uiText, config } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { orderBy } from "lodash";
+import { PlusOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
 const { Option } = Select;
-
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Manage Organizations",
-  },
-];
 
 const Organisations = () => {
   const { notify } = useNotification();
@@ -48,6 +38,16 @@ const Organisations = () => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  const pagePath = [
+    {
+      title: text.controlCenter,
+      link: "/control-center",
+    },
+    {
+      title: text.manageOrganisations,
+    },
+  ];
 
   const descriptionData = <div>{text.orgPanelText}</div>;
 
@@ -91,21 +91,21 @@ const Organisations = () => {
       key: "action",
       render: (record, rowValue) => (
         <Space>
-          <Link to={`/organisation/${record.id}`}>
-            <Button type="secondary" size="small">
-              Edit
+          <Link to={`/control-center/organisation/${record.id}`}>
+            <Button shape="round" type="primary">
+              {text.editButton}
             </Button>
           </Link>
           <Button
+            shape="round"
             type="danger"
-            size="small"
             ghost
             loading={deleting === record.id}
             onClick={() =>
               setDeleteOrganisation({ ...record, count: rowValue.users })
             }
           >
-            Delete
+            {text.deleteText}
           </Button>
         </Space>
       ),
@@ -181,71 +181,83 @@ const Organisations = () => {
 
   return (
     <div id="organisations">
-      <Row justify="space-between" align="bottom">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={descriptionData} />
-        </Col>
-        <Col>
-          <Link to="/organisation/add">
-            <Button type="primary">Add new organization</Button>
-          </Link>
-        </Col>
-      </Row>
-      <Divider />
-
-      {/* Filter */}
-      <Row>
-        <Col span={20}>
-          <Space>
-            <Search
-              placeholder="Search..."
-              onChange={(e) => {
-                setSearch(e.target.value?.length >= 2 ? e.target.value : null);
-              }}
-              style={{ width: 225 }}
-              allowClear
+      <div className="description-container">
+        <Row justify="space-between" align="bottom">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+            <DescriptionPanel
+              description={descriptionData}
+              title={text.manageOrganisations}
             />
-            <Select
-              placeholder="Attributes"
-              getPopupContainer={(trigger) => trigger.parentNode}
-              style={{ width: 225 }}
-              onChange={setAttributes}
-              allowClear
-            >
-              {organisationAttributes?.map((o, oi) => (
-                <Option key={`org-${oi}`} value={o.id}>
-                  {o.name}
-                </Option>
-              ))}
-            </Select>
-          </Space>
-        </Col>
-      </Row>
-      <Divider />
+          </Col>
+        </Row>
+      </div>
 
-      {/* Table start here */}
-      <Card
-        style={{ padding: 0, minHeight: "40vh" }}
-        bodyStyle={{ padding: 0 }}
-      >
-        <Table
-          columns={columns}
-          rowClassName={() => "editable-row"}
-          dataSource={dataset}
-          loading={loading}
-          pagination={{
-            showSizeChanger: false,
-            showTotal: (total, range) =>
-              `Results: ${range[0]} - ${range[1]} of ${total} organisations`,
-          }}
-          rowKey="id"
-        />
-      </Card>
+      <div className="table-section">
+        <div className="table-wrapper">
+          {/* Filter */}
+          <Row>
+            <Col flex={1}>
+              <Space>
+                <Search
+                  placeholder={text.searchPlaceholder}
+                  onChange={(e) => {
+                    setSearch(
+                      e.target.value?.length >= 2 ? e.target.value : null
+                    );
+                  }}
+                  style={{ width: 225 }}
+                  allowClear
+                />
+                <Select
+                  placeholder="Attributes"
+                  getPopupContainer={(trigger) => trigger.parentNode}
+                  style={{ width: 225 }}
+                  onChange={setAttributes}
+                  allowClear
+                >
+                  {organisationAttributes?.map((o, oi) => (
+                    <Option key={`org-${oi}`} value={o.id}>
+                      {o.name}
+                    </Option>
+                  ))}
+                </Select>
+              </Space>
+            </Col>
+            <Col>
+              <Link to="/control-center/organisation/add">
+                <Button type="primary" shape="round" icon={<PlusOutlined />}>
+                  {text.addMewOrg}
+                </Button>
+              </Link>
+            </Col>
+          </Row>
+          <Divider />
+
+          {/* Table start here */}
+          <div
+            style={{ padding: 0, minHeight: "40vh" }}
+            bodystyle={{ padding: 0 }}
+          >
+            <Table
+              columns={columns}
+              rowClassName={() => "editable-row"}
+              dataSource={dataset}
+              loading={loading}
+              pagination={{
+                showSizeChanger: false,
+                showTotal: (total, range) =>
+                  `Results: ${range[0]} - ${range[1]} of ${total} organisations`,
+              }}
+              rowKey="id"
+            />
+          </div>
+        </div>
+      </div>
 
       {/* Modal */}
       <Modal
-        visible={deleteOrganisation}
+        open={deleteOrganisation}
         onCancel={() => setDeleteOrganisation(null)}
         centered
         className="organisation-modal"
@@ -254,15 +266,17 @@ const Organisations = () => {
           <Row align="middle">
             <Col span={24} align="right">
               <Button
+                shape="round"
                 className="light"
                 disabled={deleting}
                 onClick={() => {
                   setDeleteOrganisation(null);
                 }}
               >
-                Cancel
+                {text.cancelButton}
               </Button>
               <Button
+                shape="round"
                 type="primary"
                 danger
                 loading={deleting}
@@ -270,12 +284,12 @@ const Organisations = () => {
                   handleDelete();
                 }}
               >
-                Delete
+                {text.deleteText}
               </Button>
             </Col>
           </Row>
         }
-        bodyStyle={{ textAlign: "center" }}
+        bodystyle={{ textAlign: "center" }}
       >
         <h3>{text.deleteOrganisationTitle}</h3>
         <br />

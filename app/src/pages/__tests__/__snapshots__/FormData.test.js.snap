@@ -1,0 +1,184 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormDataPage renders correctly 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#f9fafb",
+      "flex": 1,
+      "flexDirection": "column",
+      "flexWrap": "wrap",
+    }
+  }
+  testID="stack-container"
+>
+  <View
+    style={
+      {
+        "backgroundColor": "#393e42",
+        "borderBottomColor": "#000",
+        "borderBottomWidth": 1,
+        "borderTopColor": "#000",
+        "borderTopWidth": 1,
+        "padding": 8,
+      }
+    }
+    testID="RNE__SearchBar-wrapper"
+  >
+    <View
+      style={
+        {
+          "paddingHorizontal": 0,
+          "width": "100%",
+        }
+      }
+      testID="RNE__Input__view-wrapper"
+    >
+      <View
+        collapsable={false}
+        style={
+          {
+            "alignItems": "center",
+            "backgroundColor": "#303337",
+            "borderBottomWidth": 0,
+            "borderColor": "#86939e",
+            "borderRadius": 3,
+            "flexDirection": "row",
+            "minHeight": 30,
+            "overflow": "hidden",
+            "transform": [
+              {
+                "translateX": 0,
+              },
+            ],
+          }
+        }
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "height": 40,
+              "justifyContent": "center",
+              "marginLeft": 8,
+              "marginVertical": 4,
+              "paddingRight": 4,
+            }
+          }
+        >
+          <View
+            style={
+              {
+                "overflow": "hidden",
+              }
+            }
+            testID="RNE__ICON__CONTAINER"
+          >
+            <View
+              accessibilityRole="button"
+              android_ripple={
+                {
+                  "borderless": false,
+                  "color": "rgba(0, 0, 0, 0.3)",
+                  "radius": -5,
+                }
+              }
+              disabled={false}
+              testID="RNE__ICON__CONTAINER_ACTION"
+            >
+              <View
+                style={
+                  {
+                    "alignItems": "center",
+                    "backgroundColor": "transparent",
+                    "justifyContent": "center",
+                  }
+                }
+                testID="RNE__ICON"
+              >
+                <Text />
+              </View>
+            </View>
+          </View>
+        </View>
+        <TextInput
+          editable={true}
+          onBlur={[Function]}
+          onChangeText={[Function]}
+          onFocus={[Function]}
+          placeholder="Search datapoint"
+          placeholderTextColor="#86939e"
+          platform="default"
+          style={
+            {
+              "color": "#86939e",
+              "flex": 1,
+              "fontSize": 18,
+              "marginLeft": 10,
+              "minHeight": 40,
+              "width": "100%",
+            }
+          }
+          testID="search-bar"
+          underlineColorAndroid="transparent"
+          value={null}
+        />
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "height": 40,
+              "justifyContent": "center",
+              "marginRight": 8,
+              "marginVertical": 4,
+              "paddingRight": 4,
+            }
+          }
+        >
+          <View
+            style={
+              {
+                "flexDirection": "row",
+              }
+            }
+          />
+        </View>
+      </View>
+      <Text
+        style={
+          {
+            "color": "#ff190c",
+            "fontSize": 12,
+            "height": 0,
+            "margin": 0,
+            "padding": 0,
+          }
+        }
+      />
+    </View>
+  </View>
+  <View
+    style={
+      {
+        "backgroundColor": "#f9fafb",
+        "flex": 1,
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+      }
+    }
+    testID="stack-container"
+  />
+  <Modal
+    hardwareAccelerated={false}
+    onRequestClose={[Function]}
+    style={
+      {
+        "width": "100%",
+      }
+    }
+    testID="sync-confirmation-dialog"
+    transparent={true}
+    visible={false}
+  />
+</View>
+`;

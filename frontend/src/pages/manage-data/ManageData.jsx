@@ -3,7 +3,6 @@ import "./style.scss";
 import {
   Row,
   Col,
-  Card,
   Divider,
   Table,
   ConfigProvider,
@@ -12,32 +11,14 @@ import {
   Button,
   Space,
 } from "antd";
-import {
-  PlusSquareOutlined,
-  CloseSquareOutlined,
-  ExclamationCircleOutlined,
-  DeleteOutlined,
-} from "@ant-design/icons";
+import { DeleteOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
+
 import { api, store, uiText } from "../../lib";
-import DataDetail from "./DataDetail";
-import {
-  DataFilters,
-  Breadcrumbs,
-  DescriptionPanel,
-  DataTab,
-} from "../../components";
+import { DataFilters, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
 import { generateAdvanceFilterURL } from "../../util/filter";
 
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Manage Data",
-  },
-];
 const ManageData = () => {
   const { notify } = useNotification();
   const [loading, setLoading] = useState(false);
@@ -48,15 +29,31 @@ const ManageData = () => {
   const [updateRecord, setUpdateRecord] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
   const [deleting, setDeleting] = useState(false);
+  const navigate = useNavigate();
+
+  const { administration, selectedForm } = store.useState((state) => state);
   const { language, advancedFilters } = store.useState((s) => s);
   const { active: activeLang } = language;
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
 
-  const { administration, selectedForm, questionGroups } = store.useState(
-    (state) => state
-  );
+  const pagePath = [
+    {
+      title: text.controlCenter,
+      link: "/control-center",
+    },
+    {
+      title: text.manageDataTitle,
+    },
+  ];
+
+  const goToMonitoring = (record) => {
+    store.update((s) => {
+      s.selectedFormData = record;
+    });
+    navigate(`/control-center/data/${selectedForm}/monitoring/${record.id}`);
+  };
 
   const isAdministrationLoaded = administration.length;
   const selectedAdministration =
@@ -73,12 +70,6 @@ const ManageData = () => {
       filteredValue: query.trim() === "" ? [] : [query],
       onFilter: (value, filters) =>
         filters.name.toLowerCase().includes(value.toLowerCase()),
-      render: (value) => (
-        <span className="with-icon">
-          <ExclamationCircleOutlined />
-          {value}
-        </span>
-      ),
     },
     {
       title: "Last Updated",
@@ -93,7 +84,6 @@ const ManageData = () => {
       title: "Region",
       dataIndex: "administration",
     },
-    Table.EXPAND_COLUMN,
   ];
 
   const handleChange = (e) => {
@@ -145,6 +135,9 @@ const ManageData = () => {
         .then((res) => {
           setDataset(res.data.data);
           setTotalCount(res.data.total);
+          if (res.data.total < currentPage) {
+            setCurrentPage(1);
+          }
           setUpdateRecord(null);
           setLoading(false);
         })
@@ -165,68 +158,60 @@ const ManageData = () => {
 
   return (
     <div id="manageData">
-      <Row justify="space-between">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={text.manageDataText} />
-        </Col>
-      </Row>
-      <DataTab />
-      <DataFilters query={query} setQuery={setQuery} loading={loading} />
-      <Divider />
-      <Card
-        style={{ padding: 0, minHeight: "40vh" }}
-        bodyStyle={{ padding: 0 }}
-      >
-        <ConfigProvider
-          renderEmpty={() => (
-            <Empty
-              description={selectedForm ? "No data" : "No form selected"}
+      <div className="description-container">
+        <Row justify="space-between">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+            <DescriptionPanel
+              description={text.manageDataText}
+              title={text.manageDataTitle}
             />
-          )}
-        >
-          <Table
-            columns={columns}
-            dataSource={dataset}
-            loading={loading}
-            onChange={handleChange}
-            pagination={{
-              current: currentPage,
-              total: totalCount,
-              pageSize: 10,
-              showSizeChanger: false,
-              showTotal: (total, range) =>
-                `Results: ${range[0]} - ${range[1]} of ${total} data`,
-            }}
-            rowKey="id"
-            expandable={{
-              expandedRowRender: (record) => (
-                <DataDetail
-                  questionGroups={questionGroups}
-                  record={record}
-                  updateRecord={updateRecord}
-                  updater={setUpdateRecord}
-                  setDeleteData={setDeleteData}
+          </Col>
+        </Row>
+      </div>
+
+      <div className="table-section">
+        <div className="table-wrapper">
+          <DataFilters query={query} setQuery={setQuery} loading={loading} />
+          <Divider />
+          <div
+            style={{ padding: 0, minHeight: "40vh" }}
+            bodystyle={{ padding: 0 }}
+          >
+            <ConfigProvider
+              renderEmpty={() => (
+                <Empty
+                  description={
+                    selectedForm ? text.noFormText : text.noFormSelectedText
+                  }
                 />
-              ),
-              expandIcon: ({ expanded, onExpand, record }) =>
-                expanded ? (
-                  <CloseSquareOutlined
-                    onClick={(e) => onExpand(record, e)}
-                    style={{ color: "#e94b4c" }}
-                  />
-                ) : (
-                  <PlusSquareOutlined
-                    onClick={(e) => onExpand(record, e)}
-                    style={{ color: "#7d7d7d" }}
-                  />
-                ),
-            }}
-          />
-        </ConfigProvider>
-      </Card>
+              )}
+            >
+              <Table
+                columns={columns}
+                dataSource={dataset}
+                loading={loading}
+                onChange={handleChange}
+                pagination={{
+                  current: currentPage,
+                  total: totalCount,
+                  pageSize: 10,
+                  showSizeChanger: false,
+                  showTotal: (total, range) =>
+                    `Results: ${range[0]} - ${range[1]} of ${total} data`,
+                }}
+                rowClassName="row-normal sticky"
+                rowKey="id"
+                onRow={(record) => ({
+                  onClick: () => goToMonitoring(record),
+                })}
+              />
+            </ConfigProvider>
+          </div>
+        </div>
+      </div>
       <Modal
-        visible={deleteData}
+        open={deleteData}
         onCancel={() => setDeleteData(null)}
         centered
         width="575px"
@@ -241,7 +226,7 @@ const ManageData = () => {
                   setDeleteData(null);
                 }}
               >
-                Cancel
+                {text.cancelButton}
               </Button>
               <Button
                 type="primary"
@@ -249,12 +234,12 @@ const ManageData = () => {
                 loading={deleting}
                 onClick={handleDeleteData}
               >
-                Delete
+                {text.deleteText}
               </Button>
             </Col>
           </Row>
         }
-        bodyStyle={{ textAlign: "center" }}
+        bodystyle={{ textAlign: "center" }}
       >
         <Space direction="vertical">
           <DeleteOutlined style={{ fontSize: "50px" }} />

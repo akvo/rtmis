@@ -1,4 +1,4 @@
-import { orderBy } from "lodash";
+import api from "./api";
 
 const config = {
   siteTitle: "RUSH",
@@ -30,6 +30,7 @@ const config = {
       id: 1,
       name: "Super Admin",
       filter_form: false,
+      delete_data: true,
       page_access: [
         "profile",
         "user",
@@ -43,6 +44,8 @@ const config = {
         "reports",
         "settings",
         "organisation",
+        "master-data",
+        "administration-download",
       ],
       administration_level: [1],
       description:
@@ -50,14 +53,17 @@ const config = {
       control_center_order: [
         "manage-user",
         "manage-data",
-        "manage-organisation",
+        "manage-master-data",
+        "manage-mobile",
         "approvals",
+        "download",
       ],
     },
     {
       id: 2,
       name: "County Admin",
       filter_form: false,
+      delete_data: true,
       page_access: [
         "profile",
         "user",
@@ -69,21 +75,25 @@ const config = {
         "approvers",
         "form",
         "reports",
+        "administration-download",
       ],
       administration_level: [2],
       description:
         "Overall County administrator of the RUSH. Assigns roles to all sub county RUSH admins (approvers) in the county under jusridistion.",
       control_center_order: [
         "manage-user",
+        "manage-mobile",
         "manage-data",
         "approvals",
         "submission",
+        "download",
       ],
     },
     {
       id: 3,
       name: "Data Approver",
       filter_form: 1,
+      delete_data: false,
       page_access: [
         "profile",
         "control-center",
@@ -92,16 +102,26 @@ const config = {
         "approvals",
         "questionnaires",
         "reports",
+        "mobile",
+        "form",
+        "administration-download",
       ],
       administration_level: [3, 4],
       description:
         "Gives final approval to data submitted from the area under jurisdiction. Can edit or return data for correction.",
-      control_center_order: ["approvals", "manage-data"],
+      control_center_order: [
+        "approvals",
+        "submission",
+        "manage-data",
+        "manage-mobile",
+        "download",
+      ],
     },
     {
       id: 4,
-      name: "Data Entry Staff",
+      name: "Data Entry Supervisor",
       filter_form: 1,
+      delete_data: false,
       page_access: [
         "profile",
         "form",
@@ -109,20 +129,18 @@ const config = {
         "visualisation",
         "control-center",
         "reports",
+        "mobile",
+        "administration-download",
       ],
       administration_level: [4],
       description:
         "Overall role to collect data from community/village assigned to them",
-      control_center_order: ["submission", "manage-data"],
-    },
-    {
-      id: 5,
-      name: "Institutional User",
-      filter_form: false,
-      page_access: ["profile", "visualisation", "reports"],
-      administration_level: [1, 2, 3, 4],
-      description: "Can view and download data from all counties",
-      control_center_order: [],
+      control_center_order: [
+        "submission",
+        "manage-data",
+        "manage-mobile",
+        "download",
+      ],
     },
   ],
   checkAccess: (roles, page) => {
@@ -838,19 +856,21 @@ const config = {
   allowedGlobal: ["/dashboard/", "/glaas/"],
   fn: {
     administration: (id, withchildren = true) => {
-      const useradm = window.dbadm.find((i) => i.id === id);
-      if (!withchildren) {
-        return useradm;
-      }
-      const children = window.dbadm.filter((i) => i.parent === useradm.id);
-      return {
-        ...useradm,
-        levelName: window.levels.find((l) => l.level === useradm.level)?.name,
-        childLevelName:
-          window.levels.find((l) => l.level === useradm.level + 1)?.name ||
-          null,
-        children: orderBy(children, "name"),
-      };
+      return new Promise((resolve, reject) => {
+        api
+          .get(`administration/${id}`)
+          .then((res) => {
+            if (!withchildren) {
+              delete res.data.children;
+              resolve(res.data);
+            } else {
+              resolve(res.data);
+            }
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
     },
     ls: {
       set: (name, data) => {
@@ -863,6 +883,27 @@ const config = {
         return false;
       },
     },
+  },
+  attribute: {
+    allTypes: [
+      {
+        value: "value",
+        label: "Value",
+      },
+      {
+        value: "option",
+        label: "Option",
+      },
+      {
+        value: "multiple_option",
+        label: "Multiple Option",
+      },
+      {
+        value: "aggregate",
+        label: "Aggregate",
+      },
+    ],
+    optionTypes: ["option", "multiple_option", "aggregate"],
   },
 };
 

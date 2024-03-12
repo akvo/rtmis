@@ -2,8 +2,57 @@
 
 #root {
   #control-center {
+    margin: -24px -50px;
+    position: relative;
     .ant-card {
       margin-bottom: 20px;
+    }
+    .ant-layout {
+      min-height: calc(100vh - 86px);
+      &.site-layout {
+        margin-left: 200px;
+        .description-container {
+          padding: 16px 24px;
+          background: white;
+        }
+      }
+      .site-layout-background {
+        width: 200px;
+      }
+      .ant-layout-sider {
+        overflow: auto;
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.15);
+        margin-top: 86px;
+        .ant-menu-item {
+          padding: 0px 16px !important;
+          margin-bottom: 0px;
+        }
+        .ant-menu-item-only-child,
+        .ant-menu-submenu-title {
+          padding-left: 16px !important;
+        }
+      }
+    }
+    .profile-container {
+      margin-top: 10px;
+      .profle-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        padding-top: 10px;
+        h2 {
+          margin-bottom: 0px;
+        }
+        p {
+          font-size: $font-size-regular;
+          color: $character-secondary-45;
+          margin-bottom: 0px;
+        }
+      }
     }
 
     #panel-submission {

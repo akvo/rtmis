@@ -8,22 +8,23 @@ import {
   Checkbox,
   Button,
   Space,
-  Tag,
   List,
-  Avatar,
   Spin,
 } from "antd";
 import {
-  PlusSquareOutlined,
-  CloseSquareOutlined,
+  LeftCircleOutlined,
+  DownCircleOutlined,
   LoadingOutlined,
   HistoryOutlined,
+  FileSyncOutlined,
+  FileTextOutlined,
 } from "@ant-design/icons";
-import { api, store, uiText, config } from "../../lib";
+import { api, store, config, uiText } from "../../lib";
 import { EditableCell } from "../../components";
 import { isEqual, flatten } from "lodash";
 import { useNotification } from "../../util/hooks";
 import { HistoryTable } from "../../components";
+import { getTimeDifferenceText } from "../../util/date";
 const { TextArea } = Input;
 const { TabPane } = Tabs;
 
@@ -41,6 +42,16 @@ const columnsRawData = [
     title: "Name",
     dataIndex: "name",
     key: "name",
+    render: (name, row) => {
+      return (
+        <div>
+          {name}
+          <span className="monitoring-icon">
+            {row.is_monitoring ? <FileSyncOutlined /> : <FileTextOutlined />}
+          </span>
+        </div>
+      );
+    },
   },
   {
     title: "Administration",
@@ -76,7 +87,7 @@ const summaryColumns = [
       if (row.type === "Option" || row.type === "Multiple_Option") {
         const data = value
           .filter((x) => x.total)
-          .map((val) => `${val.type} - ${val.total}`);
+          .map((val) => `${val.type} - (${val.total})`);
         return (
           <ul className="option-list">
             {data.map((d, di) => (
@@ -96,7 +107,7 @@ const ApprovalDetail = ({
   setReload,
   expandedParentKeys,
   setExpandedParentKeys,
-  readonly = false,
+  approvalTab,
 }) => {
   const [values, setValues] = useState([]);
   const [rawValues, setRawValues] = useState([]);
@@ -110,14 +121,24 @@ const ApprovalDetail = ({
   const [comment, setComment] = useState("");
   const [questionGroups, setQuestionGroups] = useState([]);
   const { notify } = useNotification();
-
+  const [checkedState, setCheckedState] = useState(
+    new Array(record.form?.approval_instructions?.action.length).fill(false)
+  );
+  const [resetButton, setresetButton] = useState({});
   const { user: authUser, language } = store.useState((s) => s);
   const { approvalsLiteral } = config;
   const { active: activeLang } = language;
-
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  //for checking the null value
+  const approveButtonEnable = useMemo(() => {
+    if (record.form?.approval_instructions === null) {
+      return false;
+    }
+    return !checkedState.every(Boolean);
+  }, [record, checkedState]);
 
   const handleSave = (data) => {
     setSaving(data.id);
@@ -148,6 +169,17 @@ const ApprovalDetail = ({
           type: "success",
           message: "Data updated",
         });
+        const resetObj = {};
+        formData.map((d) => {
+          resetObj[d.question] = false;
+        });
+        setresetButton({ ...resetButton, ...resetObj });
+        const indexToUpdate = rawValues.findIndex((row) => row.id === data.id);
+        if (indexToUpdate !== -1) {
+          const updatedRawValues = [...rawValues];
+          updatedRawValues[indexToUpdate].edited = false;
+          setRawValues(updatedRawValues);
+        }
       })
       .catch((e) => {
         console.error(e);
@@ -156,6 +188,7 @@ const ApprovalDetail = ({
         setSaving(null);
       });
   };
+
   const handleApprove = (id, status) => {
     let payload = {
       batch: id,
@@ -242,6 +275,7 @@ const ApprovalDetail = ({
   }, [selectedTab, record]);
 
   const updateCell = (key, parentId, value) => {
+    setresetButton({ ...resetButton, [key]: true });
     let prev = JSON.parse(JSON.stringify(rawValues));
     prev = prev.map((rI) => {
       let hasEdits = false;
@@ -334,17 +368,25 @@ const ApprovalDetail = ({
         const data = questionGroups.map((qg) => {
           return {
             ...qg,
-            question: qg.question.map((q) => {
-              const findValue = res.data.find(
-                (d) => d.question === q.id
-              )?.value;
-              return {
-                ...q,
-                value: findValue || findValue === 0 ? findValue : null,
-                history:
-                  res.data.find((d) => d.question === q.id)?.history || false,
-              };
-            }),
+            question: qg.question
+              .filter((item) => !item?.display_only)
+              .map((q) => {
+                const findValue = res.data.find(
+                  (d) => d.question === q.id
+                )?.value;
+                const findOldValue = res.data.find(
+                  (d) => d.question === q.id
+                )?.last_value;
+                return {
+                  ...q,
+                  value: findValue || findValue === 0 ? findValue : null,
+                  lastValue:
+                    findOldValue || findOldValue === 0 ? findOldValue : null,
+
+                  history:
+                    res.data.find((d) => d.question === q.id)?.history || false,
+                };
+              }),
           };
         });
         setRawValues((rv) =>
@@ -374,6 +416,14 @@ const ApprovalDetail = ({
     );
   };
 
+  const handleCheckboxChange = (position) => {
+    const updatedCheckedState = checkedState.map((item, index) =>
+      index === position ? !item : item
+    );
+
+    setCheckedState(updatedCheckedState);
+  };
+
   return (
     <div>
       <Tabs centered activeKey={selectedTab} onTabClick={handleTabSelect}>
@@ -384,9 +434,11 @@ const ApprovalDetail = ({
         loading={loading}
         dataSource={selectedTab === "raw-data" ? rawValues : values}
         columns={columns}
-        scroll={{ y: 500 }}
+        // scroll={{ y: 500 }}
         pagination={false}
-        rowClassName={(record) => (record.edited ? "row-edited" : "row-normal")}
+        rowClassName={(record) =>
+          record.edited ? "row-edited" : "row-normal sticky"
+        }
         style={{ borderBottom: "solid 1px #ddd" }}
         rowKey="id"
         expandable={
@@ -412,10 +464,26 @@ const ApprovalDetail = ({
                           <span>Loading..</span>
                         </Space>
                       ) : (
-                        <>
+                        <div className={`pending-data-outer`}>
+                          <div className="save-edit-button">
+                            <Button
+                              onClick={() => handleSave(record)}
+                              type="primary"
+                              shape="round"
+                              loading={record.id === saving}
+                              disabled={
+                                !approve ||
+                                selectedTab !== "raw-data" ||
+                                record.id === dataLoading ||
+                                isEdited(record.id) === false
+                              }
+                            >
+                              {text.saveEditButton}
+                            </Button>
+                          </div>
                           {record.data?.map((r, rI) => (
                             <div className="pending-data-wrapper" key={rI}>
-                              <h3>{r.name}</h3>
+                              <h3>{r.label}</h3>
                               <Table
                                 pagination={false}
                                 dataSource={r.question}
@@ -423,16 +491,21 @@ const ApprovalDetail = ({
                                   (record.newValue || record.newValue === 0) &&
                                   !isEqual(record.newValue, record.value)
                                     ? "row-edited"
-                                    : "row-normal"
+                                    : "row-normal sticky"
                                 }
                                 rowKey="id"
                                 columns={[
                                   {
-                                    title: "Question",
-                                    dataIndex: "name",
+                                    title: text?.questionCol,
+                                    dataIndex: null,
+                                    width: "50%",
+                                    render: (_, row) =>
+                                      row.short_label
+                                        ? row.short_label
+                                        : row.label,
                                   },
                                   {
-                                    title: "Response",
+                                    title: text?.responseCol,
                                     render: (row) => (
                                       <EditableCell
                                         record={row}
@@ -440,11 +513,28 @@ const ApprovalDetail = ({
                                         updateCell={updateCell}
                                         resetCell={resetCell}
                                         disabled={!!dataLoading}
-                                        readonly={readonly}
+                                        readonly={!approve}
+                                        resetButton={resetButton}
                                       />
                                     ),
+                                    width: "25%",
                                   },
                                   Table.EXPAND_COLUMN,
+                                  {
+                                    title: text?.lastResponseCol,
+                                    render: (row) => (
+                                      <EditableCell
+                                        record={row}
+                                        lastValue={true}
+                                        parentId={record.id}
+                                        updateCell={updateCell}
+                                        resetCell={resetCell}
+                                        disabled={true}
+                                        readonly={true}
+                                      />
+                                    ),
+                                    width: "25%",
+                                  },
                                 ]}
                                 expandable={{
                                   expandIcon: ({ onExpand, record }) => {
@@ -466,35 +556,22 @@ const ApprovalDetail = ({
                               />
                             </div>
                           ))}
-                          <Button
-                            onClick={() => handleSave(record)}
-                            type="primary"
-                            loading={record.id === saving}
-                            disabled={
-                              !approve ||
-                              selectedTab !== "raw-data" ||
-                              record.id === dataLoading ||
-                              isEdited(record.id) === false
-                            }
-                          >
-                            Save Edits
-                          </Button>
-                        </>
+                        </div>
                       )}
                     </div>
                   );
                 },
                 expandIcon: ({ expanded, onExpand, record }) =>
                   expanded ? (
-                    <CloseSquareOutlined
+                    <DownCircleOutlined
                       onClick={(e) => {
                         setExpandedRowKeys([]);
                         onExpand(record, e);
                       }}
-                      style={{ color: "#e94b4c" }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
                     />
                   ) : (
-                    <PlusSquareOutlined
+                    <LeftCircleOutlined
                       onClick={(e) => {
                         setExpandedRowKeys([record.id]);
                         if (!record.data?.length) {
@@ -502,30 +579,50 @@ const ApprovalDetail = ({
                         }
                         onExpand(record, e);
                       }}
-                      style={{ color: "#7d7d7d" }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
                     />
                   ),
               }
             : false
         }
+        onRow={(record) => ({
+          onClick: () => {
+            if (expandedRowKeys.includes(record.id)) {
+              setExpandedRowKeys((prevExpandedKeys) =>
+                prevExpandedKeys.filter((key) => key !== record.id)
+              );
+            } else {
+              if (!record.data?.length) {
+                initData(record.id);
+              }
+              setExpandedRowKeys((prevExpandedKeys) => [
+                ...prevExpandedKeys,
+                record.id,
+              ]);
+            }
+          },
+        })}
+        expandRowByClick
       />
-      <h3>Notes {"&"} Feedback</h3>
+      <h3 style={{ paddingTop: "1rem" }}>Notes {"&"} Feedback</h3>
       {!!comments.length && (
         <div className="comments">
           <List
             itemLayout="horizontal"
             dataSource={comments}
-            renderItem={(item, index) => (
+            renderItem={(item) => (
               <List.Item>
                 {/* TODO: Change Avatar */}
                 <List.Item.Meta
-                  avatar={
-                    <Avatar src={`https://i.pravatar.cc/150?img=${index}`} />
-                  }
                   title={
-                    <div>
-                      <Tag>{item.created}</Tag>
+                    <div style={{ fontSize: "12px" }}>
                       {item.user.name}
+                      <span style={{ color: "#ACAAAA", marginLeft: "6px" }}>
+                        {getTimeDifferenceText(
+                          item.created,
+                          "YYYY-MM-DD hh:mm a"
+                        )}
+                      </span>
                     </div>
                   }
                   description={item.comment}
@@ -541,26 +638,40 @@ const ApprovalDetail = ({
         disabled={!approve}
       />
       <Row justify="space-between">
-        <Col>
-          <Row>
-            <Checkbox className="dev" id="informUser" onChange={() => {}}>
-              {text.informUser}
-            </Checkbox>
-          </Row>
-        </Col>
-        <Col>
-          <Space>
+        {approvalTab !== "approved" && (
+          <Col style={{ marginTop: "20px" }} span={24}>
+            <p>{record.form?.approval_instructions?.text}</p>
+            <Space direction="vertical">
+              {record.form?.approval_instructions?.action?.map(
+                (item, index) => (
+                  <div key={index}>
+                    <Checkbox
+                      checked={checkedState[index]}
+                      onChange={() => handleCheckboxChange(index)}
+                    >
+                      {item}
+                    </Checkbox>
+                  </div>
+                )
+              )}
+            </Space>
+          </Col>
+        )}
+        <Col span={24}>
+          <Space style={{ marginTop: "20px", float: "right" }}>
             <Button
               type="danger"
               onClick={() => handleApprove(record.id, 3)}
               disabled={!approve}
+              shape="round"
             >
-              Decline
+              Reject
             </Button>
             <Button
               type="primary"
               onClick={() => handleApprove(record.id, 2)}
-              disabled={!approve}
+              disabled={!approve || approveButtonEnable}
+              shape="round"
             >
               {approvalsLiteral({ ...authUser, isButton: true })}
             </Button>

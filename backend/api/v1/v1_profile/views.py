@@ -1,10 +1,40 @@
 # Create your views here.
-from drf_spectacular.utils import extend_schema, inline_serializer
+import os
+from typing import cast
+from wsgiref.util import FileWrapper
+from django.contrib.admin.sites import site
+from django.core.handlers.wsgi import WSGIRequest
+from django.db.models import ProtectedError, Q
+from django.contrib.admin.utils import get_deleted_objects
+from django.http.response import HttpResponse
+from django.core.management import call_command
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import (
+        OpenApiParameter, extend_schema, inline_serializer)
+from rest_framework.request import Request
+from rest_framework.viewsets import ModelViewSet
+from api.v1.v1_profile.models import (
+        Administration, AdministrationAttribute, Entity, EntityData, Levels)
+from api.v1.v1_profile.serializers import (
+        AdministrationAttributeSerializer,
+        AdministrationSerializer,
+        EntityDataSerializer,
+        EntitySerializer,
+        GenerateDownloadRequestSerializer
+    )
+from api.v1.v1_users.models import SystemUser
+from api.v1.v1_jobs.models import Jobs
+from utils.upload_administration import generate_excel
+from utils.custom_helper import clean_array_param, maybe_int
 from utils.default_serializers import DefaultResponseSerializer
-from rest_framework.decorators import api_view
+from utils.custom_pagination import Pagination
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework import serializers, status
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from utils.email_helper import send_email, EmailTypes
+from utils.custom_serializer_fields import validate_serializers_message
+from utils.custom_generator import administration_csv_delete
 
 
 @extend_schema(
@@ -34,3 +64,217 @@ def send_feedback(request, version):
     send_email(context=data, type=EmailTypes.feedback)
     return Response({'message': 'Feedback was sent successfully.'},
                     status=status.HTTP_200_OK)
+
+
+@extend_schema(tags=['Administration'])
+class AdministrationViewSet(ModelViewSet):
+    serializer_class = AdministrationSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = Pagination
+
+    def get_queryset(self):
+        queryset = Administration.objects\
+            .prefetch_related('parent_administration', 'attributes')\
+            .all()
+        search = self.request.query_params.get('search')
+        parent_id = self.request.query_params.get('parent')
+        level_id = self.request.query_params.get('level')
+        if search:
+            queryset = queryset.filter(
+                    Q(name__icontains=search) | Q(code__icontains=search))
+        if parent_id:
+            try:
+                parent = Administration.objects.get(id=parent_id)
+                queryset = queryset.filter(
+                        path__startswith=f"{parent.path or ''}{parent.id}.")
+            except Administration.DoesNotExist:
+                pass
+        if level_id:
+            try:
+                level = Levels.objects.get(id=level_id)
+                queryset = queryset.filter(level=level)
+            except Levels.DoesNotExist:
+                pass
+        return queryset.order_by('id')
+
+    def get_serializer(self, *args, **kwargs):
+        if (self.action == 'list'):
+            kwargs.update({'compact': True})
+        return super().get_serializer(*args, **kwargs)
+
+    @extend_schema(parameters=[
+        OpenApiParameter(name='parent',
+                         type=OpenApiTypes.NUMBER,
+                         location=OpenApiParameter.QUERY),
+        OpenApiParameter(name='level',
+                         type=OpenApiTypes.NUMBER,
+                         location=OpenApiParameter.QUERY),
+        OpenApiParameter(name='search',
+                         type=OpenApiTypes.STR,
+                         location=OpenApiParameter.QUERY)
+    ])
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        try:
+            TESTING = os.environ.get("TESTING")
+            administration_csv_delete(id=instance.pk, test=TESTING)
+            instance.delete()
+        except ProtectedError:
+            _, _, _, protected = get_deleted_objects(
+                    [instance], cast(WSGIRequest, request), site)
+            error = (
+                f'Cannot delete "Administration: {instance}" because it is '
+                'referenced by other data'
+            )
+            return Response(
+                    {'error': error, 'referenced_by': protected},
+                    status=status.HTTP_409_CONFLICT)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@extend_schema(tags=['Administration'])
+class AdministrationAttributeViewSet(ModelViewSet):
+    queryset = AdministrationAttribute.objects.order_by('id').all()
+    serializer_class = AdministrationAttributeSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = None
+
+
+@extend_schema(tags=['Entities'])
+class EntityViewSet(ModelViewSet):
+    serializer_class = EntitySerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = Pagination
+
+    def get_queryset(self):
+        queryset = Entity.objects.all()
+        search = self.request.query_params.get('search')
+        if search:
+            queryset = queryset.filter(name__icontains=search)
+        return queryset.order_by('id')
+
+
+@extend_schema(tags=['Entities'])
+class EntityDataViewSet(ModelViewSet):
+    serializer_class = EntityDataSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = Pagination
+
+    def get_queryset(self):
+        queryset = EntityData.objects\
+                .select_related('administration', 'entity')\
+                .all()
+        search = self.request.query_params.get('search')
+        adm_id = self.request.query_params.get('administration')
+        entity_id = self.request.query_params.get('entity')
+        if search:
+            queryset = queryset.filter(
+                    Q(name__icontains=search) | Q(code__icontains=search))
+        if adm_id:
+            try:
+                adm_root = Administration.objects.get(id=adm_id)
+                adms = Administration.objects.filter(
+                    Q(path__startswith=f"{adm_root.path or ''}{adm_root.id}.")
+                    | Q(id=adm_root.id)
+                )
+                queryset = queryset.filter(administration__in=adms)
+            except Administration.DoesNotExist:
+                pass
+        if entity_id:
+            try:
+                entity = Entity.objects.get(id=entity_id)
+                queryset = queryset.filter(entity=entity)
+            except Entity.DoesNotExist:
+                pass
+
+        return queryset.order_by('id')
+
+    @extend_schema(parameters=[
+        OpenApiParameter(name='administration',
+                         type=OpenApiTypes.NUMBER,
+                         location=OpenApiParameter.QUERY),
+        OpenApiParameter(name='entity',
+                         type=OpenApiTypes.NUMBER,
+                         location=OpenApiParameter.QUERY),
+        OpenApiParameter(name='search',
+                         type=OpenApiTypes.STR,
+                         location=OpenApiParameter.QUERY)
+    ])
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+
+@extend_schema(tags=['File'],
+               summary='Export template for Administration bulk upload',
+               parameters=[
+                   OpenApiParameter(name='attributes',
+                                    type={
+                                        'type': 'array',
+                                        'items': {'type': 'number'}},
+                                    location=OpenApiParameter.QUERY,
+                                    explode=False)
+                   ])
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def export_administrations_template(request: Request, version):
+    attributes = clean_array_param(
+            request.query_params.get('attributes', ''), maybe_int)
+    filepath = generate_excel(cast(SystemUser, request.user), attributes)
+    filename = filepath.split("/")[-1].replace(" ", "-")
+    with open(filepath, 'rb') as template_file:
+        response = HttpResponse(
+                FileWrapper(template_file),
+                content_type=(
+                    'application/vnd.openxmlformats-officedocument'
+                    '.spreadsheetml.sheet'))
+        response['Content-Disposition'] = f'attachment; filename="{filename}"'
+        return response
+
+
+@extend_schema(tags=['File'],
+               summary=(
+                   'Export prefilled template for Administration bulk upload'
+                ),
+               parameters=[
+                    OpenApiParameter(
+                        name='attributes',
+                        type={
+                            'type': 'array',
+                            'items': {'type': 'number'}},
+                        location=OpenApiParameter.QUERY,
+                        explode=False
+                    ),
+                    OpenApiParameter(
+                        name='level',
+                        required=False,
+                        type=OpenApiTypes.NUMBER,
+                        location=OpenApiParameter.QUERY
+                    )
+                ])
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def export_prefilled_administrations_template(request: Request, version):
+    serializer = GenerateDownloadRequestSerializer(data=request.GET)
+    if not serializer.is_valid():
+        return Response(
+            {'message': validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST)
+    attributes = clean_array_param(
+            request.query_params.get('attributes', ''), maybe_int)
+    administration = request.query_params.get('administration')
+    result = call_command(
+        'job_download_adm',
+        administration,
+        request.user.id,
+        attributes=attributes
+    )
+    job = Jobs.objects.get(pk=result)
+    file_url = f"/download/file/{job.result}?type=download_administration"
+    data = {
+        'task_id': job.task_id,
+        'file_url': file_url,
+    }
+    return Response(data, status=status.HTTP_200_OK)

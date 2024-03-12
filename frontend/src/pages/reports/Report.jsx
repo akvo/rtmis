@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import "./style.scss";
 import { Divider, Button, Row } from "antd";
-import { config, store, queue } from "../../lib";
+import { config, store, queue, uiText } from "../../lib";
 import {
   VisualisationFilters,
   DataChart,
@@ -11,7 +11,12 @@ import { useParams, Link } from "react-router-dom";
 import IFrame from "./IFrame";
 
 const Reports = () => {
-  const { selectedForm: formId } = store.useState((s) => s);
+  const { selectedForm: formId, language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   const { templateId } = useParams();
   const template = config?.templates?.find((t) => t.id === +templateId);
@@ -33,7 +38,7 @@ const Reports = () => {
   }, [formId]);
 
   if (!template) {
-    return <h3 className="text-muted">Template not found</h3>;
+    return <h3 className="text-muted">{text.noTemplate}</h3>;
   }
 
   return (
@@ -43,10 +48,10 @@ const Reports = () => {
         <Row justify="space-between" align="middle">
           <div className="toolbar">
             <Button className="light mx" onClick={handlePrint}>
-              Print
+              {text.printBtn}
             </Button>
             <Link to="/reports">
-              <Button className="light">Back</Button>
+              <Button className="light">{text.backBtn}</Button>
             </Link>
           </div>
         </Row>

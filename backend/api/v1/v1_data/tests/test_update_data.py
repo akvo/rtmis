@@ -325,11 +325,13 @@ class FormDataUpdateTestCase(TestCase):
         results = [{
             'history': None,
             'question': 101,
-            'value': 'User Wayan'
+            'value': 'User Wayan',
+            'last_value': None,
         }, {
             'history': None,
             'question': 102,
-            'value': ['Male']
+            'value': ['Male'],
+            'last_value': None,
         }]
         self.assertEqual(data, results)
         # test get form data with pending data object inside
@@ -517,11 +519,13 @@ class FormDataUpdateTestCase(TestCase):
         results = [{
             'history': None,
             'question': 201,
-            'value': 'Made County Admin'
+            'value': 'Made County Admin',
+            'last_value': None,
         }, {
             'history': None,
             'question': 202,
-            'value': ['Male']
+            'value': ['Male'],
+            'last_value': None,
         }]
         self.assertEqual(data, results)
         # test get form data with pending data object inside

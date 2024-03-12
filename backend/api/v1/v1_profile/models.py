@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 # Create your models here.
 from api.v1.v1_profile.constants import UserRoleTypes
@@ -18,7 +21,8 @@ class Levels(models.Model):
 
 class Administration(models.Model):
     parent = models.ForeignKey('self',
-                               on_delete=models.SET_NULL,
+                               on_delete=models.PROTECT,
+                               # NOTE: should be named 'children'
                                related_name='parent_administration',
                                default=None,
                                null=True)
@@ -49,6 +53,13 @@ class Administration(models.Model):
         return self.name
 
     @property
+    def full_path_name(self):
+        if self.path:
+            names = "|".join([a.name for a in self.ancestors])
+            return "{}|{}".format(names, self.name)
+        return self.name
+
+    @property
     def administration_column(self):
         if self.path:
             names = "|".join([a.name for a in self.ancestors])
@@ -57,6 +68,16 @@ class Administration(models.Model):
 
     class Meta:
         db_table = 'administrator'
+
+
+@receiver(pre_save, sender=Administration)
+def set_administration_path(sender, instance: Administration, **_):
+    if not instance.parent:
+        return
+    if instance.path:
+        return
+    parent = instance.parent
+    instance.path = f"{parent.path or ''}{parent.id}."
 
 
 class Access(models.Model):
@@ -77,3 +98,62 @@ class Access(models.Model):
 
     class Meta:
         db_table = 'access'
+
+
+class AdministrationAttribute(models.Model):
+    class Type(models.TextChoices):
+        VALUE = 'value', 'Value'
+        OPTION = 'option', 'Option'
+        MULTIPLE_OPTION = 'multiple_option', 'Multiple option'
+        AGGREGATE = 'aggregate', 'Aggregate'
+
+    name = models.TextField()
+    type = models.CharField(
+            max_length=25,
+            choices=Type.choices,
+            default=Type.VALUE)
+    options = ArrayField(
+            models.CharField(max_length=255, null=True),
+            default=list,
+            blank=True)
+
+    class Meta:
+        db_table = 'administration_attribute'
+
+
+class AdministrationAttributeValue(models.Model):
+    administration = models.ForeignKey(
+            to=Administration,
+            on_delete=models.CASCADE,
+            related_name='attributes')
+    attribute = models.ForeignKey(
+            to=AdministrationAttribute, on_delete=models.CASCADE)
+    value = models.JSONField(default=dict)
+
+    class Meta:
+        db_table = 'administration_attribute_value'
+
+
+class Entity(models.Model):
+    name = models.TextField()
+
+    class Meta:
+        db_table = 'entities'
+
+
+class EntityData(models.Model):
+    name = models.TextField()
+    code = models.CharField(max_length=255, null=True, default=None)
+    entity = models.ForeignKey(
+        to=Entity,
+        on_delete=models.PROTECT,
+        related_name='entity_data'
+    )
+    administration = models.ForeignKey(
+        to=Administration,
+        on_delete=models.PROTECT,
+        related_name='entity_data'
+    )
+
+    class Meta:
+        db_table = 'entity_data'

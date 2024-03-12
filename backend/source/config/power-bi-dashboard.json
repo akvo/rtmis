@@ -1,0 +1,40 @@
+[
+  {
+    "form_id": 1680838271306,
+    "page": "bi",
+    "name": "JMP",
+    "path": "jmp",
+    "content": [
+      {
+        "key": "title",
+        "text": "JMP"
+      },
+      {
+        "key": "embed",
+        "link": "https://app.powerbi.com/view?r=eyJrIjoiNDcxMDFkYzEtNGUxMS00NTZiLTliMTQtZjE4ODk2MWQxZTFhIiwidCI6ImIxNzBlMTE1LWRjM2QtNGU5Mi04NWJlLWU0YjMwMDljNWRjMiIsImMiOjl9",
+        "style": {
+          "marginTop": "24px"
+        }
+      }
+    ]
+  },
+  {
+    "form_id": 1681077310330,
+    "page": "bi",
+    "name": "RUSH",
+    "path": "rush",
+    "content": [
+      {
+        "key": "title",
+        "text": "RUSH"
+      },
+      {
+        "key": "embed",
+        "link": "https://app.powerbi.com/view?r=eyJrIjoiYzk5MzM4MmYtZGNmOS00NDlhLThlOTUtOWY1NzI4NzczNWIzIiwidCI6ImIxNzBlMTE1LWRjM2QtNGU5Mi04NWJlLWU0YjMwMDljNWRjMiIsImMiOjl9",
+        "style": {
+          "marginTop": "24px"
+        }
+      }
+    ]
+  }
+]

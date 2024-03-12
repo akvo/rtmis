@@ -4,13 +4,11 @@ import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import {
   Home,
   Login,
-  ControlCenter,
+  ControlCenterLayout,
   Users,
   AddUser,
   Forms,
   ManageData,
-  Questionnaires,
-  QuestionnairesAdmin,
   Approvals,
   ApproversTree,
   Profile,
@@ -30,6 +28,21 @@ import {
   Glaas,
   ReportDashboard,
   GlaasReportDashboard,
+  MobileAssignment,
+  AddAssignment,
+  MasterData,
+  MasterDataAttributes,
+  ManageEntityTypes,
+  AddAdministration,
+  AddAttribute,
+  AddEntity,
+  EntityData,
+  AddEntityData,
+  ControlCenter,
+  UploadAdministrationData,
+  BIDashboard,
+  MonitoringDetail,
+  AdministrationDownload,
   // Visualisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
@@ -60,7 +73,6 @@ const RouteList = () => {
       <Route exact path="/login/:invitationId" element={<Login />} />
       <Route exact path="/forgot-password" element={<Login />} />
       <Route exact path="/data" element={<Home />} />
-      <Route exact path="/form/:formId" element={<Forms />} />
       <Route exact path="/dashboard/:formId" element={<Dashboard />} />
       <Route exact path="/glaas/:formId" element={<Glaas />} />
       <Route
@@ -73,78 +85,154 @@ const RouteList = () => {
         path="/glaas-report-dashboard/:formId"
         element={<GlaasReportDashboard />}
       />
-      <Route path="/users" element={<Private element={Users} alias="user" />} />
-      <Route
-        path="/organisations"
-        element={<Private element={Organisations} alias="organisation" />}
-      />
-      <Route
-        path="/user/add"
-        element={<Private element={AddUser} alias="user" />}
-      />
-      <Route
-        path="/user/:id"
-        element={<Private element={AddUser} alias="user" />}
-      />
-      <Route
-        path="/organisation/add"
-        element={<Private element={AddOrganisation} alias="organisation" />}
-      />
-      <Route
-        path="/organisation/:id"
-        element={<Private element={AddOrganisation} alias="organisation" />}
-      />
       <Route
         path="/control-center"
-        element={<Private element={ControlCenter} alias="control-center" />}
+        element={
+          <Private element={ControlCenterLayout} alias="control-center" />
+        }
+      >
+        <Route
+          path="user/add"
+          element={<Private element={AddUser} alias="user" />}
+        />
+        <Route
+          path="user/:id"
+          element={<Private element={AddUser} alias="user" />}
+        />
+        <Route
+          index
+          element={<Private element={ControlCenter} alias="control-center" />}
+        />
+        <Route
+          path="users"
+          element={<Private element={Users} alias="user" />}
+        />
+        <Route
+          path="approvers/tree"
+          element={<Private element={ApproversTree} alias="approvers" />}
+        />
+        <Route
+          path="data/manage"
+          element={<Private element={ManageData} alias="data" />}
+        />
+        <Route
+          path="data/:form/monitoring/:parentId"
+          element={<Private element={MonitoringDetail} alias="data" />}
+        />
+        <Route
+          path="data/export"
+          element={<Private element={ExportData} alias="data" />}
+        />
+        <Route
+          path="master-data"
+          element={<Private element={MasterData} alias="master-data" />}
+        />
+        <Route
+          path="master-data/upload-administration-data"
+          element={
+            <Private element={UploadAdministrationData} alias="master-data" />
+          }
+        />
+        <Route
+          path="master-data/add-administration"
+          element={<Private element={AddAdministration} alias="master-data" />}
+        />
+        <Route
+          path="master-data/:id/edit"
+          element={<Private element={AddAdministration} alias="master-data" />}
+        />
+        <Route
+          path="master-data/attributes"
+          element={
+            <Private element={MasterDataAttributes} alias="master-data" />
+          }
+        />
+        <Route
+          path="master-data/attributes/add"
+          element={<Private element={AddAttribute} alias="master-data" />}
+        />
+        <Route
+          path="master-data/attributes/:id/edit"
+          element={<Private element={AddAttribute} alias="master-data" />}
+        />
+        <Route
+          path="master-data/entity-types"
+          element={<Private element={ManageEntityTypes} alias="master-data" />}
+        />
+        <Route
+          path="master-data/entity-types/add"
+          element={<Private element={AddEntity} alias="master-data" />}
+        />
+        <Route
+          path="master-data/entity-types/:id/edit"
+          element={<Private element={AddEntity} alias="master-data" />}
+        />
+        <Route
+          path="master-data/entities"
+          element={<Private element={EntityData} alias="master-data" />}
+        />
+        <Route
+          path="master-data/entities/add"
+          element={<Private element={AddEntityData} alias="master-data" />}
+        />
+        <Route
+          path="master-data/entities/:id/edit"
+          element={<Private element={AddEntityData} alias="master-data" />}
+        />
+        <Route
+          path="data/upload"
+          element={<Private element={UploadData} alias="data" />}
+        />
+        <Route
+          path="data/submissions"
+          element={<Private element={Submissions} alias="data" />}
+        />
+        <Route
+          path="approvals"
+          element={<Private element={Approvals} alias="approvals" />}
+        />
+        <Route
+          path="organisation/add"
+          element={<Private element={AddOrganisation} alias="organisation" />}
+        />
+        <Route
+          path="organisation/:id"
+          element={<Private element={AddOrganisation} alias="organisation" />}
+        />
+        <Route
+          path="master-data/organisations"
+          element={<Private element={Organisations} alias="organisation" />}
+        />
+        <Route
+          path="mobile-assignment"
+          element={<Private element={MobileAssignment} alias="mobile" />}
+        />
+        <Route
+          path="mobile-assignment/form"
+          element={<Private element={AddAssignment} alias="mobile" />}
+        />
+        <Route
+          path="mobile-assignment/form/:id"
+          element={<Private element={AddAssignment} alias="mobile" />}
+        />
+        <Route exact path="form/:formId" element={<Forms />} />
+        <Route
+          path="profile"
+          element={<Private element={Profile} alias="profile" />}
+        />
+      </Route>
+      <Route
+        path="/administration-download"
+        element={
+          <Private
+            element={AdministrationDownload}
+            alias="administration-download"
+          />
+        }
       />
       <Route
         path="/settings"
         element={<Private element={Settings} alias="settings" />}
-      />
-      <Route
-        path="/data/manage"
-        element={<Private element={ManageData} alias="data" />}
-      />
-      <Route
-        path="/data/export"
-        element={<Private element={ExportData} alias="data" />}
-      />
-      <Route
-        path="/data/upload"
-        element={<Private element={UploadData} alias="data" />}
-      />
-      {/*
-      <Route
-        path="/data/visualisation"
-        element={<Private element={Visualisation} alias="visualisation" />}
-      />
-                */}
-      <Route
-        path="/questionnaires"
-        element={<Private element={Questionnaires} alias="questionnaires" />}
-      />
-      <Route
-        path="/questionnaires/admin"
-        element={
-          <Private element={QuestionnairesAdmin} alias="questionnaires" />
-        }
-      />
-      <Route
-        path="/approvals"
-        element={<Private element={Approvals} alias="approvals" />}
-      />
-      <Route
-        path="/data/submissions"
-        element={<Private element={Submissions} alias="data" />}
-      />
-      <Route
-        path="/approvers/tree"
-        element={<Private element={ApproversTree} alias="approvers" />}
-      />
-      <Route
-        path="/profile"
-        element={<Private element={Profile} alias="profile" />}
       />
       <Route
         path="/reports"
@@ -154,6 +242,7 @@ const RouteList = () => {
         path="/report/:templateId"
         element={<Private element={Report} alias="reports" />}
       />
+      <Route path="/bi/:path" element={<BIDashboard />} />
       <Route path="/news-events" element={<NewsEvents />} />
       <Route path="/how-we-work" element={<HowWeWork />} />
       <Route path="/terms" element={<Terms />} />
@@ -168,7 +257,6 @@ const RouteList = () => {
 const App = () => {
   const { user: authUser, isLoggedIn } = store.useState((state) => state);
   const [cookies] = useCookies(["AUTH_TOKEN"]);
-  // const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const { notify } = useNotification();
   const pageLocation = useLocation();
@@ -176,25 +264,6 @@ const App = () => {
   const public_state = config.allowedGlobal
     .map((x) => location.pathname.includes(x))
     .filter((x) => x)?.length;
-
-  // document.addEventListener(
-  //   "click",
-  //   () => {
-  //     if (isLoggedIn && authUser?.last_login) {
-  //       const expired = timeDiffHours(authUser.last_login);
-  //       console.log("test", expired);
-  //       if (expired >= 4) {
-  //         eraseCookieFromAllPaths("AUTH_TOKEN");
-  //         store.update((s) => {
-  //           s.isLoggedIn = false;
-  //           s.user = null;
-  //         });
-  //         navigate("login");
-  //       }
-  //     }
-  //   },
-  //   { passive: true }
-  // );
 
   // detect location change to reset advanced filters
   useEffect(() => {
@@ -256,10 +325,10 @@ const App = () => {
 
   useEffect(() => {
     if (isLoggedIn && !public_state) {
-      store.update((s) => {
-        s.administration = [
-          config.fn.administration(authUser.administration.id),
-        ];
+      config.fn.administration(authUser.administration.id).then((res) => {
+        store.update((s) => {
+          s.administration = [res];
+        });
       });
     }
   }, [authUser, isLoggedIn, public_state]);

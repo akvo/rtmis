@@ -38,7 +38,9 @@ export const columnsBatch = [
     render: (name, row) => (
       <Row align="middle">
         <Col>
-          <FileTextFilled style={{ color: "#666666", fontSize: 28 }} />
+          <FileTextFilled
+            style={{ color: "#666666", fontSize: 28, paddingRight: "1rem" }}
+          />
         </Col>
         <Col>
           <div>{name}</div>
@@ -111,37 +113,6 @@ export const columnsBatch = [
     dataIndex: "total_data",
     key: "total_data",
     align: "center",
-  },
-];
-
-export const columnsPending = [
-  {
-    title: "",
-    dataIndex: "id",
-    key: "id",
-    render: () => "",
-    width: 50,
-  },
-  {
-    title: "Name",
-    dataIndex: "name",
-    key: "name",
-    render: (name, row) => (
-      <Row align="middle">
-        <Col>
-          <FileTextFilled style={{ color: "#666666", fontSize: 28 }} />
-        </Col>
-        <Col>
-          <div>{name}</div>
-          <div>{row.created}</div>
-        </Col>
-      </Row>
-    ),
-  },
-  {
-    title: "Administration",
-    dataIndex: "administration",
-    key: "administration",
   },
 ];
 

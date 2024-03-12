@@ -1,33 +1,25 @@
 import React, { useEffect, useState, useMemo } from "react";
 import "./style.scss";
-import {
-  Card,
-  Divider,
-  Table,
-  Tabs,
-  Checkbox,
-  Button,
-  Modal,
-  Row,
-  Col,
-  Input,
-} from "antd";
+import { Table, Tabs, Checkbox, Button, Modal, Row, Col, Input } from "antd";
 import { Breadcrumbs } from "../../components";
 import {
-  PlusSquareOutlined,
-  CloseSquareOutlined,
+  LeftCircleOutlined,
+  DownCircleOutlined,
   FileTextFilled,
+  ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { api, store, uiText } from "../../lib";
 import { useNotification } from "../../util/hooks";
-import { columnsPending, columnsBatch, columnsSelected } from "./";
+import { columnsBatch, columnsSelected } from "./";
 import UploadDetail from "./UploadDetail";
+import BatchDetail from "./BatchDetail";
 import FormDropdown from "../../components/filters/FormDropdown";
-import { isEmpty, without, union, xor } from "lodash";
+import { isEmpty, union, xor } from "lodash";
 
 const { TextArea } = Input;
 
 const { TabPane } = Tabs;
+const { confirm } = Modal;
 
 const Submissions = () => {
   const [dataset, setDataset] = useState([]);
@@ -41,20 +33,26 @@ const Submissions = () => {
   const [reload, setReload] = useState(0);
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [deleting, setDeleting] = useState(false);
   const { selectedForm, user } = store.useState((state) => state);
   const [batchName, setBatchName] = useState("");
   const [comment, setComment] = useState("");
+  const [editedRecord, setEditedRecord] = useState({});
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
   const { notify } = useNotification();
 
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
+
   const pagePath = [
     {
-      title: "Control Center",
+      title: text.controlCenter,
       link: "/control-center",
     },
     {
-      title: "Submissions",
+      title: text.submissionsText,
       link: "/control-center",
     },
     {
@@ -62,13 +60,99 @@ const Submissions = () => {
     },
   ];
 
-  const text = useMemo(() => {
-    return uiText[activeLang];
-  }, [activeLang]);
+  const columnsPending = [
+    {
+      title: "",
+      dataIndex: "id",
+      key: "id",
+      render: () => "",
+      width: 50,
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      render: (name, row) => (
+        <Row align="middle" gutter={16}>
+          <Col>
+            <FileTextFilled
+              style={{ color: "#666666", fontSize: 28, paddingRight: "1rem" }}
+            />
+          </Col>
+          <Col>
+            <div>{name}</div>
+            <div>{row.created}</div>
+          </Col>
+        </Row>
+      ),
+    },
+    {
+      title: "Administration",
+      dataIndex: "administration",
+      key: "administration",
+    },
+    {
+      title: "Submitted Date",
+      dataIndex: "created",
+      key: "created",
+      render: (created) => created || "",
+      align: "center",
+      width: 200,
+    },
+    {
+      title: "Submitter Name",
+      dataIndex: "submitter",
+      key: "submitter",
+      render: (submitter, dt) => {
+        return submitter || dt.created_by;
+      },
+    },
+    {
+      title: "Duration",
+      dataIndex: "duration",
+      key: "duration",
+      render: (duration) => duration || "",
+      align: "center",
+      width: 100,
+    },
+    {
+      title: "Action",
+      dataIndex: "#",
+      key: "duration",
+      render: (_, row) => (
+        <div
+          onClick={() => {
+            confirm({
+              title: "Are you sure to delete this batch?",
+              icon: <ExclamationCircleOutlined />,
+              content: "Once you have deleted you can't get it back",
+              okText: "Yes",
+              okType: "danger",
+              cancelText: "No",
+              onOk() {
+                handleDelete(row);
+              },
+              onCancel() {
+                return;
+              },
+            });
+          }}
+        >
+          <Button shape="round" type="danger" ghost>
+            {text.deleteText}
+          </Button>
+        </div>
+      ),
+      align: "center",
+      width: 100,
+    },
+  ];
+
   useEffect(() => {
     if (selectedForm) {
       setLoading(true);
       let url;
+      setExpandedKeys([]);
       if (dataTab === "pending-submission") {
         url = `/form-pending-data/${selectedForm}/?page=${currentPage}`;
         setModalButton(true);
@@ -96,10 +180,11 @@ const Submissions = () => {
 
   useEffect(() => {
     if (selectedForm) {
+      setExpandedKeys([]);
       setSelectedRows([]);
       setSelectedRowKeys([]);
     }
-  }, [selectedForm]);
+  }, [selectedForm, dataTab]);
 
   useEffect(() => {
     if (dataset.length) {
@@ -137,6 +222,7 @@ const Submissions = () => {
       dataTab === "pending-submission" && (
         <Button
           type="primary"
+          shape="round"
           onClick={handleOnClickBatchSelectedDataset}
           disabled={!selectedRows.length && modalButton}
         >
@@ -157,10 +243,7 @@ const Submissions = () => {
 
   const hasSelected = !isEmpty(selectedRowKeys);
   const onSelectTableRow = (val) => {
-    const { id } = val;
-    selectedRowKeys.includes(id)
-      ? setSelectedRowKeys(without(selectedRowKeys, id))
-      : setSelectedRowKeys([...selectedRowKeys, id]);
+    setSelectedRowKeys(val);
   };
 
   const onSelectAllTableRow = (isSelected) => {
@@ -194,7 +277,7 @@ const Submissions = () => {
       .catch(() => {
         notify({
           type: "error",
-          message: "An error occured",
+          message: text.notifyError,
         });
       })
       .finally(() => {
@@ -202,92 +285,156 @@ const Submissions = () => {
         setModalVisible(false);
       });
   };
+
+  const handleDelete = (rowInfo) => {
+    setDeleting(true);
+    api
+      .delete(`pending-data/${rowInfo.id}`, { pending_data_id: rowInfo.id })
+      .then(() => {
+        setDataset(dataset.filter((d) => d.id !== rowInfo.id));
+        setDeleting(false);
+        notify({
+          type: "success",
+          message: "Batch deleted",
+        });
+      })
+      .catch((err) => {
+        const { status, data } = err.response;
+        if (status === 409) {
+          notify({
+            type: "error",
+            message: data?.message || text.userDeleteFail,
+          });
+        } else {
+          notify({
+            type: "error",
+            message: text.userDeleteFail,
+          });
+        }
+        setDeleting(false);
+        console.error(err.response);
+      });
+  };
+
   return (
     <div id="submissions">
-      <Breadcrumbs pagePath={pagePath} />
-      <Divider />
-      <FormDropdown hidden={true} />
-      <Card style={{ padding: 0 }} bodyStyle={{ padding: 30 }}>
-        <Tabs
-          className="main-tab"
-          activeKey={dataTab}
-          onChange={setDataTab}
-          tabBarExtraContent={btnBatchSelected}
-        >
-          <TabPane tab={text.uploadsTab1} key="pending-submission"></TabPane>
-          <TabPane tab={text.uploadsTab2} key="pending-approval"></TabPane>
-          <TabPane tab={text.uploadsTab3} key="approved"></TabPane>
-        </Tabs>
-        <Table
-          className="main-table"
-          dataSource={dataset}
-          onChange={handleChange}
-          columns={
-            dataTab === "pending-submission"
-              ? [...columnsPending]
-              : [...columnsBatch, Table.EXPAND_COLUMN]
-          }
-          rowSelection={
-            dataTab === "pending-submission"
-              ? {
-                  selectedRowKeys: selectedRowKeys,
-                  onSelect: onSelectTableRow,
-                  onSelectAll: onSelectAllTableRow,
-                  getCheckboxProps: (record) => ({
-                    disabled: record?.disabled,
-                  }),
-                }
-              : false
-          }
-          loading={loading}
-          pagination={{
-            current: currentPage,
-            total: totalCount,
-            pageSize: 10,
-            showSizeChanger: false,
-            showTotal: (total, range) =>
-              `Results: ${range[0]} - ${range[1]} of ${total} users`,
-          }}
-          expandedRowKeys={expandedKeys}
-          expandable={
-            dataTab !== "pending-submission"
-              ? {
-                  expandedRowRender: (record) => {
+      <div className="description-container">
+        <Breadcrumbs pagePath={pagePath} />
+      </div>
+      <div className="table-section">
+        <div className="table-wrapper">
+          <FormDropdown hidden={true} />
+          <div style={{ padding: 0 }} bodystyle={{ padding: 30 }}>
+            <Tabs
+              className="main-tab"
+              activeKey={dataTab}
+              onChange={setDataTab}
+              tabBarExtraContent={btnBatchSelected}
+            >
+              <TabPane
+                tab={text.uploadsTab1}
+                key="pending-submission"
+              ></TabPane>
+              <TabPane tab={text.uploadsTab2} key="pending-approval"></TabPane>
+              <TabPane tab={text.uploadsTab3} key="approved"></TabPane>
+            </Tabs>
+            <Table
+              className="main-table"
+              dataSource={dataset}
+              onChange={handleChange}
+              rowClassName={(record) =>
+                editedRecord[record.id] ? "row-edited" : "row-normal"
+              }
+              columns={
+                dataTab === "pending-submission"
+                  ? [...columnsPending, Table.EXPAND_COLUMN]
+                  : [...columnsBatch, Table.EXPAND_COLUMN]
+              }
+              rowSelection={
+                dataTab === "pending-submission"
+                  ? {
+                      selectedRowKeys: selectedRowKeys,
+                      onChange: onSelectTableRow,
+                      onSelectAll: onSelectAllTableRow,
+                      handleDelete: handleDelete,
+                      getCheckboxProps: (record) => ({
+                        disabled: record?.disabled,
+                      }),
+                    }
+                  : false
+              }
+              loading={loading}
+              pagination={{
+                current: currentPage,
+                total: totalCount,
+                pageSize: 10,
+                showSizeChanger: false,
+                showTotal: (total, range) =>
+                  `Results: ${range[0]} - ${range[1]} of ${total} users`,
+              }}
+              expandedRowKeys={expandedKeys}
+              expandable={{
+                expandedRowRender: (record) => {
+                  if (dataTab === "pending-submission") {
                     return (
-                      <UploadDetail record={record} setReload={setReload} />
-                    );
-                  },
-                  expandIcon: ({ expanded, onExpand, record }) => {
-                    return dataTab === "pending-submission" ? (
-                      ""
-                    ) : expanded ? (
-                      <CloseSquareOutlined
-                        onClick={(e) => {
-                          setExpandedKeys(
-                            expandedKeys.filter((k) => k !== record.id)
-                          );
-                          onExpand(record, e);
-                        }}
-                        style={{ color: "#e94b4c" }}
-                      />
-                    ) : (
-                      <PlusSquareOutlined
-                        onClick={(e) => {
-                          setExpandedKeys([record.id]);
-                          onExpand(record, e);
-                        }}
-                        style={{ color: "#7d7d7d" }}
+                      <BatchDetail
+                        expanded={record}
+                        setReload={setReload}
+                        setDataset={setDataset}
+                        dataset={dataset}
+                        handleDelete={handleDelete}
+                        deleting={deleting}
+                        setEditedRecord={setEditedRecord}
+                        editedRecord={editedRecord}
                       />
                     );
-                  },
-                }
-              : false
-          }
-          rowKey="id"
-        />
-      </Card>
+                  }
+                  return <UploadDetail record={record} setReload={setReload} />;
+                },
+                expandIcon: ({ expanded, onExpand, record }) => {
+                  return expanded ? (
+                    <DownCircleOutlined
+                      onClick={(e) => {
+                        setExpandedKeys(
+                          expandedKeys.filter((k) => k !== record.id)
+                        );
+                        onExpand(record, e);
+                      }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
+                    />
+                  ) : (
+                    <LeftCircleOutlined
+                      onClick={(e) => {
+                        setExpandedKeys([record.id]);
+                        onExpand(record, e);
+                      }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
+                    />
+                  );
+                },
+              }}
+              rowKey="id"
+              onRow={(record) => ({
+                onClick: () => {
+                  if (expandedKeys.includes(record.id)) {
+                    setExpandedKeys((prevExpandedKeys) =>
+                      prevExpandedKeys.filter((key) => key !== record.id)
+                    );
+                  } else {
+                    setExpandedKeys((prevExpandedKeys) => [
+                      ...prevExpandedKeys,
+                      record.id,
+                    ]);
+                  }
+                },
+              })}
+              expandRowByClick
+            />
+          </div>
+        </div>
+      </div>
       <Modal
-        visible={modalVisible}
+        open={modalVisible}
         onCancel={() => {
           setModalVisible(false);
         }}
@@ -312,14 +459,16 @@ const Submissions = () => {
             <Col xs={12}>
               <Button
                 className="light"
+                shape="round"
                 onClick={() => {
                   setModalVisible(false);
                 }}
               >
-                Cancel
+                {text.cancelButton}
               </Button>
               <Button
                 type="primary"
+                shape="round"
                 onClick={sendBatch}
                 disabled={!batchName.length}
               >

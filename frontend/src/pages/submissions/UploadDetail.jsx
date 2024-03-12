@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Table, Tabs, Button, Space, Tag, List, Avatar, Spin } from "antd";
+import { Table, Tabs, Button, Space, List, Spin } from "antd";
 import {
-  PlusSquareOutlined,
-  CloseSquareOutlined,
+  LeftCircleOutlined,
+  DownCircleOutlined,
   LoadingOutlined,
   HistoryOutlined,
+  FileTextOutlined,
+  FileSyncOutlined,
 } from "@ant-design/icons";
 import { api, store, uiText } from "../../lib";
 import { EditableCell } from "../../components";
@@ -12,6 +14,7 @@ import { isEqual, flatten } from "lodash";
 import { useNotification } from "../../util/hooks";
 import { HistoryTable } from "../../components";
 import { columnsApprover } from "./";
+import { getTimeDifferenceText } from "../../util/date";
 const { TabPane } = Tabs;
 
 const columnsRawData = [
@@ -19,7 +22,6 @@ const columnsRawData = [
     title: "",
     dataIndex: "key",
     key: "key",
-    width: 40,
     render: (_, __, a) => {
       return a + 1;
     },
@@ -28,6 +30,16 @@ const columnsRawData = [
     title: "Name",
     dataIndex: "name",
     key: "name",
+    render: (name, row) => {
+      return (
+        <div>
+          {name}
+          <span className="monitoring-icon">
+            {row.is_monitoring ? <FileSyncOutlined /> : <FileTextOutlined />}
+          </span>
+        </div>
+      );
+    },
   },
   {
     title: "Administration",
@@ -44,7 +56,6 @@ const columnsRawData = [
     title: "Upload By",
     dataIndex: "created_by",
     key: "created_by",
-    width: 200,
   },
   Table.EXPAND_COLUMN,
 ];
@@ -63,7 +74,7 @@ const summaryColumns = [
       if (row.type === "Option" || row.type === "Multiple_Option") {
         const data = value
           .filter((x) => x.total)
-          .map((val) => `${val.type} - ${val.total}`);
+          .map((val) => `${val.type} - (${val.total})`);
         return (
           <ul className="option-list">
             {data.map((d, di) => (
@@ -88,6 +99,7 @@ const UploadDetail = ({ record, setReload }) => {
   const [expandedRowKeys, setExpandedRowKeys] = useState([]);
   const [comments, setComments] = useState([]);
   const [questionGroups, setQuestionGroups] = useState([]);
+  const [resetButton, setresetButton] = useState({});
   const { notify } = useNotification();
   const { user } = store.useState((state) => state);
   const { language } = store.useState((s) => s);
@@ -129,6 +141,11 @@ const UploadDetail = ({ record, setReload }) => {
           type: "success",
           message: "Data updated",
         });
+        const resetObj = {};
+        formData.map((d) => {
+          resetObj[d.question] = false;
+        });
+        setresetButton({ ...resetButton, ...resetObj });
       })
       .catch((e) => {
         console.error(e);
@@ -199,6 +216,7 @@ const UploadDetail = ({ record, setReload }) => {
   }, [selectedTab, record]);
 
   const updateCell = (key, parentId, value) => {
+    setresetButton({ ...resetButton, [key]: true });
     let prev = JSON.parse(JSON.stringify(rawValues));
     prev = prev.map((rI) => {
       let hasEdits = false;
@@ -295,9 +313,14 @@ const UploadDetail = ({ record, setReload }) => {
               const findValue = res.data.find(
                 (d) => d.question === q.id
               )?.value;
+              const findOldValue = res.data.find(
+                (d) => d.question === q.id
+              )?.last_value;
               return {
                 ...q,
                 value: findValue || findValue === 0 ? findValue : null,
+                lastValue:
+                  findOldValue || findOldValue === 0 ? findOldValue : null,
                 history:
                   res.data.find((d) => d.question === q.id)?.history || false,
               };
@@ -361,7 +384,7 @@ const UploadDetail = ({ record, setReload }) => {
           (record.newValue || record.newValue === 0) &&
           !isEqual(record.value, record.newValue)
             ? "row-edited"
-            : "row-normal"
+            : "row-normal sticky"
         }
         style={{ borderBottom: "solid 1px #ddd" }}
         rowKey="id"
@@ -391,7 +414,7 @@ const UploadDetail = ({ record, setReload }) => {
                         <div className={`pending-data-outer`}>
                           {expanded.data?.map((r, rI) => (
                             <div className="pending-data-wrapper" key={rI}>
-                              <h3>{r.name}</h3>
+                              <h3>{r.label}</h3>
                               <Table
                                 pagination={false}
                                 dataSource={r.question}
@@ -404,11 +427,16 @@ const UploadDetail = ({ record, setReload }) => {
                                 rowKey="id"
                                 columns={[
                                   {
-                                    title: "Question",
-                                    dataIndex: "name",
+                                    title: text?.questionCol,
+                                    dataIndex: null,
+                                    width: "50%",
+                                    render: (_, row) =>
+                                      row.short_label
+                                        ? row.short_label
+                                        : row.label,
                                   },
                                   {
-                                    title: "Response",
+                                    title: text?.responseCol,
                                     render: (row) => (
                                       <EditableCell
                                         record={row}
@@ -417,10 +445,27 @@ const UploadDetail = ({ record, setReload }) => {
                                         resetCell={resetCell}
                                         disabled={!!dataLoading}
                                         readonly={!isEditable}
+                                        resetButton={resetButton}
                                       />
                                     ),
+                                    width: "25%",
                                   },
                                   Table.EXPAND_COLUMN,
+                                  {
+                                    title: text?.lastResponseCol,
+                                    render: (row) => (
+                                      <EditableCell
+                                        record={row}
+                                        lastValue={true}
+                                        parentId={expanded.id}
+                                        updateCell={updateCell}
+                                        resetCell={resetCell}
+                                        disabled={true}
+                                        readonly={true}
+                                      />
+                                    ),
+                                    width: "25%",
+                                  },
                                 ]}
                                 expandable={{
                                   expandIcon: ({ onExpand, record }) => {
@@ -445,7 +490,7 @@ const UploadDetail = ({ record, setReload }) => {
                         </div>
                       )}
                       {isEditable && !expanded.loading && (
-                        <div className="pending-data-actions">
+                        <div className="pending-data-action-reject">
                           <Button
                             onClick={() => handleSave(expanded)}
                             type="primary"
@@ -454,6 +499,7 @@ const UploadDetail = ({ record, setReload }) => {
                               expanded.id === dataLoading ||
                               isEdited(expanded.id) === false
                             }
+                            shape="round"
                           >
                             Save Edits
                           </Button>
@@ -464,15 +510,15 @@ const UploadDetail = ({ record, setReload }) => {
                 },
                 expandIcon: ({ expanded, onExpand, record }) =>
                   expanded ? (
-                    <CloseSquareOutlined
+                    <DownCircleOutlined
                       onClick={(e) => {
                         setExpandedRowKeys([]);
                         onExpand(record, e);
                       }}
-                      style={{ color: "#e94b4c" }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
                     />
                   ) : (
-                    <PlusSquareOutlined
+                    <LeftCircleOutlined
                       onClick={(e) => {
                         setExpandedRowKeys([record.id]);
                         if (!record.data?.length) {
@@ -480,12 +526,30 @@ const UploadDetail = ({ record, setReload }) => {
                         }
                         onExpand(record, e);
                       }}
-                      style={{ color: "#7d7d7d" }}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
                     />
                   ),
               }
             : false
         }
+        onRow={(record) => ({
+          onClick: () => {
+            if (expandedRowKeys.includes(record.id)) {
+              setExpandedRowKeys((prevExpandedKeys) =>
+                prevExpandedKeys.filter((key) => key !== record.id)
+              );
+            } else {
+              if (!record.data?.length) {
+                initData(record.id);
+              }
+              setExpandedRowKeys((prevExpandedKeys) => [
+                ...prevExpandedKeys,
+                record.id,
+              ]);
+            }
+          },
+        })}
+        expandRowByClick
       />
       <h3>{text.notesFeedback}</h3>
       {!!comments.length && (
@@ -493,17 +557,19 @@ const UploadDetail = ({ record, setReload }) => {
           <List
             itemLayout="horizontal"
             dataSource={comments}
-            renderItem={(item, index) => (
+            renderItem={(item) => (
               <List.Item>
                 {/* TODO: Change Avatar */}
                 <List.Item.Meta
-                  avatar={
-                    <Avatar src={`https://i.pravatar.cc/150?img=${index}`} />
-                  }
                   title={
-                    <div>
-                      <Tag>{item.created}</Tag>
+                    <div style={{ fontSize: "12px" }}>
                       {item.user.name}
+                      <span style={{ color: "#ACAAAA", marginLeft: "6px" }}>
+                        {getTimeDifferenceText(
+                          item.created,
+                          "YYYY-MM-DD hh:mm a"
+                        )}
+                      </span>
                     </div>
                   }
                   description={item.comment}

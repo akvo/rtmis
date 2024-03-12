@@ -6,277 +6,518 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
     class="ant-row  layout"
   >
     <div
-      class="body"
+      class="ant-row ant-row-space-between ant-row-middle header"
     >
       <div
-        id="login"
+        class="ant-col"
       >
-        <div
-          class="background"
-          style="background-image: url(/assets/header-image-background.jpg); background-size: cover; background-position: center; background-repeat: no-repeat;"
-        />
         <div
           class="logo"
         >
           <a
             href="/"
           >
-            <img
-              alt="/logo.png"
-              src="/logo.png"
-            />
-            <h1>
-              RUSH
-              <small>
-                Kenya Rural and Urban Sanitation & Hygiene Monitoring Platform
-              </small>
-            </h1>
+            <div
+              class="logo-wrapper"
+            >
+              <img
+                alt="/logo.png"
+                class="small-logo"
+                src="/logo.png"
+              />
+              <svg
+                fill="none"
+                height="46"
+                viewBox="0 0 4 51"
+                width="4"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  fill="black"
+                  height="16.6667"
+                  transform="matrix(-1 0 0 1 4 0.5)"
+                  width="4"
+                />
+                <rect
+                  fill="#BE0000"
+                  height="16.6667"
+                  transform="matrix(-1 0 0 1 4 17.1665)"
+                  width="4"
+                />
+                <rect
+                  fill="#006818"
+                  height="16.6667"
+                  transform="matrix(-1 0 0 1 4 33.8335)"
+                  width="4"
+                />
+                <rect
+                  fill="white"
+                  height="2.38095"
+                  transform="matrix(-1 0 0 1 4 16.373)"
+                  width="4"
+                />
+                <rect
+                  fill="white"
+                  height="2.38095"
+                  transform="matrix(-1 0 0 1 4 33.0396)"
+                  width="4"
+                />
+              </svg>
+              <h1>
+                RUSH
+                <small>
+                  Kenya Rural and Urban Sanitation & Hygiene Monitoring Platform
+                </small>
+              </h1>
+            </div>
           </a>
         </div>
+      </div>
+      <div
+        class="ant-col"
+      >
+        <div
+          class="navigation"
+        >
+          <div
+            class="ant-space ant-space-horizontal ant-space-align-center"
+          >
+            <div
+              class="ant-space-item"
+              style="margin-right: 8px;"
+            >
+              <a
+                class="dev"
+                href="/reports"
+              >
+                Reports
+              </a>
+            </div>
+            <div
+              class="ant-space-item"
+            >
+              <a
+                class="ant-dropdown-trigger ant-dropdown-link"
+              >
+                Dashboards
+                <svg
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 448 512"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="account"
+        >
+          <a
+            href="/login"
+          >
+            <button
+              ant-click-animating-without-extra-node="false"
+              class="ant-btn ant-btn-round ant-btn-primary"
+              type="button"
+            >
+              <span>
+                Log in
+              </span>
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div
+      class="body"
+    >
+      <div
+        id="login"
+      >
         <div
           class="ant-row ant-row-middle wrapper"
         >
           <div
-            class="ant-col ant-col-12 left-side"
+            class="ant-col ant-col-24 right-side"
           >
             <div
-              class="title"
+              class="login-form-container"
             >
-              <h1
-                class="welcome"
+              <img
+                alt="login-logo"
+                src="./logo-black.png"
+              />
+              <div
+                class="login-content"
               >
-                Real Time Management Information System (RTMIS) for Monitoring Sanitation and Hygiene Indicators across Kenya
-              </h1>
+                <h1>
+                  Welcome back
+                </h1>
+                <p
+                  class="contact-text"
+                >
+                  Please enter your account details 
+                  <br />
+                   Having trouble accessing the platform? Please 
+                  <a
+                    href="#"
+                  >
+                    contact
+                  </a>
+                  .
+                </p>
+              </div>
+              <form
+                class="ant-form ant-form-vertical"
+                id="login-form"
+              >
+                <div
+                  class="ant-form-item"
+                >
+                  <div
+                    class="ant-row ant-form-item-row"
+                  >
+                    <div
+                      class="ant-col ant-form-item-label"
+                    >
+                      <label
+                        class="ant-form-item-required"
+                        for="login-form_email"
+                        title="Email Address"
+                      >
+                        Email Address
+                      </label>
+                    </div>
+                    <div
+                      class="ant-col ant-form-item-control"
+                    >
+                      <div
+                        class="ant-form-item-control-input"
+                      >
+                        <div
+                          class="ant-form-item-control-input-content"
+                        >
+                          <input
+                            aria-required="true"
+                            class="ant-input"
+                            id="login-form_email"
+                            placeholder="Email"
+                            type="text"
+                            value=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ant-form-item"
+                >
+                  <div
+                    class="ant-row ant-form-item-row"
+                  >
+                    <div
+                      class="ant-col ant-form-item-label"
+                    >
+                      <label
+                        class="ant-form-item-required"
+                        for="login-form_password"
+                        title="Password"
+                      >
+                        Password
+                      </label>
+                    </div>
+                    <div
+                      class="ant-col ant-form-item-control"
+                    >
+                      <div
+                        class="ant-form-item-control-input"
+                      >
+                        <div
+                          class="ant-form-item-control-input-content"
+                        >
+                          <span
+                            class="ant-input-affix-wrapper ant-input-password"
+                          >
+                            <input
+                              aria-required="true"
+                              class="ant-input"
+                              id="login-form_password"
+                              placeholder="Password"
+                              type="password"
+                              value=""
+                            />
+                            <span
+                              class="ant-input-suffix"
+                            >
+                              <span
+                                aria-label="eye-invisible"
+                                class="anticon anticon-eye-invisible ant-input-password-icon"
+                                role="img"
+                                tabindex="-1"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  data-icon="eye-invisible"
+                                  fill="currentColor"
+                                  focusable="false"
+                                  height="1em"
+                                  viewBox="64 64 896 896"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M942.2 486.2Q889.47 375.11 816.7 305l-50.88 50.88C807.31 395.53 843.45 447.4 874.7 512 791.5 684.2 673.4 766 512 766q-72.67 0-133.87-22.38L323 798.75Q408 838 512 838q288.3 0 430.2-300.3a60.29 60.29 0 000-51.5zm-63.57-320.64L836 122.88a8 8 0 00-11.32 0L715.31 232.2Q624.86 186 512 186q-288.3 0-430.2 300.3a60.3 60.3 0 000 51.5q56.69 119.4 136.5 191.41L112.48 835a8 8 0 000 11.31L155.17 889a8 8 0 0011.31 0l712.15-712.12a8 8 0 000-11.32zM149.3 512C232.6 339.8 350.7 258 512 258c54.54 0 104.13 9.36 149.12 28.39l-70.3 70.3a176 176 0 00-238.13 238.13l-83.42 83.42C223.1 637.49 183.3 582.28 149.3 512zm246.7 0a112.11 112.11 0 01146.2-106.69L401.31 546.2A112 112 0 01396 512z"
+                                  />
+                                  <path
+                                    d="M508 624c-3.46 0-6.87-.16-10.25-.47l-52.82 52.82a176.09 176.09 0 00227.42-227.42l-52.82 52.82c.31 3.38.47 6.79.47 10.25a111.94 111.94 0 01-112 112z"
+                                  />
+                                </svg>
+                              </span>
+                            </span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ant-form-item"
+                >
+                  <div
+                    class="ant-row ant-form-item-row"
+                  >
+                    <div
+                      class="ant-col ant-form-item-control"
+                    >
+                      <div
+                        class="ant-form-item-control-input"
+                      >
+                        <div
+                          class="ant-form-item-control-input-content"
+                        >
+                          <a
+                            class="login-form-forgot"
+                            href="/forgot-password"
+                          >
+                            Recover Password
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="ant-form-item"
+                >
+                  <div
+                    class="ant-row ant-form-item-row"
+                  >
+                    <div
+                      class="ant-col ant-form-item-control"
+                    >
+                      <div
+                        class="ant-form-item-control-input"
+                      >
+                        <div
+                          class="ant-form-item-control-input-content"
+                        >
+                          <button
+                            class="ant-btn ant-btn-round ant-btn-primary"
+                            type="submit"
+                          >
+                            <span>
+                              Log in
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <p
+                  class="disclaimer"
+                >
+                  The user is accountable for his/her account and in case there are any changes (Transfers, retirement, any kind of leave, resignation etc) this should be communicated to the County Administrator or National Super Admin who might be able to assign the roles to the new officer.
+                </p>
+              </form>
             </div>
           </div>
-          <div
-            class="ant-col ant-col-12 right-side"
-          >
-            <h1>
-              Welcome back
-              <br />
-              <small>
-                Please enter your account details
-              </small>
-            </h1>
-            <p
-              class="contact-text"
-            >
-              Having trouble accessing the platform? Please 
+        </div>
+      </div>
+    </div>
+    <div
+      class="footer"
+    >
+      <div
+        class="ant-row ant-row-space-between ant-row-top"
+      >
+        <div
+          class="ant-col about-wrapper ant-col-lg-8"
+        >
+          <img
+            alt="/logo.png"
+            class="small-logo"
+            src="/logo.png"
+          />
+          <p>
+            All the data contained in the RUSH platform is aggregated from both primary and secondary data sources from the 47 counties in Kenya. The data is updated on a monthly basis.
+          </p>
+        </div>
+        <div
+          class="ant-col ant-col-4"
+        >
+          <h2>
+            External Links
+          </h2>
+          <ul>
+            <li>
+              <a
+                href="https://washdata.org/how-we-work/about-jmp#:~:text=Background,hygiene%20(WASH)%20since%201990"
+                rel="noreferrer"
+                target="_blank"
+              >
+                JMP
+              </a>
+            </li>
+            <li>
+              <a
+                href=" http://wash.health.go.ke/clts/index.jsp"
+                rel="noreferrer"
+                target="_blank"
+              >
+                CLTS RTMIS
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.who.int/teams/environment-climate-change-and-health/water-sanitation-and-health/monitoring-and-evidence/wash-systems-monitoring/un-water-global-analysis-and-assessment-of-sanitation-and-drinking-water"
+                rel="noreferrer"
+                target="_blank"
+              >
+                GLAAS
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div
+          class="ant-col ant-col-4"
+        >
+          <h2>
+            Resources
+          </h2>
+          <ul>
+            <li>
               <a
                 href="#"
+                rel="noreferrer"
+                target="_blank"
               >
-                contact
+                International Resources
               </a>
-              .
-            </p>
-            <form
-              class="ant-form ant-form-vertical"
-              id="login-form"
-            >
-              <div
-                class="ant-row ant-form-item"
+            </li>
+            <li>
+              <a
+                href="#"
+                rel="noreferrer"
+                target="_blank"
               >
-                <div
-                  class="ant-col ant-form-item-label"
-                >
-                  <label
-                    class="ant-form-item-required"
-                    for="login-form_email"
-                    title="Email Address"
-                  >
-                    Email Address
-                  </label>
-                </div>
-                <div
-                  class="ant-col ant-form-item-control"
-                >
-                  <div
-                    class="ant-form-item-control-input"
-                  >
-                    <div
-                      class="ant-form-item-control-input-content"
-                    >
-                      <span
-                        class="ant-input-affix-wrapper"
-                      >
-                        <span
-                          class="ant-input-prefix"
-                        >
-                          <span
-                            aria-label="user"
-                            class="anticon anticon-user site-form-item-icon"
-                            role="img"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              data-icon="user"
-                              fill="currentColor"
-                              focusable="false"
-                              height="1em"
-                              viewBox="64 64 896 896"
-                              width="1em"
-                            >
-                              <path
-                                d="M858.5 763.6a374 374 0 00-80.6-119.5 375.63 375.63 0 00-119.5-80.6c-.4-.2-.8-.3-1.2-.5C719.5 518 760 444.7 760 362c0-137-111-248-248-248S264 225 264 362c0 82.7 40.5 156 102.8 201.1-.4.2-.8.3-1.2.5-44.8 18.9-85 46-119.5 80.6a375.63 375.63 0 00-80.6 119.5A371.7 371.7 0 00136 901.8a8 8 0 008 8.2h60c4.4 0 7.9-3.5 8-7.8 2-77.2 33-149.5 87.8-204.3 56.7-56.7 132-87.9 212.2-87.9s155.5 31.2 212.2 87.9C779 752.7 810 825 812 902.2c.1 4.4 3.6 7.8 8 7.8h60a8 8 0 008-8.2c-1-47.8-10.9-94.3-29.5-138.2zM512 534c-45.9 0-89.1-17.9-121.6-50.4S340 407.9 340 362c0-45.9 17.9-89.1 50.4-121.6S466.1 190 512 190s89.1 17.9 121.6 50.4S684 316.1 684 362c0 45.9-17.9 89.1-50.4 121.6S557.9 534 512 534z"
-                              />
-                            </svg>
-                          </span>
-                        </span>
-                        <input
-                          class="ant-input"
-                          id="login-form_email"
-                          placeholder="Email"
-                          type="text"
-                          value=""
-                        />
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="ant-row ant-form-item"
+                National Resources
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                rel="noreferrer"
+                target="_blank"
               >
-                <div
-                  class="ant-col ant-form-item-label"
-                >
-                  <label
-                    class="ant-form-item-required"
-                    for="login-form_password"
-                    title="Password"
-                  >
-                    Password
-                  </label>
-                </div>
-                <div
-                  class="ant-col ant-form-item-control"
-                >
-                  <div
-                    class="ant-form-item-control-input"
-                  >
-                    <div
-                      class="ant-form-item-control-input-content"
-                    >
-                      <span
-                        class="ant-input-affix-wrapper ant-input-password"
-                      >
-                        <span
-                          class="ant-input-prefix"
-                        >
-                          <span
-                            aria-label="lock"
-                            class="anticon anticon-lock site-form-item-icon"
-                            role="img"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              data-icon="lock"
-                              fill="currentColor"
-                              focusable="false"
-                              height="1em"
-                              viewBox="64 64 896 896"
-                              width="1em"
-                            >
-                              <path
-                                d="M832 464h-68V240c0-70.7-57.3-128-128-128H388c-70.7 0-128 57.3-128 128v224h-68c-17.7 0-32 14.3-32 32v384c0 17.7 14.3 32 32 32h640c17.7 0 32-14.3 32-32V496c0-17.7-14.3-32-32-32zM332 240c0-30.9 25.1-56 56-56h248c30.9 0 56 25.1 56 56v224H332V240zm460 600H232V536h560v304zM484 701v53c0 4.4 3.6 8 8 8h40c4.4 0 8-3.6 8-8v-53a48.01 48.01 0 10-56 0z"
-                              />
-                            </svg>
-                          </span>
-                        </span>
-                        <input
-                          action="click"
-                          class="ant-input"
-                          id="login-form_password"
-                          placeholder="Password"
-                          type="password"
-                          value=""
-                        />
-                        <span
-                          class="ant-input-suffix"
-                        >
-                          <span
-                            aria-label="eye-invisible"
-                            class="anticon anticon-eye-invisible ant-input-password-icon"
-                            role="img"
-                            tabindex="-1"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              data-icon="eye-invisible"
-                              fill="currentColor"
-                              focusable="false"
-                              height="1em"
-                              viewBox="64 64 896 896"
-                              width="1em"
-                            >
-                              <path
-                                d="M942.2 486.2Q889.47 375.11 816.7 305l-50.88 50.88C807.31 395.53 843.45 447.4 874.7 512 791.5 684.2 673.4 766 512 766q-72.67 0-133.87-22.38L323 798.75Q408 838 512 838q288.3 0 430.2-300.3a60.29 60.29 0 000-51.5zm-63.57-320.64L836 122.88a8 8 0 00-11.32 0L715.31 232.2Q624.86 186 512 186q-288.3 0-430.2 300.3a60.3 60.3 0 000 51.5q56.69 119.4 136.5 191.41L112.48 835a8 8 0 000 11.31L155.17 889a8 8 0 0011.31 0l712.15-712.12a8 8 0 000-11.32zM149.3 512C232.6 339.8 350.7 258 512 258c54.54 0 104.13 9.36 149.12 28.39l-70.3 70.3a176 176 0 00-238.13 238.13l-83.42 83.42C223.1 637.49 183.3 582.28 149.3 512zm246.7 0a112.11 112.11 0 01146.2-106.69L401.31 546.2A112 112 0 01396 512z"
-                              />
-                              <path
-                                d="M508 624c-3.46 0-6.87-.16-10.25-.47l-52.82 52.82a176.09 176.09 0 00227.42-227.42l-52.82 52.82c.31 3.38.47 6.79.47 10.25a111.94 111.94 0 01-112 112z"
-                              />
-                            </svg>
-                          </span>
-                        </span>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="ant-row ant-form-item"
+                County Resources
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div
+          class="ant-col ant-col-6"
+        >
+          <h2>
+            Contacts
+          </h2>
+          <p>
+            Afya House, Cathedral Road, P.O. Box:30016–00100, Nairobi, Kenya
+          </p>
+          <ul>
+            <li>
+              Phone:
+              <a
+                href="tel:+25x-xx-xxxxx"
+                rel="noreferrer"
+                target="_blank"
               >
-                <div
-                  class="ant-col ant-form-item-control"
-                >
-                  <div
-                    class="ant-form-item-control-input"
-                  >
-                    <div
-                      class="ant-form-item-control-input-content"
-                    >
-                      <a
-                        class="login-form-forgot"
-                        href="/forgot-password"
-                      >
-                        Forgot password
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="ant-row ant-form-item"
+                +25x-xx-xxxxx
+              </a>
+            </li>
+            <li>
+              Email:
+              <a
+                href="mailto:xxx@health.go.ke"
+                rel="noreferrer"
+                target="_blank"
               >
-                <div
-                  class="ant-col ant-form-item-control"
-                >
-                  <div
-                    class="ant-form-item-control-input"
-                  >
-                    <div
-                      class="ant-form-item-control-input-content"
-                    >
-                      <button
-                        class="ant-btn ant-btn-primary"
-                        type="submit"
-                      >
-                        <span>
-                          Log in
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <p
-                class="disclaimer"
+                xxx@health.go.ke
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div
+        class="ant-row ant-row-space-between ant-row-top end"
+      >
+        <div
+          class="ant-col"
+        >
+          <ul
+            class="list-inline"
+          >
+            <li>
+              <a
+                href="#"
+                rel="noreferrer"
+                target="_blank"
               >
-                The user is accountable for his/her account and in case there are any changes (Transfers, retirement, any kind of leave, resignation etc) this should be communicated to the County Administrator or National Super Admin who might be able to assign the roles to the new officer.
-              </p>
-            </form>
-          </div>
+                Privacy Policy
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Terms & Conditions
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Cookie Policy
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div
+          class="ant-col"
+        >
+          © 2022 — Ministry of Health
         </div>
       </div>
     </div>
@@ -290,394 +531,634 @@ exports[`Login and Registration test if the registration form exists: Registrati
     class="ant-row  layout"
   >
     <div
-      class="body"
+      class="ant-row ant-row-space-between ant-row-middle header"
     >
       <div
-        id="login"
+        class="ant-col"
       >
-        <div
-          class="background"
-          style="background-image: url(/assets/header-image-background.jpg); background-size: cover; background-position: center; background-repeat: no-repeat;"
-        />
         <div
           class="logo"
         >
           <a
             href="/"
           >
-            <img
-              alt="/logo.png"
-              src="/logo.png"
-            />
-            <h1>
-              RUSH
-              <small>
-                Kenya Rural and Urban Sanitation & Hygiene Monitoring Platform
-              </small>
-            </h1>
+            <div
+              class="logo-wrapper"
+            >
+              <img
+                alt="/logo.png"
+                class="small-logo"
+                src="/logo.png"
+              />
+              <svg
+                fill="none"
+                height="46"
+                viewBox="0 0 4 51"
+                width="4"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  fill="black"
+                  height="16.6667"
+                  transform="matrix(-1 0 0 1 4 0.5)"
+                  width="4"
+                />
+                <rect
+                  fill="#BE0000"
+                  height="16.6667"
+                  transform="matrix(-1 0 0 1 4 17.1665)"
+                  width="4"
+                />
+                <rect
+                  fill="#006818"
+                  height="16.6667"
+                  transform="matrix(-1 0 0 1 4 33.8335)"
+                  width="4"
+                />
+                <rect
+                  fill="white"
+                  height="2.38095"
+                  transform="matrix(-1 0 0 1 4 16.373)"
+                  width="4"
+                />
+                <rect
+                  fill="white"
+                  height="2.38095"
+                  transform="matrix(-1 0 0 1 4 33.0396)"
+                  width="4"
+                />
+              </svg>
+              <h1>
+                RUSH
+                <small>
+                  Kenya Rural and Urban Sanitation & Hygiene Monitoring Platform
+                </small>
+              </h1>
+            </div>
           </a>
         </div>
+      </div>
+      <div
+        class="ant-col"
+      >
+        <div
+          class="navigation"
+        >
+          <div
+            class="ant-space ant-space-horizontal ant-space-align-center"
+          >
+            <div
+              class="ant-space-item"
+              style="margin-right: 8px;"
+            >
+              <a
+                class="dev"
+                href="/reports"
+              >
+                Reports
+              </a>
+            </div>
+            <div
+              class="ant-space-item"
+            >
+              <a
+                class="ant-dropdown-trigger ant-dropdown-link"
+              >
+                Dashboards
+                <svg
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 448 512"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="account"
+        >
+          <a
+            href="/login"
+          >
+            <button
+              class="ant-btn ant-btn-round ant-btn-primary"
+              type="button"
+            >
+              <span>
+                Log in
+              </span>
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div
+      class="body"
+    >
+      <div
+        id="login"
+      >
         <div
           class="ant-row ant-row-middle wrapper"
         >
           <div
-            class="ant-col ant-col-12 left-side"
-          >
-            <div
-              class="title"
-            >
-              <h1
-                class="welcome"
-              >
-                Real Time Management Information System (RTMIS) for Monitoring Sanitation and Hygiene Indicators across Kenya
-              </h1>
-            </div>
-          </div>
-          <div
-            class="ant-col ant-col-12 right-side"
+            class="ant-col ant-col-24 right-side"
           >
             <div>
-              <h1
-                data-testid="welcome-title"
-              >
-                Welcome to RUSH, John Doe
-                <br />
-                <small>
-                  Please set your password for the platform.
-                  <br />
-                  Your password must include:
-                </small>
-              </h1>
               <div
-                class="ant-checkbox-group"
+                class="login-form-container"
               >
-                <label
-                  class="ant-checkbox-wrapper ant-checkbox-group-item"
+                <div
+                  class="login-content"
                 >
-                  <span
-                    class="ant-checkbox"
+                  <h1
+                    data-testid="welcome-title"
                   >
-                    <input
-                      class="ant-checkbox-input"
-                      type="checkbox"
-                      value="Lowercase Character"
-                    />
-                    <span
-                      class="ant-checkbox-inner"
-                    />
-                  </span>
-                  <span>
-                    Lowercase Character
-                  </span>
-                </label>
-                <label
-                  class="ant-checkbox-wrapper ant-checkbox-group-item"
+                    Welcome to RUSH, John Doe
+                  </h1>
+                  <p
+                    class="contact-text"
+                  >
+                    Please set your password for the platform.
+                    <br />
+                    Your password must include:
+                  </p>
+                </div>
+                <div
+                  class="ant-checkbox-group"
                 >
-                  <span
-                    class="ant-checkbox"
+                  <label
+                    class="ant-checkbox-wrapper ant-checkbox-group-item"
                   >
-                    <input
-                      class="ant-checkbox-input"
-                      type="checkbox"
-                      value="Numbers"
-                    />
                     <span
-                      class="ant-checkbox-inner"
-                    />
-                  </span>
-                  <span>
-                    Numbers
-                  </span>
-                </label>
-                <label
-                  class="ant-checkbox-wrapper ant-checkbox-group-item"
+                      class="ant-checkbox"
+                    >
+                      <input
+                        class="ant-checkbox-input"
+                        type="checkbox"
+                        value="Lowercase Character"
+                      />
+                      <span
+                        class="ant-checkbox-inner"
+                      />
+                    </span>
+                    <span>
+                      Lowercase Character
+                    </span>
+                  </label>
+                  <label
+                    class="ant-checkbox-wrapper ant-checkbox-group-item"
+                  >
+                    <span
+                      class="ant-checkbox"
+                    >
+                      <input
+                        class="ant-checkbox-input"
+                        type="checkbox"
+                        value="Numbers"
+                      />
+                      <span
+                        class="ant-checkbox-inner"
+                      />
+                    </span>
+                    <span>
+                      Numbers
+                    </span>
+                  </label>
+                  <label
+                    class="ant-checkbox-wrapper ant-checkbox-group-item"
+                  >
+                    <span
+                      class="ant-checkbox"
+                    >
+                      <input
+                        class="ant-checkbox-input"
+                        type="checkbox"
+                        value="Special Character ( -._!\`'#%&,:;<>=@{}~$()*+/?[]^|] )"
+                      />
+                      <span
+                        class="ant-checkbox-inner"
+                      />
+                    </span>
+                    <span>
+                      Special Character ( -._!\`'#%&,:;&lt;&gt;=@{}~$()*+/?[]^|] )
+                    </span>
+                  </label>
+                  <label
+                    class="ant-checkbox-wrapper ant-checkbox-group-item"
+                  >
+                    <span
+                      class="ant-checkbox"
+                    >
+                      <input
+                        class="ant-checkbox-input"
+                        type="checkbox"
+                        value="Uppercase Character"
+                      />
+                      <span
+                        class="ant-checkbox-inner"
+                      />
+                    </span>
+                    <span>
+                      Uppercase Character
+                    </span>
+                  </label>
+                  <label
+                    class="ant-checkbox-wrapper ant-checkbox-group-item"
+                  >
+                    <span
+                      class="ant-checkbox"
+                    >
+                      <input
+                        class="ant-checkbox-input"
+                        type="checkbox"
+                        value="No White Space"
+                      />
+                      <span
+                        class="ant-checkbox-inner"
+                      />
+                    </span>
+                    <span>
+                      No White Space
+                    </span>
+                  </label>
+                  <label
+                    class="ant-checkbox-wrapper ant-checkbox-group-item"
+                  >
+                    <span
+                      class="ant-checkbox"
+                    >
+                      <input
+                        class="ant-checkbox-input"
+                        type="checkbox"
+                        value="Minimum 8 Characters"
+                      />
+                      <span
+                        class="ant-checkbox-inner"
+                      />
+                    </span>
+                    <span>
+                      Minimum 8 Characters
+                    </span>
+                  </label>
+                </div>
+                <form
+                  class="ant-form ant-form-vertical"
+                  id="registration-form"
                 >
-                  <span
-                    class="ant-checkbox"
+                  <div
+                    class="ant-form-item"
                   >
-                    <input
-                      class="ant-checkbox-input"
-                      type="checkbox"
-                      value="Special Character ( -._!\`'#%&,:;<>=@{}~$()*+/?[]^|] )"
-                    />
-                    <span
-                      class="ant-checkbox-inner"
-                    />
-                  </span>
-                  <span>
-                    Special Character ( -._!\`'#%&,:;&lt;&gt;=@{}~$()*+/?[]^|] )
-                  </span>
-                </label>
-                <label
-                  class="ant-checkbox-wrapper ant-checkbox-group-item"
-                >
-                  <span
-                    class="ant-checkbox"
+                    <div
+                      class="ant-row ant-form-item-row"
+                    >
+                      <div
+                        class="ant-col ant-form-item-label"
+                      >
+                        <label
+                          class="ant-form-item-required"
+                          for="registration-form_password"
+                          title="Password"
+                        >
+                          Password
+                        </label>
+                      </div>
+                      <div
+                        class="ant-col ant-form-item-control"
+                      >
+                        <div
+                          class="ant-form-item-control-input"
+                        >
+                          <div
+                            class="ant-form-item-control-input-content"
+                          >
+                            <span
+                              class="ant-input-affix-wrapper ant-input-password ant-input-affix-wrapper-has-feedback"
+                            >
+                              <input
+                                aria-required="true"
+                                class="ant-input"
+                                id="registration-form_password"
+                                placeholder="Password"
+                                type="password"
+                                value=""
+                              />
+                              <span
+                                class="ant-input-suffix"
+                              >
+                                <span
+                                  aria-label="eye-invisible"
+                                  class="anticon anticon-eye-invisible ant-input-password-icon"
+                                  role="img"
+                                  tabindex="-1"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    data-icon="eye-invisible"
+                                    fill="currentColor"
+                                    focusable="false"
+                                    height="1em"
+                                    viewBox="64 64 896 896"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M942.2 486.2Q889.47 375.11 816.7 305l-50.88 50.88C807.31 395.53 843.45 447.4 874.7 512 791.5 684.2 673.4 766 512 766q-72.67 0-133.87-22.38L323 798.75Q408 838 512 838q288.3 0 430.2-300.3a60.29 60.29 0 000-51.5zm-63.57-320.64L836 122.88a8 8 0 00-11.32 0L715.31 232.2Q624.86 186 512 186q-288.3 0-430.2 300.3a60.3 60.3 0 000 51.5q56.69 119.4 136.5 191.41L112.48 835a8 8 0 000 11.31L155.17 889a8 8 0 0011.31 0l712.15-712.12a8 8 0 000-11.32zM149.3 512C232.6 339.8 350.7 258 512 258c54.54 0 104.13 9.36 149.12 28.39l-70.3 70.3a176 176 0 00-238.13 238.13l-83.42 83.42C223.1 637.49 183.3 582.28 149.3 512zm246.7 0a112.11 112.11 0 01146.2-106.69L401.31 546.2A112 112 0 01396 512z"
+                                    />
+                                    <path
+                                      d="M508 624c-3.46 0-6.87-.16-10.25-.47l-52.82 52.82a176.09 176.09 0 00227.42-227.42l-52.82 52.82c.31 3.38.47 6.79.47 10.25a111.94 111.94 0 01-112 112z"
+                                    />
+                                  </svg>
+                                </span>
+                              </span>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="ant-form-item"
                   >
-                    <input
-                      class="ant-checkbox-input"
-                      type="checkbox"
-                      value="Uppercase Character"
-                    />
-                    <span
-                      class="ant-checkbox-inner"
-                    />
-                  </span>
-                  <span>
-                    Uppercase Character
-                  </span>
-                </label>
-                <label
-                  class="ant-checkbox-wrapper ant-checkbox-group-item"
-                >
-                  <span
-                    class="ant-checkbox"
+                    <div
+                      class="ant-row ant-form-item-row"
+                    >
+                      <div
+                        class="ant-col ant-form-item-label"
+                      >
+                        <label
+                          class="ant-form-item-required"
+                          for="registration-form_confirm"
+                          title="Confirm Password"
+                        >
+                          Confirm Password
+                        </label>
+                      </div>
+                      <div
+                        class="ant-col ant-form-item-control"
+                      >
+                        <div
+                          class="ant-form-item-control-input"
+                        >
+                          <div
+                            class="ant-form-item-control-input-content"
+                          >
+                            <span
+                              class="ant-input-affix-wrapper ant-input-password ant-input-affix-wrapper-has-feedback"
+                            >
+                              <input
+                                aria-required="true"
+                                class="ant-input"
+                                id="registration-form_confirm"
+                                placeholder="Confirm Password"
+                                type="password"
+                                value=""
+                              />
+                              <span
+                                class="ant-input-suffix"
+                              >
+                                <span
+                                  aria-label="eye-invisible"
+                                  class="anticon anticon-eye-invisible ant-input-password-icon"
+                                  role="img"
+                                  tabindex="-1"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    data-icon="eye-invisible"
+                                    fill="currentColor"
+                                    focusable="false"
+                                    height="1em"
+                                    viewBox="64 64 896 896"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M942.2 486.2Q889.47 375.11 816.7 305l-50.88 50.88C807.31 395.53 843.45 447.4 874.7 512 791.5 684.2 673.4 766 512 766q-72.67 0-133.87-22.38L323 798.75Q408 838 512 838q288.3 0 430.2-300.3a60.29 60.29 0 000-51.5zm-63.57-320.64L836 122.88a8 8 0 00-11.32 0L715.31 232.2Q624.86 186 512 186q-288.3 0-430.2 300.3a60.3 60.3 0 000 51.5q56.69 119.4 136.5 191.41L112.48 835a8 8 0 000 11.31L155.17 889a8 8 0 0011.31 0l712.15-712.12a8 8 0 000-11.32zM149.3 512C232.6 339.8 350.7 258 512 258c54.54 0 104.13 9.36 149.12 28.39l-70.3 70.3a176 176 0 00-238.13 238.13l-83.42 83.42C223.1 637.49 183.3 582.28 149.3 512zm246.7 0a112.11 112.11 0 01146.2-106.69L401.31 546.2A112 112 0 01396 512z"
+                                    />
+                                    <path
+                                      d="M508 624c-3.46 0-6.87-.16-10.25-.47l-52.82 52.82a176.09 176.09 0 00227.42-227.42l-52.82 52.82c.31 3.38.47 6.79.47 10.25a111.94 111.94 0 01-112 112z"
+                                    />
+                                  </svg>
+                                </span>
+                              </span>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="ant-form-item"
                   >
-                    <input
-                      class="ant-checkbox-input"
-                      type="checkbox"
-                      value="No White Space"
-                    />
-                    <span
-                      class="ant-checkbox-inner"
-                    />
-                  </span>
-                  <span>
-                    No White Space
-                  </span>
-                </label>
-                <label
-                  class="ant-checkbox-wrapper ant-checkbox-group-item"
-                >
-                  <span
-                    class="ant-checkbox"
+                    <div
+                      class="ant-row ant-form-item-row"
+                    >
+                      <div
+                        class="ant-col ant-form-item-control"
+                      >
+                        <div
+                          class="ant-form-item-control-input"
+                        >
+                          <div
+                            class="ant-form-item-control-input-content"
+                          >
+                            <button
+                              class="ant-btn ant-btn-round ant-btn-primary"
+                              type="submit"
+                            >
+                              <span>
+                                Set New Password
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <p
+                    class="disclaimer"
                   >
-                    <input
-                      class="ant-checkbox-input"
-                      type="checkbox"
-                      value="Minimum 8 Characters"
-                    />
-                    <span
-                      class="ant-checkbox-inner"
-                    />
-                  </span>
-                  <span>
-                    Minimum 8 Characters
-                  </span>
-                </label>
+                    The user is accountable for his/her account and in case there are any changes (Transfers, retirement, any kind of leave, resignation etc) this should be communicated to the County Administrator or National Super Admin who might be able to assign the roles to the new officer.
+                  </p>
+                </form>
               </div>
-              <form
-                class="ant-form ant-form-vertical"
-                id="registration-form"
-              >
-                <div
-                  class="ant-row ant-form-item"
-                >
-                  <div
-                    class="ant-col ant-form-item-label"
-                  >
-                    <label
-                      class="ant-form-item-required"
-                      for="registration-form_password"
-                      title="Password"
-                    >
-                      Password
-                    </label>
-                  </div>
-                  <div
-                    class="ant-col ant-form-item-control"
-                  >
-                    <div
-                      class="ant-form-item-control-input"
-                    >
-                      <div
-                        class="ant-form-item-control-input-content"
-                      >
-                        <span
-                          class="ant-input-affix-wrapper ant-input-password"
-                        >
-                          <span
-                            class="ant-input-prefix"
-                          >
-                            <span
-                              aria-label="user"
-                              class="anticon anticon-user site-form-item-icon"
-                              role="img"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                data-icon="user"
-                                fill="currentColor"
-                                focusable="false"
-                                height="1em"
-                                viewBox="64 64 896 896"
-                                width="1em"
-                              >
-                                <path
-                                  d="M858.5 763.6a374 374 0 00-80.6-119.5 375.63 375.63 0 00-119.5-80.6c-.4-.2-.8-.3-1.2-.5C719.5 518 760 444.7 760 362c0-137-111-248-248-248S264 225 264 362c0 82.7 40.5 156 102.8 201.1-.4.2-.8.3-1.2.5-44.8 18.9-85 46-119.5 80.6a375.63 375.63 0 00-80.6 119.5A371.7 371.7 0 00136 901.8a8 8 0 008 8.2h60c4.4 0 7.9-3.5 8-7.8 2-77.2 33-149.5 87.8-204.3 56.7-56.7 132-87.9 212.2-87.9s155.5 31.2 212.2 87.9C779 752.7 810 825 812 902.2c.1 4.4 3.6 7.8 8 7.8h60a8 8 0 008-8.2c-1-47.8-10.9-94.3-29.5-138.2zM512 534c-45.9 0-89.1-17.9-121.6-50.4S340 407.9 340 362c0-45.9 17.9-89.1 50.4-121.6S466.1 190 512 190s89.1 17.9 121.6 50.4S684 316.1 684 362c0 45.9-17.9 89.1-50.4 121.6S557.9 534 512 534z"
-                                />
-                              </svg>
-                            </span>
-                          </span>
-                          <input
-                            action="click"
-                            class="ant-input"
-                            id="registration-form_password"
-                            placeholder="Password"
-                            type="password"
-                          />
-                          <span
-                            class="ant-input-suffix"
-                          >
-                            <span
-                              aria-label="eye-invisible"
-                              class="anticon anticon-eye-invisible ant-input-password-icon"
-                              role="img"
-                              tabindex="-1"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                data-icon="eye-invisible"
-                                fill="currentColor"
-                                focusable="false"
-                                height="1em"
-                                viewBox="64 64 896 896"
-                                width="1em"
-                              >
-                                <path
-                                  d="M942.2 486.2Q889.47 375.11 816.7 305l-50.88 50.88C807.31 395.53 843.45 447.4 874.7 512 791.5 684.2 673.4 766 512 766q-72.67 0-133.87-22.38L323 798.75Q408 838 512 838q288.3 0 430.2-300.3a60.29 60.29 0 000-51.5zm-63.57-320.64L836 122.88a8 8 0 00-11.32 0L715.31 232.2Q624.86 186 512 186q-288.3 0-430.2 300.3a60.3 60.3 0 000 51.5q56.69 119.4 136.5 191.41L112.48 835a8 8 0 000 11.31L155.17 889a8 8 0 0011.31 0l712.15-712.12a8 8 0 000-11.32zM149.3 512C232.6 339.8 350.7 258 512 258c54.54 0 104.13 9.36 149.12 28.39l-70.3 70.3a176 176 0 00-238.13 238.13l-83.42 83.42C223.1 637.49 183.3 582.28 149.3 512zm246.7 0a112.11 112.11 0 01146.2-106.69L401.31 546.2A112 112 0 01396 512z"
-                                />
-                                <path
-                                  d="M508 624c-3.46 0-6.87-.16-10.25-.47l-52.82 52.82a176.09 176.09 0 00227.42-227.42l-52.82 52.82c.31 3.38.47 6.79.47 10.25a111.94 111.94 0 01-112 112z"
-                                />
-                              </svg>
-                            </span>
-                          </span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="ant-row ant-form-item"
-                >
-                  <div
-                    class="ant-col ant-form-item-label"
-                  >
-                    <label
-                      class="ant-form-item-required"
-                      for="registration-form_confirm"
-                      title="Confirm Password"
-                    >
-                      Confirm Password
-                    </label>
-                  </div>
-                  <div
-                    class="ant-col ant-form-item-control"
-                  >
-                    <div
-                      class="ant-form-item-control-input"
-                    >
-                      <div
-                        class="ant-form-item-control-input-content"
-                      >
-                        <span
-                          class="ant-input-affix-wrapper ant-input-password"
-                        >
-                          <span
-                            class="ant-input-prefix"
-                          >
-                            <span
-                              aria-label="lock"
-                              class="anticon anticon-lock site-form-item-icon"
-                              role="img"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                data-icon="lock"
-                                fill="currentColor"
-                                focusable="false"
-                                height="1em"
-                                viewBox="64 64 896 896"
-                                width="1em"
-                              >
-                                <path
-                                  d="M832 464h-68V240c0-70.7-57.3-128-128-128H388c-70.7 0-128 57.3-128 128v224h-68c-17.7 0-32 14.3-32 32v384c0 17.7 14.3 32 32 32h640c17.7 0 32-14.3 32-32V496c0-17.7-14.3-32-32-32zM332 240c0-30.9 25.1-56 56-56h248c30.9 0 56 25.1 56 56v224H332V240zm460 600H232V536h560v304zM484 701v53c0 4.4 3.6 8 8 8h40c4.4 0 8-3.6 8-8v-53a48.01 48.01 0 10-56 0z"
-                                />
-                              </svg>
-                            </span>
-                          </span>
-                          <input
-                            action="click"
-                            class="ant-input"
-                            id="registration-form_confirm"
-                            placeholder="Confirm Password"
-                            type="password"
-                          />
-                          <span
-                            class="ant-input-suffix"
-                          >
-                            <span
-                              aria-label="eye-invisible"
-                              class="anticon anticon-eye-invisible ant-input-password-icon"
-                              role="img"
-                              tabindex="-1"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                data-icon="eye-invisible"
-                                fill="currentColor"
-                                focusable="false"
-                                height="1em"
-                                viewBox="64 64 896 896"
-                                width="1em"
-                              >
-                                <path
-                                  d="M942.2 486.2Q889.47 375.11 816.7 305l-50.88 50.88C807.31 395.53 843.45 447.4 874.7 512 791.5 684.2 673.4 766 512 766q-72.67 0-133.87-22.38L323 798.75Q408 838 512 838q288.3 0 430.2-300.3a60.29 60.29 0 000-51.5zm-63.57-320.64L836 122.88a8 8 0 00-11.32 0L715.31 232.2Q624.86 186 512 186q-288.3 0-430.2 300.3a60.3 60.3 0 000 51.5q56.69 119.4 136.5 191.41L112.48 835a8 8 0 000 11.31L155.17 889a8 8 0 0011.31 0l712.15-712.12a8 8 0 000-11.32zM149.3 512C232.6 339.8 350.7 258 512 258c54.54 0 104.13 9.36 149.12 28.39l-70.3 70.3a176 176 0 00-238.13 238.13l-83.42 83.42C223.1 637.49 183.3 582.28 149.3 512zm246.7 0a112.11 112.11 0 01146.2-106.69L401.31 546.2A112 112 0 01396 512z"
-                                />
-                                <path
-                                  d="M508 624c-3.46 0-6.87-.16-10.25-.47l-52.82 52.82a176.09 176.09 0 00227.42-227.42l-52.82 52.82c.31 3.38.47 6.79.47 10.25a111.94 111.94 0 01-112 112z"
-                                />
-                              </svg>
-                            </span>
-                          </span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="ant-row ant-form-item"
-                >
-                  <div
-                    class="ant-col ant-form-item-control"
-                  >
-                    <div
-                      class="ant-form-item-control-input"
-                    >
-                      <div
-                        class="ant-form-item-control-input-content"
-                      >
-                        <button
-                          class="ant-btn ant-btn-primary"
-                          type="submit"
-                        >
-                          <span>
-                            Set New Password
-                          </span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <p
-                  class="disclaimer"
-                >
-                  The user is accountable for his/her account and in case there are any changes (Transfers, retirement, any kind of leave, resignation etc) this should be communicated to the County Administrator or National Super Admin who might be able to assign the roles to the new officer.
-                </p>
-              </form>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="footer"
+    >
+      <div
+        class="ant-row ant-row-space-between ant-row-top"
+      >
+        <div
+          class="ant-col about-wrapper ant-col-lg-8"
+        >
+          <img
+            alt="/logo.png"
+            class="small-logo"
+            src="/logo.png"
+          />
+          <p>
+            All the data contained in the RUSH platform is aggregated from both primary and secondary data sources from the 47 counties in Kenya. The data is updated on a monthly basis.
+          </p>
+        </div>
+        <div
+          class="ant-col ant-col-4"
+        >
+          <h2>
+            External Links
+          </h2>
+          <ul>
+            <li>
+              <a
+                href="https://washdata.org/how-we-work/about-jmp#:~:text=Background,hygiene%20(WASH)%20since%201990"
+                rel="noreferrer"
+                target="_blank"
+              >
+                JMP
+              </a>
+            </li>
+            <li>
+              <a
+                href=" http://wash.health.go.ke/clts/index.jsp"
+                rel="noreferrer"
+                target="_blank"
+              >
+                CLTS RTMIS
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.who.int/teams/environment-climate-change-and-health/water-sanitation-and-health/monitoring-and-evidence/wash-systems-monitoring/un-water-global-analysis-and-assessment-of-sanitation-and-drinking-water"
+                rel="noreferrer"
+                target="_blank"
+              >
+                GLAAS
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div
+          class="ant-col ant-col-4"
+        >
+          <h2>
+            Resources
+          </h2>
+          <ul>
+            <li>
+              <a
+                href="#"
+                rel="noreferrer"
+                target="_blank"
+              >
+                International Resources
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                rel="noreferrer"
+                target="_blank"
+              >
+                National Resources
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                rel="noreferrer"
+                target="_blank"
+              >
+                County Resources
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div
+          class="ant-col ant-col-6"
+        >
+          <h2>
+            Contacts
+          </h2>
+          <p>
+            Afya House, Cathedral Road, P.O. Box:30016–00100, Nairobi, Kenya
+          </p>
+          <ul>
+            <li>
+              Phone:
+              <a
+                href="tel:+25x-xx-xxxxx"
+                rel="noreferrer"
+                target="_blank"
+              >
+                +25x-xx-xxxxx
+              </a>
+            </li>
+            <li>
+              Email:
+              <a
+                href="mailto:xxx@health.go.ke"
+                rel="noreferrer"
+                target="_blank"
+              >
+                xxx@health.go.ke
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div
+        class="ant-row ant-row-space-between ant-row-top end"
+      >
+        <div
+          class="ant-col"
+        >
+          <ul
+            class="list-inline"
+          >
+            <li>
+              <a
+                href="#"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Privacy Policy
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Terms & Conditions
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Cookie Policy
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div
+          class="ant-col"
+        >
+          © 2022 — Ministry of Health
         </div>
       </div>
     </div>

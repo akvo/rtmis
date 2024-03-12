@@ -2,16 +2,17 @@ import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import { useParams } from "react-router-dom";
 import { Row, Col, Tabs, Affix, Select, Space } from "antd";
-import { uiText, store, config, api } from "../../lib";
+import { uiText, store, api } from "../../lib";
 import { capitalize } from "lodash";
 import { TableVisual } from "./components";
 import {
   RemoveFiltersButton,
-  AdvancedFiltersButton,
+  // AdvancedFiltersButton,
   AdvancedFilters,
 } from "../../components";
 import { generateAdvanceFilterURL } from "../../util/filter";
 import { useNotification } from "../../util/hooks";
+import { useCallback } from "react";
 
 const { TabPane } = Tabs;
 
@@ -25,11 +26,11 @@ const GlassReportDashboard = () => {
   const [loading, setLoading] = useState(false);
   const [activeItem, setActiveItem] = useState(null);
   const [wait, setWait] = useState(true);
+  const [countiesAdm, setCountiesAdm] = useState([]);
   const { notify } = useNotification();
 
   const { active: activeLang } = store.useState((s) => s.language);
   const advancedFilters = store.useState((s) => s.advancedFilters);
-  const countiesAdm = window.dbadm.filter((d) => d.parent === 1);
   const [selectedCounty, setSelectedCounty] = useState(null);
   const [allData, setAllData] = useState([]);
 
@@ -37,12 +38,22 @@ const GlassReportDashboard = () => {
     return uiText[activeLang];
   }, [activeLang]);
 
-  useEffect(() => {
-    store.update((s) => {
-      s.administration = [config.fn.administration(1)];
-    });
-    setWait(false);
+  const fetchUserAdmin = useCallback(async () => {
+    try {
+      const { data: countyAdm } = await api.get(`administration/${1}`);
+      setCountiesAdm(countyAdm.children);
+      store.update((s) => {
+        s.administration = [countyAdm];
+      });
+      setWait(false);
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchUserAdmin();
+  }, [fetchUserAdmin]);
 
   useEffect(() => {
     if (selectedForm?.id) {
@@ -90,13 +101,13 @@ const GlassReportDashboard = () => {
       setDataset(allData);
     }
     if (selectedCounty && !Object.keys(dataset).length) {
-      const countyName = window.dbadm
-        .find((d) => d.id === selectedCounty)
-        ?.name?.toLowerCase();
-      const filterCounties = allData.counties.filter(
-        (c) => c.loc.toLowerCase() === countyName
-      );
-      setDataset({ ...allData, counties: filterCounties });
+      api.get(`administrations/${selectedCounty}`).then((res) => {
+        const countyName = res.name?.toLowerCase();
+        const filterCounties = allData.counties.filter(
+          (c) => c.loc.toLowerCase() === countyName
+        );
+        setDataset({ ...allData, counties: filterCounties });
+      });
     }
   }, [allData, selectedCounty, dataset]);
 
@@ -163,7 +174,7 @@ const GlassReportDashboard = () => {
                     ))}
                   </Select>
                   <RemoveFiltersButton />
-                  <AdvancedFiltersButton />
+                  {/* <AdvancedFiltersButton /> */}
                 </Space>
               </Col>
             </Row>

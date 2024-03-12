@@ -1,5 +1,4 @@
 # Create your views here.
-import os
 import datetime
 from math import ceil
 from pathlib import Path
@@ -25,6 +24,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from api.v1.v1_forms.models import FormApprovalAssignment
+from api.v1.v1_data.models import PendingDataApproval
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Access, Administration, Levels
 from api.v1.v1_users.models import SystemUser, Organisation, \
@@ -42,18 +43,16 @@ from api.v1.v1_users.functions import check_form_approval_assigned, \
 from api.v1.v1_forms.models import Forms
 # from api.v1.v1_data.models import PendingDataBatch, \
 #     PendingDataApproval, FormData
-from rtmis.settings import REST_FRAMEWORK
+from rtmis.settings import REST_FRAMEWORK, WEBDOMAIN
 from utils.custom_permissions import IsSuperAdmin, IsAdmin
 from utils.custom_serializer_fields import validate_serializers_message
 from utils.default_serializers import DefaultResponseSerializer
 from utils.email_helper import send_email
 from utils.email_helper import ListEmailTypeRequestSerializer, EmailTypes
 
-webdomain = os.environ["WEBDOMAIN"]
-
 
 def send_email_to_user(type, user, request):
-    url = f"{webdomain}/login/{signing.dumps(user.pk)}"
+    url = f"{WEBDOMAIN}/login/{signing.dumps(user.pk)}"
     user = Access.objects.filter(user=user.pk).first()
     admin = Access.objects.filter(user=request.user.pk).first()
     user_forms = Forms.objects.filter(
@@ -289,13 +288,6 @@ def add_user(request, version):
             request.data.update({
                 "forms": []
             })
-    if request.data.get("role") == UserRoleTypes.read_only:
-        request.data.update({"forms": []})
-        if not request.data.get("administration"):
-            request.data.update({
-                "administration":
-                Administration.objects.filter(level__level=0).first().id
-            })
     serializer = AddEditUserSerializer(data=request.data,
                                        context={'user': request.user})
     if not serializer.is_valid():
@@ -503,8 +495,9 @@ class UserEditDeleteView(APIView):
         if login_user.id == instance.id:
             return Response({'message': "Could not do self deletion"},
                             status=status.HTTP_409_CONFLICT)
-        instance.deleted_at = timezone.now()
-        instance.save()
+        FormApprovalAssignment.objects.filter(user=instance).delete()
+        PendingDataApproval.objects.filter(user=instance).delete()
+        instance.soft_delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @extend_schema(
@@ -516,6 +509,8 @@ class UserEditDeleteView(APIView):
         summary='To update user')
     def put(self, request, user_id, version):
         if request.data.get("role") == UserRoleTypes.super_admin:
+            FormApprovalAssignment.objects.filter(user_id=user_id).delete()
+            PendingDataApproval.objects.filter(user_id=user_id).delete()
             request.data.update({
                 "administration":
                 Administration.objects.filter(level__level=0).first().id
@@ -571,7 +566,7 @@ def forgot_password(request, version):
             {'message': validate_serializers_message(serializer.errors)},
             status=status.HTTP_400_BAD_REQUEST)
     user: SystemUser = serializer.validated_data.get('email')
-    url = f"{webdomain}/login/{signing.dumps(user.pk)}"
+    url = f"{WEBDOMAIN}/login/{signing.dumps(user.pk)}"
     data = {'button_url': url, 'send_to': [user.email]}
     send_email(type=EmailTypes.user_forgot_password, context=data)
     return Response(

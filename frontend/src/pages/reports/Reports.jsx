@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useMemo } from "react";
 import "./style.scss";
 import { Row, Col, Card, Button } from "antd";
-import { store, config } from "../../lib";
+import { store, config, uiText } from "../../lib";
 import { VisualisationFilters } from "../../components";
 import { Link } from "react-router-dom";
 
@@ -10,10 +10,17 @@ const Reports = () => {
 
   const filtered = config?.templates.filter((t) => t.formId === selectedForm);
 
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
+
   return (
     <div id="reports">
       <VisualisationFilters persist={true} />
-      <h2>Choose a template</h2>
+      <h2>{text.chooseTemplate}</h2>
       {filtered.length ? (
         <Row gutter={[16, 16]}>
           {filtered.map((t, tI) => (
@@ -22,14 +29,14 @@ const Reports = () => {
                 <h3>{t.name}</h3>
                 <h4>{t.title}</h4>
                 <Link to={`/report/${t.id}`}>
-                  <Button type="primary">Select</Button>
+                  <Button type="primary">{text.selectText}</Button>
                 </Link>
               </Card>
             </Col>
           ))}
         </Row>
       ) : (
-        <p className="text-muted">No templates found</p>
+        <p className="text-muted">{text.noTemplate}</p>
       )}
     </div>
   );

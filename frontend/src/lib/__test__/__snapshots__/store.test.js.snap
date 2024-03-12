@@ -2,28 +2,7 @@
 
 exports[`Store check the initial state 1`] = `
 Object {
-  "administration": Array [
-    Object {
-      "childLevelName": "County",
-      "children": Array [
-        Object {
-          "full_name": "Indonesia|Jakarta",
-          "id": 2,
-          "level": 1,
-          "name": "Jakarta",
-          "parent": 1,
-          "path": "1.",
-        },
-      ],
-      "full_name": "Indonesia",
-      "id": 1,
-      "level": 0,
-      "levelName": "National",
-      "name": "Indonesia",
-      "parent": null,
-      "path": null,
-    },
-  ],
+  "administration": Array [],
   "administrationLevel": null,
   "advancedFilters": Array [],
   "filters": Object {
@@ -79,9 +58,19 @@ Object {
   ],
   "loadingForm": false,
   "loadingMap": false,
+  "masterData": Object {
+    "administration": Object {},
+    "attribute": Object {},
+    "entity": Object {},
+  },
+  "mobileAssignment": Object {},
+  "options": Object {
+    "entityTypes": Array [],
+  },
   "questionGroups": Array [],
   "selectedAdministration": null,
   "selectedForm": null,
+  "selectedFormData": null,
   "showAdvancedFilters": false,
   "showContactFormModal": false,
   "user": null,

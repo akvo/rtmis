@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useMemo } from "react";
 import "./style.scss";
 import { Row, Col, Card, Timeline, Typography } from "antd";
+import { store, uiText } from "../../lib";
 const { Paragraph } = Typography;
 
 const updates = [
@@ -53,15 +54,22 @@ const events = [
 ];
 
 const NewsEvents = () => {
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
+
   return (
     <div id="news-events">
-      <h1>News {"&"} Events</h1>
+      <h1>{text.eventTitle}</h1>
       <Row gutter={[36, 16]}>
         <Col xs={24} sm={24} md={24} lg={16} xl={16}>
-          <h2>Latest Updates</h2>
+          <h2>{text.latestUpdateText}</h2>
           <div className="updates">
             {updates.map((u, uI) => (
-              <Card bodyStyle={{ padding: 0 }} key={uI} className="update">
+              <Card bodystyle={{ padding: 0 }} key={uI} className="update">
                 <h3>{u.title}</h3>
                 <div>
                   <Row gutter={[16, 16]}>
@@ -76,7 +84,7 @@ const NewsEvents = () => {
           </div>
         </Col>
         <Col xs={24} sm={24} md={24} lg={8} xl={8}>
-          <h2>Upcoming Events</h2>
+          <h2>{text.upcomingEventText}</h2>
           <div className="events">
             <Timeline>
               {events.map((e, eI) => (

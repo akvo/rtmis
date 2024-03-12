@@ -5,7 +5,7 @@ from django.db import models
 # Create your models here.
 from api.v1.v1_forms.constants import QuestionTypes, \
     FormTypes, AttributeTypes
-from api.v1.v1_profile.models import Administration, Levels
+from api.v1.v1_profile.models import Administration
 from api.v1.v1_users.models import SystemUser
 
 
@@ -16,6 +16,7 @@ class Forms(models.Model):
     type = models.IntegerField(choices=FormTypes.FieldStr.items(),
                                default=None,
                                null=True)
+    approval_instructions = models.JSONField(default=None, null=True)
 
     def __str__(self):
         return self.name
@@ -24,31 +25,13 @@ class Forms(models.Model):
         db_table = 'form'
 
 
-class FormApprovalRule(models.Model):
-    form = models.ForeignKey(to=Forms,
-                             on_delete=models.CASCADE,
-                             related_name='form_form_approval_rule')
-    administration = models.ForeignKey(
-        to=Administration,
-        on_delete=models.CASCADE,
-        related_name='administration_form_approval')  # noqa
-    levels = models.ManyToManyField(to=Levels,
-                                    related_name='levels_form_approval')
-
-    def __str__(self):
-        return self.form.name
-
-    class Meta:
-        db_table = 'form_approval_rule'
-
-
 class FormApprovalAssignment(models.Model):
     form = models.ForeignKey(to=Forms,
                              on_delete=models.CASCADE,
                              related_name='form_data_approval')
     administration = models.ForeignKey(
         to=Administration,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name='administration_data_approval')
     user = models.ForeignKey(to=SystemUser,
                              on_delete=models.CASCADE,
@@ -66,13 +49,19 @@ class QuestionGroup(models.Model):
     form = models.ForeignKey(to=Forms,
                              on_delete=models.CASCADE,
                              related_name='form_question_group')
-    name = models.TextField()
+    name = models.CharField(max_length=255)
+    label = models.TextField(null=True, default=None)
     order = models.BigIntegerField(null=True, default=None)
 
     def __str__(self):
         return self.name
 
     class Meta:
+        unique_together = ('form', 'name')
+        constraints = [
+            models.UniqueConstraint(
+                fields=['form', 'name'], name='unique_form_question_group')
+        ]
         db_table = 'question_group'
 
 
@@ -84,8 +73,9 @@ class Questions(models.Model):
                                        on_delete=models.CASCADE,
                                        related_name='question_group_question')
     order = models.BigIntegerField(null=True, default=None)
-    text = models.TextField()
-    name = models.CharField(max_length=255)
+    label = models.TextField()
+    short_label = models.TextField(null=True, default=None)
+    name = models.CharField(max_length=255, default=None, null=True)
     type = models.IntegerField(choices=QuestionTypes.FieldStr.items())
     meta = models.BooleanField(default=False)
     required = models.BooleanField(default=True)
@@ -93,26 +83,39 @@ class Questions(models.Model):
     dependency = models.JSONField(default=None, null=True)
     api = models.JSONField(default=None, null=True)
     extra = models.JSONField(default=None, null=True)
+    tooltip = models.JSONField(default=None, null=True)
+    fn = models.JSONField(default=None, null=True)
+    pre = models.JSONField(default=None, null=True)
+    hidden = models.BooleanField(default=False, null=True)
+    display_only = models.BooleanField(default=False, null=True)
+    monitoring = models.BooleanField(default=False, null=True)
+    meta_uuid = models.BooleanField(default=False, null=True)
 
     def __str__(self):
         return self.text
 
     def to_definition(self):
-        options = [options.name
-                   for options in
-                   self.question_question_options.all()] \
-            if self.question_question_options.count() else False
+        options = self.options.values('label', 'value')
         return {
             "id": self.id,
             "qg_id": self.question_group.id,
-            "order": self.order + 1,
+            "order": (self.order or 0) + 1,
             "name": self.name,
+            "label": self.label,
+            "short_label": self.short_label,
             "type": QuestionTypes.FieldStr.get(self.type),
             "required": self.required,
+            "hidden": self.hidden,
             "rule": self.rule,
             "dependency": self.dependency,
             "options": options,
-            "extra": self.extra
+            "extra": self.extra,
+            "tooltip": self.tooltip,
+            "fn": self.fn,
+            "pre": self.pre,
+            "display_only": self.display_only,
+            "monitoring": self.monitoring,
+            "meta_uuid": self.meta_uuid,
         }
 
     @property
@@ -120,22 +123,33 @@ class Questions(models.Model):
         return f"{self.id}|{self.name}"
 
     class Meta:
+        unique_together = ('form', 'name')
+        constraints = [
+            models.UniqueConstraint(
+                fields=['form', 'name'], name='unique_form_question')
+        ]
         db_table = 'question'
 
 
 class QuestionOptions(models.Model):
     question = models.ForeignKey(to=Questions,
                                  on_delete=models.CASCADE,
-                                 related_name='question_question_options')
+                                 related_name='options')
     order = models.BigIntegerField(null=True, default=None)
-    code = models.CharField(max_length=255, default=None, null=True)
-    name = models.TextField()
+    label = models.TextField(default=None, null=True)
+    value = models.CharField(max_length=255, default=None, null=True)
     other = models.BooleanField(default=False)
+    color = models.TextField(default=None, null=True)
 
     def __str__(self):
         return self.name
 
     class Meta:
+        unique_together = ('question', 'value')
+        constraints = [
+            models.UniqueConstraint(
+                fields=['question', 'value'], name='unique_question_option')
+        ]
         db_table = 'option'
 
 

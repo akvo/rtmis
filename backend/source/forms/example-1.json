@@ -4,102 +4,142 @@
   "type": 1,
   "question_groups": [
     {
-      "question_group": "Question Group 01",
+      "id": 11,
+      "order": 1,
+      "name": "question_group_01",
+      "label": "Question Group 01",
       "questions": [
         {
           "id": 101,
-          "question": "Name",
+          "order": null,
+          "name": "name",
+          "label": "Name",
+          "short_label": "Name",
           "meta": true,
           "type": "text",
           "required": true
         },
         {
           "id": 102,
-          "question": "Gender",
+          "order": null,
+          "name": "gender",
+          "label": "Gender",
+          "short_label": null,
           "meta": false,
           "type": "option",
           "required": true,
-          "attributes": [
-            "chart",
-            "table"
-          ],
+          "attributes": ["chart", "table"],
           "options": [
             {
-              "name": "Male"
+              "label": "Male",
+              "value": "male"
             },
             {
-              "name": "Female"
+              "label": "Female",
+              "value": "female"
             },
             {
-              "name": "Other"
+              "label": "Other",
+              "value": "other"
             }
           ]
         },
         {
           "id": 103,
-          "question": "Phone Number",
+          "order": null,
+          "name": "phone",
+          "label": "Phone Number",
+          "short_label": "Phone Number",
           "meta": true,
           "type": "number",
-          "attributes": [
-            "chart"
-          ],
+          "attributes": ["chart"],
           "required": true
         },
         {
           "id": 104,
-          "question": "Location",
+          "order": null,
+          "name": "location",
+          "label": "Location",
+          "short_label": null,
           "meta": true,
           "type": "administration",
           "required": true
         },
         {
           "id": 105,
-          "question": "Geolocation",
+          "order": null,
+          "name": "geolocation",
+          "label": "Geolocation",
+          "short_label": null,
           "meta": true,
           "type": "geo",
           "required": true
         },
         {
           "id": 106,
-          "question": "Available Family Members",
+          "order": null,
+          "name": "family_members",
+          "label": "Available Family Members",
+          "short_label": null,
           "meta": true,
           "type": "multiple_option",
-          "attributes": [
-            "chart"
-          ],
+          "attributes": ["chart"],
           "required": true,
           "options": [
             {
-              "name": "Wife / Husband / Partner"
+              "label": "Wife / Husband / Partner",
+              "value": "wife__husband__partner"
             },
             {
-              "name": "Children"
+              "label": "Children",
+              "value": "children"
             },
             {
-              "name": "Parent"
+              "label": "Parent",
+              "value": "parent"
             }
           ]
         },
         {
           "id": 107,
-          "question": "Please take a picture",
+          "order": null,
+          "name": "picture",
+          "label": "Please take a picture",
+          "short_label": "Picture",
           "meta": false,
           "type": "photo",
           "required": true
         },
         {
           "id": 108,
-          "question": "Data",
+          "order": null,
+          "name": "data",
+          "label": "Data",
+          "short_label": null,
           "meta": false,
           "type": "date",
           "required": true
         },
         {
           "id": 109,
-          "question": "Allow decimal and 0",
+          "order": null,
+          "name": "decimal",
+          "label": "Allow decimal and 0",
+          "short_label": "Decimal and 0",
           "meta": false,
           "type": "number",
           "required": false
+        },
+        {
+          "id": 110,
+          "order": null,
+          "name": "meta_uuid",
+          "label": "Meta UUID",
+          "short_label": "Meta UUID",
+          "meta": false,
+          "type": "text",
+          "required": true,
+          "meta_uuid": true
         }
       ]
     }

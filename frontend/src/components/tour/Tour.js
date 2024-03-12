@@ -46,7 +46,7 @@ const Tour = ({ steps, title = "Help" }) => {
       />
       <Modal
         title={title}
-        visible={isVisible}
+        open={isVisible}
         onCancel={handleCancel}
         destroyOnClose={true}
         footer={
@@ -56,10 +56,14 @@ const Tour = ({ steps, title = "Help" }) => {
             </Col>
             <Col>
               <Space direction="horizontal">
-                <Button onClick={handlePrev} disabled={current < 1}>
+                <Button
+                  onClick={handlePrev}
+                  disabled={current < 1}
+                  shape="round"
+                >
                   {text?.prev}
                 </Button>
-                <Button type="primary" onClick={handleNext}>
+                <Button type="primary" onClick={handleNext} shape="round">
                   {current < steps.length - 1 ? text?.next : text?.finish}
                 </Button>
               </Space>

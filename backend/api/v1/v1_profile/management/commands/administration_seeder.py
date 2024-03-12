@@ -1,5 +1,3 @@
-import json
-
 import numpy as np
 import pandas as pd
 from django.core.management import BaseCommand
@@ -25,9 +23,16 @@ geo_config = [{
     "level": 3,
     "name": "NAME_3",
     "alias": "Ward"
+}, {
+    "id": 5,
+    "level": 4,
+    "name": "NAME_4",
+    "alias": "Village"
 }]
 
-source_file = './source/kenya.topojson'
+source_file = './source/kenya-2024.csv'
+
+MAX_LEVEL_IN_SOURCE_FILE = 4
 
 
 def get_parent_id(df, x):
@@ -53,7 +58,8 @@ def seed_administration_test():
                                     parent=None,
                                     level=level)
     administration.save()
-    for index, name in enumerate(["Jakarta", "East Jakarta", "Kramat Jati"]):
+    for index, name in enumerate(
+            ["Jakarta", "East Jakarta", "Kramat Jati", "Cawang"]):
         id = index + 2
         level = Levels.objects.filter(level=index + 1).first()
         path = '{0}.'.format(administration.id)
@@ -68,9 +74,9 @@ def seed_administration_test():
 
 
 def get_path(df, parent, current=[]):
-    p = df[df['id'] == parent]
-    current = current + list(p['id'])
+    p = df[df['id'] == parent].reset_index()
     if p.shape[0]:
+        current = current + [p['id'][0]]
         return get_path(df, list(p['parent'])[0], current)
     current.reverse()
     path = ".".join([str(c) for c in current])
@@ -80,50 +86,68 @@ def get_path(df, parent, current=[]):
 
 
 def seed_administration_prod():
+    Administration.objects.all().delete()
+    Levels.objects.all().delete()
     seed_levels()
-    geo = open(source_file, 'r')
-    geo = json.load(geo)
-    ob = geo["objects"]
-    ob_name = list(ob)[0]
-    levels = [c["name"] for c in geo_config]
-    properties = [
-        d for d in [p["properties"] for p in ob[ob_name]["geometries"]]
+    levels = [
+        c["alias"] for c in geo_config
+        if c['level'] <= MAX_LEVEL_IN_SOURCE_FILE
     ]
+    properties = pd.read_csv(source_file).to_dict('records')
     df = pd.DataFrame(properties)
-    rec = df[levels].to_dict("records")
+    # remove duplicates
+    df = df.drop_duplicates()
+    rec = df.to_dict("records")
     res = []
     for i, r in enumerate(rec):
         for iv, v in enumerate(levels):
-            lv = list(filter(lambda x: x["name"] == v, geo_config))[0]["level"]
-            plv = None
+            lv = list(filter(
+                lambda x: x["alias"] == v, geo_config
+            ))[0]["level"]
+            parent_id = None
             if lv > 0:
-                plv = r[levels[iv - 1]]
+                plv = levels[iv - 1]
+                parent_id = r[f"{plv}_code"]
+            id = None
+            if lv < len(levels) - 1:
+                id = r[f"{v}_code"]
             data = {
+                "ids": id,
                 "name": r[v],
-                "p": plv,
+                "parent": parent_id,
                 "level": lv,
             }
             res.append(data)
     res = pd.DataFrame(res)
     res = res.dropna(subset=["name"]).reset_index()
-    subset = ["name", "p", "level"]
-    res = res.drop_duplicates(subset=subset).sort_values(["level", "name"
-                                                          ]).reset_index()
+    subset = ["ids", "name", "parent", "level"]
+    res = res.drop_duplicates(subset=subset).sort_values(
+        ["level", "name"]).reset_index()
     res = res[subset]
-    res["id"] = res.index + 1
-    res["parent"] = res.apply(lambda x: get_parent_id(res, x), axis=1)
+    res = res.sort_values('level').reset_index()[
+        ["ids", "parent", "name", "level"]
+    ].reset_index()
+    res['id'] = res.apply(
+        lambda x: x["ids"] if x["ids"] == x["ids"] else x["index"] + 50000,
+        axis=1
+    ).astype(int)
     res = res[["id", "parent", "name", "level"]]
     res["path"] = res["parent"].apply(lambda x: get_path(res, x))
+    res = res.sort_values('id').reset_index()[
+        ["id", "parent", "name", "level"]
+    ].reset_index()
     res = res.replace({np.nan: None})
-    res = res.to_dict('records')
-    for r in res:
-        administration = Administration(
-            id=r.get("id"),
-            name=r.get("name"),
-            parent=Administration.objects.filter(id=r.get("parent")).first(),
-            level=Levels.objects.filter(level=r.get("level")).first(),
-            path=r.get("path"))
-        administration.save()
+    for iv, v in enumerate(levels):
+        filtered_res = res[res["level"] == iv]
+        for i, r in enumerate(filtered_res.to_dict('records')):
+            administration = Administration(
+                id=r.get("id"),
+                name=r.get("name"),
+                parent=Administration.objects.filter(
+                    id=r.get("parent")).first(),
+                level=Levels.objects.filter(level=r.get("level")).first(),
+                path=r.get("path"))
+            administration.save()
 
 
 class Command(BaseCommand):

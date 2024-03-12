@@ -74,7 +74,7 @@ class SystemUserEndpointsTestCase(TestCase):
         self.assertEqual([
             "email", "name", "administration", "trained", "role",
             'phone_number', 'designation', 'forms', "organisation",
-            "last_login", "token", "invite"
+            "last_login", "passcode", "token", "invite"
         ], list(user))
 
         user = {"email": "admin@rush.com", "password": "Test105"}

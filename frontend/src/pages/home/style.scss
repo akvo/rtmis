@@ -5,10 +5,17 @@
     padding-top: 0;
     padding-bottom: 0;
   }
+  .body.body-home {
+    background-color: $bg-light;
+  }
 
   #home {
     h1 {
-      text-align: center;
+      text-align: left;
+      font-size: 32px;
+      font-style: normal;
+      font-weight: $font-weight-semi-bold;
+      line-height: 40px;
     }
 
     .datasets {
@@ -52,11 +59,22 @@
     }
 
     .about {
+      padding-top: 72px;
+      padding-bottom: 72px;
+      h1 {
+        font-size: 48px;
+        line-height: 130%;
+        letter-spacing: -0.48px;
+      }
       p {
-        width: 75%;
-        margin: auto;
-        font-size: 16px;
-        text-align: center;
+        font-size: 14px;
+        font-weight: $font-weight-normal;
+        line-height: 24px;
+        letter-spacing: 0.18px;
+        padding-left: 16px;
+      }
+      .ant-btn.ant-btn-link {
+        font-weight: $font-weight-bold;
       }
     }
 
@@ -85,6 +103,76 @@
           overflow: hidden;
           border: 0;
         }
+      }
+
+      .report-wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        .description {
+          h1 {
+            margin-bottom: 16px;
+          }
+          p {
+            color: $color-dark;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: $font-weight-normal;
+            line-height: 24px;
+            letter-spacing: 0.18px;
+            margin-bottom: 0;
+          }
+        }
+        ul {
+          list-style-type: none;
+          padding-inline-start: 0;
+          li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            span {
+              font-size: 14px;
+              font-style: normal;
+              font-weight: $font-weight-bold;
+              line-height: 20px;
+            }
+            svg {
+              font-size: 16px;
+            }
+          }
+        }
+        .ant-btn {
+          width: fit-content;
+        }
+      }
+
+      .report-visual-wrapper {
+        width: 100%;
+        text-align: right;
+        img {
+          width: 100%;
+          max-width: 600px;
+        }
+      }
+
+      .todo-visualisation {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 500px;
+        border-radius: 16px;
+        border: 1px dashed rgba($blue-light, 0.5);
+        em {
+          color: $color-semi-light;
+        }
+      }
+    }
+
+    .contact {
+      h1 {
+        text-align: center;
       }
     }
   }

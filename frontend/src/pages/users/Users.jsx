@@ -1,29 +1,18 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import "./style.scss";
-import { Row, Col, Card, Button, Divider, Table, Modal, Tag } from "antd";
+import { Row, Col, Button, Divider, Table, Modal, Tag } from "antd";
 import { Link } from "react-router-dom";
-import { PlusSquareOutlined, CloseSquareOutlined } from "@ant-design/icons";
+import {
+  LeftCircleOutlined,
+  DownCircleOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 import { api, store, uiText } from "../../lib";
 import UserDetail from "./UserDetail";
-import {
-  UserFilters,
-  Breadcrumbs,
-  DescriptionPanel,
-  UserTab,
-} from "../../components";
+import { UserFilters, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
-import { reverse } from "lodash";
 import moment from "moment";
 
-const pagePath = [
-  {
-    title: "Control Center",
-    link: "/control-center",
-  },
-  {
-    title: "Manage Users",
-  },
-];
 const Users = () => {
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
@@ -39,6 +28,16 @@ const Users = () => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
+
+  const pagePath = [
+    {
+      title: text.controlCenter,
+      link: "/control-center",
+    },
+    {
+      title: text.manageUsers,
+    },
+  ];
 
   const { administration, filters, isLoggedIn } = store.useState(
     (state) => state
@@ -85,13 +84,7 @@ const Users = () => {
       title: "Region",
       dataIndex: "administration",
       render: (administration) => {
-        const adm = administration?.id
-          ? window.dbadm.find((d) => d.id === administration.id)?.full_name
-          : false;
-        if (adm) {
-          return reverse(adm.split("|")).join(", ");
-        }
-        return adm;
+        return administration?.full_name;
       },
     },
     {
@@ -216,72 +209,82 @@ const Users = () => {
 
   return (
     <div id="users">
-      <Row justify="space-between" align="bottom">
-        <Col>
-          <Breadcrumbs pagePath={pagePath} />
-          <DescriptionPanel description={text.manageUserText} />
-        </Col>
-      </Row>
-      <UserTab
-        tabBarExtraContent={
-          <Link to="/user/add">
-            <Button type="primary">Add new user</Button>
-          </Link>
-        }
-      />
-      <UserFilters
-        query={query}
-        setQuery={setQuery}
-        fetchData={fetchData}
-        pending={pending}
-        setPending={setPending}
-        loading={loading}
-      />
-      <Divider />
-      <Card
-        style={{ padding: 0, minHeight: "40vh" }}
-        bodyStyle={{ padding: 0 }}
-      >
-        <Table
-          columns={columns}
-          rowClassName={() => "editable-row"}
-          dataSource={dataset}
-          loading={loading}
-          onChange={handleChange}
-          pagination={{
-            showSizeChanger: false,
-            current: currentPage,
-            total: totalCount,
-            pageSize: 10,
-            showTotal: (total, range) =>
-              `Results: ${range[0]} - ${range[1]} of ${total} users`,
-          }}
-          rowKey="id"
-          expandable={{
-            expandedRowRender: (record) => (
-              <UserDetail
-                record={record}
-                setDeleteUser={setDeleteUser}
-                deleting={deleting}
-              />
-            ),
-            expandIcon: ({ expanded, onExpand, record }) =>
-              expanded ? (
-                <CloseSquareOutlined
-                  onClick={(e) => onExpand(record, e)}
-                  style={{ color: "#e94b4c" }}
-                />
-              ) : (
-                <PlusSquareOutlined
-                  onClick={(e) => onExpand(record, e)}
-                  style={{ color: "#7d7d7d" }}
-                />
-              ),
-          }}
-        />
-      </Card>
+      <div className="description-container">
+        <Row justify="space-between" align="bottom">
+          <Col>
+            <Breadcrumbs pagePath={pagePath} />
+            <DescriptionPanel
+              description={text.manageUserText}
+              title={text.manageUsers}
+            />
+          </Col>
+        </Row>
+      </div>
+      <div className="table-section">
+        <div className="table-wrapper">
+          <UserFilters
+            query={query}
+            setQuery={setQuery}
+            fetchData={fetchData}
+            pending={pending}
+            setPending={setPending}
+            loading={loading}
+            button={
+              <Link to="/control-center/user/add">
+                <Button type="primary" shape="round" icon={<PlusOutlined />}>
+                  {text.addNewUser}
+                </Button>
+              </Link>
+            }
+          />
+          <Divider />
+          <div
+            style={{ padding: 0, minHeight: "40vh" }}
+            bodystyle={{ padding: 0 }}
+          >
+            <Table
+              columns={columns}
+              rowClassName={() => "editable-row"}
+              dataSource={dataset}
+              loading={loading}
+              onChange={handleChange}
+              pagination={{
+                showSizeChanger: false,
+                current: currentPage,
+                total: totalCount,
+                pageSize: 10,
+                showTotal: (total, range) =>
+                  `Results: ${range[0]} - ${range[1]} of ${total} users`,
+              }}
+              rowKey="id"
+              expandable={{
+                expandedRowRender: (record) => (
+                  <UserDetail
+                    record={record}
+                    setDeleteUser={setDeleteUser}
+                    deleting={deleting}
+                  />
+                ),
+                expandIcon: ({ expanded, onExpand, record }) =>
+                  expanded ? (
+                    <DownCircleOutlined
+                      onClick={(e) => onExpand(record, e)}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
+                    />
+                  ) : (
+                    <LeftCircleOutlined
+                      onClick={(e) => onExpand(record, e)}
+                      style={{ color: "#1651B6", fontSize: "19px" }}
+                    />
+                  ),
+              }}
+              expandRowByClick
+            />
+          </div>
+        </div>
+      </div>
       <Modal
-        visible={deleteUser}
+        open={deleteUser}
         onCancel={() => setDeleteUser(null)}
         centered
         width="575px"
@@ -298,7 +301,7 @@ const Users = () => {
                   setDeleteUser(null);
                 }}
               >
-                Cancel
+                {text.cancelButton}
               </Button>
               <Button
                 type="primary"
@@ -308,12 +311,12 @@ const Users = () => {
                   handleDelete();
                 }}
               >
-                Delete
+                {text.deleteText}
               </Button>
             </Col>
           </Row>
         }
-        bodyStyle={{ textAlign: "center" }}
+        bodystyle={{ textAlign: "center" }}
       >
         <p>{text.deleteUserTitle}</p>
         <br />

@@ -1,0 +1,527 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Homepage renders correctly 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#f9fafb",
+      "flex": 1,
+      "flexDirection": "column",
+      "flexWrap": "wrap",
+    }
+  }
+  testID="stack-container"
+>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "backgroundColor": "#f3f4f6",
+        "borderBottomColor": "#f2f2f2",
+        "borderBottomWidth": 0.5,
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "minheight": 78,
+        "paddingHorizontal": 10,
+        "paddingVertical": 10,
+      }
+    }
+    testID="base-layout-page-title"
+  >
+    <RNCSafeAreaView
+      edges={
+        {
+          "bottom": "off",
+          "left": "additive",
+          "right": "additive",
+          "top": "additive",
+        }
+      }
+      style={
+        {
+          "flexDirection": "row",
+          "width": "100%",
+        }
+      }
+    >
+      <View
+        style={
+          {
+            "alignItems": "flex-start",
+            "flex": 1,
+          }
+        }
+      >
+        <View
+          style={
+            [
+              {
+                "overflow": "hidden",
+              },
+              {
+                "borderRadius": 2,
+              },
+              undefined,
+              false,
+            ]
+          }
+          testID="RNE_BUTTON_WRAPPER"
+        >
+          <View
+            accessibilityRole="button"
+            accessibilityState={
+              {
+                "busy": false,
+                "checked": undefined,
+                "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
+              }
+            }
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              {
+                "opacity": 1,
+              }
+            }
+            testID="button-users"
+          >
+            <View
+              style={
+                {
+                  "alignItems": "center",
+                  "backgroundColor": "transparent",
+                  "borderColor": "#2089dc",
+                  "borderRadius": 2,
+                  "borderWidth": 0,
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "padding": 8,
+                  "paddingHorizontal": 10,
+                }
+              }
+            >
+              <Text />
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "flex": 3,
+          }
+        }
+      >
+        <Text
+          accessibilityRole="text"
+          style={
+            {
+              "color": "#242424",
+              "fontSize": 18,
+              "paddingTop": 4,
+              "textAlign": "center",
+            }
+          }
+          testID="page-title"
+        >
+          Form Lists
+        </Text>
+      </View>
+      <View
+        style={
+          {
+            "alignItems": "flex-end",
+            "flex": 1,
+          }
+        }
+      >
+        <View
+          style={
+            [
+              {
+                "overflow": "hidden",
+              },
+              {
+                "borderRadius": 2,
+              },
+              undefined,
+              false,
+            ]
+          }
+          testID="RNE_BUTTON_WRAPPER"
+        >
+          <View
+            accessibilityRole="button"
+            accessibilityState={
+              {
+                "busy": false,
+                "checked": undefined,
+                "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessibilityValue={
+              {
+                "max": undefined,
+                "min": undefined,
+                "now": undefined,
+                "text": undefined,
+              }
+            }
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              {
+                "opacity": 1,
+              }
+            }
+            testID="more-options-button"
+          >
+            <View
+              style={
+                {
+                  "alignItems": "center",
+                  "backgroundColor": "transparent",
+                  "borderColor": "#2089dc",
+                  "borderRadius": 2,
+                  "borderWidth": 0,
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "padding": 8,
+                  "paddingHorizontal": 10,
+                }
+              }
+            >
+              <Text />
+            </View>
+          </View>
+        </View>
+      </View>
+    </RNCSafeAreaView>
+  </View>
+  <View
+    style={
+      {
+        "backgroundColor": "#393e42",
+        "borderBottomColor": "#000",
+        "borderBottomWidth": 1,
+        "borderTopColor": "#000",
+        "borderTopWidth": 1,
+        "padding": 8,
+      }
+    }
+    testID="RNE__SearchBar-wrapper"
+  >
+    <View
+      style={
+        {
+          "paddingHorizontal": 0,
+          "width": "100%",
+        }
+      }
+      testID="RNE__Input__view-wrapper"
+    >
+      <View
+        collapsable={false}
+        style={
+          {
+            "alignItems": "center",
+            "backgroundColor": "#303337",
+            "borderBottomWidth": 0,
+            "borderColor": "#86939e",
+            "borderRadius": 3,
+            "flexDirection": "row",
+            "minHeight": 30,
+            "overflow": "hidden",
+            "transform": [
+              {
+                "translateX": 0,
+              },
+            ],
+          }
+        }
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "height": 40,
+              "justifyContent": "center",
+              "marginLeft": 8,
+              "marginVertical": 4,
+              "paddingRight": 4,
+            }
+          }
+        >
+          <View
+            style={
+              {
+                "overflow": "hidden",
+              }
+            }
+            testID="RNE__ICON__CONTAINER"
+          >
+            <View
+              accessibilityRole="button"
+              android_ripple={
+                {
+                  "borderless": false,
+                  "color": "rgba(0, 0, 0, 0.3)",
+                  "radius": -5,
+                }
+              }
+              disabled={false}
+              testID="RNE__ICON__CONTAINER_ACTION"
+            >
+              <View
+                style={
+                  {
+                    "alignItems": "center",
+                    "backgroundColor": "transparent",
+                    "justifyContent": "center",
+                  }
+                }
+                testID="RNE__ICON"
+              >
+                <Text />
+              </View>
+            </View>
+          </View>
+        </View>
+        <TextInput
+          editable={true}
+          onBlur={[Function]}
+          onChangeText={[Function]}
+          onFocus={[Function]}
+          placeholder="Search form"
+          placeholderTextColor="#86939e"
+          platform="default"
+          style={
+            {
+              "color": "#86939e",
+              "flex": 1,
+              "fontSize": 18,
+              "marginLeft": 10,
+              "minHeight": 40,
+              "width": "100%",
+            }
+          }
+          testID="search-bar"
+          underlineColorAndroid="transparent"
+          value={null}
+        />
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "height": 40,
+              "justifyContent": "center",
+              "marginRight": 8,
+              "marginVertical": 4,
+              "paddingRight": 4,
+            }
+          }
+        >
+          <View
+            style={
+              {
+                "flexDirection": "row",
+              }
+            }
+          />
+        </View>
+      </View>
+      <Text
+        style={
+          {
+            "color": "#ff190c",
+            "fontSize": 12,
+            "height": 0,
+            "margin": 0,
+            "padding": 0,
+          }
+        }
+      />
+    </View>
+  </View>
+  <View
+    style={
+      {
+        "backgroundColor": "#f9fafb",
+        "flex": 1,
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+      }
+    }
+    testID="stack-container"
+  />
+  <View
+    collapsable={false}
+    style={
+      {
+        "alignItems": "center",
+        "borderRadius": 28,
+        "flexDirection": "row",
+        "justifyContent": "center",
+        "marginBottom": 16,
+        "opacity": 1,
+        "transform": [
+          {
+            "scale": 1,
+          },
+        ],
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "overflow": "hidden",
+          },
+          {
+            "borderRadius": 2,
+          },
+          {
+            "borderRadius": 28,
+            "elevation": 0,
+          },
+          false,
+        ]
+      }
+      testID="RNE_BUTTON_WRAPPER"
+    >
+      <View
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": false,
+            "checked": undefined,
+            "disabled": true,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "opacity": 1,
+          }
+        }
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "backgroundColor": "hsl(208, 8%, 90%)",
+              "borderColor": "#2089dc",
+              "borderRadius": 2,
+              "borderWidth": 0,
+              "flexDirection": "row",
+              "height": 48,
+              "justifyContent": "center",
+              "padding": 8,
+              "paddingHorizontal": 16,
+            }
+          }
+        >
+          <View
+            style={
+              {
+                "marginHorizontal": 5,
+                "overflow": "hidden",
+              }
+            }
+            testID="RNE__ICON__CONTAINER"
+          >
+            <View
+              accessibilityRole="button"
+              android_ripple={
+                {
+                  "borderless": false,
+                  "color": "rgba(0, 0, 0, 0.3)",
+                  "radius": -5,
+                }
+              }
+              disabled={false}
+              testID="RNE__ICON__CONTAINER_ACTION"
+            >
+              <View
+                style={
+                  {
+                    "alignItems": "center",
+                    "backgroundColor": "transparent",
+                    "justifyContent": "center",
+                  }
+                }
+                testID="RNE__ICON"
+              >
+                <Text />
+              </View>
+            </View>
+          </View>
+          <Text
+            style={
+              {
+                "color": "hsl(208, 8%, 63%)",
+                "fontSize": 18,
+                "marginHorizontal": 8,
+                "paddingVertical": 1,
+                "textAlign": "center",
+              }
+            }
+          >
+            Sync Datapoint
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;

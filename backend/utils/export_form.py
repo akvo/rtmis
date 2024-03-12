@@ -4,16 +4,14 @@ import pathlib
 import pandas as pd
 
 from api.v1.v1_forms.models import Forms, Questions
-from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 
 
 def get_definition(form: Forms):
-    questions = questions = Questions.objects.filter(form=form).order_by(
+    questions = Questions.objects.filter(form=form).order_by(
         "question_group__order", "order").all()
     framed = []
-    indexer = 1
-    for q in [qs.to_definition() for qs in questions]:
+    for i, q in enumerate([qs.to_definition() for qs in questions]):
         rule = ""
         dependency = ""
         if q["rule"]:
@@ -25,7 +23,7 @@ def get_definition(form: Forms):
         if q["dependency"]:
             dependency = []
             for d in q["dependency"]:
-                did = d["id"]
+                did = Questions.objects.get(pk=d["id"]).name
                 options = "|".join(d["options"])
                 dtext = f"{did}: " + options
                 dependency.append(dtext)
@@ -36,40 +34,52 @@ def get_definition(form: Forms):
                     "qg_id": q["qg_id"],
                     "order": q["order"],
                     "id": q["id"],
-                    "question": q["name"],
+                    "name": q["name"],
+                    "label": q["label"],
                     "type": q["type"],
-                    "option": o,
+                    "option": o["value"],
+                    "option_label": o["label"],
                     "required": "YES" if q["required"] else "NO",
                     "rule": rule,
                     "dependency": dependency,
-                    "indexer": indexer
+                    "indexer": i + 1
                 })
         else:
             framed.append({
                 "qg_id": q["qg_id"],
                 "order": q["order"],
                 "id": q["id"],
-                "question": q["name"],
+                "name": q["name"],
+                "label": q["label"],
                 "type": q["type"],
-                "option": "",
+                "option": None,
+                "option_label": None,
                 "required": "YES" if q["required"] else "NO",
                 "rule": rule,
                 "dependency": dependency,
-                "indexer": indexer
+                "indexer": i + 1
             })
-        indexer += 1
     return framed
 
 
-def generate_definition_sheet(form: Forms):
+def generate_definition_sheet(form: Forms, writer: pd.ExcelWriter):
     definitions = get_definition(form=form)
     df = pd.DataFrame(definitions)
-    selected_columns = [
-        "indexer", "id", "question", "type", "required", "dependency",
-        "option", "rule"]
-    df = df[selected_columns]
-    df = df.groupby(selected_columns).first()
-    return df.droplevel('indexer')
+    question_columns = [
+        "name", "label", "type",
+        "required", "rule", "dependency"
+    ]
+    df_questions = df[question_columns]
+    df_questions.to_excel(writer, sheet_name='questions', index=False)
+    df_options = df[["name", "option", "option_label"]]
+    df_options = df_options.dropna(subset=["option"])
+    df_options = df_options.drop_duplicates()
+    df_options = df_options.rename(columns={
+        "name": "question",
+        "option": "option",
+        "option_label": "label"
+    })
+    df_options.to_excel(writer, sheet_name='options', index=False)
 
 
 def generate_excel(form: Forms, user: SystemUser):
@@ -100,32 +110,5 @@ def generate_excel(form: Forms, user: SystemUser):
     })
     for col_num, value in enumerate(data.columns.values):
         worksheet.write(0, col_num, value, header_format)
-    definitions = generate_definition_sheet(form=form)
-    definitions.to_excel(writer, sheet_name='definitions', startrow=-1)
-
-    administration = user.user_access.administration
-    if administration.path:
-        allowed_path = f"{administration.path}{administration.id}."
-    else:
-        allowed_path = f"{administration.id}."
-    allowed_descendants = Administration.objects.filter(
-        path__startswith=allowed_path,
-        level=Levels.objects.order_by('-level').first()).order_by(
-            'level__level')
-    admins = []
-    for descendant in allowed_descendants:
-        parents = list(
-            Administration.objects.filter(
-                id__in=descendant.path.split('.')[:-1]).values_list(
-                    'name', flat=True).order_by('level__level'))
-        parents.append(descendant.name)
-        admins.append('|'.join(parents))
-
-    v = pd.DataFrame(admins)
-    v.to_excel(writer,
-               sheet_name='administration',
-               startrow=-1,
-               header=False,
-               index=False)
-    writer.save()
+    generate_definition_sheet(form=form, writer=writer)
     return filepath

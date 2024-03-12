@@ -4,7 +4,6 @@
   .layout {
     min-width: 100vw;
     min-height: 100vh;
-    background-color: $bg-light;
     display: block;
 
     .banner,
@@ -29,22 +28,31 @@
 
     .banner {
       // min-height: calc(100vh - #{$layout-padding});
-      min-height: calc(100vh - 368px);
+      min-height: calc(100vh - 198px);
+      background: linear-gradient(
+        94deg,
+        #faf5f5 18.83%,
+        rgba(217, 217, 217, 0) 68.45%
+      );
 
       .countdown {
         text-align: center;
 
         .countdown-col {
           margin-left: 5px;
-          background: rgba(255, 255, 255, 0.2);
-          border-radius: 5px;
+          background: rgba($blue, 0.05);
+          border-radius: 16px;
+          border: 1px solid $blue-light;
 
           .countdown-timer {
+            color: $blue;
             font-size: 22px;
+            font-weight: $font-weight-bold;
             padding-top: 10px;
           }
 
           .countdown-text {
+            color: $color-dark;
             font-size: 14px;
             min-width: 80px;
             font-weight: 500;
@@ -55,7 +63,8 @@
 
       h1 {
         margin-top: 24px;
-        color: $white;
+        color: $blue;
+        font-family: "Montserrat";
         font-weight: $font-weight-semi-bold;
         font-size: $font-size-super-large;
       }
@@ -89,7 +98,7 @@
         }
 
         &.btn-explore-national-data {
-          margin-right: 24px;
+          margin-right: 8px;
           margin-bottom: 24px;
         }
 
@@ -100,11 +109,15 @@
     }
 
     .header {
-      background-color: $bg-header;
+      background-color: $bg-header-light;
       font-weight: $font-weight-semi-bold;
-      color: $color-light;
+      color: $color-dark;
       padding-top: $padding-header;
       padding-bottom: $padding-header;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      position: sticky;
+      top: 0;
+      z-index: 999;
 
       .logo {
         align-items: center;
@@ -121,7 +134,7 @@
         h1 {
           margin: auto;
           display: inline-block;
-          color: $color-semi-light;
+          color: $color-dark;
           font-weight: $font-weight-semi-bold;
           font-size: $font-size-large;
           margin-bottom: 0px;
@@ -135,29 +148,37 @@
             letter-spacing: normal;
           }
         }
+
+        .logo-wrapper {
+          position: relative;
+          svg {
+            position: absolute;
+            top: 8px;
+            margin-left: 4px;
+          }
+        }
       }
 
       .account,
       .navigation {
         display: inline-block;
-      }
-
-      .navigation,
-      .menu,
-      button {
-        text-transform: uppercase;
+        .ant-dropdown-link {
+          display: flex;
+          padding: 16px;
+          justify-content: center;
+          align-items: center;
+          gap: 8px;
+        }
       }
 
       .navigation {
         a {
-          color: $color-light;
-          padding-left: 20px;
-          padding-right: 20px;
+          color: $color-dark;
+          padding: 16px;
         }
       }
 
       .account {
-        margin-left: 30px;
         vertical-align: middle;
         padding-top: 4px;
 
@@ -169,7 +190,7 @@
         }
 
         a {
-          color: $color-light;
+          color: $color-dark;
 
           .role {
             font-style: italic;
@@ -194,10 +215,12 @@
     .launching {
       color: #fff;
       font-size: 20px;
-      padding-bottom: 1.5rem;
+      padding-bottom: 4rem;
 
       h4 {
-        color: #fff;
+        color: $color-dark;
+        font-family: "Montserrat";
+        margin: 2rem 0;
       }
     }
 
@@ -205,12 +228,15 @@
       background-color: $bg-dark;
       color: $color-light;
       font-weight: $font-weight-normal;
+      font-size: $font-size-small;
+      //padding-top: 78px;
+      position: relative;
 
       h2,
       h3 {
         color: $color-light;
         font-weight: $font-weight-semi-bold;
-        margin-bottom: $padding-default;
+        // margin-bottom: $padding-default;
       }
 
       h3 {
@@ -224,6 +250,30 @@
         li {
           text-decoration: none;
           list-style: none;
+        }
+        &:not(.list-inline) li:not(:last-child) {
+          margin-bottom: $padding-small;
+        }
+
+        &.list-inline {
+          li {
+            display: inline;
+
+            a {
+              font-style: normal;
+              font-weight: $font-weight-semi-bold;
+              line-height: 150%;
+            }
+            &:first-child {
+              padding-left: 0;
+              padding-right: 32px;
+            }
+            &:not(:first-child) {
+              border-left: 1px solid #fff;
+              padding-left: 32px;
+              padding-right: 32px;
+            }
+          }
         }
       }
 
@@ -247,6 +297,17 @@
           margin-top: 30px;
         }
       }
+
+      .about-wrapper {
+        img.small-logo {
+          width: 67px;
+          margin-bottom: 18px;
+        }
+        p {
+          width: 100%;
+          //margin-bottom: 32px;
+        }
+      }
     }
   }
 }
@@ -255,5 +316,19 @@
   &:hover {
     background-color: $blue;
     color: $white;
+  }
+}
+
+.dropdown-menu-item a {
+  color: $color-dark;
+  &:hover {
+    color: $white;
+  }
+}
+
+.usermenu-menu-item a {
+  color: $color-dark;
+  &:hover {
+    color: $color-dark;
   }
 }

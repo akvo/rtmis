@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { Row, Col, Button, Dropdown, Menu } from "antd";
-import { DownOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import { Link, useLocation } from "react-router-dom";
 import ComingSoon from "./custom/ComingSoon";
 import Countdown from "react-countdown";
@@ -9,7 +9,7 @@ import { uiText, store } from "../../lib";
 
 const styles = {
   banner: {
-    backgroundImage: `url("/assets/header-image-background.jpg")`,
+    backgroundImage: `url("/assets/rtmis-hero.jpeg")`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
@@ -90,18 +90,20 @@ const Banner = () => {
   };
 
   const HomeBanner = () => {
+    /*
     const scrollToView = () => {
       const section = document.querySelector("#home-visualisation");
       section.scrollIntoView({ behavior: "smooth", block: "start" });
     };
+    */
     const DashboardMenu = (
       <Menu>
-        {window?.dashboard?.map((d) => (
+        {window?.powerBIDashboard?.map((d) => (
           <Menu.Item
             key={`${d.name}`}
             style={{ fontSize: 16, fontStyle: "italic", padding: 10 }}
           >
-            <Link to={`/${d.page}/${d.form_id}`}>{d.name}</Link>
+            <Link to={`/${d.page}/${d.path}`}>{d.name}</Link>
           </Menu.Item>
         ))}
       </Menu>
@@ -114,20 +116,24 @@ const Banner = () => {
           <Countdown date="2025-12-31T09:00:00" renderer={renderer} />
         </div>
         <Row>
+          {/*
           <Button
-            size="large"
+            type="primary"
             onClick={() => scrollToView()}
             className="btn-explore-national-data"
+            shape="round"
           >
             {text?.welcomeCta}
           </Button>
+          */}
           <Dropdown overlay={DashboardMenu}>
             <Button
-              size="large"
+              shape="round"
+              icon={<PlusOutlined />}
               onClick={(e) => e.preventDefault()}
               className="btn-dashboard"
             >
-              Comprehensive Dashboards <DownOutlined />
+              Comprehensive Dashboards
             </Button>
           </Dropdown>
         </Row>

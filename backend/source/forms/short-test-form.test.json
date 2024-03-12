@@ -1,0 +1,1083 @@
+{
+  "id": 16993539153551,
+  "form": "Short HH",
+  "description": "short HH",
+  "defaultLanguage": "en",
+  "languages": ["en"],
+  "version": 1,
+  "type": 1,
+  "translations": null,
+  "approval_instructions": {
+    "text": "Please check all of the checkbox below",
+    "action": [
+      "I have checked all of the data correctly",
+      "I approve this data for submission"
+    ]
+  },
+  "question_groups": [
+    {
+      "id": 16993539153821,
+      "order": 1,
+      "name": "household_location",
+      "label": "HOUSEHOLD: Location",
+      "description": null,
+      "repeatable": false,
+      "translations": null,
+      "questions": [
+        {
+          "id": 16993542207341,
+          "order": 1,
+          "name": "new_or_monitoring",
+          "label": "New household registration or Monitoring update?",
+          "short_label": "New or Update",
+          "type": "option",
+          "tooltip": {
+            "text": "Registration of household in RTMIS (new household) or update of monitoring data (existing household)"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 16993543585751,
+              "order": 1,
+              "label": "New",
+              "value": "new"
+            },
+            {
+              "id": 16993543585761,
+              "order": 2,
+              "label": "Update",
+              "value": "update"
+            }
+          ],
+          "dependency": null,
+          "fn": null,
+          "pre": {
+            "answer": "new",
+            "fill": [
+              {
+                "id": 16994179587481,
+                "answer": ["household_head"]
+              },
+              {
+                "id": 16994206218401,
+                "answer": ["other_household_not_in_atrisk_category"]
+              },
+              {
+                "id": 16994222860911,
+                "answer": ["g0_no_toilet"]
+              },
+              {
+                "id": 16994233572001,
+                "answer": ["g0_nonfunctional_toilet"]
+              },
+              {
+                "id": 16994235714541,
+                "answer": ["g0_no_toilet_privacy"]
+              },
+              {
+                "id": 16994236967201,
+                "answer": ["g0_no_toilet"]
+              },
+              {
+                "id": 16994239461701,
+                "answer": ["g0_no_toilet"]
+              },
+              {
+                "id": 16994243759681,
+                "answer": ["g0_vip_vent_pipe_without_insect_screen"]
+              }
+            ]
+          }
+        },
+        {
+          "id": 16993548493821,
+          "order": 2,
+          "name": "household_location",
+          "label": "What is the location of the household?",
+          "short_label": "Location",
+          "type": "administration",
+          "tooltip": {
+            "text": "This question contains a list of possible household locations, starting with government area or district, down to the village."
+          },
+          "required": true,
+          "meta": false,
+          "dependency": [
+            {
+              "id": 16993542207341,
+              "options": ["new"]
+            }
+          ],
+          "fn": null,
+          "monitoring": true
+        },
+        {
+          "id": 17030862702533,
+          "order": 3,
+          "name": "school",
+          "label": "School Cascade",
+          "short_label": "School",
+          "meta": false,
+          "required": false,
+          "type": "cascade",
+          "dependency": [
+            {
+              "id": 16993542207341,
+              "options": ["new"]
+            }
+          ],
+          "extra": {
+            "type": "entity",
+            "name": "School"
+          },
+          "monitoring": true
+        },
+        {
+          "id": 17030862702534,
+          "order": 4,
+          "name": "hcf",
+          "label": "HCF Cascade",
+          "short_label": "HCF",
+          "meta": false,
+          "required": false,
+          "type": "cascade",
+          "dependency": [
+            {
+              "id": 16993542207341,
+              "options": ["new"]
+            }
+          ],
+          "extra": {
+            "type": "entity",
+            "name": "Health Care Facilities"
+          },
+          "monitoring": true
+        },
+        {
+          "id": 17029147539571,
+          "order": 5,
+          "name": "geolocation",
+          "label": "Geolocation of the household",
+          "short_label": "Geolocation",
+          "type": "geo",
+          "tooltip": null,
+          "required": true,
+          "meta": true,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16993542207341,
+              "options": ["new"]
+            }
+          ],
+          "fn": null,
+          "monitoring": true
+        },
+        {
+          "id": 17029148037321,
+          "order": 6,
+          "name": "household_code",
+          "label": "Household Code",
+          "short_label": "Code",
+          "type": "text",
+          "tooltip": null,
+          "required": false,
+          "meta": false,
+          "options": null,
+          "dependency": null,
+          "meta_uuid": true
+        }
+      ]
+    },
+    {
+      "id": 16994179587471,
+      "order": 2,
+      "name": "interview_household_primary_information",
+      "label": "INTERVIEW: Household Primary information",
+      "description": null,
+      "repeatable": false,
+      "translations": null,
+      "questions": [
+        {
+          "id": 16994179587481,
+          "order": 1,
+          "name": "household_respondent_position",
+          "label": "Household respondent position in household",
+          "short_label": "Respondent Position",
+          "type": "option",
+          "tooltip": {
+            "text": "List of household positions"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 16994188438531,
+              "order": 1,
+              "label": "Household head",
+              "value": "household_head"
+            },
+            {
+              "id": 16994188438541,
+              "order": 2,
+              "label": "Spouse of household head",
+              "value": "spouse_of_household_head"
+            },
+            {
+              "id": 16994188715801,
+              "order": 3,
+              "label": "Parent of household head",
+              "value": "parent_of_household_head"
+            },
+            {
+              "id": 16994188787351,
+              "order": 4,
+              "label": "Adult child of household head",
+              "value": "adult_child_of_household_head"
+            },
+            {
+              "id": 16994188861871,
+              "order": 5,
+              "label": "Under-18 child of household head",
+              "value": "under18_child_of_household_head"
+            }
+          ],
+          "rule": null,
+          "fn": null,
+          "attributes": ["advanced_filter"]
+        },
+        {
+          "id": 16994190480951,
+          "order": 2,
+          "name": "household_head_given_name",
+          "label": "Household head: given first name",
+          "short_label": "Given Name",
+          "type": "text",
+          "tooltip": null,
+          "required": true,
+          "meta": true,
+          "options": null,
+          "rule": null,
+          "fn": null,
+          "monitoring": true
+        },
+        {
+          "id": 16994198156601,
+          "order": 7,
+          "name": "household_head_age",
+          "label": "Household head: age",
+          "short_label": "Age",
+          "type": "number",
+          "tooltip": null,
+          "required": false,
+          "meta": false,
+          "options": null,
+          "rule": {
+            "max": 200,
+            "min": 0
+          },
+          "fn": null,
+          "attributes": ["advanced_filter"]
+        },
+        {
+          "id": 169941986117211,
+          "order": 8,
+          "name": "males_0_5",
+          "label": "How many males (0-5 years) live permanently in this house",
+          "short_label": "Males (0-5 years)",
+          "type": "number",
+          "tooltip": {
+            "text": "Count all people (in this age range) who reside in this household for at least 6 days a week (including the respondent) and share the same cooking pot and use the same toilet facilities."
+          },
+          "required": false,
+          "meta": false,
+          "options": null,
+          "rule": {
+            "max": 99,
+            "min": 0
+          },
+          "fn": null
+        },
+        {
+          "id": 169941995152311,
+          "order": 9,
+          "name": "females_0_5",
+          "label": "How many females (0-5 years) live permanently in this house",
+          "short_label": "Females (0-5 years)",
+          "type": "number",
+          "tooltip": {
+            "text": "Probe for additional members: those who are not currently at home, including anyone who may not be family (such as servants, friends) but who usually reside in the household."
+          },
+          "required": false,
+          "meta": false,
+          "options": null,
+          "rule": {
+            "max": 99,
+            "min": 0
+          },
+          "fn": null
+        },
+        {
+          "id": 17032657054601,
+          "order": 16,
+          "name": "total_family_members",
+          "label": "Total number  who live permanently in this house",
+          "short_label": "Total Family Members",
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "rule": null,
+          "fn": {
+            "fnColor": {},
+            "fnString": "#males_0_5# + #females_0_5#",
+            "multiline": false
+          }
+        },
+        {
+          "id": 16994206218401,
+          "order": 20,
+          "name": "at_risk_categories",
+          "label": "Household: in any at-risk categories?",
+          "short_label": "At-risk Categories",
+          "type": "multiple_option",
+          "tooltip": {
+            "text": "<b>INTERVIEW</b>: is the household in any of the following at-risk household categories? Household may be in more than one category \n\n<b>At-risk household</b>: defined as a household at risk of not achieving or not sustaining the required sanitation and hygiene outcomes, or at risk from the public health hazards associated with unsafely managed sanitation and hygiene services\n<b>At-risk categories</b>: the county public health office should determine the at-risk categories to be flagged in this county. The following list includes a number of potential at-risk categories, but should be edited to match the priority at-risk categories identified by the county public health office"
+          },
+          "required": true,
+          "meta": false,
+          "options": [
+            {
+              "id": 17029151440681,
+              "order": 1,
+              "label": "OTHER household (NOT in at-risk category)",
+              "color": "#96f2a2",
+              "value": "other_household_not_in_atrisk_category"
+            },
+            {
+              "id": 17029151440691,
+              "order": 2,
+              "label": "AT RISK: Disabled household member (mentally or physically)",
+              "color": "#fbbece",
+              "value": "at_risk_disabled_household_member_mentally_or_physically"
+            },
+            {
+              "id": 17029161495571,
+              "order": 3,
+              "label": "AT RISK: Elderly-headed households (without support)",
+              "color": "#fbbece",
+              "value": "at_risk_elderlyheaded_households_without_support"
+            },
+            {
+              "id": 17029161634851,
+              "order": 4,
+              "label": "AT RISK: Orphans and vulnerable children",
+              "color": "#fbbece",
+              "value": "at_risk_orphans_and_vulnerable_children"
+            },
+            {
+              "id": 17029162043841,
+              "order": 5,
+              "label": "AT RISK: Female-headed household (single mothers, divorcees, widows)",
+              "color": "#fbbece",
+              "value": "at_risk_femaleheaded_household_single_mothers_divorcees_widows"
+            },
+            {
+              "id": 17029162237341,
+              "order": 6,
+              "label": "AT RISK: Internally displaced people",
+              "color": "#fbbece",
+              "value": "at_risk_internally_displaced_people"
+            },
+            {
+              "id": 17029162312721,
+              "order": 7,
+              "label": "AT RISK: Returning refugees",
+              "color": "#fbbece",
+              "value": "at_risk_returning_refugees"
+            },
+            {
+              "id": 17029162437501,
+              "order": 8,
+              "label": "AT RISK: HIV/AIDS affected (or other serious illness)",
+              "color": "#fbbece",
+              "value": "at_risk_hivaids_affected_or_other_serious_illness"
+            },
+            {
+              "id": 17029162529671,
+              "order": 9,
+              "label": "AT RISK: Religious minorities",
+              "color": "#fbbece",
+              "value": "at_risk_religious_minorities"
+            },
+            {
+              "id": 17029162623501,
+              "order": 10,
+              "label": "AT RISK: Ethnic minorities",
+              "color": "#fbbece",
+              "value": "at_risk_ethnic_minorities"
+            },
+            {
+              "id": 17029162827171,
+              "order": 11,
+              "label": "AT RISK: Nomadic or semi-nomadic",
+              "color": "#fbbece",
+              "value": "at_risk_nomadic_or_seminomadic"
+            },
+            {
+              "id": 17029162855171,
+              "order": 12,
+              "label": "AT RISK: Seasonal fishing group",
+              "color": "#fbbece",
+              "value": "at_risk_seasonal_fishing_group"
+            },
+            {
+              "id": 17029163024501,
+              "order": 13,
+              "label": "AT RISK: Long-term poor",
+              "color": "#fbbece",
+              "value": "at_risk_longterm_poor"
+            },
+            {
+              "id": 17029163114001,
+              "order": 14,
+              "label": "AT RISK: Landless/tenants",
+              "color": "#fbbece",
+              "value": "at_risk_landlesstenants"
+            },
+            {
+              "id": 17029163207011,
+              "order": 15,
+              "label": "AT RISK: Shared use of someone else's toilet/public toilet (don't have a toilet)",
+              "color": "#fbbece",
+              "value": "at_risk_shared_use_of_someone_elses_toiletpublic_toilet_dont_have_a_toilet"
+            },
+            {
+              "id": 17029163332351,
+              "order": 16,
+              "label": "AT RISK: In-migrants (new households in last 12 months)",
+              "color": "#fbbece",
+              "value": "at_risk_inmigrants_new_households_in_last_12_months"
+            },
+            {
+              "id": 17029163412671,
+              "order": 17,
+              "label": "AT RISK: New adult households (newly formed household)",
+              "color": "#fbbece",
+              "value": "at_risk_new_adult_households_newly_formed_household"
+            },
+            {
+              "id": 17029163500171,
+              "order": 18,
+              "label": "AT RISK: households with previously collapsed or flooded toilets",
+              "color": "#fbbece",
+              "value": "at_risk_households_with_previously_collapsed_or_flooded_toilets"
+            }
+          ],
+          "rule": null,
+          "fn": null,
+          "attributes": ["advanced_filter"]
+        },
+        {
+          "id": 17030734694661,
+          "order": 21,
+          "name": "address",
+          "label": "Address or any unique household characteristics",
+          "short_label": "Address",
+          "type": "text",
+          "tooltip": {
+            "text": "Urban : Enter house number and street name\nRural : Enter any characteristic which helps distinguish this household from other similar households in the community "
+          },
+          "required": false,
+          "meta": true,
+          "options": null,
+          "rule": null,
+          "fn": null
+        }
+      ]
+    },
+    {
+      "id": 16994222860901,
+      "order": 3,
+      "name": "observation_toilet_outcomes",
+      "label": "OBSERVATION: TOILET OUTCOMES",
+      "description": null,
+      "repeatable": false,
+      "translations": null,
+      "questions": [
+        {
+          "id": 16994222860911,
+          "order": 1,
+          "name": "toilet_observed",
+          "label": "Household toilet observed",
+          "short_label": "Toilet observed",
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: Is a toilet facility visible in the house or household compound?"
+          },
+          "required": true,
+          "meta": false,
+          "options": [
+            {
+              "id": 16994229786231,
+              "order": 1,
+              "label": "G0 No toilet",
+              "color": "#db3b3b",
+              "value": "g0_no_toilet"
+            },
+            {
+              "id": 16994229786241,
+              "order": 2,
+              "label": "G1 Toilet observed",
+              "color": "#38a15a",
+              "value": "g1_toilet_observed"
+            }
+          ],
+          "dependency": null,
+          "fn": null,
+          "attributes": ["advanced_filter"]
+        },
+        {
+          "id": 17030669023251,
+          "order": 2,
+          "name": "photo_01",
+          "label": "PHOTO 01: view of outside front of toilet (door + walls + roof)",
+          "short_label": "Photo 01 - outside front of toilet",
+          "type": "photo",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994222860911,
+              "options": ["g1_toilet_observed"]
+            }
+          ],
+          "fn": null
+        },
+        {
+          "id": 16994233572001,
+          "order": 6,
+          "name": "functional_toilet",
+          "label": "Functional toilet",
+          "short_label": "Functional toilet",
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: is the toilet facility functional? \nFunctional: the household toilet is functioning as intended and can be used (that is, it is not blocked, abandoned, or collapsed)"
+          },
+          "required": true,
+          "meta": false,
+          "options": [
+            {
+              "id": 16994234346941,
+              "order": 1,
+              "label": "G0 Non-functional toilet",
+              "value": "g0_nonfunctional_toilet"
+            },
+            {
+              "id": 16994234346951,
+              "order": 2,
+              "label": "G0+ Partly functional toilet",
+              "value": "g0_partly_functional_toilet"
+            },
+            {
+              "id": 16994234731501,
+              "order": 3,
+              "label": "G1 Fully functional toilet",
+              "value": "g1_fully_functional_toilet"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 16994222860911,
+              "options": ["g1_toilet_observed"]
+            }
+          ],
+          "fn": null,
+          "attributes": ["advanced_filter"]
+        },
+        {
+          "id": 16994235714541,
+          "order": 7,
+          "name": "toilet_privacy",
+          "label": "Toilet privacy",
+          "short_label": "Toilet privacy",
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: does the toilet superstructure meet local criteria for privacy? \nOBSERVE: are animals prevented from entering the toilet?\nPrivacy: toilet superstructure has walls and a door that allow use of the toilet without observation by people outside the toilet (NOTE: variations in privacy criteria may be agreed by County Public Health Office to reflect local practices).\nPrivacy from animals: the toilet superstructure should also prevent animals from entering the toilet, to limit contact between animals and human excreta."
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 16994235796221,
+              "order": 1,
+              "label": "G0 No toilet privacy",
+              "value": "g0_no_toilet_privacy"
+            },
+            {
+              "id": 16994235796231,
+              "order": 2,
+              "label": "G0+ Inadequate toilet privacy",
+              "value": "g0_inadequate_toilet_privacy"
+            },
+            {
+              "id": 16994236548461,
+              "order": 3,
+              "label": "G1 Good toilet privacy",
+              "value": "g1_good_toilet_privacy"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 16994222860911,
+              "options": ["g1_toilet_observed"]
+            }
+          ],
+          "fn": null,
+          "attributes": ["advanced_filter"]
+        },
+        {
+          "id": 17018105790911,
+          "order": 8,
+          "name": "o_r_functional_toilet_with_privacy",
+          "label": "Outcome result - Functional toilet with privacy",
+          "short_label": "Outcome - Functional toilet with privacy",
+          "type": "autofield",
+          "tooltip": null,
+          "required": false,
+          "meta": false,
+          "options": null,
+          "dependency": null,
+          "fn": {
+            "fnColor": {},
+            "fnString": "#toilet_observed#.includes(\"g1\") && #functional_toilet#.includes(\"g1\") && #toilet_privacy#.includes(\"g1\") ? \"G1 Functional toilet with privacy\" : \"G0 Toilet non-functional or not private\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 16994236967201,
+          "order": 9,
+          "name": "toilet_interface",
+          "label": "Toilet interface",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: type of toilet interface\nToilet interface: part of the toilet through which the excreta pass into the containment system\nExamples: 1. Drophole, 2. Pour-flush pan, 3. SATO pan."
+          },
+          "required": true,
+          "meta": false,
+          "options": [
+            {
+              "id": 16994237147191,
+              "order": 1,
+              "label": "G0 No toilet",
+              "value": "g0_no_toilet"
+            },
+            {
+              "id": 16994237147201,
+              "order": 2,
+              "label": "G1 Dry latrine with drophole",
+              "value": "g1_dry_latrine_with_drophole"
+            },
+            {
+              "id": 16994238623071,
+              "order": 3,
+              "label": "G1 VIP drophole with vent pipe",
+              "value": "g1_vip_drophole_with_vent_pipe"
+            },
+            {
+              "id": 16994238800831,
+              "order": 4,
+              "label": "G1 SATO pan",
+              "value": "g1_sato_pan"
+            },
+            {
+              "id": 16994238922001,
+              "order": 5,
+              "label": "G1 Flush or pour-flush pan with water seal",
+              "value": "g1_flush_or_pourflush_pan_with_water_seal"
+            },
+            {
+              "id": 16994239036001,
+              "order": 6,
+              "label": "G1 Dry toilet with urine-diverting drophole",
+              "value": "g1_dry_toilet_with_urinediverting_drophole"
+            },
+            {
+              "id": 16994239160781,
+              "order": 7,
+              "label": "G1 Open pipe (no water seal)",
+              "value": "g1_open_pipe_no_water_seal"
+            },
+            {
+              "id": 16994239188661,
+              "order": 8,
+              "label": "G1 Other toilet interface",
+              "value": "g1_other_toilet_interface"
+            }
+          ],
+          "dependency": null,
+          "fn": null,
+          "attributes": ["advanced_filter"]
+        },
+        {
+          "id": 16994239461701,
+          "order": 10,
+          "name": "containment_or_collection_system",
+          "label": "Containment or collection system",
+          "short_label": "Containment or collection system",
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: type of excreta containment or collection system\nContainment system: pit or tank (or other) that contains and stores excreta\nCollection system: connection through which excreta and wastewater are collected\nExamples: 1. Latrine pit; 2. Septic tank; 3. Sewer connection.\nFlush to don't know: household does not know where the toilet flushes to, but no surface outlets or open discharges are visible (in this case, likely to be a buried pit or tank)"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 16994239628191,
+              "order": 1,
+              "label": "G0 No toilet",
+              "value": "g0_no_toilet"
+            },
+            {
+              "id": 16994240428551,
+              "order": 3,
+              "label": "G0 Open pit (uncovered or large openings)",
+              "value": "g0_open_pit_uncovered_or_large_openings"
+            },
+            {
+              "id": 16994240507931,
+              "order": 4,
+              "label": "G0 Single toilet vault (above ground)",
+              "value": "g0_single_toilet_vault_above_ground"
+            },
+            {
+              "id": 16994240585161,
+              "order": 5,
+              "label": "G0 Removable open container (e.g. bucket)",
+              "value": "g0_removable_open_container_eg_bucket"
+            },
+            {
+              "id": 16994240670661,
+              "order": 6,
+              "label": "G1 Single latrine pit",
+              "value": "g1_single_latrine_pit"
+            },
+            {
+              "id": 16994240760001,
+              "order": 7,
+              "label": "G1 Double latrine pit",
+              "value": "g1_double_latrine_pit"
+            },
+            {
+              "id": 16994240879451,
+              "order": 8,
+              "label": "G1 Double toilet vault (above ground)",
+              "value": "g1_double_toilet_vault_above_ground"
+            },
+            {
+              "id": 16994240965491,
+              "order": 9,
+              "label": "G1 Septic tank",
+              "value": "g1_septic_tank"
+            },
+            {
+              "id": 16994241048831,
+              "order": 10,
+              "label": "G1 Removable closed container",
+              "value": "g1_removable_closed_container"
+            },
+            {
+              "id": 16994241135011,
+              "order": 11,
+              "label": "G1 Piped sewer connection",
+              "value": "g1_piped_sewer_connection"
+            },
+            {
+              "id": 16994241218661,
+              "order": 12,
+              "label": "G1 Other pit or tank",
+              "value": "g1_other_pit_or_tank"
+            },
+            {
+              "id": 16994241355511,
+              "order": 13,
+              "label": "G1 Flush to don't know",
+              "value": "g1_flush_to_dont_know"
+            },
+            {
+              "id": 16994239628201,
+              "order": 2,
+              "label": "G0 No pit or tank (discharge to open: field, open drain, water body, elsewhere)",
+              "value": "g0_no_pit_or_tank_discharge_to_open_field_open_drain_water_body_elsewhere"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 16994222860911,
+              "options": ["g1_toilet_observed"]
+            }
+          ],
+          "fn": null,
+          "attributes": ["advanced_filter"]
+        },
+        {
+          "id": 16994243759681,
+          "order": 11,
+          "name": "flyproof_toilet",
+          "label": "Flyproof toilet",
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: is the toilet flyproof?\nFlyproof: toilet design prevents flies from reaching the excreta in the pit (or other containment system)\nVIP vent pipe with insect screen: vent pipes should be covered with insect screen to prevent insect entry into the pit or tank.\nExamples: 1. Pour-flush pit latrine with a functional water-seal pan; 2. VIP latrine with a screened vent pipe; 3. Dry pit latrine with a tight-fitting drophole cover."
+          },
+          "required": true,
+          "meta": false,
+          "options": [
+            {
+              "id": 16994244314871,
+              "order": 3,
+              "label": "G0 VIP vent pipe without insect screen",
+              "value": "g0_vip_vent_pipe_without_insect_screen"
+            },
+            {
+              "id": 16994244389221,
+              "order": 4,
+              "label": "G0 Broken SATO flap",
+              "value": "g0_broken_sato_flap"
+            },
+            {
+              "id": 16994244465831,
+              "order": 5,
+              "label": "G0 Broken or empty water seal (no water)",
+              "value": "g0_broken_or_empty_water_seal_no_water"
+            },
+            {
+              "id": 16994244548241,
+              "order": 6,
+              "label": "G0 Open pipe (to pit or tank)",
+              "value": "g0_open_pipe_to_pit_or_tank"
+            },
+            {
+              "id": 16994244625741,
+              "order": 7,
+              "label": "G0 Other non-flyproof toilet",
+              "value": "g0_other_nonflyproof_toilet"
+            },
+            {
+              "id": 16994244707531,
+              "order": 8,
+              "label": "G1 Tight-fitting drophole cover (in place)",
+              "value": "g1_tightfitting_drophole_cover_in_place"
+            },
+            {
+              "id": 16994244811081,
+              "order": 9,
+              "label": "G1 VIP vent pipe with insect screen",
+              "value": "g1_vip_vent_pipe_with_insect_screen"
+            },
+            {
+              "id": 16994244877761,
+              "order": 10,
+              "label": "G1 Functional SATO flap",
+              "value": "g1_functional_sato_flap"
+            },
+            {
+              "id": 16994245059751,
+              "order": 11,
+              "label": "G1 Functional water seal (with water)",
+              "value": "g1_functional_water_seal_with_water"
+            },
+            {
+              "id": 16994245135231,
+              "order": 12,
+              "label": "G1 Other flyproof toilet",
+              "value": "g1_other_flyproof_toilet"
+            },
+            {
+              "id": 16994243901661,
+              "order": 1,
+              "label": "G0 No toilet",
+              "value": "g0_no_toilet"
+            },
+            {
+              "id": 16994243901671,
+              "order": 2,
+              "label": "G0 Inadequate or missing drophole cover",
+              "value": "g0_inadequate_or_missing_drophole_cover"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 16994222860911,
+              "options": ["g1_toilet_observed"]
+            }
+          ],
+          "fn": null,
+          "attributes": ["advanced_filter"]
+        },
+        {
+          "id": 17022810847861,
+          "order": 12,
+          "name": "o_r_flyproof_toilet_type",
+          "label": "Outcome result -  Flyproof toilet type",
+          "short_label": "Outcome - Flyproof toilet type",
+          "type": "autofield",
+          "tooltip": null,
+          "required": false,
+          "meta": false,
+          "options": null,
+          "dependency": null,
+          "fn": {
+            "fnColor": {
+              "G0 Toilet NOT flyproof": "#ff0000",
+              "G1 Flyproof toilet": "#00ff00"
+            },
+            "fnString": "#toilet_interface#.includes(\"g1\") && #containment_or_collection_system#.includes(\"g1\") && #flyproof_toilet#.includes(\"g1\") ? \"G1 Flyproof toilet\"  : \"G0 Toilet NOT flyproof\"",
+            "multiline": false
+          }
+        }
+      ]
+    },
+    {
+      "id": 17030862702531,
+      "order": 7,
+      "name": "summary_of_outcomes",
+      "label": "Summary of Outcomes",
+      "description": "This section shows the summary of the outcomes for all toilet and hand washing indicators",
+      "repeatable": false,
+      "translations": null,
+      "questions": [
+        {
+          "id": 17030862702501,
+          "order": 1,
+          "name": "new_autofield",
+          "label": "New autofield",
+          "meta": false,
+          "required": true,
+          "dependency": null,
+          "type": "option",
+          "options": [
+            {
+              "id": 170308627025011,
+              "label": "Yes",
+              "value": "yes"
+            },
+            {
+              "id": 170308627025012,
+              "label": "No",
+              "value": "no"
+            }
+          ],
+          "pre": {
+            "answer": "yes",
+            "fill": [
+              {
+                "id": 17030862702502,
+                "answer": ["b"]
+              },
+              {
+                "id": 17030862702503,
+                "answer": ["b"]
+              }
+            ]
+          }
+        },
+        {
+          "id": 17030862702502,
+          "order": 2,
+          "name": "question_1",
+          "label": "Question #1",
+          "short_label": "Q1",
+          "meta": false,
+          "required": false,
+          "dependency": [
+            {
+              "id": 17030862702501,
+              "options": ["yes"]
+            }
+          ],
+          "type": "option",
+          "options": [
+            {
+              "id": 170308627025021,
+              "label": "A",
+              "color": "red",
+              "value": "a"
+            },
+            {
+              "id": 170308627025022,
+              "label": "B",
+              "color": "blue",
+              "value": "b"
+            }
+          ]
+        },
+        {
+          "id": 17030862702503,
+          "order": 3,
+          "name": "question_2",
+          "label": "Question #2",
+          "short_label": "Q2",
+          "meta": false,
+          "required": false,
+          "dependency": [
+            {
+              "id": 17030862702502,
+              "options": ["b"]
+            }
+          ],
+          "type": "option",
+          "options": [
+            {
+              "id": 170308627025031,
+              "label": "A",
+              "color": "red",
+              "value": "a"
+            },
+            {
+              "id": 170308627025032,
+              "label": "B",
+              "color": "blue",
+              "value": "b"
+            }
+          ]
+        },
+        {
+          "id": 17030862702541,
+          "order": 1,
+          "name": "o_r_auto_functional_toilet_with_privacy",
+          "label": "Outcome result - Functional toilet with privacy",
+          "short_label": "Outcome - Functional toilet with privacy",
+          "type": "autofield",
+          "required": false,
+          "meta": false,
+          "displayOnly": true,
+          "fn": {
+            "fnColor": {},
+            "fnString": "#o_r_functional_toilet_with_privacy#",
+            "multiline": false
+          }
+        },
+        {
+          "id": 17032625689541,
+          "order": 2,
+          "name": "o_r_auto_flyproof_toilet_type",
+          "label": "Outcome result - Flyproof toilet type",
+          "short_label": "Outcome - Flyproof toilet type",
+          "type": "autofield",
+          "required": false,
+          "meta": false,
+          "displayOnly": true,
+          "fn": {
+            "fnColor": {},
+            "fnString": "#o_r_flyproof_toilet_type#",
+            "multiline": false
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -4,20 +4,27 @@
   "type": 2,
   "question_groups": [
     {
-      "question_group": "Location Demographics",
+      "id": 5710700711,
+      "order": 1,
+      "name": "location_demographics",
+      "label": "Location Demographics",
       "questions": [
         {
           "id": 5710700711,
-          "question": "location",
           "order": 1,
+          "name": "location",
+          "label": "location",
+          "short_label": null,
           "required": true,
           "type": "administration",
           "meta": true
         },
         {
           "id": 563210188,
-          "question": "Name of Village",
           "order": 3,
+          "name": "village",
+          "label": "Name of Village",
+          "short_label": null,
           "meta": true,
           "type": "text",
           "required": true,
@@ -25,8 +32,10 @@
         },
         {
           "id": 563260127,
-          "question": "GPS Coordinates of Village",
           "order": 4,
+          "name": "gps",
+          "label": "GPS Coordinates of Village",
+          "short_label": null,
           "meta": true,
           "type": "geo",
           "required": true,
@@ -35,12 +44,17 @@
       ]
     },
     {
-      "question_group": "Water System Information",
+      "id": 5710700712,
+      "order": 2,
+      "name": "water_system_information",
+      "label": "Water System Information",
       "questions": [
         {
           "id": 571070074,
-          "question": "Water System Name",
           "order": 1,
+          "name": "name",
+          "label": "Water System Name",
+          "short_label": null,
           "meta": true,
           "type": "text",
           "required": true,
@@ -48,68 +62,84 @@
         },
         {
           "id": 557710145,
-          "question": "Organization That Installed Water System",
           "order": 2,
+          "name": "organization",
+          "label": "Organization That Installed Water System",
+          "short_label": null,
           "meta": false,
           "type": "option",
           "required": false,
           "options": [
             {
-              "name": "CDA",
-              "color": null
+              "label": "CDA",
+              "color": null,
+              "value": "cda"
             },
             {
-              "name": "Government",
-              "color": null
+              "label": "Government",
+              "color": null,
+              "value": "government"
             },
             {
-              "name": "Kale Hiwot",
-              "color": null
+              "label": "Kale Hiwot",
+              "color": null,
+              "value": "kale_hiwot"
             }
           ]
         },
         {
           "id": 571050096,
-          "question": "Water Source Type",
           "order": 3,
+          "name": "water_source_type",
+          "label": "Water Source Type",
+          "short_label": null,
           "meta": false,
           "type": "option",
           "required": false,
           "options": [
             {
-              "name": "Deep well with distribution",
-              "color": null
+              "label": "Deep well with distribution",
+              "color": null,
+              "value": "deep_well_with_distribution"
             },
             {
-              "name": "Hand dug well",
-              "color": null
+              "label": "Hand dug well",
+              "color": null,
+              "value": "hand_dug_well"
             },
             {
-              "name": "Shallow well",
-              "color": null
+              "label": "Shallow well",
+              "color": null,
+              "value": "shallow_well"
             },
             {
-              "name": "Protected spring",
-              "color": null
+              "label": "Protected spring",
+              "color": null,
+              "value": "protected_spring"
             },
             {
-              "name": "Unprotected spring",
-              "color": null
+              "label": "Unprotected spring",
+              "color": null,
+              "value": "unprotected_spring"
             },
             {
-              "name": "Rainwater collection",
-              "color": null
+              "label": "Rainwater collection",
+              "color": null,
+              "value": "rainwater_collection"
             },
             {
-              "name": "Surface water",
-              "color": null
+              "label": "Surface water",
+              "color": null,
+              "value": "surface_water"
             }
           ]
         },
         {
           "id": 527850181,
-          "question": "Depth of Well (m)",
           "order": 4,
+          "name": "well_depth",
+          "label": "Depth of Well (m)",
+          "short_label": null,
           "meta": false,
           "type": "number",
           "required": false,
@@ -117,8 +147,10 @@
         },
         {
           "id": 573000210,
-          "question": "Maximum Yield (lpd)",
           "order": 5,
+          "name": "yield",
+          "label": "Maximum Yield (lpd)",
+          "short_label": null,
           "meta": false,
           "type": "number",
           "required": false,
@@ -126,64 +158,79 @@
         },
         {
           "id": 569070152,
-          "question": "Abstraction/Pump Equipment",
           "order": 6,
+          "name": "abstraction_pump_equipment",
+          "label": "Abstraction/Pump Equipment",
+          "short_label": null,
           "meta": false,
           "type": "option",
           "required": false,
           "options": [
             {
-              "name": "Afridev",
-              "color": null
+              "label": "Afridev",
+              "color": null,
+              "value": "afridev"
             },
             {
-              "name": "Indian Mark II",
-              "color": null
+              "label": "Indian Mark II",
+              "color": null,
+              "value": "indian_mark_ii"
             },
             {
-              "name": "Submersible pump",
-              "color": null
+              "label": "Submersible pump",
+              "color": null,
+              "value": "submersible_pump"
             },
             {
-              "name": "Windlass",
-              "color": null
+              "label": "Windlass",
+              "color": null,
+              "value": "windlass"
             },
             {
-              "name": "I don't know",
-              "color": null
+              "label": "I don't know",
+              "color": null,
+              "value": "i_dont_know"
             }
           ]
         },
         {
           "id": 571060083,
-          "question": "Source of Energy",
           "order": 7,
+          "name": "source_of_energy",
+          "label": "Source of Energy",
+          "short_label": null,
           "meta": false,
           "type": "option",
           "required": false,
           "options": [
             {
-              "name": "Diesel",
-              "color": null
+              "label": "Diesel",
+              "color": null,
+              "value": "diesel"
             },
             {
-              "name": "Electricity and grid",
-              "color": null
+              "label": "Electricity and grid",
+              "color": null,
+              "value": "electricity_and_grid"
             },
             {
-              "name": "Gravity flow",
-              "color": null
+              "label": "Gravity flow",
+              "color": null,
+              "value": "gravity_flow"
             },
             {
-              "name": "Manual operation",
-              "color": null
+              "label": "Manual operation",
+              "color": null,
+              "value": "manual_operation"
             }
           ]
         },
         {
           "id": 555960249,
-          "question": "Number of Functional Taps",
           "order": 8,
+          "name": "functional_taps",
+          "label": "Number of Functional Taps",
+          "short_label": null,
           "meta": false,
           "type": "number",
           "required": false,
@@ -191,8 +238,10 @@
         },
         {
           "id": 546560207,
-          "question": "Number of Non-Functional Taps",
           "order": 9,
+          "name": "non_functional_taps",
+          "label": "Number of Non-Functional Taps",
+          "short_label": null,
           "meta": false,
           "type": "number",
           "required": false,
@@ -200,8 +249,10 @@
         },
         {
           "id": 567400198,
-          "question": "Estimated Number of Users",
           "order": 10,
+          "name": "number_of_users",
+          "label": "Estimated Number of Users",
+          "short_label": null,
           "meta": false,
           "type": "number",
           "required": true,
@@ -209,91 +260,112 @@
         },
         {
           "id": 567450085,
-          "question": "Functionality Status",
           "order": 11,
+          "name": "functionality_status",
+          "label": "Functionality Status",
+          "short_label": null,
           "meta": false,
           "type": "option",
           "required": false,
           "options": [
             {
-              "name": "Functional",
-              "color": "#91cc75"
+              "label": "Functional",
+              "color": "#91cc75",
+              "value": "functional"
             },
             {
-              "name": "Functional but with problems",
-              "color": "#e39f00"
+              "label": "Functional but with problems",
+              "color": "#e39f00",
+              "value": "functional_but_with_problems"
             },
             {
-              "name": "Not functional",
-              "color": "#ee6666"
+              "label": "Not functional",
+              "color": "#ee6666",
+              "value": "not_functional"
             }
           ]
         },
         {
           "id": 571060084,
-          "question": "Problems With Water System",
           "order": 12,
+          "name": "water_system_problems",
+          "label": "Problems With Water System",
+          "short_label": null,
           "meta": false,
           "type": "option",
           "required": false,
           "options": [
             {
-              "name": "Lack of water",
-              "color": null
+              "label": "Lack of water",
+              "color": null,
+              "value": "lack_of_water"
             },
             {
-              "name": "Pump broken",
-              "color": null
+              "label": "Pump broken",
+              "color": null,
+              "value": "pump_broken"
             },
             {
-              "name": "Tap broken",
-              "color": null
+              "label": "Tap broken",
+              "color": null,
+              "value": "tap_broken"
             },
             {
-              "name": "Distribution pipeline broken",
-              "color": null
+              "label": "Distribution pipeline broken",
+              "color": null,
+              "value": "distribution_pipeline_broken"
             },
             {
-              "name": "Power failure",
-              "color": null
+              "label": "Power failure",
+              "color": null,
+              "value": "power_failure"
             },
             {
-              "name": "Lack of fuel",
-              "color": null
+              "label": "Lack of fuel",
+              "color": null,
+              "value": "lack_of_fuel"
             },
             {
-              "name": "Poor water quality",
-              "color": null
+              "label": "Poor water quality",
+              "color": null,
+              "value": "poor_water_quality"
             }
           ]
         },
         {
           "id": 563220092,
-          "question": "Reason for Survey",
           "order": 13,
+          "name": "reason_for_survey",
+          "label": "Reason for Survey",
+          "short_label": null,
           "meta": false,
           "type": "option",
           "required": false,
           "options": [
             {
-              "name": "Extension",
-              "color": null
+              "label": "Extension",
+              "color": null,
+              "value": "extension"
             },
             {
-              "name": "Inspection",
-              "color": null
+              "label": "Inspection",
+              "color": null,
+              "value": "inspection"
             },
             {
-              "name": "National WASH Inventory",
-              "color": null
+              "label": "National WASH Inventory",
+              "color": null,
+              "value": "national_wash_inventory"
             },
             {
-              "name": "New Scheme",
-              "color": null
+              "label": "New Scheme",
+              "color": null,
+              "value": "new_scheme"
             },
             {
-              "name": "Repair",
-              "color": null
+              "label": "Repair",
+              "color": null,
+              "value": "repair"
             }
           ]
         }

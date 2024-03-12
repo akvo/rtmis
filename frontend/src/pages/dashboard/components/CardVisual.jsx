@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { Row, Col, Card, Image } from "antd";
 import { get, sum, mean, takeRight } from "lodash";
 import millify from "millify";
-import { store } from "../../../lib";
+import { api, store } from "../../../lib";
 
 const cardColorPalette = [
   "#CBBFFF",
@@ -52,20 +52,20 @@ const CardVisual = ({ cardConfig, loading, customTotal = false }) => {
       };
     }
     if (calc === "count" && path === "length") {
-      const filterAdm = window.dbadm.filter(
-        (d) => d.parent === currentAdministration.id
-      );
-      // counties count card
-      const administration_count = filterAdm.length || 1;
-      // filter data by total > 0
-      const administration_reported = data.filter((d) => d.total > 0).length;
-      const adm_percent = Math.round(
-        (administration_reported / administration_count) * 100
-      );
-      result = {
-        title: title,
-        value: `${administration_reported} (${adm_percent}%)`,
-      };
+      api.get(`administrations/${currentAdministration.id}`).then((res) => {
+        const filterAdm = res.children;
+        // counties count card
+        const administration_count = filterAdm.length || 1;
+        // filter data by total > 0
+        const administration_reported = data.filter((d) => d.total > 0).length;
+        const adm_percent = Math.round(
+          (administration_reported / administration_count) * 100
+        );
+        result = {
+          title: title,
+          value: `${administration_reported} (${adm_percent}%)`,
+        };
+      });
     }
     if (calc === "tail") {
       result = {

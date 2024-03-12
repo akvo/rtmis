@@ -5,6 +5,7 @@ set -eu
 
 python manage.py migrate
 python manage.py generate_views
+python manage.py generate_sqlite > /dev/null &
 python manage.py generate_config > /dev/null &
 
 function log {

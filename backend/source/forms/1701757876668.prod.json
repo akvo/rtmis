@@ -1,0 +1,2134 @@
+{
+  "id": 1701757876668,
+  "form": "RTMIS School WASH Form",
+  "description": "School WASH",
+  "defaultLanguage": "en",
+  "languages": ["en"],
+  "version": 1,
+  "type": 1,
+  "translations": null,
+  "question_groups": [
+    {
+      "id": 1701757914032,
+      "order": 1,
+      "name": "school_wash_data",
+      "label": "School WASH: Data",
+      "description": null,
+      "repeatable": false,
+      "translations": null,
+      "questions": [
+        {
+          "id": 1701757914033,
+          "order": 1,
+          "name": "new_school_registration_monitoring_update",
+          "label": "New school registration or monitoring update?",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "Entry of school data in RTMIS (first time) or update of monitoring data (existing school)"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1701758035213,
+              "order": 1,
+              "label": "New",
+              "value": "new"
+            },
+            {
+              "id": 1701758035214,
+              "order": 2,
+              "label": "Update",
+              "value": "upda"
+            }
+          ],
+          "rule": null
+        },
+        {
+          "id": 1706105071390,
+          "order": 2,
+          "name": "school_geolocation",
+          "label": "Geolocation of school",
+          "short_label": null,
+          "type": "geo",
+          "tooltip": null,
+          "required": false,
+          "meta": false,
+          "options": null,
+          "rule": null
+        },
+        {
+          "id": 1706105097574,
+          "order": 3,
+          "name": "school_respondent_role",
+          "label": "School respondent: role/position",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "List of school positions/roles"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706105143946,
+              "order": 3,
+              "label": "Principal",
+              "value": "prin"
+            },
+            {
+              "id": 1706105152863,
+              "order": 4,
+              "label": "Deputy Principal",
+              "value": "depu_prin"
+            },
+            {
+              "id": 1706105163014,
+              "order": 5,
+              "label": "Senior Master",
+              "value": "seni_mast"
+            },
+            {
+              "id": 1706105171647,
+              "order": 6,
+              "label": "Deputy Headteacher",
+              "value": "depu_head"
+            },
+            {
+              "id": 1706105182712,
+              "order": 7,
+              "label": "Teacher",
+              "value": "teac"
+            },
+            {
+              "id": 1706105191930,
+              "order": 8,
+              "label": "Other-specify",
+              "value": "othe"
+            },
+            {
+              "id": 1706105104939,
+              "order": 1,
+              "label": "Chief Principal",
+              "value": "chie_prin"
+            },
+            {
+              "id": 1706105104940,
+              "order": 2,
+              "label": "Senior Principal",
+              "value": "seni_prin"
+            }
+          ],
+          "rule": null
+        },
+        {
+          "id": 1706105362976,
+          "order": 4,
+          "name": "total_students_enrolled",
+          "label": "Total number of students enrolled in school",
+          "short_label": null,
+          "type": "number",
+          "tooltip": {
+            "text": "INTERVIEW: what is the total number of students currently enrolled in this school?"
+          },
+          "required": false,
+          "meta": false,
+          "options": null,
+          "rule": {
+            "min": 0
+          }
+        },
+        {
+          "id": 1706105426912,
+          "order": 5,
+          "name": "num_boys_enrolled",
+          "label": "Number of boys (male students) enrolled in school",
+          "short_label": null,
+          "type": "number",
+          "tooltip": {
+            "text": "INTERVIEW: what is the total number of boys currently enrolled in this school?\n"
+          },
+          "required": false,
+          "meta": false,
+          "options": null,
+          "rule": {
+            "min": 0
+          }
+        },
+        {
+          "id": 1706105453740,
+          "order": 6,
+          "name": "num_girls_enrolled",
+          "label": "Number of girls (female students) enrolled in school",
+          "short_label": null,
+          "type": "number",
+          "tooltip": {
+            "text": "INTERVIEW: what is the total number of girls currently enrolled in this school?"
+          },
+          "required": false,
+          "meta": false,
+          "options": null,
+          "rule": {
+            "min": 0
+          }
+        },
+        {
+          "id": 1706105556610,
+          "order": 7,
+          "name": "num_students_disability",
+          "label": "Number of students with disability enrolled in school",
+          "short_label": null,
+          "type": "number",
+          "tooltip": {
+            "text": "INTERVIEW: what is the total number of students with disability currently enrolled in this school?\n"
+          },
+          "required": false,
+          "meta": false,
+          "options": null,
+          "rule": {
+            "min": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": 1701757876669,
+      "order": 2,
+      "name": "school_location",
+      "label": "School: Location",
+      "description": "This question contains a list of possible school locations, starting with the government area or district, down to the community.",
+      "repeatable": false,
+      "translations": null,
+      "questions": [
+        {
+          "id": 1701757876670,
+          "order": 1,
+          "name": "school_location",
+          "label": "What is the location of the school?",
+          "short_label": null,
+          "type": "administration",
+          "tooltip": {
+            "text": "This question contains a list of possible school locations, starting with the government area or district, down to the community."
+          },
+          "required": false,
+          "meta": true
+        }
+      ]
+    },
+    {
+      "id": 1706087451988,
+      "order": 3,
+      "name": "school_water_supply",
+      "label": "School Water Supply",
+      "description": null,
+      "repeatable": false,
+      "translations": null,
+      "questions": [
+        {
+          "id": 1706087451989,
+          "order": 1,
+          "name": "main_drinking_water_source",
+          "label": "Main source of drinking water",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE & INTERVIEW: what is the main source of drinking water for the school?<br/>\n<b>Main source:</b> if there is more than one water source, select the one used most frequently for drinking water"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706087635343,
+              "order": 1,
+              "label": "No water source",
+              "value": "no_wate_sour",
+              "color": "#db3b3b"
+            },
+            {
+              "id": 1706087635344,
+              "order": 2,
+              "label": "Surface water (lake, river, stream, dam)",
+              "value": "surf_wate_lake_rive_stre_dam",
+              "color": "#db3b3b"
+            },
+            {
+              "id": 1706113953408,
+              "order": 3,
+              "label": "Unprotected well/spring",
+              "value": "unpr_well",
+              "color": "#db3b3b"
+            },
+            {
+              "id": 1706113961237,
+              "order": 4,
+              "label": "Children bring water from home",
+              "value": "chil_brin_wate_from_home",
+              "color": "#db3b3b"
+            },
+            {
+              "id": 1706113971096,
+              "order": 5,
+              "label": "Piped water supply",
+              "value": "pipe_wate_supp",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706113983912,
+              "order": 6,
+              "label": "Protected well/spring/borehole",
+              "value": "prot_well",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706113995660,
+              "order": 7,
+              "label": "Rainwater tank",
+              "value": "rain_tank",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706114007690,
+              "order": 8,
+              "label": "Packaged water (bottles)",
+              "value": "pack_wate_bott",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706114016239,
+              "order": 9,
+              "label": "Tanker truck or cart",
+              "value": "tank_truc_cart",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706114026561,
+              "order": 10,
+              "label": "Other improved - specify",
+              "value": "othe_impr_spec",
+              "color": "#38a15a"
+            }
+          ],
+          "rule": null
+        },
+        {
+          "id": 1706087689694,
+          "order": 2,
+          "name": "num_water_points",
+          "label": "Number of water points",
+          "short_label": null,
+          "type": "number",
+          "tooltip": {
+            "text": "OBSERVE: how many drinking water points (e.g. taps) are available to students at the school?</br>\n<b>Number of water points:</b> count the total number of drinking water points available to students at the school "
+          },
+          "required": false,
+          "meta": false,
+          "options": null,
+          "rule": {
+            "min": 0
+          }
+        },
+        {
+          "id": 1706089053651,
+          "order": 3,
+          "name": "drinking_water_availability_current",
+          "label": "Drinking water availability: current",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE & INTERVIEW: is drinking water from the main water source currently available at the school?</br>\n<b>Currently available:</b> drinking water is available at the time of the interview, either from the main source directly or stored water originally from the main source"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706089329756,
+              "order": 1,
+              "label": "No",
+              "value": "no",
+              "color": "#db3b3b"
+            },
+            {
+              "id": 1706089329757,
+              "order": 2,
+              "label": "Yes",
+              "value": "yes",
+              "color": "#38a15a"
+            }
+          ],
+          "rule": {
+            "min": 0
+          }
+        },
+        {
+          "id": 1706089220816,
+          "order": 4,
+          "name": "drinking_water_availability_school_year",
+          "label": "Drinking water availability: throughout school year",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE & INTERVIEW: is drinking water typically available throughout the school year?</br>\n<b>Throughout the school year:</b> drinking water is available throughout the school year, when the students are at school"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706090371200,
+              "order": 1,
+              "label": "No (unavailable for more than 30 days in total)",
+              "value": "no_unav_for_more_than_30_days_tota",
+              "color": "#db3b3b"
+            },
+            {
+              "id": 1706090371201,
+              "order": 2,
+              "label": "Mostly (unavailable for up to 30 days in total)",
+              "value": "most_unav_for_up_to_30_days_tota",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1706090408567,
+              "order": 3,
+              "label": "Yes (always available)",
+              "value": "yes_alwa_avai",
+              "color": "#38a15a"
+            }
+          ],
+          "rule": {
+            "min": 0
+          }
+        },
+        {
+          "id": 1706090780592,
+          "order": 5,
+          "name": "drinking_water_treatment",
+          "label": "Drinking water treatment",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE & INTERVIEW: what treatment method is used ot make the water from the main source safe to drink?<br/>\n<b>SODIS:</b> solar disinfection (plastic bottles placed in sun for a number of hours)"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706090874972,
+              "order": 1,
+              "label": "No treatment",
+              "value": "no_trea",
+              "color": "#db3b3b"
+            },
+            {
+              "id": 1706090874973,
+              "order": 2,
+              "label": "Filtration",
+              "value": "filt",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706090967892,
+              "order": 3,
+              "label": "Boiling",
+              "value": "boil",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706090977786,
+              "order": 4,
+              "label": "Chlorination",
+              "value": "chlo",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706090986671,
+              "order": 5,
+              "label": "SODIS",
+              "value": "sodi",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706090994701,
+              "order": 6,
+              "label": "Ultraviolet disinfection",
+              "value": "ultr_disi",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706091004735,
+              "order": 7,
+              "label": "Other (specify)",
+              "value": "othe_spec",
+              "color": "#38a15a"
+            }
+          ],
+          "rule": null
+        },
+        {
+          "id": 1706091513597,
+          "order": 6,
+          "name": "water_accessibility_students_lim_mobility_vision",
+          "label": "Drinking water accessibility: students with limited mobility or vision",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: is drinking water accessible to those with limited mobility or vision?</b></br>\n<b>Accessible:</b> drinking water can be accessed (directly from the source or from a storage container) via a clear path without stairs or steps that is free of obstruction and has age-appropriate handrails; the tap can be reached from a seated position; and the water source/dispsenser can be opened and closed with minimal effort with one closed fist or foot"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706091528640,
+              "order": 1,
+              "label": "No",
+              "value": "no",
+              "color": "#db3b3b"
+            },
+            {
+              "id": 1706091528641,
+              "order": 2,
+              "label": "Yes",
+              "value": "yes",
+              "color": "#38a15a"
+            }
+          ],
+          "rule": null
+        },
+        {
+          "id": 1706091729540,
+          "order": 7,
+          "name": "water_accessibility_smallest_students",
+          "label": "Drinking water accessibility: smallest students",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: is drinking water accessible to the smallest children at the school?</b></br>\n<b>Accessible:</b> drinking water can be reached (directly from the source or from a storage container) and the water source/dispenser can be easily opened and closed by the smallest children\n"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706091736548,
+              "order": 1,
+              "value": "no",
+              "label": "No",
+              "color": "#db3b3b"
+            },
+            {
+              "id": 1706091736549,
+              "order": 2,
+              "value": "yes",
+              "label": "Yes",
+              "color": "#38a15a"
+            }
+          ],
+          "rule": null
+        }
+      ]
+    },
+    {
+      "id": 1706087820879,
+      "order": 4,
+      "name": "school_sanitation",
+      "label": "School Sanitation",
+      "description": null,
+      "repeatable": false,
+      "translations": null,
+      "questions": [
+        {
+          "id": 1706087820880,
+          "order": 1,
+          "name": "school_toilet_interface_type",
+          "label": "School toilet interface type",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: main type of toilet interface</b></br>\n<b>Toilet interface:</b> part of the toilet through which the excreta pass into the containment system</br>\n<b>Examples: </b>1. Drophole, 2. Pour-flush pan, 3. SATO pan."
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706092381119,
+              "order": 1,
+              "label": "No toilet",
+              "value": "no_toil",
+              "color": "#db3b3b"
+            },
+            {
+              "id": 1706092427776,
+              "order": 3,
+              "label": "VIP drophole with vent pipe",
+              "value": "vip_drop_with_vent_pipe",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706092437043,
+              "order": 4,
+              "label": "SATO pan",
+              "value": "sato_pan",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706092447511,
+              "order": 5,
+              "label": "Flush or pour-flush pan with water seal",
+              "value": "flus_pour_pan_with_wate_seal",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706092458462,
+              "order": 6,
+              "label": "Dry toilet with urine-diverting drophole",
+              "value": "dry_toil_with_urin_drop",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706092476699,
+              "order": 7,
+              "label": "Open pipe (no water seal)",
+              "value": "open_pipe_no_wate_seal",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706092486092,
+              "order": 8,
+              "label": "Other toilet interface",
+              "value": "othe_toil_inte",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706092381120,
+              "order": 2,
+              "label": "Dry latrine with drophole",
+              "value": "dry_latr_with_drop",
+              "color": "#38a15a"
+            }
+          ],
+          "dependency": null,
+          "rule": null,
+          "fn": null
+        },
+        {
+          "id": 1706092607055,
+          "order": 2,
+          "name": "school_toilet_containment_collection_system",
+          "label": "School toilet containment or collection system",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: main type of excreta containment or collection system</b></br>\n<b>Main type:</b> the most common type of student toilet should be selected</br>\n<b>Containment system:</b> pit or tank (or other) that contains and stores excreta</br>\n<b>Collection system:</b> connection through which excreta and wastewater are collected</br>\n<b>Examples:</b> 1. Latrine pit; 2. Septic tank; 3. Sewer connection.</br>\n<b>Flush to don't know: </b>household does not know where the toilet flushes to, but no surface outlets or open discharges are visible (in this case, likely to be a buried pit or tank)"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706092768409,
+              "order": 1,
+              "label": "No toilet",
+              "value": "no_toil",
+              "color": "#db3b3b"
+            },
+            {
+              "id": 1706092768410,
+              "order": 2,
+              "label": "No pit or tank (discharge to open: field, open drain, water body, elsewhere)",
+              "value": "no_pit_tank_disc_to_open_fiel_open_drai_wate_body_else",
+              "color": "#db3b3b"
+            },
+            {
+              "id": 1706092780791,
+              "order": 3,
+              "label": "Open pit (uncovered or large openings)",
+              "value": "open_pit_unco_larg_open",
+              "color": "#db3b3b"
+            },
+            {
+              "id": 1706092792068,
+              "order": 4,
+              "label": "Single toilet vault (above ground)",
+              "value": "sing_toil_vaul_abov_grou",
+              "color": "#db3b3b"
+            },
+            {
+              "id": 1706092801188,
+              "order": 5,
+              "label": "Removable open container (e.g. bucket)",
+              "value": "remo_open_cont_eg_buck",
+              "color": "#db3b3b"
+            },
+            {
+              "id": 1706092811427,
+              "order": 6,
+              "label": "Single latrine pit",
+              "value": "sing_latr_pit",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706092820533,
+              "order": 7,
+              "label": "Double latrine pit",
+              "value": "doub_latr_pit",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706092841424,
+              "order": 8,
+              "label": "Double toilet vault (above ground)",
+              "value": "doub_toil_vaul_abov_grou",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706092846015,
+              "order": 9,
+              "label": "Septic tank",
+              "value": "sept_tank",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706092858042,
+              "order": 10,
+              "label": "Removable closed container",
+              "value": "remo_clos_cont",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706092867217,
+              "order": 11,
+              "label": "Piped sewer connection",
+              "value": "pipe_sewe_conn",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706092876714,
+              "order": 12,
+              "label": "Other pit or tank",
+              "value": "othe_pit_tank",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706092887417,
+              "order": 13,
+              "label": "Flush to don't know",
+              "value": "flus_to_dont_know",
+              "color": "#38a15a"
+            }
+          ],
+          "dependency": null,
+          "rule": null,
+          "fn": null
+        },
+        {
+          "id": 1706093073073,
+          "order": 3,
+          "name": "durable_toilet_slabs",
+          "label": "Durable school toilet slabs",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: durable toilet slabs observed in school toilets?</b></br>\n<b>Durable toilet slab: </b>toilet slab or floor is made from durable materials. </br>\n<b>Examples of durable toilet slabs:</b> 1. Concrete toilet slab; 2. Concrete toilet slab covered with ceramic tiles; 3. Structural plastic slab."
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706093623092,
+              "order": 3,
+              "label": "G3 All functional school toilets have durable toilet slabs",
+              "value": "g3_all_func_scho_toil_have_dura_toil_slab",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1706093572396,
+              "order": 1,
+              "label": "G0 All school toilet slabs are NOT durable",
+              "value": "g0_all_scho_toil_slab_are_not_dura",
+              "color": "#db3b3b"
+            },
+            {
+              "id": 1706093572397,
+              "order": 2,
+              "label": "G1 Some school toilet slabs are NOT durable",
+              "value": "g1_some_scho_toil_slab_are_not_dura",
+              "color": "#ffa57d"
+            }
+          ],
+          "dependency": null,
+          "rule": null,
+          "fn": null
+        },
+        {
+          "id": 1706093811090,
+          "order": 4,
+          "name": "durable_toilet_pits",
+          "label": "Durable school toilet pits",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: durable toilet pits observed in school toilets?</b></br>\n<b>OBSERVE:</b> are there any signs of collapse or damage to the school toilet containment or collection system?</br>\n<b>INTERVIEW (where containment not visible): </b>were any materials used to support the sides of the containment system? </br>\n<b>INTERVIEW (where containment not visible):</b> does the soil collapse without support?</br>\n<b>INTERVIEW (where containment not visible):</b> has the toilet pit collapsed in the last 12 months?</br>\n</b>Durable toilet containment (in stable soils): </b>unlined pits may be assessed as durable in areas where other unlined pits are known to be stable and long-lasting.</br>\n</b>Durable toilet containment (in UNSTABLE soils): </b>the pit or tank should either be lined with durable materials (e.g. concrete, brickwork, blockwork), or lined with resilient local materials approved by the county public health office for pit linings. </br>"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706093835280,
+              "order": 1,
+              "label": "G0 All toilet pits are NOT durable",
+              "value": "g0_all_toil_pits_are_not_dura",
+              "color": "#db3b3b"
+            },
+            {
+              "id": 1706093835281,
+              "order": 2,
+              "label": "G1 Some toilet pits are NOT durable",
+              "value": "g1_some_toil_pits_are_not_dura",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1706094848944,
+              "order": 3,
+              "label": "G3 All functional toilet pits are durable",
+              "value": "g3_all_func_toil_pits_are_dura",
+              "color": "#38a15a"
+            }
+          ],
+          "dependency": null,
+          "rule": null,
+          "fn": null
+        },
+        {
+          "id": 1706094951022,
+          "order": 5,
+          "name": "status_girls_only_toilet",
+          "label": "Status of girls only school toilet",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: count the number of girls-only school toilets</b></br>\n<b>OBSERVE: assess whether the girls-only school toilets are functiona</b>l</br>\n<b>Functional:</b> toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required)\n"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706176374454,
+              "order": 1,
+              "label": "All girls-only school toilets are NON-functional (specify number of non-functional toilets)",
+              "value": "all_girl_scho_toil_are_nonf_spec_numb_nonf_toil",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706176374455,
+              "order": 2,
+              "label": "Some girls-only school toilets are non-functional (specify number of functional toilets + number of non-functional toilets)",
+              "value": "some_girl_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1706176394660,
+              "order": 3,
+              "label": "All girls-only school toilets are functional (specify number of functional toilets)",
+              "value": "all_girl_scho_toil_are_func_spec_numb_func_toil",
+              "color": "#38A15A"
+            }
+          ],
+          "dependency": null,
+          "rule": null,
+          "fn": null
+        },
+        {
+          "id": 1706193081516,
+          "order": 6,
+          "name": "num_girls_only_non_functional_toilet",
+          "label": "Number of girls only non functional toilet",
+          "short_label": null,
+          "type": "number",
+          "tooltip": null,
+          "required": false,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 1706094951022,
+              "options": [
+                "all_girl_scho_toil_are_nonf_spec_numb_nonf_toil",
+                "some_girl_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil"
+              ]
+            }
+          ],
+          "rule": {
+            "min": 0
+          },
+          "fn": null
+        },
+        {
+          "id": 1706193332941,
+          "order": 7,
+          "name": "num_girls_only_functional_toilet",
+          "label": "Number of girls only functional toilet",
+          "short_label": null,
+          "type": "number",
+          "tooltip": null,
+          "required": false,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 1706094951022,
+              "options": [
+                "some_girl_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil",
+                "all_girl_scho_toil_are_func_spec_numb_func_toil"
+              ]
+            }
+          ],
+          "rule": null,
+          "fn": null
+        },
+        {
+          "id": 1706096632535,
+          "order": 8,
+          "name": "status_boys_only_toilets",
+          "label": "Status of boys only school toilets",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: count the number of boys-only school toilets</b></br>\n<b>OBSERVE:</b> assess whether the boys-only school toilets are functional</br>\n<b>Functional: </b>toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required)"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706096715736,
+              "order": 1,
+              "label": "All boys-only school toilets are NON-functional (specify number of non-functional toilets)",
+              "value": "all_boys_scho_toil_are_nonf_spec_numb_nonf_toil",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706096715737,
+              "order": 2,
+              "label": "Some boys-only school toilets are non-functional (specify number of functional toilets + number of non-functional toilets)",
+              "value": "some_boys_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1706096751745,
+              "order": 3,
+              "label": "All boys-only school toilets are functional (specify number of functional toilets)",
+              "value": "all_boys_scho_toil_are_func_spec_numb_func_toil",
+              "color": "#38A15A"
+            }
+          ],
+          "dependency": null,
+          "rule": null,
+          "fn": null
+        },
+        {
+          "id": 1706194800313,
+          "order": 9,
+          "name": "num_boys_only_non_functional_toilet",
+          "label": "Number of boys only non functional toilet",
+          "short_label": null,
+          "type": "number",
+          "tooltip": null,
+          "required": false,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 1706096632535,
+              "options": [
+                "all_boys_scho_toil_are_nonf_spec_numb_nonf_toil",
+                "some_boys_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil"
+              ]
+            }
+          ],
+          "rule": {
+            "min": 0
+          },
+          "fn": null
+        },
+        {
+          "id": 1706194881288,
+          "order": 10,
+          "name": "num_boys_only_functional_toilets",
+          "label": "Number of boys only functional toilets",
+          "short_label": null,
+          "type": "number",
+          "tooltip": null,
+          "required": false,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 1706096632535,
+              "options": [
+                "some_boys_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil",
+                "all_boys_scho_toil_are_func_spec_numb_func_toil"
+              ]
+            }
+          ],
+          "rule": {
+            "min": 0
+          },
+          "fn": null
+        },
+        {
+          "id": 1706097041101,
+          "order": 11,
+          "name": "status_shared_toilets",
+          "label": "Status of  shared only school toilets",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: count the number of shared school toilets</b></br>\n<b>OBSERVE: assess whether the shared school toilets are functional  </b></br>\n<b>Functional:</b> toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required)</br>"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706176203960,
+              "order": 1,
+              "label": "All shared school toilets are NON-functional (specify number of non-functional toilets)",
+              "value": "all_shar_scho_toil_are_nonf_spec_numb_nonf_toil",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706176203961,
+              "order": 2,
+              "label": "Some shared school toilets are non-functional (specify number of functional toilets + number of non-functional toilets)",
+              "value": "some_shar_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1706176241747,
+              "order": 3,
+              "label": "All shared school toilets are functional (specify number of functional toilets)",
+              "value": "all_shar_scho_toil_are_func_spec_numb_func_toil",
+              "color": "#38A15A"
+            }
+          ],
+          "dependency": null,
+          "rule": null
+        },
+        {
+          "id": 1706195744398,
+          "order": 12,
+          "name": "num_functional_shared_toilet",
+          "label": "Number of functional shared toilet",
+          "short_label": null,
+          "type": "number",
+          "tooltip": null,
+          "required": false,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 1706097041101,
+              "options": [
+                "some_shar_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil",
+                "all_shar_scho_toil_are_func_spec_numb_func_toil"
+              ]
+            }
+          ],
+          "rule": {
+            "min": 0
+          },
+          "fn": null
+        },
+        {
+          "id": 1706196044965,
+          "order": 13,
+          "name": "num_non_functional_shared_toilet",
+          "label": "Number of non functional shared toilet",
+          "short_label": null,
+          "type": "number",
+          "tooltip": null,
+          "required": false,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 1706097041101,
+              "options": [
+                "all_shar_scho_toil_are_nonf_spec_numb_nonf_toil",
+                "some_shar_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil"
+              ]
+            }
+          ],
+          "rule": null,
+          "fn": null
+        },
+        {
+          "id": 1706174688758,
+          "order": 14,
+          "name": "girl_student_toilet_ratio",
+          "label": "Girl student-toilet ratio",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": {
+            "text": "total number of girls (female students) enrolled in school divided by total number of functional girls-only toilets (segregated)</br>\n<b>Functional:</b> toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required)"
+          },
+          "required": false,
+          "meta": false,
+          "options": null,
+          "dependency": null,
+          "rule": null,
+          "fn": {
+            "fnColor": {
+              "25 or less girl students to each functional girls' toilet": "#93D371",
+              "More than 25 girl students to each functional girls' toilet": "#FDC74B"
+            },
+            "fnString": "#num_girls_only_functional_toilet# > 0 ? (#num_girls_enrolled# / #num_girls_only_functional_toilet#) > 25 ? \"More than 25 girl students to each functional girls' toilet\": \"25 or less girl students to each functional girls' toilet\": \"No Toilet\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1706174952630,
+          "order": 15,
+          "name": "boy_student_toilet_ratio",
+          "label": "Boy student-toilet ratio",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": {
+            "text": "total number of boys (male students) enrolled in school divided by total number of functional toilets (available to boys-only plus shared toilets available to all students)</br>\n<b>Functional: </b> toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required)\n"
+          },
+          "required": false,
+          "meta": false,
+          "options": null,
+          "dependency": null,
+          "rule": null,
+          "fn": {
+            "fnColor": {
+              "30 or less boy students to each functional boys' or shared toilet": "#93D371",
+              "More than 30 boy students to each functional boys' or shared toilet": "#FDC74B"
+            },
+            "fnString": "#status_boys_only_toilets# > 0 && #num_functional_shared_toilet# > 0 ? ( #num_boys_enrolled# / ( #status_boys_only_toilets# + #num_functional_shared_toilet# )) > 30 ? \"More than 30 boy students to each functional boys' or shared toilet\": \"30 or less boy students to each functional boys' or shared toilet\":  \"No Toilet\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1706098008845,
+          "order": 16,
+          "name": "flyproof_school_toilets",
+          "label": "Flyproof school toilets",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: are the school toilets flyproof?</b></br>\n<b>Flyproof: </b>toilet design prevents flies from reaching the excreta in the pit (or other containment system).</br>\n<b>Examples of flyproof toilets: </b>1. Pour-flush pit latrine with a functional water-seal pan; 2. VIP latrine with a screened vent pipe; 3. Dry pit latrine with a tight-fitting drophole cover. </br>\n<b>Examples of NON-flyproof toilets: </b>1. Pour-flush latrine with dry water seal (no water); VIP latrine with NO insect screen on vent pipe; 3. Pit latrine with inadequate or missing drophole cover.</br>\n Inadequate drophole cover: a cover that is not tight-fitting enough to prevent fly or insect entry into the pit</br>"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706098098135,
+              "order": 1,
+              "label": "All school toilets are NOT flyproof",
+              "value": "all_scho_toil_are_not_flyp",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706098098136,
+              "order": 2,
+              "label": "Some school toilets are NOT flyproof",
+              "value": "some_scho_toil_are_not_flyp",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1706098118682,
+              "order": 3,
+              "label": "All functional school toilets are flyproof",
+              "value": "all_func_scho_toil_are_flyp",
+              "color": "#38A15A"
+            }
+          ],
+          "dependency": null,
+          "rule": null,
+          "fn": null
+        },
+        {
+          "id": 1706098410203,
+          "order": 17,
+          "name": "school_toilet_privacy",
+          "label": "School toilet privacy",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: do toilet superstructures provide privacy? </b></br>\n<b>Privacy:</b> toilet superstructure has walls and a door that allow use of the toilet without observation by people outside the toilet, with closable doors that lock from the inside and no large openings in the toilet structure.\n"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706098481531,
+              "order": 1,
+              "label": "All school toilets provide INADEQUATE privacy",
+              "value": "all_scho_toil_prov_inad_priv",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706098481532,
+              "order": 2,
+              "label": "Some school toilets provide INADEQUATE privacy",
+              "value": "some_scho_toil_prov_inad_priv",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1706098538553,
+              "order": 3,
+              "label": "All functional school toilets provide good privacy",
+              "value": "all_func_scho_toil_prov_good_priv",
+              "color": "#38A15A"
+            }
+          ],
+          "dependency": null,
+          "rule": null,
+          "fn": null
+        },
+        {
+          "id": 1706098604926,
+          "order": 18,
+          "name": "school_toilet_availability",
+          "label": "School toilet availability",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: are school toilets available for use by students?</b> </br>\n<b>Available to students: </b>toilet doors are unlocked, or a key is available to students at all times."
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706098612974,
+              "order": 1,
+              "label": "All school toilets UNAVAILABLE to students",
+              "value": "all_scho_toil_unav_to_stud",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706098612975,
+              "order": 2,
+              "label": "Some school toilets UNAVAILABLE to students",
+              "value": "some_scho_toil_unav_to_stud",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1706098674353,
+              "order": 3,
+              "label": "All functional school toilets available to students",
+              "value": "all_func_scho_toil_avai_to_stud",
+              "color": "#38A15A"
+            }
+          ],
+          "dependency": null,
+          "rule": null,
+          "fn": null
+        },
+        {
+          "id": 1706098728743,
+          "order": 19,
+          "name": "clean_school_toilets",
+          "label": "Clean school toilets",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: are the school toilets clean?</b></br>\n<b>Clean:</b> toilets do not have a strong smell; there are not significant numbers of flies or mosquitoes in the toilets; and there are no visible faeces or soiled cleaning materials on the toilet floors, walls, seats (or pans).</br>\n<b>Somewhat clean: <b>toilets have some smell and/or some trace of faecal matter or soiled cleansing materials in some of the toilets</br>\n<b>NOT clean: <b>there is a strong smell and/or presence of faecal matter or soiled cleansing materials in most toilets"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706098853515,
+              "order": 3,
+              "label": "All functional school toilets are clean",
+              "value": "all_func_scho_toil_are_clea",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1706098756813,
+              "order": 1,
+              "label": "School toilets NOT clean",
+              "value": "scho_toil_not_clea",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706098756814,
+              "order": 2,
+              "label": "School toilets somewhat clean",
+              "value": "scho_toil_some_clea",
+              "color": "#ffa57d"
+            }
+          ],
+          "dependency": null,
+          "rule": null,
+          "fn": null
+        },
+        {
+          "id": 1706098964064,
+          "order": 20,
+          "name": "no_exposed_excreta_around_school_toilets",
+          "label": "No exposed human excreta around school toilets",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: visible human faeces around the school toilets or in the school buildings or compound.</b></br>"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706098995828,
+              "order": 1,
+              "label": "Human excreta observed",
+              "value": "huma_excr_obse",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1706098995829,
+              "order": 2,
+              "label": "No visible OD or human excreta",
+              "value": "no_visi_od_huma_excr",
+              "color": "#DB3B3B"
+            }
+          ],
+          "dependency": null,
+          "rule": null,
+          "fn": null
+        },
+        {
+          "id": 1706099198431,
+          "order": 21,
+          "name": "safely_managed_toilet_containment_wastewater",
+          "label": "Safely managed toilet containment: wastewater contained",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: any evidence of surface outflows from containment systems (for example, visible outflows or leaks; increased vegetation growth around the pit; visible deposits from previous outflows)</b></br>\n<b>Surface outflows from containment: </b>EITHER continuous outflows of faecal sludge or wastewater from overflow pipes, holes or leaks; OR evidence of previous surface outflows (for example, increased vegetation growth around the containment system, or visible sludge deposits from overflows or leaks).\n\n"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706099206116,
+              "order": 1,
+              "label": "Visible surface outflows from containment",
+              "value": "visi_surf_outf_from_cont",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706099206117,
+              "order": 2,
+              "label": "Evidence of previous surface outflows from containment",
+              "value": "evid_prev_surf_outf_from_cont",
+              "color": "#ffa57d"
+            }
+          ],
+          "dependency": null,
+          "rule": null,
+          "fn": null
+        },
+        {
+          "id": 1706099341937,
+          "order": 22,
+          "name": "safely_managed_toilet_containment_faecal_sludge",
+          "label": "Safely managed toilet containment: faecal sludge contained",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>INTERVIEW: has the school toilet containment (pit, tank or other) ever been emptied?<b></br>\n<b>INTERVIEW:<b> has the school toilet containment (pit, tank or other) ever filled up?</br>\n<b>INTERVIEW: <b>what happened when the school toilet containment (pit, tank or other) last filled up?</br>\n<b>INTERVIEW (if the containment system is a lined pit or tank, which has never been emptied): <b>what will happen when the toilet containment is full?</br>\n<b>Examples:<b> 1. Never emptied: covered a full toilet pit and dug a new pit; 2. Emptied: emptied the full pit and continued to use it; 3. Connected a second pit and disconnected the full pit. 4. Emptied faecal sludge from septic tank then continued to use."
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706099349831,
+              "order": 1,
+              "label": "Unsafely contained: emptied to open pit or open space",
+              "value": "unsa_cont_empt_to_open_pit_open_spac",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706099349832,
+              "order": 2,
+              "label": "Unsafely contained: emptied to UNLICENSED or UNKNOWN location",
+              "value": "unsa_cont_empt_to_unli_unkn_loc",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706099476948,
+              "order": 3,
+              "label": "Unsafely contained: faecal sludge stored for less than 2 years before emptying and use of stored waste",
+              "value": "unsa_cont_faec_slud_stor_for_less_than_2_year_befo_empt_use_stor_wast",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1706099485808,
+              "order": 4,
+              "label": "Safely contained: never emptied, not yet full (no intention to empty)",
+              "value": "safe_cont_neve_empt_not_yet_full_no_inte_to_empt",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1706099494174,
+              "order": 5,
+              "label": "Safely contained: never emptied, previous pit or tank replaced when full",
+              "value": "safe_cont_neve_empt_prev_pit_tank_repl_when_full",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1706099503705,
+              "order": 6,
+              "label": "Safely contained: stored for MORE than 2 years before use of stored waste",
+              "value": "safe_cont_stor_for_more_than_2_year_befo_use_stor_wast",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1706099513378,
+              "order": 7,
+              "label": "Safely contained: emptied to nearby covered pit",
+              "value": "safe_cont_empt_to_near_cove_pit",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1706099523892,
+              "order": 8,
+              "label": "Safely contained: emptied by licensed service provider",
+              "value": "safe_cont_empt_by_lice_serv_prov",
+              "color": "#38A15A"
+            }
+          ],
+          "dependency": null,
+          "rule": null,
+          "fn": null
+        },
+        {
+          "id": 1706099849459,
+          "order": 23,
+          "name": "school_toilet_accessibility_students_lim_mobility_vision",
+          "label": "School toilet accessibility: students with limited mobility or vision",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: is there at least one functional toilet accessible to those with limited mobility or vision?</br>\n<b>Accessible: </b>the toilet can be accessed via a clear path without stairs or steps that is free of obstructions and has age-appropriate handrails; there is enough space inside for a wheelchair user to enter, turn, close the door and park by the toilet; the door is wide enough for a wheelchair (at least 80cm) and opens outward with minimal or no difference in floor height between outside and inside; and the door handle and seat are within reach of students using wheelchairs, crutches or sticks, including a fixed raised pan or movable raised toilet seat to accommodate students who may have difficulty squatting\n"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706099857346,
+              "order": 1,
+              "label": "No",
+              "value": "no",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706099857347,
+              "order": 2,
+              "label": "Yes",
+              "value": "yes",
+              "color": "#38A15A"
+            }
+          ],
+          "dependency": null,
+          "rule": null,
+          "fn": null
+        },
+        {
+          "id": 1706099987137,
+          "order": 24,
+          "name": "school_toilet_accessibility_smallest_students",
+          "label": "School toilet accessibility: smallest students",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: is there at least one functional toilet accessible to the smallest children at the school?</br>\n<b>Accessible: </b>the toilet can be used by the smallest children, including (where necessary) a smaller toilet drophole, a lower seat, and a lower door handle.\n"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706099997717,
+              "order": 1,
+              "label": "No",
+              "value": "no",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706099997718,
+              "order": 2,
+              "label": "Yes",
+              "value": "yes",
+              "color": "#38A15A"
+            }
+          ],
+          "dependency": null,
+          "rule": null,
+          "fn": null
+        }
+      ]
+    },
+    {
+      "id": 1706087908007,
+      "order": 5,
+      "name": "school_hygiene",
+      "label": "School Hygiene",
+      "description": null,
+      "repeatable": false,
+      "translations": null,
+      "questions": [
+        {
+          "id": 1706087908008,
+          "order": 1,
+          "name": "main_location_school_handwashing_facilities",
+          "label": "Main location of school handwashing facilities",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: where are school handwashing facilities located?</b></br>\n<b>Location: </b>main location for functional handwashing facilities"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706100265773,
+              "order": 1,
+              "label": "No handwashing facilities",
+              "value": "no_hand_faci",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706100265774,
+              "order": 2,
+              "label": "Handwashing facilities outside school compound",
+              "value": "hand_faci_outs_scho_comp",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1706100278316,
+              "order": 3,
+              "label": "Handwashing facilities by school toilets",
+              "value": "hand_faci_by_scho_toil",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1706100286747,
+              "order": 4,
+              "label": "Handwashing facilities in food preparation area",
+              "value": "hand_faci_food_prep_area",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1706100294213,
+              "order": 5,
+              "label": "Handwashing facilities in food consumption/dining area",
+              "value": "hand_faci_food_cons_area",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1706100303976,
+              "order": 6,
+              "label": "Handwashing facilities by classrooms",
+              "value": "hand_faci_by_clas",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1706100313360,
+              "order": 7,
+              "label": "Handwashing facilities in school yard",
+              "value": "hand_faci_scho_yard",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1706100321303,
+              "order": 8,
+              "label": "Other location for handwashing facilities",
+              "value": "othe_loc_for_hand_faci",
+              "color": "#38A15A"
+            }
+          ],
+          "rule": null
+        },
+        {
+          "id": 1706100420042,
+          "order": 2,
+          "name": "num_school_handwashing_facilities",
+          "label": "Number of school handwashing facilities",
+          "short_label": null,
+          "type": "number",
+          "tooltip": {
+            "text": "<b>OBSERVE: how many school handwashing facilities are available?<b></br>\n<b>Available:</b> handwashing facility that enables students to wash their hands using running water, such as a basin with tap, water tank with tap, bucket with tap, tippy tap, or other similar device. NB a shared bucket or basin used for dipping hands is NOT considered an effective handwashing facility.\n"
+          },
+          "required": false,
+          "meta": false,
+          "options": null,
+          "rule": {
+            "min": 0
+          }
+        },
+        {
+          "id": 1706100460142,
+          "order": 3,
+          "name": "water_availability_school_handwashing_facilities",
+          "label": "Water availability at school handwashing facilities",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: is water available at school handwashing facilities?</b></br>\n<b>Water: </b>where soapy water is used for handwashing, non-soapy water must also be available for rinsing hands after washing"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706100601262,
+              "order": 3,
+              "label": "All handwashing facilities have water available",
+              "value": "all_hand_faci_have_wate_avai",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1706100466391,
+              "order": 1,
+              "label": "No water available",
+              "value": "no_wate_avai",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706100466392,
+              "order": 2,
+              "label": "Some handwashing facilities have water available",
+              "value": "some_hand_faci_have_wate_avai",
+              "color": "#ffa57d"
+            }
+          ],
+          "rule": null
+        },
+        {
+          "id": 1706100696237,
+          "order": 4,
+          "name": "soap_availability_school_handwashing_facilities",
+          "label": "Soap availability at school handwashing facilities",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: is soap available at school handwashing facilities?</b></br>\n<b>Soap: </b>solid, liquid or powder soap or detergent "
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706100703282,
+              "order": 1,
+              "label": "No soap or other cleanser available",
+              "value": "no_soap_othe_clea_avai",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706100703283,
+              "order": 2,
+              "label": "Ash, mud or sand available",
+              "value": "ash_mud_sand_avai",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706100789483,
+              "order": 3,
+              "label": "Some handwashing facilities have soap available",
+              "value": "some_hand_faci_have_soap_avai",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1706100797426,
+              "order": 4,
+              "label": "All handwashing facilities have soap available",
+              "value": "all_hand_faci_have_soap_avai",
+              "color": "#38A15A"
+            }
+          ],
+          "rule": null
+        },
+        {
+          "id": 1706100878596,
+          "order": 5,
+          "name": "school_handwashing_facility_type",
+          "label": "School handwashing facility type",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: what is the main type of school handwashing station available?</b></br>\n<b>Permanent handwashing station: </b>facility made from durable materials, with a piped water connection or adequate water storage, and located in a fixed place that is appropriate for handwashing at critical times</br>\n<b>Market handwashing station: </b>manufactured handwashing station from durable materials (bought from market or market trader)</br>\n<b>Portable basin: </b>open container that can be easily picked up and moved"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706101117048,
+              "order": 3,
+              "label": "Portable basins or other open containers",
+              "value": "port_basi_othe_open_cont",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1706101128322,
+              "order": 4,
+              "label": "Other temporary handwashing facilities",
+              "value": "othe_temp_hand_faci",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1706101136375,
+              "order": 5,
+              "label": "Piped water taps with basins",
+              "value": "pipe_wate_taps_with_basi",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1706101150144,
+              "order": 6,
+              "label": "Market handwashing stations with adequate water storage",
+              "value": "mark_hand_stat_with_adeq_wate_stor",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1706101154034,
+              "order": 7,
+              "label": "Other permanent handwashing stations",
+              "value": "othe_perm_hand_stat",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1706100885982,
+              "order": 1,
+              "label": "No handwashing facilities",
+              "value": "no_hand_faci",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706100885983,
+              "order": 2,
+              "label": "Jerrycans or other closed containers",
+              "value": "jerr_othe_clos_cont",
+              "color": "#ffa57d"
+            }
+          ],
+          "rule": null
+        },
+        {
+          "id": 1706101237257,
+          "order": 6,
+          "name": "hands_free_operation_school_handwashing_facility",
+          "label": "Hands-free operation of school handwashing facility",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: mechanisms to collect water or trigger water flow</b> </br>\n<b>Hands-free operation:</b> handwashing stations are operated by tap, or other hands-free mechanism that minimises contact with the water collection device and the water container"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706101246585,
+              "order": 1,
+              "label": "Hands enter water containers (during collection and use)",
+              "value": "hand_ente_wate_cont_duri_coll_use",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706101246586,
+              "order": 2,
+              "label": "Water collected by hand (using ladle, cup, other)",
+              "value": "wate_coll_by_hand_usin_ladl_cup_othe",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1706101307417,
+              "order": 3,
+              "label": "Closed water storage containers with taps",
+              "value": "clos_wate_stor_cont_with_taps",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1706101333792,
+              "order": 4,
+              "label": "Piped water taps",
+              "value": "pipe_wate_taps",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1706101423272,
+              "order": 5,
+              "label": "Other hands-free operation",
+              "value": "othe_hand_oper",
+              "color": "#38A15A"
+            }
+          ],
+          "rule": null
+        },
+        {
+          "id": 1706101674846,
+          "order": 7,
+          "name": "adequate_drainage_washing_water",
+          "label": "Adequate drainage of washing water",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: facilities to collect washing water, and facilities to drain and dispose of the washing water</br>\nCollection of washing water: containers to collect dirty washing water (for example, a basin or other container)</br>\nDrainage and disposal of washing water: drainage pipes or other facilities to direct the washing water to appropriate disposal points (for example, soakpits or drains)</br>\n"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706101797467,
+              "order": 1,
+              "value": "no_coll_disp_wash_wate",
+              "label": "No collection or disposal of washing water",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706101797468,
+              "order": 2,
+              "value": "coll_wash_wate_with_drai_disp",
+              "label": "Collection of washing water without drainage or disposal",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1706101809265,
+              "order": 3,
+              "value": "adeq_coll_disp_wash_wate",
+              "label": "Adequate collection and disposal of washing water",
+              "color": "#38A15A"
+            }
+          ],
+          "rule": null
+        },
+        {
+          "id": 1706101879545,
+          "order": 8,
+          "name": "handwashing_accessibility_students_lim_mobility_vision",
+          "label": "Handwashing accessibility: students with limited mobility or vision",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: is there at least one handwashing facility accessible to those with limited mobility or vision?</b></br>\n<b>Accessible: </b>the handwashing facility can be accessed via a clear path without stairs or steps that is free of obstructions and has age-appropriate handrails; the tap and soap are reachable from a seated position, and the tap can be operated by feet and/or one closed fist with minimal effort"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706101886338,
+              "order": 1,
+              "label": "No",
+              "value": "no",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706101886339,
+              "order": 2,
+              "label": "Yes",
+              "value": "yes",
+              "color": "#38A15A"
+            }
+          ],
+          "rule": null
+        },
+        {
+          "id": 1706101994157,
+          "order": 9,
+          "name": "handwashing_accessibility_smallest_students",
+          "label": "Handwashing accessibility: smallest students",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: is there at least one handwashing facility accessible to the smallest children at the school?<b/></br>\n<b>Accessible:</b> the smallest children are able to reach the tap and soap, and able to operate the tap on their own with minimal effort\n"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706102010072,
+              "order": 1,
+              "label": "No",
+              "value": "no",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706102010073,
+              "order": 2,
+              "label": "Yes",
+              "value": "yes",
+              "color": "#38A15A"
+            }
+          ],
+          "rule": null
+        }
+      ]
+    },
+    {
+      "id": 1706088324273,
+      "order": 6,
+      "name": "menstrual_health",
+      "label": "Menstrual Health",
+      "description": null,
+      "repeatable": false,
+      "translations": null,
+      "questions": [
+        {
+          "id": 1706088324274,
+          "order": 1,
+          "name": "private_bathing_areas_menstrual_hygiene",
+          "label": "Private bathing areas for menstrual hygiene",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: bathing areas adequate for menstrual hygiene</b></br>\n<b>Adequate bathing area: </b>private and girls-only place for washing and menstrual hygiene, with closable doors that lock from the inside, without the possibility of observation by people outside the bathing area"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706102349617,
+              "order": 1,
+              "label": "No bathing areas",
+              "value": "no_bath_area",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706102349618,
+              "order": 2,
+              "label": "Inadequate bathing areas",
+              "value": "inad_bath_area",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1706102369638,
+              "order": 3,
+              "label": "Private bathing areas for menstrual hygiene",
+              "value": "priv_bath_area_for_mens_hygi",
+              "color": "#38A15A"
+            }
+          ]
+        },
+        {
+          "id": 1706102430669,
+          "order": 2,
+          "name": "water_soap_available_menstrual_hygiene_bathing_areas",
+          "label": "Water and soap available in bathing areas for menstrual hygiene",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "OBSERVE: water and soap available in bathing areas"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706102451013,
+              "order": 1,
+              "label": "Water and soap are NOT available in bathing areas",
+              "value": "wate_soap_are_not_avai_bath_area",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706102451014,
+              "order": 2,
+              "label": "Some bathing areas have water and soap available",
+              "value": "some_bath_area_have_wate_soap_avai",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1706102469442,
+              "order": 3,
+              "label": "All bathing areas have both water and soap available",
+              "value": "all_bath_area_have_both_wate_soap_avai",
+              "color": "#38A15A"
+            }
+          ]
+        },
+        {
+          "id": 1706102541414,
+          "order": 3,
+          "name": "clean_bathing_areas_menstrual_hygiene",
+          "label": "Clean bathing areas for menstrual hygiene",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: clean bathing areas available for menstrual hygiene</b></br>\n<b>Clean bathing areas:</b> the places available for washing and menstrual hygiene are clean\n\n"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706102565079,
+              "order": 1,
+              "label": "All bathing areas are NOT clean",
+              "value": "all_bath_area_are_not_clea",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706102565080,
+              "order": 2,
+              "label": "Some bathing areas are NOT clean",
+              "value": "some_bath_area_are_not_clea",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1706102643291,
+              "order": 3,
+              "label": "Clean bathing areas for menstrual hygiene",
+              "value": "clea_bath_area_for_mens_hygi",
+              "color": "#38A15A"
+            }
+          ]
+        },
+        {
+          "id": 1706102678348,
+          "order": 4,
+          "name": "availability_menstrual_hygiene_materials_school",
+          "label": "Availability of menstrual hygiene materials at the school",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>INTERVIEW: are menstrual hygiene materials available at the school?</b></br>\n<b>Menstrual hygiene materials and products: </b>disposable and reusable sanitary pads, tampons, and resuable menstrual cups, clean piece of cotton cloth or cotton wool, that are safe and hygienic, and absorb or collect blood during menstrual periods.</br>\n<b>Available: </b>menstrual hygiene materials are currently available at the school (via free distribution or for purchase).\n"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706102694674,
+              "order": 1,
+              "label": "Materials are NOT available or NOT appropriate",
+              "value": "mate_are_not_avai_not_appr",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706102694675,
+              "order": 2,
+              "label": "Materials are not always available or appropriate",
+              "value": "mate_are_not_alwa_avai_appr",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1706102788786,
+              "order": 3,
+              "label": "Appropriate MHM materials are available",
+              "value": "appr_mhm_mate_are_avai",
+              "color": "#38A15A"
+            }
+          ]
+        },
+        {
+          "id": 1706102843878,
+          "order": 5,
+          "name": "disposal_facilities_menstrual_hygiene_wastes",
+          "label": "Disposal facilities for menstrual hygiene wastes",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: are covered bins available for disposal of menstrual hygiene wastes?</b>"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706102864936,
+              "order": 1,
+              "label": "No covered bins available",
+              "value": "no_cove_bins_avai",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706102864937,
+              "order": 2,
+              "label": "Some covered bins available",
+              "value": "some_cove_bins_avai",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1706102913302,
+              "order": 3,
+              "label": "All bathing areas have covered bins available for menstrual hygiene wastes",
+              "value": "all_bath_area_have_cove_bins_avai_for_mens_hygi_wast",
+              "color": "#38A15A"
+            }
+          ]
+        },
+        {
+          "id": 1706102974110,
+          "order": 6,
+          "name": "disposal_system_menstrual_hygiene_wastes",
+          "label": "Disposal system for menstrual hygiene wastes",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: how are menstrual hygiene wastes (in covered bins) collected and disposed?</b>"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706102981228,
+              "order": 1,
+              "label": "Emptied to open pits, open space, open water bodies, open drains",
+              "value": "empt_to_open_pits_open_spac_open_wate_bodi_open_drai",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706102981229,
+              "order": 2,
+              "label": "Collected by UNLICENSED service providers",
+              "value": "coll_by_unli_serv_prov",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1706103015821,
+              "order": 3,
+              "label": "Emptied to covered pit",
+              "value": "empt_to_cove_pit",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1706103023645,
+              "order": 4,
+              "label": "Burned on premises",
+              "value": "burn_on_prem",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1706103032094,
+              "order": 5,
+              "label": "Collected by municpal waste system/licensed service providers",
+              "value": "coll_by_muni_wast_syst_serv_prov",
+              "color": "#38A15A"
+            }
+          ]
+        },
+        {
+          "id": 1706103220972,
+          "order": 7,
+          "name": "menstrual_hygiene_education",
+          "label": "Menstrual hygiene education",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "INTERVIEW: is menstrual hygiene management education available at the school?</br>\n"
+          },
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "id": 1706103250967,
+              "label": "No",
+              "order": 1,
+              "value": "no",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706103250968,
+              "order": 2,
+              "label": "Yes",
+              "value": "yes",
+              "color": "#38A15A"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

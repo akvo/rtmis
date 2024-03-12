@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from "react";
 import { Form, Input, Button } from "antd";
-import { UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { api, store, uiText } from "../../../lib";
 import { useNotification } from "../../../util/hooks";
@@ -49,6 +48,7 @@ const ResetForm = () => {
         email: "",
       }}
       onFinish={onFinish}
+      style={{ marginTop: "10px" }}
     >
       <Form.Item
         name="email"
@@ -61,13 +61,15 @@ const ResetForm = () => {
           },
         ]}
       >
-        <Input
-          prefix={<UserOutlined className="site-form-item-icon" />}
-          placeholder="Email"
-        />
+        <Input placeholder="Email" />
       </Form.Item>
       <Form.Item style={{ marginTop: 8 }}>
-        <Button type="primary" htmlType="submit" loading={loading}>
+        <Button
+          type="primary"
+          htmlType="submit"
+          shape="round"
+          loading={loading}
+        >
           {text.sendInstructions}
         </Button>
       </Form.Item>

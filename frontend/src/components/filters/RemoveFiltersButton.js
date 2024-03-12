@@ -1,8 +1,9 @@
 import React from "react";
 import "./style.scss";
-import { Button } from "antd";
+import { Button, Tooltip } from "antd";
 import { store } from "../../lib";
 import { useLocation } from "react-router-dom";
+import { ResetIcon } from "../../components/Icons";
 
 const hideInPages = ["/control-center", "/data/submissions", "/profile"];
 
@@ -13,21 +14,22 @@ const RemoveFiltersButton = ({ extra = () => {} }) => {
     return "";
   }
   return (
-    <Button
-      onClick={() => {
-        store.update([
-          (s) => {
-            s.administration.length = 1;
-            s.selectedAdministration = null;
-            s.advancedFilters = [];
-          },
-          extra,
-        ]);
-      }}
-      className="light"
-    >
-      Remove Filters
-    </Button>
+    <Tooltip title="Remove filters">
+      <Button
+        icon={<ResetIcon />}
+        onClick={() => {
+          store.update([
+            (s) => {
+              s.administration.length = 1;
+              s.selectedAdministration = null;
+              s.advancedFilters = [];
+            },
+            extra,
+          ]);
+        }}
+        className="light"
+      />
+    </Tooltip>
   );
 };
 

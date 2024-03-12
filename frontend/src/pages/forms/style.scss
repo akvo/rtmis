@@ -8,6 +8,18 @@
       }
     }
 
+    button {
+      border-radius: 32px;
+    }
+
+    #CLTS {
+      &.ant-form {
+        .ant-card {
+          box-shadow: none;
+        }
+      }
+    }
+
     .webform {
       h1 {
         font-family: $font-family;

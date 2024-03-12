@@ -17,6 +17,7 @@ services:
       - MAILJET_APIKEY=$MAILJET_APIKEY
       - MAILJET_SECRET=$MAILJET_SECRET
       - WEBDOMAIN=notset
+      - APK_UPLOAD_SECRET=ci-secret
     network_mode: service:mainnetwork
     restart: always
     volumes:

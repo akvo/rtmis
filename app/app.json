@@ -1,0 +1,49 @@
+{
+  "expo": {
+    "name": "rtmis-mobile",
+    "slug": "rtmis-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.akvo.rtmis"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "fa1e4fb6-cc4f-4fad-8b6f-1c1189819532"
+      }
+    },
+    "owner": "akvo",
+    "backgroundFetch": {
+      "jobs": [
+        {
+          "jobName": "sync-form-version",
+          "minimumInterval": 3600,
+          "enabled": true
+        },
+        {
+          "jobName": "sync-form-submission",
+          "minimumInterval": 1,
+          "enabled": true
+        }
+      ]
+    }
+  }
+}

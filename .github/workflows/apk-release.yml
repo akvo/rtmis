@@ -1,0 +1,106 @@
+name: RTMIS APK build
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - app/**
+
+jobs:
+  release:
+    name: apk build
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🗄️  Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 🧰 Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: 🏗  Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: 📦 Install dependencies
+        run: |
+          cd ./app/
+          cp ./src/build.test.js ./src/build.js
+          npm install
+
+      - name: 🚀 Release to Expo Dev
+        id: eas_release
+        working-directory: ./app
+        run: |
+          npm run eas:release > output.txt
+          cat output.txt
+          echo "APK_URL=$(tail -n 1 output.txt)" >> $GITHUB_ENV
+
+      - name: Set short git commit SHA
+        id: vars
+        run: |
+          shortSha=$(git rev-parse --short ${{ github.sha }})
+          echo "COMMIT_SHORT_SHA=$shortSha" >> $GITHUB_ENV
+
+      - name: Send custom JSON data to Slack workflow
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+         payload: |
+           {
+            "blocks": [
+                {
+                    "type": "header",
+                    "text": {
+                        "type": "plain_text",
+                        "text": ":iphone: [TEST] New APK build just released",
+                        "emoji": true
+                    }
+                },
+                {
+                    "type": "section",
+                    "fields": [
+                        {
+                            "type": "mrkdwn",
+                            "text": "*URL:*\n<${{ env.APK_URL }}>"
+                        }
+                    ]
+                },
+                {
+                    "type": "section",
+                    "fields": [
+                        {
+                            "type": "mrkdwn",
+                            "text": "*Commit ID:*\n<${{ github.event.pull_request.html_url || github.event.head_commit.url }}|${{ env.COMMIT_SHORT_SHA }}>"
+                        },
+                        {
+                            "type": "mrkdwn",
+                            "text": "*Created by:*\n${{ github.actor }}"
+                        }
+                    ]
+                }
+            ]
+           }
+        env:
+         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+         SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
+
+      - name: 🌟 Send APK
+        env:
+          APK_VERSION: ${{ github.ref_name }}
+          SECRET: ${{ secrets.APK_UPLOAD_SECRET }}
+        run: |
+          curl -X 'POST' \
+            'https://rtmis.akvotest.org/api/v1/device/apk/upload' \
+            -H 'accept: */*' \
+            -H 'Content-Type: application/json' \
+            -d '{
+              "apk_url": "'"$APK_URL"'",
+              "apk_version": "'"$APK_VERSION"'",
+              "secret": "'"$SECRET"'"
+            }'

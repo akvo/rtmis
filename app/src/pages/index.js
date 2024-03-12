@@ -1,0 +1,16 @@
+export { default as HomePage } from './Home';
+export { default as ManageFormPage } from './ManageForm';
+export { default as FormDataPage } from './FormData';
+export { default as GetStartedPage } from './GetStarted';
+export { default as AuthFormPage } from './AuthForm';
+export { default as AuthByPassFormPage } from './AuthByPassForm';
+export { default as SettingsPage } from './Settings';
+export { default as SettingsFormPage } from './Settings/SettingsForm';
+export { default as FormPage } from './FormPage';
+export { default as AddUserPage } from './AddUser';
+export { default as MapViewPage } from './MapView';
+export { default as UsersPage } from './Users';
+export { default as FormDataDetailsPage } from './FormData/FormDataDetails';
+export { default as AddNewForm } from './Settings/AddNewForm';
+export { default as UpdateForm } from './UpdateForm/UpdateForm';
+export { default as AboutPage } from './About/About';

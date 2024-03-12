@@ -1,0 +1,92 @@
+name: RTMIS CI
+
+on:
+  push:
+  pull_request:
+    types: [synchronize]
+
+jobs:
+  build_and_deploy_jobs:
+    name: RTMIS Build and Deploy Jobs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install GKE auth plugin
+        uses: ./.github/actions/install-google-cloud-sdk
+
+      - name: Set short git commit SHA
+        id: vars
+        run: |
+          shortSha=$(git rev-parse --short ${{ github.sha }})
+          echo "COMMIT_SHORT_SHA=$shortSha" >> $GITHUB_ENV
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Create credentials folder
+        run: mkdir /home/runner/work/rtmis/credentials
+        shell: bash
+
+      - name: Write gcp deployment secret to file
+        run: echo "${{ secrets.GCLOUD_SERVICE_ACCOUNT }}" | base64 --decode > /home/runner/work/rtmis/credentials/gcp.json
+        shell: bash
+
+      - name: Write gcp deployment secret to file
+        run: echo "${{ secrets.RTMIS_SERVICE_ACCOUNT }}" | base64 --decode > /home/runner/work/rtmis/credentials/rtmis-service-account.json
+        shell: bash
+
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v41
+
+      - name: List all changed files
+        env:
+          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+        run: |
+          for file in "$ALL_CHANGED_FILES"; do
+            echo "$file was changed"
+          done
+
+      - name: Detect event type
+        run: |
+          if [[ ${{ github.event_name }} == 'pull_request' ]]; then
+              echo "PULL_REQUEST_EVENT=true" >> $GITHUB_ENV
+          else
+              echo "PULL_REQUEST_EVENT=false" >> $GITHUB_ENV
+          fi
+
+
+      - name: Build and test
+        env:
+          CI_COMMIT: ${{ env.COMMIT_SHORT_SHA }}
+          CI_BRANCH: ${{ github.ref_name }}
+          CI_TAG: ""
+          CI_PULL_REQUEST: ${{ env.PULL_REQUEST_EVENT }}
+          CLOUDSDK_CORE_DISABLE_PROMPTS: 1
+          COMPOSE_INTERACTIVE_NO_CLI: 1
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_RTMIS_TOKEN }}
+          SERVICE_ACCOUNT: "/home/runner/work/rtmis/credentials"
+          DBDOCS_TOKEN: ${{ secrets.DBDOCS_TOKEN }}
+          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+        run: |
+          ./ci/build.sh
+
+      - name: Deploy
+        env:
+          CI_COMMIT: ${{ env.COMMIT_SHORT_SHA }}
+          CI_BRANCH: ${{ github.ref_name }}
+          CI_TAG: ""
+          CI_PULL_REQUEST: ${{ env.PULL_REQUEST_EVENT }}
+          CLOUDSDK_CORE_DISABLE_PROMPTS: 1
+          COMPOSE_INTERACTIVE_NO_CLI: 1
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_RTMIS_TOKEN }}
+          SERVICE_ACCOUNT: "/home/runner/work/rtmis/credentials"
+        run: |
+          ./ci/deploy.sh

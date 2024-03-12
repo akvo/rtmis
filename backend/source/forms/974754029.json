@@ -4,12 +4,17 @@
   "type": 1,
   "question_groups": [
     {
-      "question_group": "Location",
+      "id": 9747540291,
+      "order": 1,
+      "name": "location",
+      "label": "Location",
       "questions": [
         {
           "id": 9747540291,
-          "question": "location",
           "order": 1,
+          "name": "location",
+          "label": "location",
+          "short_label": null,
           "required": true,
           "type": "administration",
           "meta": true
@@ -17,174 +22,209 @@
       ]
     },
     {
-      "question_group": "Village Information",
+      "id": 9747540292,
+      "order": 2,
+      "name": "village_information",
+      "label": "Village Information",
       "questions": [
         {
           "id": 569070281,
-          "question": "Village",
           "order": 1,
+          "name": "village",
+          "label": "Village",
+          "short_label": null,
           "meta": true,
-          "type": "text",
-          "required": true,
-          "options": null
+          "type": "administration",
+          "required": true
         },
         {
           "id": 567440335,
-          "question": "Number of households in the Village",
           "order": 2,
+          "name": "households",
+          "label": "Number of households in the Village",
+          "short_label": null,
           "meta": false,
           "type": "number",
-          "required": true,
-          "options": null
+          "required": true
         },
         {
           "id": 571070201,
-          "question": "Take GPS Location of Village",
           "order": 3,
+          "name": "gps",
+          "label": "Take GPS Location of Village",
+          "short_label": null,
           "meta": true,
           "type": "geo",
-          "required": true,
-          "options": null
+          "required": true
         }
       ]
     },
     {
-      "question_group": "CLTS Intervention Information",
+      "id": 9747540293,
+      "order": 3,
+      "name": "clts_intervention_information",
+      "label": "CLTS Intervention Information",
       "questions": [
         {
           "id": 494780324,
-          "question": "Implementing partner",
           "order": 1,
+          "name": "implementing_partner",
+          "label": "Implementing partner",
+          "short_label": null,
           "meta": false,
           "type": "option",
           "required": true,
           "options": [
             {
-              "name": "Amref",
-              "color": null
+              "label": "Amref",
+              "value": "amref"
             },
             {
-              "name": "Amref and Local Government",
-              "color": null
+              "label": "Amref and Local Government",
+              "value": "amref_and_local_government"
             },
             {
-              "name": "Other",
-              "color": null
+              "label": "Other",
+              "value": "other"
             }
           ]
         },
         {
           "id": 559830326,
-          "question": "Date Triggered",
           "order": 2,
+          "name": "trigger_date",
+          "label": "Date Triggered",
+          "short_label": null,
           "meta": false,
           "type": "date",
-          "required": false,
-          "options": null
+          "required": false
         },
         {
           "id": 569070282,
-          "question": "Number of Latrines at Triggering?",
           "order": 3,
+          "name": "latrines",
+          "label": "Number of Latrines at Triggering?",
+          "short_label": null,
           "meta": false,
           "type": "number",
-          "required": false,
-          "options": null
+          "required": false
         },
         {
           "id": 569090299,
-          "question": "Presence of Handwashing Facility with Water and Soap",
           "order": 4,
+          "name": "handwashing",
+          "label": "Presence of Handwashing Facility with Water and Soap",
+          "short_label": null,
           "meta": false,
           "type": "option",
           "required": false,
           "options": [
             {
-              "name": "Yes",
-              "color": null
+              "label": "Yes",
+              "color": null,
+              "value": "yes"
             },
             {
-              "name": "No",
-              "color": null
+              "label": "No",
+              "color": null,
+              "value": "no"
             }
           ]
         },
         {
           "id": 571070202,
-          "question": "No Visible Feces were Found in Environment",
           "order": 5,
+          "name": "visible_feces",
+          "label": "No Visible Feces were Found in Environment",
+          "short_label": null,
           "meta": false,
           "type": "option",
           "required": false,
           "options": [
             {
-              "name": "Yes",
-              "color": null
+              "label": "Yes",
+              "color": null,
+              "value": "yes"
             },
             {
-              "name": "No",
-              "color": null
+              "label": "No",
+              "color": null,
+              "value": "no"
             }
           ]
         },
         {
           "id": 557710260,
-          "question": "School Children had Access to Toilets in the Schools",
           "order": 6,
+          "name": "school_toilets_access",
+          "label": "School Children had Access to Toilets in the Schools",
+          "short_label": null,
           "meta": false,
           "type": "option",
           "required": false,
           "options": [
             {
-              "name": "Yes",
-              "color": null
+              "label": "Yes",
+              "color": null,
+              "value": "yes"
             },
             {
-              "name": "No",
-              "color": null
+              "label": "No",
+              "color": null,
+              "value": "no"
             }
           ]
         },
         {
           "id": 573010345,
-          "question": "Public Toilets were Available in Public Places",
           "order": 7,
+          "name": "public_toilets_availabilty",
+          "label": "Public Toilets were Available in Public Places",
+          "short_label": null,
           "meta": false,
           "type": "option",
           "required": false,
           "options": [
             {
-              "name": "Yes",
-              "color": null
+              "label": "Yes",
+              "color": null,
+              "value": "yes"
             },
             {
-              "name": "No",
-              "color": null
+              "label": "No",
+              "color": null,
+              "value": "no"
             }
           ]
         },
         {
           "id": 557710261,
-          "question": "Toilets were Available for Passengers",
           "order": 8,
+          "name": "passenger_toilets_availabilty",
+          "label": "Toilets were Available for Passengers",
+          "short_label": null,
           "meta": false,
           "type": "option",
           "required": false,
           "options": [
             {
-              "name": "Yes",
-              "color": null
+              "label": "Yes",
+              "color": null,
+              "value": "yes"
             },
             {
-              "name": "No",
-              "color": null
+              "label": "No",
+              "color": null,
+              "value": "no"
             }
           ]
         },
         {
           "id": 557690351,
-          "question": "Date Verified",
           "order": 9,
+          "name": "verification_date",
+          "label": "Date Verified",
+          "short_label": null,
           "meta": false,
           "type": "date",
           "required": false,
@@ -192,8 +232,10 @@
         },
         {
           "id": 569090301,
-          "question": "Number of Latrines at Verification Date",
           "order": 10,
+          "name": "latrines_verification",
+          "label": "Number of Latrines at Verification Date",
+          "short_label": null,
           "meta": false,
           "type": "number",
           "required": false,
@@ -201,93 +243,115 @@
         },
         {
           "id": 583770042,
-          "question": "Latrine Type of Most Latrines at Verification Date",
           "order": 11,
+          "name": "latrine_type",
+          "label": "Latrine Type of Most Latrines at Verification Date",
+          "short_label": null,
           "meta": false,
           "type": "option",
           "required": true,
           "options": [
             {
-              "name": "Bucket",
-              "color": null
+              "label": "Bucket",
+              "color": null,
+              "value": "bucket"
             },
             {
-              "name": "Container-based sanitation",
-              "color": null
+              "label": "Container-based sanitation",
+              "color": null,
+              "value": "containerbased_sanitation"
             },
             {
-              "name": "Flush/pour flush to piped sewer system",
-              "color": null
+              "label": "Flush/pour flush to piped sewer system",
+              "color": null,
+              "value": "flushpour_flush_to_piped_sewer_system"
             },
             {
-              "name": "Flush/pour flush to septic tank",
-              "color": null
+              "label": "Flush/pour flush to septic tank",
+              "color": null,
+              "value": "flushpour_flush_to_septic_tank"
             },
             {
-              "name": "Flush/pour flush to pit latrine",
-              "color": null
+              "label": "Flush/pour flush to pit latrine",
+              "color": null,
+              "value": "flushpour_flush_to_pit_latrine"
             },
             {
-              "name": "Flush/pour flush to open drain",
-              "color": null
+              "label": "Flush/pour flush to open drain",
+              "color": null,
+              "value": "flushpour_flush_to_open_drain"
             },
             {
-              "name": "Hanging toilet/latrine",
-              "color": null
+              "label": "Hanging toilet/latrine",
+              "color": null,
+              "value": "hanging_toiletlatrine"
             },
             {
-              "name": "Pit latrine with slab",
-              "color": null
+              "label": "Pit latrine with slab",
+              "color": null,
+              "value": "pit_latrine_with_slab"
             },
             {
-              "name": "Pit latrine without slab/open pit",
-              "color": null
+              "label": "Pit latrine without slab/open pit",
+              "color": null,
+              "value": "pit_latrine_without_slabopen_pit"
             },
             {
-              "name": "Twin pit offset latrine",
-              "color": null
+              "label": "Twin pit offset latrine",
+              "color": null,
+              "value": "twin_pit_offset_latrine"
             },
             {
-              "name": "Twin pit with latrine slab",
-              "color": null
+              "label": "Twin pit with latrine slab",
+              "color": null,
+              "value": "twin_pit_with_latrine_slab"
             },
             {
-              "name": "Twin pit without slab",
-              "color": null
+              "label": "Twin pit without slab",
+              "color": null,
+              "value": "twin_pit_without_slab"
             },
             {
-              "name": "Ventilated improved pit latrine (VIP) with slab",
-              "color": null
+              "label": "Ventilated improved pit latrine (VIP) with slab",
+              "color": null,
+              "value": "ventilated_improved_pit_latrine_vip_with_slab"
             },
             {
-              "name": "Other composting latrine",
-              "color": null
+              "label": "Other composting latrine",
+              "color": null,
+              "value": "other_composting_latrine"
             }
           ]
         },
         {
           "id": 557700349,
-          "question": "Open Defecation Status",
           "order": 12,
+          "name": "odf_status",
+          "label": "Open Defecation Status",
+          "short_label": null,
           "meta": false,
           "type": "option",
           "required": false,
           "options": [
             {
-              "name": "Open Defecation",
-              "color": null
+              "label": "Open Defecation",
+              "color": null,
+              "value": "open_defecation"
             },
             {
-              "name": "Triggered",
-              "color": null
+              "label": "Triggered",
+              "color": null,
+              "value": "triggered"
             },
             {
-              "name": "Declared ODF",
-              "color": null
+              "label": "Declared ODF",
+              "color": null,
+              "value": "declared_odf"
             },
             {
-              "name": "Verified ODF",
-              "color": null
+              "label": "Verified ODF",
+              "color": null,
+              "value": "verified_odf"
             }
           ]
         }

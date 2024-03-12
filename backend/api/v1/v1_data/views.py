@@ -1,14 +1,14 @@
 # Create your views here.
 from math import ceil
 from collections import defaultdict
-from datetime import datetime, date, timedelta
+from datetime import datetime, date
 from wsgiref.util import FileWrapper
 from django.utils import timezone
 # from operator import or_
 # from functools import reduce
 
 from django.contrib.postgres.aggregates import StringAgg
-from django.db.models import Count, TextField, Value, F, Sum, Avg
+from django.db.models import Count, TextField, F, Sum, Avg, Max
 from django.db.models.functions import Cast, Coalesce
 from django.http import HttpResponse
 from django_q.tasks import async_task
@@ -96,24 +96,59 @@ class FormDataAddListView(APIView):
                              required=False,
                              type={'type': 'array',
                                    'items': {'type': 'string'}},
+                             location=OpenApiParameter.QUERY),
+            OpenApiParameter(name='parent',
+                             required=False,
+                             type=OpenApiTypes.NUMBER,
                              location=OpenApiParameter.QUERY)],
         summary='To get list of form data')
     def get(self, request, form_id, version):
         form = get_object_or_404(Forms, pk=form_id)
-        serializer = ListFormDataRequestSerializer(data=request.GET)
+        serializer = ListFormDataRequestSerializer(
+            data=request.GET,
+            context={'form_id': form_id}
+        )
         if not serializer.is_valid():
             return Response(
                 {'message': validate_serializers_message(
                     serializer.errors)},
                 status=status.HTTP_400_BAD_REQUEST
             )
+        page_size = REST_FRAMEWORK.get('PAGE_SIZE')
+
+        paginator = PageNumberPagination()
+
+        parent = serializer.validated_data.get('parent')
+        if parent:
+            queryset = form.form_form_data.filter(uuid=parent.uuid).order_by(
+                '-created'
+            )
+            instance = paginator.paginate_queryset(queryset, request)
+            data = {
+                "current": int(request.GET.get('page', '1')),
+                "total": queryset.count(),
+                "total_page": ceil(queryset.count() / page_size),
+                "data": ListFormDataSerializer(
+                    instance=instance, context={
+                        'questions': serializer.validated_data.get(
+                            'questions')},
+                    many=True).data,
+            }
+            return Response(data, status=status.HTTP_200_OK)
+
         filter_data = {}
+        latest_ids_per_uuid = form.form_form_data.values('uuid').annotate(
+            latest_id=Max('id')
+        ).values_list('latest_id', flat=True)
+        filter_data["pk__in"] = latest_ids_per_uuid
         if serializer.validated_data.get('administration'):
             filter_administration = serializer.validated_data.get(
                 'administration')
             if filter_administration.path:
-                filter_path = '{0}{1}.'.format(filter_administration.path,
-                                               filter_administration.id)
+                filter_path = '{0}{1}.'.format(
+                    filter_administration.path,
+                    filter_administration.id
+                )
             else:
                 filter_path = f"{filter_administration.id}."
             filter_descendants = list(Administration.objects.filter(
@@ -129,15 +164,11 @@ class FormDataAddListView(APIView):
                 administration_id=request.GET.get("administration"),
                 options=request.GET.getlist('options'))
             filter_data["pk__in"] = data_ids
+        queryset = form.form_form_data.filter(**filter_data) \
+            .order_by(
+                '-created'
+            )
 
-        page_size = REST_FRAMEWORK.get('PAGE_SIZE')
-
-        the_past = datetime.now() - timedelta(days=10 * 365)
-        queryset = form.form_form_data.filter(**filter_data).annotate(
-            last_updated=Coalesce('updated', Value(the_past))).order_by(
-            '-last_updated', '-created')
-
-        paginator = PageNumberPagination()
         instance = paginator.paginate_queryset(queryset, request)
         data = {
             "current": int(request.GET.get('page', '1')),
@@ -255,6 +286,7 @@ class FormDataAddListView(APIView):
             data.updated = timezone.now()
             data.updated_by = user
             data.save()
+            data.save_to_file
             async_task('api.v1.v1_data.functions.refresh_materialized_data')
             return Response({'message': 'direct update success'},
                             status=status.HTTP_200_OK)
@@ -490,19 +522,19 @@ def get_chart_data_point(request, version, form_id):
     # with stack
     if stack:
         data = []
-        stack_options = stack.question_question_options.all()
+        stack_options = stack.options.all()
         answers = Answers.objects
         if data_ids:
             answers = answers.filter(data_id__in=data_ids)
         for so in stack_options:
             query_set = answers.filter(
-                question=stack, options__contains=so.name).values(
+                question=stack, options__contains=so.value).values(
                     'options').annotate(ids=StringAgg(
                         Cast('data_id', TextField()),
                         delimiter=',',
                         output_field=TextField()))
             # temp values
-            values = {'group': so.name, 'child': []}
+            values = {'group': so.value, 'child': []}
             # get child
             for val in query_set:
                 child_query_set = answers.filter(
@@ -527,12 +559,12 @@ def get_chart_data_point(request, version, form_id):
                         })
                 # Multiple option type
                 if question.type == QuestionTypes.multiple_option:
-                    multiple_options = question.question_question_options.all()
+                    multiple_options = question.options.all()
                     for mo in multiple_options:
                         count = child_query_set.filter(
-                            options__contains=mo.name).count()
+                            options__contains=mo.value).count()
                         values.get('child').append({
-                            'name': mo.name,
+                            'name': mo.value,
                             'value': count
                         })
             data.append(values)
@@ -544,7 +576,7 @@ def get_chart_data_point(request, version, form_id):
     return Response({
         'type': 'PIE',
         'data': ListChartQuestionDataPointSerializer(
-            instance=question.question_question_options.all(),
+            instance=question.options.all(),
             context={'data_ids': data_ids},
             many=True).data},
         status=status.HTTP_200_OK)
@@ -769,18 +801,44 @@ def list_pending_batch(request, version):
     subordinate = serializer.validated_data.get('subordinate')
     approved = serializer.validated_data.get('approved')
     queryset = ViewPendingDataApproval.objects.filter(user_id=user.id)
-
+    rejected = ViewPendingDataApproval.objects.filter(
+        batch_id__in=queryset.values_list('batch_id', flat=True),
+        status=DataApprovalStatus.rejected
+    )
     if approved:
-        queryset = queryset.filter(level_id__gt=F('pending_level'))
+        queryset = queryset.filter(
+            status=DataApprovalStatus.approved,
+        )
+        queryset = queryset.exclude(
+            batch_id__in=rejected.values_list('batch_id', flat=True)
+        )
     else:
+        rejected_by_current_user = ViewPendingDataApproval.objects.filter(
+            status=DataApprovalStatus.rejected,
+            user=user
+        )
         if subordinate:
             queryset = queryset.filter(
                 level_id__lt=F('pending_level'),
                 batch__approved=False)
+            queryset = queryset.union(
+                rejected_by_current_user.values_list('batch_id', flat=True)
+            )
         else:
             queryset = queryset.filter(
                 level_id=F('pending_level'),
                 batch__approved=False)
+            queryset = queryset.exclude(
+                batch_id__in=rejected_by_current_user.values_list(
+                    'batch_id', flat=True)
+            )
+            rejected = rejected.exclude(
+                batch_id__in=rejected_by_current_user.values_list(
+                    'batch_id', flat=True)
+            )
+            queryset = queryset.union(
+                rejected.values_list('batch_id', flat=True)
+            )
     queryset = queryset.values_list('batch_id', flat=True).order_by('-id')
 
     paginator = PageNumberPagination()
@@ -796,7 +854,10 @@ def list_pending_batch(request, version):
         "total_page": ceil(queryset.count() / page_size),
         "batch": ListPendingDataBatchSerializer(
             instance=values, context={
-                'user': user, },
+                'user': user,
+                'approved': approved,
+                'subordinate': subordinate,
+            },
             many=True).data,
     }
     return Response(data, status=status.HTTP_200_OK)
@@ -822,11 +883,16 @@ class PendingDataDetailDeleteView(APIView):
                    summary='To get list of answers for pending data')
     def get(self, request, pending_data_id, version):
         data = get_object_or_404(PendingFormData, pk=pending_data_id)
+        last_data = FormData.objects.filter(uuid=data.uuid)\
+            .order_by('-created').first()
         return Response(
             ListPendingDataAnswerSerializer(
+                context={'last_data': last_data},
                 instance=data.pending_data_answer.all(),
-                many=True).data,
-            status=status.HTTP_200_OK)
+                many=True
+            ).data,
+            status=status.HTTP_200_OK
+        )
 
     @extend_schema(
         responses={
@@ -939,9 +1005,10 @@ class BatchSummaryView(APIView):
         batch = get_object_or_404(PendingDataBatch, pk=batch_id)
         instance = PendingAnswers.objects.filter(
             pending_data__batch_id=batch.id,
-            question__type__in=[QuestionTypes.option, QuestionTypes.number,
-                                QuestionTypes.administration,
-                                QuestionTypes.multiple_option]
+            question__type__in=[
+                QuestionTypes.option,
+                QuestionTypes.multiple_option
+            ]
         ).distinct('question')
         return Response(
             ListBatchSummarySerializer(
@@ -994,10 +1061,10 @@ class PendingFormDataView(APIView):
                    summary='Submit pending form data')
     def post(self, request, form_id, version):
         form = get_object_or_404(Forms, pk=form_id)
-        serializer = SubmitPendingFormSerializer(data=request.data,
-                                                 context={
-                                                     'user': request.user,
-                                                     'form': form})
+        serializer = SubmitPendingFormSerializer(
+            data=request.data,
+            context={'user': request.user, 'form': form}
+        )
         if not serializer.is_valid():
             return Response(
                 {'message': validate_serializers_message(
@@ -1239,7 +1306,7 @@ def get_jmp_data(request, version, form_id):
                 pk__in=request.GET.getlist("sum")).all()
         for q in sums:
             if q.type in [QuestionTypes.option, QuestionTypes.multiple_option]:
-                opts[q.id] = list(q.question_question_options.order_by(
+                opts[q.id] = list(q.options.order_by(
                     'order').values_list('name', flat=True))
     for adm in administration:
         temp = defaultdict(dict)

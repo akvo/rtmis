@@ -1,0 +1,18 @@
+#root {
+  .layout {
+    .body {
+      .wrapper {
+        background-color: #f5faff;
+      }
+      #powerbi-dashboard {
+        margin-top: -24px;
+        margin-left: -50px;
+        margin-right: -50px;
+        .page-title-wrapper {
+          padding: 40px 0px;
+          text-align: center;
+        }
+      }
+    }
+  }
+}

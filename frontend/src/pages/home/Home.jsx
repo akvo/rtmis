@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import "./style.scss";
-import { Row, Col, Tabs, Image, Space, Button, Collapse } from "antd";
+import { Row, Col, Space, Button, Collapse } from "antd";
+import { FiCheckCircle } from "react-icons/fi";
 import { ContactForm, HomeAdministrationChart } from "../../components";
 
 import { HomeMap } from "./components";
-import { queue, store } from "../../lib";
-const { TabPane } = Tabs;
+import { queue, store, uiText } from "../../lib";
+// const { TabPane } = Tabs;
 
-const partners = ["us-aid.png", "japan.png", "unicef.png"];
+// const partners = ["us-aid.png", "japan.png", "unicef.png"];
 const { Panel } = Collapse;
 
 export const Visuals = ({ current, mapValues, setMapValues }) => {
@@ -55,17 +56,22 @@ export const Visuals = ({ current, mapValues, setMapValues }) => {
 };
 
 const Home = () => {
-  const { highlights } = window;
-  const [currentHighlight, setCurrentHighlight] = useState(highlights?.[0]);
-  const [mapValues, setMapValues] = useState([]);
+  // const { highlights } = window;
+  // const [currentHighlight, setCurrentHighlight] = useState(highlights?.[0]);
+  // const [mapValues, setMapValues] = useState([]);
+  const language = store.useState((s) => s.language);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
-  const onTabClick = (active) => {
-    setCurrentHighlight(highlights.find((x) => x.name === active));
-    queue.update((q) => {
-      q.next = 1;
-      q.wait = null;
-    });
-  };
+  // const onTabClick = (active) => {
+  //   setCurrentHighlight(highlights.find((x) => x.name === active));
+  //   queue.update((q) => {
+  //     q.next = 1;
+  //     q.wait = null;
+  //   });
+  // };
 
   useEffect(() => {
     queue.update((q) => {
@@ -78,17 +84,13 @@ const Home = () => {
     <div id="home">
       <div className="home-odd about">
         <Row>
-          <Col span={12} style={{ borderRight: "1px solid #888" }}>
-            <h1>About RUSH</h1>
-            <p>
-              The Kenya Rural Urban Sanitation and Hygiene (RUSH) platform is a
-              real-time monitoring and information system owned by the Ministry
-              of Health. The platform aggregates quantitative and qualitative
-              data from county and national levels and facilitates data
-              analysis, report generation and visualizations.
-            </p>
+          <Col span={10}>
+            <h1>{text.aboutRush}</h1>
           </Col>
-          <Col span={12}>
+          <Col span={14}>
+            <p>{text.aboutText}</p>
+            {/*
+            <Button type="link">{text.learnMoreButton}</Button>
             <h1>Partners</h1>
             <Row align="middle" justify="center" style={{ marginTop: "24px" }}>
               <Space size={50} align="center">
@@ -102,13 +104,44 @@ const Home = () => {
                   />
                 ))}
               </Space>
-            </Row>
+            </Row> */}
           </Col>
         </Row>
       </div>
       <div className="home-even highlights">
+        <div className="body">
+          <Row gutter={24} justify="space-between">
+            <Col lg={10}>
+              <div className="report-wrapper">
+                <div className="description">
+                  <h2>{text.realTime}</h2>
+                  <p>{text.aboutText}</p>
+                </div>
+                <ul>
+                  <li>
+                    <FiCheckCircle />
+                    <span>{text.reportText}</span>
+                  </li>
+                </ul>
+                {/*
+                <Button type="primary" shape="round">
+                  {text.welcomeCta}
+                </Button>
+                */}
+              </div>
+            </Col>
+            <Col lg={14}>
+              <div className="report-visual-wrapper">
+                <img
+                  src={"/assets/rtmis-girl-washing-her-hands.png"}
+                  alt="Girl washing her hands"
+                />
+              </div>
+            </Col>
+          </Row>
+        </div>
         <div className="body" id="home-visualisation">
-          <Tabs
+          {/* <Tabs
             defaultActiveKey={highlights?.[0]?.name}
             onTabClick={onTabClick}
             centered
@@ -123,15 +156,20 @@ const Home = () => {
             current={currentHighlight}
             mapValues={mapValues}
             setMapValues={setMapValues}
-          />
+          /> */}
+          {/* TODO Visualisation */}
+          <div className="todo-visualisation">
+            <em>The Visualisation will be here</em>
+          </div>
         </div>
       </div>
       <div className="home-odd contact">
-        <h1>Contact Us</h1>
+        <h2>{text.contactText}</h2>
         <Row align="middle" justify="center">
           <Space direction="vertical" align="center">
-            <h3>Get in touch with us for support or feedback.</h3>
+            <h3>{text.contactDesText}</h3>
             <Button
+              shape="round"
               type="primary"
               onClick={() => {
                 store.update((s) => {
@@ -139,7 +177,7 @@ const Home = () => {
                 });
               }}
             >
-              Send Feedback
+              {text.feedbackBtn}
             </Button>
           </Space>
         </Row>

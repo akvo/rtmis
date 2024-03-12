@@ -20,7 +20,7 @@ const Settings = () => {
       buttonLabel: text.orgPanelButton,
       access: "organisation",
       description: <div>{text.orgPanelText}</div>,
-      link: "/organisations",
+      link: "/control-center/master-data/organisations",
       image: "/assets/personal-information.png",
     },
   ];
@@ -35,13 +35,16 @@ const Settings = () => {
         <Breadcrumbs
           pagePath={[
             {
-              title: "System Settings",
+              title: text.settings,
               link: "/settings",
             },
           ]}
         />
       </Row>
-      <DescriptionPanel description={text.settingsDescriptionPanel} />
+      <DescriptionPanel
+        description={text.settingsDescriptionPanel}
+        title={text.settings}
+      />
       <Divider />
       <Row gutter={[16, 16]}>
         {selectedPanels.map((panel, index) => (
@@ -52,7 +55,9 @@ const Settings = () => {
                   <h2>{panel.title}</h2>
                   <span>{panel.description}</span>
                   <Link to={panel.link} className="explore">
-                    <Button type="primary">{panel.buttonLabel}</Button>
+                    <Button type="primary" shape="round">
+                      {panel.buttonLabel}
+                    </Button>
                   </Link>
                 </div>
                 <div>

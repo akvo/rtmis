@@ -1,7 +1,6 @@
 import { Row, Col, Tag } from "antd";
 import {
   FileTextFilled,
-  InfoCircleOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
   ClockCircleOutlined,
@@ -9,23 +8,18 @@ import {
 
 export const columnsApproval = [
   {
-    title: "",
-    dataIndex: "id",
-    key: "id",
-    width: "40px",
-    render: () => <InfoCircleOutlined />,
-  },
-  {
     title: "Submission",
     dataIndex: "name",
     key: "name",
-    width: "20%",
-    render: (filename) => (
-      <Row>
-        <Col span={4}>
+    render: (filename, row) => (
+      <Row align="middle">
+        <Col style={{ marginRight: 20 }}>
           <FileTextFilled style={{ color: "#666666", fontSize: 28 }} />
         </Col>
-        <Col span={12}>{filename}</Col>
+        <Col>
+          <div>{filename}</div>
+          <div>{row.created}</div>
+        </Col>
       </Row>
     ),
   },
@@ -36,23 +30,36 @@ export const columnsApproval = [
     render: (form) => form.name,
   },
   {
-    title: "Date",
-    dataIndex: "created",
-    key: "created",
-  },
-  {
     title: "Submitter",
     dataIndex: "created_by",
     key: "created_by",
+    width: 140,
+  },
+  {
+    title: "Total Data",
+    align: "center",
+    dataIndex: "total_data",
+    key: "total_data",
+    width: 140,
   },
   {
     title: "Location",
     dataIndex: "administration",
     key: "administration",
     render: (administration) => administration.name,
+    width: 140,
+  },
+  {
+    title: "Waiting on",
+    align: "center",
+    dataIndex: "waiting_on",
+    key: "waiting_on",
+    render: (_, row) => row.approver.name,
+    width: 180,
   },
   {
     title: "Status",
+    align: "center",
     dataIndex: "approver",
     key: "approver",
     render: ({ status_text }) => (
@@ -79,16 +86,6 @@ export const columnsApproval = [
         </Tag>
       </span>
     ),
-  },
-  {
-    title: "Waiting on",
-    dataIndex: "waiting_on",
-    key: "waiting_on",
-    render: (_, row) => row.approver.name,
-  },
-  {
-    title: "Total Data",
-    dataIndex: "total_data",
-    key: "total_data",
+    width: 180,
   },
 ];

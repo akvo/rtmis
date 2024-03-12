@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from "react";
 import { Form, Input, Button, Checkbox } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { api, store, config, uiText } from "../../../lib";
 import { useNavigate } from "react-router-dom";
 import { useNotification } from "../../../util/hooks";
@@ -117,10 +116,7 @@ const RegistrationForm = (props) => {
           ]}
           hasFeedback
         >
-          <Input.Password
-            prefix={<UserOutlined className="site-form-item-icon" />}
-            placeholder="Password"
-          />
+          <Input.Password placeholder="Password" />
         </Form.Item>
         <Form.Item
           name="confirm"
@@ -142,13 +138,15 @@ const RegistrationForm = (props) => {
             }),
           ]}
         >
-          <Input.Password
-            prefix={<LockOutlined className="site-form-item-icon" />}
-            placeholder="Confirm Password"
-          />
+          <Input.Password placeholder="Confirm Password" />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit" loading={loading}>
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={loading}
+            shape="round"
+          >
             Set New Password
           </Button>
         </Form.Item>

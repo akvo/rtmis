@@ -1,0 +1,22 @@
+---
+version: "3.9"
+services:
+  mainnetwork:
+    ports:
+      - 8081:8081
+      - 19000:19000
+  mobileapp:
+    image: node:18.16.0-alpine
+    command: ["./start.sh"]
+    volumes:
+      - rtmis-docker-mobile-sync:/app/node_modules:nocopy
+      - ./app:/app:delegated
+      - ./.git:/app/.git:ro
+    working_dir: /app
+    environment:
+      - BACKEND_IP_ADDRESS=${IP_ADDRESS}
+      - EXPO_TOKEN
+    network_mode: service:mainnetwork
+volumes:
+  rtmis-docker-mobile-sync:
+    external: true

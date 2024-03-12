@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from "react";
 import { Form, Input, Button, notification } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { api, store, config, uiText } from "../../../lib";
 import { useNotification } from "../../../util/hooks";
@@ -83,10 +82,7 @@ const LoginForm = () => {
           },
         ]}
       >
-        <Input
-          prefix={<UserOutlined className="site-form-item-icon" />}
-          placeholder="Email"
-        />
+        <Input placeholder="Email" />
       </Form.Item>
       <Form.Item
         name="password"
@@ -99,19 +95,20 @@ const LoginForm = () => {
           },
         ]}
       >
-        <Input.Password
-          prefix={<LockOutlined className="site-form-item-icon" />}
-          disabled={loading}
-          placeholder="Password"
-        />
+        <Input.Password disabled={loading} placeholder="Password" />
       </Form.Item>
       <Form.Item>
         <Link className="login-form-forgot" to="/forgot-password">
-          Forgot password
+          Recover Password
         </Link>
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit" loading={loading}>
+        <Button
+          type="primary"
+          htmlType="submit"
+          shape="round"
+          loading={loading}
+        >
           Log in
         </Button>
       </Form.Item>

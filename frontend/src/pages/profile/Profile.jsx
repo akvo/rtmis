@@ -1,31 +1,38 @@
 import React, { useMemo } from "react";
 import "./style.scss";
 import { Space, Card, Divider, Row, Tag } from "antd";
-import { store } from "../../lib";
+import { api, store, uiText } from "../../lib";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { ProfileTour } from "./components";
 import moment from "moment";
-
-const descriptionData =
-  "This page shows your current user setup. It also shows the most important activities for your current user setup";
+import { useCallback } from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const Profile = () => {
   const { forms, user: authUser } = store.useState((s) => s);
   const { trained } = authUser;
 
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+
+  const [userAdminstration, setUserAdminstration] = useState(null);
+
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
+
+  const descriptionData = text.profileDes;
+
   const trainedBadge = useMemo(() => {
     if (trained) {
-      return (
-        <Tag color="warning" style={{ marginBottom: 11 }}>
-          Trained
-        </Tag>
-      );
+      return <Tag color="warning">Trained</Tag>;
     }
   }, [trained]);
 
   const pagePath = [
     {
-      title: "Control Center",
+      title: text.controlCenter,
       link: "/control-center",
     },
     {
@@ -35,13 +42,27 @@ const Profile = () => {
             {authUser?.name}
             {trainedBadge}
           </Space>
-        ) || "Profile",
+        ) || text.profileLabel,
     },
   ];
 
-  const fullAdministrationName = window.dbadm
-    .find((x) => x.id === authUser.administration.id)
-    ?.full_name?.split("|")
+  const fetchUserAdmin = useCallback(async () => {
+    try {
+      const { data: _userAdm } = await api.get(
+        `administration/${authUser.administration.id}`
+      );
+      setUserAdminstration(_userAdm);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [authUser]);
+
+  useEffect(() => {
+    fetchUserAdmin();
+  }, [fetchUserAdmin]);
+
+  const fullAdministrationName = userAdminstration?.full_name
+    ?.split("|")
     .join(" - ");
 
   return (
@@ -50,13 +71,16 @@ const Profile = () => {
         <Breadcrumbs pagePath={pagePath} />
         <ProfileTour />
       </Row>
-      <DescriptionPanel description={descriptionData} />
+      <DescriptionPanel
+        description={descriptionData}
+        title={text.profileLabel}
+      />
       <Divider />
       <Card style={{ padding: 0, marginBottom: 12 }}>
-        <h1>My Profile</h1>
+        <h1>{text.myProfile}</h1>
         <ul className="profile-detail">
           <li>
-            <h3>Name</h3>
+            <h3>{text.nameLabel}</h3>
             <Space size="large" align="center">
               <span>{authUser?.name}</span>
               <span style={{ fontStyle: "italic" }}>
@@ -65,35 +89,35 @@ const Profile = () => {
             </Space>
           </li>
           <li>
-            <h3>Phone Number</h3>
+            <h3>{text.userPhoneNumber}</h3>
             <Space size="large" align="center">
               <span>{authUser?.phone_number}</span>
             </Space>
           </li>
           <li>
-            <h3>Role</h3>
+            <h3>{text.roleLabel}</h3>
             <Space size="large" align="center">
               <span>{authUser?.role?.value}</span>
             </Space>
           </li>
           <li>
-            <h3>Organization</h3>
+            <h3>{text.userOrganisation}</h3>
             <Space size="large" align="center">
               <span>{authUser?.organisation?.name}</span>
             </Space>
           </li>
           <li>
-            <h3>Designation</h3>
+            <h3>{text.userDesignation}</h3>
             <Space size="large" align="center">
               <span>{authUser?.designation?.name}</span>
             </Space>
           </li>
           <li>
-            <h3>Administration</h3>
+            <h3>{text.administrationLabel}</h3>
             <p>{fullAdministrationName || authUser?.administration?.name}</p>
           </li>
           <li>
-            <h3>Questionnaires</h3>
+            <h3>{text.questionnairesLabel}</h3>
             <Space size="large" align="center">
               {forms.map((qi, qiI) => (
                 <span key={qiI}>{qi.name}</span>
@@ -101,7 +125,7 @@ const Profile = () => {
             </Space>
           </li>
           <li>
-            <h3>Last login</h3>
+            <h3>{text.lastLoginLabel}</h3>
             <Space size="large" align="center">
               <span>
                 {authUser?.last_login

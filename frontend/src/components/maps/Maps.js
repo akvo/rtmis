@@ -203,12 +203,11 @@ const Maps = ({ loading, mapConfig, style = {}, national }) => {
           const shapeInfo = currentAdministration.children.find(
             (x) => x.name === shapeName
           );
-          store.update((s) => {
-            s.administration.length = index + 1;
-            s.administration = [
-              ...administration,
-              config.fn.administration(shapeInfo.id),
-            ];
+          config.fn.administration(shapeInfo.id).then((res) => {
+            store.update((s) => {
+              s.administration.length = index + 1;
+              s.administration = [...administration, res];
+            });
           });
         }
       },

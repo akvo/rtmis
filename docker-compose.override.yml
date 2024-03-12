@@ -12,22 +12,29 @@ services:
       - 8888:8888
   frontend:
     network_mode: service:mainnetwork
+    volumes:
+      - ${STORAGE_PATH}/images:/app/public/images:delegated
+      - ${STORAGE_PATH}/datapoints:/app/public/datapoints:delegated
+      - ${STORAGE_PATH}/apk:/app/public/apk:delegated
+      - ${STORAGE_PATH}/master_data:/app/public/master_data:delegated
   worker:
     volumes:
       - ../akvo-config/k8s-secrets/test/rtmis:/credentials/:ro
+      - ${STORAGE_PATH}:/app/storage:delegated
     environment:
       - GOOGLE_APPLICATION_CREDENTIALS=/credentials/rtmis-service-account.json
       - MAILJET_APIKEY=$MAILJET_APIKEY
       - MAILJET_SECRET=$MAILJET_SECRET
-      - WEBDOMAIN=https://rtmis.akvotest.org
+      - WEBDOMAIN=http://localhost:3000
   backend:
     volumes:
       - ../akvo-config/k8s-secrets/test/rtmis:/credentials/:ro
+      - ${STORAGE_PATH}:/app/storage:delegated
     environment:
       - GOOGLE_APPLICATION_CREDENTIALS=/credentials/rtmis-service-account.json
       - MAILJET_APIKEY=$MAILJET_APIKEY
       - MAILJET_SECRET=$MAILJET_SECRET
-      - WEBDOMAIN=https://rtmis.akvotest.org
+      - WEBDOMAIN=$WEBDOMAIN
     network_mode: service:mainnetwork
   pgadmin:
     image: dpage/pgadmin4:5.7

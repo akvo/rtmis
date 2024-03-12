@@ -18,4 +18,24 @@ module.exports = function (app) {
       },
     })
   );
+  app.use(
+    ["/app"],
+    createProxyMiddleware({
+      target: "http://localhost:3000",
+      changeOrigin: true,
+      pathRewrite: {
+        "^/app": "/apk/rtmis.apk",
+      },
+    })
+  );
+  app.use(
+    ["/master-data"],
+    createProxyMiddleware({
+      target: "http://localhost:3000",
+      changeOrigin: true,
+      pathRewrite: {
+        "^/master-data": "/master_data/kenya-administration.csv",
+      },
+    })
+  );
 };

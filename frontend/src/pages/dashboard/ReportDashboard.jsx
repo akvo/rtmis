@@ -4,10 +4,11 @@ import { useParams } from "react-router-dom";
 import { Row, Col, Tabs, Affix } from "antd";
 import { VisualisationFilters } from "../../components";
 import { useNotification } from "../../util/hooks";
-import { api, uiText, store, config } from "../../lib";
+import { api, uiText, store } from "../../lib";
 import { capitalize, takeRight } from "lodash";
 import { TableVisual } from "./components";
 import { generateAdvanceFilterURL } from "../../util/filter";
+import { useCallback } from "react";
 
 const { TabPane } = Tabs;
 
@@ -52,12 +53,21 @@ const ReportDashboard = () => {
     return name;
   }, [currentAdministration]);
 
-  useEffect(() => {
-    store.update((s) => {
-      s.administration = [config.fn.administration(1)];
-    });
-    setWait(false);
+  const fetchUserAdmin = useCallback(async () => {
+    try {
+      const { data: _userAdm } = await api.get(`administration/${1}`);
+      store.update((s) => {
+        s.administration = [_userAdm];
+      });
+      setWait(false);
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchUserAdmin();
+  }, [fetchUserAdmin]);
 
   useEffect(() => {
     if (selectedForm?.id) {

@@ -2,17 +2,8 @@
 
 #root {
   .ant-input-search {
-    border: 1px solid $color-semi-light;
-    .ant-input-affix-wrapper,
-    .ant-input-affix-wrapper.ant-input-affix-wrapper-focused {
-      border: none;
-    }
-    .ant-input-affix-wrapper:focus {
-      border: none;
-    }
-
-    .ant-input-search-button {
-      border: none;
+    .ant-input-group-addon {
+      left: 0;
     }
   }
   .advanced-filters {
@@ -59,6 +50,13 @@
   }
   .ant-divider {
     margin-top: 12px;
+  }
+  .custom-select {
+    .ant-select-selection-overflow-item {
+      .ant-select-selection-item {
+        padding-right: 18px !important;
+      }
+    }
   }
 }
 .ant-popover-inner-content {

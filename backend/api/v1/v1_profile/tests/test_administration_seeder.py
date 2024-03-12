@@ -13,7 +13,7 @@ class AdministrationSeederTestCase(TestCase):
         administrator_level = Administration.objects.order_by(
             '-level').values_list('level', flat=True).distinct()
         level_ids = Levels.objects.order_by('-id').values_list('id', flat=True)
-        self.assertEqual(list(administrator_level), list(level_ids))
+        self.assertTrue(set(administrator_level).issubset(set(level_ids)))
         children = Administration.objects.filter(level__level=1).all()
         children = ListAdministrationChildrenSerializer(instance=children,
                                                         many=True)
@@ -28,6 +28,8 @@ class AdministrationSeederTestCase(TestCase):
                 "parent": None,
                 "children": children.data,
                 "children_level_name": "County",
+                "full_name": "Kenya",
+                "path": None
             }, response.json())
 
     def test_administration_seeder_test(self):
@@ -41,14 +43,19 @@ class AdministrationSeederTestCase(TestCase):
         self.assertEqual(
             {
                 "id": 1,
+                "path": None,
                 "level": 0,
                 "level_name": "National",
                 "name": "Indonesia",
+                "full_name": "Indonesia",
                 "parent": None,
                 "children": [{
                     "id": 2,
+                    "level": 2,
                     "name": "Jakarta",
-                    "parent": 1
+                    "full_name": "Indonesia|Jakarta",
+                    "parent": 1,
+                    "path": "1."
                 }],
                 "children_level_name": "County",
             }, response.json())

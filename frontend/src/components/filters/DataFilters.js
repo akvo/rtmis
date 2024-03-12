@@ -8,10 +8,15 @@ import { useNotification } from "../../util/hooks";
 import { api, store } from "../../lib";
 import { takeRight } from "lodash";
 import RemoveFiltersButton from "./RemoveFiltersButton";
-import AdvancedFiltersButton from "./AdvancedFiltersButton";
 import AdvancedFilters from "./AdvancedFilters";
+import {
+  PlusOutlined,
+  DownloadOutlined,
+  UploadOutlined,
+} from "@ant-design/icons";
+//import AdvancedFiltersButton from "./AdvancedFiltersButton";
 
-const DataFilters = ({ loading }) => {
+const DataFilters = ({ loading, showAdm = true }) => {
   const {
     user: authUser,
     selectedForm,
@@ -38,7 +43,7 @@ const DataFilters = ({ loading }) => {
           message: `Data exported successfully`,
         });
         setExporting(false);
-        navigate("/data/export");
+        navigate("/administration-download");
       })
       .catch(() => {
         notify({
@@ -50,45 +55,54 @@ const DataFilters = ({ loading }) => {
   };
   return (
     <>
-      <Row>
+      <Row style={{ marginBottom: "16px" }}>
         <Col flex={1}>
           <Space>
             <FormDropdown loading={loading} />
-            <AdministrationDropdown loading={loading || loadingForm} />
-            <RemoveFiltersButton />
-            <AdvancedFiltersButton />
+            {/* <AdvancedFiltersButton /> */}
           </Space>
         </Col>
-        {["Super Admin", "County Admin", "Data Entry Staff"].includes(
-          authUser?.role?.value
-        ) && (
-          <Col>
-            <Space>
-              {pathname === "/data/manage" && (
-                <Button
-                  type="primary"
-                  onClick={exportGenerate}
-                  loading={exporting}
-                >
-                  Download Data
-                </Button>
-              )}
-              <Link to="/data/upload">
-                <Button type="primary">Bulk Upload</Button>
-              </Link>
-              <Link to={`/form/${selectedForm}`}>
-                <Button
-                  type="primary"
-                  disabled={
-                    !isUserHasForms && authUser?.role?.value !== "Super Admin"
-                  }
-                >
-                  Add New
-                </Button>
-              </Link>
-            </Space>
-          </Col>
-        )}
+        <Col>
+          <Space>
+            {pathname === "/control-center/data/manage" && (
+              <Button
+                shape="round"
+                onClick={exportGenerate}
+                loading={exporting}
+                icon={<DownloadOutlined />}
+              >
+                Download Data
+              </Button>
+            )}
+            <Link to="/control-center/data/upload">
+              <Button shape="round" icon={<UploadOutlined />}>
+                Bulk Upload
+              </Button>
+            </Link>
+            <Link to={`/control-center/form/${selectedForm}`}>
+              <Button
+                shape="round"
+                icon={<PlusOutlined />}
+                type="primary"
+                disabled={
+                  !isUserHasForms && authUser?.role?.value !== "Super Admin"
+                }
+              >
+                Add New
+              </Button>
+            </Link>
+          </Space>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Space>
+            {showAdm && (
+              <AdministrationDropdown loading={loading || loadingForm} />
+            )}
+            <RemoveFiltersButton />
+          </Space>
+        </Col>
       </Row>
       {showAdvancedFilters && <AdvancedFilters />}
     </>

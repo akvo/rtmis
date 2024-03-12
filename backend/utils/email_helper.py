@@ -1,11 +1,10 @@
-import os
 from pathlib import Path
 
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from rest_framework import serializers
 from utils.custom_serializer_fields import CustomChoiceField
-from rtmis.settings import EMAIL_FROM
+from rtmis.settings import EMAIL_FROM, WEBDOMAIN
 
 
 class EmailTypes:
@@ -24,6 +23,8 @@ class EmailTypes:
     new_request = 'new_request'
     unchanged_data = 'unchanged_data'
     feedback = 'feedback'
+    administration_upload = 'administration_upload'
+    administration_prefilled = 'administration_prefilled'
 
     FieldStr = {
         user_register: 'user_register',
@@ -40,7 +41,9 @@ class EmailTypes:
         upload_error: 'upload_error',
         new_request: 'new_request',
         unchanged_data: 'unchanged_data',
-        feedback: 'feedback'
+        feedback: 'feedback',
+        administration_upload: 'administration_upload',
+        administration_prefilled: 'administration_prefilled',
     }
 
 
@@ -50,10 +53,9 @@ class ListEmailTypeRequestSerializer(serializers.Serializer):
 
 
 def email_context(context: dict, type: str):
-    webdomain = os.environ["WEBDOMAIN"]
     context.update({
-        "webdomain": webdomain,
-        "logo": f"{webdomain}/logo.png",
+        "webdomain": WEBDOMAIN,
+        "logo": f"{WEBDOMAIN}/logo.png",
         "site_name": "MOH"
     })
     if type == EmailTypes.user_register:
@@ -64,7 +66,7 @@ def email_context(context: dict, type: str):
                 the the National Sanitation and Hygiene Real-Time
                 Monitoring System.
                 .''',
-            "image": f"{webdomain}/email-icons/check-circle.png",
+            "image": f"{WEBDOMAIN}/email-icons/check-circle.png",
             "success_text": "Successfully Registered",
             "message_list": ["JMP/SDG Status",
                              "CLTS Progress",
@@ -76,7 +78,7 @@ def email_context(context: dict, type: str):
             "subject": "Verified",
             "body": '''Congratulations!! You are now a verified user,
                     with great power comes great responsibility''',
-            "image": f"{webdomain}/email-icons/user.png",
+            "image": f"{WEBDOMAIN}/email-icons/user.png",
             "info_text": "You can now view, upload and export out data from \
                 the following regions.",
             "user_credentials": [{
@@ -139,7 +141,7 @@ def email_context(context: dict, type: str):
         context.update({
             "subject": "Data Upload Approved",
             "body": '''Your Data Upload has been approved by Administrator''',
-            "image": f"{webdomain}/email-icons/check-circle.png",
+            "image": f"{WEBDOMAIN}/email-icons/check-circle.png",
             "success_text": "Filename Approved",
             "explore_button": True
         })
@@ -148,7 +150,7 @@ def email_context(context: dict, type: str):
             "subject": "Data Upload Rejected",
             "body": '''Your Data Upload has been rejected by
                     Your admin''',
-            "image": f"{webdomain}/email-icons/close-circle.png",
+            "image": f"{WEBDOMAIN}/email-icons/close-circle.png",
             "failed_text": "Filename Rejected",
             "feedback": [
                 "Donec dictum neque ac cursus sollicitudin.",
@@ -164,7 +166,7 @@ def email_context(context: dict, type: str):
     if type == EmailTypes.batch_approval:
         context.update({
             "subject": "Batch Approved",
-            "image": f"{webdomain}/email-icons/check-circle.png",
+            "image": f"{WEBDOMAIN}/email-icons/check-circle.png",
             "success_text": "Your submission has been approved",
             "align": "left",
             "explore_button": True
@@ -172,7 +174,7 @@ def email_context(context: dict, type: str):
     if type == EmailTypes.batch_rejection:
         context.update({
             "subject": "Batch Rejected",
-            "image": f"{webdomain}/email-icons/close-circle.png",
+            "image": f"{WEBDOMAIN}/email-icons/close-circle.png",
             "failed_text": "Your submission batch has been rejected",
             "align": "left",
             "explore_button": True
@@ -180,7 +182,7 @@ def email_context(context: dict, type: str):
     if type == EmailTypes.inform_batch_rejection_approver:
         context.update({
             "subject": "Batch Rejected",
-            "image": f"{webdomain}/email-icons/close-circle.png",
+            "image": f"{WEBDOMAIN}/email-icons/close-circle.png",
             "failed_text": """
             A submission batch that you had approved has been rejected""",
             "align": "left",
@@ -189,7 +191,7 @@ def email_context(context: dict, type: str):
     if type == EmailTypes.pending_approval:
         context.update({
             "subject": "Pending Approval",
-            "image": f"{webdomain}/email-icons/info-circle.png",
+            "image": f"{WEBDOMAIN}/email-icons/info-circle.png",
             "info_text": "There is data that is pending your approval!",
             "extend_body": """
             To approve/reject this data submission please visit
@@ -203,7 +205,7 @@ def email_context(context: dict, type: str):
         if context.get('is_super_admin'):
             extend_body = False
         context.update({
-            "image": f"{webdomain}/email-icons/info-circle.png",
+            "image": f"{WEBDOMAIN}/email-icons/info-circle.png",
             "info_text": """
             The spreadsheet that you uploaded has been successfully
             validated and submitted.
@@ -216,7 +218,7 @@ def email_context(context: dict, type: str):
             "subject": "Upload Error",
             "info_text": '''Your data upload the the RUSH platform failed
             validation checks.''',
-            "image": f"{webdomain}/email-icons/close-circle.png",
+            "image": f"{WEBDOMAIN}/email-icons/close-circle.png",
             "failed_text": "Upload Error",
             "extend_body": """The validation errors are attachedin this email.
             It list all the validation errors that were
@@ -229,7 +231,7 @@ def email_context(context: dict, type: str):
     if type == EmailTypes.unchanged_data:
         context.update({
             "subject": "No Data Updates found",
-            "image": f"{webdomain}/email-icons/info-circle.png",
+            "image": f"{WEBDOMAIN}/email-icons/info-circle.png",
             "info_text": """No changes were detected in the data
             that you uploaded""",
             "extend_body": """
@@ -252,6 +254,25 @@ def email_context(context: dict, type: str):
             "image": None,
             "explore_button": False
         })
+    if type == EmailTypes.administration_upload:
+        context.update({
+            "subject": "Administration Data Submitted",
+            "image": f"{WEBDOMAIN}/email-icons/info-circle.png",
+            "info_text": """
+            The spreadsheet that you uploaded has been successfully
+            validated and submitted.
+            """,
+            "explore_button": True
+        })
+    if type == EmailTypes.administration_prefilled:
+        context.update({
+            "subject": "Prefilled Administration ready to download",
+            "image": f"{WEBDOMAIN}/email-icons/info-circle.png",
+            "info_text": """
+            The spreadsheet that you requested has been successfully
+            validated and ready to download.
+            """,
+        })
     # prevent multiline if inside html template
     show_content = context.get('message_list') \
         or context.get('user_credentials') \
@@ -260,8 +281,8 @@ def email_context(context: dict, type: str):
     return context
 
 
-def send_email(context: dict, type=str, path=None,
-               content_type=None, send=True):
+def send_email(context: dict, type: str, path=None,
+               content_type=None, send=True, excel=None):
     context = email_context(context=context, type=type)
     try:
 
@@ -276,6 +297,12 @@ def send_email(context: dict, type=str, path=None,
         if path:
             msg.attach(Path(path).name, open(path).read(),
                        content_type)
+        if excel:
+            msg.attach(
+                excel['name'],
+                excel['file'],
+                'application/vnd.ms-excel'
+            )
         if send:
             msg.send()
         if not send:

@@ -1,6 +1,5 @@
 import { Store } from "pullstate";
 import { sortArray } from "../util/form";
-import config from "./config";
 
 const defaultUIState = {
   isLoggedIn: false,
@@ -14,18 +13,28 @@ const defaultUIState = {
     active: "en",
     langs: { en: "English", de: "German" },
   },
-  administration: [config.fn.administration(1)],
+  administration: [],
   selectedAdministration: null,
   loadingMap: false,
   forms: window.forms.sort(sortArray),
   levels: window.levels,
   selectedForm: null,
+  selectedFormData: null,
   loadingForm: false,
   questionGroups: [],
   showAdvancedFilters: false,
   advancedFilters: [],
   administrationLevel: null,
   showContactFormModal: false,
+  mobileAssignment: {},
+  masterData: {
+    administration: {},
+    attribute: {},
+    entity: {},
+  },
+  options: {
+    entityTypes: [],
+  },
 };
 
 const store = new Store(defaultUIState);

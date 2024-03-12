@@ -1,23 +1,42 @@
 @import "../../variables";
 
 #root {
+  min-height: 100vh;
   .background {
     content: "";
-    width: 50%;
+    width: 100%;
     position: absolute;
     height: 100vh;
     top: 0px;
   }
 
   .contact-text {
-    color: #fff;
+    color: #000;
     font-size: 13px;
+    text-align: center;
+    padding-top: 16px;
+    margin: 0px;
+    a {
+      color: $blue;
+    }
   }
 
   #login {
-    background-color: $bg-header;
-    margin-right: -$layout-padding;
-    margin-left: -$layout-padding;
+    background-color: $bg-light;
+    min-height: 100vh;
+    margin: -24px -50px;
+    padding: 40px;
+    .loading-container {
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      h2,
+      small {
+        color: $bg-dark !important;
+      }
+    }
 
     .logo {
       position: absolute;
@@ -55,50 +74,26 @@
     }
 
     .wrapper {
-      margin-top: -$padding-default;
-      margin-bottom: -$padding-default;
-      height: 100vh;
-
       .right-side,
       .left-side {
         align-items: middle;
       }
 
-      .left-side {
-        .title {
-          margin: auto;
-          vertical-align: middle;
-          margin-left: $layout-padding;
-          padding-right: 107px;
-
-          h1 {
-            color: $white;
-            font-weight: $font-weight-semi-bold;
-            font-size: $font-size-super-large;
-          }
-
-          h2 {
-            color: $white;
-            font-weight: $font-weight-normal;
-            font-size: $font-size-semi-large;
-            line-height: 1.1;
-          }
-        }
-      }
-
       .right-side {
-        padding-left: 107px;
-        padding-right: $layout-padding;
-
         h1 {
-          color: $white;
+          color: $blue;
           font-weight: $font-weight-semi-bold;
           margin-bottom: 0px;
+          text-align: center;
 
           small {
             font-size: $font-size-regular;
             font-weight: $font-weight-normal;
           }
+        }
+        img {
+          margin: 0 auto;
+          display: block;
         }
 
         h2 {
@@ -109,17 +104,40 @@
             color: #fffa;
           }
         }
+        .login-form-container {
+          background-color: white;
+          max-width: 450px;
+          margin: 0 auto;
+          box-shadow: 0px 4px 35px 0px rgba(0, 0, 0, 0.1);
+          padding: 24px;
+          .login-content {
+            padding: 40px 0px;
+          }
+          button {
+            margin: 0 auto;
+            display: block;
+          }
+        }
 
         .ant-form {
           &.ant-form-vertical {
-            margin-top: 24px;
-
             .ant-form-item {
               .ant-form-item-label {
                 label {
-                  color: $white;
+                  color: $blue-darker;
+                  font-size: 14px;
                   font-weight: $font-weight-semi-bold;
                 }
+              }
+
+              .ant-input-affix-wrapper {
+                padding: 0px 10px 0px 0px;
+              }
+              input {
+                padding: 10px 24px;
+                border-color: $stroke-color;
+                color: $color-dark;
+                font-weight: $font-weight-semi-bold;
               }
 
               .ant-checkbox-wrapper {
@@ -128,14 +146,15 @@
 
               .login-form-forgot {
                 float: right;
+                color: $blue;
               }
             }
           }
 
           .disclaimer {
-            color: #eb5254b3;
+            color: $blue-dark;
             font-size: 12px;
-            font-style: italic;
+            font-style: normal;
           }
         }
 
@@ -157,19 +176,13 @@
               width: 0px;
               height: 0px;
             }
-
             .ant-checkbox-checked {
               padding-left: 5px;
-
               .ant-checkbox-inner {
                 width: 12px;
                 height: 12px;
               }
             }
-          }
-
-          .ant-checkbox-wrapper-checked {
-            background-color: #00ff5a66;
           }
         }
       }

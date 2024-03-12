@@ -117,12 +117,14 @@ const UserDetail = ({ record, setDeleteUser, deleting }) => {
       </Row>
       <div>
         <Space>
-          <Link to={`/user/${record.id}`}>
-            <Button type="primary">Edit</Button>
+          <Link to={`/control-center/user/${record.id}`}>
+            <Button type="primary" shape="round">
+              Edit
+            </Button>
           </Link>
           {user && user.email === record.email ? (
             <Tooltip title="Could not do self deletion">
-              <Button danger disabled>
+              <Button danger shape="round" disabled>
                 Delete
               </Button>
             </Tooltip>
@@ -131,6 +133,7 @@ const UserDetail = ({ record, setDeleteUser, deleting }) => {
               danger
               loading={deleting || isFetchDeleteDetail}
               onClick={handleOnClickDelete}
+              shape="round"
             >
               Delete
             </Button>

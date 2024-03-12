@@ -1,0 +1,460 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuthFormPage renders correctly 1`] = `
+<View
+  style={
+    {
+      "alignItems": "center",
+      "backgroundColor": "#f9fafb",
+      "display": "flex",
+      "flex": 1,
+      "flexDirection": "column",
+      "gap": 36,
+      "justifyContent": "center",
+      "paddingHorizontal": 16,
+    }
+  }
+  testID="center-layout"
+>
+  <View
+    accessibilityIgnoresInvertColors={true}
+    style={
+      {
+        "backgroundColor": "#e5e7eb",
+        "borderRadius": 4,
+        "height": 110,
+        "overflow": "hidden",
+        "position": "relative",
+        "width": 110,
+      }
+    }
+  >
+    <Image
+      onLoad={[Function]}
+      source={
+        {
+          "uri": "uri",
+        }
+      }
+      style={
+        {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        }
+      }
+      testID="image-component"
+      theme={
+        {
+          "colors": {
+            "background": "#ffffff",
+            "black": "#242424",
+            "disabled": "hsl(208, 8%, 90%)",
+            "divider": "#bcbbc1",
+            "error": "#ff190c",
+            "grey0": "#393e42",
+            "grey1": "#43484d",
+            "grey2": "#5e6977",
+            "grey3": "#86939e",
+            "grey4": "#bdc6cf",
+            "grey5": "#e1e8ee",
+            "greyOutline": "#bbb",
+            "platform": {
+              "android": {
+                "error": "#f44336",
+                "grey": "rgba(0, 0, 0, 0.54)",
+                "primary": "#2196f3",
+                "searchBg": "#dcdce1",
+                "secondary": "#9C27B0",
+                "success": "#4caf50",
+                "warning": "#ffeb3b",
+              },
+              "default": {
+                "error": "#ff3b30",
+                "grey": "#7d7d7d",
+                "primary": "#007aff",
+                "searchBg": "#dcdce1",
+                "secondary": "#5856d6",
+                "success": "#4cd964",
+                "warning": "#ffcc00",
+              },
+              "ios": {
+                "error": "#ff3b30",
+                "grey": "#7d7d7d",
+                "primary": "#007aff",
+                "searchBg": "#dcdce1",
+                "secondary": "#5856d6",
+                "success": "#4cd964",
+                "warning": "#ffcc00",
+              },
+              "web": {
+                "error": "#ff190c",
+                "grey": "#393e42",
+                "primary": "#2089dc",
+                "searchBg": "#303337",
+                "secondary": "#ca71eb",
+                "success": "#52c41a",
+                "warning": "#faad14",
+              },
+            },
+            "primary": "#2089dc",
+            "searchBg": "#303337",
+            "secondary": "#ad1457",
+            "success": "#52c41a",
+            "warning": "#faad14",
+            "white": "#ffffff",
+          },
+          "spacing": {
+            "lg": 12,
+            "md": 8,
+            "sm": 4,
+            "xl": 24,
+            "xs": 2,
+          },
+        }
+      }
+      transitionDuration={360}
+    />
+    <View
+      accessibilityElementsHidden={true}
+      collapsable={false}
+      importantForAccessibility="no-hide-descendants"
+      pointerEvents="none"
+      style={
+        {
+          "bottom": 0,
+          "left": 0,
+          "opacity": 1,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        }
+      }
+    >
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "backgroundColor": "#bdbdbd",
+            "justifyContent": "center",
+          }
+        }
+        testID="RNE__Image__placeholder"
+      />
+    </View>
+    <View
+      style={{}}
+      testID="RNE__Image__children__container"
+    />
+  </View>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "display": "flex",
+      }
+    }
+    testID="center-layout-items"
+  >
+    <Text
+      accessibilityRole="text"
+      style={
+        {
+          "color": "#242424",
+          "fontSize": 28.285714285714285,
+        }
+      }
+    >
+      Please enter the passcode
+    </Text>
+    <Text
+      accessibilityRole="text"
+      style={
+        {
+          "color": "#242424",
+          "fontSize": 28.285714285714285,
+        }
+      }
+    >
+      provided to you
+    </Text>
+    <Text
+      accessibilityRole="text"
+      style={
+        {
+          "color": "#242424",
+          "fontSize": 28.285714285714285,
+        }
+      }
+    >
+      by the administrator
+    </Text>
+  </View>
+  <View
+    style={
+      {
+        "paddingHorizontal": 16,
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "paddingHorizontal": 10,
+          "width": "100%",
+        }
+      }
+      testID="RNE__Input__view-wrapper"
+    >
+      <View
+        collapsable={false}
+        style={
+          {
+            "alignItems": "center",
+            "borderBottomWidth": 1,
+            "borderColor": "#86939e",
+            "flexDirection": "row",
+            "transform": [
+              {
+                "translateX": 0,
+              },
+            ],
+          }
+        }
+      >
+        <TextInput
+          autoFocus={true}
+          editable={true}
+          onChangeText={[Function]}
+          placeholder="Enumerator passcode"
+          placeholderTextColor="#86939e"
+          secureTextEntry={true}
+          style={
+            {
+              "color": "#242424",
+              "flex": 1,
+              "fontSize": 18,
+              "minHeight": 40,
+            }
+          }
+          testID="auth-password-field"
+          underlineColorAndroid="transparent"
+          value={null}
+        />
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "height": 40,
+              "justifyContent": "center",
+              "marginVertical": 4,
+              "paddingRight": 4,
+            }
+          }
+        >
+          <View
+            style={
+              [
+                {
+                  "overflow": "hidden",
+                },
+                {
+                  "borderRadius": 2,
+                },
+                undefined,
+                false,
+              ]
+            }
+            testID="RNE_BUTTON_WRAPPER"
+          >
+            <View
+              accessibilityRole="button"
+              accessibilityState={
+                {
+                  "busy": false,
+                  "checked": undefined,
+                  "disabled": false,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "opacity": 1,
+                }
+              }
+              testID="auth-toggle-eye-button"
+            >
+              <View
+                style={
+                  {
+                    "alignItems": "center",
+                    "backgroundColor": "transparent",
+                    "borderColor": "#2089dc",
+                    "borderRadius": 2,
+                    "borderWidth": 0,
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                    "padding": 8,
+                    "paddingHorizontal": 10,
+                  }
+                }
+              >
+                <Text />
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+      <Text
+        style={
+          {
+            "color": "#ff190c",
+            "fontSize": 12,
+            "margin": 5,
+          }
+        }
+      />
+    </View>
+    <View>
+      <Text
+        accessibilityRole="text"
+        style={
+          {
+            "color": "#CCCCCC",
+            "fontStyle": "italic",
+            "textAlign": "center",
+          }
+        }
+      >
+        The passcode is case sensitive
+      </Text>
+    </View>
+  </View>
+  <View
+    style={
+      [
+        {
+          "overflow": "hidden",
+        },
+        {
+          "borderRadius": 2,
+        },
+        undefined,
+        false,
+      ]
+    }
+    testID="RNE_BUTTON_WRAPPER"
+  >
+    <View
+      accessibilityRole="button"
+      accessibilityState={
+        {
+          "busy": false,
+          "checked": undefined,
+          "disabled": true,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        {
+          "opacity": 1,
+        }
+      }
+      testID="auth-login-button"
+    >
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "backgroundColor": "hsl(208, 8%, 90%)",
+            "borderColor": "#2089dc",
+            "borderRadius": 2,
+            "borderWidth": 0,
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "padding": 8,
+            "paddingHorizontal": 10,
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "hsl(208, 8%, 63%)",
+              "fontSize": 18,
+              "paddingVertical": 1,
+              "textAlign": "center",
+            }
+          }
+        >
+          LOG IN
+        </Text>
+      </View>
+    </View>
+  </View>
+  <Text
+    accessibilityRole="text"
+    style={
+      {
+        "color": "#242424",
+      }
+    }
+  >
+    App version - 
+    1.2.0
+  </Text>
+  <Modal
+    hardwareAccelerated={false}
+    onRequestClose={[Function]}
+    style={
+      {
+        "flex": 1,
+      }
+    }
+    testID="Internal__Overlay"
+    transparent={true}
+    visible={false}
+  />
+</View>
+`;

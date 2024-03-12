@@ -1,22 +1,30 @@
+import logging
 import os
+from django_q.models import Task
 
 import pandas as pd
 from django.utils import timezone
 from django_q.tasks import async_task
+from api.v1.v1_jobs.administrations_bulk_upload import (
+        seed_administration_data,
+        validate_administrations_bulk_upload)
 
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_jobs.constants import JobStatus, JobTypes
-from api.v1.v1_jobs.functions import HText
+# from api.v1.v1_jobs.functions import HText
 from api.v1.v1_jobs.models import Jobs
 from api.v1.v1_jobs.seed_data import seed_excel_data
 from api.v1.v1_jobs.validate_upload import validate
-from api.v1.v1_profile.models import Administration, Levels
+from api.v1.v1_profile.models import Administration
+from api.v1.v1_users.models import SystemUser
 from utils import storage
 from utils.email_helper import send_email, EmailTypes
 from utils.export_form import generate_definition_sheet
 from utils.functions import update_date_time_format
 from utils.storage import upload
+
+logger = logging.getLogger(__name__)
 
 
 def download(form: Forms, administration_ids):
@@ -28,12 +36,13 @@ def download(form: Forms, administration_ids):
 
 
 def rearrange_columns(col_names: list):
-    col_question = list(filter(lambda x: HText(x).hasnum, col_names))
+    meta_columns = ["id", "created_at", "created_by", "updated_at",
+                    "updated_by", "datapoint_name", "administration",
+                    "geolocation"]
+    col_question = list(filter(lambda x: x not in meta_columns, col_names))
     if len(col_question) == len(col_names):
         return col_question
-    col_names = ["id", "created_at", "created_by", "updated_at",
-                 "updated_by", "datapoint_name", "administration",
-                 "geolocation"] + col_question
+    col_names = meta_columns + col_question
     return col_names
 
 
@@ -69,35 +78,7 @@ def job_generate_download(job_id, **kwargs):
     df = df[col_names]
     writer = pd.ExcelWriter(file_path, engine='xlsxwriter')
     df.to_excel(writer, sheet_name='data', index=False)
-
-    definitions = generate_definition_sheet(form=form)
-    definitions.to_excel(writer,
-                         sheet_name='definitions',
-                         startrow=-1)
-    administration = job.user.user_access.administration
-    if administration.path:
-        allowed_path = f"{administration.path}{administration.id}."
-    else:
-        allowed_path = f"{administration.id}."
-    allowed_descendants = Administration.objects.filter(
-        path__startswith=allowed_path,
-        level=Levels.objects.order_by('-level').first()).order_by(
-        'level__level')
-    admins = []
-    for descendant in allowed_descendants:
-        parents = list(Administration.objects.filter(
-            id__in=descendant.path.split('.')[:-1]).values_list(
-            'name',
-            flat=True).order_by('level__level'))
-        parents.append(descendant.name)
-        admins.append('|'.join(parents))
-
-    v = pd.DataFrame(admins)
-    v.to_excel(writer,
-               sheet_name='administration',
-               startrow=-1,
-               header=False,
-               index=False)
+    generate_definition_sheet(form=form, writer=writer)
     context = [{
         "context": "Form Name",
         "value": form.name
@@ -132,7 +113,7 @@ def job_generate_download(job_id, **kwargs):
     })
     worksheet.merge_range('A1:B1', 'Context', merge_format)
     writer.save()
-    url = upload(file=file_path, folder='download', public=True)
+    url = upload(file=file_path, folder='download')
     return url
 
 
@@ -257,3 +238,58 @@ def validate_excel_result(task):
     else:
         job.status = JobStatus.failed
         job.save()
+
+
+def handle_administrations_bulk_upload(filename, user_id, upload_time):
+    user = SystemUser.objects.get(id=user_id)
+    storage.download(f"upload/{filename}")
+    file_path = f"./tmp/{filename}"
+    errors = validate_administrations_bulk_upload(file_path)
+    df = pd.read_excel(file_path, sheet_name='data')
+    email_context = {
+        'send_to': [user.email],
+        'listing': [
+            {
+                'name': 'Upload Date',
+                'value': upload_time.strftime('%m-%d-%Y, %H:%M:%S'),
+            },
+            {
+                'name': 'Questionnaire',
+                'value': 'Administrative List',
+            },
+            {
+                'name': "Number of Records",
+                'value': df.shape[0]
+            },
+        ]
+    }
+    if len(errors):
+        logger.error(errors)
+        error_file = (
+            "./tmp/administration-error-"
+            f"{upload_time.strftime('%Y%m%d%H%M%S')}-{user.id}.csv"
+        )
+        error_list = pd.DataFrame(errors)
+        error_list.to_csv(error_file, index=False)
+        send_email(context=email_context,
+                   type=EmailTypes.upload_error,
+                   path=error_file,
+                   content_type='text/csv')
+        return
+    seed_administration_data(file_path)
+    send_email(context=email_context, type=EmailTypes.administration_upload)
+
+
+def handle_administrations_bulk_upload_failure(task: Task):
+    if task.success:
+        return
+    logger.error({
+        'error': 'Failed running background job',
+        'id': task.id,
+        'name': task.name,
+        'started': task.started,
+        'stopped': task.stopped,
+        'args': task.args,
+        'kwargs': task.kwargs,
+        'body': task.result,
+    })

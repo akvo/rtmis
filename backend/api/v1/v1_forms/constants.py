@@ -8,6 +8,7 @@ class QuestionTypes:
     cascade = 7
     photo = 8
     date = 9
+    autofield = 10
 
     FieldStr = {
         geo: 'Geo',
@@ -19,6 +20,7 @@ class QuestionTypes:
         cascade: 'Cascade',
         photo: 'Photo',
         date: 'Date',
+        autofield: 'Autofield',
     }
 
 

@@ -1,21 +1,19 @@
+import numpy as np
 from collections import OrderedDict
 
-from django.db.models import Q
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema_field, inline_serializer
 from rest_framework import serializers
 
 from api.v1.v1_forms.constants import QuestionTypes, AttributeTypes, FormTypes
 from api.v1.v1_forms.models import Forms, QuestionGroup, Questions, \
-    QuestionOptions, QuestionAttribute, \
-    FormApprovalRule, FormApprovalAssignment
+    QuestionOptions, QuestionAttribute
 from api.v1.v1_profile.constants import UserRoleTypes
-from api.v1.v1_profile.models import Administration, Levels
+from api.v1.v1_profile.models import Administration, Entity
 from api.v1.v1_users.models import SystemUser
 from rtmis.settings import FORM_GEO_VALUE
 from utils.custom_serializer_fields import CustomChoiceField, \
-    CustomPrimaryKeyRelatedField, CustomListField, \
-    CustomMultipleChoiceField
+    CustomPrimaryKeyRelatedField, CustomMultipleChoiceField
 from utils.default_serializers import CommonDataSerializer, \
     GeoFormatSerializer
 
@@ -28,7 +26,7 @@ class ListOptionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = QuestionOptions
-        fields = ['id', 'name', 'order']
+        fields = ['id', 'value', 'label', 'order', 'color']
 
 
 class ListQuestionSerializer(serializers.ModelSerializer):
@@ -36,9 +34,13 @@ class ListQuestionSerializer(serializers.ModelSerializer):
     type = serializers.SerializerMethodField()
     center = serializers.SerializerMethodField()
     api = serializers.SerializerMethodField()
-    name = serializers.SerializerMethodField()
     rule = serializers.SerializerMethodField()
     extra = serializers.SerializerMethodField()
+    source = serializers.SerializerMethodField()
+    tooltip = serializers.SerializerMethodField()
+    fn = serializers.SerializerMethodField()
+    pre = serializers.SerializerMethodField()
+    displayOnly = serializers.BooleanField(source='display_only')
 
     @extend_schema_field(ListOptionSerializer(many=True))
     def get_option(self, instance: Questions):
@@ -46,7 +48,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
                 QuestionTypes.option, QuestionTypes.multiple_option
         ]:
             return ListOptionSerializer(
-                instance=instance.question_question_options.all(),
+                instance=instance.options.all(),
                 many=True).data
         return None
 
@@ -89,10 +91,6 @@ class ListQuestionSerializer(serializers.ModelSerializer):
             return FORM_GEO_VALUE
         return None
 
-    @extend_schema_field(GeoFormatSerializer)
-    def get_name(self, instance: Questions):
-        return instance.text
-
     @extend_schema_field(
         inline_serializer('QuestionRuleFormat',
                           fields={
@@ -111,17 +109,81 @@ class ListQuestionSerializer(serializers.ModelSerializer):
     def get_extra(self, instance: Questions):
         return instance.extra
 
+    @extend_schema_field(
+        inline_serializer('QuestionTooltipFormat',
+                          fields={
+                              'text': serializers.CharField()
+                          }))
+    def get_tooltip(self, instance: Questions):
+        return instance.tooltip
+
+    @extend_schema_field(
+        inline_serializer('QuestionFnFormat',
+                          fields={
+                              'fnColor': serializers.JSONField(),
+                              'fnString': serializers.CharField(),
+                              'multiline': serializers.BooleanField(),
+                          }))
+    def get_fn(self, instance: Questions):
+        return instance.fn
+
+    @extend_schema_field(
+        inline_serializer('QuestionPreFormat',
+                          fields={
+                              'answer': serializers.CharField(),
+                              'fill': serializers.JSONField(),
+                          }))
+    def get_pre(self, instance: Questions):
+        return instance.pre
+
     def to_representation(self, instance):
         result = super(ListQuestionSerializer,
                        self).to_representation(instance)
         return OrderedDict([(key, result[key]) for key in result
                             if result[key] is not None])
 
+    @extend_schema_field(
+        inline_serializer('QuestionSourceFormat',
+                          fields={
+                            'file': serializers.CharField(),
+                            'parent': serializers.IntegerField(),
+                          }))
+    def get_source(self, instance: Questions):
+        user = self.context.get('user')
+        assignment = self.context.get('mobile_assignment')
+        if instance.type == QuestionTypes.cascade:
+            if instance.extra:
+                cascade_type = instance.extra.get("type")
+                cascade_name = instance.extra.get("name")
+                if cascade_type == "entity":
+                    entity_type = Entity.objects\
+                        .filter(name=cascade_name).first()
+                    entity_id = entity_type.id if entity_type else None
+                    return {
+                        "file": "entity_data.sqlite",
+                        "cascade_type": entity_id,
+                        "cascade_parent": "administrator.sqlite"
+                    }
+            return {
+                "file": "organisation.sqlite",
+                "parent_id": [0]
+            }
+        if instance.type == QuestionTypes.administration:
+            return {
+                "file": "administrator.sqlite",
+                "parent_id": [
+                    a.id for a in assignment.administrations.all()
+                ] if assignment else [user.user_access.administration.id]
+            }
+        return None
+
     class Meta:
         model = Questions
         fields = [
-            'id', 'name', 'order', 'type', 'required', 'dependency', 'option',
-            'center', 'api', 'meta', 'rule', 'extra'
+            'id', 'order', 'name', 'label', 'short_label', 'type', 'required',
+            'dependency', 'option', 'center', 'api', 'meta', 'meta_uuid',
+            'rule', 'extra', 'source', 'tooltip', 'fn', 'pre', 'hidden',
+            'displayOnly', 'monitoring'
         ]
 
 
@@ -133,14 +195,12 @@ class ListQuestionGroupSerializer(serializers.ModelSerializer):
     def get_question(self, instance: QuestionGroup):
         return ListQuestionSerializer(
             instance=instance.question_group_question.all().order_by('order'),
-            context={
-                'user': self.context.get('user')
-            },
+            context=self.context,
             many=True).data
 
     class Meta:
         model = QuestionGroup
-        fields = ['name', 'question']
+        fields = ['name', 'label', 'question']
 
 
 class ListAdministrationCascadeSerializer(serializers.ModelSerializer):
@@ -166,19 +226,44 @@ class ListAdministrationCascadeSerializer(serializers.ModelSerializer):
 
 class WebFormDetailSerializer(serializers.ModelSerializer):
     question_group = serializers.SerializerMethodField()
+    cascades = serializers.SerializerMethodField()
 
     @extend_schema_field(ListQuestionGroupSerializer(many=True))
     def get_question_group(self, instance: Forms):
         return ListQuestionGroupSerializer(
             instance=instance.form_question_group.all().order_by('order'),
             many=True,
-            context={
-                'user': self.context.get('user')
-            }).data
+            context=self.context
+        ).data
+
+    @extend_schema_field(serializers.ListField())
+    def get_cascades(self, instance: Forms):
+        cascade_questions = Questions.objects.filter(type__in=[
+            QuestionTypes.cascade, QuestionTypes.administration
+        ], form=instance).all()
+        source = []
+        for cascade_question in cascade_questions:
+            if cascade_question.type == QuestionTypes.administration:
+                source.append("/sqlite/administrator.sqlite")
+            if (
+                cascade_question.extra and
+                cascade_question.extra.get('type') == 'entity'
+            ):
+                source.append("/sqlite/entity_data.sqlite")
+            else:
+                source.append("/sqlite/organisation.sqlite")
+        return np.unique(source)
 
     class Meta:
         model = Forms
-        fields = ['name', 'question_group']
+        fields = [
+            'id',
+            'name',
+            'version',
+            'cascades',
+            'question_group',
+            'approval_instructions'
+        ]
 
 
 class ListFormRequestSerializer(serializers.Serializer):
@@ -211,7 +296,7 @@ class FormDataListQuestionSerializer(serializers.ModelSerializer):
                 QuestionTypes.multiple_option
         ]:
             return ListOptionSerializer(
-                instance=instance.question_question_options.all(),
+                instance=instance.options.all(),
                 many=True).data
         return None
 
@@ -243,9 +328,9 @@ class FormDataListQuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Questions
         fields = [
-            'id', 'form', 'question_group', 'name', 'text', 'order', 'meta',
-            'api', 'type', 'required', 'rule', 'option', 'dependency',
-            'attributes'
+            'id', 'form', 'question_group', 'name', 'label', 'short_label',
+            'order', 'meta', 'api', 'type', 'required', 'rule', 'option',
+            'dependency', 'display_only', 'attributes'
         ]
 
 
@@ -260,7 +345,7 @@ class FormDataQuestionGroupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = QuestionGroup
-        fields = ['id', 'name', 'question']
+        fields = ['id', 'label', 'name', 'question']
 
 
 class FormDataSerializer(serializers.ModelSerializer):
@@ -269,78 +354,13 @@ class FormDataSerializer(serializers.ModelSerializer):
     @extend_schema_field(FormDataQuestionGroupSerializer(many=True))
     def get_question_group(self, instance: Forms):
         return FormDataQuestionGroupSerializer(
-            instance=instance.form_question_group.all(), many=True).data
+            instance=instance.form_question_group.all().order_by('order'),
+            many=True
+        ).data
 
     class Meta:
         model = Forms
-        fields = ['id', 'name', 'question_group']
-
-
-class EditFormTypeSerializer(serializers.ModelSerializer):
-    form_id = CustomPrimaryKeyRelatedField(queryset=Forms.objects.none())
-    type = CustomChoiceField(choices=list(FormTypes.FieldStr.keys()))
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.fields.get('form_id').queryset = Forms.objects.all()
-
-    def create(self, validated_data):
-        form: Forms = validated_data.get('form_id')
-        form.type = validated_data.get('type')
-        form.save()
-        return form
-
-    class Meta:
-        model = Forms
-        fields = ['form_id', 'type']
-
-
-class EditFormApprovalSerializer(serializers.ModelSerializer):
-    form_id = CustomPrimaryKeyRelatedField(queryset=Forms.objects.none(),
-                                           source='form')
-    level_id = CustomListField(
-        child=CustomPrimaryKeyRelatedField(queryset=Levels.objects.none()),
-        source='levels')
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.fields.get('form_id').queryset = Forms.objects.all()
-        self.fields.get('level_id').child.queryset = Levels.objects.all()
-
-    def create(self, validated_data):
-        administration = self.context.get('user').user_access.administration
-        FormApprovalRule.objects.filter(
-            form=validated_data.get('form'),
-            administration=administration).delete()
-
-        validated_data['administration'] = administration
-        rule: FormApprovalRule = super(EditFormApprovalSerializer,
-                                       self).create(validated_data)
-        if administration.path:
-            path = f"{administration.path}{administration.id}."
-        else:
-            path = f"{administration.id}."
-
-        # Get descendants of current admin with selected level
-        descendants = list(
-            Administration.objects.filter(
-                path__startswith=path,
-                level_id__in=rule.levels.all().values_list(
-                    'id', flat=True)).values_list('id', flat=True))
-        # Delete assignment for the removed levels
-        FormApprovalAssignment.objects.filter(
-            ~Q(administration_id__in=descendants), form=rule.form).delete()
-        return rule
-
-    class Meta:
-        model = FormApprovalRule
-        fields = ['form_id', 'level_id']
-
-
-class FormApprovalLevelListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = FormApprovalRule
-        fields = ['form_id', 'levels']
+        fields = ['id', 'name', 'question_group', 'approval_instructions']
 
 
 class FormApproverRequestSerializer(serializers.Serializer):

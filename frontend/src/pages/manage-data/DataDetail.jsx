@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Table, Button, Space, Spin, Alert } from "antd";
 import { LoadingOutlined, HistoryOutlined } from "@ant-design/icons";
 import { EditableCell } from "../../components";
-import { api, store } from "../../lib";
+import { api, config, store, uiText } from "../../lib";
 import { useNotification } from "../../util/hooks";
 import { flatten, isEqual } from "lodash";
 import { HistoryTable } from "../../components";
@@ -14,29 +14,42 @@ const DataDetail = ({
   updateRecord,
   setDeleteData,
   isPublic = false,
+  editedRecord,
+  setEditedRecord,
 }) => {
   const [dataset, setDataset] = useState([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [resetButton, setresetButton] = useState({});
   const pendingData = record?.pending_data?.created_by || false;
   const { user: authUser, forms } = store.useState((state) => state);
   const { notify } = useNotification();
+  const { language } = store.useState((s) => s);
+  const { active: activeLang } = language;
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   const updateCell = (key, parentId, value) => {
+    setresetButton({ ...resetButton, [key]: true });
     let prev = JSON.parse(JSON.stringify(dataset));
+    let hasEdits = false;
     prev = prev.map((qg) =>
       qg.id === parentId
         ? {
             ...qg,
             question: qg.question.map((qi) => {
               if (qi.id === key) {
-                if (
-                  isEqual(qi.value, value) &&
-                  (qi.newValue || qi.newValue === 0)
-                ) {
-                  delete qi.newValue;
+                if (isEqual(qi.value, value)) {
+                  if (qi.newValue) {
+                    delete qi.newValue;
+                  }
                 } else {
                   qi.newValue = value;
+                }
+                const edited = !isEqual(qi.value, value);
+                if (edited && !hasEdits) {
+                  hasEdits = true;
                 }
                 return qi;
               }
@@ -45,6 +58,10 @@ const DataDetail = ({
           }
         : qg
     );
+    const hasNewValue = prev
+      .find((p) => p.id === parentId)
+      ?.question?.some((q) => typeof q.newValue !== "undefined");
+    setEditedRecord({ ...editedRecord, [record.id]: hasNewValue });
     setDataset(prev);
   };
 
@@ -63,6 +80,14 @@ const DataDetail = ({
           }
         : qg
     );
+    /**
+     * Check whether it still has newValue or not
+     * in all groups of questions
+     */
+    const hasNewValue = prev
+      ?.flatMap((p) => p?.question)
+      ?.find((q) => q?.newValue);
+    setEditedRecord({ ...editedRecord, [record.id]: hasNewValue });
     setDataset(prev);
   };
 
@@ -105,6 +130,12 @@ const DataDetail = ({
             : record.id
         );
         fetchData(record.id);
+        const resetObj = {};
+        data.map((d) => {
+          resetObj[d.question] = false;
+        });
+        setresetButton({ ...resetButton, ...resetObj });
+        setEditedRecord({ ...editedRecord, [record.id]: false });
       })
       .catch((e) => {
         console.error(e);
@@ -125,17 +156,19 @@ const DataDetail = ({
         .get(`data/${id}`)
         .then((res) => {
           const data = questionGroups.map((qg) => {
-            const question = qg.question.map((q) => {
-              const findData = res.data.find((d) => d.question === q.id);
-              return {
-                ...q,
-                value:
-                  findData?.value || findData?.value === 0
-                    ? findData.value
-                    : null,
-                history: findData?.history || false,
-              };
-            });
+            const question = qg.question
+              .filter((item) => !item?.display_only)
+              .map((q) => {
+                const findData = res.data.find((d) => d.question === q.id);
+                return {
+                  ...q,
+                  value:
+                    findData?.value || findData?.value === 0
+                      ? findData.value
+                      : null,
+                  history: findData?.history || false,
+                };
+              });
             return {
               ...qg,
               question: question,
@@ -167,6 +200,13 @@ const DataDetail = ({
       : false;
   }, [dataset]);
 
+  const deleteData = useMemo(() => {
+    const currentUser = config.roles.find(
+      (role) => role.name === authUser?.role_detail?.name
+    );
+    return currentUser?.delete_data;
+  }, [authUser]);
+
   return loading ? (
     <Space style={{ paddingTop: 18, color: "#9e9e9e" }} size="middle">
       <Spin indicator={<LoadingOutlined style={{ color: "#1b91ff" }} spin />} />
@@ -183,7 +223,7 @@ const DataDetail = ({
         )}
         {dataset.map((r, rI) => (
           <div className="pending-data-wrapper" key={rI}>
-            <h3>{r.name}</h3>
+            <h3>{r.label}</h3>
             <Table
               pagination={false}
               dataSource={r.question}
@@ -196,8 +236,11 @@ const DataDetail = ({
               rowKey="id"
               columns={[
                 {
-                  title: "Question",
-                  dataIndex: "name",
+                  title: text?.questionCol,
+                  dataIndex: null,
+                  width: "50%",
+                  render: (_, row) =>
+                    row.short_label ? row.short_label : row.label,
                 },
                 {
                   title: "Response",
@@ -209,8 +252,10 @@ const DataDetail = ({
                       resetCell={resetCell}
                       pendingData={pendingData}
                       isPublic={isPublic}
+                      resetButton={resetButton}
                     />
                   ),
+                  width: "50%",
                 },
                 Table.EXPAND_COLUMN,
               ]}
@@ -234,19 +279,26 @@ const DataDetail = ({
         ))}
       </div>
       {!isPublic && (
-        <div>
+        <div className="button-save">
           <Space>
             <Button
               type="primary"
               onClick={handleSave}
               disabled={!edited || saving}
               loading={saving}
+              shape="round"
             >
-              Save Edits
+              {text.saveEditButton}
             </Button>
-            <Button type="danger" onClick={() => setDeleteData(record)}>
-              Delete
-            </Button>
+            {deleteData && (
+              <Button
+                type="danger"
+                onClick={() => setDeleteData(record)}
+                shape="round"
+              >
+                {text.deleteText}
+              </Button>
+            )}
           </Space>
         </div>
       )}

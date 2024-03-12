@@ -24,6 +24,8 @@ services:
       - MAILJET_APIKEY=$MAILJET_APIKEY
       - MAILJET_SECRET=$MAILJET_SECRET
       - WEBDOMAIN=notset
+      - APK_UPLOAD_SECRET=ci-secret
+      - STORAGE_PATH="./storage"
     depends_on:
       - db
     command: tail -f /dev/null

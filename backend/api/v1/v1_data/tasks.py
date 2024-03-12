@@ -4,14 +4,22 @@ from api.v1.v1_data.models import FormData, Answers, \
 
 
 def seed_approved_data(data):
+    parent_data = FormData.objects.filter(
+        form=data.form,
+        uuid=data.uuid,
+        parent=None,
+    ).first()
     if data.data:
         form_data: FormData = data.data
+        form_data.parent = parent_data
         form_data.name = data.name
+        form_data.uuid = data.uuid
         form_data.form = data.form
         form_data.administration = data.administration
         form_data.geo = data.geo
         form_data.updated_by = data.created_by
         form_data.updated = timezone.now()
+        form_data.save_to_file
         form_data.save()
 
         for answer in data.pending_data_answer.all():
@@ -25,14 +33,16 @@ def seed_approved_data(data):
                                          options=form_answer.options,
                                          created_by=form_answer.created_by)
             form_answer.delete()
-
     else:
         form_data = FormData.objects.create(
+            parent=parent_data,
             name=data.name,
+            uuid=data.uuid,
             form=data.form,
             administration=data.administration,
             geo=data.geo,
             created_by=data.created_by,
+            created=data.created,
         )
         data.data = form_data
         data.approved = True
@@ -48,3 +58,5 @@ def seed_approved_data(data):
             options=answer.options,
             created_by=answer.created_by,
         )
+
+    form_data.save_to_file

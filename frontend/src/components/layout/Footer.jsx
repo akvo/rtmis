@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import { Row, Col } from "antd";
 import { useLocation } from "react-router-dom";
-import { uiText, store } from "../../lib";
+import { uiText, store, config } from "../../lib";
 
 const Footer = ({ className = "footer", ...props }) => {
   const location = useLocation();
@@ -11,29 +11,19 @@ const Footer = ({ className = "footer", ...props }) => {
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
-  if (
-    location.pathname.includes("/login") ||
-    location.pathname.includes("/report/")
-  ) {
+  if (location.pathname.includes("/report/")) {
     return "";
   }
   return (
     <div className={className}>
       <Row align="top" justify="space-between" {...props}>
-        <Col span={8}>
-          <h2>{text?.footerAboutTitle}</h2>
+        <Col lg={8} className="about-wrapper">
+          <img
+            className="small-logo"
+            src={config.siteLogo}
+            alt={config.siteLogo}
+          />
           <p>{text?.footerAboutDescription}</p>
-          {text?.footerQuickLinkItems?.map((x, xi) => (
-            <a
-              key={`quick-link-${xi}`}
-              className="link-inline"
-              target="_blank"
-              rel="noreferrer"
-              href={x.url}
-            >
-              {x.text}
-            </a>
-          ))}
         </Col>
         <Col span={4}>
           <h2>{text?.footerExternalLinkTitle}</h2>
@@ -103,12 +93,18 @@ const Footer = ({ className = "footer", ...props }) => {
         </Col>
       </Row>
       <Row className="end" align="top" justify="space-between" {...props}>
-        <Col>{text?.copyright}</Col>
         <Col>
-          <a href="https://www.akvo.org" target="_blank" rel="noreferrer">
-            Akvo
-          </a>
+          <ul className="list-inline">
+            {text.footerLegalLinkItems.map((x, xi) => (
+              <li key={`lgl-link-${xi}`}>
+                <a target="_blank" rel="noreferrer" href={x.url}>
+                  {x.text}
+                </a>
+              </li>
+            ))}
+          </ul>
         </Col>
+        <Col>{text?.copyright}</Col>
       </Row>
     </div>
   );

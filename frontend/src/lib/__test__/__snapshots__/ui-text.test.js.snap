@@ -4,13 +4,79 @@ exports[`UI Text check text languages 1`] = `
 Object {
   "de": Object {},
   "en": Object {
+    "AdministrationDataUpload": "Administration Data Upload",
+    "aboutRush": "About RUSH",
+    "aboutText": "The Kenya Rural Urban Sanitation and Hygiene (RUSH) platform is a real-time monitoring and information system owned by the Ministry of Health. The platform aggregates quantitative and qualitative data from county and national levels and facilitates data analysis, report generation and visualizations.",
     "accountDisclaimer": "The user is accountable for his/her account and in case there are any changes (Transfers, retirement, any kind of leave, resignation etc) this should be communicated to the County Administrator or National Super Admin who might be able to assign the roles to the new officer.",
+    "actionColumn": "Action",
+    "addAdmDesc": "This page allows you to add administration to the RUSH platform.",
+    "addAdministration": "Add Administration",
+    "addAttributeDesc": "This page allows you to add attribute to the RUSH platform.",
+    "addAttributes": "Add Attribute",
+    "addEntities": "Add Entities",
+    "addEntity": "Add new",
+    "addEntityData": "Add new",
+    "addEntityDesc": "This page allows you to add entity to the RUSH platform.",
+    "addEntityTypeDesc": "This page allows you to add entity type to the RUSH platform.",
+    "addMewOrg": "Add new organization",
+    "addNewButton": "Add New",
+    "addNewUser": "Add new user",
+    "addOptionButton": "Add option",
+    "addOrgDesc": "This page allows you to add organisations to the RUSH platform.",
     "addOrganisation": "Add Organization",
     "addUser": "Add User",
+    "admConfirmDelete": "Are you sure you want to delete this administration?",
+    "admErrDeleteTitle": "Unable to delete the administration",
+    "admFieldRequired": "Administration is required",
+    "admLevel": "Administration Level",
+    "admName": "Administration Name",
+    "admNameRequired": "Administration name is required",
+    "admPanelText": <React.Fragment>
+      This is where you :
+      <ul>
+        <li>
+          Add new administration
+        </li>
+        <li>
+          Modify existing administration
+        </li>
+        <li>
+          Delete existing administration
+        </li>
+        <li>
+          Bulk upload administration
+        </li>
+      </ul>
+    </React.Fragment>,
+    "admParent": "Administration Parent",
+    "admSuccessAdded": "Administration added",
+    "admSuccessDeleted": "Administration deleted",
+    "admSuccessUpdated": "Administration updated",
+    "admTabTitle": "Administrative List",
+    "administrationField": "Administration",
+    "administrationLabel": "Administration",
+    "administrationUploadSuccessTitle": "Administration Data has been Successfully Uploaded",
     "approvalsTab1": "My Pending",
     "approvalsTab2": "Subordinates Approvals",
     "approvalsTab3": "Approved",
+    "approvalsTitle": "Approvals",
+    "approversDescription": <React.Fragment>
+      This is where you can see the approvers for each submitted form across different administrative areas:
+    </React.Fragment>,
+    "attrConfirmDelete": "Are you sure you want to delete this attribute?",
+    "attrErrDeleteTitle": "Unable to delete the attribute",
+    "attrName": "Attribute name",
+    "attrNameRequired": "Attribute name is required",
+    "attrSuccessAdded": "Attribute added",
+    "attrSuccessDeleted": "Attribute deleted",
+    "attrSuccessUpdated": "Attribute updated",
+    "attrTabTitle": "Attributes",
+    "attrType": "Attribute type",
+    "attrTypeRequired": "Attribute type is required",
+    "backBtn": "Back",
     "backHome": "Back to Homepage",
+    "backManageData": "Back to Manage data",
+    "backToCenterLabel": "Back to Control Center",
     "batchDatasets": "Batch Datasets",
     "batchHintDesc": "The operation of merging datasets cannot be undone, and will Create a new batch that will require approval from you admin",
     "batchHintText": "You are about to create a Batch CSV File",
@@ -18,14 +84,38 @@ Object {
     "batchNoApproverMessage": "Can't create batch data, because there's no approver yet.",
     "batchSelectedDatasets": "Batch Selected Datasets",
     "browseComputer": "Browse your computer",
+    "bulkUploadAttr": "Attributes",
+    "bulkUploadAttrPlaceholder": "Select Attributes...",
+    "bulkUploadButton": "Bulk Upload",
+    "bulkUploadCheckboxPrefilled": "Prefilled administrative list",
     "bulkUploadNoApproverMessage": "Can't upload data, because there's no approver yet.",
+    "cancelButton": "Cancel",
     "ccDescriptionPanel": "Instant access to all the administration pages and overview panels for data approvals.",
+    "chooseTemplate": "Choose a template",
+    "codeField": "Code",
+    "codeFieldRequired": "Code is required",
+    "codeLabel": "Code",
+    "confirmDeleteEntity": "Are you sure you want to delete this entity?",
+    "confirmDeleteEntityData": "Are you sure you want to delete this data?",
     "contactAdmin": "Please contact the administrator",
+    "contactDesText": "Get in touch with us for support or feedback.",
+    "contactText": "Contact Us",
     "controlCenter": "Control Center",
     "copyright": "© 2022 — Ministry of Health",
     "countdownTitle": "Time remaining to achieve national RUSH targets:",
     "createNewBatch": "Create a new batch",
     "dashboards": "Dashboards",
+    "dataAdministrationUploadText": <React.Fragment>
+      This is where you :
+      <ul>
+        <li>
+          Download upload template
+        </li>
+        <li>
+          Bulk upload new data
+        </li>
+      </ul>
+    </React.Fragment>,
     "dataDownloadButton": "Download Data",
     "dataDownloadText": <React.Fragment>
       This is where you :
@@ -57,16 +147,44 @@ Object {
     "day": "Day",
     "deleteOrganisationDesc": [Function],
     "deleteOrganisationTitle": "You are about to delete the organization",
+    "deleteText": "Delete",
     "deleteUserDesc": "The User will no longer be able to access the RUSH platform as an Enumrator/Admin etc",
     "deleteUserHint": "Deleting this user will not delete the data association(s)",
     "deleteUserTitle": "You are about to delete the user",
     "download": "Download",
+    "downloadTitle": "Download",
     "dropFile": "Drop your file here",
+    "editAdmDesc": "This page allows you to edit administration to the RUSH platform.",
+    "editAdministration": "Edit Administration",
+    "editAttributeDesc": "This page allows you to edit attribute to the RUSH platform.",
+    "editAttributes": "Edit Attribute",
+    "editButton": "Edit",
+    "editEntity": "Edit Entity",
+    "editEntityData": "Edit data",
+    "editEntityDesc": "This page allows you to edit entity to the RUSH platform.",
+    "editEntityTypeDesc": "This page allows you to edit entity type to the RUSH platform.",
+    "editOrgDesc": "This page allows you to edit organisations to the RUSH platform.",
     "editOrganisation": "Edit Organization",
     "editUser": "Edit User",
+    "endOfListLabel": "End of List",
+    "entityDataTitle": "Entity Data",
+    "entityIsRequired": "Entity is required",
+    "entityLabel": "Entity",
+    "entityTabTitle": "Entities",
+    "entityText": "Entity",
+    "entityType": "Entity Type",
+    "entityTypes": "Entity Types",
+    "errAddOrg": "Organization could not be added",
+    "errDeleteCascadeText1": "It is associated with other resources or has cascade restrictions.",
+    "errDeleteCascadeText2": "Please review and resolve dependencies before attempting to delete.",
+    "errDeleteEntityDataTitle": "Unable to delete the data",
+    "errDeleteEntityTitle": "Unable to delete the entity",
+    "errUpdateOrg": "Organization could not be updated",
     "error": "Error",
     "errorAuth": "You are not authorised to access this page",
     "errorDataLoad": "Could not load data",
+    "errorEntityData": [Function],
+    "errorEntityNotExists": [Function],
     "errorFileList": "Could not fetch File list",
     "errorMandatoryFields": "Please answer all the mandatory questions",
     "errorPageNA": "Oops, this page is not available",
@@ -75,13 +193,25 @@ Object {
     "errorUnknown": "An unknown error occurred",
     "errorUserLoad": "Failed to load user data",
     "errorVerifyCreds": "Please verify your credentials for the requested resource",
+    "eventTitle": "News & Events",
     "existingApproverDescription": "Please update the setup in manage validation tree or remove these forms for the current user",
     "existingApproverTitle": "There are existing approvers for:",
+    "exportButton": "Export",
+    "exportPanelText": <React.Fragment>
+      <p>
+        This page shows your list of data export requests.
+        <br />
+        For exports which are already generated, please click on the Download button to download the data.
+      </p>
+    </React.Fragment>,
     "failed": "Failed",
+    "feedbackBtn": "Send Feedback",
     "fetchingForm": "Fetching form..",
     "fileUploadFail": "Could not upload file",
     "fileUploadSuccess": "File uploaded successfully",
     "finish": "Finish",
+    "finishSubmissionBatchBtn": "Finish and Go to Batch",
+    "finishSubmissionBtn": "Finish and Go to Manage Data",
     "footerAboutDescription": "All the data contained in the RUSH platform is aggregated from both primary and secondary data sources from the 47 counties in Kenya. The data is updated on a monthly basis.",
     "footerAboutTitle": "About Data",
     "footerContactAddress": "Afya House, Cathedral Road, P.O. Box:30016–00100, Nairobi, Kenya",
@@ -107,6 +237,20 @@ Object {
       },
     ],
     "footerExternalLinkTitle": "External Links",
+    "footerLegalLinkItems": Array [
+      Object {
+        "text": "Privacy Policy",
+        "url": "#",
+      },
+      Object {
+        "text": "Terms & Conditions",
+        "url": "#",
+      },
+      Object {
+        "text": "Cookie Policy",
+        "url": "#",
+      },
+    ],
     "footerQuickLinkItems": Array [
       Object {
         "text": "Read the Docs",
@@ -132,11 +276,13 @@ Object {
     "forgotDesc": "Enter the email associated with your account and we&apos;ll Send an email with instructions to reset your password",
     "forgotTitle": "Reset your password",
     "formAssignmentError": "You don't have any form assignment, please contact the administrator",
+    "formColumn": "Form",
     "formDescription": <p>
       Please fill up the webform below with relevant responses. You will need to answer all mandatory questions before you can submit.
       <br />
       Once you have sumitted a webform, please do not forget to add it as part of a batch and send it for approval.
     </p>,
+    "formPasscode": "Form Passcode",
     "formSuccessSubTitle": "Do note that this data has NOT been sent for approval. If you are ready to send the submissions for approval, please create a batch and send to the approver",
     "formSuccessSubTitleForAdmin": "Do note that the data submitted by SUPER ADMIN role will not go through the approval flow and recorded as approved data",
     "formSuccessTitle": "Thank you for the submission",
@@ -146,16 +292,42 @@ Object {
     "instructionsMailed": "Instructions mailed successfully",
     "invalidInviteDesc": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem provident voluptatum cum numquam, quidem vitae, qui quam beatae exercitationem ullam perferendis! Nobis in aut fuga voluptate harum, tempore distinctio optio.",
     "invalidInviteTitle": "Invalid Invite Code",
+    "lastLoginLabel": "Last login",
+    "lastResponseCol": "Last Response",
+    "latestUpdateText": "Latest Updates",
+    "learnMoreButton": "Learn more",
+    "levelField": "Level",
+    "levelFieldRequired": "Level is required",
+    "levelLabel": "Level",
+    "loadMoreLable": "Load More",
+    "loadingText": "Loading...",
     "login": "Log in",
-    "loginTitle": <React.Fragment>
-      Welcome back
+    "loginLoadingTex": <React.Fragment>
+      Verifying
       <br />
       <small>
-        Please enter your account details
+        Please wait..
       </small>
     </React.Fragment>,
+    "loginTitle": "Welcome back",
     "lorem": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, assumenda quos? Quia deleniti sapiente aut! Ab consequatur cumque fugit ea. Dolore ex rerum quisquam inventore eum dicta doloribus harum cum.",
     "lorem2": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+    "manageAdministrativeList": "Manage Administrative List",
+    "manageAttributeText": <React.Fragment>
+      This is where you manage attributes based on their fields. You can :
+      <ul>
+        <li>
+          Add new attribute
+        </li>
+        <li>
+          Modify existing attribute
+        </li>
+        <li>
+          Delete existing attribute
+        </li>
+      </ul>
+    </React.Fragment>,
+    "manageAttributes": "Manage Attributes",
     "manageDataButton": "Manage Data",
     "manageDataText": <React.Fragment>
       This is where you :
@@ -172,6 +344,38 @@ Object {
       </ul>
     </React.Fragment>,
     "manageDataTitle": "Manage Data",
+    "manageDataValidationSetup": "Validation Tree",
+    "manageEntities": "Manage Entities",
+    "manageEntitiesText": <React.Fragment>
+      This is where you manage entitys based on their fields. You can :
+      <ul>
+        <li>
+          Add new entity
+        </li>
+        <li>
+          Modify existing entity
+        </li>
+        <li>
+          Delete existing entity
+        </li>
+      </ul>
+    </React.Fragment>,
+    "manageEntityTitle": "Manage Entities",
+    "manageEntityTypes": "Manage Entity Types",
+    "manageEntityTypesText": <React.Fragment>
+      This is where you manage entity types based on their fields. You can :
+      <ul>
+        <li>
+          Add new entity type
+        </li>
+        <li>
+          Modify existing entity type
+        </li>
+        <li>
+          Delete existing entity type
+        </li>
+      </ul>
+    </React.Fragment>,
     "manageOrganisations": "Manage Organizations",
     "manageQnApproval": "Manage Questionnaire Approval",
     "manageUserButton": "Manage Users",
@@ -191,13 +395,88 @@ Object {
     </React.Fragment>,
     "manageUserTitle": "User Management",
     "manageUsers": "Manage Users",
+    "mdPanelButton": "Master Data",
+    "mdPanelText": <React.Fragment>
+      This is where you :
+      <ul>
+        <li>
+          View all master data
+        </li>
+        <li>
+          Modify existing data
+        </li>
+        <li>
+          Delete existing data
+        </li>
+      </ul>
+    </React.Fragment>,
+    "mdPanelTitle": "Master Data",
     "minute": "Minute",
+    "mobileAddText": "Add Assignment",
+    "mobileAdmRequired": "Administration is required: one or multiple",
+    "mobileButtonAdd": "Add new data collector",
+    "mobileButtonSave": "Save",
+    "mobileConfirmDelete": "Are you sure you want to delete this assignment?",
+    "mobileConfirmDeletion": "Are you sure?",
+    "mobileEditText": "Edit Assignment",
+    "mobileErrDelete": "Unable to delete assingment",
+    "mobileFormsRequired": "Form is required: one or multiple",
+    "mobileLabelAdm": "Administrations",
+    "mobileLabelForms": "Forms",
+    "mobileLabelName": "Name",
+    "mobileLevelRequired": "Level is required",
+    "mobileNameRequired": "Name is required",
+    "mobilePanelAddDesc": "This page allows you to add mobile data collectors to the RUSH platform.",
+    "mobilePanelButton": "Manage Data Collectors",
+    "mobilePanelEditDesc": "This page allows you to edit mobile data collectors to the RUSH platform.",
+    "mobilePanelText": <React.Fragment>
+      This is where you :
+      <ul>
+        <li>
+          Add new mobile data collector
+        </li>
+        <li>
+          Modify existing mobile data collector
+        </li>
+        <li>
+          Delete existing mobile data collector
+        </li>
+      </ul>
+    </React.Fragment>,
+    "mobilePanelTitle": "Mobile Data Collectors",
+    "mobileSelectAdm": "Select administrations...",
+    "mobileSelectForms": "Select forms...",
+    "mobileSuccessAdded": "Mobile assignment added",
+    "mobileSuccessUpdated": "Mobile assignment update",
+    "monitoringDataDescription": <React.Fragment>
+      This is where you :
+      <ul>
+        <li>
+          Get the list of forms that were collected for this datapoint (new and update)
+        </li>
+        <li>
+          Edit monitoring data
+        </li>
+      </ul>
+    </React.Fragment>,
+    "monitoringDataTitle": "Monitoring data",
     "month": "Month",
     "myProfile": "My Profile",
+    "nameField": "Name",
+    "nameFieldRequired": "Name is required",
+    "nameLabel": "Name",
+    "newSubmissionBtn": "Add New Submission",
     "newsEvents": "News & Events",
     "next": "Next",
+    "noFormSelectedText": "No form selected",
+    "noFormText": "No data",
+    "noTemplate": "No templates found",
     "notAssigned": "Not assigned",
     "notesFeedback": "Notes & Feedback",
+    "notifyError": "An error occured",
+    "optionsField": "Options",
+    "orgLabelAttr": "Organization Attributes",
+    "orgLabelName": "Organization Name",
     "orgPanelButton": "Manage Organization",
     "orgPanelText": <React.Fragment>
       This is where you :
@@ -214,6 +493,7 @@ Object {
       </ul>
     </React.Fragment>,
     "orgPanelTitle": "Manage Organization",
+    "orgTabTitle": "Organisations",
     "organisationDeleteFail": "Could not delete organization",
     "organisationsLoadFail": "Could not load organizations",
     "panelApprovalsDesc": <React.Fragment>
@@ -240,15 +520,49 @@ Object {
     "passwordRule5": "No White Space",
     "passwordRule6": "Minimum 8 Characters",
     "passwordUpdateSuccess": "Password updated successfully",
+    "prefilledAdmModalContent": "We're processing your request. Once complete, the prefilled administration template will be sent to your email shortly.  Please keep a close eye on your email, Thank you. ",
+    "prefilledAdmModalTitle": "Prefilled Administration requested",
+    "prefilledAdmUploadLabel": "Upload the data",
+    "prefilledDownloadTitle": "Administrative Download",
+    "prefilledPanelText": <React.Fragment>
+      <p>
+        This page shows your pre-filled administrative data export requests.
+        <br />
+        For exports which are already generated, please click on the Download button to download the data.
+      </p>
+    </React.Fragment>,
     "prev": "Prev",
+    "printBtn": "Print",
+    "profileDes": "This page shows your current user setup. It also shows the most important activities for your current user setup",
+    "profileLabel": "Profile",
+    "questionCol": "Question",
+    "questionnaireText": "Questionnaire",
+    "questionnairesLabel": "Questionnaires",
+    "realTime": "Real Time Management Information System",
+    "reportText": "Report generation and visualizations.",
     "reports": "Reports",
     "resetHint": <React.Fragment>
       Please set your password for the platform.
       <br />
       Your password must include:
     </React.Fragment>,
+    "resetText": "Reset",
+    "responseCol": "Response",
+    "roleLabel": "Role",
+    "saveButton": "Save",
+    "saveEditButton": "Save Edits",
+    "searchEntity": "Enter name...",
+    "searchEntityType": "Enter name...",
+    "searchNameOrCode": "Enter name or code...",
+    "searchPlaceholder": "Search...",
     "second": "Second",
+    "selectAttributes": "Select attributes...",
+    "selectEntity": "Select entity...",
     "selectForm": "Please select a form",
+    "selectLevel": "Select level...",
+    "selectOne": "Select one...",
+    "selectText": "Select...",
+    "selectType": "Select type...",
     "sendInstructions": "Send Instructions",
     "sendNewRequest": "Notify Approver",
     "settings": "System Settings",
@@ -256,6 +570,17 @@ Object {
     "showEmpty": "Show empty values",
     "signOut": "Sign Out",
     "submissionComment": "Submission comment",
+    "submissionsText": "Submissions",
+    "successAddedEntity": "Entity added",
+    "successAddedOrg": "Organisation added",
+    "successDataUpdated": "Data updated",
+    "successDeletedEntity": "Entity deleted",
+    "successDeletedOrg": "Organisation deleted",
+    "successEntityDataAdded": "Entity data added",
+    "successEntityDataDeleted": "Entity data deleted",
+    "successEntityDataUpdated": "Entity data updated",
+    "successUpdatedEntity": "Entity updated",
+    "successUpdatedOrg": "Organisation updated",
     "templateDownloadHint": "If you do not already have a template, please download it",
     "templateFetchFail": "Could not fetch template",
     "tourApprovals": "Placeat impedit iure quaerat neque sit quasi",
@@ -266,17 +591,33 @@ Object {
     "tourExports": "Velit amet omnis dolores. Ad eveniet ex beatae dolorum",
     "tourManageData": "Lorem ipsum dolor sit, amet consectetur adipisicing elit",
     "tourUserManagement": "Magni provident aliquam harum cupiditate iste",
+    "upcomingEventText": "Upcoming Events",
     "updateExisting": "Update Existing Data",
     "updateOrganisation": "Update Organization",
     "updateUser": "Update User",
+    "uploadAnotherFileLabel": "Upload Another File",
+    "uploadDataLabel": "Upload your data",
+    "uploadMasterDataLabel": "Upload your data",
     "uploadTab1": "Data Summary",
     "uploadTab2": "Raw Data",
+    "uploadThankyouText": <React.Fragment>
+      Thank you for uploading the data file. Do note that the data will be validated by the system . You will be notified via email if the data fails the validation tests . There will also be an attachment of the validation errors that needs to be corrected. If there are no validation errors , then the data will be forwarded for verification, approval, and certification
+    </React.Fragment>,
     "uploading": "Uploading..",
     "uploadsTab1": "Pending Submission",
     "uploadsTab2": "Pending Approval",
     "uploadsTab3": "Approved",
     "userAssociations": "This user has following data association(s)",
     "userDeleteFail": "Could not delete user",
+    "userDesignation": "Designation",
+    "userEmail": "Email Address",
+    "userFirstName": "First name",
+    "userLastName": "Last name",
+    "userNationalApprover": "National Approver",
+    "userOrganisation": "Organization",
+    "userPhoneNumber": "Phone Number",
+    "userSelectLevelRequired": "Please select an administration level",
+    "userTrained": "Trained",
     "usernameRequired": "Please input your Username!",
     "usersLoadFail": "Could not load users",
     "valDesignation": "Please select a Designation",
@@ -289,13 +630,15 @@ Object {
     "valPhone": "Phone number is required",
     "valRole": "Please select a Role",
     "welcome": <React.Fragment>
-      Real Time Management Information System (RTMIS) for Monitoring Sanitation and Hygiene Indicators across Kenya
+      Rural and Urban Sanitation and Hygiene (RUSH)
+      <br />
+      Real-Time Monitoring and Information System (RTMIS)
     </React.Fragment>,
     "welcomeCta": "Explore National Data",
     "welcomeDesc": <React.Fragment>
-      Real Time Management Information System (RTMIS)
+      Rural and Urban Sanitation and Hygiene (RUSH)
       <br />
-      Updated sanitation and hygiene estimates across Kenya
+      Real-Time Monitoring and Information System (RTMIS)
     </React.Fragment>,
     "welcomeShort": "Welcome to RUSH",
     "year": "Year",
