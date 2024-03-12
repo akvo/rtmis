@@ -197,6 +197,7 @@ Object {
     "existingApproverDescription": "Please update the setup in manage validation tree or remove these forms for the current user",
     "existingApproverTitle": "There are existing approvers for:",
     "exportButton": "Export",
+    "exportEntityError": "Unable to export entities",
     "exportPanelText": <React.Fragment>
       <p>
         This page shows your list of data export requests.
