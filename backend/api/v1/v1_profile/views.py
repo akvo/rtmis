@@ -186,8 +186,8 @@ class EntityDataViewSet(ModelViewSet):
                 pass
         if entity_id:
             try:
-                entity = Entity.objects.get(id=entity_id)
-                queryset = queryset.filter(entity=entity)
+                entities = [int(e) for e in entity_id.split(",")]
+                queryset = queryset.filter(entity__in=entities)
             except Entity.DoesNotExist:
                 pass
 
@@ -198,7 +198,7 @@ class EntityDataViewSet(ModelViewSet):
                          type=OpenApiTypes.NUMBER,
                          location=OpenApiParameter.QUERY),
         OpenApiParameter(name='entity',
-                         type=OpenApiTypes.NUMBER,
+                         type=OpenApiTypes.STR,
                          location=OpenApiParameter.QUERY),
         OpenApiParameter(name='search',
                          type=OpenApiTypes.STR,
@@ -271,7 +271,7 @@ def export_prefilled_administrations_template(request: Request, version):
         user_id=request.user.id,
         job_type=JobTypes.download_administration,
         job_info={
-            "adm_id": administration,
+            "administration": administration,
             "attributes": attributes
         }
     )
@@ -321,13 +321,15 @@ def export_entity_data(request: Request, version):
         maybe_int
     )
     adm_id = request.query_params.get('adm_id')
+    entities = Entity.objects.filter(pk__in=entity_ids).values("id", "name")
+    entities = [e for e in entities]
     job = create_download_job(
         adm_id=adm_id,
         user_id=request.user.id,
         job_type=JobTypes.download_entities,
         job_info={
-            "adm_id": adm_id,
-            "entity_ids": entity_ids
+            "administration": adm_id,
+            "entities": entities
         }
     )
     file_url = f"/download/file/{job.result}?type=download_entities"

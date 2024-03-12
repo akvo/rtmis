@@ -91,8 +91,11 @@ class DownloadEntitiesTestCase(TestCase, ProfileTestHelperMixin):
         )
         info = {
             "file": out_file,
-            "adm_id": adm.id,
-            "entity_ids": [entity_example.entity.id]
+            "administration": adm.id,
+            "entities": [{
+                "id": entity_example.entity.id,
+                "name": entity_example.entity.name
+            }]
         }
         job = Jobs.objects.create(
             type=JobTypes.download_entities,

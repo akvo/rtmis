@@ -60,13 +60,14 @@ def download_master_data(job_id: int, job_type: JobTypes):
             return generate_administration_template(
                 job_result=job.result,
                 attributes=job_info['attributes'],
-                adm_id=job_info['adm_id'],
+                adm_id=job_info['administration'],
             )
         if job_type == JobTypes.download_entities:
+            entity_ids = [e["id"] for e in job_info["entities"]]
             return generate_list_of_entities(
                 file_path=job.result,
-                adm_id=job_info['adm_id'],
-                entity_ids=job_info['entity_ids'],
+                adm_id=job_info['administration'],
+                entity_ids=entity_ids,
             )
     except Exception as unknown_error:
         job.status = JobStatus.failed
