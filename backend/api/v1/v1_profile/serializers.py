@@ -302,3 +302,36 @@ class DownloadAdministrationRequestSerializer(serializers.Serializer):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.fields.get('level').queryset = Levels.objects.all()
+
+
+class DownloadEntityDataRequestSerializer(serializers.Serializer):
+    entity_ids = serializers.CharField(required=False)
+    adm_id = CustomPrimaryKeyRelatedField(
+        queryset=Administration.objects.none(),
+        required=False
+    )
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.fields.get('adm_id').queryset = Administration.objects.all()
+
+    def validate_entity_ids(self, value):
+        entity_ids = [
+            int(entity_id.strip()) for entity_id in value.split(',')
+            if entity_id.strip()
+        ]
+        queryset = Entity.objects.filter(pk__in=entity_ids)
+        if queryset.count() != len(entity_ids):
+            raise serializers.ValidationError(
+                "One or more entity IDs are invalid."
+            )
+        return entity_ids
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        entity_ids = representation.get('entity_ids')
+        if entity_ids:
+            representation['entity_ids'] = [
+                int(entity_id) for entity_id in entity_ids.split(',')
+            ]
+        return representation

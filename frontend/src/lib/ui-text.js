@@ -272,6 +272,7 @@ const uiText = {
     addEntities: "Add Entities",
     entityTabTitle: "Entities",
     entityLabel: "Entity",
+    exportEntityError: "Unable to export entities",
     administrationLabel: "Administration",
     codeLabel: "Code",
     nameLabel: "Name",

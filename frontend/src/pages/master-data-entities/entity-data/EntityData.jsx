@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Button, Divider, Col, Row, Space, Table } from "antd";
-import { Link } from "react-router-dom";
+import { Button, Divider, Col, Row, Space, Table, Modal } from "antd";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   Breadcrumbs,
@@ -19,6 +19,7 @@ const EntityData = () => {
   const { language, administration } = store.useState((s) => s);
   const { active: activeLang } = language;
   const administrationFilter = administration?.slice(-1)?.[0]?.id;
+  const navigate = useNavigate();
 
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -77,6 +78,26 @@ const EntityData = () => {
     setCurrentPage(e.current);
   };
 
+  const handleOnDownload = async () => {
+    try {
+      const query = {};
+      if (administrationFilter > 1) {
+        query["adm_id"] = administrationFilter;
+      }
+      if (entityType) {
+        query["entity_ids"] = entityType;
+      }
+      const params = new URLSearchParams(query);
+      await api.get(`/export/entity-data?${params.toString()}`);
+      navigate("/administration-download");
+    } catch (err) {
+      Modal.error({
+        title: text.exportEntityError,
+        content: String(err),
+      });
+    }
+  };
+
   const fetchData = useCallback(async () => {
     try {
       let url = `/entity-data?page=${currentPage}`;
@@ -123,6 +144,7 @@ const EntityData = () => {
             loading={loading}
             onSearchChange={setSearch}
             onEntityTypeChange={setEntityType}
+            onDownload={handleOnDownload}
           />
           <Divider />
           <div

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button, Col, Input, Row, Select, Space } from "antd";
 import RemoveFiltersButton from "./RemoveFiltersButton";
 import AdministrationDropdown from "./AdministrationDropdown";
@@ -14,12 +14,12 @@ const EntityDataFilters = ({
   loading,
   onSearchChange = () => {},
   onEntityTypeChange = () => {},
+  onDownload = () => {},
 }) => {
   const [preload, setPreload] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   const [typeItems, setTypeItems] = useState([]);
-  const navigate = useNavigate();
 
   const entityTypes = store.useState((s) => s.options.entityTypes);
   const authUser = store.useState((s) => s.user);
@@ -78,6 +78,7 @@ const EntityDataFilters = ({
             className="custom-select"
             onChange={(value) => onEntityTypeChange(value)}
             allowClear
+            mode="multiple"
           >
             {entityTypes.map((type, tx) => {
               return (
@@ -101,11 +102,7 @@ const EntityDataFilters = ({
             <Button
               icon={<DownloadOutlined />}
               shape="round"
-              onClick={() => {
-                navigate(
-                  "/control-center/master-data/upload-administration-data"
-                );
-              }}
+              onClick={onDownload}
             >
               {text.exportButton}
             </Button>

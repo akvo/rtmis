@@ -8,7 +8,7 @@ from django.utils import timezone
 from api.v1.v1_profile.models import Administration, Entity, EntityData
 from api.v1.v1_jobs.models import Jobs
 from api.v1.v1_jobs.constants import JobTypes, JobStatus
-from api.v1.v1_profile.job import download_entity_data
+from api.v1.v1_profile.job import download_master_data
 from api.v1.v1_profile.tests.mixins import ProfileTestHelperMixin
 from utils.upload_entities import generate_list_of_entities
 
@@ -91,8 +91,11 @@ class DownloadEntitiesTestCase(TestCase, ProfileTestHelperMixin):
         )
         info = {
             "file": out_file,
-            "adm_id": adm.id,
-            "entity_ids": [entity_example.entity.id]
+            "administration": adm.id,
+            "entities": [{
+                "id": entity_example.entity.id,
+                "name": entity_example.entity.name
+            }]
         }
         job = Jobs.objects.create(
             type=JobTypes.download_entities,
@@ -101,7 +104,7 @@ class DownloadEntitiesTestCase(TestCase, ProfileTestHelperMixin):
             info=info,
             result=out_file,
         )
-        file_output = download_entity_data(job.id)
+        file_output = download_master_data(job_id=job.id, job_type=job.type)
         # make sure the file output is inside folder /storage/download_entities
         self.assertTrue(os.path.exists(file_output))
         # read the file
