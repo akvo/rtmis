@@ -3,11 +3,7 @@ import { Button, Col, Input, Row, Select, Space } from "antd";
 import { config, store, uiText } from "../../lib";
 import { Link } from "react-router-dom";
 import debounce from "lodash.debounce";
-import {
-  PlusOutlined,
-  DownloadOutlined,
-  UploadOutlined,
-} from "@ant-design/icons";
+import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
 
