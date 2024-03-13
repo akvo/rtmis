@@ -40,6 +40,7 @@ import {
   AddEntityData,
   ControlCenter,
   UploadAdministrationData,
+  DownloadAdministrationData,
   BIDashboard,
   MonitoringDetail,
   AdministrationDownload,
@@ -131,6 +132,12 @@ const RouteList = () => {
           path="master-data/upload-administration-data"
           element={
             <Private element={UploadAdministrationData} alias="master-data" />
+          }
+        />
+        <Route
+          path="master-data/download-administration-data"
+          element={
+            <Private element={DownloadAdministrationData} alias="master-data" />
           }
         />
         <Route
