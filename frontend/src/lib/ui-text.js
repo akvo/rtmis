@@ -213,8 +213,18 @@ const uiText = {
       <Fragment>
         This is where you :
         <ul>
-          <li>Download upload template</li>
-          <li>Bulk upload new data</li>
+          <li>Bulk upload administration data</li>
+        </ul>
+      </Fragment>
+    ),
+    AdministrationDataDownload: "Administration Data Download",
+    AdministrationDownloadPageHint:
+      "Uncheck Prefilled if you only want an upload template",
+    dataAdministrationDownloadText: (
+      <Fragment>
+        This is where you :
+        <ul>
+          <li>Download administration data</li>
         </ul>
       </Fragment>
     ),
@@ -447,7 +457,10 @@ const uiText = {
     templateFetchFail: "Could not fetch template",
     updateExisting: "Update Existing Data",
     templateDownloadHint:
-      "If you do not already have a template, please download it",
+      "If you do not already have a template, please download",
+    templateDownloadAdministrationHint: () => {
+      return <Fragment>If you do not already have a template, please</Fragment>;
+    },
     uploading: "Uploading..",
     dropFile: "Drop your file here",
     selectForm: "Please select a form",

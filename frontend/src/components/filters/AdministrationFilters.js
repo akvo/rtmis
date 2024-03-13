@@ -51,18 +51,11 @@ const AdministrationFilters = ({
                   {text.bulkUploadButton}
                 </Button>
               </Link>
-              {/* <Button icon={<DownloadOutlined />} shape="round">
-                {text.exportButton}
-              </Button> */}
-              <a
-                href="/master_data/kenya-administration.csv"
-                download="Administration"
-                style={{ textDecoration: "none" }}
-              >
+              <Link to="/control-center/master-data/download-administration-data">
                 <Button icon={<DownloadOutlined />} shape="round">
                   {text.download}
                 </Button>
-              </a>
+              </Link>
               <Link to={addLink}>
                 <Button type="primary" icon={<PlusOutlined />} shape="round">
                   {text.addNewButton}

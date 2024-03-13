@@ -6,18 +6,7 @@ import React, {
   useRef,
 } from "react";
 import "./style.scss";
-import {
-  Row,
-  Col,
-  Card,
-  Divider,
-  Button,
-  Space,
-  Select,
-  Result,
-  Form,
-  Checkbox,
-} from "antd";
+import { Row, Col, Card, Button, Space, Select, Form, Checkbox } from "antd";
 import {
   AdministrationDropdown,
   Breadcrumbs,
@@ -32,7 +21,6 @@ const regExpFilename = /filename="(?<filename>.*)"/;
 
 const DownloadAdministrationData = () => {
   const [loading, setLoading] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
   const [attributes, setAttributes] = useState([]);
   const [selectedAttributes, setSelectedAttributes] = useState([]);
   const [level, setLevel] = useState(null);
@@ -60,7 +48,7 @@ const DownloadAdministrationData = () => {
       link: "/control-center/master-data",
     },
     {
-      title: text.AdministrationDataUpload,
+      title: text.AdministrationDataDownload,
     },
   ];
 
@@ -174,124 +162,93 @@ const DownloadAdministrationData = () => {
           <Col>
             <Breadcrumbs pagePath={pagePath} />
             <DescriptionPanel
-              description={text.dataAdministrationUploadText}
-              title={text.AdministrationDataUpload}
+              description={text.dataAdministrationDownloadText}
+              title={text.AdministrationDataDownload}
             />
           </Col>
         </Row>
       </div>
       <div className="table-section">
         <div className="table-wrapper">
-          {!loading && showSuccess && (
-            <div
-              style={{ padding: 0, minHeight: "40vh" }}
-              bodystyle={{ padding: 0 }}
+          <Card
+            style={{ padding: 0, minHeight: "40vh" }}
+            bodystyle={{ padding: 0 }}
+          >
+            <Space align="center" size={32}>
+              <img src="/assets/data-download.svg" />
+              <p>{text.AdministrationDownloadPageHint}</p>
+            </Space>
+            <Form
+              labelCol={{ span: 6 }}
+              wrapperCol={{ span: 18 }}
+              onFinish={handleOnDownload}
+              ref={formRef}
+              initialValues={{ prefilled: true }}
             >
-              <Result
-                status="success"
-                title={text.administrationUploadSuccessTitle}
-                extra={[
-                  <Divider key="divider" />,
-                  <Button
-                    type="primary"
-                    key="back-button"
-                    onClick={() => setShowSuccess(false)}
-                    shape="round"
-                  >
-                    {text.uploadAnotherFileLabel}
-                  </Button>,
-                  <Button
-                    key="page"
-                    onClick={() => navigate("/control-center")}
-                    shape="round"
-                  >
-                    {text.backToCenterLabel}
-                  </Button>,
-                ]}
-              />
-            </div>
-          )}
-          {!showSuccess && (
-            <Card
-              style={{ padding: 0, minHeight: "40vh" }}
-              bodystyle={{ padding: 0 }}
-            >
-              <Space align="center" size={32}>
-                <img src="/assets/data-download.svg" />
-                <p>{text.templateDownloadHint}</p>
-              </Space>
-              <Form
-                labelCol={{ span: 6 }}
-                wrapperCol={{ span: 18 }}
-                onFinish={handleOnDownload}
-                ref={formRef}
-                initialValues={{ prefilled: true }}
-              >
-                {isPrefilled && (
-                  <Form.Item label={text.admLevel} name="level">
-                    <Select
-                      placeholder={text.selectLevel}
-                      fieldNames={{ value: "id", label: "name" }}
-                      options={levels}
-                      onChange={handleLevelChange}
-                      value={level}
-                      allowClear
-                    />
-                  </Form.Item>
-                )}
-                {isPrefilled && level && (
-                  <Form.Item
-                    label={text.administrationLabel}
-                    name="administration"
-                  >
-                    {level && (
-                      <AdministrationDropdown
-                        className="administration"
-                        maxLevel={level}
-                      />
-                    )}
-                  </Form.Item>
-                )}
-                <Form.Item label={text.bulkUploadAttr} name="attributes">
+              {isPrefilled && (
+                <Form.Item label={text.admLevel} name="level">
                   <Select
-                    placeholder={text.bulkUploadAttrPlaceholder}
-                    className="multiple-select-box"
-                    onChange={handleAttributeChange}
-                    mode="multiple"
+                    placeholder={text.selectLevel}
+                    fieldNames={{ value: "id", label: "name" }}
+                    options={levels}
+                    onChange={handleLevelChange}
+                    value={level}
                     allowClear
-                  >
-                    {attributes.map((f, fI) => (
-                      <Option key={fI} value={f.id}>
-                        {f.name}
-                      </Option>
-                    ))}
-                  </Select>
+                  />
                 </Form.Item>
+              )}
+              {isPrefilled && level && (
                 <Form.Item
-                  name="prefilled"
-                  valuePropName="checked"
-                  wrapperCol={{ offset: 6, span: 18 }}
+                  label={text.administrationLabel}
+                  name="administration"
                 >
-                  <Checkbox onChange={(e) => setIsPrefilled(e.target.checked)}>
-                    {text.bulkUploadCheckboxPrefilled}
-                  </Checkbox>
+                  {level && (
+                    <AdministrationDropdown
+                      className="administration"
+                      maxLevel={level}
+                    />
+                  )}
                 </Form.Item>
-                <Row justify="center" align="middle">
-                  <Col span={18} offset={6}>
-                    <Button
-                      loading={loading}
-                      type="primary"
-                      htmlType="submit"
-                      shape="round"
-                      disabled={disableDownload}
-                    >
-                      {text.download}
-                    </Button>
-                  </Col>
-                </Row>
-              </Form>
-            </Card>
-          )}
+              )}
+              <Form.Item label={text.bulkUploadAttr} name="attributes">
+                <Select
+                  placeholder={text.bulkUploadAttrPlaceholder}
+                  className="multiple-select-box"
+                  onChange={handleAttributeChange}
+                  mode="multiple"
+                  allowClear
+                >
+                  {attributes.map((f, fI) => (
+                    <Option key={fI} value={f.id}>
+                      {f.name}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+              <Form.Item
+                name="prefilled"
+                valuePropName="checked"
+                wrapperCol={{ offset: 6, span: 18 }}
+              >
+                <Checkbox onChange={(e) => setIsPrefilled(e.target.checked)}>
+                  {text.bulkUploadCheckboxPrefilled}
+                </Checkbox>
+              </Form.Item>
+              <Row justify="center" align="middle">
+                <Col span={18} offset={6}>
+                  <Button
+                    loading={loading}
+                    type="primary"
+                    htmlType="submit"
+                    shape="round"
+                    disabled={disableDownload}
+                  >
+                    {text.download}
+                  </Button>
+                </Col>
+              </Row>
+            </Form>
+          </Card>
         </div>
       </div>
     </div>
