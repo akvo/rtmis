@@ -1,9 +1,8 @@
-import { conn, query } from '../';
+import { conn, query } from "..";
 
 const db = conn.init;
 
-const usersQuery = () => {
-  return {
+const usersQuery = () => ({
     getActiveUser: async () => {
       try {
         const active = 1;
@@ -13,7 +12,6 @@ const usersQuery = () => {
         }
         return rows._array[0];
       } catch (error) {
-        console.error('Get users', error);
         return false;
       }
     },
@@ -37,7 +35,6 @@ const usersQuery = () => {
         );
         return rowsAffected;
       } catch (error) {
-        console.error('Toggle active:', error);
         return false;
       }
     },
@@ -50,8 +47,7 @@ const usersQuery = () => {
       const { rows } = await conn.tx(db, updateQuery, [id]);
       return rows;
     },
-  };
-};
+  });
 
 const crudUsers = usersQuery();
 
