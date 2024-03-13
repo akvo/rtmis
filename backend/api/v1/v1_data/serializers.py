@@ -386,19 +386,19 @@ class ListChartDataPointRequestSerializer(serializers.Serializer):
 
 
 class ListChartQuestionDataPointSerializer(serializers.ModelSerializer):
-    value = serializers.SerializerMethodField()
+    total = serializers.SerializerMethodField()
 
     @extend_schema_field(OpenApiTypes.INT)
-    def get_value(self, instance: QuestionOptions):
+    def get_total(self, instance: QuestionOptions):
         value = instance.question.question_answer.filter(
-            options__contains=instance.name)
+            options__contains=instance.value)
         if self.context.get("data_ids"):
             value = value.filter(data_id__in=self.context.get("data_ids"))
         return value.count()
 
     class Meta:
         model = QuestionOptions
-        fields = ["name", "value"]
+        fields = ["label", "total"]
 
 
 class ChartDataSerializer(serializers.Serializer):
@@ -618,6 +618,12 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(OpenApiTypes.BOOL)
     def get_is_monitoring(self, instance: PendingFormData):
+        if instance.data_id:
+            registration = FormData.objects.filter(
+                id=instance.data_id,
+                parent=None
+            ).first()
+            return True if registration else False
         monitoring = FormData.objects.filter(
             uuid=instance.uuid,
             parent=None
@@ -876,7 +882,7 @@ class ListBatchSerializer(serializers.ModelSerializer):
 
 class ListBatchSummarySerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField(source="question.id")
-    question = serializers.ReadOnlyField(source="question.text")
+    question = serializers.ReadOnlyField(source="question.label")
     type = serializers.SerializerMethodField()
     value = serializers.SerializerMethodField()
 
@@ -901,13 +907,13 @@ class ListBatchSummarySerializer(serializers.ModelSerializer):
                 question_id=instance.question.id).distinct("value").count())
         else:
             data = []
-            for option in instance.question.question_question_options.all():
+            for option in instance.question.options.all():
                 val = PendingAnswers.objects.filter(
                     pending_data__batch=batch,
                     question_id=instance.question.id,
-                    options__contains=option.name,
+                    options__contains=option.value,
                 ).count()
-                data.append({"type": option.name, "total": val})
+                data.append({"type": option.label, "total": val})
             return data
 
     class Meta:

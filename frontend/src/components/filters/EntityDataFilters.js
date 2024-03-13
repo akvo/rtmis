@@ -14,6 +14,7 @@ const EntityDataFilters = ({
   loading,
   onSearchChange = () => {},
   onEntityTypeChange = () => {},
+  onDownload = () => {},
 }) => {
   const [preload, setPreload] = useState(true);
   const [page, setPage] = useState(1);
@@ -77,6 +78,7 @@ const EntityDataFilters = ({
             className="custom-select"
             onChange={(value) => onEntityTypeChange(value)}
             allowClear
+            mode="multiple"
           >
             {entityTypes.map((type, tx) => {
               return (
@@ -97,8 +99,12 @@ const EntityDataFilters = ({
       {["Super Admin"].includes(authUser?.role?.value) && (
         <Col>
           <Space>
-            <Button icon={<DownloadOutlined />} shape="round">
-              {text.exportButton}
+            <Button
+              icon={<DownloadOutlined />}
+              shape="round"
+              onClick={onDownload}
+            >
+              {text.download}
             </Button>
             <Link to="/control-center/master-data/entities/add">
               <Button type="primary" icon={<PlusOutlined />} shape="round">

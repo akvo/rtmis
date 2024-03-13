@@ -5,7 +5,7 @@
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@turf/turf": "^6.5.0",
-    "akvo-react-form": "^2.2.7",
+    "akvo-react-form": "^2.3.3",
     "antd": "^4.24.15",
     "antd-table-saveas-excel": "^2.2.1",
     "axios": "^0.25.0",
@@ -13,6 +13,7 @@
     "buffer": "^6.0.3",
     "d3-geo": "^3.0.1",
     "d3-scale": "^4.0.0",
+    "eas-cli": "^7.3.0",
     "echarts": "^5.2.2",
     "echarts-for-react": "^3.0.2",
     "leaflet": "^1.7.1",
@@ -68,10 +69,17 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": ["react-app", "react-app/jest"]
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
-    "production": [">0.2%", "not dead", "not op_mini all"],
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",

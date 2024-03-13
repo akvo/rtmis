@@ -56,7 +56,6 @@ class FormSeederTestCase(TestCase):
         seed_administration_test()
         forms = Forms.objects.all().delete()
         json_forms = [
-            "Governance and policy",
             "CLTS",
             "Water System",
             "RTMIS Community Monitoring Form",
@@ -65,6 +64,7 @@ class FormSeederTestCase(TestCase):
             "Short HH",
             "RTMIS Institution Form",
             "RTMIS Healthcare Facility WASH Form",
+            "Governance Form",
         ]
 
         # RUN SEED NEW FORM
@@ -141,13 +141,13 @@ class FormSeederTestCase(TestCase):
         self.assertIn('approval_instructions', data)
         gender = [
             q for q in data['question_group'][0]['question']
-            if q['name'] == 'Gender'
+            if q['name'] == 'gender'
         ][0]
         self.assertIn('tooltip', gender)
         self.assertIn('color', gender['option'][0])
         autofield = [
             q for q in data['question_group'][0]['question']
-            if q['name'] == 'Autofield'
+            if q['name'] == 'autofield'
         ][0]
         self.assertIn('fn', autofield)
 
@@ -166,12 +166,12 @@ class FormSeederTestCase(TestCase):
         data = response.json()
         gender = [
             q for q in data['question_group'][0]['question']
-            if q['name'] == 'Gender'
+            if q['name'] == 'gender'
         ][0]
         self.assertIn('pre', gender)
         hidden = [
             q for q in data['question_group'][0]['question']
-            if q['name'] == 'Hidden'
+            if q['name'] == 'hidden'
         ][0]
         self.assertIn('hidden', hidden)
 
@@ -190,13 +190,14 @@ class FormSeederTestCase(TestCase):
         data = response.json()
         name = [
             q for q in data['question_group'][0]['question']
-            if q['name'] == 'Name'
+            if q['name'] == 'name'
         ][0]
         self.assertIn('displayOnly', name)
         self.assertTrue(name['displayOnly'])
         phone = [
             q for q in data['question_group'][0]['question']
-            if q['name'] == 'Phone Number'
+            if q['name'] == 'phone'
         ][0]
         self.assertIn('monitoring', phone)
+        self.assertEqual(phone['short_label'], "Phone Number")
         self.assertTrue(phone['monitoring'])

@@ -414,7 +414,7 @@ const UploadDetail = ({ record, setReload }) => {
                         <div className={`pending-data-outer`}>
                           {expanded.data?.map((r, rI) => (
                             <div className="pending-data-wrapper" key={rI}>
-                              <h3>{r.name}</h3>
+                              <h3>{r.label}</h3>
                               <Table
                                 pagination={false}
                                 dataSource={r.question}
@@ -428,8 +428,12 @@ const UploadDetail = ({ record, setReload }) => {
                                 columns={[
                                   {
                                     title: text?.questionCol,
-                                    dataIndex: "name",
+                                    dataIndex: null,
                                     width: "50%",
+                                    render: (_, row) =>
+                                      row.short_label
+                                        ? row.short_label
+                                        : row.label,
                                   },
                                   {
                                     title: text?.responseCol,
@@ -486,7 +490,7 @@ const UploadDetail = ({ record, setReload }) => {
                         </div>
                       )}
                       {isEditable && !expanded.loading && (
-                        <div className="pending-data-actions">
+                        <div className="pending-data-action-reject">
                           <Button
                             onClick={() => handleSave(expanded)}
                             type="primary"
@@ -495,6 +499,7 @@ const UploadDetail = ({ record, setReload }) => {
                               expanded.id === dataLoading ||
                               isEdited(expanded.id) === false
                             }
+                            shape="round"
                           >
                             Save Edits
                           </Button>
@@ -527,6 +532,24 @@ const UploadDetail = ({ record, setReload }) => {
               }
             : false
         }
+        onRow={(record) => ({
+          onClick: () => {
+            if (expandedRowKeys.includes(record.id)) {
+              setExpandedRowKeys((prevExpandedKeys) =>
+                prevExpandedKeys.filter((key) => key !== record.id)
+              );
+            } else {
+              if (!record.data?.length) {
+                initData(record.id);
+              }
+              setExpandedRowKeys((prevExpandedKeys) => [
+                ...prevExpandedKeys,
+                record.id,
+              ]);
+            }
+          },
+        })}
+        expandRowByClick
       />
       <h3>{text.notesFeedback}</h3>
       {!!comments.length && (

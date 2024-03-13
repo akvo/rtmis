@@ -26,7 +26,7 @@ class ListOptionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = QuestionOptions
-        fields = ['id', 'name', 'order', 'color']
+        fields = ['id', 'value', 'label', 'order', 'color']
 
 
 class ListQuestionSerializer(serializers.ModelSerializer):
@@ -34,7 +34,6 @@ class ListQuestionSerializer(serializers.ModelSerializer):
     type = serializers.SerializerMethodField()
     center = serializers.SerializerMethodField()
     api = serializers.SerializerMethodField()
-    name = serializers.SerializerMethodField()
     rule = serializers.SerializerMethodField()
     extra = serializers.SerializerMethodField()
     source = serializers.SerializerMethodField()
@@ -49,7 +48,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
                 QuestionTypes.option, QuestionTypes.multiple_option
         ]:
             return ListOptionSerializer(
-                instance=instance.question_question_options.all(),
+                instance=instance.options.all(),
                 many=True).data
         return None
 
@@ -91,10 +90,6 @@ class ListQuestionSerializer(serializers.ModelSerializer):
         if instance.type == QuestionTypes.geo:
             return FORM_GEO_VALUE
         return None
-
-    @extend_schema_field(GeoFormatSerializer)
-    def get_name(self, instance: Questions):
-        return instance.text
 
     @extend_schema_field(
         inline_serializer('QuestionRuleFormat',
@@ -185,9 +180,10 @@ class ListQuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Questions
         fields = [
-            'id', 'name', 'order', 'type', 'required', 'dependency', 'option',
-            'center', 'api', 'meta', 'rule', 'extra', 'source', 'tooltip',
-            'fn', 'pre', 'hidden', 'displayOnly', 'monitoring', 'meta_uuid'
+            'id', 'order', 'name', 'label', 'short_label', 'type', 'required',
+            'dependency', 'option', 'center', 'api', 'meta', 'meta_uuid',
+            'rule', 'extra', 'source', 'tooltip', 'fn', 'pre', 'hidden',
+            'displayOnly', 'monitoring'
         ]
 
 
@@ -204,7 +200,7 @@ class ListQuestionGroupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = QuestionGroup
-        fields = ['name', 'question']
+        fields = ['name', 'label', 'question']
 
 
 class ListAdministrationCascadeSerializer(serializers.ModelSerializer):
@@ -300,7 +296,7 @@ class FormDataListQuestionSerializer(serializers.ModelSerializer):
                 QuestionTypes.multiple_option
         ]:
             return ListOptionSerializer(
-                instance=instance.question_question_options.all(),
+                instance=instance.options.all(),
                 many=True).data
         return None
 
@@ -332,9 +328,9 @@ class FormDataListQuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Questions
         fields = [
-            'id', 'form', 'question_group', 'name', 'text', 'order', 'meta',
-            'api', 'type', 'required', 'rule', 'option', 'dependency',
-            'display_only', 'attributes'
+            'id', 'form', 'question_group', 'name', 'label', 'short_label',
+            'order', 'meta', 'api', 'type', 'required', 'rule', 'option',
+            'dependency', 'display_only', 'attributes'
         ]
 
 
@@ -349,7 +345,7 @@ class FormDataQuestionGroupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = QuestionGroup
-        fields = ['id', 'name', 'question']
+        fields = ['id', 'label', 'name', 'question']
 
 
 class FormDataSerializer(serializers.ModelSerializer):

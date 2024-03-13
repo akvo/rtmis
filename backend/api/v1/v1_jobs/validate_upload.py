@@ -141,7 +141,7 @@ def validate_date(answer):
 
 
 def validate_option(options, answer):
-    options = [o.name for o in options]
+    options = [o.value for o in options]
     lower_options = [o.lower() for o in options]
     answer = answer.split("|")
     invalid_value = []
@@ -238,7 +238,7 @@ def validate_row_data(col, answer, dependency_answer, question: Questions,
     elif question.type in [
             QuestionTypes.option, QuestionTypes.multiple_option
     ]:
-        err = validate_option(question.question_question_options.all(), answer)
+        err = validate_option(question.options.all(), answer)
         if err:
             default.update(err)
             return default
@@ -274,7 +274,7 @@ def validate_data_id(col, data_id, collect_data_ids=[]):
 
 def validate(form: int, administration: int, file: str):
     sheet_names = validate_sheet_name(file)
-    template_sheets = ['data', 'definitions', 'administration']
+    template_sheets = ['data', 'questions', 'options']
     TESTING = os.environ.get("TESTING")
     if TESTING:
         template_sheets = ['data']

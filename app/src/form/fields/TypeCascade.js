@@ -11,11 +11,12 @@ const TypeCascade = ({
   value,
   keyform,
   id,
-  name,
+  label,
   tooltip,
   required,
   requiredSign,
   source,
+  disabled,
 }) => {
   const [dataSource, setDataSource] = useState([]);
   const [dropdownItems, setDropdownItems] = useState([]);
@@ -118,9 +119,14 @@ const TypeCascade = ({
           ];
     }
     return Object.values(groupedDs).map((options, ox) => {
+      const defaultValue = value?.[ox] || null;
+      const answer =
+        typeof defaultValue === 'string'
+          ? options.find((o) => o?.name === defaultValue)?.id
+          : defaultValue;
       return {
         options,
-        value: value?.[ox] || null,
+        value: answer,
       };
     });
   }, [dataSource, source, value, id, prevAdmAnswer]);
@@ -172,13 +178,26 @@ const TypeCascade = ({
     loadDataSource();
   }, [loadDataSource]);
 
+  const handleDefaultValue = useCallback(() => {
+    if (typeof value?.[0] === 'string' && dropdownItems.length) {
+      const lastValue = dropdownItems.slice(-1)?.[0]?.value;
+      if (lastValue) {
+        onChange(id, [lastValue]);
+      }
+    }
+  }, [value, dropdownItems, onChange]);
+
+  useEffect(() => {
+    handleDefaultValue();
+  }, [handleDefaultValue]);
+
   if (!dropdownItems.length) {
     return;
   }
 
   return (
     <View testID="view-type-cascade">
-      <FieldLabel keyform={keyform} name={name} tooltip={tooltip} requiredSign={requiredValue} />
+      <FieldLabel keyform={keyform} name={label} tooltip={tooltip} requiredSign={requiredValue} />
       <Text testID="text-values" style={styles.cascadeValues}>
         {value}
       </Text>
@@ -198,6 +217,7 @@ const TypeCascade = ({
               value={item.value}
               style={[styles.dropdownField]}
               placeholder={trans.selectItem}
+              disable={disabled}
             />
           );
         })}

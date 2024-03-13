@@ -15,22 +15,6 @@ from api.v1.v1_users.models import SystemUser
 from utils.storage import upload
 
 
-def generate_excel(
-    user: SystemUser,
-    attributes: List[int] = [],
-):
-    directory = 'tmp/administrations-template'
-    os.makedirs(directory, exist_ok=True)
-    filename = (
-            f"{timezone.now().strftime('%Y%m%d%H%M%S')}-{user.pk}-"
-            "administrations-template.xlsx")
-    filepath = f"./{directory}/{filename}"
-    if os.path.exists(filepath):
-        os.remove(filepath)
-    generate_template(filepath=filepath, attributes=attributes)
-    return filepath
-
-
 def generate_template(
     filepath,
     attributes: List[int] = [],
@@ -63,13 +47,29 @@ def generate_template(
     writer.save()
 
 
-def generate_prefilled_template(
+def generate_excel(
+    user: SystemUser,
+    attributes: List[int] = [],
+):
+    directory = 'tmp/administrations-template'
+    os.makedirs(directory, exist_ok=True)
+    filename = (
+            f"{timezone.now().strftime('%Y%m%d%H%M%S')}-{user.pk}-"
+            "administrations-template.xlsx")
+    filepath = f"./{directory}/{filename}"
+    if os.path.exists(filepath):
+        os.remove(filepath)
+    generate_template(filepath=filepath, attributes=attributes)
+    return filepath
+
+
+def generate_administration_template(
     job_result: str,
     attributes: List[int] = [],
     level: int = None,
     adm_id: int = None
 ):
-    file_path = './tmp/{0}'.format(job_result)
+    file_path = './tmp/{0}'.format(job_result.replace("/", "_"))
     if os.path.exists(file_path):
         os.remove(file_path)
     level_headers = [

@@ -41,8 +41,8 @@ import {
   ControlCenter,
   UploadAdministrationData,
   BIDashboard,
-  DownloadAdmData,
   MonitoringDetail,
+  AdministrationDownload,
   // Visualisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
@@ -134,10 +134,6 @@ const RouteList = () => {
           }
         />
         <Route
-          path="master-data/download-administration-data"
-          element={<Private element={DownloadAdmData} alias="master-data" />}
-        />
-        <Route
           path="master-data/add-administration"
           element={<Private element={AddAdministration} alias="master-data" />}
         />
@@ -226,6 +222,15 @@ const RouteList = () => {
         />
       </Route>
       <Route
+        path="/administration-download"
+        element={
+          <Private
+            element={AdministrationDownload}
+            alias="administration-download"
+          />
+        }
+      />
+      <Route
         path="/settings"
         element={<Private element={Settings} alias="settings" />}
       />
@@ -252,7 +257,6 @@ const RouteList = () => {
 const App = () => {
   const { user: authUser, isLoggedIn } = store.useState((state) => state);
   const [cookies] = useCookies(["AUTH_TOKEN"]);
-  // const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const { notify } = useNotification();
   const pageLocation = useLocation();
@@ -260,25 +264,6 @@ const App = () => {
   const public_state = config.allowedGlobal
     .map((x) => location.pathname.includes(x))
     .filter((x) => x)?.length;
-
-  // document.addEventListener(
-  //   "click",
-  //   () => {
-  //     if (isLoggedIn && authUser?.last_login) {
-  //       const expired = timeDiffHours(authUser.last_login);
-  //       console.log("test", expired);
-  //       if (expired >= 4) {
-  //         eraseCookieFromAllPaths("AUTH_TOKEN");
-  //         store.update((s) => {
-  //           s.isLoggedIn = false;
-  //           s.user = null;
-  //         });
-  //         navigate("login");
-  //       }
-  //     }
-  //   },
-  //   { passive: true }
-  // );
 
   // detect location change to reset advanced filters
   useEffect(() => {

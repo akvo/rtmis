@@ -40,11 +40,15 @@ const EditableCell = ({
       setValue(
         record.type === "date"
           ? moment(newValue).format("YYYY-MM-DD")
+          : record.type === "geo"
+          ? newValue?.join(", ")
           : newValue
       );
       setOldValue(
         record.type === "date"
           ? moment(record.lastValue).format("YYYY-MM-DD")
+          : record.type === "geo"
+          ? record?.lastValue?.join(", ")
           : record.lastValue
       );
     }
@@ -61,7 +65,13 @@ const EditableCell = ({
     !isEqual(record.value, record.newValue);
 
   useEffect(() => {
-    if (record && record.type === "cascade" && !record?.api && !locationName) {
+    if (
+      record &&
+      record.type === "cascade" &&
+      !record?.api &&
+      !locationName &&
+      !lastValue
+    ) {
       /**
        * TODO: Handle recognizing entity cascade clearly
        */
@@ -78,26 +88,71 @@ const EditableCell = ({
         }
       }
     }
-  }, [record, locationName]);
+    if (
+      record &&
+      record.type === "cascade" &&
+      !record?.api &&
+      !locationName &&
+      lastValue
+    ) {
+      /**
+       * TODO: Handle recognizing entity cascade clearly
+       */
+      if (typeof record.lastValue === "string") {
+        setLocationName(record.lastValue);
+      } else {
+        if (record.lastValue) {
+          config.fn.administration(record.lastValue, false).then((res) => {
+            const locName = res;
+            setLocationName(locName?.full_name);
+          });
+        } else {
+          setLocationName("-");
+        }
+      }
+    }
+  }, [record, locationName, lastValue]);
 
   const getAnswerValue = () => {
-    return record.type === "multiple_option"
-      ? value?.join(", ")
-      : record.type === "option"
-      ? value
-        ? value[0]
-        : "-"
-      : value;
+    switch (record.type) {
+      case "date":
+        return value ? moment(value).format("YYYY-MM-DD") : "-";
+      case "multiple_option":
+        return value?.length
+          ? value
+              ?.map((v) => {
+                const option = record?.option?.find((o) => o.value === v);
+                return option?.label;
+              })
+              ?.join(", ") || "-"
+          : "-";
+      case "option":
+        return value?.length
+          ? record?.option?.find((o) => o.value === value[0])?.label || "-"
+          : "-";
+      default:
+        return value || "-";
+    }
   };
 
   const getLastAnswerValue = () => {
-    return record.type === "multiple_option"
-      ? oldValue?.join(", ")
-      : record.type === "option"
-      ? oldValue
-        ? oldValue[0]
-        : "-"
-      : oldValue;
+    switch (record.type) {
+      case "multiple_option":
+        return oldValue?.length
+          ? oldValue
+              ?.map((v) => {
+                const option = record?.option?.find((o) => o.value === v);
+                return option?.label;
+              })
+              ?.join(", ") || "-"
+          : "-";
+      case "option":
+        return oldValue?.length
+          ? record?.option?.find((o) => o.value === oldValue[0])?.label || "-"
+          : "-";
+      default:
+        return oldValue || "-";
+    }
   };
 
   const renderAnswerInput = () => {
@@ -111,8 +166,8 @@ const EditableCell = ({
         disabled={disabled}
       >
         {record.option.map((o) => (
-          <Option key={o.id} value={o.name} title={o.name}>
-            {o.name}
+          <Option key={o.id} value={o?.value} title={o?.label}>
+            {o?.label}
           </Option>
         ))}
       </Select>
@@ -127,8 +182,8 @@ const EditableCell = ({
         disabled={disabled}
       >
         {record.option.map((o) => (
-          <Option key={o.id} value={o.name} title={o.name}>
-            {o.name}
+          <Option key={o.id} value={o?.value} title={o?.label}>
+            {o?.label}
           </Option>
         ))}
       </Select>
@@ -202,8 +257,10 @@ const EditableCell = ({
       >
         {record.type === "cascade" && !record?.api ? (
           locationName
-        ) : record.type === "photo" && value ? (
+        ) : record.type === "photo" && value && !lastValue ? (
           <Image src={value} width={100} />
+        ) : record.type === "photo" && lastValue && oldValue ? (
+          <Image src={oldValue} width={100} />
         ) : lastValue ? (
           getLastAnswerValue()
         ) : (

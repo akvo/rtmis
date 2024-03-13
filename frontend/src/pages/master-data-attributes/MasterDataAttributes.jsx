@@ -46,11 +46,7 @@ const MasterDataAttributes = () => {
 
   const columns = [
     {
-      title: "Attribute For",
-      dataIndex: "attribute_for",
-    },
-    {
-      title: "Attribute",
+      title: "Attribute Name",
       dataIndex: "name",
     },
     {
@@ -70,6 +66,7 @@ const MasterDataAttributes = () => {
     },
     {
       title: "Action",
+      width: "10%",
       dataIndex: "id",
       render: (_, record) => {
         return (
@@ -90,12 +87,8 @@ const MasterDataAttributes = () => {
   const fetchData = useCallback(async () => {
     try {
       const { data: apiData } = await api.get("/administration-attributes");
-      const _dataset = apiData.map((d) => ({
-        ...d,
-        attribute_for: "administration",
-      }));
-      setDataset(_dataset);
-      setdatasetBackup(_dataset);
+      setDataset(apiData);
+      setdatasetBackup(apiData);
       setLoading(false);
     } catch {
       setLoading(false);

@@ -71,18 +71,19 @@ const TypeInput = ({
   value,
   keyform,
   id,
-  name,
+  label,
   addonAfter,
   addonBefore,
   tooltip,
   required,
   requiredSign,
   meta_uuid,
+  disabled,
 }) => {
   const requiredValue = required ? requiredSign : null;
   return (
     <View>
-      <FieldLabel keyform={keyform} name={name} tooltip={tooltip} requiredSign={requiredValue} />
+      <FieldLabel keyform={keyform} name={label} tooltip={tooltip} requiredSign={requiredValue} />
       <Input
         inputContainerStyle={styles.inputFieldContainer}
         onChangeText={(val) => {
@@ -94,7 +95,7 @@ const TypeInput = ({
         testID="type-input"
         {...addPreffix(addonBefore)}
         {...addSuffix(addonAfter)}
-        disabled={meta_uuid}
+        disabled={meta_uuid || disabled}
       />
     </View>
   );

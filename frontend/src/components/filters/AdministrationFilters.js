@@ -6,8 +6,8 @@ import { store, uiText } from "../../lib";
 import { Link } from "react-router-dom";
 import debounce from "lodash.debounce";
 import {
-  PlusOutlined,
   DownloadOutlined,
+  PlusOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
 import { Fragment } from "react";
@@ -51,9 +51,18 @@ const AdministrationFilters = ({
                   {text.bulkUploadButton}
                 </Button>
               </Link>
-              <Button icon={<DownloadOutlined />} shape="round">
+              {/* <Button icon={<DownloadOutlined />} shape="round">
                 {text.exportButton}
-              </Button>
+              </Button> */}
+              <a
+                href="/master_data/kenya-administration.csv"
+                download="Administration"
+                style={{ textDecoration: "none" }}
+              >
+                <Button icon={<DownloadOutlined />} shape="round">
+                  {text.download}
+                </Button>
+              </a>
               <Link to={addLink}>
                 <Button type="primary" icon={<PlusOutlined />} shape="round">
                   {text.addNewButton}

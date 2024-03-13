@@ -2,134 +2,164 @@
   "id": 2,
   "form": "Test Form 2",
   "type": 2,
-  "approval_instructions": { "text": "test", "action": ["action #1"] },
+  "approval_instructions": {
+    "text": "test",
+    "action": ["action #1"]
+  },
   "question_groups": [
     {
       "id": 21,
       "order": 1,
-      "question_group": "Question Group 01",
+      "name": "question_group_01",
+      "label": "Question Group 01",
       "questions": [
         {
           "id": 201,
-          "question": "Name",
+          "order": null,
+          "name": "name",
+          "label": "Name",
+          "short_label": "Name",
           "meta": true,
           "type": "text",
           "required": true,
-          "displayOnly": true,
-          "variable": "name"
+          "displayOnly": true
         },
         {
           "id": 202,
-          "question": "Gender",
+          "order": null,
+          "name": "gender",
+          "label": "Gender",
+          "short_label": null,
           "meta": false,
           "type": "option",
-          "tooltip": { "text": "test tooltip" },
+          "tooltip": {
+            "text": "test tooltip"
+          },
           "required": true,
           "attributes": ["chart", "table"],
           "options": [
             {
-              "name": "Male",
-              "color": "#000000"
+              "label": "Male",
+              "color": "#000000",
+              "value": "male"
             },
             {
-              "name": "Female",
-              "color": "#111111"
+              "label": "Female",
+              "color": "#111111",
+              "value": "female"
             },
             {
-              "name": "Other",
-              "color": "#222222"
+              "label": "Other",
+              "color": "#222222",
+              "value": "other"
             }
           ],
           "pre": {
-            "answer": "string",
+            "answer": "male",
             "fill": [
               {
-                "id": "1235434",
-                "answer": "any"
+                "id": 206,
+                "answer": ["children"]
               }
             ]
-          },
-          "variable": "gender"
+          }
         },
         {
           "id": 203,
-          "question": "Phone Number",
+          "order": null,
+          "name": "phone",
+          "label": "Phone Number",
+          "short_label": "Phone Number",
           "meta": true,
           "type": "number",
           "attributes": ["chart"],
           "required": true,
-          "monitoring": true,
-          "variable": "phone"
+          "monitoring": true
         },
         {
           "id": 204,
-          "question": "Location",
+          "order": null,
+          "name": "location",
+          "label": "Location",
+          "short_label": null,
           "meta": true,
           "type": "administration",
-          "required": true,
-          "variable": "location"
+          "required": true
         },
         {
           "id": 205,
-          "question": "Geolocation",
+          "order": null,
+          "name": "geolocation",
+          "label": "Geolocation",
+          "short_label": null,
           "meta": true,
           "type": "geo",
-          "required": true,
-          "variable": "geolocation"
+          "required": true
         },
         {
           "id": 206,
-          "question": "Available Family Members",
+          "order": null,
+          "name": "family_members",
+          "label": "Available Family Members",
+          "short_label": "Family Members",
           "meta": true,
           "type": "multiple_option",
           "required": true,
           "attributes": ["chart", "table"],
           "options": [
             {
-              "name": "Wife / Husband / Partner"
+              "label": "Wife / Husband / Partner",
+              "value": "wife__husband__partner"
             },
             {
-              "name": "Children"
+              "label": "Children",
+              "value": "children"
             },
             {
-              "name": "Parent"
+              "label": "Parent",
+              "value": "parent"
             }
-          ],
-          "variable": "family_members"
+          ]
         },
         {
           "id": 207,
-          "question": "Autofield",
+          "order": null,
+          "name": "autofield",
+          "label": "Autofield",
+          "short_label": null,
           "type": "autofield",
           "required": false,
           "meta": false,
           "fn": {
             "fnColor": {},
-            "fnString": "function() { #204 + #206 }",
+            "fnString": "#location# + #family_members#",
             "multiline": true
-          },
-          "variable": "autofield"
+          }
         },
         {
           "id": 208,
-          "question": "Hidden",
+          "order": null,
+          "name": "hidden",
+          "label": "Hidden",
+          "short_label": null,
           "type": "text",
           "meta": true,
           "required": true,
-          "hidden": true,
-          "variable": "hidden"
+          "hidden": true
         },
         {
           "id": 209,
-          "question": "School Entity Cascade",
+          "order": null,
+          "name": "school_entity",
+          "label": "School Entity Cascade",
+          "short_label": "School Entity",
           "meta": false,
           "required": false,
           "type": "cascade",
           "extra": {
             "type": "entity",
             "name": "School"
-          },
-          "variable": "school_entity"
+          }
         }
       ]
     }

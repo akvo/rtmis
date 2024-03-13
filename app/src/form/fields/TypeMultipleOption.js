@@ -12,11 +12,12 @@ const TypeMultipleOption = ({
   value,
   keyform,
   id,
-  name,
+  label,
   option = [],
   tooltip,
   required,
   requiredSign,
+  disabled,
 }) => {
   const showSearch = React.useMemo(() => {
     return option.length > 3;
@@ -27,7 +28,7 @@ const TypeMultipleOption = ({
 
   return (
     <View style={styles.multipleOptionContainer}>
-      <FieldLabel keyform={keyform} name={name} tooltip={tooltip} requiredSign={requiredValue} />
+      <FieldLabel keyform={keyform} name={label} tooltip={tooltip} requiredSign={requiredValue} />
       <MultiSelect
         style={[styles.dropdownField]}
         selectedStyle={styles.dropdownSelectedList}
@@ -36,7 +37,7 @@ const TypeMultipleOption = ({
         search={showSearch}
         maxHeight={300}
         labelField="label"
-        valueField="name"
+        valueField="value"
         searchPlaceholder={trans.searchPlaceholder}
         placeholder={trans.selectMultiItem}
         value={value || []}
@@ -56,6 +57,7 @@ const TypeMultipleOption = ({
         }}
         testID="type-multiple-option-dropdown"
         confirmUnSelectItem={true}
+        disable={disabled}
       />
     </View>
   );

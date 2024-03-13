@@ -45,6 +45,7 @@ const config = {
         "settings",
         "organisation",
         "master-data",
+        "administration-download",
       ],
       administration_level: [1],
       description:
@@ -55,6 +56,7 @@ const config = {
         "manage-master-data",
         "manage-mobile",
         "approvals",
+        "download",
       ],
     },
     {
@@ -73,6 +75,7 @@ const config = {
         "approvers",
         "form",
         "reports",
+        "administration-download",
       ],
       administration_level: [2],
       description:
@@ -83,6 +86,7 @@ const config = {
         "manage-data",
         "approvals",
         "submission",
+        "download",
       ],
     },
     {
@@ -100,6 +104,7 @@ const config = {
         "reports",
         "mobile",
         "form",
+        "administration-download",
       ],
       administration_level: [3, 4],
       description:
@@ -109,6 +114,7 @@ const config = {
         "submission",
         "manage-data",
         "manage-mobile",
+        "download",
       ],
     },
     {
@@ -124,11 +130,17 @@ const config = {
         "control-center",
         "reports",
         "mobile",
+        "administration-download",
       ],
       administration_level: [4],
       description:
         "Overall role to collect data from community/village assigned to them",
-      control_center_order: ["submission", "manage-data", "manage-mobile"],
+      control_center_order: [
+        "submission",
+        "manage-data",
+        "manage-mobile",
+        "download",
+      ],
     },
   ],
   checkAccess: (roles, page) => {

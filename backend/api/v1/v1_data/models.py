@@ -276,14 +276,15 @@ class Answers(models.Model):
     @property
     def to_data_frame(self) -> dict:
         q = self.question
-        qname = f"{self.question.variable}"
+        qname = f"{self.question.name}"
         if q.type in [
-                QuestionTypes.geo, QuestionTypes.option,
-                QuestionTypes.multiple_option
+            QuestionTypes.geo, QuestionTypes.option,
+            QuestionTypes.multiple_option
         ]:
             answer = '|'.join(map(str, self.options))
         elif q.type in [
-                QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+            QuestionTypes.text, QuestionTypes.photo,
+            QuestionTypes.date, QuestionTypes.autofield
         ]:
             answer = self.name
         elif q.type == QuestionTypes.administration:
@@ -291,8 +292,6 @@ class Answers(models.Model):
                 pk=self.value).first()
             if answer:
                 answer = answer.administration_column
-        elif q.type == QuestionTypes.autofield:
-            answer = self.name
         else:
             answer = self.value
         return {qname: answer}
@@ -306,7 +305,10 @@ class Answers(models.Model):
         ]:
             answer = self.options
         elif q.type in [
-            QuestionTypes.text, QuestionTypes.photo, QuestionTypes.date
+            QuestionTypes.text,
+            QuestionTypes.photo,
+            QuestionTypes.date,
+            QuestionTypes.cascade,
         ]:
             answer = self.name
         else:

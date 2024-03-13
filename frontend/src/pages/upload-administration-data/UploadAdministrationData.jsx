@@ -205,7 +205,7 @@ const UploadAdministrationData = () => {
         .then(() => {
           setLoading(false);
           formRef.current.resetFields();
-          navigate("/control-center/master-data/download-administration-data");
+          navigate("/administration-download");
         })
         .catch((e) => {
           console.error(e);
@@ -219,6 +219,19 @@ const UploadAdministrationData = () => {
       downloadTemplate(values);
     }
   };
+
+  const handleLevelChange = (e) => {
+    setLevel(e);
+    store.update((s) => {
+      s.administration.length = 1;
+    });
+  };
+
+  const disableDownload = useMemo(() => {
+    if (level || isPrefilled) {
+      return level - 1 === selectedAdm?.level ? false : true;
+    }
+  }, [level, selectedAdm, isPrefilled]);
 
   return (
     <div id="uploadMasterData">
@@ -287,7 +300,7 @@ const UploadAdministrationData = () => {
                           placeholder={text.selectLevel}
                           fieldNames={{ value: "id", label: "name" }}
                           options={levels}
-                          onChange={setLevel}
+                          onChange={handleLevelChange}
                           value={level}
                           allowClear
                         />
@@ -339,6 +352,7 @@ const UploadAdministrationData = () => {
                           type="primary"
                           htmlType="submit"
                           shape="round"
+                          disabled={disableDownload}
                         >
                           {text.download}
                         </Button>

@@ -64,7 +64,7 @@ describe('TypeImage component', () => {
         keyform={1}
         value={mockValues[fieldID]}
         id={fieldID}
-        name="Latrine photo"
+        label="Latrine photo"
       />,
     );
     const questionText = queryByText('Latrine photo');
@@ -89,7 +89,7 @@ describe('TypeImage component', () => {
         keyform={1}
         value={mockValues[fieldID]}
         id={fieldID}
-        name="Latrine photo"
+        label="Latrine photo"
         useGallery
       />,
     );
@@ -117,7 +117,7 @@ describe('TypeImage component', () => {
         keyform={1}
         value={mockValues[fieldID]}
         id={fieldID}
-        name="Latrine photo"
+        label="Latrine photo"
         useGallery
       />,
     );
@@ -135,7 +135,7 @@ describe('TypeImage component', () => {
         value={result.current?.[fieldID]}
         keyform={1}
         id={fieldID}
-        name="Latrine photo"
+        label="Latrine photo"
         useGallery
       />,
     );
@@ -165,7 +165,7 @@ describe('TypeImage component', () => {
         keyform={1}
         value={mockValues[fieldID]}
         id={fieldID}
-        name="Latrine photo"
+        label="Latrine photo"
         useGallery
       />,
     );
@@ -197,7 +197,7 @@ describe('TypeImage component', () => {
         keyform={1}
         value={mockValues[fieldID]}
         id={fieldID}
-        name="Latrine photo"
+        label="Latrine photo"
       />,
     );
 
@@ -233,7 +233,7 @@ describe('TypeImage component', () => {
         keyform={1}
         value={mockValues[fieldID]}
         id={fieldID}
-        name="Latrine photo"
+        label="Latrine photo"
       />,
     );
 
@@ -249,7 +249,7 @@ describe('TypeImage component', () => {
         keyform={1}
         value={'file://captured.jpeg'}
         id={fieldID}
-        name="Latrine photo"
+        label="Latrine photo"
       />,
     );
 
@@ -282,7 +282,7 @@ describe('TypeImage component', () => {
         keyform={1}
         value={mockValues[fieldID]}
         id={fieldID}
-        name="Latrine photo"
+        label="Latrine photo"
       />,
     );
 
@@ -324,7 +324,7 @@ describe('TypeImage component', () => {
         keyform={1}
         value={mockValues[fieldID]}
         id={fieldID}
-        name="Latrine photo"
+        label="Latrine photo"
       />,
     );
 
@@ -356,7 +356,7 @@ describe('TypeImage component', () => {
         keyform={1}
         value={mockValues[fieldID]}
         id={fieldID}
-        name="Latrine photo"
+        label="Latrine photo"
       />,
     );
     const imagePreview = queryByTestId('image-preview');
@@ -372,7 +372,7 @@ describe('TypeImage component', () => {
         keyform={1}
         value={null}
         id={fieldID}
-        name="Latrine photo"
+        label="Latrine photo"
       />,
     );
 
@@ -391,7 +391,7 @@ describe('TypeImage component', () => {
         keyform={1}
         value={mockValues[fieldID]}
         id={fieldID}
-        name="Latrine photo"
+        label="Latrine photo"
         required={false}
       />,
     );
@@ -412,7 +412,7 @@ describe('TypeImage component', () => {
         keyform={1}
         value={mockValues[fieldID]}
         id={fieldID}
-        name="Latrine photo"
+        label="Latrine photo"
         required={false}
         requiredSign="*"
       />,
@@ -434,7 +434,7 @@ describe('TypeImage component', () => {
         keyform={1}
         value={mockValues[fieldID]}
         id={fieldID}
-        name="Latrine photo"
+        label="Latrine photo"
         required={true}
         requiredSign="*"
       />,
@@ -456,7 +456,7 @@ describe('TypeImage component', () => {
         keyform={1}
         value={mockValues[fieldID]}
         id={fieldID}
-        name="Latrine photo"
+        label="Latrine photo"
         required={true}
         requiredSign="**"
       />,

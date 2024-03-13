@@ -30,11 +30,12 @@ exports[`AddUserPage renders correctly 1`] = `
   >
     <RNCSafeAreaView
       edges={
-        [
-          "left",
-          "top",
-          "right",
-        ]
+        {
+          "bottom": "off",
+          "left": "additive",
+          "right": "additive",
+          "top": "additive",
+        }
       }
       style={
         {

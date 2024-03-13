@@ -119,13 +119,13 @@ const fixIncompleteMathOperation = (expression) => {
 
   // Check if the input ends with an incomplete math operation
   if (incompleteMathRegex.test(expression)) {
-    // Add a default number (0 in this case) to complete the operation
-    const mathExpression = expression?.slice(6)?.trim();
-    if (mathExpression?.endsWith('+') || mathExpression?.endsWith('-')) {
-      expression += '0';
+    // If the expression ends with '+' or '-', append '0' to complete the operation
+    if (expression.trim().endsWith('+') || expression.trim().endsWith('-')) {
+      return expression.trim() + '0';
     }
-    if (['*', '/'].includes(mathExpression.slice(-1))) {
-      return `return ${mathExpression.slice(0, -1)}`;
+    // If the expression ends with '*' or '/', it's safer to remove the operator
+    else if (expression.trim().endsWith('*') || expression.trim().endsWith('/')) {
+      return expression.trim().slice(0, -1);
     }
   }
   return expression;
@@ -133,19 +133,31 @@ const fixIncompleteMathOperation = (expression) => {
 
 const strToFunction = (fnString, values) => {
   fnString = checkDirty(fnString);
-  const fnMetadata = getFnMetadata(fnString);
-  const fnBody = fixIncompleteMathOperation(generateFnBody(fnMetadata, values));
+  const fnBody = fixIncompleteMathOperation(generateFnBody(fnString, values));
   try {
-    return new Function(fnBody);
+    return new Function(`return ${fnBody}`);
   } catch (error) {
     return false;
   }
 };
 
-const TypeAutofield = ({ keyform, id, name, tooltip, fn, displayOnly }) => {
+export const replaceNamesWithIds = (fnString, questions) => {
+  return fnString.replace(/#([a-zA-Z0-9_]+)+#/g, (match, p1) => {
+    for (let questionItem of questions) {
+      const foundQuestion = questionItem.question.find((q) => q.name === p1);
+      if (foundQuestion) {
+        return `#${foundQuestion.id}`;
+      }
+    }
+    return `'${match}'`;
+  });
+};
+
+const TypeAutofield = ({ keyform, id, label, tooltip, fn, displayOnly, questions = [] }) => {
   const [value, setValue] = useState(null);
   const [fieldColor, setFieldColor] = useState(null);
-  const { fnString, fnColor } = fn;
+  const { fnString: nameFnString, fnColor } = fn;
+  const fnString = replaceNamesWithIds(nameFnString, questions);
   const values = FormState.useState((s) => s.currentValues);
   const automateValue = strToFunction(fnString, values);
 
@@ -177,7 +189,7 @@ const TypeAutofield = ({ keyform, id, name, tooltip, fn, displayOnly }) => {
 
   return (
     <View testID="type-autofield-wrapper">
-      <FieldLabel keyform={keyform} name={name} tooltip={tooltip} />
+      <FieldLabel keyform={keyform} name={label} tooltip={tooltip} />
       <Input
         inputContainerStyle={{
           ...styles.autoFieldContainer,

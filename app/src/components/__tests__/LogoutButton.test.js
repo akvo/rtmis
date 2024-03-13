@@ -111,7 +111,7 @@ describe('LogoutButton', () => {
     expect(yesEl).toBeDefined();
     fireEvent.press(yesEl);
 
-    act(async () => {
+    await act(async () => {
       await cascades.dropFiles();
       AuthState.update((s) => {
         s.token = null;

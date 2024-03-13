@@ -17,6 +17,7 @@ const ManageForm = ({ navigation, route }) => {
     FormState.update((s) => {
       s.surveyStart = getCurrentTimestamp();
       s.prefilled = false;
+      s.prevAdmAnswer = null;
     });
     navigation.navigate('FormPage', { ...route?.params, newSubmission: true });
   };

@@ -14,7 +14,7 @@ import * as SQLite from 'expo-sqlite';
 import { FormContainer } from '../form';
 import { SaveDialogMenu, SaveDropdownMenu } from '../form/support';
 import { BaseLayout } from '../components';
-import { crudDataPoints } from '../database/crud';
+import { crudDataPoints, crudMonitoring } from '../database/crud';
 import { UserState, UIState, FormState } from '../store';
 import { generateDataPointName, getDurationInMinutes } from '../form/lib';
 import { i18n } from '../lib';
@@ -35,10 +35,10 @@ const FormPage = ({ navigation, route }) => {
   const trans = i18n.text(activeLang);
 
   const currentFormId = route?.params?.id;
+  const isMonitoring = route?.params?.isMonitoring;
   // continue saved submission
   const savedDataPointId = route?.params?.dataPointId;
   const isNewSubmission = route?.params?.newSubmission;
-  const isMonitoring = route?.params?.monitoring || false;
   const [currentDataPoint, setCurrentDataPoint] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -197,6 +197,7 @@ const FormPage = ({ navigation, route }) => {
         status: jobStatus.PENDING,
         info: `${currentFormId} | ${datapoitName}`,
       });
+
       if (Platform.OS === 'android') {
         ToastAndroid.show(trans.successSubmitted, ToastAndroid.LONG);
       }

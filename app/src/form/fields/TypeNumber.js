@@ -10,17 +10,18 @@ const TypeNumber = ({
   value,
   keyform,
   id,
-  name,
+  label,
   addonAfter,
   addonBefore,
   tooltip,
   required,
   requiredSign,
+  disabled,
 }) => {
   const requiredValue = required ? requiredSign : null;
   return (
     <View>
-      <FieldLabel keyform={keyform} name={name} tooltip={tooltip} requiredSign={requiredValue} />
+      <FieldLabel keyform={keyform} name={label} tooltip={tooltip} requiredSign={requiredValue} />
       <Input
         inputContainerStyle={styles.inputFieldContainer}
         keyboardType="numeric"
@@ -33,6 +34,7 @@ const TypeNumber = ({
         testID="type-number"
         {...addPreffix(addonBefore)}
         {...addSuffix(addonAfter)}
+        disabled={disabled}
       />
     </View>
   );

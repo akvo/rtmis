@@ -99,7 +99,7 @@ describe('Homepage', () => {
     expect(listForm1.props.children[0].props.subTitles).toEqual([
       'Version: 1.0.0',
       'Submitted: 2',
-      'Draft: 0',
+      'Saved: 0',
       'Synced: 2',
     ]);
 
@@ -109,7 +109,7 @@ describe('Homepage', () => {
     expect(listForm2.props.children[0].props.subTitles).toEqual([
       'Version: 1.0.1',
       'Submitted: 1',
-      'Draft: 3',
+      'Saved: 3',
       'Synced: 0',
     ]);
 
@@ -153,7 +153,11 @@ describe('Homepage', () => {
     fireEvent.press(listForm1);
 
     await waitFor(() => {
-      expect(mockNavigation.navigate).toHaveBeenCalledWith('ManageForm', { id: 1, name: 'Form 1' });
+      expect(mockNavigation.navigate).toHaveBeenCalledWith('ManageForm', {
+        formId: 9001,
+        id: 1,
+        name: 'Form 1',
+      });
     });
   });
 

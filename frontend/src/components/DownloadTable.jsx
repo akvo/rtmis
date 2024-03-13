@@ -5,11 +5,13 @@ import {
   LoadingOutlined,
   DownloadOutlined,
   ExclamationCircleOutlined,
+  FileMarkdownFilled,
 } from "@ant-design/icons";
 import { api, store, uiText } from "../lib";
 import { useNotification } from "../util/hooks";
+import moment from "moment";
 
-const DownloadTable = ({ type = "download", infoCallback }) => {
+const DownloadTable = ({ type = "download" }) => {
   const [dataset, setDataset] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showLoadMore, setShowLoadMore] = useState(true);
@@ -23,63 +25,84 @@ const DownloadTable = ({ type = "download", infoCallback }) => {
   }, [activeLang]);
 
   useEffect(() => {
-    api
-      .get(`download/list?type=${type}`)
-      .then((res) => {
-        setDataset(res.data);
-        setLoading(false);
-      })
-      .catch((e) => {
-        setLoading(false);
-        setDataset([]);
-        setShowLoadMore(false);
-        notify({
-          type: "error",
-          message: text.errorFileList,
+    const fetchData = (endpoint) => {
+      setLoading(true);
+      api
+        .get(endpoint)
+        .then((res) => {
+          setDataset(res.data);
+          setLoading(false);
+        })
+        .catch((e) => {
+          setLoading(false);
+          setShowLoadMore(false);
+          setDataset([]);
+          notify({
+            type: "error",
+            message: text.errorFileList,
+          });
+          console.error(e);
         });
-        console.error(e);
-      });
+    };
+    if (type) {
+      fetchData(`download/list?type=${type}`);
+      return;
+    }
+    fetchData(`download/list`);
   }, [notify, text.errorFileList, type]);
 
-  const pending = dataset.filter((d) => d.status === "on_progress");
-
-  useEffect(() => {
-    if (pending.length) {
-      setTimeout(() => {
-        api.get(`download/status/${pending?.[0]?.task_id}`).then((res) => {
-          if (res?.data?.status === "done") {
-            setDataset((ds) =>
-              ds.map((d) =>
-                d.task_id === pending?.[0]?.task_id
-                  ? { ...d, status: "done" }
-                  : d
-              )
-            );
-          }
-        });
-      }, 300);
-    }
-  }, [pending]);
-
-  const handleDownload = (filename) => {
-    setDownloading(filename);
+  const handleDownload = (row) => {
+    setDownloading(row.result);
     api
-      .get(`download/file/${filename}?type=${type}`, { responseType: "blob" })
+      .get(`download/file/${row.result}?type=${row.type}`, {
+        responseType: "blob",
+      })
       .then((res) => {
         const url = window.URL.createObjectURL(new Blob([res.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", filename);
+        link.setAttribute("download", row.result);
         document.body.appendChild(link);
         link.click();
         setDownloading(null);
       });
   };
 
+  useEffect(() => {
+    const pending = dataset.filter((d) => d.status === "on_progress");
+    let timeoutId = null;
+    const updateStatus = () => {
+      if (pending.length > 0) {
+        timeoutId = setTimeout(() => {
+          api.get(`download/status/${pending?.[0]?.task_id}`).then((res) => {
+            if (["done", "failed"].includes(res?.data?.status)) {
+              setDataset((ds) =>
+                ds.map((d) =>
+                  d.task_id === pending?.[0]?.task_id
+                    ? { ...d, status: res.data.status }
+                    : d
+                )
+              );
+            }
+            updateStatus();
+          });
+        }, 1000);
+        return timeoutId;
+      }
+    };
+    updateStatus();
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [dataset]);
+
   const onLoadMore = () => {
     setLoading(true);
+    const url = type
+      ? `download/list?type=${type}&page=${page + 1}`
+      : `download/list?page=${page + 1}`;
     api
-      .get(`download/list?type=${type}&page=${page + 1}`)
+      .get(url)
       .then((res) => {
         setDataset([...dataset, ...res.data]);
         if (res.data.length < 5) {
@@ -108,12 +131,23 @@ const DownloadTable = ({ type = "download", infoCallback }) => {
   const columns = [
     {
       render: (row) =>
-        row.type === 1 ? (
-          <img src="/assets/formtemplate.svg" />
+        ["Administration", "Entities"].includes(row.category) ? (
+          <FileMarkdownFilled style={{ color: "blue" }} />
         ) : (
-          <FileTextFilled />
+          <FileTextFilled style={{ color: "green" }} />
         ),
       width: 40,
+    },
+    {
+      dataIndex: "category",
+      render: (row) => (
+        <div>
+          <div>
+            <strong>{row === "Data" ? "Data" : "Master Data"}</strong>
+          </div>
+          {row === "Data" ? null : row}
+        </div>
+      ),
     },
     {
       render: (row) => (
@@ -121,12 +155,18 @@ const DownloadTable = ({ type = "download", infoCallback }) => {
           <div>
             <strong>{row.result}</strong>
           </div>
-          {infoCallback && <div>{infoCallback(row.info)}</div>}
+          {[row.form, row.administration, ...(row.attributes || [])]
+            .filter((x) => x)
+            .map((x) => x?.name || x)
+            .join(" | ")}
         </div>
       ),
     },
     {
-      dataIndex: "created",
+      dataIndex: "date",
+      render: (row) => (
+        <span>{row ? row : moment().format("MMMM DD, YYYY hh:mm A")}</span>
+      ),
     },
     {
       render: (row) => (
@@ -144,7 +184,7 @@ const DownloadTable = ({ type = "download", infoCallback }) => {
             ghost
             disabled={row.status !== "done"}
             onClick={() => {
-              handleDownload(row.result);
+              handleDownload(row);
             }}
           >
             {row.status === "on_progress"

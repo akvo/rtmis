@@ -41,11 +41,9 @@ export const transformForm = (forms, lang = 'en', filterMonitoring = false) => {
     .map((q) => (nonEnglish ? i18n.transform(lang, q) : q))
     .map((q) => {
       if (q.type === 'option' || q.type === 'multiple_option') {
-        const options = q.option
-          .map((o) => ({ ...o, label: o.name }))
-          .map((o) => {
-            return nonEnglish ? i18n.transform(lang, o) : o;
-          });
+        const options = q.option.map((o) => {
+          return nonEnglish ? i18n.transform(lang, o) : o;
+        });
         return {
           ...q,
           option: options.sort((a, b) => a.order - b.order),
@@ -60,8 +58,10 @@ export const transformForm = (forms, lang = 'en', filterMonitoring = false) => {
       }
       return q;
     });
-
-  const filteredQuestions = filterMonitoring ? questions.filter((q) => q.monitoring) : questions;
+  const filteredQuestions = questions.map((q) => ({
+    ...q,
+    disabled: filterMonitoring && q?.monitoring,
+  }));
 
   const transformed = filteredQuestions.map((x) => {
     let requiredSignTemp = x?.requiredSign || null;
@@ -149,7 +149,7 @@ export const validateDependency = (dependency, value) => {
 };
 
 export const generateValidationSchemaFieldLevel = async (currentValue, field) => {
-  const { name, type, required, rule, hidden, pre: preFilled } = field;
+  const { label, type, required, rule, hidden } = field;
   let yupType;
   switch (type) {
     case 'number':
@@ -187,7 +187,7 @@ export const generateValidationSchemaFieldLevel = async (currentValue, field) =>
       break;
   }
   if (required && !hidden) {
-    const requiredError = `${name} is required.`;
+    const requiredError = `${label} is required.`;
     yupType = yupType.required(requiredError);
   }
   try {
@@ -247,4 +247,40 @@ export const onFilterDependency = (currentGroup, values, q) => {
     }
   }
   return q;
+};
+
+const transformValue = (question, value, prefilled = []) => {
+  const findPrefilled = prefilled.find((p) => p?.id === question?.id);
+  const answer = value || findPrefilled?.answer;
+  if (question?.type === 'cascade') {
+    return [answer];
+  }
+  if (question?.type === 'geo') {
+    return answer === '' ? [] : value;
+  }
+  if (question?.type === 'number') {
+    return `${answer}`;
+  }
+  return answer;
+};
+
+export const transformMonitoringData = (formDataJson, lastValues) => {
+  const formData = JSON.parse(formDataJson.json);
+  const allQuestions = formData?.question_group?.flatMap((qg) => qg?.question);
+  const prefilled = allQuestions
+    ?.filter((q) => lastValues?.[q?.id] && q?.pre)
+    ?.filter((q) => lastValues[q.id] === q.pre.answer || lastValues[q.id].includes(q.pre.answer))
+    ?.flatMap((q) => q?.pre?.fill || []);
+  const currentValues = allQuestions?.reduce(
+    (prev, current) => ({
+      [current.id]: transformValue(current, lastValues?.[current.id], prefilled),
+      ...prev,
+    }),
+    {},
+  );
+  const admQuestion = allQuestions.find(
+    (q) => q?.type === 'cascade' && q?.source?.file === 'administrator.sqlite',
+  );
+  const prevAdmAnswer = lastValues?.[admQuestion?.id] ? [lastValues?.[admQuestion?.id]] : [];
+  return { currentValues, prevAdmAnswer };
 };

@@ -42,6 +42,7 @@ const MonitoringDetail = () => {
 
   const { language, selectedFormData } = store.useState((s) => s);
   const { active: activeLang } = language;
+
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
@@ -137,6 +138,17 @@ const MonitoringDetail = () => {
     }
   }, [form, currentPage, updateRecord, parentId]);
 
+  useEffect(() => {
+    if (questionGroups.length === 0 && dataset.length > 0) {
+      store.update((s) => {
+        s.questionGroups = window.forms.find(
+          (f) => f.id === dataset[0]?.form
+        ).content.question_group;
+        s.selectedFormData = dataset[0];
+      });
+    }
+  }, [questionGroups, dataset]);
+
   return (
     <div id="manageData">
       <div className="description-container">
@@ -213,6 +225,7 @@ const MonitoringDetail = () => {
                       />
                     ),
                 }}
+                expandRowByClick
               />
             </ConfigProvider>
           </div>

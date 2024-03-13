@@ -9,16 +9,17 @@ const TypeText = ({
   value,
   keyform,
   id,
-  name,
+  label,
   tooltip,
   required,
   requiredSign,
   meta_uuid,
+  disabled,
 }) => {
   const requiredValue = required ? requiredSign : null;
   return (
     <View>
-      <FieldLabel keyform={keyform} name={name} tooltip={tooltip} requiredSign={requiredValue} />
+      <FieldLabel keyform={keyform} name={label} tooltip={tooltip} requiredSign={requiredValue} />
       <Input
         inputContainerStyle={styles.inputFieldContainer}
         multiline={true}
@@ -30,7 +31,7 @@ const TypeText = ({
         }}
         value={value}
         testID="type-text"
-        disabled={meta_uuid}
+        disabled={meta_uuid || disabled}
       />
     </View>
   );

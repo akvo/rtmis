@@ -49,8 +49,10 @@ describe('ManageFormPage', () => {
     const mockParams = {
       params: {
         id: 1,
+        monitoring: true,
         name: 'Health Facilities',
         showSubmitted: false,
+        newSubmission: true,
       },
     };
     const { getByTestId } = render(
@@ -61,7 +63,7 @@ describe('ManageFormPage', () => {
     expect(listItemEl).toBeDefined();
     fireEvent.press(listItemEl);
 
-    expect(mockNavigation.navigate).toHaveBeenCalledWith('FormData', mockParams.params);
+    expect(mockNavigation.navigate).toHaveBeenCalledWith('UpdateForm', mockParams.params);
   });
 
   it('should navigate to FormData (View Submitted) with correct route params', () => {
@@ -69,8 +71,10 @@ describe('ManageFormPage', () => {
     const mockParams = {
       params: {
         id: 1,
+        monitoring: true,
         name: 'Health Facilities',
-        showSubmitted: true,
+        showSubmitted: false,
+        newSubmission: true,
       },
     };
     const { getByTestId } = render(

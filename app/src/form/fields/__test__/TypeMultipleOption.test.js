@@ -18,7 +18,7 @@ describe('TypeMultipleOption', () => {
         onChange={onChange}
         value={[]}
         id="multipleOptionId"
-        name="Multiple Option"
+        label="Multiple Option"
         option={option}
       />,
     );
@@ -32,7 +32,7 @@ describe('TypeMultipleOption', () => {
     const wrapper = render(
       <TypeMultipleOption
         id="multipleOptionField"
-        name="Multiple Option Field Name"
+        label="Multiple Option Field Name"
         required={false}
       />,
     );
@@ -44,7 +44,7 @@ describe('TypeMultipleOption', () => {
     const wrapper = render(
       <TypeMultipleOption
         id="multipleOptionField"
-        name="Multiple Option Field Name"
+        label="Multiple Option Field Name"
         required={false}
         requiredSign="*"
       />,
@@ -57,7 +57,7 @@ describe('TypeMultipleOption', () => {
     const wrapper = render(
       <TypeMultipleOption
         id="multipleOptionField"
-        name="Multiple Option Field Name"
+        label="Multiple Option Field Name"
         required={true}
         requiredSign="*"
       />,
@@ -70,7 +70,7 @@ describe('TypeMultipleOption', () => {
     const wrapper = render(
       <TypeMultipleOption
         id="multipleOptionField"
-        name="Multiple Option Field Name"
+        label="Multiple Option Field Name"
         required={true}
         requiredSign="**"
       />,
@@ -93,7 +93,7 @@ describe('TypeMultipleOption', () => {
         onChange={onChange}
         value={[]}
         id="multipleOptionId"
-        name="Multiple Option"
+        label="Multiple Option"
         option={option}
       />,
     );

@@ -272,6 +272,7 @@ const uiText = {
     addEntities: "Add Entities",
     entityTabTitle: "Entities",
     entityLabel: "Entity",
+    exportEntityError: "Unable to export entities",
     administrationLabel: "Administration",
     codeLabel: "Code",
     nameLabel: "Name",
@@ -483,6 +484,8 @@ const uiText = {
     tourUserManagement: "Magni provident aliquam harum cupiditate iste",
     tourDataUploadsPanel:
       "Velit amet omnis dolores. Ad eveniet ex beatae dolorum",
+    //downloads
+    downloadTitle: "Download",
     // Add user modal notification
     existingApproverTitle: "There are existing approvers for:",
     existingApproverDescription:
@@ -561,7 +564,7 @@ const uiText = {
     errDeleteCascadeText2:
       "Please review and resolve dependencies before attempting to delete.",
     manageEntityTitle: "Manage Entities",
-    addEntity: "Add new",
+    addEntity: "Add New",
     editEntity: "Edit Entity",
     confirmDeleteEntity: "Are you sure you want to delete this entity?",
     errDeleteEntityTitle: "Unable to delete the entity",
@@ -570,7 +573,7 @@ const uiText = {
     successDeletedEntity: "Entity deleted",
     entityText: "Entity",
     entityDataTitle: "Entity Data",
-    addEntityData: "Add new",
+    addEntityData: "Add New",
     editEntityData: "Edit data",
     selectEntity: "Select entity...",
     entityIsRequired: "Entity is required",
@@ -653,7 +656,6 @@ const uiText = {
     successDataUpdated: "Data updated",
     loadMoreLable: "Load More",
     endOfListLabel: "End of List",
-    addMewOrg: "Add new organization",
     searchPlaceholder: "Search...",
     bulkUploadAttr: "Attributes",
     bulkUploadAttrPlaceholder: "Select Attributes...",

@@ -223,7 +223,7 @@ const DataDetail = ({
         )}
         {dataset.map((r, rI) => (
           <div className="pending-data-wrapper" key={rI}>
-            <h3>{r.name}</h3>
+            <h3>{r.label}</h3>
             <Table
               pagination={false}
               dataSource={r.question}
@@ -236,9 +236,11 @@ const DataDetail = ({
               rowKey="id"
               columns={[
                 {
-                  title: "Question",
-                  dataIndex: "name",
+                  title: text?.questionCol,
+                  dataIndex: null,
                   width: "50%",
+                  render: (_, row) =>
+                    row.short_label ? row.short_label : row.label,
                 },
                 {
                   title: "Response",

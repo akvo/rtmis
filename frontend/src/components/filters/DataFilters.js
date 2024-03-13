@@ -8,13 +8,13 @@ import { useNotification } from "../../util/hooks";
 import { api, store } from "../../lib";
 import { takeRight } from "lodash";
 import RemoveFiltersButton from "./RemoveFiltersButton";
-import AdvancedFiltersButton from "./AdvancedFiltersButton";
 import AdvancedFilters from "./AdvancedFilters";
 import {
   PlusOutlined,
   DownloadOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
+//import AdvancedFiltersButton from "./AdvancedFiltersButton";
 
 const DataFilters = ({ loading, showAdm = true }) => {
   const {
@@ -43,7 +43,7 @@ const DataFilters = ({ loading, showAdm = true }) => {
           message: `Data exported successfully`,
         });
         setExporting(false);
-        navigate("/control-center/data/export");
+        navigate("/administration-download");
       })
       .catch(() => {
         notify({
@@ -59,7 +59,7 @@ const DataFilters = ({ loading, showAdm = true }) => {
         <Col flex={1}>
           <Space>
             <FormDropdown loading={loading} />
-            <AdvancedFiltersButton />
+            {/* <AdvancedFiltersButton /> */}
           </Space>
         </Col>
         <Col>

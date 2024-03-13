@@ -10,7 +10,7 @@ from api.v1.v1_jobs.validate_upload import ExcelError
 from api.v1.v1_profile.models import (
         Administration, AdministrationAttribute, Levels)
 from api.v1.v1_profile.tests.mixins import ProfileTestHelperMixin
-from utils.administration_upload_template import generate_template
+from utils.upload_administration import generate_template
 
 
 def generate_inmemory_template(attributes=[]) -> pd.DataFrame:

@@ -3,11 +3,7 @@ import { Button, Col, Input, Row, Select, Space } from "antd";
 import { config, store, uiText } from "../../lib";
 import { Link } from "react-router-dom";
 import debounce from "lodash.debounce";
-import {
-  PlusOutlined,
-  DownloadOutlined,
-  UploadOutlined,
-} from "@ant-design/icons";
+import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
 
@@ -57,9 +53,6 @@ const AttributeFilters = ({
                 </Button>
               </Link>
             ) : null}
-            <Button icon={<DownloadOutlined />} shape="round">
-              {text.exportButton}
-            </Button>
             <Link to={"/control-center/master-data/attributes/add"}>
               <Button type="primary" icon={<PlusOutlined />} shape="round">
                 {text.addNewButton}
