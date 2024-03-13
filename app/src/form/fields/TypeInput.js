@@ -1,8 +1,10 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { isValidElement } from 'react';
 import { View } from 'react-native';
-import { FieldLabel } from '../support';
-import { styles } from '../styles';
 import { Input, Text } from '@rneui/themed';
+import PropTypes from 'prop-types';
+import { FieldLabel } from '../support';
+import styles from '../styles';
 
 export const addPreffix = (addonBefore) => {
   if (!addonBefore) {
@@ -77,7 +79,7 @@ const TypeInput = ({
   tooltip,
   required,
   requiredSign,
-  meta_uuid,
+  meta_uuid: metaUUID,
   disabled,
 }) => {
   const requiredValue = required ? requiredSign : null;
@@ -95,10 +97,33 @@ const TypeInput = ({
         testID="type-input"
         {...addPreffix(addonBefore)}
         {...addSuffix(addonAfter)}
-        disabled={meta_uuid || disabled}
+        disabled={metaUUID || disabled}
       />
     </View>
   );
 };
 
 export default TypeInput;
+
+TypeInput.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.arrayOf().isRequired,
+  keyform: PropTypes.number.isRequired,
+  id: PropTypes.number.isRequired,
+  label: PropTypes.string.isRequired,
+  tooltip: PropTypes.string.isRequired,
+  required: PropTypes.bool.isRequired,
+  requiredSign: PropTypes.string,
+  disabled: PropTypes.bool,
+  addonAfter: PropTypes.node,
+  addonBefore: PropTypes.node,
+  meta_uuid: PropTypes.bool,
+};
+
+TypeInput.defaultProps = {
+  disabled: false,
+  meta_uuid: false,
+  requiredSign: null,
+  addonAfter: null,
+  addonBefore: null,
+};

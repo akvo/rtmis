@@ -2,9 +2,9 @@ import React from 'react';
 import { fireEvent, render, renderHook, waitFor } from '@testing-library/react-native';
 import * as Formik from 'formik';
 import { View } from 'react-native';
+import { act } from 'react-test-renderer';
 import QuestionField from '../QuestionField';
 import { FormState } from '../../../store';
-import { act } from 'react-test-renderer';
 import { generateValidationSchemaFieldLevel } from '../../lib';
 
 jest.spyOn(View.prototype, 'measureInWindow').mockImplementation((cb) => {
@@ -23,16 +23,14 @@ const fakeData = [
 jest.mock('expo-sqlite');
 jest.mock('../../../lib', () => ({
   cascades: {
-    loadDataSource: jest.fn(async (source, id) => {
-      return id
+    loadDataSource: jest.fn(async (source, id) => id
         ? { rows: { length: 1, _array: [{ id: 42, name: 'Akvo', parent: 0 }] } }
         : {
             rows: {
               length: fakeData.length,
               _array: fakeData,
             },
-          };
-    }),
+          }),
   },
   i18n: {
     text: jest.fn(() => ({
@@ -114,7 +112,7 @@ describe('QuestionField component', () => {
     const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
     const values = result.current;
 
-    const { queryByTestId, queryByText, debug, getByA11yHint } = render(
+    const { queryByTestId, queryByText } = render(
       <QuestionField
         keyform={keyform}
         field={field}

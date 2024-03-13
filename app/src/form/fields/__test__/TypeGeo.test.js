@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { render, waitFor } from 'react-native-testing-library';
 import { renderHook, fireEvent, act } from '@testing-library/react-native';
-import { useNavigation } from '@react-navigation/native';
 import * as Location from 'expo-location';
 
 import TypeGeo from '../TypeGeo';
 import { UIState, FormState, BuildParamsState } from '../../../store';
-import { loc } from '../../../lib';
 
 jest.mock('expo-location');
 
@@ -106,7 +104,7 @@ describe('TypeGeo', () => {
       <TypeGeo
         id="geoField"
         name="Geolocation"
-        required={true}
+        required
         requiredSign="*"
         onChange={mockedOnChange}
         value={values}
@@ -128,7 +126,7 @@ describe('TypeGeo', () => {
       <TypeGeo
         id="geoField"
         name="Geolocation"
-        required={true}
+        required
         requiredSign="**"
         onChange={mockedOnChange}
         value={values}
@@ -147,12 +145,10 @@ describe('TypeGeo', () => {
     });
 
     const errorMessage = 'Permission to access location was denied';
-    Location.requestForegroundPermissionsAsync.mockImplementation(() => {
-      return Promise.resolve({ status: 'denied' });
-    });
-    Location.getCurrentPositionAsync.mockImplementation(() => {
-      return Promise.resolve({ coords: {} });
-    });
+    Location.requestForegroundPermissionsAsync.mockImplementation(() =>
+      Promise.resolve({ status: 'denied' }),
+    );
+    Location.getCurrentPositionAsync.mockImplementation(() => Promise.resolve({ coords: {} }));
 
     Location.getCurrentPositionAsync.mockRejectedValue({ message: errorMessage });
 
@@ -160,7 +156,6 @@ describe('TypeGeo', () => {
       <TypeGeo id="geoField" name="Geolocation" onChange={mockedOnChange} value={values} />,
     );
     const { result } = renderHook(() => useState());
-    const [errorMsg, setErrorMsg] = result.current;
 
     const buttonCurLocationEl = getByTestId('button-curr-location');
     expect(buttonCurLocationEl).toBeDefined();
@@ -168,7 +163,6 @@ describe('TypeGeo', () => {
 
     act(() => {
       mockedOnChange('geoField', []);
-      setErrorMsg(errorMessage);
     });
 
     await waitFor(() => {
@@ -203,18 +197,18 @@ describe('TypeGeo', () => {
   });
 
   it('should get current location by clicking the button', async () => {
-    Location.requestForegroundPermissionsAsync.mockImplementation(() => {
-      return Promise.resolve({ status: 'granted' });
-    });
-    Location.getCurrentPositionAsync.mockImplementation(() => {
-      return Promise.resolve({
+    Location.requestForegroundPermissionsAsync.mockImplementation(() =>
+      Promise.resolve({ status: 'granted' }),
+    );
+    Location.getCurrentPositionAsync.mockImplementation(() =>
+      Promise.resolve({
         coords: {
           latitude: 35677,
           longitude: -7811,
           accuracy: 20,
         },
-      });
-    });
+      }),
+    );
 
     const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
     const mockedOnChange = jest.fn();
@@ -239,33 +233,31 @@ describe('TypeGeo', () => {
   });
 
   it('should show `Low Precission` when accuracy exceeded the threshold', async () => {
-    Location.requestForegroundPermissionsAsync.mockImplementation(() => {
-      return Promise.resolve({ status: 'granted' });
-    });
-    Location.getCurrentPositionAsync.mockImplementation(() => {
-      return Promise.resolve({
+    Location.requestForegroundPermissionsAsync.mockImplementation(() =>
+      Promise.resolve({ status: 'granted' }),
+    );
+    Location.getCurrentPositionAsync.mockImplementation(() =>
+      Promise.resolve({
         coords: {
           latitude: 12.345,
           longitude: -67.89,
           accuracy: 200,
         },
-      });
-    });
+      }),
+    );
 
     const values = { geoField: [] };
     const mockedOnChange = jest.fn((fieldName, value) => {
       values[fieldName] = value;
     });
 
-    const { getByTestId, getByText, rerender } = render(
+    const { getByTestId, getByText } = render(
       <TypeGeo id="geoField" name="Geolocation" onChange={mockedOnChange} value={values} />,
     );
 
     const buttonCurLocationEl = getByTestId('button-curr-location');
     expect(buttonCurLocationEl).toBeDefined();
     fireEvent.press(buttonCurLocationEl);
-
-    const mockGetCurrentLocation = jest.fn();
 
     await Location.getCurrentPositionAsync();
 

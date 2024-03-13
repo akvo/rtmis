@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable no-return-await */
+import React from 'react';
 import { render, fireEvent, act, waitFor, renderHook } from '@testing-library/react-native';
+import { View } from 'react-native';
 import TypeCascade from '../TypeCascade';
 import { generateDataPointName } from '../../lib';
 import { cascades } from '../../../lib';
 import { FormState } from '../../../store';
+
+// According to the issue on @testing-library/react-native
 
 const dummyLocations = [
   { id: 106, name: 'DI YOGYAKARTA', parent: 0 },
@@ -15,25 +20,22 @@ const dummyLocations = [
   { id: 113, name: 'KAB. BANYUMAS', parent: 111 },
   { id: 114, name: 'Kembaran', parent: 113 },
 ];
-
-// According to the issue on @testing-library/react-native
-import { View } from 'react-native';
 jest.spyOn(View.prototype, 'measureInWindow').mockImplementation((cb) => {
   cb(18, 113, 357, 50);
 });
 jest.mock('expo-sqlite');
 jest.mock('../../../lib', () => ({
   cascades: {
-    loadDataSource: jest.fn(async (source, id) => {
-      return id
+    loadDataSource: jest.fn(async (source, id) =>
+      id
         ? { rows: { length: 1, _array: [{ id: 112, name: 'KAB. PURBALINGGA', parent: 111 }] } }
         : {
             rows: {
               length: dummyLocations.length,
               _array: dummyLocations,
             },
-          };
-    }),
+          },
+    ),
   },
   i18n: {
     text: jest.fn(() => ({
@@ -47,11 +49,11 @@ jest.mock('../../../lib', () => ({
 
 describe('TypeCascade', () => {
   beforeEach(() => {
-    cascades.loadDataSource.mockImplementation(() => {
-      return Promise.resolve({
+    cascades.loadDataSource.mockImplementation(() =>
+      Promise.resolve({
         rows: { length: dummyLocations.length, _array: dummyLocations },
-      });
-    });
+      }),
+    );
   });
 
   it('Should not show options when the data source is not set.', async () => {
@@ -59,9 +61,7 @@ describe('TypeCascade', () => {
     const fieldName = 'Location';
     const values = { [fieldID]: null };
 
-    const mockedOnChange = jest.fn((fieldName, value) => {
-      values[fieldName] = value;
-    });
+    const mockedOnChange = jest.fn();
 
     const { queryByTestId } = render(
       <TypeCascade
@@ -84,9 +84,7 @@ describe('TypeCascade', () => {
     const initialValue = null;
     const values = { [fieldID]: initialValue };
 
-    const mockedOnChange = jest.fn((fieldName, value) => {
-      values[fieldName] = value;
-    });
+    const mockedOnChange = jest.fn();
 
     const dataSource = [{ id: 1, name: 'Only parent', parent: null }];
 
@@ -112,12 +110,10 @@ describe('TypeCascade', () => {
     const initialValue = [107, 110];
     const values = { [fieldID]: initialValue };
 
-    const mockedOnChange = jest.fn((fieldName, value) => {
-      values[fieldName] = value;
-    });
+    const mockedOnChange = jest.fn();
 
     const questionSource = { file: 'file.sqlite', parent_id: [107] };
-    const { getByTestId, getByText, queryByText } = render(
+    const { getByTestId, queryByText } = render(
       <TypeCascade
         onChange={mockedOnChange}
         id={fieldID}
@@ -192,7 +188,7 @@ describe('TypeCascade', () => {
     const values = { [fieldID]: selectedOption };
 
     const mockedOnChange = jest.fn();
-    const { getByTestId, getByText, queryByText, debug } = render(
+    const { getByTestId, getByText, queryByText } = render(
       <TypeCascade
         onChange={mockedOnChange}
         id={fieldID}
@@ -314,9 +310,7 @@ describe('TypeCascade', () => {
     const initialValue = null;
     const values = { [fieldID]: initialValue };
 
-    const mockedOnChange = jest.fn((fieldName, value) => {
-      values[fieldName] = value;
-    });
+    const mockedOnChange = jest.fn();
 
     const dataSource = [
       { id: 1, name: 'Nuffic', parent: 0 },
@@ -356,9 +350,7 @@ describe('TypeCascade', () => {
     const initialValue = null;
     const values = { [fieldID]: initialValue };
 
-    const mockedOnChange = jest.fn((fieldName, value) => {
-      values[fieldName] = value;
-    });
+    const mockedOnChange = jest.fn();
 
     const dataSource = [
       { id: 1, name: 'Nuffic', parent: 0 },
@@ -391,9 +383,7 @@ describe('TypeCascade', () => {
     const initialValue = null;
     const values = { [fieldID]: initialValue };
 
-    const mockedOnChange = jest.fn((fieldName, value) => {
-      values[fieldName] = value;
-    });
+    const mockedOnChange = jest.fn();
 
     const dataSource = [
       { id: 1, name: 'Nuffic', parent: 0 },
@@ -428,9 +418,7 @@ describe('TypeCascade', () => {
     const initialValue = null;
     const values = { [fieldID]: initialValue };
 
-    const mockedOnChange = jest.fn((fieldName, value) => {
-      values[fieldName] = value;
-    });
+    const mockedOnChange = jest.fn();
 
     const dataSource = [
       { id: 1, name: 'Nuffic', parent: 0 },
@@ -445,7 +433,7 @@ describe('TypeCascade', () => {
         label={fieldName}
         value={values[fieldID]}
         dataSource={dataSource}
-        required={true}
+        required
         requiredSign="*"
       />,
     );
@@ -462,9 +450,7 @@ describe('TypeCascade', () => {
     const initialValue = null;
     const values = { [fieldID]: initialValue };
 
-    const mockedOnChange = jest.fn((fieldName, value) => {
-      values[fieldName] = value;
-    });
+    const mockedOnChange = jest.fn();
 
     const dataSource = [
       { id: 1, name: 'Nuffic', parent: 0 },
@@ -479,7 +465,7 @@ describe('TypeCascade', () => {
         label={fieldName}
         value={values[fieldID]}
         dataSource={dataSource}
-        required={true}
+        required
         requiredSign="**"
       />,
     );
@@ -499,7 +485,7 @@ describe('TypeCascade', () => {
     const mockedOnChange = jest.fn();
 
     const questionSource = { file: 'file.sqlite', parent_id: [114] };
-    const { getByTestId, getByText, debug } = render(
+    const { getByTestId, getByText } = render(
       <TypeCascade
         onChange={mockedOnChange}
         id={fieldID}
@@ -529,12 +515,10 @@ describe('TypeCascade', () => {
     const initialValue = null;
     const values = { [fieldID]: initialValue };
 
-    const mockedOnChange = jest.fn((fieldName, value) => {
-      values[fieldName] = value;
-    });
+    const mockedOnChange = jest.fn();
 
     const questionSource = { file: 'file.sqlite', parent_id: [107] };
-    const { getByTestId, getByText } = render(
+    const { getByTestId } = render(
       <TypeCascade
         onChange={mockedOnChange}
         id={fieldID}
@@ -565,7 +549,6 @@ describe('TypeCascade', () => {
 
     act(() => {
       mockedOnChange(fieldID, [107, 109]);
-      const cascadeName = 'Sabdodadi';
     });
 
     await waitFor(() => {
@@ -582,12 +565,12 @@ describe('TypeCascade', () => {
     const initialValue = null;
     const values = { [fieldID]: initialValue };
 
-    const mockedOnChange = jest.fn((fieldName, value) => {
-      values[fieldName] = value;
+    const mockedOnChange = jest.fn((name, value) => {
+      values[name] = value;
     });
 
     const questionSource = { file: 'file.sqlite', parent_id: [107] };
-    const { getByTestId, getByText, rerender } = render(
+    const { getByTestId } = render(
       <TypeCascade
         onChange={mockedOnChange}
         id={fieldID}
@@ -617,7 +600,6 @@ describe('TypeCascade', () => {
 
     act(() => {
       mockedOnChange(fieldID, [107, 108]);
-      const cascadeName = 'Bantul';
     });
 
     await waitFor(() => {
@@ -631,12 +613,10 @@ describe('TypeCascade', () => {
     const initialValue = null;
     const values = { [fieldID]: initialValue };
 
-    const mockedOnChange = jest.fn((fieldName, value) => {
-      values[fieldName] = value;
-    });
+    const mockedOnChange = jest.fn();
 
     const questionSource = { file: 'file.sqlite', parent_id: [107] };
-    const { getByTestId, getByText, rerender, debug } = render(
+    const { getByTestId, getByText } = render(
       <TypeCascade
         onChange={mockedOnChange}
         id={fieldID}
@@ -680,8 +660,8 @@ describe('TypeCascade', () => {
     const initialValue = [111, 112];
     const values = { [fieldID]: initialValue };
 
-    const mockedOnChange = jest.fn((fieldName, value) => {
-      values[fieldName] = value;
+    const mockedOnChange = jest.fn((name, value) => {
+      values[name] = value;
     });
     act(() => {
       FormState.update((s) => {
@@ -692,7 +672,7 @@ describe('TypeCascade', () => {
     });
 
     const questionSource = { file: 'file.sqlite', parent_id: [111] };
-    const { getByTestId, getByText, debug } = render(
+    render(
       <TypeCascade
         onChange={mockedOnChange}
         id={fieldID}
@@ -729,9 +709,7 @@ describe('TypeCascade', () => {
     const initialValue = [200];
     const values = { [fieldID]: initialValue };
 
-    const mockedOnChange = jest.fn((fieldName, value) => {
-      values[fieldName] = value;
-    });
+    const mockedOnChange = jest.fn();
     act(() => {
       FormState.update((s) => {
         s.currentValues = {
@@ -743,7 +721,7 @@ describe('TypeCascade', () => {
     cascades.loadDataSource.mockReturnValue({ rows: { length: 0, _array: [] } });
 
     const questionSource = { file: 'file.sqlite', parent_id: [] };
-    const { getByTestId, getByText, debug } = render(
+    render(
       <TypeCascade
         onChange={mockedOnChange}
         id={fieldID}
@@ -999,8 +977,8 @@ describe('TypeCascade | Entity', () => {
     expect(option1).toBeDefined();
 
     await waitFor(() => {
-      const option1 = getByTestId('dropdown-cascade-0');
-      expect(option1).toBeDefined();
+      const opt1 = getByTestId('dropdown-cascade-0');
+      expect(opt1).toBeDefined();
 
       expect(getByText('SD NEGERI JETISHARJO')).toBeDefined();
     });

@@ -145,7 +145,7 @@ const mockQuestionGroupListItem = jest.fn();
 jest.mock(
   '../QuestionGroupList',
   () =>
-    ({ form, values = {}, activeQuestionGroup, dataPointNameText }) => {
+    function({ form, values = {}, activeQuestionGroup, dataPointNameText }) {
       mockQuestionGroupList(form, values, activeQuestionGroup, dataPointNameText);
       return (
         <mock-QuestionGroupList>
@@ -155,7 +155,7 @@ jest.mock(
     },
 );
 
-jest.mock('../QuestionGroupListItem', () => ({ name, active, completedQuestionGroup = false }) => {
+jest.mock('../QuestionGroupListItem', () => function({ name, active, completedQuestionGroup = false }) {
   mockQuestionGroupListItem(name, active, completedQuestionGroup);
   return <mock-QuestionGroupListItem />;
 });

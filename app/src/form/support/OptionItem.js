@@ -1,16 +1,14 @@
 import React from 'react';
-import { View } from 'react-native';
-import { Text } from 'react-native';
+import { View , Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const OptionItem = ({ label, color, name }, active) => {
-  return (
+const OptionItem = ({ label, color, name }, active) => (
     <View style={[{ padding: 3 }]}>
       <View
         style={[
           {
             padding: 8,
-            backgroundColor: color ? color : active ? '#bcbcbc' : 'white',
+            backgroundColor: color || (active ? '#bcbcbc' : 'white'),
             borderRadius: color ? 5 : 0,
           },
         ]}
@@ -27,6 +25,5 @@ const OptionItem = ({ label, color, name }, active) => {
       </View>
     </View>
   );
-};
 
 export default OptionItem;

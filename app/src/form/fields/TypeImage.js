@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, PermissionsAndroid, StyleSheet, ActivityIndicator } from 'react-native';
-import { Image, Button, Dialog } from '@rneui/themed';
+import { Image, Button } from '@rneui/themed';
 import * as ImagePicker from 'expo-image-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
+import PropTypes from 'prop-types';
+
 import { FieldLabel } from '../support';
 import { FormState } from '../../store';
 import { i18n } from '../../lib';
@@ -16,7 +18,7 @@ const TypeImage = ({
   tooltip,
   required,
   requiredSign,
-  useGallery = false,
+  useGallery,
 }) => {
   const activeLang = FormState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
@@ -126,3 +128,20 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
 });
+
+TypeImage.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.arrayOf().isRequired,
+  keyform: PropTypes.number.isRequired,
+  id: PropTypes.number.isRequired,
+  label: PropTypes.string.isRequired,
+  tooltip: PropTypes.string.isRequired,
+  required: PropTypes.bool.isRequired,
+  requiredSign: PropTypes.string,
+  useGallery: PropTypes.bool,
+};
+
+TypeImage.defaultProps = {
+  requiredSign: null,
+  useGallery: false,
+};

@@ -1,15 +1,22 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { View } from 'react-native';
+import PropTypes from 'prop-types';
+
 import Question from './Question';
 import { FieldGroupHeader } from '../support';
 
-const QuestionGroup = ({ index, group, activeQuestions }) => {
-  return (
+const QuestionGroup = ({ index, group, activeQuestions }) => (
     <View style={{ paddingBottom: 48 }}>
       <FieldGroupHeader index={index} {...group} />
       <Question {...{ group, activeQuestions, index }} />
     </View>
   );
-};
 
 export default QuestionGroup;
+
+QuestionGroup.propTypes = {
+  index: PropTypes.number.isRequired,
+  group: PropTypes.objectOf().isRequired,
+  activeQuestions: PropTypes.arrayOf().isRequired,
+};

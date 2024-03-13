@@ -1,7 +1,8 @@
 import React from 'react';
 import { ToastAndroid } from 'react-native';
 import { Tab } from '@rneui/themed';
-import { styles } from '../styles';
+import PropTypes from 'prop-types';
+import styles from '../styles';
 import { UIState, FormState } from '../../store';
 import { i18n } from '../../lib';
 import { generateValidationSchemaFieldLevel, onFilterDependency } from '../lib';
@@ -34,14 +35,13 @@ const FormNavigation = ({
     // index 2 = next group
     const validateSync = currentGroup?.question
       ?.filter((q) => onFilterDependency(currentGroup, currentValues, q))
-      ?.filter((q) => {
-        /**
-         * Only entity cascade should not be undefined due to depends on options and prevAdmAnswer
-         */
-        return (
-          (q?.extra?.type === 'entity' && currentValues?.[q?.id] !== undefined) || !q?.extra?.type
-        );
-      })
+      ?.filter(
+        (q) =>
+          /**
+           * Only entity cascade should not be undefined due to depends on options and prevAdmAnswer
+           */
+          (q?.extra?.type === 'entity' && currentValues?.[q?.id] !== undefined) || !q?.extra?.type,
+      )
       ?.map((q) => {
         const defaultVal = ['cascade', 'multiple_option', 'option', 'geo'].includes(q?.type)
           ? null
@@ -108,7 +108,7 @@ const FormNavigation = ({
     <Tab
       buttonStyle={styles.formNavigationButton}
       onChange={handleFormNavigation}
-      disableIndicator={true}
+      disableIndicator
       value={activeGroup}
     >
       <Tab.Item
@@ -152,3 +152,14 @@ const FormNavigation = ({
 };
 
 export default FormNavigation;
+
+FormNavigation.propTypes = {
+  currentGroup: PropTypes.objectOf().isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  activeGroup: PropTypes.number.isRequired,
+  setActiveGroup: PropTypes.func.isRequired,
+  totalGroup: PropTypes.number.isRequired,
+  showQuestionGroupList: PropTypes.func.isRequired,
+  setShowQuestionGroupList: PropTypes.func.isRequired,
+  setShowDialogMenu: PropTypes.func.isRequired,
+};

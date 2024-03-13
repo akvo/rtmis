@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Text, Icon } from '@rneui/themed';
-import { styles } from '../styles';
+import styles from '../styles';
 
 const QuestionGroupListItem = ({ label, active, completedQuestionGroup = false, onPress }) => {
   const icon = completedQuestionGroup ? 'check-circle' : 'circle';

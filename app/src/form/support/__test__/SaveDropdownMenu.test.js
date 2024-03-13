@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, fireEvent, act, waitFor } from '@testing-library/react-native';
+import { View } from 'react-native';
 import SaveDropdownMenu from '../SaveDropdownMenu';
 import FormState from '../../../store/forms';
 
 // According to the issue on @testing-library/react-native (for dropdown)
-import { View } from 'react-native';
 jest.spyOn(View.prototype, 'measureInWindow').mockImplementation((cb) => {
   cb(18, 113, 357, 50);
 });
@@ -55,7 +55,7 @@ describe('SaveDropdownMenu component', () => {
   });
 
   it('should show dropdown menu if visible prop true', () => {
-    const wrapper = render(<SaveDropdownMenu visible={true} setVisible={jest.fn()} />);
+    const wrapper = render(<SaveDropdownMenu visible setVisible={jest.fn()} />);
 
     const dropdownMenuElement = wrapper.queryByTestId('save-dropdown-menu');
     expect(dropdownMenuElement).toBeTruthy();
@@ -63,7 +63,7 @@ describe('SaveDropdownMenu component', () => {
   });
 
   it('should have Save and Exit button as dropdown menu item', async () => {
-    const wrapper = render(<SaveDropdownMenu visible={true} setVisible={jest.fn()} />);
+    const wrapper = render(<SaveDropdownMenu visible setVisible={jest.fn()} />);
 
     const dropdownMenuElement = wrapper.queryByTestId('save-dropdown-menu');
     expect(dropdownMenuElement).toBeTruthy();
@@ -76,7 +76,7 @@ describe('SaveDropdownMenu component', () => {
   });
 
   it('should have Exit without Saving button as dropdown menu item', () => {
-    const wrapper = render(<SaveDropdownMenu visible={true} setVisible={jest.fn()} />);
+    const wrapper = render(<SaveDropdownMenu visible setVisible={jest.fn()} />);
 
     const dropdownMenuElement = wrapper.queryByTestId('save-dropdown-menu');
     expect(dropdownMenuElement).toBeTruthy();
@@ -89,7 +89,7 @@ describe('SaveDropdownMenu component', () => {
   });
 
   it('should have Language Selection button as dropdown menu item', () => {
-    const wrapper = render(<SaveDropdownMenu visible={true} setVisible={jest.fn()} />);
+    const wrapper = render(<SaveDropdownMenu visible setVisible={jest.fn()} />);
 
     const dropdownMenuElement = wrapper.queryByTestId('save-dropdown-menu');
     expect(dropdownMenuElement).toBeTruthy();
@@ -106,7 +106,7 @@ describe('SaveDropdownMenu component', () => {
 
     const wrapper = render(
       <SaveDropdownMenu
-        visible={true}
+        visible
         setVisible={jest.fn()}
         handleOnSaveAndExit={mockHandleOnSaveAndExit}
       />,
@@ -126,7 +126,7 @@ describe('SaveDropdownMenu component', () => {
     const mockHandleOnExit = jest.fn();
 
     const wrapper = render(
-      <SaveDropdownMenu visible={true} setVisible={jest.fn()} handleOnExit={mockHandleOnExit} />,
+      <SaveDropdownMenu visible setVisible={jest.fn()} handleOnExit={mockHandleOnExit} />,
     );
 
     const dropdownMenuElement = wrapper.queryByTestId('save-dropdown-menu');
@@ -140,7 +140,7 @@ describe('SaveDropdownMenu component', () => {
   });
 
   it('should show Language selection popup onPress Language Selection button', async () => {
-    const wrapper = render(<SaveDropdownMenu visible={true} setVisible={jest.fn()} />);
+    const wrapper = render(<SaveDropdownMenu visible setVisible={jest.fn()} />);
 
     const dropdownMenuElement = wrapper.queryByTestId('save-dropdown-menu');
     expect(dropdownMenuElement).toBeTruthy();
@@ -165,7 +165,7 @@ describe('SaveDropdownMenu component', () => {
   it('should update activeLang when select a language on Language selection popup', async () => {
     FormState.update = jest.fn();
 
-    const wrapper = render(<SaveDropdownMenu visible={true} setVisible={jest.fn()} />);
+    const wrapper = render(<SaveDropdownMenu visible setVisible={jest.fn()} />);
 
     const dropdownMenuElement = wrapper.queryByTestId('save-dropdown-menu');
     expect(dropdownMenuElement).toBeTruthy();

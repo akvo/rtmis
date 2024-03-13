@@ -286,7 +286,7 @@ describe('QuestionGroup & QuestionGroupListItem without mock', () => {
           json: JSON.stringify(example).replace(/'/g, "''"),
         };
         s.currentValues = {
-          [1]: 'John Doe',
+          1: 'John Doe',
         };
       });
     });
@@ -312,7 +312,7 @@ describe('QuestionGroup & QuestionGroupListItem without mock', () => {
 
   it('Should render question group name', () => {
     const wrapper = render(
-      <QuestionGroupListItem label="Group 1" active={true} completedQuestionGroup={false} />,
+      <QuestionGroupListItem label="Group 1" active completedQuestionGroup={false} />,
     );
     const groupName = wrapper.getByText('Group 1');
     expect(groupName).toBeDefined();
@@ -355,7 +355,7 @@ describe('QuestionGroup & QuestionGroupListItem without mock', () => {
 
   it('Should not disable question group if completed', () => {
     const wrapper = render(
-      <QuestionGroupListItem label="Group 2" active={false} completedQuestionGroup={true} />,
+      <QuestionGroupListItem label="Group 2" active={false} completedQuestionGroup />,
     );
     const itemEl = wrapper.getByTestId('question-group-list-item-wrapper');
     expect(itemEl.props.accessibilityState.disabled).toBe(false);
@@ -363,7 +363,7 @@ describe('QuestionGroup & QuestionGroupListItem without mock', () => {
 
   it('Should highlight question group if active', () => {
     const wrapper = render(
-      <QuestionGroupListItem label="Group 1" active={true} completedQuestionGroup={false} />,
+      <QuestionGroupListItem label="Group 1" active completedQuestionGroup={false} />,
     );
     const itemEl = wrapper.getByTestId('question-group-list-item-wrapper');
     expect(itemEl.props.style.backgroundColor).toBe('#E9E9E9');

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, act, waitFor } from '@testing-library/react-native';
+import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import TypeDate from '../TypeDate';
@@ -140,7 +140,7 @@ describe('TypeDate component', () => {
             value={values}
             id="dateField"
             name="Date Field"
-            required={true}
+            required
             requiredSign="*"
           />
         )}
@@ -178,7 +178,7 @@ describe('TypeDate component', () => {
     });
 
     const initValues = { dateField: null };
-    const { getByTestId, getByText, debug } = render(
+    const { getByTestId, getByText } = render(
       <Formik
         initialValues={initValues}
         onSubmit={() => {}}

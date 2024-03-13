@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import TypeAutofield, { replaceNamesWithIds } from '../TypeAutofield';
 import { act } from 'react-test-renderer';
+import TypeAutofield, { replaceNamesWithIds } from '../TypeAutofield';
 import { FormState } from '../../../store';
 
 describe('TypeAutofield component', () => {
