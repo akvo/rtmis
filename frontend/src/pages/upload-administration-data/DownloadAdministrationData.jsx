@@ -36,7 +36,7 @@ const DownloadAdministrationData = () => {
   const [attributes, setAttributes] = useState([]);
   const [selectedAttributes, setSelectedAttributes] = useState([]);
   const [level, setLevel] = useState(null);
-  const [isPrefilled, setIsPrefilled] = useState(false);
+  const [isPrefilled, setIsPrefilled] = useState(true);
   const formRef = useRef();
   const { notify } = useNotification();
   const navigate = useNavigate();
@@ -225,6 +225,7 @@ const DownloadAdministrationData = () => {
                 wrapperCol={{ span: 18 }}
                 onFinish={handleOnDownload}
                 ref={formRef}
+                initialValues={{ prefilled: true }}
               >
                 {isPrefilled && (
                   <Form.Item label={text.admLevel} name="level">
