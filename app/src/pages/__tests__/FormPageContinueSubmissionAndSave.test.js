@@ -1,11 +1,12 @@
 import React from 'react';
 import { Platform, ToastAndroid } from 'react-native';
 import { render, fireEvent, waitFor, act } from '@testing-library/react-native';
-jest.useFakeTimers();
 import FormPage from '../FormPage';
 import crudDataPoints from '../../database/crud/crud-datapoints';
 import { UserState, FormState } from '../../store';
 import { getCurrentTimestamp } from '../../form/lib';
+
+jest.useFakeTimers();
 
 const mockFormContainer = jest.fn();
 const mockRoute = {
@@ -50,7 +51,7 @@ const mockCurrentDataPoint = {
 };
 
 jest.mock('../../database/crud/crud-datapoints');
-jest.mock('../../form/FormContainer', () => ({ forms, initialValues, onSubmit, onSave }) => {
+jest.mock('../../form/FormContainer', () => function({ forms, initialValues, onSubmit, onSave }) {
   mockFormContainer(forms, initialValues, onSubmit, onSave);
   return (
     <mock-FormContainer>

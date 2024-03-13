@@ -1,12 +1,12 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
+import { render, fireEvent, act, renderHook, waitFor } from '@testing-library/react-native';
+import { Platform } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import AuthByPassFormPage from '../AuthByPassForm';
 import api from '../../lib/api';
 import cascades from '../../lib/cascades';
 import { UIState, UserState } from '../../store';
-import { render, fireEvent, act, renderHook, waitFor } from '@testing-library/react-native';
-import { Platform } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { crudUsers } from '../../database/crud';
 
 jest.mock('../../lib/api');

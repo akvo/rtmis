@@ -2,18 +2,17 @@ import React, { useState } from 'react';
 import { render, renderHook, fireEvent, act, waitFor } from '@testing-library/react-native';
 import { useNavigation, triggerBeforeRemoveEvent } from '@react-navigation/native';
 
-jest.mock('@react-navigation/native');
-
 import { FormState, UIState } from '../../../store';
 import FormDataDetails from '../FormDataDetails';
 import { washInSchool, washInSchoolForm } from '../dummy-for-test-purpose';
 import { cascades } from '../../../lib';
 
+jest.mock('@react-navigation/native');
+
 jest.mock('expo-sqlite');
 jest.mock('../../../lib', () => ({
   cascades: {
-    loadDataSource: jest.fn(async (source, id) => {
-      return id
+    loadDataSource: jest.fn(async (source, id) => id
         ? { rows: { length: 1, _array: [{ id: 65, name: 'Administration 65', parent: 0 }] } }
         : {
             rows: {
@@ -23,8 +22,7 @@ jest.mock('../../../lib', () => ({
                 { id: 66, name: 'Administration 66', parent: 0 },
               ],
             },
-          };
-    }),
+          }),
   },
   i18n: {
     text: jest.fn(() => ({

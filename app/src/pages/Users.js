@@ -64,9 +64,7 @@ const Users = ({ navigation, route }) => {
     }
     if (!loading && route?.params?.added) {
       const newUser = route.params.added;
-      const findNew = users.find((u) => {
-        return u.id === newUser?.id;
-      });
+      const findNew = users.find((u) => u.id === newUser?.id);
       if (!findNew) {
         setLoading(true);
       }
@@ -96,8 +94,7 @@ const Users = ({ navigation, route }) => {
     >
       <ScrollView>
         {loading && <Skeleton animation="wave" testID="loading-users" />}
-        {users.map((user, index) => {
-          return (
+        {users.map((user, index) => (
             <ListItem.Swipeable
               key={index}
               onPress={async () => await handleSelectUser(user)}
@@ -119,8 +116,7 @@ const Users = ({ navigation, route }) => {
                 <Icon name="checkmark" size={18} testID={`icon-checkmark-${user.id}`} />
               )}
             </ListItem.Swipeable>
-          );
-        })}
+          ))}
       </ScrollView>
     </BaseLayout>
   );

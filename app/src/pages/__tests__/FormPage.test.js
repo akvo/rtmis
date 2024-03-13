@@ -1,9 +1,10 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import { render, waitFor, act } from '@testing-library/react-native';
-jest.useFakeTimers();
-import FormPage from '../FormPage';
 import { FormState } from 'store';
+import FormPage from '../FormPage';
+
+jest.useFakeTimers();
 
 const mockFormContainer = jest.fn();
 const mockRoute = {
@@ -241,7 +242,7 @@ const exampleTestForm = {
   ],
 };
 
-jest.mock('../../form/FormContainer', () => ({ forms, initialValues, onSubmit }) => {
+jest.mock('../../form/FormContainer', () => function({ forms, initialValues, onSubmit }) {
   mockFormContainer(forms, initialValues, onSubmit);
   return (
     <mock-FormContainer>

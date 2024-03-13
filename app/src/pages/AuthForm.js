@@ -132,7 +132,7 @@ const AuthForm = ({ navigation }) => {
   const titles = [trans.authTitle1, trans.authTitle2, trans.authTitle3];
   return (
     <CenterLayout>
-      <Image src={logo ? logo : null} />
+      <Image src={logo || null} />
       <CenterLayout.Titles items={titles} />
       <View style={styles.container}>
         <Input

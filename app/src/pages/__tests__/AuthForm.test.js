@@ -1,11 +1,11 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import AuthFormPage from '../AuthForm';
-import api from '../../lib/api';
-import { UIState, UserState } from '../../store';
 import { render, fireEvent, act, renderHook, waitFor } from '@testing-library/react-native';
 import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import AuthFormPage from '../AuthForm';
+import api from '../../lib/api';
+import { UIState, UserState } from '../../store';
 import { crudUsers } from '../../database/crud';
 
 jest.mock('../../lib/api');

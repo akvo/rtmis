@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import AddUser from '../AddUser';
 import { UserState } from '../../store';
-import { conn } from '../../database';
+import conn from '../../database';
 import api from '../../lib/api';
 import { crudForms, crudUsers } from '../../database/crud';
 

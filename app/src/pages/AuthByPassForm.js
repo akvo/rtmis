@@ -87,7 +87,7 @@ const AuthByPassForm = ({ navigation }) => {
 
   return (
     <CenterLayout>
-      <Image src={logo ? logo : null} />
+      <Image src={logo || null} />
       {loading ? (
         <View>
           <Dialog.Loading />

@@ -22,9 +22,7 @@ const GetStarted = ({ navigation }) => {
     }
   }, []);
 
-  const isServerURLDefined = useMemo(() => {
-    return currentConfig?.serverURL || serverURLState;
-  }, [currentConfig?.serverURL, serverURLState]);
+  const isServerURLDefined = useMemo(() => currentConfig?.serverURL || serverURLState, [currentConfig?.serverURL, serverURLState]);
 
   useEffect(() => {
     getConfig();
@@ -51,7 +49,7 @@ const GetStarted = ({ navigation }) => {
   const titles = [trans.getStartedTitle1, trans.getStartedTitle2, trans.getStartedTitle3];
   return (
     <CenterLayout title={titles}>
-      <Image src={logo ? logo : null} />
+      <Image src={logo || null} />
       <CenterLayout.Titles items={titles} />
       <Text>{trans.getStartedSubTitle}</Text>
       {!isServerURLDefined && (

@@ -84,7 +84,7 @@ const FormDataDetails = ({ navigation, route }) => {
           });
           navigation.dispatch(e.data.action);
         } else {
-          return;
+          
         }
       }),
     [navigation, currentValues],

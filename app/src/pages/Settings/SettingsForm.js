@@ -189,7 +189,7 @@ const SettingsForm = ({ route }) => {
         <View>
           {list.map((l, i) => {
             const switchValue =
-              l.type === 'switch' && (settingsState[l.name] || false) ? true : false;
+              !!(l.type === 'switch' && (settingsState[l.name] || false));
             const listProps =
               l.editable && l.type !== 'switch' ? { onPress: () => handleEditPress(l.id) } : {};
 

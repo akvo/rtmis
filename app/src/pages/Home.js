@@ -2,13 +2,13 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Button, FAB } from '@rneui/themed';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Platform, ToastAndroid } from 'react-native';
+import * as Notifications from 'expo-notifications';
+import * as Location from 'expo-location';
+import * as FileSystem from 'expo-file-system';
 import { BaseLayout } from '../components';
 import { FormState, UserState, UIState, BuildParamsState, DatapointSyncState } from '../store';
 import { crudForms, crudUsers } from '../database/crud';
 import { api, cascades, i18n } from '../lib';
-import * as Notifications from 'expo-notifications';
-import * as Location from 'expo-location';
-import * as FileSystem from 'expo-file-system';
 import crudJobs, { SYNC_DATAPOINT_JOB_NAME, jobStatus } from '../database/crud/crud-jobs';
 
 const Home = ({ navigation, route }) => {
@@ -37,7 +37,7 @@ const Home = ({ navigation, route }) => {
     FormState.update((s) => {
       s.form = findForm;
     });
-    navigation.navigate('ManageForm', { id: id, name: findForm.name, formId: findForm.formId });
+    navigation.navigate('ManageForm', { id, name: findForm.name, formId: findForm.formId });
   };
 
   const goToUsers = () => {
@@ -150,11 +150,9 @@ const Home = ({ navigation, route }) => {
     }
   }, [loading]);
 
-  const filteredData = useMemo(() => {
-    return data.filter(
+  const filteredData = useMemo(() => data.filter(
       (d) => (search && d?.name?.toLowerCase().includes(search.toLowerCase())) || !search,
-    );
-  }, [data, search]);
+    ), [data, search]);
 
   useEffect(() => {
     const subscription = Notifications.addNotificationReceivedListener((notification) => {
@@ -235,8 +233,8 @@ const Home = ({ navigation, route }) => {
       <BaseLayout.Content data={filteredData} action={goToManageForm} columns={2} />
       <FAB
         icon={{ name: 'sync', color: 'white' }}
-        size={'large'}
-        color={'#1651b6'}
+        size="large"
+        color="#1651b6"
         title={syncLoading ? trans.syncingText : trans.syncDataPointBtn}
         style={{ marginBottom: 16 }}
         disabled={!isOnline || syncLoading}

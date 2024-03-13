@@ -10,6 +10,7 @@ import { FormState } from '../../store';
 import { loc } from '../../lib';
 
 const loadHtml = require('map.html');
+
 const htmlData = `${loadHtml}`;
 
 jest.useFakeTimers();
@@ -18,19 +19,15 @@ jest.mock('@react-navigation/native');
 
 jest.mock('expo-location');
 
-jest.mock('expo-asset', () => {
-  return {
+jest.mock('expo-asset', () => ({
     Asset: {
       loadAsync: jest.fn(() => Promise.resolve([{ localUri: 'mocked-uri' }])),
     },
-  };
-});
+  }));
 
-jest.mock('expo-file-system', () => {
-  return {
+jest.mock('expo-file-system', () => ({
     readAsStringAsync: jest.fn(() => Promise.resolve(htmlData)),
-  };
-});
+  }));
 
 jest.mock('react-native/Libraries/Utilities/BackHandler', () => mockBackHandler);
 
@@ -63,7 +60,7 @@ describe('MapView', () => {
 
     await act(async () => {
       const [{ localUri }] = await Asset.loadAsync(require('../../assets/map.html'));
-      let fileContents = await FileSystem.readAsStringAsync(localUri);
+      const fileContents = await FileSystem.readAsStringAsync(localUri);
       const { latitude: lat, longitude: lng } = route?.params;
       setHtmlContent(fileContents);
     });

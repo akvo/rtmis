@@ -4,11 +4,10 @@ import { View, ActivityIndicator, StyleSheet, ToastAndroid } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 
-import { UserState } from '../store';
+import { UserState , UIState, FormState } from '../store';
 import { BaseLayout } from '../components';
 import { crudDataPoints } from '../database/crud';
 import { i18n, backgroundTask, api } from '../lib';
-import { UIState, FormState } from '../store';
 import { getCurrentTimestamp } from '../form/lib';
 import crudJobs, { jobStatus } from '../database/crud/crud-jobs';
 
@@ -95,11 +94,9 @@ const FormDataPage = ({ navigation, route }) => {
     fetchData();
   }, [fetchData]);
 
-  const filteredData = useMemo(() => {
-    return data.filter(
+  const filteredData = useMemo(() => data.filter(
       (d) => (search && d?.name?.toLowerCase().includes(search.toLowerCase())) || !search,
-    );
-  }, [data, search]);
+    ), [data, search]);
 
   const goToDetails = (id) => {
     const findData = filteredData.find((d) => d.id === id);
@@ -126,9 +123,7 @@ const FormDataPage = ({ navigation, route }) => {
     });
   };
 
-  const enableSyncButton = useMemo(() => {
-    return data.filter((d) => !d.syncedAt).length > 0;
-  }, [data]);
+  const enableSyncButton = useMemo(() => data.filter((d) => !d.syncedAt).length > 0, [data]);
 
   const handleSyncButtonOnPress = () => {
     setShowConfirmationSyncDialog(true);

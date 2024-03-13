@@ -1,14 +1,15 @@
-global.FormData = require('react-native/Libraries/Network/FormData');
 import React, { useState } from 'react';
 import { render, waitFor, fireEvent, act, renderHook } from '@testing-library/react-native';
 import axios from 'axios';
 
+import { useNavigation } from '@react-navigation/native';
 import FormDataPage from '../FormData';
 import crudDataPoints from '../../database/crud/crud-datapoints';
-import { useNavigation } from '@react-navigation/native';
 import { backgroundTask } from '../../lib';
 import { FormState, UIState } from '../../store';
 import api from '../../lib/api';
+
+global.FormData = require('react-native/Libraries/Network/FormData');
 
 jest.mock('@react-navigation/native');
 jest.mock('../../database/crud/crud-datapoints');

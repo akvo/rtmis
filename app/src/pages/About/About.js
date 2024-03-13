@@ -22,12 +22,12 @@ const AboutHome = ({}) => {
 
   useEffect(() => {
     setSettingsState({
-      appVersion: appVersion,
+      appVersion,
     });
   }, []);
 
   return (
-    <BaseLayout title={'About'} rightComponent={false}>
+    <BaseLayout title="About" rightComponent={false}>
       <BaseLayout.Content>
         <View>
           {list.map((l, i) => {
