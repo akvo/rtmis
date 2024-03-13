@@ -1,9 +1,9 @@
 import { renderHook } from '@testing-library/react-native';
+import BuildParamsState from '../buildParams';
 /**
  * Mock build json is empty and should use the default state
  */
 jest.mock('../../build.json', () => ({}));
-import BuildParamsState from '../buildParams';
 
 describe('BuildParamsState build.json empty', () => {
   it('should initialize with the correct default state', () => {
