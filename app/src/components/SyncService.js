@@ -15,13 +15,13 @@ import { downloadDatapointsJson, fetchDatapoints } from '../lib/sync-datapoints'
 const SyncService = () => {
   const isOnline = UIState.useState((s) => s.online);
   const syncInterval = BuildParamsState.useState((s) => s.dataSyncInterval);
-  const syncInSecond = parseInt(syncInterval) * 1000;
-  const statusBar = UIState.useState((s) => s.statusBar);
+  const syncInSecond = parseInt(syncInterval, 10) * 1000;
 
   const onSync = useCallback(async () => {
     const pendingToSync = await crudDataPoints.selectSubmissionToSync();
     const activeJob = await crudJobs.getActiveJob(SYNC_FORM_SUBMISSION_TASK_NAME);
 
+    // eslint-disable-next-line no-console
     console.info('[ACTIVE JOB]', activeJob);
 
     if (activeJob?.status === jobStatus.ON_PROGRESS) {
@@ -82,7 +82,7 @@ const SyncService = () => {
       });
       await backgroundTask.syncFormSubmission(activeJob);
     }
-  }, [statusBar]);
+  }, []);
 
   useEffect(() => {
     if (!syncInSecond || !isOnline) {
@@ -93,10 +93,11 @@ const SyncService = () => {
       onSync();
     }, syncInSecond);
 
-    return () => {
+    // eslint-disable-next-line consistent-return
+    return () => 
       // Clear the interval when the component unmounts
-      clearInterval(syncTimer);
-    };
+       clearInterval(syncTimer)
+    ;
   }, [syncInSecond, isOnline, onSync]);
 
   const onSyncDataPoint = useCallback(async () => {
@@ -104,7 +105,7 @@ const SyncService = () => {
 
     DatapointSyncState.update((s) => {
       s.added = false;
-      s.inProgress = activeJob ? true : false;
+      s.inProgress = !!activeJob;
     });
 
     if (activeJob && activeJob.status === jobStatus.PENDING && activeJob.attempt < MAX_ATTEMPT) {

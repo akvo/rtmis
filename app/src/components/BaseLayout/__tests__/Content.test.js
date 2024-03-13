@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { render, fireEvent } from '@testing-library/react-native';
-import { Content } from '../Content';
+import Content from '../Content';
 
 describe('Content component', () => {
   it('renders content correctly with 2 columns and has data', () => {

@@ -11,7 +11,7 @@ describe('BaseLayout component', () => {
 
   it('renders page with title correctly', () => {
     const title = 'Example Title';
-    const { getByText, getByTestId } = render(<BaseLayout title={title} />);
+    const { getByText } = render(<BaseLayout title={title} />);
 
     const titleElement = getByText(title);
     expect(titleElement).toBeDefined();

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import RenderHtml from 'react-native-render-html';
+import PropTypes from 'prop-types';
 
 const AnimatedTooltip = ({ visible, content }) => {
   if (!visible) {
@@ -46,3 +47,8 @@ const styles = StyleSheet.create({
 });
 
 export default AnimatedTooltip;
+
+AnimatedTooltip.propTypes = {
+  visible: PropTypes.bool.isRequired,
+  content: PropTypes.string.isRequired,
+};

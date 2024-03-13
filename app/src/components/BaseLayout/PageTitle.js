@@ -3,6 +3,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { View, StyleSheet } from 'react-native';
 import { Header, Text, Button } from '@rneui/themed';
 import { useNavigation } from '@react-navigation/native';
+import PropTypes from 'prop-types';
 import { FormState } from '../../store';
 import { generateDataPointName } from '../../form/lib';
 
@@ -22,11 +23,11 @@ const BackButton = ({ navigation }) => {
 
 const PageTitle = ({
   text,
-  subTitle = null,
-  leftComponent = null,
-  leftContainerStyle = {},
-  rightComponent = null,
-  rightContainerStyle = {},
+  subTitle,
+  leftComponent,
+  leftContainerStyle,
+  rightComponent,
+  rightContainerStyle,
 }) => {
   const navigation = useNavigation();
   const selectedForm = FormState.useState((s) => s.form);
@@ -39,7 +40,7 @@ const PageTitle = ({
     navigation.navigate('Settings');
   };
 
-  subTitle = subTitle === 'formPage' ? dpName : subTitle;
+  const subTitleText = subTitle === 'formPage' ? dpName : subTitle;
 
   return (
     <Header
@@ -55,7 +56,7 @@ const PageTitle = ({
       testID="base-layout-page-title"
     >
       {!leftComponent && <BackButton navigation={navigation} />}
-      {subTitle ? (
+      {subTitleText ? (
         <View>
           <Text h4Style={styles.title} testID="page-title" numberOfLines={1} h4>
             {text}
@@ -99,3 +100,22 @@ const styles = StyleSheet.create({
 });
 
 export default PageTitle;
+
+PageTitle.propTypes = {
+  text: PropTypes.string.isRequired,
+  subTitle: PropTypes.string,
+  leftComponent: PropTypes.node,
+  // eslint-disable-next-line react/forbid-prop-types
+  leftContainerStyle: PropTypes.object,
+  rightComponent: PropTypes.node,
+  // eslint-disable-next-line react/forbid-prop-types
+  rightContainerStyle: PropTypes.object,
+};
+
+PageTitle.defaultProps = {
+  subTitle: null,
+  leftComponent: null,
+  leftContainerStyle: null,
+  rightComponent: null,
+  rightContainerStyle: null,
+};
