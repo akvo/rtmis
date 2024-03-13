@@ -39,6 +39,7 @@
     "expo-status-bar": "~1.6.0",
     "expo-task-manager": "~11.3.0",
     "formik": "^2.4.2",
+    "prop-types": "^15.8.1",
     "pullstate": "^1.25.0",
     "react": "18.2.0",
     "react-native": "0.72.6",
