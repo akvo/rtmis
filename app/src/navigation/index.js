@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { NavigationContainer, useNavigationContainerRef } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { BackHandler } from 'react-native';
+import * as Notifications from 'expo-notifications';
 import {
   HomePage,
   ManageFormPage,
@@ -20,8 +22,6 @@ import {
   UpdateForm,
 } from '../pages';
 import { UIState, AuthState, UserState, FormState, BuildParamsState } from '../store';
-import { BackHandler } from 'react-native';
-import * as Notifications from 'expo-notifications';
 import { backgroundTask, notification } from '../lib';
 import {
   SYNC_FORM_SUBMISSION_TASK_NAME,

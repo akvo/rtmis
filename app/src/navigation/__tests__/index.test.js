@@ -1,17 +1,17 @@
 import React from 'react';
 import { render, act, waitFor } from '@testing-library/react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { AuthState, UIState } from '../../store';
 import { BackHandler } from 'react-native';
+import * as Notifications from 'expo-notifications';
+import * as TaskManager from 'expo-task-manager';
+import * as BackgroundFetch from 'expo-background-fetch';
+import { backgroundTask, notification } from '../../lib';
 import Navigation, {
   setNotificationHandler,
   defineSyncFormVersionTask,
   defineSyncFormSubmissionTask,
 } from '../index';
-import { backgroundTask, notification } from '../../lib';
-import * as Notifications from 'expo-notifications';
-import * as TaskManager from 'expo-task-manager';
-import * as BackgroundFetch from 'expo-background-fetch';
+import { AuthState, UIState } from '../../store';
 
 jest.mock('expo-background-fetch', () => ({
   ...jest.requireActual('expo-background-fetch'),
@@ -59,9 +59,7 @@ describe('Navigation Component', () => {
   });
 
   it('should call define sync form version task func', async () => {
-    TaskManager.defineTask.mockImplementation((taskName, taskFn) => {
-      return taskFn();
-    });
+    TaskManager.defineTask.mockImplementation((taskName, taskFn) => taskFn());
 
     await defineSyncFormVersionTask();
 
@@ -89,9 +87,7 @@ describe('Navigation Component', () => {
   });
 
   it('should call define sync form submission task func', async () => {
-    TaskManager.defineTask.mockImplementation((taskName, taskFn) => {
-      return taskFn();
-    });
+    TaskManager.defineTask.mockImplementation((taskName, taskFn) => taskFn());
 
     await defineSyncFormSubmissionTask();
 
