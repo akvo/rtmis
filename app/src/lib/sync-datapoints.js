@@ -11,9 +11,9 @@ export const fetchDatapoints = async (pageNumber = 1) => {
     });
     if (page < totalPage) {
       return data.concat(await fetchDatapoints(page + 1));
-    } else {
+    } 
       return data;
-    }
+    
   } catch (error) {
     return Promise.reject(error);
   }

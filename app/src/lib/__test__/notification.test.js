@@ -1,8 +1,8 @@
 import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
 import { Platform } from 'react-native';
-import notification from '../notification';
 import { waitFor } from '@testing-library/react-native';
+import notification from '../notification';
 
 jest.mock('expo-notifications');
 jest.mock('expo-device');

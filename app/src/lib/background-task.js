@@ -1,8 +1,8 @@
-import { crudForms, crudDataPoints, crudUsers, crudConfig } from '../database/crud';
-import api from './api';
 import * as BackgroundFetch from 'expo-background-fetch';
 import * as TaskManager from 'expo-task-manager';
 import * as Network from 'expo-network';
+import api from './api';
+import { crudForms, crudDataPoints, crudUsers, crudConfig } from '../database/crud';
 import notification from './notification';
 import crudJobs, { jobStatus, MAX_ATTEMPT } from '../database/crud/crud-jobs';
 import { UIState } from '../store';
@@ -133,9 +133,9 @@ const handleOnUploadPhotos = async (data) => {
       })
       .filter((d) => d);
     return results;
-  } else {
+  } 
     return [];
-  }
+  
 };
 
 const syncFormSubmission = async (activeJob = {}) => {
@@ -228,15 +228,13 @@ const syncFormSubmission = async (activeJob = {}) => {
   }
 };
 
-const backgroundTaskHandler = () => {
-  return {
+const backgroundTaskHandler = () => ({
     syncFormVersion,
     registerBackgroundTask,
     unregisterBackgroundTask,
     backgroundTaskStatus,
     syncFormSubmission,
-  };
-};
+  });
 
 const backgroundTask = backgroundTaskHandler();
 

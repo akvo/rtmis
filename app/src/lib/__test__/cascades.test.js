@@ -26,9 +26,9 @@ describe('cascades', () => {
     await cascades.createSqliteDir();
 
     // Assertions
-    expect(FileSystem.getInfoAsync).toHaveBeenCalledWith('test-document-directory/' + DIR_NAME);
+    expect(FileSystem.getInfoAsync).toHaveBeenCalledWith(`test-document-directory/${  DIR_NAME}`);
     expect(FileSystem.makeDirectoryAsync).toHaveBeenCalledWith(
-      'test-document-directory/' + DIR_NAME,
+      `test-document-directory/${  DIR_NAME}`,
     );
   });
 

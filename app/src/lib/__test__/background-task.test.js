@@ -1,10 +1,10 @@
+import * as BackgroundFetch from 'expo-background-fetch';
+import * as TaskManager from 'expo-task-manager';
+import { waitFor } from '@testing-library/react-native';
 import api from '../api';
 import backgroundTask from '../background-task';
 import notification from '../notification';
-import * as BackgroundFetch from 'expo-background-fetch';
-import * as TaskManager from 'expo-task-manager';
 import { crudForms, crudUsers, crudDataPoints } from '../../database/crud';
-import { waitFor } from '@testing-library/react-native';
 
 jest.mock('../api');
 jest.mock('../../database/crud');

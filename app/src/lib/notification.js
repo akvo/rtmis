@@ -41,7 +41,7 @@ const sendPushNotification = async (type = 'sync-form-version') => {
         content: {
           title: 'Sync submission completed',
           body: 'Your submission has been successfully synchronized.',
-          data: data,
+          data,
         },
         trigger: null,
       };
@@ -51,7 +51,7 @@ const sendPushNotification = async (type = 'sync-form-version') => {
         content: {
           title: 'New Form version available',
           body: 'A new version of the form is now available',
-          data: data,
+          data,
         },
         trigger: null,
       };
@@ -60,12 +60,10 @@ const sendPushNotification = async (type = 'sync-form-version') => {
   return await Notifications.scheduleNotificationAsync(notificationBody);
 };
 
-const notificationHandler = () => {
-  return {
+const notificationHandler = () => ({
     registerForPushNotificationsAsync,
     sendPushNotification,
-  };
-};
+  });
 
 const notification = notificationHandler();
 export default notification;

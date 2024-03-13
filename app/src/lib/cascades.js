@@ -43,7 +43,7 @@ const dropFiles = async () => {
   const Sqlfiles = await FileSystem.readDirectoryAsync(FileSystem.documentDirectory + DIR_NAME);
   Sqlfiles.forEach(async (file) => {
     if (file.includes('sqlite')) {
-      const fileUri = FileSystem.documentDirectory + `${DIR_NAME}/${file}`;
+      const fileUri = `${FileSystem.documentDirectory  }${DIR_NAME}/${file}`;
       await FileSystem.deleteAsync(fileUri);
     }
   });
