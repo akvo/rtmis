@@ -31,7 +31,7 @@ const Stack = ({ children, columns = 1, row = false, reverse = false, background
 export default Stack;
 
 Stack.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   columns: PropTypes.number,
   reverse: PropTypes.bool,
   row: PropTypes.bool,
@@ -39,6 +39,7 @@ Stack.propTypes = {
 };
 
 Stack.defaultProps = {
+  children: null,
   columns: 1,
   row: false,
   reverse: false,

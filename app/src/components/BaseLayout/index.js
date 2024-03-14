@@ -15,25 +15,25 @@ const BaseLayout = ({
   rightComponent = null,
   rightContainerStyle = {},
 }) => (
-    <Stack>
-      {title && (
-        <PageTitle
-          text={title}
-          subTitle={subTitle}
-          {...{ leftComponent, leftContainerStyle, rightComponent, rightContainerStyle }}
-        />
-      )}
-      {search.show && (
-        <SearchBar
-          placeholder={search.placeholder}
-          value={search.value}
-          onChangeText={search.action}
-          testID="search-bar"
-        />
-      )}
-      {children}
-    </Stack>
-  );
+  <Stack>
+    {title && (
+      <PageTitle
+        text={title}
+        subTitle={subTitle}
+        {...{ leftComponent, leftContainerStyle, rightComponent, rightContainerStyle }}
+      />
+    )}
+    {search.show && (
+      <SearchBar
+        placeholder={search.placeholder}
+        value={search.value}
+        onChangeText={search.action}
+        testID="search-bar"
+      />
+    )}
+    {children}
+  </Stack>
+);
 
 BaseLayout.Content = Content;
 
@@ -43,14 +43,12 @@ BaseLayout.propTypes = {
   children: PropTypes.node.isRequired,
   title: PropTypes.string,
   subTitle: PropTypes.string,
-  search: PropTypes.objectOf(
-    PropTypes.shape({
-      placeholder: PropTypes.string,
-      show: PropTypes.bool,
-      value: PropTypes.string,
-      action: PropTypes.func.isRequired,
-    }),
-  ),
+  search: PropTypes.shape({
+    placeholder: PropTypes.string,
+    show: PropTypes.bool,
+    value: PropTypes.string,
+    action: PropTypes.func,
+  }),
   leftComponent: PropTypes.node,
   // eslint-disable-next-line react/forbid-prop-types
   leftContainerStyle: PropTypes.object,
