@@ -1,13 +1,12 @@
 import React from 'react';
 import { render, waitFor } from 'react-native-testing-library';
-import { act, renderHook } from '@testing-library/react-native';
+import { act } from '@testing-library/react-native';
 import mockRNCNetInfo from '@react-native-community/netinfo/jest/netinfo-mock';
 import NetInfo from '@react-native-community/netinfo';
 
+import { UIState, BuildParamsState } from '../src/store';
 import App from '../App';
-import { UIState, BuildParamsState } from 'store';
 import { crudSessions, crudUsers, crudConfig } from '../src/database/crud';
-import { conn, query } from '../src/database';
 
 jest.mock('@react-native-community/netinfo', () => mockRNCNetInfo);
 jest.mock('@react-navigation/native-stack');
@@ -28,8 +27,6 @@ jest.mock('../src/database/crud', () => ({
     updateConfig: jest.fn(),
   },
 }));
-
-const db = conn.init;
 
 describe('App', () => {
   beforeAll(() => {

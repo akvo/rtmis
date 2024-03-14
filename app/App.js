@@ -5,6 +5,8 @@ import * as Notifications from 'expo-notifications';
 import * as TaskManager from 'expo-task-manager';
 import * as BackgroundFetch from 'expo-background-fetch';
 
+import { ToastAndroid } from 'react-native';
+import * as Location from 'expo-location';
 import Navigation from './src/navigation';
 import { conn, query, tables } from './src/database';
 import { UIState, AuthState, UserState, BuildParamsState } from './src/store';
@@ -17,8 +19,6 @@ import backgroundTask, {
   defineSyncFormVersionTask,
 } from './src/lib/background-task';
 import crudJobs, { jobStatus, MAX_ATTEMPT } from './src/database/crud/crud-jobs';
-import { ToastAndroid } from 'react-native';
-import * as Location from 'expo-location';
 
 export const setNotificationHandler = () =>
   Notifications.setNotificationHandler({
@@ -167,6 +167,7 @@ const App = () => {
       await handleInitConfig();
       handleCheckSession();
     } catch (error) {
+      console.error(`[INITIAL DB]: ${error}`)
       ToastAndroid.show(`[INITIAL DB]: ${error}`, ToastAndroid.LONG);
     }
   }, [handleInitConfig, handleCheckSession]);
@@ -225,7 +226,7 @@ const App = () => {
 
   return (
     <SafeAreaProvider>
-      <Navigation testID="navigation-element" />
+      <Navigation />
       <NetworkStatusBar />
       <SyncService />
     </SafeAreaProvider>
