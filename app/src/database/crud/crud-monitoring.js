@@ -40,14 +40,13 @@ const monitoringQuery = () => ({
     const res = await conn.tx(db, insertQuery, []);
     return res;
   },
-  getAllForms: async () => {
-    const sqlQuery = 'SELECT formId FROM monitoring';
-    const { rows } = await conn.tx(db, sqlQuery);
-
-    if (!rows.length) {
-      return {};
-    }
-    return rows._array;
+  getTotal: async (formId) => {
+    const { rows } = await conn.tx(
+      db,
+      `SELECT COUNT(*) AS count FROM monitoring where formId = ? `,
+      [formId],
+    );
+    return rows._array?.[0]?.count;
   },
   getFormsPaginated: async ({ formId, search = '', limit = 10, offset = 0 }) => {
     let sqlQuery = 'SELECT * FROM monitoring WHERE formId = $1';
