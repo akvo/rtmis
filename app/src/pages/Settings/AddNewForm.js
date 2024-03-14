@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState } from 'react';
 import { View, StyleSheet, Platform, ToastAndroid } from 'react-native';
 import { Input, Button, Text, Dialog } from '@rneui/themed';
@@ -50,7 +51,7 @@ const AddNewForm = ({ navigation }) => {
         }
       })
       .catch((err) => {
-        const { status: errStatus } = err?.response;
+        const { status: errStatus } = err?.response || {};
         if ([400, 401].includes(errStatus)) {
           setError(trans.authErrorPasscode);
         } else {

@@ -178,7 +178,7 @@ describe('Homepage', () => {
   });
 
   it('should reset form and data when app language changed', async () => {
-    const { getByText, debug, queryByTestId } = render(<HomePage navigation={mockNavigation} />);
+    const { queryByTestId } = render(<HomePage navigation={mockNavigation} />);
 
     act(() => {
       UIState.update((s) => {

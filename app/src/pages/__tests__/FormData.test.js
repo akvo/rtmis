@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { render, waitFor, fireEvent, act, renderHook } from '@testing-library/react-native';
 import axios from 'axios';
 
@@ -499,7 +499,7 @@ describe('FormDataPage', () => {
         showSubmitted: true,
       },
     };
-    const { getByTestId, queryByTestId, getByText, rerender, debug, queryByText } = render(
+    const { getByTestId, queryByTestId, getByText, rerender, queryByText } = render(
       <FormDataPage navigation={mockNavigation} route={mockRoute} />,
     );
 
@@ -640,7 +640,7 @@ describe('FormDataPage', () => {
   });
 
   it('should not call handleOnSync when uploading photos failed', async () => {
-    axios.all.mockImplementation(() => Promise.reject('Error'));
+    axios.all.mockImplementation(() => Promise.reject(new Error('Error')));
     api.post.mockImplementation(() =>
       Promise.resolve({ data: { file: '/images/photo-profile-xyz.jpeg' } }),
     );
@@ -696,7 +696,7 @@ describe('FormDataPage', () => {
       },
     };
 
-    const { getByTestId, getByText, queryByText, queryByTestId } = render(
+    const { getByTestId, getByText, queryByTestId } = render(
       <FormDataPage route={mockRoute} navigation={mockNavigation} />,
     );
 

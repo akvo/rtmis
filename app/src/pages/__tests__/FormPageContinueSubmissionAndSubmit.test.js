@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import React from 'react';
 import { Platform, ToastAndroid } from 'react-native';
 import { render, fireEvent, waitFor, act } from '@testing-library/react-native';
@@ -264,11 +265,12 @@ const exampleTestForm = {
 };
 
 jest.mock('../../database/crud/crud-datapoints');
-jest.mock('../../form/FormContainer', () => function({ forms, initialValues, onSubmit }) {
+// eslint-disable-next-line react/prop-types
+jest.mock('../../form/FormContainer', () => ({ forms, initialValues, onSubmit }) => {
   mockFormContainer(forms, initialValues, onSubmit);
   return (
     <mock-FormContainer>
-      <button onPress={() => onSubmit(mockValues)} testID="mock-submit-button">
+      <button type="button" onClick={() => onSubmit(mockValues)} testID="mock-submit-button">
         Submit
       </button>
     </mock-FormContainer>
@@ -350,7 +352,7 @@ describe('FormPage continue saved submision then submit', () => {
       Promise.resolve(mockCurrentDataPoint),
     );
     const consoleErrorSpy = jest.spyOn(console, 'error');
-    crudDataPoints.updateDataPoint.mockImplementation(() => Promise.reject('Error'));
+    crudDataPoints.updateDataPoint.mockImplementation(() => Promise.reject(new Error('Error')));
 
     const wrapper = render(<FormPage navigation={mockNavigation} route={mockRoute} />);
 

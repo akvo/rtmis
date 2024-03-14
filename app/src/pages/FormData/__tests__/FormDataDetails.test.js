@@ -57,7 +57,7 @@ describe('FormDataDetails', () => {
     const { json: formJSON } = resultForm.current;
     const values = resultValues.current;
 
-    const { getByTestId, debug } = render(
+    const { getByTestId } = render(
       <FormDataDetails
         navigation={mockNavigation}
         formJSON={formJSON}
@@ -78,7 +78,7 @@ describe('FormDataDetails', () => {
     await waitFor(() => expect(cascades.loadDataSource).toHaveBeenCalledTimes(1));
 
     await waitFor(() => {
-      expect(resultCascade.current[0]).toEqual({ id: 65, name: 'Administration 65', parent: 0 });
+      expect(cascadeValue).toEqual({ id: 65, name: 'Administration 65', parent: 0 });
       const questionText = getByTestId('text-question-0');
       expect(questionText).toBeDefined();
       const answerText = getByTestId('text-answer-0');
@@ -107,7 +107,7 @@ describe('FormDataDetails', () => {
     const { json: formJSON } = resultForm.current;
     const values = resultValues.current;
 
-    const { getByTestId, rerender, debug } = render(
+    const { getByTestId } = render(
       <FormDataDetails
         navigation={mockNavigation}
         formJSON={formJSON}

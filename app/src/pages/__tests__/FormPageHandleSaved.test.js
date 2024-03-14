@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import React from 'react';
 import { Platform, ToastAndroid } from 'react-native';
 import { render, fireEvent, waitFor, act } from '@testing-library/react-native';
@@ -243,14 +244,14 @@ const exampleTestForm = {
 };
 
 jest.mock('../../database/crud/crud-datapoints');
-jest.mock('../../form/FormContainer', () => function({ forms, initialValues, onSubmit, onSave }) {
+jest.mock('../../form/FormContainer', ({ forms, initialValues, onSubmit, onSave }) => {
   mockFormContainer(forms, initialValues, onSubmit, onSave);
   return (
     <mock-FormContainer>
-      <button onPress={() => mockOnSave(mockValues)} testID="mock-save-button-helper">
+      <button type="button" onClick={() => mockOnSave(mockValues)} testID="mock-save-button-helper">
         Save Trigger helper
       </button>
-      <button onPress={() => onSubmit(mockValues)} testID="mock-submit-button">
+      <button type="submit" onClick={() => onSubmit(mockValues)} testID="mock-submit-button">
         Submit
       </button>
     </mock-FormContainer>
@@ -372,7 +373,7 @@ describe('FormPage handleOnSaveForm', () => {
     ToastAndroid.show = jest.fn();
     jest.spyOn(React, 'useMemo').mockReturnValue(exampleTestForm);
     const consoleErrorSpy = jest.spyOn(console, 'error');
-    crudDataPoints.saveDataPoint.mockImplementation(() => Promise.reject('Error'));
+    crudDataPoints.saveDataPoint.mockImplementation(() => Promise.reject(new Error('Error')));
 
     const mockSetOnSaveFormParams = jest.fn();
     const mockOnSaveFormParams = { values: mockValues };

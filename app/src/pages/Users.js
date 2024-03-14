@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { ScrollView, BackHandler, Platform, ToastAndroid } from 'react-native';
 import { Button, ListItem, Skeleton } from '@rneui/themed';
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import PropTypes from 'prop-types';
 import { BaseLayout } from '../components';
 import { conn, query } from '../database';
 import { UserState, UIState, AuthState } from '../store';
@@ -18,13 +18,9 @@ const Users = ({ navigation, route }) => {
   const activeLang = UIState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
 
-  const goToCreate = () => {
-    navigation.navigate('AddUser');
-  };
-
-  const goToHome = () => {
-    navigation.navigate('Home');
-  };
+  // const goToCreate = () => {
+  //   navigation.navigate('AddUser');
+  // };
 
   const loadUsers = useCallback(async () => {
     const selectQuery = query.read('users');
@@ -69,24 +65,24 @@ const Users = ({ navigation, route }) => {
         setLoading(true);
       }
     }
-  }, [loading, route, loadUsers]);
+  }, [loading, route, loadUsers, users]);
 
   useEffect(() => {
     const handleBackPress = () => {
-      goToHome(); // Change the destination force to 'Home'
+      navigation.navigate('Home'); // Change the destination force to 'Home'
       return true; // Return true to prevent default back behavior
     };
     const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackPress);
     return () => {
       backHandler.remove(); // Cleanup the event listener on component unmount
     };
-  }, []);
+  }, [navigation]);
 
   return (
     <BaseLayout
       title={trans.usersPageTitle}
       leftComponent={
-        <Button type="clear" onPress={goToHome} testID="arrow-back-button">
+        <Button type="clear" onPress={() => navigation.navigate('Home')} testID="arrow-back-button">
           <Icon name="arrow-back" size={18} />
         </Button>
       }
@@ -94,32 +90,32 @@ const Users = ({ navigation, route }) => {
     >
       <ScrollView>
         {loading && <Skeleton animation="wave" testID="loading-users" />}
-        {users.map((user, index) => (
-            <ListItem.Swipeable
-              key={index}
-              onPress={async () => await handleSelectUser(user)}
-              rightContent={(reset) => (
-                <Button
-                  title={trans.buttonDelete}
-                  onPress={() => reset()}
-                  icon={{ name: 'delete', color: 'white' }}
-                  buttonStyle={{ minHeight: '100%', backgroundColor: 'red' }}
-                />
-              )}
-              testID={`list-item-user-${user.id}`}
-              bottomDivider
-            >
-              <ListItem.Content>
-                <ListItem.Title testID={`title-username-${user.id}`}>{user.name}</ListItem.Title>
-              </ListItem.Content>
-              {user.active === 1 && (
-                <Icon name="checkmark" size={18} testID={`icon-checkmark-${user.id}`} />
-              )}
-            </ListItem.Swipeable>
-          ))}
+        {users.map((user) => (
+          <ListItem.Swipeable
+            key={user.id}
+            onPress={() => handleSelectUser(user)}
+            testID={`list-item-user-${user.id}`}
+            bottomDivider
+          >
+            <ListItem.Content>
+              <ListItem.Title testID={`title-username-${user.id}`}>{user.name}</ListItem.Title>
+            </ListItem.Content>
+            {user.active === 1 && (
+              <Icon name="checkmark" size={18} testID={`icon-checkmark-${user.id}`} />
+            )}
+          </ListItem.Swipeable>
+        ))}
       </ScrollView>
     </BaseLayout>
   );
 };
 
 export default Users;
+
+Users.propTypes = {
+  route: PropTypes.object,
+};
+
+Users.defaultProps = {
+  route: null,
+};

@@ -1,7 +1,7 @@
+/* eslint-disable prefer-promise-reject-errors */
 import React from 'react';
 import renderer from 'react-test-renderer';
 import { render, fireEvent, act, renderHook, waitFor } from '@testing-library/react-native';
-import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AuthFormPage from '../AuthForm';
 import api from '../../lib/api';

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { render, renderHook, fireEvent, act } from '@testing-library/react-native';
-import { route, MockNavigationProvider } from '@react-navigation/native';
 import DialogForm from '../DialogForm';
 
 describe('DialogForm', () => {
@@ -99,8 +98,8 @@ describe('DialogForm', () => {
     );
 
     // Step 3: Assert that the selected value is updated correctly
-    const updatedValue = result.current[0];
-    expect(updatedValue).toBe(selectedLang);
+    // result.current[0];
+    expect(value).toBe(selectedLang);
 
     const okButton = getByTestId('settings-form-dialog-ok');
     fireEvent.press(okButton);

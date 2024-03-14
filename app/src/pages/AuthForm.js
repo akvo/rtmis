@@ -1,8 +1,10 @@
+/* eslint-disable no-console */
 import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Asset } from 'expo-asset';
 import { View, StyleSheet, Platform, ToastAndroid } from 'react-native';
 import { Input, Button, Text, Dialog } from '@rneui/themed';
+import PropTypes from 'prop-types';
 import { CenterLayout, Image } from '../components';
 import { api, cascades, i18n } from '../lib';
 import { AuthState, UserState, UIState, BuildParamsState } from '../store';
@@ -17,7 +19,13 @@ const ToggleEye = ({ hidden, onPress }) => {
   );
 };
 
+ToggleEye.propTypes = {
+  hidden: PropTypes.bool.isRequired,
+  onPress: PropTypes.func.isRequired,
+};
+
 const AuthForm = ({ navigation }) => {
+  // eslint-disable-next-line global-require
   const logo = Asset.fromModule(require('../assets/icon.png')).uri;
   const { online: isNetworkAvailable, lang: activeLang } = UIState.useState((s) => s);
   const { appVersion } = BuildParamsState.useState((s) => s);
@@ -54,6 +62,8 @@ const AuthForm = ({ navigation }) => {
       });
       return newUserId;
     }
+
+    return null;
   };
 
   const handleGetAllForms = async (formsUrl, userID) => {
@@ -85,9 +95,7 @@ const AuthForm = ({ navigation }) => {
       if (Platform.OS === 'android') {
         ToastAndroid.show(trans.authErrorNoConn, ToastAndroid.LONG);
       }
-      return false;
     }
-
     setError(null);
     setLoading(true);
     api
@@ -119,7 +127,7 @@ const AuthForm = ({ navigation }) => {
         }, 500);
       })
       .catch((err) => {
-        const { status: errorCode } = err?.response;
+        const { status: errorCode } = err?.response || {};
         if ([400, 401].includes(errorCode)) {
           setError(`${errorCode}: ${trans.authErrorPasscode}`);
         } else {

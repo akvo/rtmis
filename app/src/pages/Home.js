@@ -1,10 +1,11 @@
+/* eslint-disable no-console */
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Button, FAB } from '@rneui/themed';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Platform, ToastAndroid } from 'react-native';
 import * as Notifications from 'expo-notifications';
 import * as Location from 'expo-location';
-import * as FileSystem from 'expo-file-system';
+import PropTypes from 'prop-types';
 import { BaseLayout } from '../components';
 import { FormState, UserState, UIState, BuildParamsState, DatapointSyncState } from '../store';
 import { crudForms, crudUsers } from '../database/crud';
@@ -52,7 +53,7 @@ const Home = ({ navigation, route }) => {
       const downloadFiles = [...new Set(cascadeFiles)];
 
       downloadFiles.forEach(async (file) => {
-        await cascades.download(api.getConfig().baseURL + file, file, true)
+        await cascades.download(api.getConfig().baseURL + file, file, true);
       });
 
       responses.forEach(async ({ value: res }) => {
@@ -74,7 +75,7 @@ const Home = ({ navigation, route }) => {
         s.isManualSynced = true;
       });
     } catch (error) {
-      return Promise.reject(error);
+      Promise.reject(error);
     }
   };
 
@@ -136,7 +137,17 @@ const Home = ({ navigation, route }) => {
         }
       }
     }
-  }, [currentUserId, params, appLang, activeLang, isManualSynced]);
+  }, [
+    params,
+    currentUserId,
+    activeLang,
+    appLang,
+    isManualSynced,
+    trans.versionLabel,
+    trans.submittedLabel,
+    trans.draftLabel,
+    trans.syncLabel,
+  ]);
 
   useEffect(() => {
     getUserForms();
@@ -148,19 +159,23 @@ const Home = ({ navigation, route }) => {
         ToastAndroid.show(trans.downloadingData, ToastAndroid.SHORT);
       }
     }
-  }, [loading]);
+  }, [loading, trans.downloadingData]);
 
-  const filteredData = useMemo(() => data.filter(
-      (d) => (search && d?.name?.toLowerCase().includes(search.toLowerCase())) || !search,
-    ), [data, search]);
+  const filteredData = useMemo(
+    () =>
+      data.filter(
+        (d) => (search && d?.name?.toLowerCase().includes(search.toLowerCase())) || !search,
+      ),
+    [data, search],
+  );
 
   useEffect(() => {
-    const subscription = Notifications.addNotificationReceivedListener((notification) => {
+    const subscription = Notifications.addNotificationReceivedListener(() => {
       getUserForms();
     });
 
     return () => subscription.remove();
-  }, []);
+  }, [getUserForms]);
 
   const watchCurrentPosition = useCallback(
     async (unsubscribe = false) => {
@@ -245,3 +260,11 @@ const Home = ({ navigation, route }) => {
 };
 
 export default Home;
+
+Home.propTypes = {
+  route: PropTypes.object,
+};
+
+Home.defaultProps = {
+  route: null,
+};

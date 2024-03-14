@@ -204,7 +204,7 @@ exports[`FormDataDetails should match with snapshot 1`] = `
                   "backgroundColor": "transparent",
                   "color": "#242424",
                   "fontSize": 14,
-                  "fontWeight": 700,
+                  "fontWeight": "700",
                   "marginBottom": 4,
                 }
               }
@@ -332,7 +332,7 @@ exports[`FormDataDetails should match with snapshot 1`] = `
                   "backgroundColor": "transparent",
                   "color": "#242424",
                   "fontSize": 14,
-                  "fontWeight": 700,
+                  "fontWeight": "700",
                   "marginBottom": 4,
                 }
               }
@@ -460,7 +460,7 @@ exports[`FormDataDetails should match with snapshot 1`] = `
                   "backgroundColor": "transparent",
                   "color": "#242424",
                   "fontSize": 14,
-                  "fontWeight": 700,
+                  "fontWeight": "700",
                   "marginBottom": 4,
                 }
               }
@@ -597,7 +597,7 @@ exports[`FormDataDetails should match with snapshot 1`] = `
                   "backgroundColor": "transparent",
                   "color": "#242424",
                   "fontSize": 14,
-                  "fontWeight": 700,
+                  "fontWeight": "700",
                   "marginBottom": 4,
                 }
               }
@@ -643,7 +643,7 @@ exports[`FormDataDetails should match with snapshot 1`] = `
           style={
             {
               "fontSize": 14,
-              "fontWeight": 700,
+              "fontWeight": "700",
               "marginBottom": 4,
             }
           }

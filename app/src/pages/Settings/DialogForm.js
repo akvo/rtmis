@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { Dialog, Input, Slider, Text } from '@rneui/themed';
 import { Dropdown } from 'react-native-element-dropdown';
 import Icon from 'react-native-vector-icons/Ionicons';
+import PropTypes from 'prop-types';
 import { UIState } from '../../store';
 import { i18n } from '../../lib';
 
-const DialogForm = ({ onOk, onCancel, showDialog, edit, initValue = 0 }) => {
+const DialogForm = ({ onOk, onCancel, showDialog, edit, initValue }) => {
   const [value, setValue] = useState(initValue);
   const activeLang = UIState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
@@ -17,6 +18,7 @@ const DialogForm = ({ onOk, onCancel, showDialog, edit, initValue = 0 }) => {
     <Dialog isVisible={showDialog} testID="settings-form-dialog">
       {type === 'slider' && (
         <Slider
+          // eslint-disable-next-line react/jsx-props-no-spreading
           {...slider}
           allowTouchTrack
           onValueChange={setValue}
@@ -66,3 +68,16 @@ const DialogForm = ({ onOk, onCancel, showDialog, edit, initValue = 0 }) => {
 };
 
 export default DialogForm;
+
+DialogForm.propTypes = {
+  onOk: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  showDialog: PropTypes.bool.isRequired,
+  edit: PropTypes.object,
+  initValue: PropTypes.number,
+};
+
+DialogForm.defaultProps = {
+  initValue: 0,
+  edit: null,
+};

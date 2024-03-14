@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { ListItem, Image } from '@rneui/themed';
 import moment from 'moment';
-
+import PropTypes from 'prop-types';
 import { FormState, UIState } from '../../store';
 import { cascades, i18n } from '../../lib';
 import { BaseLayout } from '../../components';
@@ -60,6 +60,20 @@ const SubtitleContent = ({ index, answers, type, id, source, option }) => {
   }
 };
 
+SubtitleContent.propTypes = {
+  index: PropTypes.number.isRequired,
+  answers: PropTypes.object.isRequired,
+  type: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  source: PropTypes.object,
+  option: PropTypes.array,
+};
+
+SubtitleContent.defaultProps = {
+  source: null,
+  option: [],
+};
+
 const FormDataDetails = ({ navigation, route }) => {
   const selectedForm = FormState.useState((s) => s.form);
   const currentValues = FormState.useState((s) => s.currentValues);
@@ -83,8 +97,6 @@ const FormDataDetails = ({ navigation, route }) => {
             s.currentValues = {};
           });
           navigation.dispatch(e.data.action);
-        } else {
-          
         }
       }),
     [navigation, currentValues],
@@ -95,7 +107,7 @@ const FormDataDetails = ({ navigation, route }) => {
       <ScrollView>
         {questions?.map((q, i) =>
           q.type === 'photo' && currentValues?.[q.id] ? (
-            <View key={i} style={styles.containerImage}>
+            <View key={q.id} style={styles.containerImage}>
               <Text style={styles.title} testID={`text-question-${i}`}>
                 {q.label}
               </Text>
@@ -106,13 +118,20 @@ const FormDataDetails = ({ navigation, route }) => {
               />
             </View>
           ) : (
-            <ListItem key={i} bottomDivider>
+            <ListItem key={q.id} bottomDivider>
               <ListItem.Content>
                 <ListItem.Title style={styles.title} testID={`text-question-${i}`}>
                   {q.label}
                 </ListItem.Title>
                 <ListItem.Subtitle>
-                  <SubtitleContent index={i} answers={currentValues} {...q} />
+                  <SubtitleContent
+                    index={i}
+                    answers={currentValues}
+                    type={q.type}
+                    id={q.id}
+                    source={q?.source}
+                    option={q?.option}
+                  />
                 </ListItem.Subtitle>
               </ListItem.Content>
             </ListItem>
@@ -149,3 +168,11 @@ const styles = StyleSheet.create({
 });
 
 export default FormDataDetails;
+
+FormDataDetails.propTypes = {
+  route: PropTypes.object,
+};
+
+FormDataDetails.defaultProps = {
+  route: null,
+};

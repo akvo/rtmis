@@ -1,3 +1,4 @@
+/* eslint-disable prefer-promise-reject-errors */
 import React from 'react';
 import renderer from 'react-test-renderer';
 import { render, renderHook, fireEvent, act, waitFor } from '@testing-library/react-native';
@@ -97,10 +98,10 @@ describe('AddNewForm Page', () => {
     api.getConfig.mockImplementation(() => ({ baseURL: 'http://example.com' }));
     api.get.mockImplementation((url) => {
       if (url === '/forms/1') {
-        return Promise.resolve({ data: FormId1 });
+        Promise.resolve({ data: FormId1 });
       }
       if (url === '/cascades/1.sqlite') {
-        return Promise.resolve({ data: mockFile });
+        Promise.resolve({ data: mockFile });
       }
     });
 

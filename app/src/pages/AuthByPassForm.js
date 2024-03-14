@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+/* eslint-disable no-console */
+import React from 'react';
 import { Asset } from 'expo-asset';
 import { View, StyleSheet, Platform, ToastAndroid } from 'react-native';
 import { Input, Button, Text, Dialog } from '@rneui/themed';
@@ -8,6 +9,7 @@ import { AuthState, UserState, UIState } from '../store';
 import { crudSessions, crudForms, crudUsers } from '../database/crud';
 
 const AuthByPassForm = ({ navigation }) => {
+  // eslint-disable-next-line global-require
   const logo = Asset.fromModule(require('../assets/icon.png')).uri;
   const { online: isNetworkAvailable, lang: activeLang } = UIState.useState((s) => s);
   const [loading, setLoading] = React.useState(false);
@@ -75,7 +77,7 @@ const AuthByPassForm = ({ navigation }) => {
         }
       })
       .catch((err) => {
-        const { status: errStatus } = err?.response;
+        const { status: errStatus } = err?.response || {};
         if ([400, 401].includes(errStatus)) {
           setError(trans.authErrorPasscode);
         } else {

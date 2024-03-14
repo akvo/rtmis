@@ -16,7 +16,7 @@ jest.mock('expo-crypto');
 jest.mock('../../lib/api');
 jest.mock('../../database/crud');
 
-db = conn.init;
+const db = conn.init;
 
 describe('AddUserPage', () => {
   test('renders correctly', () => {
@@ -118,7 +118,9 @@ describe('AddUserPage', () => {
     const { name: currentUserName } = userStateRef.current;
     expect(currentUserName).toEqual('User2');
 
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    await new Promise((resolve) => {
+      setTimeout(resolve, 500);
+    });
 
     await waitFor(() => {
       expect(navigation.navigate).toHaveBeenCalledWith('Home', { newForms: true });

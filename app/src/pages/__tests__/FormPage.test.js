@@ -1,8 +1,8 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
-import { render, waitFor, act } from '@testing-library/react-native';
-import { FormState } from 'store';
+import { render, waitFor } from '@testing-library/react-native';
+
 import FormPage from '../FormPage';
+import { FormState } from '../../store';
 
 jest.useFakeTimers();
 
@@ -242,11 +242,16 @@ const exampleTestForm = {
   ],
 };
 
-jest.mock('../../form/FormContainer', () => function({ forms, initialValues, onSubmit }) {
+jest.mock('../../form/FormContainer', ({ forms, initialValues, onSubmit }) => {
   mockFormContainer(forms, initialValues, onSubmit);
   return (
     <mock-FormContainer>
-      <button onPress={() => onSubmit(mockValues, mockRefreshForm)} testID="mock-submit-button">
+      <button
+        type="button"
+        onClick={() => onSubmit(mockValues, mockRefreshForm)}
+        // eslint-disable-next-line react/no-unknown-property
+        testID="mock-submit-button"
+      >
         Submit
       </button>
     </mock-FormContainer>

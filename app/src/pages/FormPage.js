@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   Platform,
@@ -10,7 +11,7 @@ import {
 import { Button, Dialog, Text } from '@rneui/themed';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as SQLite from 'expo-sqlite';
-
+import PropTypes from 'prop-types';
 import FormContainer from '../form/FormContainer';
 import { SaveDialogMenu, SaveDropdownMenu } from '../form/support';
 import { BaseLayout } from '../components';
@@ -42,55 +43,6 @@ const FormPage = ({ navigation, route }) => {
   const [currentDataPoint, setCurrentDataPoint] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const closeAllCascades = () => {
-    const { cascades: cascadesFiles } = formJSON || {};
-    cascadesFiles?.forEach((csFile) => {
-      const [dbFile] = csFile?.split('/')?.slice(-1);
-      const connDB = SQLite.openDatabase(dbFile);
-      connDB.closeAsync();
-    });
-  };
-
-  const refreshForm = () => {
-    closeAllCascades();
-    FormState.update((s) => {
-      s.currentValues = {};
-      s.visitedQuestionGroup = [];
-      s.cascades = {};
-      s.surveyDuration = 0;
-    });
-  };
-
-  useEffect(() => {
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-      if (Object.keys(currentValues).length) {
-        setShowDialogMenu(true);
-        return true;
-      }
-      refreshForm();
-      return false;
-    });
-    return () => backHandler.remove();
-  }, [currentValues]);
-
-  useEffect(() => {
-    if (!isNewSubmission) {
-      fetchSavedSubmission().catch((e) => console.error('[Fetch Data Point Failed]: ', e));
-    }
-  }, [isNewSubmission]);
-
-  const fetchSavedSubmission = useCallback(async () => {
-    setLoading(true);
-    const dpValue = await crudDataPoints.selectDataPointById({ id: savedDataPointId });
-    setCurrentDataPoint(dpValue);
-    if (dpValue?.json && Object.keys(dpValue.json)?.length) {
-      FormState.update((s) => {
-        s.currentValues = dpValue.json;
-      });
-    }
-    setLoading(false);
-  }, [savedDataPointId]);
-
   const formJSON = useMemo(() => {
     if (!selectedForm?.json) {
       return {};
@@ -98,13 +50,32 @@ const FormPage = ({ navigation, route }) => {
     return JSON.parse(selectedForm.json);
   }, [selectedForm]);
 
+  const refreshForm = useCallback(() => {
+    /**
+     * Close connection for all cascade SQLite
+     */
+    const { cascades: cascadesFiles } = formJSON || {};
+    cascadesFiles?.forEach((csFile) => {
+      const [dbFile] = csFile?.split('/')?.slice(-1) || [];
+      const connDB = SQLite.openDatabase(dbFile);
+      connDB.closeAsync();
+    });
+
+    FormState.update((s) => {
+      s.currentValues = {};
+      s.visitedQuestionGroup = [];
+      s.cascades = {};
+      s.surveyDuration = 0;
+    });
+  }, [formJSON]);
+
   const handleOnPressArrowBackButton = () => {
     if (Object.keys(currentValues).length) {
       setShowDialogMenu(true);
       return;
     }
     refreshForm();
-    return navigation.goBack();
+    navigation.goBack();
   };
 
   const handleOnSaveAndExit = async () => {
@@ -156,17 +127,18 @@ const FormPage = ({ navigation, route }) => {
       formJSON.question_group
         .flatMap((qg) => qg.question)
         .forEach((q) => {
-          let val = values.answers?.[q.id];
+          const val = values.answers?.[q.id];
           if (!val && val !== 0) {
             return;
           }
-          if (q.type === 'cascade') {
-            val = val.slice(-1)[0];
+          answers[q.id] = val;
+          if (q.type === 'cascade' && Array.isArray(val) && val.length) {
+            const [cascadeValue] = val.slice(-1);
+            answers[q.id] = cascadeValue;
           }
           if (q.type === 'number') {
-            val = parseFloat(val);
+            answers[q.id] = parseFloat(val);
           }
-          answers[q.id] = val;
         });
 
       const datapoitName = values?.name || trans.untitled;
@@ -209,6 +181,36 @@ const FormPage = ({ navigation, route }) => {
       }
     }
   };
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      if (Object.keys(currentValues).length) {
+        setShowDialogMenu(true);
+        return true;
+      }
+      refreshForm();
+      return false;
+    });
+    return () => backHandler.remove();
+  }, [currentValues, refreshForm]);
+
+  const fetchSavedSubmission = useCallback(async () => {
+    setLoading(true);
+    const dpValue = await crudDataPoints.selectDataPointById({ id: savedDataPointId });
+    setCurrentDataPoint(dpValue);
+    if (dpValue?.json && Object.keys(dpValue.json)?.length) {
+      FormState.update((s) => {
+        s.currentValues = dpValue.json;
+      });
+    }
+    setLoading(false);
+  }, [savedDataPointId]);
+
+  useEffect(() => {
+    if (!isNewSubmission) {
+      fetchSavedSubmission().catch((e) => console.error('[Fetch Data Point Failed]: ', e));
+    }
+  }, [isNewSubmission, fetchSavedSubmission]);
 
   return (
     <BaseLayout
@@ -283,3 +285,11 @@ const styles = StyleSheet.create({
 });
 
 export default FormPage;
+
+FormPage.propTypes = {
+  route: PropTypes.object,
+};
+
+FormPage.defaultProps = {
+  route: null,
+};

@@ -1,13 +1,14 @@
+/* eslint-disable import/no-unresolved */
 import React, { useState } from 'react';
 import { Asset } from 'expo-asset';
 import * as FileSystem from 'expo-file-system';
 import { useNavigation } from '@react-navigation/native';
 import { act, render, renderHook, waitFor, fireEvent } from '@testing-library/react-native';
+// eslint-disable-next-line import/extensions
 import mockBackHandler from 'react-native/Libraries/Utilities/__mocks__/BackHandler.js';
 
 import MapView from '../MapView';
 import { FormState } from '../../store';
-import { loc } from '../../lib';
 
 const loadHtml = require('map.html');
 
@@ -56,12 +57,12 @@ describe('MapView', () => {
     const { getByTestId } = render(<MapView route={route} />);
     const { result: resultState } = renderHook(() => useState());
 
-    const [htmlContent, setHtmlContent] = resultState.current;
+    const [, setHtmlContent] = resultState.current;
 
     await act(async () => {
+      /* eslint-disable global-require */
       const [{ localUri }] = await Asset.loadAsync(require('../../assets/map.html'));
       const fileContents = await FileSystem.readAsStringAsync(localUri);
-      const { latitude: lat, longitude: lng } = route?.params;
       setHtmlContent(fileContents);
     });
 
@@ -74,11 +75,11 @@ describe('MapView', () => {
   });
 
   it('should use current location when the button clicked', async () => {
-    const curr_lat = 36.12345;
-    const curr_lng = -122.6789;
+    const currLat = 36.12345;
+    const currLng = -122.6789;
     const route = {
       params: {
-        current_location: { lat: curr_lat, lng: curr_lng },
+        current_location: { lat: currLat, lng: currLng },
         lat: 37.12345,
         lng: -122.6789,
       },
@@ -96,7 +97,7 @@ describe('MapView', () => {
       FormState.update((s) => {
         s.currentValues = {
           ...s.currentValues,
-          geoField: [curr_lat, curr_lng],
+          geoField: [currLat, currLng],
         };
       });
     });
@@ -105,8 +106,8 @@ describe('MapView', () => {
       const { geoField } = resMapState.current;
       const [latitude, longitude] = geoField || {};
 
-      expect(latitude).toBe(curr_lat);
-      expect(longitude).toBe(curr_lng);
+      expect(latitude).toBe(currLat);
+      expect(longitude).toBe(currLng);
     });
   });
 
@@ -158,10 +159,8 @@ describe('MapView', () => {
 
     const { getByTestId } = render(<MapView route={route} navigation={mockNavigation} />);
     const { result } = renderHook(() => useState({ lat: null, lng: null }));
-    const { result: resultVisible } = renderHook(() => useState(false));
 
-    const [markerData, setMarkerData] = result.current;
-    const [visible, setVisible] = resultVisible.current;
+    const [, setMarkerData] = result.current;
     const webViewEl = getByTestId('webview-map');
     // Mock the data that will be passed in the onMessage event
     const mockMarkerData = { lat: route.params.lat, lng: route.params.lng, distance: 21 };

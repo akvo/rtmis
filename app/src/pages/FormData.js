@@ -3,11 +3,11 @@ import { Button, Dialog, Text } from '@rneui/themed';
 import { View, ActivityIndicator, StyleSheet, ToastAndroid } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
-
-import { UserState , UIState, FormState } from '../store';
+import PropTypes from 'prop-types';
+import { UserState, UIState, FormState } from '../store';
 import { BaseLayout } from '../components';
 import { crudDataPoints } from '../database/crud';
-import { i18n, backgroundTask, api } from '../lib';
+import { i18n, backgroundTask } from '../lib';
 import { getCurrentTimestamp } from '../form/lib';
 import crudJobs, { jobStatus } from '../database/crud/crud-jobs';
 
@@ -88,15 +88,26 @@ const FormDataPage = ({ navigation, route }) => {
       };
     });
     setData(results);
-  }, [showSubmitted, activeUserId]);
+  }, [
+    showSubmitted,
+    activeUserId,
+    formId,
+    trans.createdLabel,
+    trans.surveyDurationLabel,
+    trans.syncLabel,
+  ]);
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
-  const filteredData = useMemo(() => data.filter(
-      (d) => (search && d?.name?.toLowerCase().includes(search.toLowerCase())) || !search,
-    ), [data, search]);
+  const filteredData = useMemo(
+    () =>
+      data.filter(
+        (d) => (search && d?.name?.toLowerCase().includes(search.toLowerCase())) || !search,
+      ),
+    [data, search],
+  );
 
   const goToDetails = (id) => {
     const findData = filteredData.find((d) => d.id === id);
@@ -181,6 +192,7 @@ const FormDataPage = ({ navigation, route }) => {
           <Icon name="arrow-back" size={18} />
         </Button>
       }
+      // eslint-disable-next-line react/jsx-props-no-spreading
       {...syncButtonElement({
         showSubmitted,
         handleSyncButtonOnPress,
@@ -225,3 +237,11 @@ const styles = StyleSheet.create({
 });
 
 export default FormDataPage;
+
+FormDataPage.propTypes = {
+  route: PropTypes.object,
+};
+
+FormDataPage.defaultProps = {
+  route: null,
+};

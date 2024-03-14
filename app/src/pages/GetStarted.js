@@ -7,6 +7,7 @@ import { api, i18n } from '../lib';
 import { crudConfig } from '../database/crud';
 
 const GetStarted = ({ navigation }) => {
+  // eslint-disable-next-line global-require
   const logo = Asset.fromModule(require('../assets/icon.png')).uri;
   const [currentConfig, setCurrentConfig] = useState({});
   const [IPAddr, setIPAddr] = useState(null);
