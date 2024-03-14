@@ -77,19 +77,21 @@ export default TypeOption;
 
 TypeOption.propTypes = {
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.arrayOf().isRequired,
+  value: PropTypes.array,
   keyform: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired,
   label: PropTypes.string.isRequired,
-  tooltip: PropTypes.string.isRequired,
+  tooltip: PropTypes.object,
   required: PropTypes.bool.isRequired,
   requiredSign: PropTypes.string,
   disabled: PropTypes.bool,
-  option: PropTypes.arrayOf(),
+  option: PropTypes.array,
 };
 
 TypeOption.defaultProps = {
+  value: null,
   requiredSign: null,
   disabled: false,
   option: [],
+  tooltip: null,
 };

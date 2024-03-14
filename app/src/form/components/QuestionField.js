@@ -142,12 +142,16 @@ export default QuestionField;
 
 QuestionField.propTypes = {
   keyform: PropTypes.number.isRequired,
-  field: PropTypes.objectOf().isRequired,
+  field: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string,
-    PropTypes.objectOf(),
-    PropTypes.arrayOf(),
-  ]).isRequired,
+    PropTypes.object,
+    PropTypes.array,
+  ]),
+};
+
+QuestionField.defaultProps = {
+  value: null,
 };

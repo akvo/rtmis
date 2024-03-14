@@ -17,6 +17,6 @@ export default QuestionGroup;
 
 QuestionGroup.propTypes = {
   index: PropTypes.number.isRequired,
-  group: PropTypes.objectOf().isRequired,
-  activeQuestions: PropTypes.arrayOf().isRequired,
+  group: PropTypes.object.isRequired,
+  activeQuestions: PropTypes.array.isRequired,
 };

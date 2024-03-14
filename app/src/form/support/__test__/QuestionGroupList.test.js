@@ -1,10 +1,11 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
-import { render, waitFor } from '@testing-library/react-native';
+import { render } from '@testing-library/react-native';
 import QuestionGroupList from '../QuestionGroupList';
 
 jest.useFakeTimers();
-jest.mock("expo-font");
-jest.mock("expo-asset");
+jest.mock('expo-font');
+jest.mock('expo-asset');
 
 const example = {
   name: 'Testing Form',
@@ -145,7 +146,7 @@ const mockQuestionGroupListItem = jest.fn();
 jest.mock(
   '../QuestionGroupList',
   () =>
-    function({ form, values = {}, activeQuestionGroup, dataPointNameText }) {
+    ({ form, values = {}, activeQuestionGroup, dataPointNameText }) => {
       mockQuestionGroupList(form, values, activeQuestionGroup, dataPointNameText);
       return (
         <mock-QuestionGroupList>
@@ -155,7 +156,7 @@ jest.mock(
     },
 );
 
-jest.mock('../QuestionGroupListItem', () => function({ name, active, completedQuestionGroup = false }) {
+jest.mock('../QuestionGroupListItem', () => ({ name, active, completedQuestionGroup = false }) => {
   mockQuestionGroupListItem(name, active, completedQuestionGroup);
   return <mock-QuestionGroupListItem />;
 });

@@ -143,7 +143,7 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
       scrollEnabled
       data={questions}
       keyExtractor={(item) => `question-${item.id}`}
-      renderItem={({ item: field, ix }) => (
+      renderItem={({ item: field, index: ix }) => (
         <View key={`question-${field.id}`} style={styles.questionContainer}>
           <QuestionField
             keyform={ix}
@@ -163,9 +163,9 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
 export default Question;
 
 Question.propTypes = {
-  group: PropTypes.objectOf().isRequired,
+  group: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
-  activeQuestions: PropTypes.arrayOf(),
+  activeQuestions: PropTypes.array,
 };
 
 Question.defaultProps = {

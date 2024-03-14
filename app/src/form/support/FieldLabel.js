@@ -45,7 +45,7 @@ export default FieldLabel;
 FieldLabel.propTypes = {
   keyform: PropTypes.number,
   name: PropTypes.string.isRequired,
-  tooltip: PropTypes.objectOf(PropTypes.shape({ text: PropTypes.string })),
+  tooltip: PropTypes.shape({ text: PropTypes.string }),
   requiredSign: PropTypes.string,
 };
 

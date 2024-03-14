@@ -1,10 +1,11 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Text, Icon } from '@rneui/themed';
+import PropTypes from 'prop-types';
 import styles from '../styles';
 
-const QuestionGroupListItem = ({ label, active, completedQuestionGroup = false, onPress }) => {
-  const icon = completedQuestionGroup ? 'check-circle' : 'circle';
+const QuestionGroupListItem = ({ label, active, completedQuestionGroup, onPress }) => {
+  // const icon = completedQuestionGroup ? 'check-circle' : 'circle';
   const bgColor = completedQuestionGroup ? '#2884bd' : '#d4d4d4';
   const activeOpacity = active ? styles.questionGroupListItemActive : {};
   const activeName = active ? styles.questionGroupListItemNameActive : {};
@@ -28,3 +29,14 @@ const QuestionGroupListItem = ({ label, active, completedQuestionGroup = false, 
 };
 
 export default QuestionGroupListItem;
+
+QuestionGroupListItem.propTypes = {
+  label: PropTypes.string.isRequired,
+  active: PropTypes.bool.isRequired,
+  completedQuestionGroup: PropTypes.bool,
+  onPress: PropTypes.func.isRequired,
+};
+
+QuestionGroupListItem.defaultProps = {
+  completedQuestionGroup: false,
+};

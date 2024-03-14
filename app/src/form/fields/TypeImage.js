@@ -131,17 +131,19 @@ const styles = StyleSheet.create({
 
 TypeImage.propTypes = {
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.arrayOf().isRequired,
+  value: PropTypes.string,
   keyform: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired,
   label: PropTypes.string.isRequired,
-  tooltip: PropTypes.string.isRequired,
+  tooltip: PropTypes.object,
   required: PropTypes.bool.isRequired,
   requiredSign: PropTypes.string,
   useGallery: PropTypes.bool,
 };
 
 TypeImage.defaultProps = {
+  value: '',
   requiredSign: null,
   useGallery: false,
+  tooltip: null,
 };

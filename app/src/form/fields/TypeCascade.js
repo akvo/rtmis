@@ -237,18 +237,20 @@ export default TypeCascade;
 
 TypeCascade.propTypes = {
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.arrayOf().isRequired,
+  value: PropTypes.array,
   keyform: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired,
   label: PropTypes.string.isRequired,
-  tooltip: PropTypes.string.isRequired,
+  tooltip: PropTypes.object,
   required: PropTypes.bool.isRequired,
   requiredSign: PropTypes.string,
-  source: PropTypes.objectOf().isRequired,
+  source: PropTypes.object.isRequired,
   disabled: PropTypes.bool,
 };
 
 TypeCascade.defaultProps = {
+  value: null,
   requiredSign: null,
   disabled: false,
+  tooltip: null,
 };

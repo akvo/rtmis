@@ -3,12 +3,14 @@ import { render, fireEvent, waitFor } from 'react-native-testing-library';
 import { Platform, ToastAndroid } from 'react-native';
 import FormNavigation from '../FormNavigation';
 
-jest.mock("expo-font");
-jest.mock("expo-asset");
+jest.mock('expo-font');
+jest.mock('expo-asset');
 
 describe('FormNavigation component', () => {
   it('renders form navigation correctly', async () => {
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await new Promise((resolve) => {
+      setTimeout(resolve, 100);
+    });
 
     const setActiveGroup = jest.fn();
     const onSubmit = jest.fn();
@@ -94,9 +96,7 @@ describe('FormNavigation component', () => {
   });
 
   it('should disable Back and Next button when QuestionGroupList showed', () => {
-    const wrapper = render(
-      <FormNavigation showQuestionGroupList activeGroup={0} totalGroup={2} />,
-    );
+    const wrapper = render(<FormNavigation showQuestionGroupList activeGroup={0} totalGroup={2} />);
 
     const btnNext = wrapper.queryByTestId('form-nav-btn-next');
     expect(btnNext).toBeTruthy();
@@ -108,9 +108,7 @@ describe('FormNavigation component', () => {
   });
 
   it('should not disable Submit button when QuestionGroupList showed', () => {
-    const wrapper = render(
-      <FormNavigation showQuestionGroupList activeGroup={1} totalGroup={2} />,
-    );
+    const wrapper = render(<FormNavigation showQuestionGroupList activeGroup={1} totalGroup={2} />);
 
     const submitButton = wrapper.queryByTestId('form-btn-submit');
     expect(submitButton).toBeTruthy();

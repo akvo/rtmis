@@ -22,7 +22,9 @@ const checkValuesBeforeCallback = (values) =>
       }
       // check array
       if (value && Array.isArray(value)) {
-        const check = value.filter((y) => typeof y !== 'undefined' && (y || Number.isNaN(y)));
+        const check = value.filter(
+          (y) => typeof y !== 'undefined' && (y || Number.isNaN(Number(y))),
+        );
         value = check.length ? check : null;
       }
       // check empty
@@ -59,8 +61,7 @@ const LoadingOverlay = ({ trans }) => (
 );
 
 LoadingOverlay.propTypes = {
-  trans: PropTypes.objectOf(PropTypes.shape({ loadingPrefilledAnswer: PropTypes.string }))
-    .isRequired,
+  trans: PropTypes.shape({ loadingPrefilledAnswer: PropTypes.string }).isRequired,
 };
 
 const FormContainer = ({ forms, onSubmit, setShowDialogMenu, isMonitoring }) => {
@@ -147,8 +148,13 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu, isMonitoring }) => 
 export default FormContainer;
 
 FormContainer.propTypes = {
-  forms: PropTypes.objectOf().isRequired,
+  forms: PropTypes.object,
   onSubmit: PropTypes.func.isRequired,
   setShowDialogMenu: PropTypes.func.isRequired,
-  isMonitoring: PropTypes.bool.isRequired,
+  isMonitoring: PropTypes.bool,
+};
+
+FormContainer.defaultProps = {
+  forms: {},
+  isMonitoring: false,
 };

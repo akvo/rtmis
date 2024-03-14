@@ -131,15 +131,16 @@ const strToFunction = (fnString, values) => {
   }
 };
 
-export const replaceNamesWithIds = (fnString, questions) =>
-  fnString.replace(/#([a-zA-Z0-9_]+)+#/g, (match, token) => {
-    const allQuestions = questions.flatMap((q) => q.question);
+export const replaceNamesWithIds = (fnString, questions) => {
+  const allQuestions = questions.flatMap((q) => q.question);
+  return fnString.replace(/#([a-zA-Z0-9_]+)+#/g, (match, token) => {
     const foundQuestion = allQuestions.find((q) => q.name === token);
     if (foundQuestion) {
       return `#${foundQuestion.id}`;
     }
     return `'${match}'`;
   });
+};
 
 const TypeAutofield = ({ keyform, id, label, tooltip, fn, displayOnly, questions }) => {
   const [value, setValue] = useState(null);
@@ -183,7 +184,7 @@ const TypeAutofield = ({ keyform, id, label, tooltip, fn, displayOnly, questions
           ...styles.autoFieldContainer,
           backgroundColor: fieldColor || styles.autoFieldContainer.backgroundColor,
         }}
-        value={(value || value === 0) && !Number.isNaN(value) ? String(value) : null}
+        value={(value || value === 0) ? String(value) : null}
         testID="type-autofield"
         multiline
         numberOfLines={2}
@@ -203,18 +204,17 @@ TypeAutofield.propTypes = {
   keyform: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired,
   label: PropTypes.string.isRequired,
-  tooltip: PropTypes.string.isRequired,
-  fn: PropTypes.objectOf(
-    PropTypes.shape({
-      fnString: PropTypes.string,
-      fnColor: PropTypes.string,
-    }),
-  ).isRequired,
+  tooltip: PropTypes.object,
+  fn: PropTypes.shape({
+    fnString: PropTypes.string,
+    fnColor: PropTypes.string,
+  }).isRequired,
   displayOnly: PropTypes.bool,
-  questions: PropTypes.arrayOf(),
+  questions: PropTypes.array,
 };
 
 TypeAutofield.defaultProps = {
   displayOnly: false,
   questions: [],
+  tooltip: null,
 };

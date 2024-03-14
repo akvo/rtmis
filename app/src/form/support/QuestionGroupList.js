@@ -1,12 +1,14 @@
 import React, { useMemo } from 'react';
 import { View } from 'react-native';
 import { Text, Divider } from '@rneui/themed';
+import PropTypes from 'prop-types';
 import QuestionGroupListItem from './QuestionGroupListItem';
 import { validateDependency, modifyDependency, generateDataPointName } from '../lib';
 import styles from '../styles';
 import { FormState } from '../../store';
 
-export const checkCompleteQuestionGroup = (form, values) => form.question_group.map((questionGroup) => {
+export const checkCompleteQuestionGroup = (form, values) =>
+  form.question_group.map((questionGroup) => {
     const filteredQuestions = questionGroup.question.filter((q) => q.required);
     return (
       filteredQuestions
@@ -42,7 +44,10 @@ const QuestionGroupList = ({
   const cascades = FormState.useState((s) => s.cascades);
   const forms = selectedForm?.json ? JSON.parse(selectedForm.json) : {};
 
-  const completedQuestionGroup = useMemo(() => checkCompleteQuestionGroup(form, currentValues), [form, currentValues]);
+  const completedQuestionGroup = useMemo(
+    () => checkCompleteQuestionGroup(form, currentValues),
+    [form, currentValues],
+  );
 
   const handleOnPress = (questionGroupId) => {
     setActiveQuestionGroup(questionGroupId);
@@ -81,3 +86,10 @@ const QuestionGroupList = ({
 };
 
 export default QuestionGroupList;
+
+QuestionGroupList.propTypes = {
+  form: PropTypes.object.isRequired,
+  activeQuestionGroup: PropTypes.number.isRequired,
+  setActiveQuestionGroup: PropTypes.func.isRequired,
+  setShowQuestionGroupList: PropTypes.func.isRequired,
+};

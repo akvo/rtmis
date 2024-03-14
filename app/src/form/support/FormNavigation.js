@@ -154,7 +154,7 @@ const FormNavigation = ({
 export default FormNavigation;
 
 FormNavigation.propTypes = {
-  currentGroup: PropTypes.objectOf().isRequired,
+  currentGroup: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
   activeGroup: PropTypes.number.isRequired,
   setActiveGroup: PropTypes.func.isRequired,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, act, waitFor } from '@testing-library/react-native';
+import { render, act } from '@testing-library/react-native';
 import QuestionGroupList, { checkCompleteQuestionGroup } from '../QuestionGroupList';
 import QuestionGroupListItem from '../QuestionGroupListItem';
 import { FormState } from '../../../store';
