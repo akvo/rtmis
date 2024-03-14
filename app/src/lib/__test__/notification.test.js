@@ -11,7 +11,7 @@ describe('notificationHandler', () => {
   describe('registerForPushNotificationsAsync', () => {
     it('should register for push notifications on Android', async () => {
       Platform.OS = 'android';
-      Device.isDevice = true;
+      Device.mockReturnValue({ isDevice: true });
       const {
         setNotificationChannelAsync,
         getPermissionsAsync,
@@ -39,7 +39,7 @@ describe('notificationHandler', () => {
 
     it('should log a warning if push notification permissions are not granted', async () => {
       const consoleSpy = jest.spyOn(console, 'warn');
-      Device.isDevice = true;
+      Device.mockReturnValue({ isDevice: true });
       Platform.OS = 'android';
       const { getPermissionsAsync, requestPermissionsAsync } = Notifications;
       getPermissionsAsync.mockImplementation(() => Promise.resolve({ status: 'denied' }));
@@ -58,7 +58,7 @@ describe('notificationHandler', () => {
 
     it('should log a warning if not running on a physical device', async () => {
       const consoleSpy = jest.spyOn(console, 'warn');
-      Device.isDevice = false;
+      Device.mockReturnValue({ isDevice: false });
       Platform.OS = 'android';
 
       const token = await notification.registerForPushNotificationsAsync();

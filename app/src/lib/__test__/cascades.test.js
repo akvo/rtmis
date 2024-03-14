@@ -14,8 +14,8 @@ jest.mock('expo-file-system', () => ({
     downloadUrl,
     fileUrl,
   })),
-  readDirectoryAsync: jest.fn(async (fileUri) => ['file.sqlite', 'file.sqlite-journal', 'db.db']),
-  deleteAsync: jest.fn(async (fileUri) => true),
+  readDirectoryAsync: jest.fn(async () => ['file.sqlite', 'file.sqlite-journal', 'db.db']),
+  deleteAsync: jest.fn(async () => true),
 }));
 
 const { DIR_NAME } = cascades;
@@ -26,9 +26,9 @@ describe('cascades', () => {
     await cascades.createSqliteDir();
 
     // Assertions
-    expect(FileSystem.getInfoAsync).toHaveBeenCalledWith(`test-document-directory/${  DIR_NAME}`);
+    expect(FileSystem.getInfoAsync).toHaveBeenCalledWith(`test-document-directory/${DIR_NAME}`);
     expect(FileSystem.makeDirectoryAsync).toHaveBeenCalledWith(
-      `test-document-directory/${  DIR_NAME}`,
+      `test-document-directory/${DIR_NAME}`,
     );
   });
 
