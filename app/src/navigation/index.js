@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer, useNavigationContainerRef } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { BackHandler } from 'react-native';
@@ -21,7 +21,7 @@ import {
   AboutPage,
   UpdateForm,
 } from '../pages';
-import { UIState, AuthState, UserState, FormState, BuildParamsState } from '../store';
+import { UIState, AuthState, FormState } from '../store';
 import { backgroundTask, notification } from '../lib';
 import {
   SYNC_FORM_SUBMISSION_TASK_NAME,
@@ -31,13 +31,12 @@ import {
 const Stack = createNativeStackNavigator();
 
 const RootNavigator = () => {
-  const preventHardwareBackPressFormPages = ['Home', 'AddUser'];
   const currentPage = UIState.useState((s) => s.currentPage);
   const token = AuthState.useState((s) => s.token); // user already has session
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-      if (!token || !preventHardwareBackPressFormPages.includes(currentPage)) {
+      if (!token || !['Home', 'AddUser'].includes(currentPage)) {
         // Allow navigation if user is not logged in
         return false;
       }
@@ -49,21 +48,14 @@ const RootNavigator = () => {
 
   useEffect(() => {
     notification.registerForPushNotificationsAsync();
-    const notificationListener = Notifications.addNotificationReceivedListener((notification) => {
-      // console.info('[Notification]Received Listener');
-    });
     const responseListener = Notifications.addNotificationResponseReceivedListener((res) => {
       const notificationBody = res?.notification?.request;
       const notificationType = notificationBody?.content?.data?.notificationType;
       if (notificationType === 'sync-form-version') {
         backgroundTask.syncFormVersion({ showNotificationOnly: false });
       }
-      if (notificationType === 'sync-form-submission') {
-        console.info('[Notification]Response Listener => ', notificationType);
-      }
     });
     return () => {
-      Notifications.removeNotificationSubscription(notificationListener);
       Notifications.removeNotificationSubscription(responseListener);
     };
   }, []);
@@ -102,7 +94,7 @@ const RootNavigator = () => {
   );
 };
 
-const Navigation = (props) => {
+const Navigation = () => {
   const navigationRef = useNavigationContainerRef();
 
   const handleOnChangeNavigation = (state) => {
@@ -122,7 +114,11 @@ const Navigation = (props) => {
   };
 
   return (
-    <NavigationContainer ref={navigationRef} onStateChange={handleOnChangeNavigation} {...props}>
+    <NavigationContainer
+      ref={navigationRef}
+      onStateChange={handleOnChangeNavigation}
+      testID="navigation-element"
+    >
       <RootNavigator />
     </NavigationContainer>
   );

@@ -1,17 +1,14 @@
 import React from 'react';
-import { render, act, waitFor } from '@testing-library/react-native';
+import { render, act } from '@testing-library/react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { BackHandler } from 'react-native';
 import * as Notifications from 'expo-notifications';
 import * as TaskManager from 'expo-task-manager';
 import * as BackgroundFetch from 'expo-background-fetch';
 import { backgroundTask, notification } from '../../lib';
-import Navigation, {
-  setNotificationHandler,
-  defineSyncFormVersionTask,
-  defineSyncFormSubmissionTask,
-} from '../index';
+import Navigation from '../index';
 import { AuthState, UIState } from '../../store';
+import { defineSyncFormSubmissionTask, defineSyncFormVersionTask } from '../../lib/background-task';
 
 jest.mock('expo-background-fetch', () => ({
   ...jest.requireActual('expo-background-fetch'),
@@ -53,7 +50,6 @@ describe('Navigation Component', () => {
       handleNotification(mockHandleNotification);
     });
 
-    await setNotificationHandler();
 
     expect(Notifications.setNotificationHandler).toHaveBeenCalledTimes(1);
   });
@@ -83,13 +79,13 @@ describe('Navigation Component', () => {
       expect(result).toBe(BackgroundFetch.Result.Failed);
     });
 
-    await defineSyncFormVersionTask();
+    defineSyncFormVersionTask();
   });
 
   it('should call define sync form submission task func', async () => {
     TaskManager.defineTask.mockImplementation((taskName, taskFn) => taskFn());
 
-    await defineSyncFormSubmissionTask();
+    defineSyncFormSubmissionTask();
 
     expect(TaskManager.defineTask).toHaveBeenCalledWith(
       'sync-form-submission',
@@ -111,7 +107,7 @@ describe('Navigation Component', () => {
       expect(result).toBe(BackgroundFetch.Result.Failed);
     });
 
-    await defineSyncFormSubmissionTask();
+    defineSyncFormSubmissionTask();
   });
 
   it('should call set up hardware back press function listener and allow navigation if user not logged in', () => {
@@ -176,8 +172,7 @@ describe('Navigation Component', () => {
         },
       },
     };
-    Notifications.addNotificationResponseReceivedListener =
-      mockAddNotificationResponseReceivedListener;
+    // Notifications.addNotificationResponseReceivedListener = mockAddNotificationResponseReceivedListener;
     backgroundTask.syncFormVersion.mockResolvedValue(() => jest.fn());
 
     const { unmount } = render(
@@ -216,8 +211,8 @@ describe('Navigation Component', () => {
         },
       },
     };
-    Notifications.addNotificationResponseReceivedListener =
-      mockAddNotificationResponseReceivedListener;
+    // Notifications.addNotificationResponseReceivedListener =
+    //   mockAddNotificationResponseReceivedListener;
     backgroundTask.syncFormVersion.mockResolvedValue(() => jest.fn());
 
     const { unmount } = render(
