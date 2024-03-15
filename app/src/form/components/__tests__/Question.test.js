@@ -142,7 +142,7 @@ describe('Question component', () => {
 
     expect(setFieldValue).toHaveBeenCalledTimes(0);
     const inputElement = getByTestId('type-input');
-    expect(inputElement.props.value).not.toBeDefined();
+    expect(inputElement.props.value).toBeNull();
   });
 
   it('should store valid uuidv4', async () => {

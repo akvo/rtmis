@@ -23,14 +23,16 @@ const fakeData = [
 jest.mock('expo-sqlite');
 jest.mock('../../../lib', () => ({
   cascades: {
-    loadDataSource: jest.fn(async (source, id) => id
+    loadDataSource: jest.fn(async (source, id) =>
+      id
         ? { rows: { length: 1, _array: [{ id: 42, name: 'Akvo', parent: 0 }] } }
         : {
             rows: {
               length: fakeData.length,
               _array: fakeData,
             },
-          }),
+          },
+    ),
   },
   i18n: {
     text: jest.fn(() => ({
@@ -298,6 +300,23 @@ describe('QuestionField component', () => {
         fnString: '() => #5 * #6',
       },
     };
+    const example = {
+      id: 1,
+      form: 'Test',
+      question_group: [
+        {
+          id: 71,
+          question: [field],
+        },
+      ],
+    };
+    act(() => {
+      FormState.update((s) => {
+        s.form = {
+          json: JSON.stringify(example).replace(/'/g, "''"),
+        };
+      });
+    });
 
     const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
     const values = result.current;
