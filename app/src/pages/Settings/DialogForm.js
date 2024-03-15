@@ -74,7 +74,7 @@ DialogForm.propTypes = {
   onCancel: PropTypes.func.isRequired,
   showDialog: PropTypes.bool.isRequired,
   edit: PropTypes.object,
-  initValue: PropTypes.number,
+  initValue: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 DialogForm.defaultProps = {
