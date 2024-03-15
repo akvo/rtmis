@@ -159,7 +159,7 @@ FormNavigation.propTypes = {
   activeGroup: PropTypes.number.isRequired,
   setActiveGroup: PropTypes.func.isRequired,
   totalGroup: PropTypes.number.isRequired,
-  showQuestionGroupList: PropTypes.func.isRequired,
+  showQuestionGroupList: PropTypes.bool.isRequired,
   setShowQuestionGroupList: PropTypes.func.isRequired,
   setShowDialogMenu: PropTypes.func.isRequired,
 };
