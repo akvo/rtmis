@@ -65,11 +65,12 @@ const summaryColumns = [
     title: "Question",
     dataIndex: "question",
     key: "question",
+    width: "50%",
   },
   {
     title: "Value",
     dataIndex: "value",
-    key: "value",
+    className: "blue",
     render: (value, row) => {
       if (row.type === "Option" || row.type === "Multiple_Option") {
         const data = value
@@ -371,7 +372,7 @@ const UploadDetail = ({ record, setReload }) => {
       .length > 0 && user?.role?.id === 4;
 
   return (
-    <div>
+    <div id="upload-detail">
       <ApproverDetail />
       <Tabs centered activeKey={selectedTab} onTabClick={handleTabSelect}>
         <TabPane tab={text.uploadTab1} key="data-summary" />

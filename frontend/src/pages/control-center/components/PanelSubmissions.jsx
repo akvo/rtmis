@@ -443,6 +443,8 @@ const PanelSubmissions = () => {
                 },
               }
         }
+        rowClassName="expandable-row"
+        expandRowByClick
       />
     );
   };
