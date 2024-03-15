@@ -38,7 +38,7 @@ class DownloadListSerializer(serializers.ModelSerializer):
     def get_category(self, instance):
         job_type = JobTypes.FieldStr.get(instance.type)
         if job_type == 'download_administration':
-            return 'Administration'
+            return 'Administration List'
         if job_type == 'download_entities':
             return 'Entities'
         return 'Data'

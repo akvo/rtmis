@@ -4,9 +4,9 @@ import { Layout } from "antd";
 import Sidebar from "../../components/sidebar";
 import ExportData from "./ExportData";
 
-const AdministrationDownload = () => {
+const Downloads = () => {
   return (
-    <div id="administration-download">
+    <div id="downloads">
       <Layout>
         <Sidebar />
         <Layout className="site-layout">
@@ -17,4 +17,4 @@ const AdministrationDownload = () => {
   );
 };
 
-export default React.memo(AdministrationDownload);
+export default React.memo(Downloads);

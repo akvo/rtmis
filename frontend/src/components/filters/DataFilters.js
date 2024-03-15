@@ -43,7 +43,7 @@ const DataFilters = ({ loading, showAdm = true }) => {
           message: `Data exported successfully`,
         });
         setExporting(false);
-        navigate("/administration-download");
+        navigate("/downloads");
       })
       .catch(() => {
         notify({
