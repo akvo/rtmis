@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { View } from 'react-native';
 import { Input } from '@rneui/themed';
 import PropTypes from 'prop-types';
@@ -120,7 +120,7 @@ const fixIncompleteMathOperation = (expression) => {
   return expression;
 };
 
-const strToFunction = (fnString, values) => {
+const strToFunction = (id, fnString, values) => {
   const fnStr = checkDirty(fnString);
   const fnBody = fixIncompleteMathOperation(generateFnBody(fnStr, values));
   try {
@@ -131,46 +131,57 @@ const strToFunction = (fnString, values) => {
   }
 };
 
-export const replaceNamesWithIds = (fnString, questions) => {
-  const allQuestions = questions.flatMap((q) => q.question);
-  return fnString.replace(/#([a-zA-Z0-9_]+)+#/g, (match, token) => {
-    const foundQuestion = allQuestions.find((q) => q.name === token);
-    if (foundQuestion) {
-      return `#${foundQuestion.id}`;
-    }
-    return `'${match}'`;
-  });
-};
-
-const TypeAutofield = ({ keyform, id, label, tooltip, fn, displayOnly, questions }) => {
+const TypeAutofield = ({
+  keyform,
+  id,
+  label,
+  tooltip,
+  fn,
+  displayOnly,
+  questions,
+  value: autofieldValue,
+}) => {
   const [value, setValue] = useState(null);
   const [fieldColor, setFieldColor] = useState(null);
   const { fnString: nameFnString, fnColor } = fn;
-  const fnString = replaceNamesWithIds(nameFnString, questions);
-  const values = FormState.useState((s) => s.currentValues);
-  const automateValue = strToFunction(fnString, values);
+
+  const fnString = useMemo(() => {
+    const allQuestions = questions.flatMap((q) => q.question);
+    return nameFnString.replace(/#([a-zA-Z0-9_]+)+#/g, (match, token) => {
+      const foundQuestion = allQuestions.find((q) => q.name === token);
+      if (foundQuestion) {
+        return `#${foundQuestion.id}`;
+      }
+      return `'${match}'`;
+    });
+  }, [nameFnString, questions]);
 
   useEffect(() => {
-    try {
-      const answer = automateValue();
-      if (answer !== value) {
-        setValue(answer);
-        if (fnColor?.[answer]) {
-          setFieldColor(fnColor[answer]);
-        }
-        if (!displayOnly && (answer || answer === 0)) {
-          FormState.update((s) => {
-            s.currentValues = {
-              ...s.currentValues,
-              [id]: answer,
-            };
-          });
+    const unsubsValues = FormState.subscribe(({ currentValues }) => {
+      const automateValue = strToFunction(id, fnString, currentValues);
+      if (typeof automateValue === 'function') {
+        const answer = automateValue();
+        if (answer !== value && (answer || answer === 0)) {
+          setValue(answer);
+          if (fnColor?.[answer]) {
+            setFieldColor(fnColor[answer]);
+          }
         }
       }
-    } catch {
-      setValue(null);
+    });
+
+    return () => {
+      unsubsValues();
+    };
+  }, [fnColor, fnString, id, value]);
+
+  useEffect(() => {
+    if (value !== null && value !== autofieldValue && !displayOnly) {
+      FormState.update((s) => {
+        s.currentValues[id] = value;
+      });
     }
-  }, [automateValue, fnString, fnColor, value, displayOnly, id]);
+  }, [value, id, autofieldValue, displayOnly]);
 
   return (
     <View testID="type-autofield-wrapper">
@@ -207,10 +218,12 @@ TypeAutofield.propTypes = {
   }).isRequired,
   displayOnly: PropTypes.bool,
   questions: PropTypes.array,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 TypeAutofield.defaultProps = {
   displayOnly: false,
   questions: [],
   tooltip: null,
+  value: null,
 };

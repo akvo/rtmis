@@ -111,6 +111,7 @@ const QuestionField = ({ keyform, field: questionField, onChange, value }) => {
             keyform={keyform}
             onChange={handleOnChangeField}
             questions={questions}
+            value={value}
             {...questionField}
           />
         );
