@@ -7,8 +7,8 @@ import {
   ExclamationCircleOutlined,
   FileMarkdownFilled,
 } from "@ant-design/icons";
-import { api, store, uiText } from "../lib";
-import { useNotification } from "../util/hooks";
+import { api, store, uiText } from "../../../lib";
+import { useNotification } from "../../../util/hooks";
 import moment from "moment";
 
 const DownloadTable = ({ type = "download" }) => {
@@ -131,7 +131,7 @@ const DownloadTable = ({ type = "download" }) => {
   const columns = [
     {
       render: (row) =>
-        ["Administration", "Entities"].includes(row.category) ? (
+        ["Administration List", "Entities"].includes(row.category) ? (
           <FileMarkdownFilled style={{ color: "blue" }} />
         ) : (
           <FileTextFilled style={{ color: "green" }} />
@@ -143,9 +143,8 @@ const DownloadTable = ({ type = "download" }) => {
       render: (row) => (
         <div>
           <div>
-            <strong>{row === "Data" ? "Data" : "Master Data"}</strong>
+            <strong>{row === "Form Data" ? "Form Data" : "Master Data"}</strong>
           </div>
-          {row === "Data" ? null : row}
         </div>
       ),
     },
@@ -153,12 +152,21 @@ const DownloadTable = ({ type = "download" }) => {
       render: (row) => (
         <div>
           <div>
-            <strong>{row.result}</strong>
+            <strong>{row?.form || row?.category}</strong>
           </div>
-          {[row.form, row.administration, ...(row.attributes || [])]
+          {row?.administration ? (
+            <div className="download-filter">{row?.administration}</div>
+          ) : null}
+          {[...(row.attributes || [])]
             .filter((x) => x)
-            .map((x) => x?.name || x)
-            .join(" | ")}
+            .map((x, i) => (
+              <span key={`tag-${i}`} className="download-filter">
+                {x?.name || x} {i < row.attributes.length - 1 ? ", " : ""}
+              </span>
+            ))}
+          {row?.category === "Entities" && !row?.attributes?.length ? (
+            <span className="download-filter">All Entities</span>
+          ) : null}
         </div>
       ),
     },

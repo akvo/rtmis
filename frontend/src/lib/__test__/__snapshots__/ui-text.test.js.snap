@@ -158,7 +158,7 @@ Object {
     "deleteUserHint": "Deleting this user will not delete the data association(s)",
     "deleteUserTitle": "You are about to delete the user",
     "download": "Download",
-    "downloadTitle": "Download",
+    "downloadTitle": "Downloads",
     "dropFile": "Drop your file here",
     "editAdmDesc": "This page allows you to edit administration to the RUSH platform.",
     "editAdministration": "Edit Administration",
