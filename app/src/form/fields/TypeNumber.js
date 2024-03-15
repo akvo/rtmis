@@ -46,9 +46,9 @@ export default TypeNumber;
 
 TypeNumber.propTypes = {
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.number,
+  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   keyform: PropTypes.number.isRequired,
-  id: PropTypes.number.isRequired,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   label: PropTypes.string.isRequired,
   tooltip: PropTypes.object,
   required: PropTypes.bool.isRequired,
@@ -61,7 +61,7 @@ TypeNumber.propTypes = {
 TypeNumber.defaultProps = {
   value: '',
   disabled: false,
-  requiredSign: null,
+  requiredSign: "*",
   addonAfter: null,
   addonBefore: null,
   tooltip: null,

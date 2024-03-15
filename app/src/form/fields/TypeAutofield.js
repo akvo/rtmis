@@ -152,29 +152,25 @@ const TypeAutofield = ({ keyform, id, label, tooltip, fn, displayOnly, questions
 
   useEffect(() => {
     try {
-      if (automateValue) {
-        const res = automateValue();
-        if (fnColor?.[res]) {
-          setFieldColor(fnColor[res]);
+      const answer = automateValue();
+      if (answer !== value) {
+        setValue(answer);
+        if (fnColor?.[answer]) {
+          setFieldColor(fnColor[answer]);
         }
-        setValue(res);
-        if (!displayOnly && (res || res === 0)) {
+        if (!displayOnly && (answer || answer === 0)) {
           FormState.update((s) => {
-            s.currentValues[id] = res;
-          });
-        }
-      } else {
-        setValue(null);
-        if (!displayOnly) {
-          FormState.update((s) => {
-            s.currentValues[id] = null;
+            s.currentValues = {
+              ...s.currentValues,
+              [id]: answer,
+            };
           });
         }
       }
     } catch {
       setValue(null);
     }
-  }, [automateValue, fnString, fnColor, displayOnly, id]);
+  }, [automateValue, fnString, fnColor, value, displayOnly, id]);
 
   return (
     <View testID="type-autofield-wrapper">
@@ -184,7 +180,7 @@ const TypeAutofield = ({ keyform, id, label, tooltip, fn, displayOnly, questions
           ...styles.autoFieldContainer,
           backgroundColor: fieldColor || styles.autoFieldContainer.backgroundColor,
         }}
-        value={(value || value === 0) ? String(value) : null}
+        value={value || value === 0 ? String(value) : null}
         testID="type-autofield"
         multiline
         numberOfLines={2}
@@ -202,7 +198,7 @@ export default TypeAutofield;
 
 TypeAutofield.propTypes = {
   keyform: PropTypes.number.isRequired,
-  id: PropTypes.number.isRequired,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   label: PropTypes.string.isRequired,
   tooltip: PropTypes.object,
   fn: PropTypes.shape({

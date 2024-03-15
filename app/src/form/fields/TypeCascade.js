@@ -239,7 +239,7 @@ TypeCascade.propTypes = {
   onChange: PropTypes.func.isRequired,
   value: PropTypes.array,
   keyform: PropTypes.number.isRequired,
-  id: PropTypes.number.isRequired,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   label: PropTypes.string.isRequired,
   tooltip: PropTypes.object,
   required: PropTypes.bool.isRequired,
@@ -250,7 +250,7 @@ TypeCascade.propTypes = {
 
 TypeCascade.defaultProps = {
   value: null,
-  requiredSign: null,
+  requiredSign: "*",
   disabled: false,
   tooltip: null,
 };

@@ -42,9 +42,9 @@ export default TypeText;
 
 TypeText.propTypes = {
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.array,
+  value: PropTypes.string,
   keyform: PropTypes.number.isRequired,
-  id: PropTypes.number.isRequired,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   label: PropTypes.string.isRequired,
   tooltip: PropTypes.object,
   required: PropTypes.bool.isRequired,
@@ -57,6 +57,6 @@ TypeText.defaultProps = {
   value: '',
   disabled: false,
   meta_uuid: false,
-  requiredSign: null,
+  requiredSign: "*",
   tooltip: null,
 };

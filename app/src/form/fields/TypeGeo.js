@@ -126,9 +126,9 @@ const TypeGeo = ({ keyform, id, label, value, tooltip, required, requiredSign, d
 export default TypeGeo;
 
 TypeGeo.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.array]),
   keyform: PropTypes.number.isRequired,
-  id: PropTypes.number.isRequired,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   label: PropTypes.string.isRequired,
   tooltip: PropTypes.object,
   required: PropTypes.bool.isRequired,
@@ -138,7 +138,7 @@ TypeGeo.propTypes = {
 
 TypeGeo.defaultProps = {
   value: '',
-  requiredSign: null,
+  requiredSign: '*',
   disabled: false,
   tooltip: null,
 };

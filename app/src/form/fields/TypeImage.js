@@ -133,7 +133,7 @@ TypeImage.propTypes = {
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string,
   keyform: PropTypes.number.isRequired,
-  id: PropTypes.number.isRequired,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   label: PropTypes.string.isRequired,
   tooltip: PropTypes.object,
   required: PropTypes.bool.isRequired,
@@ -143,7 +143,7 @@ TypeImage.propTypes = {
 
 TypeImage.defaultProps = {
   value: '',
-  requiredSign: null,
+  requiredSign: "*",
   useGallery: false,
   tooltip: null,
 };

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { Field } from 'formik';
 import moment from 'moment';
 import { Input } from '@rneui/themed';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -8,7 +7,17 @@ import PropTypes from 'prop-types';
 import { FieldLabel } from '../support';
 import styles from '../styles';
 
-const TypeDate = ({ onChange, value, keyform, id, label, tooltip, required, requiredSign }) => {
+const TypeDate = ({
+  onChange,
+  value,
+  keyform,
+  id,
+  label,
+  tooltip,
+  required,
+  requiredSign,
+  disabled,
+}) => {
   const [showDatepicker, setShowDatePicker] = useState(false);
 
   const getDate = (v) =>
@@ -16,26 +25,18 @@ const TypeDate = ({ onChange, value, keyform, id, label, tooltip, required, requ
 
   const datePickerValue = getDate(value);
   const requiredValue = required ? requiredSign : null;
+  const dateValue = value ? moment(value).format('YYYY-MM-DD') : value;
   return (
     <View>
       <FieldLabel keyform={keyform} name={label} tooltip={tooltip} requiredSign={requiredValue} />
-      <Field name={id}>
-        {({ field, meta }) => {
-          const dateValue = field?.value ? moment(field?.value).format('YYYY-MM-DD') : field?.value;
-          const fieldProps = { ...field, value: dateValue };
-          return (
-            <Input
-              inputContainerStyle={styles.inputFieldContainer}
-              onPressIn={() => setShowDatePicker(true)}
-              showSoftInputOnFocus={false}
-              testID="type-date"
-              errorMessage={meta.touched && meta.error ? meta.error : ''}
-              // eslint-disable-next-line react/jsx-props-no-spreading
-              {...fieldProps}
-            />
-          );
-        }}
-      </Field>
+      <Input
+        inputContainerStyle={styles.inputFieldContainer}
+        onPressIn={() => setShowDatePicker(true)}
+        showSoftInputOnFocus={false}
+        testID="type-date"
+        value={dateValue}
+        disabled={disabled}
+      />
       {showDatepicker && (
         <DateTimePicker
           testID="date-time-picker"
@@ -57,9 +58,9 @@ export default TypeDate;
 
 TypeDate.propTypes = {
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
   keyform: PropTypes.number.isRequired,
-  id: PropTypes.number.isRequired,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   label: PropTypes.string.isRequired,
   tooltip: PropTypes.object,
   required: PropTypes.bool.isRequired,
@@ -68,8 +69,8 @@ TypeDate.propTypes = {
 };
 
 TypeDate.defaultProps = {
-  value: '',
-  requiredSign: null,
+  value: null,
+  requiredSign: "*",
   disabled: false,
   tooltip: null,
 };
