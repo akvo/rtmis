@@ -161,7 +161,7 @@ const DownloadTable = ({ type = "download" }) => {
             .filter((x) => x)
             .map((x, i) => (
               <span key={`tag-${i}`} className="download-filter">
-                {x?.name || x}
+                {x?.name || x} {i < row.attributes.length - 1 ? ", " : ""}
               </span>
             ))}
           {row?.category === "Entities" && !row?.attributes?.length ? (
