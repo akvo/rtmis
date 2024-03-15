@@ -67,7 +67,7 @@ const Sidebar = () => {
       childrenKeys: ["master-data"],
     },
     download: {
-      label: "Download",
+      label: "Downloads",
       icon: DownloadOutlined,
     },
   };

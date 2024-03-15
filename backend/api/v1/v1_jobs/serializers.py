@@ -41,7 +41,7 @@ class DownloadListSerializer(serializers.ModelSerializer):
             return 'Administration List'
         if job_type == 'download_entities':
             return 'Entities'
-        return 'Data'
+        return 'Form Data'
 
     @extend_schema_field(CustomChoiceField(
         choices=[JobStatus.FieldStr[d] for d in JobStatus.FieldStr]))

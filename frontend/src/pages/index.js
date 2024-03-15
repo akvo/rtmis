@@ -10,7 +10,6 @@ export { default as Approvals } from "./approvals/Approvals";
 export { default as ApproversTree } from "./approvers-tree/ApproversTree";
 export { default as Profile } from "./profile/Profile";
 export { default as ComingSoon } from "../components/layout/custom/ComingSoon";
-export { default as ExportData } from "./export-data/ExportData";
 export { default as UploadData } from "./upload-data/UploadData";
 export { default as Visualisation } from "./visualisation/Visualisation";
 export { default as NewsEvents } from "./news-events/NewsEvents";

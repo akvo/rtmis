@@ -12,7 +12,6 @@ import {
   Approvals,
   ApproversTree,
   Profile,
-  ExportData,
   UploadData,
   NewsEvents,
   HowWeWork,
@@ -119,10 +118,6 @@ const RouteList = () => {
         <Route
           path="data/:form/monitoring/:parentId"
           element={<Private element={MonitoringDetail} alias="data" />}
-        />
-        <Route
-          path="data/export"
-          element={<Private element={ExportData} alias="data" />}
         />
         <Route
           path="master-data"
