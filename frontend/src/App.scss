@@ -131,10 +131,9 @@
             tr {
               td {
                 color: #959495;
-              }
-
-              td:last-child {
-                color: #1b66ff;
+                .blue {
+                  color: $blue;
+                }
               }
             }
 
@@ -289,6 +288,16 @@
   ul.option-list {
     padding-inline-start: 12.5px;
     margin-block-end: 0px;
+    li {
+      .blue {
+        color: $blue;
+      }
+    }
+  }
+  span {
+    .blue {
+      color: $blue;
+    }
   }
 }
 

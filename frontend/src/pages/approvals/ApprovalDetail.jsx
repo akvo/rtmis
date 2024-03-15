@@ -89,14 +89,14 @@ const summaryColumns = [
           .filter((x) => x.total)
           .map((val) => `${val.type} - (${val.total})`);
         return (
-          <ul className="option-list">
+          <ul className="option-list blue">
             {data.map((d, di) => (
               <li key={di}>{d}</li>
             ))}
           </ul>
         );
       }
-      return value;
+      return <span className="blue">value</span>;
     },
   },
 ];
