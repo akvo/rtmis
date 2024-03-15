@@ -203,7 +203,7 @@ TypeAutofield.propTypes = {
   tooltip: PropTypes.object,
   fn: PropTypes.shape({
     fnString: PropTypes.string,
-    fnColor: PropTypes.string,
+    fnColor: PropTypes.object,
   }).isRequired,
   displayOnly: PropTypes.bool,
   questions: PropTypes.array,
