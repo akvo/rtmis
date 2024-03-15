@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useCallback, useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import NetInfo from '@react-native-community/netinfo';
@@ -91,7 +92,7 @@ const App = () => {
   const geoLocationTimeout = BuildParamsState.useState((s) => s.geoLocationTimeout);
   const locationIsGranted = UserState.useState((s) => s.locationIsGranted);
 
-  const handleCheckSession = () => {
+  const handleCheckSession = useCallback(() => {
     // check users exist
     crudUsers
       .getActiveUser()
@@ -116,9 +117,9 @@ const App = () => {
           s.currentPage = page;
         });
       });
-  };
+  }, []);
 
-  const handleInitConfig = async () => {
+  const handleInitConfig = useCallback(async () => {
     const configExist = await crudConfig.getConfig();
     const serverURL = configExist?.serverURL || serverURLState;
     const syncInterval = configExist?.syncInterval || syncValue;
@@ -149,7 +150,7 @@ const App = () => {
       });
     }
     console.info('[CONFIG] Server URL', serverURL);
-  };
+  }, [geoLocationTimeout, gpsAccuracyLevel, gpsThreshold, serverURLState, syncValue]);
 
   const handleInitDB = useCallback(async () => {
     /**
@@ -167,7 +168,7 @@ const App = () => {
       await handleInitConfig();
       handleCheckSession();
     } catch (error) {
-      console.error(`[INITIAL DB]: ${error}`)
+      console.error(`[INITIAL DB]: ${error}`);
       ToastAndroid.show(`[INITIAL DB]: ${error}`, ToastAndroid.LONG);
     }
   }, [handleInitConfig, handleCheckSession]);
