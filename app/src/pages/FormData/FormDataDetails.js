@@ -64,7 +64,7 @@ SubtitleContent.propTypes = {
   index: PropTypes.number.isRequired,
   answers: PropTypes.object.isRequired,
   type: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   source: PropTypes.object,
   option: PropTypes.array,
 };

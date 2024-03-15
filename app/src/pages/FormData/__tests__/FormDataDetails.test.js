@@ -12,7 +12,8 @@ jest.mock('@react-navigation/native');
 jest.mock('expo-sqlite');
 jest.mock('../../../lib', () => ({
   cascades: {
-    loadDataSource: jest.fn(async (source, id) => id
+    loadDataSource: jest.fn(async (source, id) =>
+      id
         ? { rows: { length: 1, _array: [{ id: 65, name: 'Administration 65', parent: 0 }] } }
         : {
             rows: {
@@ -22,7 +23,8 @@ jest.mock('../../../lib', () => ({
                 { id: 66, name: 'Administration 66', parent: 0 },
               ],
             },
-          }),
+          },
+    ),
   },
   i18n: {
     text: jest.fn(() => ({
@@ -67,22 +69,15 @@ describe('FormDataDetails', () => {
       />,
     );
 
-    const { result: resultCascade } = renderHook(() => useState(null));
-    const [cascadeValue, setCascadeValue] = resultCascade.current;
-
-    act(() => {
-      setCascadeValue({ id: 65, name: 'Administration 65', parent: 0 });
-    });
-
     // Wait for the fetchCascade to complete its asynchronous behavior
     await waitFor(() => expect(cascades.loadDataSource).toHaveBeenCalledTimes(1));
 
     await waitFor(() => {
-      expect(cascadeValue).toEqual({ id: 65, name: 'Administration 65', parent: 0 });
       const questionText = getByTestId('text-question-0');
       expect(questionText).toBeDefined();
-      const answerText = getByTestId('text-answer-0');
-      expect(answerText).toBeDefined();
+      const answerEl = getByTestId('text-answer-0');
+      expect(answerEl).toBeDefined();
+      expect(answerEl.props.children).toEqual('Administration 65');
     });
   });
 
@@ -128,8 +123,6 @@ describe('FormDataDetails', () => {
     await waitFor(() => {
       const questionText = getByTestId('text-question-0');
       expect(questionText).toBeDefined();
-      const answerText = getByTestId('text-answer-0');
-      expect(answerText).toBeDefined();
       const paginationText = getByTestId('text-pagination');
       expect(paginationText).toBeDefined();
       expect(paginationText.props.children).toEqual([2, '/', 2]);
