@@ -189,7 +189,6 @@ const MobileAssignment = () => {
           >
             <Table
               columns={columns}
-              rowClassName={() => "editable-row"}
               dataSource={dataset}
               loading={loading}
               onChange={handleChange}
@@ -219,6 +218,7 @@ const MobileAssignment = () => {
                     />
                   ),
               }}
+              rowClassName="expandable-row editable-row"
               expandRowByClick
             />
           </div>

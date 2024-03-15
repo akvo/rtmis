@@ -342,9 +342,6 @@ const Submissions = () => {
               className="main-table"
               dataSource={dataset}
               onChange={handleChange}
-              rowClassName={(record) =>
-                editedRecord[record.id] ? "row-edited" : "row-normal"
-              }
               columns={
                 dataTab === "pending-submission"
                   ? [...columnsPending, Table.EXPAND_COLUMN]
@@ -428,6 +425,12 @@ const Submissions = () => {
                   }
                 },
               })}
+              rowClassName={(record) => {
+                const rowEdited = editedRecord[record.id]
+                  ? "row-edited"
+                  : "row-normal";
+                return `expandable-row ${rowEdited}`;
+              }}
               expandRowByClick
             />
           </div>

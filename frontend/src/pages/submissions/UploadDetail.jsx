@@ -65,11 +65,12 @@ const summaryColumns = [
     title: "Question",
     dataIndex: "question",
     key: "question",
+    width: "50%",
   },
   {
     title: "Value",
     dataIndex: "value",
-    key: "value",
+    className: "blue",
     render: (value, row) => {
       if (row.type === "Option" || row.type === "Multiple_Option") {
         const data = value
@@ -351,6 +352,7 @@ const UploadDetail = ({ record, setReload }) => {
         key: ri,
         ...r,
       }))}
+      rowClassName="expandable-row"
       pagination={false}
     />
   );
@@ -370,7 +372,7 @@ const UploadDetail = ({ record, setReload }) => {
       .length > 0 && user?.role?.id === 4;
 
   return (
-    <div>
+    <div id="upload-detail">
       <ApproverDetail />
       <Tabs centered activeKey={selectedTab} onTabClick={handleTabSelect}>
         <TabPane tab={text.uploadTab1} key="data-summary" />
@@ -380,12 +382,6 @@ const UploadDetail = ({ record, setReload }) => {
         loading={loading}
         dataSource={selectedTab === "raw-data" ? rawValues : values}
         columns={columns}
-        rowClassName={(record) =>
-          (record.newValue || record.newValue === 0) &&
-          !isEqual(record.value, record.newValue)
-            ? "row-edited"
-            : "row-normal sticky"
-        }
         style={{ borderBottom: "solid 1px #ddd" }}
         rowKey="id"
         expandable={
@@ -549,6 +545,14 @@ const UploadDetail = ({ record, setReload }) => {
             }
           },
         })}
+        rowClassName={(record) => {
+          const rowEdited =
+            (record.newValue || record.newValue === 0) &&
+            !isEqual(record.value, record.newValue)
+              ? "row-edited"
+              : "row-normal sticky";
+          return `expandable-row ${rowEdited}`;
+        }}
         expandRowByClick
       />
       <h3>{text.notesFeedback}</h3>

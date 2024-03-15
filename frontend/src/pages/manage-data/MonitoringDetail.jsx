@@ -195,9 +195,6 @@ const MonitoringDetail = () => {
                   showTotal: (total, range) =>
                     `Results: ${range[0]} - ${range[1]} of ${total} data`,
                 }}
-                rowClassName={(record) =>
-                  editedRecord[record.id] ? "row-edited" : "row-normal sticky"
-                }
                 rowKey="id"
                 expandable={{
                   expandedRowRender: (record) => (
@@ -224,6 +221,12 @@ const MonitoringDetail = () => {
                         style={{ color: "#1651B6", fontSize: "19px" }}
                       />
                     ),
+                }}
+                rowClassName={(record) => {
+                  const rowEdited = editedRecord[record.id]
+                    ? "row-edited"
+                    : "row-normal sticky";
+                  return `expandable-row ${rowEdited}`;
                 }}
                 expandRowByClick
               />

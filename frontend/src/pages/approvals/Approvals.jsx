@@ -202,6 +202,7 @@ const Approvals = () => {
                   ),
               }}
               rowKey="id"
+              rowClassName="expandable-row"
               expandRowByClick
             />
           </div>
