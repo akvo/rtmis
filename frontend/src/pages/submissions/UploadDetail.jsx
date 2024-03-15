@@ -351,6 +351,7 @@ const UploadDetail = ({ record, setReload }) => {
         key: ri,
         ...r,
       }))}
+      rowClassName="expandable-row"
       pagination={false}
     />
   );
@@ -380,12 +381,6 @@ const UploadDetail = ({ record, setReload }) => {
         loading={loading}
         dataSource={selectedTab === "raw-data" ? rawValues : values}
         columns={columns}
-        rowClassName={(record) =>
-          (record.newValue || record.newValue === 0) &&
-          !isEqual(record.value, record.newValue)
-            ? "row-edited"
-            : "row-normal sticky"
-        }
         style={{ borderBottom: "solid 1px #ddd" }}
         rowKey="id"
         expandable={
@@ -549,6 +544,14 @@ const UploadDetail = ({ record, setReload }) => {
             }
           },
         })}
+        rowClassName={(record) => {
+          const rowEdited =
+            (record.newValue || record.newValue === 0) &&
+            !isEqual(record.value, record.newValue)
+              ? "row-edited"
+              : "row-normal sticky";
+          return `expandable-row ${rowEdited}`;
+        }}
         expandRowByClick
       />
       <h3>{text.notesFeedback}</h3>

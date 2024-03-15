@@ -299,6 +299,18 @@
       color: $blue;
     }
   }
+  .ant-table {
+    .ant-table-tbody {
+      .ant-table-row {
+        .table-col-question {
+          cursor: default;
+        }
+        &.expandable-row {
+          cursor: pointer;
+        }
+      }
+    }
+  }
 }
 
 // .ant-checkbox-wrapper-checked span:nth-child(2) {
