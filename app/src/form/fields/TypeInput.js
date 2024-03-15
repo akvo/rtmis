@@ -107,7 +107,7 @@ export default TypeInput;
 
 TypeInput.propTypes = {
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   keyform: PropTypes.number.isRequired,
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   label: PropTypes.string.isRequired,
@@ -124,7 +124,7 @@ TypeInput.defaultProps = {
   value: '',
   disabled: false,
   meta_uuid: false,
-  requiredSign: "*",
+  requiredSign: '*',
   addonAfter: null,
   addonBefore: null,
   tooltip: null,
