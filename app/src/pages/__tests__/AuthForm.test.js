@@ -39,7 +39,10 @@ describe('AuthFormPage', () => {
     expect(loginButton.props.accessibilityState.disabled).toBe(false);
 
     fireEvent.press(loginButton);
-    expect(api.post).not.toHaveBeenCalled();
+
+    await waitFor(() => {
+      expect(api.post).not.toHaveBeenCalled();
+    });
   });
 
   it('should show error message for wrong passcode', async () => {

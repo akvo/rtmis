@@ -95,6 +95,7 @@ const AuthForm = ({ navigation }) => {
       if (Platform.OS === 'android') {
         ToastAndroid.show(trans.authErrorNoConn, ToastAndroid.LONG);
       }
+      return;
     }
     setError(null);
     setLoading(true);
