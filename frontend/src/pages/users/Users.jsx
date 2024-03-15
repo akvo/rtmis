@@ -244,7 +244,6 @@ const Users = () => {
           >
             <Table
               columns={columns}
-              rowClassName={() => "editable-row"}
               dataSource={dataset}
               loading={loading}
               onChange={handleChange}
@@ -278,6 +277,7 @@ const Users = () => {
                     />
                   ),
               }}
+              rowClassName="editable-row expandable-row"
               expandRowByClick
             />
           </div>

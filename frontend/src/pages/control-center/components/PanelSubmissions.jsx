@@ -443,6 +443,8 @@ const PanelSubmissions = () => {
                 },
               }
         }
+        rowClassName={pane === "pending-data" ? null : "expandable-row"}
+        expandRowByClick
       />
     );
   };

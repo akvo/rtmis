@@ -121,7 +121,7 @@ const MasterData = () => {
   }, [fetchData]);
 
   return (
-    <div id="users">
+    <div id="masterData">
       <div className="description-container">
         <Row justify="space-between" align="bottom">
           <Col>
@@ -147,7 +147,6 @@ const MasterData = () => {
           >
             <Table
               columns={columns}
-              rowClassName={() => "editable-row"}
               dataSource={dataset}
               loading={loading}
               onChange={handleChange}
@@ -177,6 +176,7 @@ const MasterData = () => {
                     />
                   ),
               }}
+              rowClassName="expandable-row editable-row"
               expandRowByClick
             />
           </div>

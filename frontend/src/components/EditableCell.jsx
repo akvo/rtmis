@@ -255,17 +255,19 @@ const EditableCell = ({
           }
         }}
       >
-        {record.type === "cascade" && !record?.api ? (
-          locationName
-        ) : record.type === "photo" && value && !lastValue ? (
-          <Image src={value} width={100} />
-        ) : record.type === "photo" && lastValue && oldValue ? (
-          <Image src={oldValue} width={100} />
-        ) : lastValue ? (
-          getLastAnswerValue()
-        ) : (
-          getAnswerValue()
-        )}
+        <span className={lastValue ? null : "blue"}>
+          {record.type === "cascade" && !record?.api ? (
+            locationName
+          ) : record.type === "photo" && value && !lastValue ? (
+            <Image src={value} width={100} />
+          ) : record.type === "photo" && lastValue && oldValue ? (
+            <Image src={oldValue} width={100} />
+          ) : lastValue ? (
+            getLastAnswerValue()
+          ) : (
+            getAnswerValue()
+          )}
+        </span>
       </Col>
       {edited && resetButton[record.id] && (
         <Button

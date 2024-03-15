@@ -89,7 +89,7 @@ const ManageEntityTypes = () => {
   }, [fetchData]);
 
   return (
-    <div id="users">
+    <div id="masterDataEntities">
       <div className="description-container">
         <Row justify="space-between" align="bottom">
           <Col>
