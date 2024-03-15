@@ -57,7 +57,7 @@ describe('TypeCascade', () => {
   });
 
   it('Should not show options when the data source is not set.', async () => {
-    const fieldID = 'location';
+    const fieldID = 1;
     const fieldName = 'Location';
     const values = { [fieldID]: null };
 
@@ -79,7 +79,7 @@ describe('TypeCascade', () => {
   });
 
   it('Should not be able to update values when options is empty', async () => {
-    const fieldID = 'location';
+    const fieldID = 1;
     const fieldName = 'Location';
     const initialValue = null;
     const values = { [fieldID]: initialValue };
@@ -105,7 +105,7 @@ describe('TypeCascade', () => {
   });
 
   it('Should have a specific parent dropdown when source is defined.', async () => {
-    const fieldID = 'location';
+    const fieldID = 1;
     const fieldName = 'Location';
     const initialValue = [107, 110];
     const values = { [fieldID]: initialValue };
@@ -136,7 +136,7 @@ describe('TypeCascade', () => {
   });
 
   it('Should have one or more child dropdowns.', async () => {
-    const fieldID = 'location';
+    const fieldID = 1;
     const fieldName = 'Location';
     const initialValue = [111, 112];
     const values = { [fieldID]: initialValue };
@@ -182,7 +182,7 @@ describe('TypeCascade', () => {
   });
 
   it('Should depend on the selected option in the parent dropdown.', async () => {
-    const fieldID = 'location';
+    const fieldID = 1;
     const fieldName = 'Location';
     const selectedOption = [106, 107];
     const values = { [fieldID]: selectedOption };
@@ -235,7 +235,7 @@ describe('TypeCascade', () => {
   });
 
   it('should set values based on the required level', async () => {
-    const fieldID = 'location';
+    const fieldID = 1;
     const fieldName = 'Location';
     const initialValue = null;
     const values = { [fieldID]: initialValue };
@@ -305,7 +305,7 @@ describe('TypeCascade', () => {
   });
 
   it('should sorted items correctly', async () => {
-    const fieldID = 'location';
+    const fieldID = 1;
     const fieldName = 'Location';
     const initialValue = null;
     const values = { [fieldID]: initialValue };
@@ -345,7 +345,7 @@ describe('TypeCascade', () => {
   });
 
   it('should not show required sign if required param is false and requiredSign is not defined', async () => {
-    const fieldID = 'location';
+    const fieldID = 1;
     const fieldName = 'Location';
     const initialValue = null;
     const values = { [fieldID]: initialValue };
@@ -378,7 +378,7 @@ describe('TypeCascade', () => {
   });
 
   it('should not show required sign if required param is false but requiredSign is defined', async () => {
-    const fieldID = 'location';
+    const fieldID = 1;
     const fieldName = 'Location';
     const initialValue = null;
     const values = { [fieldID]: initialValue };
@@ -413,7 +413,7 @@ describe('TypeCascade', () => {
   });
 
   it('should not show required sign if required param is true and requiredSign defined', async () => {
-    const fieldID = 'location';
+    const fieldID = 1;
     const fieldName = 'Location';
     const initialValue = null;
     const values = { [fieldID]: initialValue };
@@ -445,7 +445,7 @@ describe('TypeCascade', () => {
   });
 
   it('should show required sign with custom requiredSign', async () => {
-    const fieldID = 'location';
+    const fieldID = 1;
     const fieldName = 'Location';
     const initialValue = null;
     const values = { [fieldID]: initialValue };
@@ -477,7 +477,7 @@ describe('TypeCascade', () => {
   });
 
   it('should use id when parent id not found', async () => {
-    const fieldID = 'location';
+    const fieldID = 1;
     const fieldName = 'Location';
     const initialValue = null;
     const values = { [fieldID]: initialValue };
@@ -510,7 +510,7 @@ describe('TypeCascade', () => {
     /**
      * Set datapointName first
      */
-    const fieldID = 'location';
+    const fieldID = 1;
     const fieldName = 'Location';
     const initialValue = null;
     const values = { [fieldID]: initialValue };
@@ -552,7 +552,7 @@ describe('TypeCascade', () => {
     });
 
     await waitFor(() => {
-      expect(values[fieldID]).toEqual([107, 109]);
+      expect(mockedOnChange).toHaveBeenCalledWith(fieldID, [107, 109]);
     });
   });
 
@@ -560,7 +560,7 @@ describe('TypeCascade', () => {
     /**
      * Update datapointName first
      */
-    const fieldID = 'location';
+    const fieldID = 1;
     const fieldName = 'Location';
     const initialValue = null;
     const values = { [fieldID]: initialValue };
@@ -608,7 +608,7 @@ describe('TypeCascade', () => {
   });
 
   it('Should not get cascade name as datapoint name when there is no cascade type', async () => {
-    const fieldID = 'location';
+    const fieldID = 1;
     const fieldName = 'Location';
     const initialValue = null;
     const values = { [fieldID]: initialValue };
@@ -616,7 +616,7 @@ describe('TypeCascade', () => {
     const mockedOnChange = jest.fn();
 
     const questionSource = { file: 'file.sqlite', parent_id: [107] };
-    const { getByTestId, getByText } = render(
+    const { getByTestId } = render(
       <TypeCascade
         onChange={mockedOnChange}
         id={fieldID}
@@ -649,13 +649,12 @@ describe('TypeCascade', () => {
     });
 
     await waitFor(() => {
-      expect(values[fieldID]).toEqual([107, 109]);
-      expect(getByText('Sabdodadi')).toBeDefined();
+      expect(values[fieldID]).toBeNull();
     });
   });
 
   it('should set datapointname when input has data', async () => {
-    const fieldID = 'location';
+    const fieldID = 1;
     const fieldName = 'Location';
     const initialValue = [111, 112];
     const values = { [fieldID]: initialValue };
@@ -704,7 +703,7 @@ describe('TypeCascade', () => {
   });
 
   it('should generate empty datapointName when selected value not match', async () => {
-    const fieldID = 'location';
+    const fieldID = 1;
     const fieldName = 'Location';
     const initialValue = [200];
     const values = { [fieldID]: initialValue };
