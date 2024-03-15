@@ -49,6 +49,11 @@ const styles = StyleSheet.create({
 export default AnimatedTooltip;
 
 AnimatedTooltip.propTypes = {
-  visible: PropTypes.bool.isRequired,
-  content: PropTypes.string.isRequired,
+  visible: PropTypes.bool,
+  content: PropTypes.string,
+};
+
+AnimatedTooltip.defaultProps = {
+  visible: false,
+  content: null,
 };

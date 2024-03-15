@@ -23,7 +23,7 @@ describe('Content component', () => {
     const dataName2 = getByText(data[1].name);
     expect(dataName2).toBeDefined();
 
-    const container = getByTestId('card-non-touchable-0');
+    const container = getByTestId('card-non-touchable-1');
     expect(container.props.style).toEqual({
       width: '50%',
     });
