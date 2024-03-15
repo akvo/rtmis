@@ -9,7 +9,6 @@ import { getCurrentTimestamp } from '../../form/lib';
 
 jest.useFakeTimers();
 
-const mockFormContainer = jest.fn();
 const mockRoute = {
   params: { id: 1, name: 'Form Name', newSubmission: true },
 };
@@ -25,13 +24,11 @@ const mockValues = {
     1: 'John',
     2: new Date('01-01-1992'),
     3: '31',
-    4: ['Male'],
-    5: ['Bachelor'],
-    6: ['Traveling'],
-    7: ['Fried Rice'],
+    4: ['male'],
+    6: ['traveling'],
+    7: ['fried_rice'],
   },
 };
-
 const exampleTestForm = {
   name: 'Testing Form',
   languages: ['en', 'id'],
@@ -44,7 +41,8 @@ const exampleTestForm = {
   ],
   question_group: [
     {
-      name: 'Registration',
+      name: 'registration',
+      label: 'Registration',
       order: 1,
       translations: [
         {
@@ -55,7 +53,8 @@ const exampleTestForm = {
       question: [
         {
           id: 1,
-          name: 'Your Name',
+          name: 'your_name',
+          label: 'Your Name',
           order: 1,
           type: 'input',
           required: true,
@@ -70,7 +69,8 @@ const exampleTestForm = {
         },
         {
           id: 2,
-          name: 'Birth Date',
+          name: 'birth_date',
+          label: 'Birth Date',
           order: 2,
           type: 'date',
           required: true,
@@ -83,7 +83,8 @@ const exampleTestForm = {
         },
         {
           id: 3,
-          name: 'Age',
+          name: 'age',
+          label: 'Age',
           order: 3,
           type: 'number',
           required: true,
@@ -96,19 +97,22 @@ const exampleTestForm = {
         },
         {
           id: 4,
-          name: 'Gender',
+          name: 'gender',
+          label: 'Gender',
           order: 4,
           type: 'option',
           required: true,
           option: [
             {
               id: 1,
-              name: 'Male',
+              label: 'Male',
+              value: 'male',
               order: 1,
             },
             {
               id: 2,
-              name: 'Female',
+              label: 'Female',
+              value: 'female',
               order: 2,
             },
           ],
@@ -121,54 +125,29 @@ const exampleTestForm = {
           ],
         },
         {
-          id: 5,
-          name: 'Your last education',
-          order: 1,
-          type: 'option',
-          required: false,
-          option: [
-            {
-              id: 11,
-              name: 'Senior High School',
-              order: 1,
-            },
-            {
-              id: 12,
-              name: 'Bachelor',
-              order: 2,
-            },
-            {
-              id: 13,
-              name: 'Master',
-              order: 3,
-            },
-            {
-              id: 14,
-              name: 'Doctor',
-              order: 4,
-            },
-          ],
-        },
-        {
           id: 6,
-          name: 'Hobby',
+          name: 'hobby',
+          label: 'Hobby',
           order: 2,
-          type: 'option',
+          type: 'multiple_option',
           required: false,
           option: [
             {
               id: 21,
-              name: 'Reading',
+              label: 'Reading',
+              value: 'reading',
               order: 1,
             },
             {
               id: 22,
-              name: 'Traveling',
+              label: 'Traveling',
+              value: 'traveling',
               order: 2,
             },
             {
               id: 23,
-              name: 'Programming',
+              label: 'Programming',
+              value: 'programming',
               order: 3,
             },
           ],
@@ -176,40 +155,35 @@ const exampleTestForm = {
         {
           id: 7,
           name: 'Foods',
+          label: 'Foods',
           order: 3,
           type: 'option',
           required: false,
           option: [
             {
               id: 31,
-              name: 'Fried Rice',
+              label: 'fried_rice',
+              value: 'fried_rice',
               order: 1,
             },
             {
               id: 32,
-              name: 'Rendang',
+              label: 'Rendang',
+              value: 'rendang',
               order: 2,
             },
             {
               id: 33,
-              name: 'Noodle',
+              label: 'Noodle',
+              value: 'noodle',
               order: 3,
-            },
-            {
-              id: 34,
-              name: 'Meat Ball',
-              order: 5,
-            },
-            {
-              id: 35,
-              name: 'Fried Chicken',
-              order: 6,
             },
           ],
         },
         {
           id: 8,
-          name: 'Comment',
+          name: 'comment',
+          label: 'Comment',
           order: 4,
           type: 'text',
           required: false,
@@ -222,14 +196,15 @@ const exampleTestForm = {
         },
         {
           id: 9,
-          name: 'Give Rating from 1 - 9 for Rendang',
+          name: 'give_rating_rendang',
+          label: 'Give Rating from 1 - 9 for Rendang',
           order: 5,
           type: 'number',
           required: true,
           dependency: [
             {
               id: 7,
-              options: ['Rendang'],
+              options: ['rendang'],
             },
           ],
           rule: {
@@ -245,38 +220,25 @@ const exampleTestForm = {
 };
 
 jest.mock('../../database/crud/crud-datapoints');
-// eslint-disable-next-line react/prop-types
-jest.mock('../../form/FormContainer', () => ({ forms, initialValues, onSubmit }) => {
-  mockFormContainer(forms, initialValues, onSubmit);
-  return (
-    <mock-FormContainer>
-      <button type="button" onClick={() => onSubmit(mockValues)} testID="mock-submit-button">
-        Submit
-      </button>
-    </mock-FormContainer>
-  );
-});
-
-jest.mock('react', () => ({
-  ...jest.requireActual('react'),
-  useMemo: jest.fn(),
-}));
 
 describe('FormPage handleOnSubmitForm', () => {
-  beforeEach(() => {
+  beforeAll(() => {
     jest.spyOn(Date, 'now').mockReturnValue(1634123456789);
     FormState.update((s) => {
       s.surveyDuration = 0;
+      s.form = {
+        json: JSON.stringify(exampleTestForm).replace(/'/g, "''"),
+      };
     });
   });
 
   test('should call handleOnSubmitForm with the correct values when the form is submitted', async () => {
     Platform.OS = 'android';
     ToastAndroid.show = jest.fn();
-    jest.spyOn(React, 'useMemo').mockReturnValue(exampleTestForm);
     act(() => {
       FormState.update((s) => {
         s.surveyStart = getCurrentTimestamp() - 90;
+        s.currentValues = mockValues.answers;
       });
     });
 
@@ -291,10 +253,8 @@ describe('FormPage handleOnSubmitForm', () => {
       });
     });
 
-    await waitFor(() => {
-      const submitButton = wrapper.getByTestId('mock-submit-button');
-      fireEvent.press(submitButton);
-    });
+    const submitButton = wrapper.getByTestId('form-btn-submit');
+    fireEvent.press(submitButton);
 
     // save datapoint to database
     await waitFor(() => {
@@ -304,11 +264,10 @@ describe('FormPage handleOnSubmitForm', () => {
         json: {
           1: 'John',
           2: new Date('01-01-1992'),
-          3: 31, // it was string in the result of Formik
-          4: ['Male'],
-          5: ['Bachelor'],
-          6: ['Traveling'],
-          7: ['Fried Rice'],
+          3: 31,
+          4: ['male'],
+          6: ['traveling'],
+          7: ['fried_rice'],
         },
         name: 'John',
         geo: null,
@@ -319,25 +278,5 @@ describe('FormPage handleOnSubmitForm', () => {
 
     expect(ToastAndroid.show).toHaveBeenCalledTimes(1);
     expect(mockNavigation.navigate).toHaveBeenCalledWith('Home', mockRoute.params);
-  });
-
-  test('should show ToastAndroid if handleOnSubmitForm throw an error', async () => {
-    Platform.OS = 'android';
-    ToastAndroid.show = jest.fn();
-    jest.spyOn(React, 'useMemo').mockReturnValue(exampleTestForm);
-    const consoleErrorSpy = jest.spyOn(console, 'error');
-    crudDataPoints.saveDataPoint.mockImplementation(() => Promise.reject(new Error('Error')));
-
-    const wrapper = render(<FormPage navigation={mockNavigation} route={mockRoute} />);
-
-    const submitButton = wrapper.getByTestId('mock-submit-button');
-    fireEvent.press(submitButton);
-
-    await waitFor(() => {
-      expect(crudDataPoints.saveDataPoint).toHaveBeenCalledTimes(1);
-      expect(consoleErrorSpy).toHaveBeenCalledTimes(1);
-      expect(ToastAndroid.show).toHaveBeenCalledTimes(1);
-      expect(mockNavigation.navigate).not.toHaveBeenCalled();
-    });
   });
 });

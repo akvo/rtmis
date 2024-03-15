@@ -93,7 +93,7 @@ describe('Homepage', () => {
       expect(crudForms.selectLatestFormVersion).toHaveBeenCalledTimes(1);
     });
 
-    const listForm1 = wrapper.queryByTestId('card-touchable-0');
+    const listForm1 = wrapper.queryByTestId('card-touchable-1');
     expect(listForm1).toBeTruthy();
     expect(listForm1.props.children[0].props.title).toEqual('Form 1');
     expect(listForm1.props.children[0].props.subTitles).toEqual([
@@ -103,7 +103,7 @@ describe('Homepage', () => {
       'Synced: 2',
     ]);
 
-    const listForm2 = wrapper.queryByTestId('card-touchable-1');
+    const listForm2 = wrapper.queryByTestId('card-touchable-2');
     expect(listForm2).toBeTruthy();
     expect(listForm2.props.children[0].props.title).toEqual('Form 2');
     expect(listForm2.props.children[0].props.subTitles).toEqual([
@@ -113,7 +113,7 @@ describe('Homepage', () => {
       'Synced: 0',
     ]);
 
-    const listForm3 = wrapper.queryByTestId('card-touchable-2');
+    const listForm3 = wrapper.queryByTestId('card-touchable-3');
     expect(listForm3).toBeFalsy();
   });
 
@@ -128,13 +128,13 @@ describe('Homepage', () => {
     expect(searchField).toBeDefined();
     fireEvent.changeText(searchField, 'Form 1');
 
-    const listForm1 = wrapper.queryByTestId('card-touchable-0');
+    const listForm1 = wrapper.queryByTestId('card-touchable-1');
     expect(listForm1).toBeTruthy();
 
-    const listForm2 = wrapper.queryByTestId('card-touchable-1');
+    const listForm2 = wrapper.queryByTestId('card-touchable-2');
     expect(listForm2).toBeFalsy();
 
-    const listForm3 = wrapper.queryByTestId('card-touchable-2');
+    const listForm3 = wrapper.queryByTestId('card-touchable-3');
     expect(listForm3).toBeFalsy();
   });
 
@@ -148,7 +148,7 @@ describe('Homepage', () => {
       expect(crudForms.selectLatestFormVersion).toHaveBeenCalledTimes(1);
     });
 
-    const listForm1 = wrapper.queryByTestId('card-touchable-0');
+    const listForm1 = wrapper.queryByTestId('card-touchable-1');
     expect(listForm1).toBeTruthy();
     fireEvent.press(listForm1);
 
@@ -190,7 +190,7 @@ describe('Homepage', () => {
     });
 
     await waitFor(() => {
-      const listForm1 = queryByTestId('card-touchable-0');
+      const listForm1 = queryByTestId('card-touchable-1');
       expect(listForm1).toBeTruthy();
 
       expect(listForm1.props.children[0].props.subTitles).toEqual([
