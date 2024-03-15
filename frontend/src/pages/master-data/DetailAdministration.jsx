@@ -3,7 +3,41 @@ import { Col, Row, Table } from "antd";
 
 import { api } from "../../lib";
 
-const DetailAdministration = ({ record = {}, initialValues = [] }) => {
+const AdministratioAttributeValues = ({ attribute, attributeValue }) => {
+  if (!attributeValue) {
+    return "-";
+  }
+  if (attribute.type === "value" || attribute.type === "option") {
+    return attributeValue.value;
+  }
+  if (attribute.type === "multiple_option") {
+    return (
+      <ul className="attribute-value">
+        {attributeValue.value.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
+    );
+  }
+  if (attribute.type === "aggregate") {
+    return (
+      <ul className="attribute-value">
+        {Object.keys(attributeValue.value).map((key) => (
+          <li key={key}>
+            <b>{key}</b>: {attributeValue.value[key]}
+          </li>
+        ))}
+      </ul>
+    );
+  }
+  return null;
+};
+
+const DetailAdministration = ({
+  record = {},
+  initialValues = [],
+  attributes = [],
+}) => {
   const [records, setRecords] = useState(initialValues);
   const [preload, setPreload] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -69,6 +103,18 @@ const DetailAdministration = ({ record = {}, initialValues = [] }) => {
                 field: "Level",
                 value: records?.level?.name || "",
               },
+              ...attributes.map((attribute) => ({
+                key: attribute.name,
+                field: attribute.name,
+                value: (
+                  <AdministratioAttributeValues
+                    attribute={attribute}
+                    attributeValue={records?.attributes?.find(
+                      (item) => item.attribute === attribute.id
+                    )}
+                  />
+                ),
+              })),
             ]}
             pagination={false}
           />

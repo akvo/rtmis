@@ -1,9 +1,34 @@
-#add-administration {
-  .ant-card {
-    margin-bottom: 16px;
-    .ant-space,
-    .ant-space .ant-space-item {
-      width: 100%;
+#root {
+  #masterData {
+    #add-administration {
+      .ant-card {
+        margin-bottom: 16px;
+        .ant-space,
+        .ant-space .ant-space-item {
+          width: 100%;
+        }
+      }
+    }
+    .ant-table {
+      .ant-table-tbody {
+        .ant-table-cell {
+          vertical-align: baseline;
+        }
+        .ant-table-row {
+          cursor: pointer;
+        }
+      }
+    }
+    .table-child {
+      .ant-table-tbody {
+        .ant-table-row {
+          cursor: default;
+        }
+      }
+    }
+    .attribute-value {
+      display: inline-table;
+      list-style: "- ";
     }
   }
 }

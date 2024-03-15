@@ -121,7 +121,7 @@ const MasterData = () => {
   }, [fetchData]);
 
   return (
-    <div id="users">
+    <div id="masterData">
       <div className="description-container">
         <Row justify="space-between" align="bottom">
           <Col>
