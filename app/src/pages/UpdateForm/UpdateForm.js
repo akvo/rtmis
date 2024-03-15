@@ -12,7 +12,7 @@ const UpdateForm = ({ navigation, route }) => {
   const params = route?.params || null;
   const [search, setSearch] = useState('');
   const [forms, setForms] = useState([]);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const activeLang = UIState.useState((s) => s.lang);
@@ -52,14 +52,14 @@ const UpdateForm = ({ navigation, route }) => {
 
   const fetchData = useCallback(async () => {
     if (isLoading) {
+      setIsLoading(false);
       const moreForms = await crudMonitoring.getFormsPaginated({
         formId,
         search,
         limit: 10,
         offset: page,
       });
-      setForms([...forms, ...moreForms]);
-      setIsLoading(false);
+      setForms(forms.concat(moreForms));
     }
   }, [isLoading, forms, formId, page, search]);
 
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 10,
+    paddingVertical: 15,
   },
   syncButton: {
     backgroundColor: 'transparent',

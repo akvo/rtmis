@@ -58,8 +58,7 @@ const monitoringQuery = () => ({
     }
 
     sqlQuery += ' ORDER BY syncedAt DESC LIMIT $3 OFFSET $4';
-    queryParams.push(limit, offset);
-
+    queryParams.push(limit, offset * limit); // Fix offset calculation
     const { rows } = await conn.tx(db, sqlQuery, queryParams);
 
     if (!rows.length) {
