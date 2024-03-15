@@ -325,11 +325,12 @@ describe('QuestionGroup & QuestionGroupListItem without mock', () => {
       <QuestionGroupListItem label="Group 1" active={active} completedQuestionGroup={completed} />,
     );
     const iconEl = wrapper.getByTestId('icon-mark');
+
     const iconElProps = iconEl.props.children.props.children.props;
     expect(iconEl).toBeDefined();
-    expect(iconElProps.color).toBe('#2884bd');
+    expect(iconElProps.children.props.color).toBe('#2884bd');
     // Drop the check mark (this can be implemented later after discussion with the design team )
-    expect(iconElProps.name).toBe('circle'); // check-circle
+    expect(iconElProps.children.props.name).toBe('circle'); // check-circle
   });
 
   it('Should have disabled mark if not completed', () => {
@@ -341,8 +342,11 @@ describe('QuestionGroup & QuestionGroupListItem without mock', () => {
     const iconEl = wrapper.getByTestId('icon-mark');
     const iconElProps = iconEl.props.children.props.children.props;
     expect(iconEl).toBeDefined();
-    expect(iconElProps.color).toBe('#d4d4d4');
-    expect(iconElProps.name).toBe('circle');
+    /**
+     * TODO: for some reason its always changing
+     */
+    expect(iconElProps.children.props.color).toBe('#d4d4d4');
+    expect(iconElProps.children.props.name).toBe('circle');
   });
 
   it('Should disable question group if not completed', () => {
