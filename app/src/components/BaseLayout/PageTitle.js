@@ -62,7 +62,7 @@ const PageTitle = ({
             {text}
           </Text>
           <Text testID="page-subtitle" style={styles.subTitle} numberOfLines={1}>
-            {subTitle}
+            {subTitleText}
           </Text>
         </View>
       ) : (
