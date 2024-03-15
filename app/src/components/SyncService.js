@@ -94,10 +94,9 @@ const SyncService = () => {
     }, syncInSecond);
 
     // eslint-disable-next-line consistent-return
-    return () => 
+    return () =>
       // Clear the interval when the component unmounts
-       clearInterval(syncTimer)
-    ;
+      clearInterval(syncTimer);
   }, [syncInSecond, isOnline, onSync]);
 
   const onSyncDataPoint = useCallback(async () => {
@@ -136,6 +135,9 @@ const SyncService = () => {
 
     if (activeJob && activeJob.status === jobStatus.PENDING && activeJob.attempt === MAX_ATTEMPT) {
       await crudJobs.deleteJob(activeJob.id);
+      DatapointSyncState.update((s) => {
+        s.inProgress = false;
+      });
     }
   }, []);
 
