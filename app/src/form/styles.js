@@ -103,7 +103,6 @@ const styles = StyleSheet.create({
     marginRight: 0,
   },
   formNavigationButton: {
-    // backgroundColor:'red',
     borderTopColor: 'grey',
     borderTopWidth: 0.5,
     borderBottomWidth: 0,
@@ -120,7 +119,6 @@ const styles = StyleSheet.create({
     paddingRight: 15,
     marginRight: 0,
     marginLeft: 0,
-    backgroundColor: '#2089dc',
   },
   formNavigationTitle: {
     paddingTop: 9,
@@ -135,8 +133,7 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     paddingBottom: 13,
     paddingRight: 10,
-    color: '#FFFFFF',
-    backgroundColor: '#2089dc',
+    color: '#ffffff',
     fontWeight: 'normal',
     fontSize: 14,
   },
