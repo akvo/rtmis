@@ -104,7 +104,7 @@ const UpdateForm = ({ navigation, route }) => {
             setPage(page + 1);
           }}
         >
-          Load more
+          {trans.loadMore}
         </Button>
       )}
     </BaseLayout>
