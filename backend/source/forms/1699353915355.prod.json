@@ -2331,7 +2331,7 @@
       "id": 1710748304,
       "order": 4,
       "name": "observation_toilet_outcomes_results",
-      "label": "OBSERVATION: TOILET OUTCOMES RESULTS",
+      "label": "OUTCOME RESULTS: TOILET OUTCOMES",
       "description": null,
       "repeatable": false,
       "translations": null,
@@ -3140,7 +3140,7 @@
       "id": 1710751471,
       "order": 6,
       "name": "observation_hand_hygiene_results",
-      "label": "OBSERVATION: HAND HYGIENE OUTCOMES RESULTS",
+      "label": "OUTCOME RESULTS: HAND HYGIENE",
       "description": null,
       "repeatable": false,
       "translations": null,
@@ -3249,28 +3249,8 @@
           "fn": null
         },
         {
-          "id": 1702289546185,
-          "order": 2,
-          "name": "o_r_no_exposed_human_excreta",
-          "label": "G1-3 OUTCOME RESULT: NO EXPOSED HUMAN EXCRETA",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "fn": {
-            "fnColor": {
-              "G1 No exposed human excreta in compound": "#FDC74B",
-              "G0 Child or adult excreta observed in compound": "#FD3F31"
-            },
-            "fnString": "#no_exposed_human_excreta_in_compound#.includes(\"g1\") ? \"G1 No exposed human excreta in compound\" : \"G0 Child or adult excreta observed in compound\"",
-            "multiline": false
-          }
-        },
-        {
           "id": 1699432130951,
-          "order": 3,
+          "order": 2,
           "name": "safe_management_of_child_excreta_in_compound",
           "label": "G1-4.1 INTERVIEW: Safe management of child excreta in compound",
           "short_label": null,
@@ -3282,24 +3262,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699432375410,
-              "order": 1,
-              "label": "Child faeces unsafely handled (potty or collection tool unsafely washed)",
-              "value": "g0_soiled_potty_or_collection_tool_unsafely_washed",
-              "color": "#DB3B3B"
-            },
-            {
               "id": 1699432375411,
-              "order": 2,
+              "order": 1,
               "label": "Child faeces unsafely disposed",
               "value": "g0_child_faeces_unsafely_disposed",
               "color": "#DB3B3B"
             },
             {
               "id": 1699432390302,
-              "order": 3,
+              "order": 2,
               "label": "Child faeces disposed with solid waste",
               "value": "g0_child_faeces_disposed_with_solid_waste",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699432375410,
+              "order": 3,
+              "label": "Child faeces unsafely handled (potty or collection tool unsafely washed)",
+              "value": "g0_soiled_potty_or_collection_tool_unsafely_washed",
               "color": "#DB3B3B"
             },
             {
@@ -3317,17 +3297,31 @@
               "color": "#38A15A"
             },
             {
-              "id": 1699432412881,
+              "id": 1699432419984,
               "order": 6,
+              "label": "Child uses toilet WITHOUT assistance",
+              "value": "g1_safely_managed_child_uses_toilet_without_assistance",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1699432412881,
+              "order": 7,
               "label": "Child uses toilet WITH assistance",
               "value": "g1_safely_managed_child_uses_toilet_with_assistance",
               "color": "#38A15A"
             },
             {
-              "id": 1699432419984,
-              "order": 7,
-              "label": "Child uses toilet WITHOUT assistance",
-              "value": "g1_safely_managed_child_uses_toilet_without_assistance",
+              "id": 1710758038,
+              "order": 8,
+              "label": "Other safe management of child excreta",
+              "value": "g1_other_safe_management_of_child_excreta",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1710758053,
+              "order": 9,
+              "label": "No under-5 children",
+              "value": "g1_no_children_under_5",
               "color": "#38A15A"
             }
           ],
@@ -3335,7 +3329,7 @@
         },
         {
           "id": 1699432802923,
-          "order": 4,
+          "order": 3,
           "name": "safe_management_of_diapers_in_compound",
           "label": "G1-4.2 OBSERVATION & INTERVIEW: Safe management of used diapers in compound",
           "short_label": null,
@@ -3361,24 +3355,24 @@
               "color": "#DB3B3B"
             },
             {
-              "id": 1699432844768,
+              "id": 1710758549,
               "order": 3,
-              "label": "Washable cloths safely emptied and safely washed",
-              "value": "g1_washable_cloth_safely_emptied_and_safely_washed",
+              "label": "Used diapers put in the toilet pit",
+              "value": "g0_used_put_in_toilet_pit",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699432861018,
+              "order": 4,
+              "label": "Used diapers buried",
+              "value": "g1_disposable_diaper_buried_in_compound",
               "color": "#38A15A"
             },
             {
               "id": 1699432854246,
-              "order": 4,
+              "order": 5,
               "label": "Used diapers put into covered waste pit",
               "value": "g1_disposable_diaper_put_into_covered_waste_pit",
-              "color": "#38A15A"
-            },
-            {
-              "id": 1699432861018,
-              "order": 5,
-              "label": "Used diapers buried",
-              "value": "g1_disposable_diaper_buried_in_compound",
               "color": "#38A15A"
             },
             {
@@ -3387,34 +3381,34 @@
               "label": "Used diapers collected and safely stored for disposal at communal site",
               "value": "g1_disposable_diaper_collected_for_disposal_at_communal_site",
               "color": "#38A15A"
+            },
+            {
+              "id": 1699432844768,
+              "order": 7,
+              "label": "Washable cloths safely emptied and safely washed",
+              "value": "g1_washable_cloth_safely_emptied_and_safely_washed",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1710758535,
+              "order": 8,
+              "label": "No diapers or cloths used",
+              "value": "g1_no_diapers_or_clothes_used",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1710758521,
+              "order": 9,
+              "label": "No under-5 children",
+              "value": "g1_no_children_under_5",
+              "color": "#38A15A"
             }
           ],
           "fn": null
         },
         {
-          "id": 1702289725502,
-          "order": 5,
-          "name": "o_r_safe_management_of_child_excreta_and_diapers",
-          "label": "G1-4 OUTCOME RESULT: SAFE MANAGEMENT OF CHILD EXCRETA AND DIAPERS",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "dependency": null,
-          "fn": {
-            "fnColor": {
-              "G1 Safely managed child excreta and diapers": "#FDC74B",
-              "G0 Child excreta and diapers UNSAFELY managed": "#FD3F31"
-            },
-            "fnString": "#safe_management_of_child_excreta_in_compound#.includes(\"g1\") && #safe_management_of_diapers_in_compound#.includes(\"g1\") ? \"G1 Safely managed child excreta and diapers\" : \"G0 Child excreta and diapers UNSAFELY managed\"",
-            "multiline": false
-          }
-        },
-        {
           "id": 16994260598422,
-          "order": 6,
+          "order": 4,
           "name": "monitor_G2",
           "label": "Would you also like to monitor G2 outcomes",
           "short_label": null,
@@ -3543,7 +3537,7 @@
         },
         {
           "id": 1699432887212,
-          "order": 7,
+          "order": 5,
           "name": "clean_food",
           "label": "G2-3.1a OBSERVATION: Clean food",
           "short_label": null,
@@ -3586,7 +3580,7 @@
         },
         {
           "id": 1699433027913,
-          "order": 8,
+          "order": 6,
           "name": "covered_food_storage",
           "label": "G2-3.1b OBSERVATION: Covered food storage",
           "short_label": null,
@@ -3627,7 +3621,7 @@
         },
         {
           "id": 1699433058652,
-          "order": 9,
+          "order": 7,
           "name": "raised_food_storage",
           "label": "G2-3.1c OBSERVATION: Raised food storage",
           "short_label": null,
@@ -3669,35 +3663,8 @@
           "fn": null
         },
         {
-          "id": 1702295289084,
-          "order": 10,
-          "name": "o_r_clean_and_safely_stored_food",
-          "label": "G2-3.1 Outcome result - Clean and safely stored food",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["yes"]
-            }
-          ],
-          "fn": {
-            "fnColor": {
-              "G0 Food not clean and not safely stored": "#FD3F31",
-              "G2 Clean and safely stored food": "#93D371",
-              "G1 Food not adequately washed, or not safely stored": "#FDC74B"
-            },
-            "fnString": "#clean_food#.includes(\"g0\") && #covered_food_storage#.includes(\"g0\") && #raised_food_storage#.includes(\"g0\") ? \"G0 Food not clean and not safely stored\"  : #clean_food#.includes(\"g2\") && #covered_food_storage#.includes(\"g2\") && #raised_food_storage#.includes(\"g2\") ? \"G2 Clean and safely stored food\" : \"G1 Food not adequately washed, or not safely stored\"",
-            "multiline": false
-          }
-        },
-        {
           "id": 1699433108344,
-          "order": 11,
+          "order": 8,
           "name": "clean_kitchen_utensils",
           "label": "G2-3.2a OBSERVATION: Clean kitchen utensils",
           "short_label": null,
@@ -3740,7 +3707,7 @@
         },
         {
           "id": 1699433162828,
-          "order": 12,
+          "order": 9,
           "name": "covered_utensil_storage",
           "label": "G2-3.2b OBSERVATION: Covered utensil storage",
           "short_label": null,
@@ -3783,7 +3750,7 @@
         },
         {
           "id": 1699433205793,
-          "order": 13,
+          "order": 10,
           "name": "raised_utensil_storage",
           "label": "G2-3.2c OBSERVATION: Raised utensil storage",
           "short_label": null,
@@ -3825,35 +3792,8 @@
           "fn": null
         },
         {
-          "id": 1702295769122,
-          "order": 14,
-          "name": "o_r_clean_and_safely_stored_kitchen_utensils",
-          "label": "G2-3.2 Outcome result - Clean and safely stored kitchen utensils",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["yes"]
-            }
-          ],
-          "fn": {
-            "fnColor": {
-              "G0 Kitchen utensils not clean and not safely stored": "#FD3F31",
-              "G2 Clean and safely stored kitchen utensils": "#93D371",
-              "G1 Kitchen utensils not adequately washed, or not safely stored": "#FDC74B"
-            },
-            "fnString": "#clean_kitchen_utensils#.includes(\"g0\") && #covered_utensil_storage#.includes(\"g0\") && #raised_utensil_storage#.includes(\"g0\") ? \"G0 Kitchen utensils not clean and not safely stored\" : #clean_kitchen_utensils#.includes(\"g2\") && #covered_utensil_storage#.includes(\"g2\") && #raised_utensil_storage#.includes(\"g2\") ? \"G2 Clean and safely stored kitchen utensils\" : \"G1 Kitchen utensils not adequately washed, or not safely stored\"",
-            "multiline": false
-          }
-        },
-        {
           "id": 1699433286697,
-          "order": 15,
+          "order": 11,
           "name": "clean_milk_containers",
           "label": "G2-3.3a OBSERVATION: Clean milk containers",
           "short_label": null,
@@ -3896,7 +3836,7 @@
         },
         {
           "id": 1699433337417,
-          "order": 16,
+          "order": 12,
           "name": "covered_container_storage",
           "label": "Covered container storage",
           "short_label": null,
@@ -3933,13 +3873,20 @@
               "label": "G2 Covered container storage",
               "value": "g2_covered_container_storage",
               "color": "#38A15A"
+            },
+            {
+              "id": 1710759155,
+              "order": 4,
+              "label": "G2 No animals / no milking",
+              "value": "g2_no_animals_no_milking",
+              "color": "#38A15A"
             }
           ],
           "fn": null
         },
         {
           "id": 1699433394633,
-          "order": 17,
+          "order": 13,
           "name": "raised_container_storage",
           "label": "G2-3.3c OBSERVATION: Raised milk container storage",
           "short_label": null,
@@ -3976,36 +3923,16 @@
               "label": "Stored off ground",
               "value": "g2_storage_off_ground",
               "color": "#38A15A"
+            },
+            {
+              "id": 1710759196,
+              "order": 4,
+              "label": "G2 No animals / no milking",
+              "value": "g2_no_animals_no_milking",
+              "color": "#38A15A"
             }
           ],
           "fn": null
-        },
-        {
-          "id": 1702296110410,
-          "order": 18,
-          "name": "o_r_clean_and_safely_stored_milk_containers",
-          "label": "G2-3.3 Outcome result - Clean and safely stored milk containers",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["yes"]
-            }
-          ],
-          "fn": {
-            "fnColor": {
-              "G0 Milk containers not clean and not safely stored": "#FD3F31",
-              "G2 Clean and safely stored milk containers": "#93D371",
-              "G1 Milk containers not adequately washed, or not safely stored": "#FDC74B"
-            },
-            "fnString": "#clean_milk_containers#.includes(\"g0\") && #covered_container_storage#.includes(\"g0\") && #raised_container_storage#.includes(\"g0\") ? \"G0 Milk containers not clean and not safely stored\" : #clean_milk_containers#.includes(\"g2\") && #covered_container_storage#.includes(\"g2\") && #raised_container_storage#.includes(\"g2\") ? \"G2 Clean and safely stored milk containers\" : \"G1 Milk containers not adequately washed, or not safely stored\"",
-            "multiline": false
-          }
         },
         {
           "id": 1699433455365,
@@ -4201,33 +4128,6 @@
           "fn": null
         },
         {
-          "id": 1702296406679,
-          "order": 23,
-          "name": "o_r_safe_management_of_drinking_water",
-          "label": "G2-4.1 Outcome result - Safe management of drinking water",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["yes"]
-            }
-          ],
-          "fn": {
-            "fnColor": {
-              "G0 Drinking water is UNSAFELY managed": "#FD3F31",
-              "G2 Safe management of drinking water": "#93D371",
-              "G1 Drinking water is NOT adequately managed": "#FDC74B"
-            },
-            "fnString": "#clean_water_containers#.includes(\"g0\") && #adequate_water_quality#.includes(\"g0\") && #safely_stored_drinking_water#.includes(\"g0\") && #safely_used_water#.includes(\"g0\") ? \"G0 Drinking water is UNSAFELY managed\"  : #clean_water_containers#.includes(\"g2\") && #adequate_water_quality#.includes(\"g2\") && #safely_stored_drinking_water#.includes(\"g2\") && #safely_used_water#.includes(\"g2\") ? \"G2 Safe management of drinking water\" : \"G1 Drinking water is NOT adequately managed\"",
-            "multiline": false
-          }
-        },
-        {
           "id": 1699433719018,
           "order": 24,
           "name": "clean_water_points",
@@ -4265,6 +4165,13 @@
               "order": 3,
               "label": "Clean water point",
               "value": "g2_clean_water_points",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1710759467,
+              "order": 4,
+              "label": "No household water point",
+              "value": "g2_no_householf_water_point",
               "color": "#38A15A"
             }
           ],
@@ -4309,6 +4216,13 @@
               "label": "Well protected water point",
               "value": "g2_well_protected_water_points",
               "color": "#38A15A"
+            },
+            {
+              "id": 1710759508,
+              "order": 4,
+              "label": "No household water point",
+              "value": "g2_no_householf_water_point",
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -4352,36 +4266,16 @@
               "label": "Well drained water point",
               "value": "g2_well_drained_water_points",
               "color": "#38A15A"
+            },
+            {
+              "id": 1710759555,
+              "order": 4,
+              "label": "No household water point",
+              "value": "g2_no_householf_water_point",
+              "color": "#38A15A"
             }
           ],
           "fn": null
-        },
-        {
-          "id": 1702296839468,
-          "order": 27,
-          "name": "o_r_safe_management_of_water_sources",
-          "label": "G2-4.2 Outcome result - Safe management of water sources",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["yes"]
-            }
-          ],
-          "fn": {
-            "fnColor": {
-              "G0 Water points are UNSAFELY managed": "#FD3F31",
-              "G2 Safe management of water points": "#93D371",
-              "G1 Water points are NOT adequately managed": "#FDC74B"
-            },
-            "fnString": "#clean_water_points#.includes(\"g0\") && #protected_water_points#.includes(\"g0\") && #well_drained_water_points#.includes(\"g0\") ? \"G0 Water points are UNSAFELY managed\" : #clean_water_points#.includes(\"g2\") && #protected_water_points#.includes(\"g2\") && #well_drained_water_points#.includes(\"g2\") ? \"G2 Safe management of water points\" : \"G1 Water points are NOT adequately managed\"",
-            "multiline": false
-          }
         },
         {
           "id": 1699433937138,
@@ -4421,6 +4315,13 @@
               "order": 3,
               "label": "No animal wastes in house or in kitchen",
               "value": "g2_no_animal_wastes_visible_in_house_or_in_kitchen",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1710759659,
+              "order": 4,
+              "label": "No animals",
+              "value": "g2_no_animals",
               "color": "#38A15A"
             }
           ],
@@ -4464,6 +4365,13 @@
               "order": 3,
               "label": "No animal wastes in compound",
               "value": "g2_no_animal_wastes_visible_in_compound",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1710759699,
+              "order": 4,
+              "label": "No animals",
+              "value": "g2_no_animals",
               "color": "#38A15A"
             }
           ],
@@ -6000,11 +5908,188 @@
       "id": 1710757443,
       "order": 8,
       "name": "observation__environmental_health_outcomes_results",
-      "label": "OBSERVATION:  Environmental Health outcomes RESULTS",
+      "label": "OUTCOME RESULTS:  Environmental Health",
       "description": null,
       "repeatable": false,
       "translations": null,
-      "questions":[]
+      "questions":[
+        {
+          "id": 1702296406679,
+          "order": 23,
+          "name": "o_r_safe_management_of_drinking_water",
+          "label": "G2-4.1 Outcome result - Safe management of drinking water",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598422,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G0 Drinking water is UNSAFELY managed": "#FD3F31",
+              "G2 Safe management of drinking water": "#93D371",
+              "G1 Drinking water is NOT adequately managed": "#FDC74B"
+            },
+            "fnString": "#clean_water_containers#.includes(\"g0\") && #adequate_water_quality#.includes(\"g0\") && #safely_stored_drinking_water#.includes(\"g0\") && #safely_used_water#.includes(\"g0\") ? \"G0 Drinking water is UNSAFELY managed\"  : #clean_water_containers#.includes(\"g2\") && #adequate_water_quality#.includes(\"g2\") && #safely_stored_drinking_water#.includes(\"g2\") && #safely_used_water#.includes(\"g2\") ? \"G2 Safe management of drinking water\" : \"G1 Drinking water is NOT adequately managed\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702289546185,
+          "order": 2,
+          "name": "o_r_no_exposed_human_excreta",
+          "label": "G1-3 OUTCOME RESULT: NO EXPOSED HUMAN EXCRETA",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "fn": {
+            "fnColor": {
+              "G1 No exposed human excreta in compound": "#FDC74B",
+              "G0 Child or adult excreta observed in compound": "#FD3F31"
+            },
+            "fnString": "#no_exposed_human_excreta_in_compound#.includes(\"g1\") ? \"G1 No exposed human excreta in compound\" : \"G0 Child or adult excreta observed in compound\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702296839468,
+          "order": 27,
+          "name": "o_r_safe_management_of_water_sources",
+          "label": "G2-4.2 Outcome result - Safe management of water sources",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598422,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G0 Water points are UNSAFELY managed": "#FD3F31",
+              "G2 Safe management of water points": "#93D371",
+              "G1 Water points are NOT adequately managed": "#FDC74B"
+            },
+            "fnString": "#clean_water_points#.includes(\"g0\") && #protected_water_points#.includes(\"g0\") && #well_drained_water_points#.includes(\"g0\") ? \"G0 Water points are UNSAFELY managed\" : #clean_water_points#.includes(\"g2\") && #protected_water_points#.includes(\"g2\") && #well_drained_water_points#.includes(\"g2\") ? \"G2 Safe management of water points\" : \"G1 Water points are NOT adequately managed\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702296110410,
+          "order": 18,
+          "name": "o_r_clean_and_safely_stored_milk_containers",
+          "label": "G2-3.3 Outcome result - Clean and safely stored milk containers",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598422,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G0 Milk containers not clean and not safely stored": "#FD3F31",
+              "G2 Clean and safely stored milk containers": "#93D371",
+              "G1 Milk containers not adequately washed, or not safely stored": "#FDC74B"
+            },
+            "fnString": "#clean_milk_containers#.includes(\"g0\") && #covered_container_storage#.includes(\"g0\") && #raised_container_storage#.includes(\"g0\") ? \"G0 Milk containers not clean and not safely stored\" : #clean_milk_containers#.includes(\"g2\") && #covered_container_storage#.includes(\"g2\") && #raised_container_storage#.includes(\"g2\") ? \"G2 Clean and safely stored milk containers\" : \"G1 Milk containers not adequately washed, or not safely stored\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702295769122,
+          "order": 14,
+          "name": "o_r_clean_and_safely_stored_kitchen_utensils",
+          "label": "G2-3.2 Outcome result - Clean and safely stored kitchen utensils",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598422,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G0 Kitchen utensils not clean and not safely stored": "#FD3F31",
+              "G2 Clean and safely stored kitchen utensils": "#93D371",
+              "G1 Kitchen utensils not adequately washed, or not safely stored": "#FDC74B"
+            },
+            "fnString": "#clean_kitchen_utensils#.includes(\"g0\") && #covered_utensil_storage#.includes(\"g0\") && #raised_utensil_storage#.includes(\"g0\") ? \"G0 Kitchen utensils not clean and not safely stored\" : #clean_kitchen_utensils#.includes(\"g2\") && #covered_utensil_storage#.includes(\"g2\") && #raised_utensil_storage#.includes(\"g2\") ? \"G2 Clean and safely stored kitchen utensils\" : \"G1 Kitchen utensils not adequately washed, or not safely stored\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702295289084,
+          "order": 10,
+          "name": "o_r_clean_and_safely_stored_food",
+          "label": "G2-3.1 Outcome result - Clean and safely stored food",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598422,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G0 Food not clean and not safely stored": "#FD3F31",
+              "G2 Clean and safely stored food": "#93D371",
+              "G1 Food not adequately washed, or not safely stored": "#FDC74B"
+            },
+            "fnString": "#clean_food#.includes(\"g0\") && #covered_food_storage#.includes(\"g0\") && #raised_food_storage#.includes(\"g0\") ? \"G0 Food not clean and not safely stored\"  : #clean_food#.includes(\"g2\") && #covered_food_storage#.includes(\"g2\") && #raised_food_storage#.includes(\"g2\") ? \"G2 Clean and safely stored food\" : \"G1 Food not adequately washed, or not safely stored\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702289725502,
+          "order": 5,
+          "name": "o_r_safe_management_of_child_excreta_and_diapers",
+          "label": "G1-4 OUTCOME RESULT: SAFE MANAGEMENT OF CHILD EXCRETA AND DIAPERS",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": null,
+          "fn": {
+            "fnColor": {
+              "G1 Safely managed child excreta and diapers": "#FDC74B",
+              "G0 Child excreta and diapers UNSAFELY managed": "#FD3F31"
+            },
+            "fnString": "#safe_management_of_child_excreta_in_compound#.includes(\"g1\") && #safe_management_of_diapers_in_compound#.includes(\"g1\") ? \"G1 Safely managed child excreta and diapers\" : \"G0 Child excreta and diapers UNSAFELY managed\"",
+            "multiline": false
+          }
+        }
+      ]
     },
     {
       "id": 1703086270253,
