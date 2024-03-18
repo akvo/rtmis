@@ -45,7 +45,7 @@ const DownloadAdministrationData = () => {
     },
     {
       title: text.manageAdministrativeList,
-      link: "/control-center/master-data",
+      link: "/control-center/master-data/administration",
     },
     {
       title: text.AdministrationDataDownload,

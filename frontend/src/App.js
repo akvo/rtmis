@@ -112,7 +112,7 @@ const RouteList = () => {
           element={<Private element={ApproversTree} alias="approvers" />}
         />
         <Route
-          path="data/manage"
+          path="data"
           element={<Private element={ManageData} alias="data" />}
         />
         <Route
@@ -120,27 +120,27 @@ const RouteList = () => {
           element={<Private element={MonitoringDetail} alias="data" />}
         />
         <Route
-          path="master-data"
+          path="master-data/administration"
           element={<Private element={MasterData} alias="master-data" />}
         />
         <Route
-          path="master-data/upload-administration-data"
+          path="master-data/administration/upload"
           element={
             <Private element={UploadAdministrationData} alias="master-data" />
           }
         />
         <Route
-          path="master-data/download-administration-data"
+          path="master-data/administration/download"
           element={
             <Private element={DownloadAdministrationData} alias="master-data" />
           }
         />
         <Route
-          path="master-data/add-administration"
+          path="master-data/administration/add"
           element={<Private element={AddAdministration} alias="master-data" />}
         />
         <Route
-          path="master-data/:id/edit"
+          path="master-data/administration/:id"
           element={<Private element={AddAdministration} alias="master-data" />}
         />
         <Route
@@ -154,7 +154,7 @@ const RouteList = () => {
           element={<Private element={AddAttribute} alias="master-data" />}
         />
         <Route
-          path="master-data/attributes/:id/edit"
+          path="master-data/attributes/:id"
           element={<Private element={AddAttribute} alias="master-data" />}
         />
         <Route
@@ -166,7 +166,7 @@ const RouteList = () => {
           element={<Private element={AddEntity} alias="master-data" />}
         />
         <Route
-          path="master-data/entity-types/:id/edit"
+          path="master-data/entity-types/:id"
           element={<Private element={AddEntity} alias="master-data" />}
         />
         <Route
@@ -178,7 +178,7 @@ const RouteList = () => {
           element={<Private element={AddEntityData} alias="master-data" />}
         />
         <Route
-          path="master-data/entities/:id/edit"
+          path="master-data/entities/:id"
           element={<Private element={AddEntityData} alias="master-data" />}
         />
         <Route
@@ -194,11 +194,11 @@ const RouteList = () => {
           element={<Private element={Approvals} alias="approvals" />}
         />
         <Route
-          path="organisation/add"
+          path="master-data/organisations/add"
           element={<Private element={AddOrganisation} alias="organisation" />}
         />
         <Route
-          path="organisation/:id"
+          path="master-data/organisations/:id"
           element={<Private element={AddOrganisation} alias="organisation" />}
         />
         <Route

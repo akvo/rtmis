@@ -47,7 +47,7 @@ const Forms = () => {
       link:
         authUser?.role?.value === "Data Entry Supervisor"
           ? "/profile"
-          : "/control-center/data/manage",
+          : "/control-center/data",
     },
     {
       title: forms.name,

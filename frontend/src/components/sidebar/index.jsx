@@ -30,9 +30,12 @@ const Sidebar = () => {
       label: "Manage Mobile Users",
       url: "/control-center/mobile-assignment",
     },
-    data: [{ label: "Manage Data", url: "/control-center/data/manage" }],
+    data: [{ label: "Manage Data", url: "/control-center/data" }],
     "master-data": [
-      { label: "Administrative List", url: "/control-center/master-data" },
+      {
+        label: "Administrative List",
+        url: "/control-center/master-data/administration",
+      },
       { label: "Attributes", url: "/control-center/master-data/attributes" },
       { label: "Entities", url: "/control-center/master-data/entities" },
       {
@@ -166,6 +169,18 @@ const Sidebar = () => {
     for (const item of items) {
       if (item.url === url) {
         return item.key;
+      }
+      if (url.split("/").length > 2) {
+        const parentUrl = url.split("/").slice(0, 3).join("/");
+        if (parentUrl === item.url) {
+          return item.key;
+        }
+      }
+      if (url.split("/").length > 3) {
+        const parentUrl = url.split("/").slice(0, 4).join("/");
+        if (parentUrl === item.url) {
+          return item.key;
+        }
       }
       if (item.children) {
         const key = findKeyByUrl(item.children, url);

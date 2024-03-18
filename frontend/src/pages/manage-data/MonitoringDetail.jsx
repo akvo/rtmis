@@ -54,7 +54,7 @@ const MonitoringDetail = () => {
     },
     {
       title: text.manageDataTitle,
-      link: "/control-center/data/manage",
+      link: "/control-center/data",
     },
     {
       title: text.monitoringDataTitle,

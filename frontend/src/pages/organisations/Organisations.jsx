@@ -91,7 +91,7 @@ const Organisations = () => {
       key: "action",
       render: (record, rowValue) => (
         <Space>
-          <Link to={`/control-center/organisation/${record.id}`}>
+          <Link to={`/control-center/master-data/organisations/${record.id}`}>
             <Button shape="round" type="primary">
               {text.editButton}
             </Button>
@@ -225,7 +225,7 @@ const Organisations = () => {
               </Space>
             </Col>
             <Col>
-              <Link to="/control-center/organisation/add">
+              <Link to="/control-center/master-data/organisations/add">
                 <Button type="primary" shape="round" icon={<PlusOutlined />}>
                   {text.addNewButton}
                 </Button>
