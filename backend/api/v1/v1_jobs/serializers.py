@@ -38,10 +38,10 @@ class DownloadListSerializer(serializers.ModelSerializer):
     def get_category(self, instance):
         job_type = JobTypes.FieldStr.get(instance.type)
         if job_type == 'download_administration':
-            return 'Administration'
+            return 'Administration List'
         if job_type == 'download_entities':
             return 'Entities'
-        return 'Data'
+        return 'Form Data'
 
     @extend_schema_field(CustomChoiceField(
         choices=[JobStatus.FieldStr[d] for d in JobStatus.FieldStr]))

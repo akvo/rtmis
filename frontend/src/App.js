@@ -12,7 +12,6 @@ import {
   Approvals,
   ApproversTree,
   Profile,
-  ExportData,
   UploadData,
   NewsEvents,
   HowWeWork,
@@ -43,7 +42,7 @@ import {
   DownloadAdministrationData,
   BIDashboard,
   MonitoringDetail,
-  AdministrationDownload,
+  Downloads,
   // Visualisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
@@ -119,10 +118,6 @@ const RouteList = () => {
         <Route
           path="data/:form/monitoring/:parentId"
           element={<Private element={MonitoringDetail} alias="data" />}
-        />
-        <Route
-          path="data/export"
-          element={<Private element={ExportData} alias="data" />}
         />
         <Route
           path="master-data"
@@ -229,13 +224,8 @@ const RouteList = () => {
         />
       </Route>
       <Route
-        path="/administration-download"
-        element={
-          <Private
-            element={AdministrationDownload}
-            alias="administration-download"
-          />
-        }
+        path="/downloads"
+        element={<Private element={Downloads} alias="downloads" />}
       />
       <Route
         path="/settings"

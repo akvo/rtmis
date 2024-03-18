@@ -30,16 +30,9 @@ const Sidebar = () => {
       label: "Manage Mobile Users",
       url: "/control-center/mobile-assignment",
     },
-    data: [
-      { label: "Manage Data", url: "/control-center/data/manage" },
-      // { label: "Download Data", url: "/control-center/data/export" },
-    ],
+    data: [{ label: "Manage Data", url: "/control-center/data/manage" }],
     "master-data": [
       { label: "Administrative List", url: "/control-center/master-data" },
-      // {
-      //   label: "Administrative Download",
-      //   url: "/control-center/master-data/download-administration-data",
-      // },
       { label: "Attributes", url: "/control-center/master-data/attributes" },
       { label: "Entities", url: "/control-center/master-data/entities" },
       {
@@ -74,7 +67,7 @@ const Sidebar = () => {
       childrenKeys: ["master-data"],
     },
     download: {
-      label: "Download",
+      label: "Downloads",
       icon: DownloadOutlined,
     },
   };
@@ -138,7 +131,7 @@ const Sidebar = () => {
         key: "download",
         icon: downloadItem.icon ? React.createElement(downloadItem.icon) : null,
         label: downloadItem.label,
-        url: "/administration-download",
+        url: "/downloads",
       });
     }
 

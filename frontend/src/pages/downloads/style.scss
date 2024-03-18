@@ -1,11 +1,14 @@
 @import "../../variables";
 
 #root {
-  #administration-download {
+  #downloads {
     margin: -24px -50px;
     position: relative;
     .ant-card {
       margin-bottom: 20px;
+    }
+    .download-filter {
+      font-size: 12px;
     }
     .ant-layout {
       min-height: calc(100vh - 86px);

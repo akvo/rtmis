@@ -89,7 +89,7 @@ const EntityData = () => {
       }
       const params = new URLSearchParams(query);
       await api.get(`/export/entity-data?${params.toString()}`);
-      navigate("/administration-download");
+      navigate("/downloads");
     } catch (err) {
       Modal.error({
         title: text.exportEntityError,
