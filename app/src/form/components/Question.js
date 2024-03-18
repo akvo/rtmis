@@ -1,8 +1,9 @@
 import React, { memo, useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import { FlatList, View } from 'react-native';
 import * as Crypto from 'expo-crypto';
+import PropTypes from 'prop-types';
 import QuestionField from './QuestionField';
-import { styles } from '../styles';
+import styles from '../styles';
 import { onFilterDependency } from '../lib';
 import { FormState } from '../../store';
 
@@ -22,9 +23,7 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
     if (group?.question?.length) {
       return group.question
         .filter((q) => onFilterDependency(group, values, q))
-        .filter((q) => {
-          return (q?.extra?.type === 'entity' && prevAdmAnswer) || !q?.extra?.type;
-        })
+        .filter((q) => (q?.extra?.type === 'entity' && prevAdmAnswer) || !q?.extra?.type)
         .filter((q) => {
           if (q?.extra?.type === 'entity' && entityOptions?.[q?.id]?.length) {
             /**
@@ -85,10 +84,8 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
              * Answer criteria = "New"
              */
             const answer =
-              id === current['id']
-                ? current['answer']
-                : values?.[current['id']] || current['answer'];
-            return { [current['id']]: answer, ...prev };
+              id === current.id ? current.answer : values?.[current.id] || current.answer;
+            return { [current.id]: answer, ...prev };
           }, {});
           s.prefilled = preValues;
         });
@@ -134,7 +131,7 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
         s.prefilled = false;
       });
     }
-  }, [currentPreFilled, questions]);
+  }, [currentPreFilled]);
 
   useEffect(() => {
     handleOnPrefilled();
@@ -143,22 +140,20 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
   return (
     <FlatList
       ref={flatListRef}
-      scrollEnabled={true}
+      scrollEnabled
       data={questions}
       keyExtractor={(item) => `question-${item.id}`}
-      renderItem={({ item: field, index }) => {
-        return (
-          <View key={`question-${field.id}`} style={styles.questionContainer}>
-            <QuestionField
-              keyform={index}
-              field={field}
-              onChange={handleOnChange}
-              value={values?.[field.id]}
-              questions={questions}
-            />
-          </View>
-        );
-      }}
+      renderItem={({ item: field, index: ix }) => (
+        <View key={`question-${field.id}`} style={styles.questionContainer}>
+          <QuestionField
+            keyform={ix}
+            field={field}
+            onChange={handleOnChange}
+            value={values?.[field.id]}
+            questions={questions}
+          />
+        </View>
+      )}
       extraData={group}
       removeClippedSubviews={false}
     />
@@ -166,3 +161,13 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
 });
 
 export default Question;
+
+Question.propTypes = {
+  group: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired,
+  activeQuestions: PropTypes.array,
+};
+
+Question.defaultProps = {
+  activeQuestions: [],
+};

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import * as FileSystem from 'expo-file-system';
 import * as SQLite from 'expo-sqlite';
 import { conn, query } from '../database';
@@ -19,9 +20,9 @@ const download = async (downloadUrl, fileUrl, update = false) => {
   console.info('Downloading...', downloadUrl);
   const { exists } = await FileSystem.getInfoAsync(FileSystem.documentDirectory + pathSql);
   if (exists && update) {
-    const existing_db = SQLite.openDatabase(fileSql);
-    existing_db.closeAsync();
-    await existing_db.deleteAsync();
+    const existingDB = SQLite.openDatabase(fileSql);
+    existingDB.closeAsync();
+    await existingDB.deleteAsync();
   }
   if (!exists || update) {
     await FileSystem.downloadAsync(downloadUrl, FileSystem.documentDirectory + pathSql, {
@@ -43,17 +44,19 @@ const dropFiles = async () => {
   const Sqlfiles = await FileSystem.readDirectoryAsync(FileSystem.documentDirectory + DIR_NAME);
   Sqlfiles.forEach(async (file) => {
     if (file.includes('sqlite')) {
-      const fileUri = FileSystem.documentDirectory + `${DIR_NAME}/${file}`;
+      const fileUri = `${FileSystem.documentDirectory}${DIR_NAME}/${file}`;
       await FileSystem.deleteAsync(fileUri);
     }
   });
   return Sqlfiles;
 };
 
-export default cascades = {
+const cascades = {
   createSqliteDir,
   loadDataSource,
   download,
   dropFiles,
   DIR_NAME,
 };
+
+export default cascades;

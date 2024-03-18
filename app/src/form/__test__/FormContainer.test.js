@@ -1,11 +1,16 @@
 import React from 'react';
 import { render, fireEvent, waitFor, act } from '@testing-library/react-native';
+import { Platform } from 'react-native';
 import FormContainer from '../FormContainer';
 import { FormState } from '../../store';
 
 jest.useFakeTimers();
 jest.mock('expo-font');
 jest.mock('expo-asset');
+jest.doMock('react-native/Libraries/Utilities/Platform.android.js', () => ({
+  OS: 'android',
+  select: jest.fn(),
+}));
 
 const exampleTestForm = {
   name: 'Testing Form',
@@ -19,7 +24,8 @@ const exampleTestForm = {
   ],
   question_group: [
     {
-      name: 'Registration',
+      name: 'registration',
+      label: 'Registration',
       order: 1,
       translations: [
         {
@@ -30,7 +36,8 @@ const exampleTestForm = {
       question: [
         {
           id: 1,
-          name: 'Your Name',
+          name: 'your_name',
+          label: 'Your Name',
           order: 1,
           type: 'input',
           required: true,
@@ -45,7 +52,8 @@ const exampleTestForm = {
         },
         {
           id: 2,
-          name: 'Birth Date',
+          name: 'birth_date',
+          label: 'Birth Date',
           order: 2,
           type: 'date',
           required: true,
@@ -58,7 +66,8 @@ const exampleTestForm = {
         },
         {
           id: 3,
-          name: 'Age',
+          name: 'age',
+          label: 'Age',
           order: 3,
           type: 'number',
           required: true,
@@ -71,19 +80,22 @@ const exampleTestForm = {
         },
         {
           id: 4,
-          name: 'Gender',
+          name: 'gender',
+          label: 'Gender',
           order: 4,
           type: 'option',
           required: true,
           option: [
             {
               id: 1,
-              name: 'Male',
+              label: 'Male',
+              value: 'male',
               order: 1,
             },
             {
               id: 2,
-              name: 'Female',
+              label: 'Female',
+              value: 'female',
               order: 2,
             },
           ],
@@ -96,54 +108,29 @@ const exampleTestForm = {
           ],
         },
         {
-          id: 5,
-          name: 'Your last education',
-          order: 1,
-          type: 'option',
-          required: false,
-          option: [
-            {
-              id: 11,
-              name: 'Senior High School',
-              order: 1,
-            },
-            {
-              id: 12,
-              name: 'Bachelor',
-              order: 2,
-            },
-            {
-              id: 13,
-              name: 'Master',
-              order: 3,
-            },
-            {
-              id: 14,
-              name: 'Doctor',
-              order: 4,
-            },
-          ],
-        },
-        {
           id: 6,
-          name: 'Hobby',
+          name: 'hobby',
+          label: 'Hobby',
           order: 2,
-          type: 'option',
+          type: 'multiple_option',
           required: false,
           option: [
             {
               id: 21,
-              name: 'Reading',
+              label: 'Reading',
+              value: 'reading',
               order: 1,
             },
             {
               id: 22,
-              name: 'Traveling',
+              label: 'Traveling',
+              value: 'traveling',
               order: 2,
             },
             {
               id: 23,
-              name: 'Programming',
+              label: 'Programming',
+              value: 'programming',
               order: 3,
             },
           ],
@@ -151,40 +138,35 @@ const exampleTestForm = {
         {
           id: 7,
           name: 'Foods',
+          label: 'Foods',
           order: 3,
           type: 'option',
           required: false,
           option: [
             {
               id: 31,
-              name: 'Fried Rice',
+              label: 'fried_rice',
+              value: 'fried_rice',
               order: 1,
             },
             {
               id: 32,
-              name: 'Rendang',
+              label: 'Rendang',
+              value: 'rendang',
               order: 2,
             },
             {
               id: 33,
-              name: 'Noodle',
+              label: 'Noodle',
+              value: 'noodle',
               order: 3,
-            },
-            {
-              id: 34,
-              name: 'Meat Ball',
-              order: 5,
-            },
-            {
-              id: 35,
-              name: 'Fried Chicken',
-              order: 6,
             },
           ],
         },
         {
           id: 8,
-          name: 'Comment',
+          name: 'comment',
+          label: 'Comment',
           order: 4,
           type: 'text',
           required: false,
@@ -197,14 +179,15 @@ const exampleTestForm = {
         },
         {
           id: 9,
-          name: 'Give Rating from 1 - 9 for Rendang',
+          name: 'give_rating_rendang',
+          label: 'Give Rating from 1 - 9 for Rendang',
           order: 5,
           type: 'number',
           required: true,
           dependency: [
             {
               id: 7,
-              options: ['Rendang'],
+              options: ['rendang'],
             },
           ],
           rule: {
@@ -219,68 +202,45 @@ const exampleTestForm = {
   ],
 };
 
-describe('FormContainer component on save', () => {
-  test('should return values as null onSave callback if currentValues not defined', async () => {
-    const handleOnSave = jest.fn();
-
-    render(<FormContainer forms={exampleTestForm} onSave={handleOnSave} />);
-
-    await waitFor(() => {
-      expect(handleOnSave).toHaveBeenCalledTimes(1);
-      expect(handleOnSave).toHaveBeenCalledWith(null);
-    });
+describe('FormContainer component on submit', () => {
+  beforeAll(() => {
+    Platform.OS = 'android';
   });
 
-  test('should handle onSave event and return refreshForm', async () => {
-    const handleOnSave = jest.fn();
-
-    const modifiedInitialValues = {
-      1: 'John',
-    };
-
-    act(() => {
-      FormState.update((s) => {
-        s.currentValues = modifiedInitialValues;
-      });
-    });
-
-    render(
+  it('should show a toast message when the mandatory inputs are still empty', async () => {
+    const handleOnSubmit = jest.fn();
+    const handleOnShowDialog = jest.fn();
+    const { getByTestId, queryByText } = render(
       <FormContainer
         forms={exampleTestForm}
-        initialValues={modifiedInitialValues}
-        onSave={handleOnSave}
+        onSubmit={handleOnSubmit}
+        setShowDialogMenu={handleOnShowDialog}
+        isMonitoring={false}
       />,
     );
 
+    const submitEl = getByTestId('form-btn-submit');
+    expect(submitEl).toBeDefined();
+    expect(Platform.OS).toEqual('android');
+
+    act(() => {
+      fireEvent.press(submitEl);
+    });
+
     await waitFor(() => {
-      expect(handleOnSave).toHaveBeenCalledTimes(1);
-      expect(handleOnSave).toHaveBeenCalledWith({
-        answers: { 1: 'John' },
-        geo: null,
-        name: 'John',
-      });
-      expect(handleOnSave).toHaveBeenCalledWith({
-        name: 'John',
-        geo: null,
-        answers: {
-          1: 'John',
-        },
-      });
+      expect(handleOnSubmit).toHaveBeenCalledTimes(0);
+      expect(queryByText('Please answer all mandatory questions')).toBeDefined();
     });
   });
-});
 
-describe('FormContainer component on submit', () => {
-  test('submits form data correctly without dependency', async () => {
-    const handleOnSubmit = jest.fn();
+  it('should submit form data correctly without dependency', async () => {
     const modifiedInitialValues = {
       1: 'John',
       2: new Date('01-01-1992'),
       3: '31',
-      4: ['Male'],
-      5: ['Bachelor'],
-      6: [undefined, 'Traveling'],
-      7: ['Fried Rice'],
+      4: ['male'],
+      6: ['traveling'],
+      7: ['fried_rice'],
       8: ' ',
     };
     act(() => {
@@ -288,12 +248,14 @@ describe('FormContainer component on submit', () => {
         s.currentValues = modifiedInitialValues;
       });
     });
-
-    const { queryByTestId, rerender } = render(
+    const handleOnSubmit = jest.fn();
+    const handleOnShowDialog = jest.fn();
+    const { queryByTestId } = render(
       <FormContainer
         forms={exampleTestForm}
-        initialValues={modifiedInitialValues}
         onSubmit={handleOnSubmit}
+        setShowDialogMenu={handleOnShowDialog}
+        isMonitoring={false}
       />,
     );
     const formSubmitBtn = queryByTestId('form-btn-submit');
@@ -302,14 +264,6 @@ describe('FormContainer component on submit', () => {
     act(() => {
       fireEvent.press(formSubmitBtn);
     });
-
-    rerender(
-      <FormContainer
-        forms={exampleTestForm}
-        initialValues={modifiedInitialValues}
-        onSubmit={handleOnSubmit}
-      />,
-    );
 
     await waitFor(() => {
       expect(handleOnSubmit).toHaveBeenCalledTimes(1);
@@ -320,25 +274,24 @@ describe('FormContainer component on submit', () => {
           1: 'John',
           2: new Date('01-01-1992'),
           3: '31',
-          4: ['Male'],
-          5: ['Bachelor'],
-          6: ['Traveling'],
-          7: ['Fried Rice'],
+          4: ['male'],
+          6: ['traveling'],
+          7: ['fried_rice'],
         },
       });
     });
   });
 
-  test('submits form data correctly with dependency', async () => {
+  it('should submit form data correctly with dependency', async () => {
     const handleOnSubmit = jest.fn();
+    const handleOnShowDialog = jest.fn();
     const modifiedInitialValues = {
       1: 'John',
       2: new Date('01-01-1992'),
       3: '31',
-      4: ['Male'],
-      5: ['Bachelor'],
-      6: [undefined, 'Traveling'],
-      7: ['Rendang'],
+      4: ['male'],
+      6: ['traveling'],
+      7: ['rendang'],
       9: '8.9',
     };
 
@@ -351,8 +304,9 @@ describe('FormContainer component on submit', () => {
     const { queryByTestId } = render(
       <FormContainer
         forms={exampleTestForm}
-        initialValues={modifiedInitialValues}
         onSubmit={handleOnSubmit}
+        setShowDialogMenu={handleOnShowDialog}
+        isMonitoring={false}
       />,
     );
 
@@ -368,10 +322,9 @@ describe('FormContainer component on submit', () => {
         1: 'John',
         2: new Date('01-01-1992'),
         3: '31',
-        4: ['Male'],
-        5: ['Bachelor'],
-        6: ['Traveling'],
-        7: ['Rendang'],
+        4: ['male'],
+        6: ['traveling'],
+        7: ['rendang'],
         9: '8.9',
       },
     });
@@ -381,12 +334,12 @@ describe('FormContainer component on submit', () => {
     'should filter form values by valid value and respect required validation',
     async () => {
       const handleOnSubmit = jest.fn();
+      const handleOnShowDialog = jest.fn();
       const modifiedInitialValues = {
         1: '',
         2: new Date('01-01-1992'),
-        3: 0,
-        4: ['Male'],
-        5: ['Bachelor'],
+        3: '0',
+        4: ['male'],
         6: [undefined],
         7: [],
         8: ' ',
@@ -402,8 +355,9 @@ describe('FormContainer component on submit', () => {
       const { queryByTestId } = render(
         <FormContainer
           forms={exampleTestForm}
-          initialValues={modifiedInitialValues}
           onSubmit={handleOnSubmit}
+          setShowDialogMenu={handleOnShowDialog}
+          isMonitoring={false}
         />,
       );
 
@@ -418,10 +372,9 @@ describe('FormContainer component on submit', () => {
         answers: {
           1: 'John',
           2: new Date('01-01-1992'),
-          3: 0,
-          4: ['Male'],
-          5: ['Bachelor'],
-          9: 0,
+          3: '0',
+          4: ['male'],
+          9: '0',
         },
       });
     },
@@ -429,12 +382,12 @@ describe('FormContainer component on submit', () => {
 
   it('should filter form values by valid value', async () => {
     const handleOnSubmit = jest.fn();
+    const handleOnShowDialog = jest.fn();
     const modifiedInitialValues = {
       1: 'John',
       2: new Date('01-01-1992'),
-      3: 0,
-      4: ['Male'],
-      5: ['Bachelor'],
+      3: '0',
+      4: ['male'],
       6: [undefined],
       7: [],
       8: '',
@@ -452,6 +405,7 @@ describe('FormContainer component on submit', () => {
         forms={exampleTestForm}
         initialValues={modifiedInitialValues}
         onSubmit={handleOnSubmit}
+        setShowDialogMenu={handleOnShowDialog}
       />,
     );
 
@@ -466,10 +420,8 @@ describe('FormContainer component on submit', () => {
       answers: {
         1: 'John',
         2: new Date('01-01-1992'),
-        3: 0,
-        4: ['Male'],
-        5: ['Bachelor'],
-        9: 0,
+        3: '0',
+        4: ['male'],
       },
     });
   });

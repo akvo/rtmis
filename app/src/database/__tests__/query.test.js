@@ -1,10 +1,11 @@
-import { query } from '../query';
-import { conn } from '../conn';
+import query from '../query';
+import conn from '../conn';
+
 jest.mock('expo-sqlite');
 /**
  * negative test cases
  */
-db = conn.init;
+const db = conn.init;
 
 describe('query negative tests cases', () => {
   test('invalid insert query', () => {

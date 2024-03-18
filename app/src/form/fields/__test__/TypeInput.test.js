@@ -55,7 +55,7 @@ describe('TypeInput component', () => {
 
   it('should not show required sign if required param is true and requiredSign defined', () => {
     const wrapper = render(
-      <TypeInput id="inputField" label="Field Name" required={true} requiredSign="*" />,
+      <TypeInput id="inputField" label="Field Name" required requiredSign="*" />,
     );
     const requiredIcon = wrapper.queryByTestId('field-required-icon');
     expect(requiredIcon).toBeTruthy();
@@ -63,7 +63,7 @@ describe('TypeInput component', () => {
 
   it('should show required sign with custom requiredSign', () => {
     const wrapper = render(
-      <TypeInput id="inputField" label="Field Name" required={true} requiredSign="**" />,
+      <TypeInput id="inputField" label="Field Name" required requiredSign="**" />,
     );
     const requiredIcon = wrapper.getByText('**');
     expect(requiredIcon).toBeTruthy();

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, ToastAndroid, Platform } from 'react-native';
+import { View } from 'react-native';
 import { ListItem, Button, Input, Text } from '@rneui/themed';
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -8,10 +8,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { BaseLayout } from '../components';
 import { conn, query } from '../database';
 import { UserState, UIState, AuthState } from '../store';
-import { api, i18n } from '../lib';
+import { api, cascades, i18n } from '../lib';
 import { crudForms, crudUsers, crudConfig } from '../database/crud';
 
-db = conn.init;
+const db = conn.init;
 
 const AddUser = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
@@ -53,12 +53,11 @@ const AddUser = ({ navigation }) => {
     formsUrl.forEach(async (form) => {
       // Fetch form detail
       const formRes = await api.get(form.url);
-      const savedForm = await crudForms.addForm({
+      await crudForms.addForm({
         ...form,
         userId: userID,
         formJSON: formRes?.data,
       });
-      console.info('Saved Forms...', form.id, savedForm);
 
       // download cascades files
       if (formRes?.data?.cascades?.length) {
@@ -103,8 +102,7 @@ const AddUser = ({ navigation }) => {
           navigation.navigate('Home', { newForms: true });
         }, 500);
       }
-    } catch (error) {
-      console.error(error);
+    } catch {
       setLoading(false);
     }
   };
@@ -136,8 +134,6 @@ const AddUser = ({ navigation }) => {
         onSubmit={async (values) => {
           try {
             await submitData(values);
-          } catch (err) {
-            throw err;
           } finally {
             formRef.current.setSubmitting(false);
           }

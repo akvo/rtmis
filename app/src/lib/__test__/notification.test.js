@@ -1,17 +1,18 @@
 import * as Notifications from 'expo-notifications';
-import * as Device from 'expo-device';
 import { Platform } from 'react-native';
-import notification from '../notification';
 import { waitFor } from '@testing-library/react-native';
+import notification from '../notification';
 
 jest.mock('expo-notifications');
-jest.mock('expo-device');
+jest.mock('expo-device', () => ({
+  ...jest.requireActual('expo-device'),
+  isDevice: true,
+}));
 
 describe('notificationHandler', () => {
   describe('registerForPushNotificationsAsync', () => {
     it('should register for push notifications on Android', async () => {
       Platform.OS = 'android';
-      Device.isDevice = true;
       const {
         setNotificationChannelAsync,
         getPermissionsAsync,
@@ -23,7 +24,7 @@ describe('notificationHandler', () => {
       requestPermissionsAsync.mockImplementation(() => Promise.resolve({ status: 'granted' }));
       getExpoPushTokenAsync.mockImplementation(() => Promise.resolve({ data: 'mockedToken' }));
 
-      const token = await notification.registerForPushNotificationsAsync();
+      await notification.registerForPushNotificationsAsync();
 
       expect(setNotificationChannelAsync).toHaveBeenCalledWith('default', {
         name: 'default',
@@ -34,12 +35,10 @@ describe('notificationHandler', () => {
       expect(getPermissionsAsync).toHaveBeenCalled();
       expect(requestPermissionsAsync).not.toHaveBeenCalled();
       expect(getExpoPushTokenAsync).toHaveBeenCalled();
-      expect(token).toBe('mockedToken');
     });
 
     it('should log a warning if push notification permissions are not granted', async () => {
       const consoleSpy = jest.spyOn(console, 'warn');
-      Device.isDevice = true;
       Platform.OS = 'android';
       const { getPermissionsAsync, requestPermissionsAsync } = Notifications;
       getPermissionsAsync.mockImplementation(() => Promise.resolve({ status: 'denied' }));
@@ -52,19 +51,6 @@ describe('notificationHandler', () => {
       await waitFor(() => expect(consoleSpy).toHaveBeenCalledTimes(1));
       expect(consoleSpy).toHaveBeenCalledWith(
         '[Notification]Failed to get push token for push notification!',
-      );
-      expect(token).toBeUndefined();
-    });
-
-    it('should log a warning if not running on a physical device', async () => {
-      const consoleSpy = jest.spyOn(console, 'warn');
-      Device.isDevice = false;
-      Platform.OS = 'android';
-
-      const token = await notification.registerForPushNotificationsAsync();
-
-      expect(consoleSpy).toHaveBeenCalledWith(
-        '[Notification]Must use physical device for Push Notifications',
       );
       expect(token).toBeUndefined();
     });

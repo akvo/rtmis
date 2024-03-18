@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, act, waitFor } from '@testing-library/react-native';
+import { render, act } from '@testing-library/react-native';
 import QuestionGroupList, { checkCompleteQuestionGroup } from '../QuestionGroupList';
 import QuestionGroupListItem from '../QuestionGroupListItem';
 import { FormState } from '../../../store';
@@ -286,7 +286,7 @@ describe('QuestionGroup & QuestionGroupListItem without mock', () => {
           json: JSON.stringify(example).replace(/'/g, "''"),
         };
         s.currentValues = {
-          [1]: 'John Doe',
+          1: 'John Doe',
         };
       });
     });
@@ -312,7 +312,7 @@ describe('QuestionGroup & QuestionGroupListItem without mock', () => {
 
   it('Should render question group name', () => {
     const wrapper = render(
-      <QuestionGroupListItem label="Group 1" active={true} completedQuestionGroup={false} />,
+      <QuestionGroupListItem label="Group 1" active completedQuestionGroup={false} />,
     );
     const groupName = wrapper.getByText('Group 1');
     expect(groupName).toBeDefined();
@@ -325,11 +325,12 @@ describe('QuestionGroup & QuestionGroupListItem without mock', () => {
       <QuestionGroupListItem label="Group 1" active={active} completedQuestionGroup={completed} />,
     );
     const iconEl = wrapper.getByTestId('icon-mark');
+
     const iconElProps = iconEl.props.children.props.children.props;
     expect(iconEl).toBeDefined();
-    expect(iconElProps.color).toBe('#2884bd');
+    expect(iconElProps.children.props.color).toBe('#2884bd');
     // Drop the check mark (this can be implemented later after discussion with the design team )
-    expect(iconElProps.name).toBe('circle'); // check-circle
+    expect(iconElProps.children.props.name).toBe('circle'); // check-circle
   });
 
   it('Should have disabled mark if not completed', () => {
@@ -341,8 +342,11 @@ describe('QuestionGroup & QuestionGroupListItem without mock', () => {
     const iconEl = wrapper.getByTestId('icon-mark');
     const iconElProps = iconEl.props.children.props.children.props;
     expect(iconEl).toBeDefined();
-    expect(iconElProps.color).toBe('#d4d4d4');
-    expect(iconElProps.name).toBe('circle');
+    /**
+     * TODO: for some reason its always changing
+     */
+    expect(iconElProps.children.props.color).toBe('#d4d4d4');
+    expect(iconElProps.children.props.name).toBe('circle');
   });
 
   it('Should disable question group if not completed', () => {
@@ -355,7 +359,7 @@ describe('QuestionGroup & QuestionGroupListItem without mock', () => {
 
   it('Should not disable question group if completed', () => {
     const wrapper = render(
-      <QuestionGroupListItem label="Group 2" active={false} completedQuestionGroup={true} />,
+      <QuestionGroupListItem label="Group 2" active={false} completedQuestionGroup />,
     );
     const itemEl = wrapper.getByTestId('question-group-list-item-wrapper');
     expect(itemEl.props.accessibilityState.disabled).toBe(false);
@@ -363,7 +367,7 @@ describe('QuestionGroup & QuestionGroupListItem without mock', () => {
 
   it('Should highlight question group if active', () => {
     const wrapper = render(
-      <QuestionGroupListItem label="Group 1" active={true} completedQuestionGroup={false} />,
+      <QuestionGroupListItem label="Group 1" active completedQuestionGroup={false} />,
     );
     const itemEl = wrapper.getByTestId('question-group-list-item-wrapper');
     expect(itemEl.props.style.backgroundColor).toBe('#E9E9E9');

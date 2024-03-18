@@ -11,9 +11,8 @@ export const fetchDatapoints = async (pageNumber = 1) => {
     });
     if (page < totalPage) {
       return data.concat(await fetchDatapoints(page + 1));
-    } else {
-      return data;
     }
+    return data;
   } catch (error) {
     return Promise.reject(error);
   }
@@ -28,9 +27,10 @@ export const downloadDatapointsJson = async (formId, url) => {
         formId,
         formJSON: jsonData,
       });
+      // eslint-disable-next-line no-console
       console.info('[SYNCED MONITORING]', res);
     }
   } catch (error) {
-    return Promise.reject(error);
+    Promise.reject(error);
   }
 };

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { ListItem, Divider } from '@rneui/themed';
 
 import { BaseLayout, LogoutButton } from '../components';
@@ -53,7 +53,7 @@ const Settings = ({ navigation }) => {
               : c?.description?.name;
             return (
               <ListItem
-                key={i}
+                key={c.id}
                 onPress={() => goToForm(c.id)}
                 testID={`goto-settings-form-${i}`}
                 bottomDivider
@@ -100,13 +100,5 @@ const Settings = ({ navigation }) => {
     </BaseLayout>
   );
 };
-
-const styles = StyleSheet.create({
-  buttonContainer: {
-    width: '100%',
-    paddingHorizontal: 16,
-    marginVertical: 20,
-  },
-});
 
 export default Settings;

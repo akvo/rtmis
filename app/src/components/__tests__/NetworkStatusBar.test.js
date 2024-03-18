@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, renderHook, fireEvent, act, waitFor } from '@testing-library/react-native';
+import { render, act } from '@testing-library/react-native';
 import { UIState } from '../../store';
 import NetworkStatusBar from '../NetworkStatusBar';
 

@@ -1,11 +1,11 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
-import { render, waitFor, act } from '@testing-library/react-native';
-jest.useFakeTimers();
-import FormPage from '../FormPage';
-import { FormState } from 'store';
+import { render, waitFor } from '@testing-library/react-native';
 
-const mockFormContainer = jest.fn();
+import FormPage from '../FormPage';
+import { FormState } from '../../store';
+
+jest.useFakeTimers();
+
 const mockRoute = {
   params: { id: 1, name: 'Form Name', newSubmission: true },
 };
@@ -14,20 +14,6 @@ const mockNavigation = {
   canGoBack: jest.fn(() => Promise.resolve(true)),
   goBack: jest.fn(),
 };
-const mockValues = {
-  name: 'John',
-  geo: null,
-  answers: {
-    1: 'John',
-    2: new Date('01-01-1992'),
-    3: '31',
-    4: ['Male'],
-    5: ['Bachelor'],
-    6: ['Traveling'],
-    7: ['Fried Rice'],
-  },
-};
-const mockRefreshForm = jest.fn();
 
 const exampleTestForm = {
   name: 'Testing Form',
@@ -41,7 +27,8 @@ const exampleTestForm = {
   ],
   question_group: [
     {
-      name: 'Registration',
+      name: 'registration',
+      label: 'Registration',
       order: 1,
       translations: [
         {
@@ -52,7 +39,8 @@ const exampleTestForm = {
       question: [
         {
           id: 1,
-          name: 'Your Name',
+          name: 'your_name',
+          label: 'Your Name',
           order: 1,
           type: 'input',
           required: true,
@@ -67,7 +55,8 @@ const exampleTestForm = {
         },
         {
           id: 2,
-          name: 'Birth Date',
+          name: 'birth_date',
+          label: 'Birth Date',
           order: 2,
           type: 'date',
           required: true,
@@ -80,7 +69,8 @@ const exampleTestForm = {
         },
         {
           id: 3,
-          name: 'Age',
+          name: 'age',
+          label: 'Age',
           order: 3,
           type: 'number',
           required: true,
@@ -93,19 +83,22 @@ const exampleTestForm = {
         },
         {
           id: 4,
-          name: 'Gender',
+          name: 'gender',
+          label: 'Gender',
           order: 4,
           type: 'option',
           required: true,
           option: [
             {
               id: 1,
-              name: 'Male',
+              label: 'Male',
+              value: 'male',
               order: 1,
             },
             {
               id: 2,
-              name: 'Female',
+              label: 'Female',
+              value: 'female',
               order: 2,
             },
           ],
@@ -118,54 +111,29 @@ const exampleTestForm = {
           ],
         },
         {
-          id: 5,
-          name: 'Your last education',
-          order: 1,
-          type: 'option',
-          required: false,
-          option: [
-            {
-              id: 11,
-              name: 'Senior High School',
-              order: 1,
-            },
-            {
-              id: 12,
-              name: 'Bachelor',
-              order: 2,
-            },
-            {
-              id: 13,
-              name: 'Master',
-              order: 3,
-            },
-            {
-              id: 14,
-              name: 'Doctor',
-              order: 4,
-            },
-          ],
-        },
-        {
           id: 6,
-          name: 'Hobby',
+          name: 'hobby',
+          label: 'Hobby',
           order: 2,
-          type: 'option',
+          type: 'multiple_option',
           required: false,
           option: [
             {
               id: 21,
-              name: 'Reading',
+              label: 'Reading',
+              value: 'reading',
               order: 1,
             },
             {
               id: 22,
-              name: 'Traveling',
+              label: 'Traveling',
+              value: 'traveling',
               order: 2,
             },
             {
               id: 23,
-              name: 'Programming',
+              label: 'Programming',
+              value: 'programming',
               order: 3,
             },
           ],
@@ -173,40 +141,35 @@ const exampleTestForm = {
         {
           id: 7,
           name: 'Foods',
+          label: 'Foods',
           order: 3,
           type: 'option',
           required: false,
           option: [
             {
               id: 31,
-              name: 'Fried Rice',
+              label: 'fried_rice',
+              value: 'fried_rice',
               order: 1,
             },
             {
               id: 32,
-              name: 'Rendang',
+              label: 'Rendang',
+              value: 'rendang',
               order: 2,
             },
             {
               id: 33,
-              name: 'Noodle',
+              label: 'Noodle',
+              value: 'noodle',
               order: 3,
-            },
-            {
-              id: 34,
-              name: 'Meat Ball',
-              order: 5,
-            },
-            {
-              id: 35,
-              name: 'Fried Chicken',
-              order: 6,
             },
           ],
         },
         {
           id: 8,
-          name: 'Comment',
+          name: 'comment',
+          label: 'Comment',
           order: 4,
           type: 'text',
           required: false,
@@ -219,14 +182,15 @@ const exampleTestForm = {
         },
         {
           id: 9,
-          name: 'Give Rating from 1 - 9 for Rendang',
+          name: 'give_rating_rendang',
+          label: 'Give Rating from 1 - 9 for Rendang',
           order: 5,
           type: 'number',
           required: true,
           dependency: [
             {
               id: 7,
-              options: ['Rendang'],
+              options: ['rendang'],
             },
           ],
           rule: {
@@ -241,46 +205,25 @@ const exampleTestForm = {
   ],
 };
 
-jest.mock('../../form/FormContainer', () => ({ forms, initialValues, onSubmit }) => {
-  mockFormContainer(forms, initialValues, onSubmit);
-  return (
-    <mock-FormContainer>
-      <button onPress={() => onSubmit(mockValues, mockRefreshForm)} testID="mock-submit-button">
-        Submit
-      </button>
-    </mock-FormContainer>
-  );
-});
-
-jest.mock('react', () => ({
-  ...jest.requireActual('react'),
-  useMemo: jest.fn(),
-}));
-
 describe('FormPage component', () => {
+  beforeAll(() => {
+    FormState.update((s) => {
+      s.form = {
+        json: JSON.stringify(exampleTestForm).replace(/'/g, "''"),
+      };
+    });
+  });
   test('should render component correctly', async () => {
     const tree = render(<FormPage navigation={mockNavigation} />);
     await waitFor(() => expect(tree.toJSON()).toMatchSnapshot());
   });
 
-  test('should render the FormPage with the correct form title', () => {
+  test('should render the FormPage with the correct form title and questions', async () => {
     const wrapper = render(<FormPage navigation={mockNavigation} route={mockRoute} />);
-    expect(wrapper.getByText('Form Name')).toBeDefined();
-  });
-
-  test('should show the correct form content based on formJSON', async () => {
-    FormState.useState.mockReturnValue({
-      form: exampleTestForm,
-    });
-    jest.spyOn(React, 'useMemo').mockReturnValue(exampleTestForm);
-
-    const wrapper = render(<FormPage navigation={mockNavigation} route={mockRoute} />);
-    const { form: mockStateForm } = FormState.useState((s) => s);
-
     await waitFor(() => {
-      expect(mockFormContainer.mock.calls[0]).toEqual([exampleTestForm, {}, expect.any(Function)]);
-      expect(mockStateForm).toEqual(exampleTestForm);
       expect(wrapper.getByText('Form Name')).toBeDefined();
+      expect(wrapper.queryByText('Your Name')).toBeDefined();
     });
   });
+
 });

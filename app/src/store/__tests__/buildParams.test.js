@@ -7,7 +7,6 @@ describe('BuildParamsState', () => {
     const { result } = renderHook(() => BuildParamsState.useState());
     const {
       authenticationType,
-      serverURL,
       debugMode,
       dataSyncInterval,
       errorHandling,

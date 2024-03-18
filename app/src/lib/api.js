@@ -24,8 +24,8 @@ const API = () => {
       : current;
   };
   return {
-    get: (url, config = {}) => axios({ url, ...getConfig(), ...config }),
-    post: (url, data, config = {}) =>
+    get: (url, params = {}) => axios({ url, ...getConfig(), ...params }),
+    post: (url, data, params = {}) =>
       axios({
         url,
         method: 'POST',
@@ -34,12 +34,12 @@ const API = () => {
           ...getConfig(),
           headers: {
             ...getConfig().headers,
-            ...config?.headers,
+            ...params?.headers,
           },
         },
       }),
-    put: (url, data, config) => axios({ url, method: 'PUT', data, ...getConfig(), ...config }),
-    patch: (url, data, config) => axios({ url, method: 'PATCH', data, ...getConfig(), ...config }),
+    put: (url, data, params) => axios({ url, method: 'PUT', data, ...getConfig(), ...params }),
+    patch: (url, data, params) => axios({ url, method: 'PATCH', data, ...getConfig(), ...params }),
     delete: (url) => axios({ url, method: 'DELETE', ...getConfig() }),
     setToken: (token) => {
       api.token = token;

@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { View } from 'react-native';
 import { ListItem, Switch } from '@rneui/themed';
 import * as Crypto from 'expo-crypto';
-
+import PropTypes from 'prop-types';
 import { BaseLayout } from '../../components';
 import { config } from './config';
 import { BuildParamsState, UIState, AuthState, UserState } from '../../store';
@@ -15,7 +15,6 @@ const db = conn.init;
 
 const SettingsForm = ({ route }) => {
   const [edit, setEdit] = useState(null);
-  const [list, setList] = useState([]);
   const [showDialog, setShowDialog] = useState(false);
 
   const { serverURL, dataSyncInterval, gpsThreshold, gpsAccuracyLevel, geoLocationTimeout } =
@@ -23,12 +22,15 @@ const SettingsForm = ({ route }) => {
   const { password, authenticationCode, useAuthenticationCode } = AuthState.useState((s) => s);
   const { lang, isDarkMode, fontSize } = UIState.useState((s) => s);
   const { name, syncWifiOnly } = UserState.useState((s) => s);
-  const store = {
-    AuthState,
-    BuildParamsState,
-    UIState,
-    UserState,
-  };
+  const store = useMemo(
+    () => ({
+      AuthState,
+      BuildParamsState,
+      UIState,
+      UserState,
+    }),
+    [],
+  );
   const [settingsState, setSettingsState] = useState({
     serverURL,
     name,
@@ -51,11 +53,11 @@ const SettingsForm = ({ route }) => {
 
   const editState = useMemo(() => {
     if (edit && edit?.key) {
-      const [stateName, stateKey] = edit?.key?.split('.');
+      const [stateName, stateKey] = edit?.key?.split('.') || [];
       return [store[stateName], stateKey];
     }
     return null;
-  }, [edit]);
+  }, [edit, store]);
 
   const handleEditPress = (id) => {
     const findEdit = list.find((item) => item.id === id);
@@ -96,12 +98,12 @@ const SettingsForm = ({ route }) => {
     }
   };
 
-  const handleOnRestarTask = async () => {
+  const handleOnRestarTask = async (v) => {
     try {
       await backgroundTask.unregisterBackgroundTask('sync-form-submission');
-      await backgroundTask.registerBackgroundTask('sync-form-submission', parseInt(value));
+      await backgroundTask.registerBackgroundTask('sync-form-submission', parseInt(v, 10));
     } catch (error) {
-      console.error('[ERROR RESTART TASK]', error);
+      Promise.reject(error);
     }
   };
 
@@ -118,7 +120,7 @@ const SettingsForm = ({ route }) => {
       });
       if (stateKey === 'dataSyncInterval') {
         await handleUpdateOnDB('syncInterval', inputValue);
-        await handleOnRestarTask();
+        await handleOnRestarTask(inputValue);
       } else {
         await handleUpdateOnDB(stateKey, inputValue);
       }
@@ -131,7 +133,7 @@ const SettingsForm = ({ route }) => {
   };
 
   const handleOnSwitch = (value, key) => {
-    const [stateName, stateKey] = key?.split('.');
+    const [stateName, stateKey] = key.split('.');
     store[stateName].update((s) => {
       s[stateKey] = value;
     });
@@ -143,16 +145,16 @@ const SettingsForm = ({ route }) => {
     handleUpdateOnDB(stateKey, tinyIntVal);
   };
 
-  const renderSubtitle = ({ type: inputType, name, description }) => {
+  const renderSubtitle = ({ type: inputType, name: fieldName, description }) => {
     const itemDesc = nonEnglish ? i18n.transform(lang, description)?.name : description?.name;
     if (inputType === 'switch' || inputType === 'password') {
       return itemDesc;
     }
-    if (name === 'gpsAccuracyLevel' && settingsState?.[name]) {
-      const findLevel = accuracyLevels.find((l) => l.value === settingsState[name]);
+    if (fieldName === 'gpsAccuracyLevel' && settingsState?.[fieldName]) {
+      const findLevel = accuracyLevels.find((l) => l.value === settingsState[fieldName]);
       return findLevel?.label || itemDesc;
     }
-    return settingsState?.[name];
+    return settingsState?.[fieldName];
   };
 
   const loadSettings = useCallback(async () => {
@@ -165,19 +167,15 @@ const SettingsForm = ({ route }) => {
       ...configRows,
       dataSyncInterval: configRows?.syncInterval || dataSyncInterval,
     });
-  }, []);
+  }, [dataSyncInterval, settingsState]);
 
-  const loadSettingsItems = useCallback(() => {
+  const list = useMemo(() => {
     if (route.params?.id) {
       const findConfig = config.find((c) => c?.id === route.params.id);
-      const fields = findConfig ? findConfig.fields : [];
-      setList(fields);
+      return findConfig ? findConfig.fields : [];
     }
+    return [];
   }, [route.params?.id]);
-
-  useEffect(() => {
-    loadSettingsItems();
-  }, [loadSettingsItems]);
 
   useEffect(() => {
     loadSettings();
@@ -188,14 +186,18 @@ const SettingsForm = ({ route }) => {
       <BaseLayout.Content>
         <View>
           {list.map((l, i) => {
-            const switchValue =
-              l.type === 'switch' && (settingsState[l.name] || false) ? true : false;
-            const listProps =
-              l.editable && l.type !== 'switch' ? { onPress: () => handleEditPress(l.id) } : {};
-
             const itemTitle = nonEnglish ? i18n.transform(lang, l)?.label : l.label;
             return (
-              <ListItem key={i} {...listProps} testID={`settings-form-item-${i}`} bottomDivider>
+              <ListItem
+                key={l.id}
+                testID={`settings-form-item-${i}`}
+                onPress={() => {
+                  if (l.editable && l.type !== 'switch') {
+                    handleEditPress(l.id);
+                  }
+                }}
+                bottomDivider
+              >
                 <ListItem.Content>
                   <ListItem.Title>{itemTitle}</ListItem.Title>
                   <ListItem.Subtitle>{renderSubtitle(l)}</ListItem.Subtitle>
@@ -203,7 +205,7 @@ const SettingsForm = ({ route }) => {
                 {l.type === 'switch' && (
                   <Switch
                     onValueChange={(value) => handleOnSwitch(value, l.key)}
-                    value={switchValue}
+                    value={settingsState[l.name] || false}
                     testID={`settings-form-switch-${i}`}
                   />
                 )}
@@ -224,3 +226,11 @@ const SettingsForm = ({ route }) => {
 };
 
 export default SettingsForm;
+
+SettingsForm.propTypes = {
+  route: PropTypes.object,
+};
+
+SettingsForm.defaultProps = {
+  route: null,
+};

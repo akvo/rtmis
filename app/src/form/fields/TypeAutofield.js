@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { View } from 'react-native';
-import { FieldLabel } from '../support';
-import { styles } from '../styles';
 import { Input } from '@rneui/themed';
+import PropTypes from 'prop-types';
+
+import { FieldLabel } from '../support';
+import styles from '../styles';
 import { FormState } from '../../store';
 
-const fnRegex = /^function(?:.+)?(?:\s+)?\((.+)?\)(?:\s+|\n+)?\{(?:\s+|\n+)?((?:.|\n)+)\}$/m;
-const fnEcmaRegex = /^\((.+)?\)(?:\s+|\n+)?=>(?:\s+|\n+)?((?:.|\n)+)$/m;
 const sanitize = [
   {
     prefix: /return fetch|fetch/g,
@@ -15,27 +15,18 @@ const sanitize = [
   },
 ];
 
-const checkDirty = (fnString) => {
-  return sanitize.reduce((prev, sn) => {
+const checkDirty = (fnString) =>
+  sanitize.reduce((prev, sn) => {
     const dirty = prev.match(sn.re);
     if (dirty) {
       return prev.replace(sn.prefix, '').replace(dirty[1], `console.error("${sn.log}");`);
     }
     return prev;
   }, fnString);
-};
-
-const getFnMetadata = (fnString) => {
-  const fnMetadata = fnRegex.exec(fnString) || fnEcmaRegex.exec(fnString);
-  if (fnMetadata?.length >= 3) {
-    const fn = fnMetadata[2].split(' ');
-    return fn[0] === 'return' ? fnMetadata[2] : `return ${fnMetadata[2]}`;
-  }
-  return false;
-};
 
 // convert fn string to array
 const fnToArray = (fnString) => {
+  // eslint-disable-next-line no-useless-escape
   const regex = /\#\d+|[(),?;&.'":()+\-*/.]|<=|<|>|>=|!=|==|[||]{2}|=>|\w+| /g;
   return fnString.match(regex);
 };
@@ -72,12 +63,10 @@ const generateFnBody = (fnMetadata, values) => {
       if (typeof val === 'object') {
         if (Array.isArray(val)) {
           val = val.join(',');
+        } else if (val?.lat) {
+          val = `${val.lat},${val.lng}`;
         } else {
-          if (val?.lat) {
-            val = `${val.lat},${val.lng}`;
-          } else {
-            val = null;
-          }
+          val = null;
         }
       }
       if (typeof val === 'number') {
@@ -121,71 +110,78 @@ const fixIncompleteMathOperation = (expression) => {
   if (incompleteMathRegex.test(expression)) {
     // If the expression ends with '+' or '-', append '0' to complete the operation
     if (expression.trim().endsWith('+') || expression.trim().endsWith('-')) {
-      return expression.trim() + '0';
+      return `${expression.trim()}0`;
     }
     // If the expression ends with '*' or '/', it's safer to remove the operator
-    else if (expression.trim().endsWith('*') || expression.trim().endsWith('/')) {
+    if (expression.trim().endsWith('*') || expression.trim().endsWith('/')) {
       return expression.trim().slice(0, -1);
     }
   }
   return expression;
 };
 
-const strToFunction = (fnString, values) => {
-  fnString = checkDirty(fnString);
-  const fnBody = fixIncompleteMathOperation(generateFnBody(fnString, values));
+const strToFunction = (id, fnString, values) => {
+  const fnStr = checkDirty(fnString);
+  const fnBody = fixIncompleteMathOperation(generateFnBody(fnStr, values));
   try {
+    // eslint-disable-next-line no-new-func
     return new Function(`return ${fnBody}`);
   } catch (error) {
     return false;
   }
 };
 
-export const replaceNamesWithIds = (fnString, questions) => {
-  return fnString.replace(/#([a-zA-Z0-9_]+)+#/g, (match, p1) => {
-    for (let questionItem of questions) {
-      const foundQuestion = questionItem.question.find((q) => q.name === p1);
-      if (foundQuestion) {
-        return `#${foundQuestion.id}`;
-      }
-    }
-    return `'${match}'`;
-  });
-};
-
-const TypeAutofield = ({ keyform, id, label, tooltip, fn, displayOnly, questions = [] }) => {
+const TypeAutofield = ({
+  keyform,
+  id,
+  label,
+  tooltip,
+  fn,
+  displayOnly,
+  questions,
+  value: autofieldValue,
+}) => {
   const [value, setValue] = useState(null);
   const [fieldColor, setFieldColor] = useState(null);
   const { fnString: nameFnString, fnColor } = fn;
-  const fnString = replaceNamesWithIds(nameFnString, questions);
-  const values = FormState.useState((s) => s.currentValues);
-  const automateValue = strToFunction(fnString, values);
+
+  const fnString = useMemo(() => {
+    const allQuestions = questions.flatMap((q) => q.question);
+    return nameFnString.replace(/#([a-zA-Z0-9_]+)+#/g, (match, token) => {
+      const foundQuestion = allQuestions.find((q) => q.name === token);
+      if (foundQuestion) {
+        return `#${foundQuestion.id}`;
+      }
+      return `'${match}'`;
+    });
+  }, [nameFnString, questions]);
 
   useEffect(() => {
-    try {
-      if (automateValue) {
-        const _automateValue = automateValue();
-        if (fnColor?.[_automateValue]) {
-          setFieldColor(fnColor[_automateValue]);
-        }
-        setValue(_automateValue);
-        if (!displayOnly && (_automateValue || _automateValue === 0)) {
-          FormState.update((s) => {
-            s.currentValues[id] = _automateValue;
-          });
-        }
-      } else {
-        setValue(null);
-        if (!displayOnly) {
-          FormState.update((s) => {
-            s.currentValues[id] = null;
-          });
+    const unsubsValues = FormState.subscribe(({ currentValues }) => {
+      const automateValue = strToFunction(id, fnString, currentValues);
+      if (typeof automateValue === 'function') {
+        const answer = automateValue();
+        if (answer !== value && (answer || answer === 0)) {
+          setValue(answer);
+          if (fnColor?.[answer]) {
+            setFieldColor(fnColor[answer]);
+          }
         }
       }
-    } catch {
-      setValue(null);
+    });
+
+    return () => {
+      unsubsValues();
+    };
+  }, [fnColor, fnString, id, value]);
+
+  useEffect(() => {
+    if (value !== null && value !== autofieldValue && !displayOnly) {
+      FormState.update((s) => {
+        s.currentValues[id] = value;
+      });
     }
-  }, [automateValue, fnString, fnColor, displayOnly]);
+  }, [value, id, autofieldValue, displayOnly]);
 
   return (
     <View testID="type-autofield-wrapper">
@@ -195,9 +191,9 @@ const TypeAutofield = ({ keyform, id, label, tooltip, fn, displayOnly, questions
           ...styles.autoFieldContainer,
           backgroundColor: fieldColor || styles.autoFieldContainer.backgroundColor,
         }}
-        value={(value || value === 0) && value !== NaN ? String(value) : null}
+        value={value || value === 0 ? String(value) : null}
         testID="type-autofield"
-        multiline={true}
+        multiline
         numberOfLines={2}
         disabled
         style={{
@@ -210,3 +206,24 @@ const TypeAutofield = ({ keyform, id, label, tooltip, fn, displayOnly, questions
 };
 
 export default TypeAutofield;
+
+TypeAutofield.propTypes = {
+  keyform: PropTypes.number.isRequired,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  label: PropTypes.string.isRequired,
+  tooltip: PropTypes.object,
+  fn: PropTypes.shape({
+    fnString: PropTypes.string,
+    fnColor: PropTypes.object,
+  }).isRequired,
+  displayOnly: PropTypes.bool,
+  questions: PropTypes.array,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
+
+TypeAutofield.defaultProps = {
+  displayOnly: false,
+  questions: [],
+  tooltip: null,
+  value: null,
+};

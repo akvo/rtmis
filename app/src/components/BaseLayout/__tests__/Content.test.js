@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { render, fireEvent } from '@testing-library/react-native';
-import { Content } from '../Content';
+import Content from '../Content';
 
 describe('Content component', () => {
   it('renders content correctly with 2 columns and has data', () => {
@@ -23,7 +23,7 @@ describe('Content component', () => {
     const dataName2 = getByText(data[1].name);
     expect(dataName2).toBeDefined();
 
-    const container = getByTestId('card-non-touchable-0');
+    const container = getByTestId('card-non-touchable-1');
     expect(container.props.style).toEqual({
       width: '50%',
     });

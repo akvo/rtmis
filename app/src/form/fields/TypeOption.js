@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View } from 'react-native';
-import { FieldLabel, OptionItem } from '../support';
-import { styles } from '../styles';
 import { Dropdown } from 'react-native-element-dropdown';
+import PropTypes from 'prop-types';
+import { FieldLabel, OptionItem } from '../support';
+import styles from '../styles';
 import { FormState } from '../../store';
 import { i18n } from '../../lib';
 
@@ -12,26 +13,24 @@ const TypeOption = ({
   keyform,
   id,
   label,
-  option = [],
+  option,
   tooltip,
   required,
   requiredSign,
   disabled,
 }) => {
-  const showSearch = React.useMemo(() => {
-    return option.length > 3;
-  }, [option]);
+  const showSearch = useMemo(() => option.length > 3, [option]);
   const activeLang = FormState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
   const requiredValue = required ? requiredSign : null;
-  const color = React.useMemo(() => {
+  const color = useMemo(() => {
     const currentValue = value?.[0];
     return option.find((x) => x.name === currentValue)?.color;
-  }, [value, id, option]);
+  }, [value, option]);
 
-  const selectedStyle = React.useMemo(() => {
+  const selectedStyle = useMemo(() => {
     const currentValue = value?.[0];
-    const color = option.find((x) => x.name === currentValue)?.color;
+    const backgroundColor = option.find((x) => x.name === currentValue)?.color;
     if (!color) {
       return {};
     }
@@ -43,9 +42,9 @@ const TypeOption = ({
       paddingLeft: 8,
       paddingBottom: 8,
       color: '#FFF',
-      backgroundColor: color,
+      backgroundColor,
     };
-  }, [value, id, option]);
+  }, [value, color, option]);
 
   return (
     <View style={styles.optionContainer}>
@@ -75,3 +74,24 @@ const TypeOption = ({
 };
 
 export default TypeOption;
+
+TypeOption.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.array,
+  keyform: PropTypes.number.isRequired,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  label: PropTypes.string.isRequired,
+  tooltip: PropTypes.object,
+  required: PropTypes.bool.isRequired,
+  requiredSign: PropTypes.string,
+  disabled: PropTypes.bool,
+  option: PropTypes.array,
+};
+
+TypeOption.defaultProps = {
+  value: null,
+  requiredSign: "*",
+  disabled: false,
+  option: [],
+  tooltip: null,
+};

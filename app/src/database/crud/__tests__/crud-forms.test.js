@@ -1,7 +1,7 @@
 import crudForms from '../crud-forms';
-jest.mock('expo-sqlite');
-import { conn } from '../../conn';
+import conn from '../../conn';
 
+jest.mock('expo-sqlite');
 const db = conn.init;
 
 describe('crudForms function', () => {
@@ -71,7 +71,7 @@ describe('crudForms function', () => {
     });
 
     test('selectLatestFormVersion should return the forms with stats if it exists', async () => {
-      const formData = [
+      const formTest = [
         {
           id: 1,
           formId: 123,
@@ -85,7 +85,7 @@ describe('crudForms function', () => {
         },
       ];
       const mockSelectSql = jest.fn((query, params, successCallback) => {
-        successCallback(null, { rows: { length: formData.length, _array: formData } });
+        successCallback(null, { rows: { length: formTest.length, _array: formTest } });
       });
       db.transaction.mockImplementation((transactionFunction) => {
         transactionFunction({
@@ -93,7 +93,7 @@ describe('crudForms function', () => {
         });
       });
       const result = await crudForms.selectLatestFormVersion({ user: 1 });
-      expect(result).toEqual(formData);
+      expect(result).toEqual(formTest);
     });
 
     test('selectFormByIdAndVersion should return the form if it exists', async () => {

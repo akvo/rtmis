@@ -1,10 +1,10 @@
 import React from 'react';
-import { View } from 'react-native';
-import { FieldLabel, OptionItem } from '../support';
-import { styles } from '../styles';
+import { View, Text } from 'react-native';
 import { MultiSelect } from 'react-native-element-dropdown';
+import PropTypes from 'prop-types';
+import { FieldLabel, OptionItem } from '../support';
+import styles from '../styles';
 import { FormState } from '../../store';
-import { Text } from 'react-native';
 import { i18n } from '../../lib';
 
 const TypeMultipleOption = ({
@@ -13,15 +13,13 @@ const TypeMultipleOption = ({
   keyform,
   id,
   label,
-  option = [],
+  option,
   tooltip,
   required,
   requiredSign,
   disabled,
 }) => {
-  const showSearch = React.useMemo(() => {
-    return option.length > 3;
-  }, [option]);
+  const showSearch = React.useMemo(() => option.length > 3, [option]);
   const activeLang = FormState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
   const requiredValue = required ? requiredSign : null;
@@ -41,22 +39,22 @@ const TypeMultipleOption = ({
         searchPlaceholder={trans.searchPlaceholder}
         placeholder={trans.selectMultiItem}
         value={value || []}
-        onChange={(value) => {
+        onChange={(v) => {
           if (onChange) {
-            onChange(id, value);
+            onChange(id, v);
           }
         }}
         renderItem={OptionItem}
-        renderSelectedItem={({ color, label, name }) => {
+        renderSelectedItem={({ color, label: labelText, name }) => {
           const renderStyle = color ? { backgroundColor: color, fontWeight: 'bold' } : {};
           return (
             <View style={{ ...styles.optionSelectedList, ...renderStyle }}>
-              <Text style={{ color: color ? '#fff' : '#000' }}>{label || name}</Text>
+              <Text style={{ color: color ? '#fff' : '#000' }}>{labelText || name}</Text>
             </View>
           );
         }}
         testID="type-multiple-option-dropdown"
-        confirmUnSelectItem={true}
+        confirmUnSelectItem
         disable={disabled}
       />
     </View>
@@ -64,3 +62,24 @@ const TypeMultipleOption = ({
 };
 
 export default TypeMultipleOption;
+
+TypeMultipleOption.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.array,
+  keyform: PropTypes.number.isRequired,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  label: PropTypes.string.isRequired,
+  tooltip: PropTypes.object,
+  required: PropTypes.bool.isRequired,
+  requiredSign: PropTypes.string,
+  disabled: PropTypes.bool,
+  option: PropTypes.array,
+};
+
+TypeMultipleOption.defaultProps = {
+  value: null,
+  requiredSign: "*",
+  disabled: false,
+  option: [],
+  tooltip: null,
+};

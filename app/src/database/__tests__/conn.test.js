@@ -1,24 +1,19 @@
-import { act, renderHook, waitFor } from '@testing-library/react-native';
-import { conn } from '../conn';
-import exampledb from 'assets/example.db';
+import { waitFor } from '@testing-library/react-native';
+import conn from '../conn';
 
-jest.mock('expo-asset', () => {
-  return {
-    Asset: {
-      fromModule: jest.fn((module) => ({
-        uri: `mocked-uri-for-${module}`,
-      })),
-    },
-  };
-});
+jest.mock('expo-asset', () => ({
+  Asset: {
+    fromModule: jest.fn((module) => ({
+      uri: `mocked-uri-for-${module}`,
+    })),
+  },
+}));
 
-jest.mock('expo-file-system', () => {
-  return {
-    getInfoAsync: jest.fn().mockResolvedValue({ exists: false }),
-    makeDirectoryAsync: jest.fn(),
-    downloadAsync: jest.fn(),
-  };
-});
+jest.mock('expo-file-system', () => ({
+  getInfoAsync: jest.fn().mockResolvedValue({ exists: false }),
+  makeDirectoryAsync: jest.fn(),
+  downloadAsync: jest.fn(),
+}));
 
 jest.mock('expo-sqlite');
 
@@ -26,7 +21,7 @@ const mockDb = conn.init;
 
 describe('conn library', () => {
   it('should have db connection from file', async () => {
-    const dbFile = exampledb;
+    const dbFile = 'test.db';
     const db = await conn.file(dbFile, 'example');
 
     await waitFor(() => {
@@ -91,7 +86,6 @@ describe('conn library', () => {
       await conn.tx(mockDb, query, params);
     } catch (error) {
       expect(error).toBeTruthy();
-      console.log('error', error);
     }
   });
 });

@@ -1,14 +1,15 @@
-global.FormData = require('react-native/Libraries/Network/FormData');
-import React, { useState } from 'react';
+import React from 'react';
 import { render, waitFor, fireEvent, act, renderHook } from '@testing-library/react-native';
 import axios from 'axios';
 
+import { useNavigation } from '@react-navigation/native';
 import FormDataPage from '../FormData';
 import crudDataPoints from '../../database/crud/crud-datapoints';
-import { useNavigation } from '@react-navigation/native';
 import { backgroundTask } from '../../lib';
 import { FormState, UIState } from '../../store';
 import api from '../../lib/api';
+
+global.FormData = require('react-native/Libraries/Network/FormData');
 
 jest.mock('@react-navigation/native');
 jest.mock('../../database/crud/crud-datapoints');
@@ -44,9 +45,9 @@ describe('FormDataPage', () => {
       {
         id: 1,
         name: 'Datapoint 1',
-        createdAt: '2023-07-18T12:34:56.789Z',
+        createdAt: '2023-07-18T12:34:56.789',
         duration: 145,
-        syncedAt: '2023-07-18T13:00:00.000Z',
+        syncedAt: '2023-07-18T13:00:00.000',
       },
     ];
 
@@ -68,9 +69,9 @@ describe('FormDataPage', () => {
       {
         id: 1,
         name: 'Datapoint 1',
-        createdAt: '2023-07-18T12:34:56.789Z',
+        createdAt: '2023-07-18T12:34:56.789',
         duration: 145,
-        syncedAt: '2023-07-18T13:00:00.000Z',
+        syncedAt: '2023-07-18T13:00:00.000',
         submitted: 1,
       },
     ];
@@ -81,11 +82,11 @@ describe('FormDataPage', () => {
 
     await waitFor(() => {
       expect(wrapper.getByText('Form Name')).toBeTruthy();
-      const list0 = wrapper.getByTestId('card-touchable-0');
+      const list0 = wrapper.getByTestId('card-touchable-1');
       expect(list0.props.children[0].props.title).toEqual('Datapoint 1');
-      expect(list0.props.children[0].props.subTitles[0]).toEqual('Created: 18/07/2023 07:34 PM');
+      expect(list0.props.children[0].props.subTitles[0]).toEqual('Created: 18/07/2023 12:34 PM');
       expect(list0.props.children[0].props.subTitles[1]).toEqual('Survey duration: 02h 25m');
-      expect(list0.props.children[0].props.subTitles[2]).toEqual('Synced: 18/07/2023 08:00 PM');
+      expect(list0.props.children[0].props.subTitles[2]).toEqual('Synced: 18/07/2023 01:00 PM');
     });
   });
 
@@ -102,7 +103,7 @@ describe('FormDataPage', () => {
       {
         id: 1,
         name: 'Datapoint 1',
-        createdAt: '2023-07-18T12:34:56.789Z',
+        createdAt: '2023-07-18T12:34:56.789',
         duration: 145,
         syncedAt: null,
         submitted: 0,
@@ -115,27 +116,29 @@ describe('FormDataPage', () => {
 
     await waitFor(() => {
       expect(wrapper.getByText('Form Name')).toBeTruthy();
-      const list0 = wrapper.getByTestId('card-touchable-0');
+      const list0 = wrapper.getByTestId('card-touchable-1');
       expect(list0.props.children[0].props.title).toEqual('Datapoint 1');
-      expect(list0.props.children[0].props.subTitles[0]).toEqual('Created: 18/07/2023 07:34 PM');
+      expect(list0.props.children[0].props.subTitles[0]).toEqual('Created: 18/07/2023 12:34 PM');
       expect(list0.props.children[0].props.subTitles[1]).toEqual('Survey duration: 02h 25m');
       expect(list0.props.children[0].props.subTitles[2]).toEqual(undefined);
     });
   });
 
-  it('should have search input field', () => {
+  it('should have search input field', async () => {
     const mockData = [
       {
         id: 1,
         name: 'Datapoint 1',
-        createdAt: '2023-07-18T12:34:56.789Z',
+        createdAt: '2023-07-18T12:34:56.789',
         duration: 145,
-        syncedAt: '2023-07-18T13:00:00.000Z',
+        syncedAt: '2023-07-18T13:00:00.000',
       },
     ];
     crudDataPoints.selectDataPointsByFormAndSubmitted.mockResolvedValue(mockData);
     const wrapper = render(<FormDataPage />);
-    expect(wrapper.queryByTestId('search-bar')).toBeTruthy();
+    await waitFor(() => {
+      expect(wrapper.queryByTestId('search-bar')).toBeTruthy();
+    });
   });
 
   it('should filter list of datapoint by search value', async () => {
@@ -143,16 +146,16 @@ describe('FormDataPage', () => {
       {
         id: 1,
         name: 'Datapoint 1',
-        createdAt: '2023-07-18T12:34:56.789Z',
+        createdAt: '2023-07-18T12:34:56.789',
         duration: 145,
-        syncedAt: '2023-07-18T13:00:00.000Z',
+        syncedAt: '2023-07-18T13:00:00.000',
       },
       {
         id: 2,
         name: 'Datapoint 2',
-        createdAt: '2023-07-18T12:34:56.789Z',
+        createdAt: '2023-07-18T12:34:56.789',
         duration: 145,
-        syncedAt: '2023-07-18T13:00:00.000Z',
+        syncedAt: '2023-07-18T13:00:00.000',
       },
     ];
 
@@ -165,10 +168,10 @@ describe('FormDataPage', () => {
     fireEvent.changeText(searchField, 'Datapoint 1');
 
     await waitFor(() => {
-      const list0 = wrapper.queryByTestId('card-touchable-0');
+      const list0 = wrapper.queryByTestId('card-touchable-1');
       expect(list0).toBeTruthy();
 
-      const list1 = wrapper.queryByTestId('card-touchable-1');
+      const list1 = wrapper.queryByTestId('card-touchable-2');
       expect(list1).toBeFalsy();
     });
   });
@@ -187,7 +190,7 @@ describe('FormDataPage', () => {
       {
         id: 1,
         name: 'Datapoint 1',
-        createdAt: '2023-07-18T12:34:56.789Z',
+        createdAt: '2023-07-18T12:34:56.789',
         duration: 145,
         syncedAt: null,
         submitted: 0,
@@ -198,7 +201,7 @@ describe('FormDataPage', () => {
     const wrapper = render(<FormDataPage navigation={mockNavigation} route={mockRoute} />);
 
     await waitFor(() => {
-      const cardElement = wrapper.getByTestId('card-touchable-0');
+      const cardElement = wrapper.getByTestId('card-touchable-1');
       fireEvent.press(cardElement);
     });
 
@@ -222,9 +225,9 @@ describe('FormDataPage', () => {
       {
         id: 1,
         name: 'Datapoint 1',
-        createdAt: '2023-07-18T12:34:56.789Z',
+        createdAt: '2023-07-18T12:34:56.789',
         duration: 145,
-        syncedAt: '2023-07-18T13:00:00.000Z',
+        syncedAt: '2023-07-18T13:00:00.000',
         submitted: 1,
       },
     ];
@@ -237,7 +240,7 @@ describe('FormDataPage', () => {
       expect(wrapper.getByText('Form Name')).toBeTruthy();
       // check sync button rendered
       expect(wrapper.queryByTestId('button-to-trigger-sync')).toBeFalsy();
-      const list0 = wrapper.getByTestId('card-touchable-0');
+      const list0 = wrapper.getByTestId('card-touchable-1');
       expect(list0).toBeTruthy();
     });
   });
@@ -255,7 +258,7 @@ describe('FormDataPage', () => {
       {
         id: 1,
         name: 'Datapoint 1',
-        createdAt: '2023-07-18T12:34:56.789Z',
+        createdAt: '2023-07-18T12:34:56.789',
         duration: 145,
         syncedAt: null,
         submitted: 1,
@@ -272,7 +275,7 @@ describe('FormDataPage', () => {
       const syncButtonElement = wrapper.getByTestId('button-to-trigger-sync');
       expect(syncButtonElement).toBeTruthy();
       expect(syncButtonElement.props.accessibilityState.disabled).toEqual(false);
-      const list0 = wrapper.getByTestId('card-touchable-0');
+      const list0 = wrapper.getByTestId('card-touchable-1');
       expect(list0).toBeTruthy();
     });
   });
@@ -290,9 +293,9 @@ describe('FormDataPage', () => {
       {
         id: 1,
         name: 'Datapoint 1',
-        createdAt: '2023-07-18T12:34:56.789Z',
+        createdAt: '2023-07-18T12:34:56.789',
         duration: 145,
-        syncedAt: '2023-07-18T13:00:00.000Z',
+        syncedAt: '2023-07-18T13:00:00.000',
         submitted: 1,
       },
     ];
@@ -307,7 +310,7 @@ describe('FormDataPage', () => {
       const syncButtonElement = wrapper.getByTestId('button-to-trigger-sync');
       expect(syncButtonElement).toBeTruthy();
       expect(syncButtonElement.props.accessibilityState.disabled).toEqual(true);
-      const list0 = wrapper.queryByTestId('card-touchable-0');
+      const list0 = wrapper.queryByTestId('card-touchable-1');
       expect(list0).toBeFalsy();
     });
   });
@@ -325,7 +328,7 @@ describe('FormDataPage', () => {
       {
         id: 1,
         name: 'Datapoint 1',
-        createdAt: '2023-07-18T12:34:56.789Z',
+        createdAt: '2023-07-18T12:34:56.789',
         duration: 145,
         syncedAt: null,
         submitted: 1,
@@ -373,7 +376,7 @@ describe('FormDataPage', () => {
       {
         id: 1,
         name: 'Datapoint 1',
-        createdAt: '2023-07-18T12:34:56.789Z',
+        createdAt: '2023-07-18T12:34:56.789',
         duration: 145,
         syncedAt: null,
         submitted: 1,
@@ -410,7 +413,7 @@ describe('FormDataPage', () => {
     });
   });
 
-  it('should go to ManageForm page when arrow back clicked', () => {
+  it('should go to ManageForm page when arrow back clicked', async () => {
     const mockNavigation = useNavigation();
     const mockRoute = {
       params: {
@@ -425,7 +428,9 @@ describe('FormDataPage', () => {
     expect(arrowBackEl).toBeDefined();
     fireEvent.press(arrowBackEl);
 
-    expect(mockNavigation.navigate).toHaveBeenCalledWith('ManageForm', mockRoute.params);
+    await waitFor(() => {
+      expect(mockNavigation.navigate).toHaveBeenCalledWith('ManageForm', mockRoute.params);
+    });
   });
 
   it('should set currentValues & go to FormDataDetails when showSubmitted is true', async () => {
@@ -433,9 +438,9 @@ describe('FormDataPage', () => {
       {
         id: 1,
         name: 'Datapoint 1',
-        createdAt: '2023-07-18T12:34:56.789Z',
+        createdAt: '2023-07-18T12:34:56.789',
         duration: 145,
-        syncedAt: '2023-07-18T13:00:00.000Z',
+        syncedAt: '2023-07-18T13:00:00.000',
         submitted: 1,
         json: '{"1": "John Doe"}',
       },
@@ -454,7 +459,7 @@ describe('FormDataPage', () => {
     const { getByTestId } = render(<FormDataPage navigation={mockNavigation} route={mockRoute} />);
 
     await waitFor(() => {
-      const list0 = getByTestId('card-touchable-0');
+      const list0 = getByTestId('card-touchable-1');
       expect(list0).toBeDefined();
       fireEvent.press(list0);
     });
@@ -480,7 +485,7 @@ describe('FormDataPage', () => {
       {
         id: 1,
         name: 'Datapoint 1',
-        createdAt: '2023-07-18T12:34:56.789Z',
+        createdAt: '2023-07-18T12:34:56.789',
         duration: 10,
         syncedAt: null,
         submitted: 1,
@@ -498,7 +503,7 @@ describe('FormDataPage', () => {
         showSubmitted: true,
       },
     };
-    const { getByTestId, queryByTestId, getByText, rerender, debug, queryByText } = render(
+    const { getByTestId, queryByTestId, getByText, rerender, queryByText } = render(
       <FormDataPage navigation={mockNavigation} route={mockRoute} />,
     );
 
@@ -576,7 +581,7 @@ describe('FormDataPage', () => {
       {
         id: 123,
         name: 'Datapoint with photo',
-        createdAt: '2023-07-18T12:34:56.789Z',
+        createdAt: '2023-07-18T12:34:56.789',
         duration: 105,
         syncedAt: null,
         submitted: 1,
@@ -639,7 +644,7 @@ describe('FormDataPage', () => {
   });
 
   it('should not call handleOnSync when uploading photos failed', async () => {
-    axios.all.mockImplementation(() => Promise.reject('Error'));
+    axios.all.mockImplementation(() => Promise.reject(new Error('Error')));
     api.post.mockImplementation(() =>
       Promise.resolve({ data: { file: '/images/photo-profile-xyz.jpeg' } }),
     );
@@ -675,7 +680,7 @@ describe('FormDataPage', () => {
       {
         id: 123,
         name: 'Datapoint with photo',
-        createdAt: '2023-07-18T12:34:56.789Z',
+        createdAt: '2023-07-18T12:34:56.789',
         duration: 105,
         syncedAt: null,
         submitted: 1,
@@ -695,7 +700,7 @@ describe('FormDataPage', () => {
       },
     };
 
-    const { getByTestId, getByText, queryByText, queryByTestId } = render(
+    const { getByTestId, getByText, queryByTestId } = render(
       <FormDataPage route={mockRoute} navigation={mockNavigation} />,
     );
 

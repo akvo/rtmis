@@ -7,6 +7,7 @@ import { api, i18n } from '../lib';
 import { crudConfig } from '../database/crud';
 
 const GetStarted = ({ navigation }) => {
+  // eslint-disable-next-line global-require
   const logo = Asset.fromModule(require('../assets/icon.png')).uri;
   const [currentConfig, setCurrentConfig] = useState({});
   const [IPAddr, setIPAddr] = useState(null);
@@ -22,9 +23,7 @@ const GetStarted = ({ navigation }) => {
     }
   }, []);
 
-  const isServerURLDefined = useMemo(() => {
-    return currentConfig?.serverURL || serverURLState;
-  }, [currentConfig?.serverURL, serverURLState]);
+  const isServerURLDefined = useMemo(() => currentConfig?.serverURL || serverURLState, [currentConfig?.serverURL, serverURLState]);
 
   useEffect(() => {
     getConfig();
@@ -51,7 +50,7 @@ const GetStarted = ({ navigation }) => {
   const titles = [trans.getStartedTitle1, trans.getStartedTitle2, trans.getStartedTitle3];
   return (
     <CenterLayout title={titles}>
-      <Image src={logo ? logo : null} />
+      <Image src={logo || null} />
       <CenterLayout.Titles items={titles} />
       <Text>{trans.getStartedSubTitle}</Text>
       {!isServerURLDefined && (

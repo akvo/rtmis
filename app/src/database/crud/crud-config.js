@@ -1,4 +1,4 @@
-import { conn, query } from '../';
+import { conn, query } from '..';
 import defaultBuildParams from '../../build';
 
 const db = conn.init;
@@ -13,7 +13,9 @@ const configQuery = () => {
           return false;
         }
         return rows._array[rows.length - 1];
-      } catch {}
+      } catch {
+        return false;
+      }
     },
     addConfig: async (data = {}) => {
       const insertQuery = query.insert('config', {
@@ -21,11 +23,13 @@ const configQuery = () => {
         appVersion: defaultBuildParams.appVersion,
         ...data,
       });
-      return await conn.tx(db, insertQuery, []);
+      const res = await conn.tx(db, insertQuery, []);
+      return res;
     },
     updateConfig: async (data) => {
       const updateQuery = query.update('config', { id }, { ...data });
-      return await conn.tx(db, updateQuery, [id]);
+      const res = await conn.tx(db, updateQuery, [id]);
+      return res;
     },
   };
 };

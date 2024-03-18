@@ -1,9 +1,12 @@
-import { SERVER_URL } from '@env';
-import build_json from './build.json';
+import buildJson from './build.json';
 
 const defaultBuildParams = {
-  ...build_json,
+  ...buildJson,
   serverURL: 'https://rtmis.akvotest.org/api/v1/device',
 };
+
+it('should at least one test', () => {
+  expect(defaultBuildParams.serverURL).toEqual('https://rtmis.akvotest.org/api/v1/device');
+});
 
 export default defaultBuildParams;

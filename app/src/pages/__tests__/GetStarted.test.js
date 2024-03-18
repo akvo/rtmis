@@ -1,9 +1,9 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import { render, act, fireEvent, renderHook } from '@testing-library/react-native';
+import { useNavigation } from '@react-navigation/native';
 import GetStartedPage from '../GetStarted';
 import { BuildParamsState } from '../../store';
-import { useNavigation } from '@react-navigation/native';
 
 describe('GetStartedPage', () => {
   test('renders correctly', () => {

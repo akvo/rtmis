@@ -4874,7 +4874,7 @@
               "G2 Inadequate management of solid wastes": "#93D371",
               "G3 Safe management of solid wastes": "#4088F4"
             },
-            "fnString": "#no_visible_solid_wastes#.includes(\"g0\") && #solid_waste_facility_or_service#.includes(\"g0\") ? \"G1 Solid wastes UNSAFELY managed\" : ((#no_visible_solid_wastes#.includes(\"g3\") && #solid_waste_facility_or_service#.includes(\"g3\") ? \"G3 Safe management of solid wastes\" : \"G2 Inadequate management of solid wastes\"",
+            "fnString": "#no_visible_solid_wastes#.includes(\"g0\") && #solid_waste_facility_or_service#.includes(\"g0\") ? \"G1 Solid wastes UNSAFELY managed\" : #no_visible_solid_wastes#.includes(\"g3\") && #solid_waste_facility_or_service#.includes(\"g3\") ? \"G3 Safe management of solid wastes\" : \"G2 Inadequate management of solid wastes\"",
             "multiline": false
           }
         },

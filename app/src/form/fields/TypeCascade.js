@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { View, Text } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
+import PropTypes from 'prop-types';
+
 import { FieldLabel } from '../support';
-import { styles } from '../styles';
+import styles from '../styles';
 import { FormState } from '../../store';
 import { i18n, cascades } from '../../lib';
 
@@ -24,6 +26,11 @@ const TypeCascade = ({
   const activeLang = FormState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
   const requiredValue = required ? requiredSign : null;
+  const {
+    cascade_parent: cascadeParent,
+    cascade_type: cascadeType,
+    parent_id: parentId,
+  } = source || {};
 
   const groupBy = (array, property) => {
     const gd = array
@@ -74,12 +81,11 @@ const TypeCascade = ({
   };
 
   const initialDropdowns = useMemo(() => {
-    const { cascade_parent, cascade_type, parent_id } = source || {};
     const parentIDs =
-      cascade_parent === 'administrator.sqlite' ? prevAdmAnswer || [] : parent_id || [0];
+      cascadeParent === 'administrator.sqlite' ? prevAdmAnswer || [] : parentId || [0];
     const filterDs = dataSource
       ?.filter((ds) => {
-        if (cascade_parent) {
+        if (cascadeParent) {
           return parentIDs.includes(ds?.parent);
         }
         return (
@@ -90,8 +96,8 @@ const TypeCascade = ({
         );
       })
       ?.filter((ds) => {
-        if (cascade_type && ds?.entity) {
-          return ds.entity === cascade_type;
+        if (cascadeType && ds?.entity) {
+          return ds.entity === cascadeType;
         }
         return ds;
       });
@@ -102,19 +108,19 @@ const TypeCascade = ({
         dataSource.find((d) => d?.id === parseInt(keyID, 10)),
       );
       return value
-        ? value?.map((val, vx) => {
-            const _options = dataSource?.filter((d) =>
+        ? value.map((val, vx) => {
+            const options = dataSource?.filter((d) =>
               vx === 0 ? parentIDs.includes(d?.id) : d?.parent === parseInt(value?.[vx - 1], 10),
             );
             return {
-              options: _options,
+              options,
               value: parseInt(val, 10),
             };
           })
         : [
             {
               options: parentOptions,
-              value: value ? value[ox] : null,
+              value: value?.[0] || null,
             },
           ];
     }
@@ -129,7 +135,7 @@ const TypeCascade = ({
         value: answer,
       };
     });
-  }, [dataSource, source, value, id, prevAdmAnswer]);
+  }, [dataSource, cascadeParent, cascadeType, parentId, value, prevAdmAnswer]);
 
   const fetchCascade = useCallback(async () => {
     if (source && value?.length) {
@@ -167,12 +173,12 @@ const TypeCascade = ({
   const loadDataSource = useCallback(async () => {
     const { rows } = await cascades.loadDataSource(source);
     setDataSource(rows._array);
-    if (source?.cascade_type) {
+    if (cascadeType) {
       FormState.update((s) => {
-        s.entityOptions[id] = rows._array?.filter((a) => a?.entity === source.cascade_type);
+        s.entityOptions[id] = rows._array?.filter((a) => a?.entity === cascadeType);
       });
     }
-  }, [source, id]);
+  }, [cascadeType, source, id]);
 
   useEffect(() => {
     loadDataSource();
@@ -185,14 +191,14 @@ const TypeCascade = ({
         onChange(id, [lastValue]);
       }
     }
-  }, [value, dropdownItems, onChange]);
+  }, [value, id, dropdownItems, onChange]);
 
   useEffect(() => {
     handleDefaultValue();
   }, [handleDefaultValue]);
 
   if (!dropdownItems.length) {
-    return;
+    return null;
   }
 
   return (
@@ -206,6 +212,7 @@ const TypeCascade = ({
           const hasSearch = item?.options.length > 3;
           return (
             <Dropdown
+              // eslint-disable-next-line react/no-array-index-key
               key={index}
               labelField="name"
               valueField="id"
@@ -227,3 +234,23 @@ const TypeCascade = ({
 };
 
 export default TypeCascade;
+
+TypeCascade.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.array,
+  keyform: PropTypes.number.isRequired,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  label: PropTypes.string.isRequired,
+  tooltip: PropTypes.object,
+  required: PropTypes.bool.isRequired,
+  requiredSign: PropTypes.string,
+  source: PropTypes.object.isRequired,
+  disabled: PropTypes.bool,
+};
+
+TypeCascade.defaultProps = {
+  value: null,
+  requiredSign: "*",
+  disabled: false,
+  tooltip: null,
+};
