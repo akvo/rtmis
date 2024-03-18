@@ -1235,6 +1235,234 @@
           "fn": null
         },
         {
+          "id": 1699428661689,
+          "order": 8,
+          "name": "safely_managed_onsite_containment",
+          "label": "G3-1.1a INTERVIEW: has the pit (or tank) ever been emptied?",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>INTERVIEW: has the toilet containment (pit, tank or other) ever been emptied?</b><br/><b>INTERVIEW:</b> has the toilet containment (pit, tank or other) ever filled up?<br/><b>INTERVIEW:</b> what happened when the toilet containment (pit, tank or other) last filled up?<br/><b>Examples:</b> 1. Covered the full pit and dug a new pit; 2. Emptied the full pit and re-used it; 3. Connected a second pit and disconnected the full pit. 4. Emptied faecal sludge from septic tank then continued to use."
+          },
+          "required": true,
+          "meta": false,
+          "options": [
+            {
+              "id": 1699428734675,
+              "order": 1,
+              "label": "No toilet",
+              "value": "g0_no_toilet_or_no_containmentcollection_system",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1710746275,
+              "order": 2,
+              "label": "Toilet with no pit or tank (discharge to open)",
+              "value": "g0_toilet_no_pit_or_tank_discharge_to_open",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699428734676,
+              "order": 3,
+              "label": "Open pit or open container",
+              "value": "g0_unsafe_containment_open_container",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699428752420,
+              "order": 4,
+              "label": "Pit or tank overflows to open",
+              "value": "g0_unsafe_containment_overflow_to_open_space_open_drain_water_body",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699428939544,
+              "order": 5,
+              "label": "Never emptied (but intention to empty when full)",
+              "value": "g1_risk_of_unsafe_services_never_emptied_intention_to_empty_when_full",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1699428755154,
+              "order": 6,
+              "label": "G3 Never emptied (first pit: NO intention to empty)",
+              "value": "g3_never_emptied_first_pit_no_intention_to_empty",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1699428767471,
+              "order": 7,
+              "label": "G3 Never emptied ( previous pit replaced: NO intention to empty)",
+              "value": "g3_never_emptied_previous_pit_replaced_no_intention_to_empty",
+              "color": "#38A15A"
+            },
+            {
+              "id": 16994287702567,
+              "order": 8,
+              "label": "G3 EMPTIED, ALL pit (or tank) contents removed",
+              "value": "g3_yes_containment_emptied",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1710746939,
+              "order": 9,
+              "label": "G3 EMPTIED, SOME pit (or tank) contents removed",
+              "value": "g3_yes_some_contents_removed",
+              "color": "#38A15A"
+            },
+            {
+              "id": 16994287702568,
+              "order": 10,
+              "label": "G3 EMPTIED, closed container removed",
+              "value": "g3_yes_closed_container_removed",
+              "color": "#38A15A"
+            },
+            {
+              "id": 16994287702569,
+              "order": 11,
+              "label": "G3 Alternating twin pits",
+              "value": "g3_alternating_twin_pits",
+              "color": "#38A15A"
+            },
+            {
+              "id": 16994287702561,
+              "order": 12,
+              "label": "G3 Connection to sewer network",
+              "value": "g3_connection_to_sewer_network",
+              "color": "#38A15A"
+            }
+          ],
+          "fn": null
+        },
+        {
+          "id": 1699428820338,
+          "order": 9,
+          "name": "safely_managed_sanitation_services",
+          "label": "G3-1.1b INTERVIEW: where were the pit (or tank) contents emptied to?",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>INTERVIEW: the last time it was emptied, where were the contents of the toilet containment emptied to?</b><br/><b>INTERVIEW:</b> the last time it was emptied, who emptied the toilet containment?<br/><b>INTERVIEW (if the containment system is a lined pit or tank, which has never been emptied):</b> what will happen when the toilet containment is full?<br/><b>INTERVIEW:</b> How long were the contents stored (without any fresh excreta entering the toilet containment) before emptying?<br/><b>Intention to empty:</b> household is planning to empty toilet containment (pit or tank) when full, or when required.<br/><b>Storage time:</b> length of time that contents of containment were stored without any fresh excreta entering the containment (for example, alternating twin pit latrine where full pit is disconncted and contents are stored for 2 years before emptying)<br/><b>Licensed service provider:</b> paid emptier that is approved and regulated by local authority to empty and transport toilet wastes<br/><b>Unlicensed service provider:</b> paid or unpaid emptier who is NOT approved by local authority to empty and transport toilet wastes (for example, family members, neighbours, friends, informal local emptiers) <br/><b>Off-site location:</b> site for the treatment, disposal or use of toilet wastes that is away from the household/community, whose location may or may not be known to the household.<br/><b>Sewer connection to licensed and functional treatment site:</b> the Public Health Office should check whether the sewer network flows to a licensed and functional treatment or disposal site.<br/><b>Open container:</b> bucket or other open container used to collect excreta (usually regularly collected and emptied)."
+          },
+          "required": true,
+          "meta": false,
+          "options": [
+            {
+              "id": 1699428827812,
+              "label": "No toilet",
+              "value": "g0_no_toilet_or_no_containmentcollection_system",
+              "order": 1,
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1710747345,
+              "label": "Toilet with no pit or tank (discharge to open)",
+              "value": "g0_toilet_no_pit_or_tank_discharge_to_open",
+              "order": 2,
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699428827813,
+              "label": "Open pit or open container",
+              "value": "g0_unsafe_containment_open_container",
+              "order": 3,
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699428900390,
+              "label": "Emptied to open (within 500m)",
+              "value": "g0_unsafe_disposal_to_open_pit_open_space_open_drain_or_water_body_within_500m_of_hh",
+              "order": 4,
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699428903041,
+              "label": "Emptied to open (MORE than 500m away)",
+              "value": "g0_unsafe_disposal_to_open_space_open_drain_or_water_body_more_than_500m_from_hh",
+              "order": 5,
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699428921060,
+              "label": "Closed container removed by UNLICENSED worker",
+              "value": "g0_unsafe_treatment_or_disposal_closed_container_removed_by_unlicensed_service_provider_to_offsite_location",
+              "order": 6,
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699428912825,
+              "label": "Emptied by UNLICENSED worker (transported out of community)",
+              "value": "g0_unsafe_treatment_or_disposal_emptied_by_unlicensed_service_provider_to_offsite_location",
+              "order": 7,
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699428931576,
+              "label": "Sewer connection to open discharge",
+              "value": "g0_unsafe_treatment_or_disposal_sewer_connection_to_open_discharge",
+              "order": 8,
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699428950010,
+              "label": "Stored for LESS than 2 years before emptying",
+              "value": "g1_unsafe_storage_stored_for_less_than_2_years_before_use_of_stored_waste",
+              "order": 9,
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1699428957723,
+              "label": "Sewer connection to UNLICENSED or NON-FUNCTIONAL treatment site",
+              "value": "g1_unsafe_treatment_or_disposal_sewer_connection_to_unlicensed_or_nonfunctional_treatment_site",
+              "order": 10,
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1699428967861,
+              "order": 11,
+              "label": "NOT emptied (NO intention to empty)",
+              "value": "g3_safely_managed_never_emptied_no_intention_to_empty",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1699429000331,
+              "order": 12,
+              "label": "Emptied by LICENSED worker (transported out of community)",
+              "value": "g3_safely_managed_emptied_by_licensed_service_provider_to_offsite_location",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1699428977247,
+              "order": 13,
+              "label": "Emptied to nearby covered pit (buried within community)",
+              "value": "g3_safely_managed_emptied_to_covered_pit",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1710747762,
+              "order": 14,
+              "label": "Closed container removed by LICENSED worker",
+              "value": "g3_closed_container_removed_by_licensed_worker",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1699428991810,
+              "order": 15,
+              "label": "Stored for MORE than 2 years before emptying",
+              "value": "g3_safely_managed_stored_for_more_than_2_years_before_use_of_stored_waste",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1710747889,
+              "order": 16,
+              "label": "Sewer connection to LICENSED and FUNCTIONAL treatment or disposal site",
+              "value": "g3_sewer_connection_licensed_functional_treatment_or_disposal_site",
+              "color": "#38A15A"
+            }
+          ],
+          "fn": null
+        },
+        {
           "id": 1702284734752,
           "order": 4,
           "name": "o_r_toilet_use_by_all_hh_members",
@@ -1274,206 +1502,6 @@
             "fnString": "#toilet_use_by_all_members#.includes(\"g2\") ? \"G2 All household members use own toilet at all times\" : #toilet_use_by_all_members#.includes(\"g0\") ? \"G0 All household members defecate in the open\" : \"G1 Some household members do not use their own toilet\"",
             "multiline": false
           }
-        },
-        {
-          "id": 1699428661689,
-          "order": 7,
-          "name": "safely_managed_onsite_containment",
-          "label": "G3-1.1a INTERVIEW: has the pit (or tank) ever been emptied?",
-          "short_label": null,
-          "type": "option",
-          "tooltip": {
-            "text": "<b>INTERVIEW: has the toilet containment (pit, tank or other) ever been emptied?</b><br/><b>INTERVIEW:</b> has the toilet containment (pit, tank or other) ever filled up?<br/><b>INTERVIEW:</b> what happened when the toilet containment (pit, tank or other) last filled up?<br/><b>Examples:</b> 1. Covered the full pit and dug a new pit; 2. Emptied the full pit and re-used it; 3. Connected a second pit and disconnected the full pit. 4. Emptied faecal sludge from septic tank then continued to use."
-          },
-          "required": true,
-          "meta": false,
-          "options": [
-            {
-              "id": 1699428734675,
-              "order": 1,
-              "label": "No toilet",
-              "value": "g0_no_toilet_or_no_containmentcollection_system",
-              "color": "#DB3B3B"
-            },
-            {
-              "id": 1699428734676,
-              "order": 2,
-              "label": "Open pit or open container",
-              "value": "g0_unsafe_containment_open_container",
-              "color": "#DB3B3B"
-            },
-            {
-              "id": 1699428752420,
-              "order": 3,
-              "label": "Pit or tank overflows to open",
-              "value": "g0_unsafe_containment_overflow_to_open_space_open_drain_water_body",
-              "color": "#DB3B3B"
-            },
-            {
-              "id": 1699428939544,
-              "order": 4,
-              "label": "Never emptied (but intention to empty when full)",
-              "value": "g1_risk_of_unsafe_services_never_emptied_intention_to_empty_when_full",
-              "color": "#ffa57d"
-            },
-            {
-              "id": 1699428755154,
-              "order": 5,
-              "label": "G3 Never emptied, not yet full (first toilet)",
-              "value": "g3_never_emptied_not_yet_full_first_toilet",
-              "color": "#38A15A"
-            },
-            {
-              "id": 1699428767471,
-              "order": 6,
-              "label": "G3 Never emptied, previous pit or tank replaced when full",
-              "value": "g3_never_emptied_previous_pit_or_tank_replaced_when_full",
-              "color": "#38A15A"
-            },
-            {
-              "id": 1699428770256,
-              "order": 7,
-              "label": "G3 Never emptied, using second pit (first pit full)",
-              "value": "g3_never_emptied_using_second_pit_first_pit_full",
-              "color": "#38A15A"
-            },
-            {
-              "id": 16994287702567,
-              "order": 8,
-              "label": "G3 Yes, containment emptied",
-              "value": "g3_yes_containment_emptied",
-              "color": "#38A15A"
-            },
-            {
-              "id": 16994287702568,
-              "order": 9,
-              "label": "G3 Yes, closed container removed",
-              "value": "g3_yes_closed_container_removed",
-              "color": "#38A15A"
-            },
-            {
-              "id": 16994287702569,
-              "order": 10,
-              "label": "G3 Piped sewer connection",
-              "value": "g3_piped_sewer_connection",
-              "color": "#38A15A"
-            },
-            {
-              "id": 16994287702561,
-              "order": 11,
-              "label": "G3 Other removal of faecal sludge or wastewater",
-              "value": "g3_other_removal_of_faecal_sludge_or_wastewater",
-              "color": "#38A15A"
-            }
-          ],
-          "fn": null
-        },
-        {
-          "id": 1699428820338,
-          "order": 8,
-          "name": "safely_managed_sanitation_services",
-          "label": "G3-1.1b INTERVIEW: where were the pit (or tank) contents emptied to?",
-          "short_label": null,
-          "type": "option",
-          "tooltip": {
-            "text": "<b>INTERVIEW: the last time it was emptied, where were the contents of the toilet containment emptied to?</b><br/><b>INTERVIEW:</b> the last time it was emptied, who emptied the toilet containment?<br/><b>INTERVIEW (if the containment system is a lined pit or tank, which has never been emptied):</b> what will happen when the toilet containment is full?<br/><b>INTERVIEW:</b> How long were the contents stored (without any fresh excreta entering the toilet containment) before emptying?<br/><b>Intention to empty:</b> household is planning to empty toilet containment (pit or tank) when full, or when required.<br/><b>Storage time:</b> length of time that contents of containment were stored without any fresh excreta entering the containment (for example, alternating twin pit latrine where full pit is disconncted and contents are stored for 2 years before emptying)<br/><b>Licensed service provider:</b> paid emptier that is approved and regulated by local authority to empty and transport toilet wastes<br/><b>Unlicensed service provider:</b> paid or unpaid emptier who is NOT approved by local authority to empty and transport toilet wastes (for example, family members, neighbours, friends, informal local emptiers) <br/><b>Off-site location:</b> site for the treatment, disposal or use of toilet wastes that is away from the household/community, whose location may or may not be known to the household.<br/><b>Sewer connection to licensed and functional treatment site:</b> the Public Health Office should check whether the sewer network flows to a licensed and functional treatment or disposal site.<br/><b>Open container:</b> bucket or other open container used to collect excreta (usually regularly collected and emptied)."
-          },
-          "required": true,
-          "meta": false,
-          "options": [
-            {
-              "id": 1699428827812,
-              "label": "No toilet",
-              "value": "g0_no_toilet_or_no_containmentcollection_system",
-              "order": 1,
-              "color": "#DB3B3B"
-            },
-            {
-              "id": 1699428827813,
-              "label": "Open pit or open container",
-              "value": "g0_unsafe_containment_open_container",
-              "order": 2,
-              "color": "#DB3B3B"
-            },
-            {
-              "id": 1699428900390,
-              "label": "Emptied to open (within 500m)",
-              "value": "g0_unsafe_disposal_to_open_pit_open_space_open_drain_or_water_body_within_500m_of_hh",
-              "order": 3,
-              "color": "#DB3B3B"
-            },
-            {
-              "id": 1699428903041,
-              "label": "Emptied to open (MORE than 500m away)",
-              "value": "g0_unsafe_disposal_to_open_space_open_drain_or_water_body_more_than_500m_from_hh",
-              "order": 4,
-              "color": "#DB3B3B"
-            },
-            {
-              "id": 1699428912825,
-              "label": "Emptied by UNLICENSED worker (transported out of community)",
-              "value": "g0_unsafe_treatment_or_disposal_emptied_by_unlicensed_service_provider_to_offsite_location",
-              "order": 5,
-              "color": "#DB3B3B"
-            },
-            {
-              "id": 1699428921060,
-              "label": "Closed container removed by UNLICENSED worker",
-              "value": "g0_unsafe_treatment_or_disposal_closed_container_removed_by_unlicensed_service_provider_to_offsite_location",
-              "order": 6,
-              "color": "#DB3B3B"
-            },
-            {
-              "id": 1699428931576,
-              "label": "Sewer connection to open discharge",
-              "value": "g0_unsafe_treatment_or_disposal_sewer_connection_to_open_discharge",
-              "order": 7,
-              "color": "#DB3B3B"
-            },
-            {
-              "id": 1699428950010,
-              "label": "Stored for LESS than 2 years before emptying",
-              "value": "g1_unsafe_storage_stored_for_less_than_2_years_before_use_of_stored_waste",
-              "order": 8,
-              "color": "#ffa57d"
-            },
-            {
-              "id": 1699428957723,
-              "label": "Sewer connection to UNLICENSED or NON-FUNCTIONAL treatment site",
-              "value": "g1_unsafe_treatment_or_disposal_sewer_connection_to_unlicensed_or_nonfunctional_treatment_site",
-              "order": 9,
-              "color": "#ffa57d"
-            },
-            {
-              "id": 1699428967861,
-              "order": 10,
-              "label": "NOT emptied (NO intention to empty)",
-              "value": "g3_safely_managed_never_emptied_no_intention_to_empty",
-              "color": "#38A15A"
-            },
-            {
-              "id": 1699428977247,
-              "order": 11,
-              "label": "Emptied to nearby covered pit (buried within community)",
-              "value": "g3_safely_managed_emptied_to_covered_pit",
-              "color": "#38A15A"
-            },
-            {
-              "id": 1699428991810,
-              "order": 12,
-              "label": "Stored for MORE than 2 years before emptying",
-              "value": "g3_safely_managed_stored_for_more_than_2_years_before_use_of_stored_waste",
-              "color": "#38A15A"
-            },
-            {
-              "id": 1699429000331,
-              "order": 13,
-              "label": "Emptied by LICENSED worker (transported out of community)",
-              "value": "g3_safely_managed_emptied_by_licensed_service_provider_to_offsite_location",
-              "color": "#38A15A"
-            }
-          ],
-          "fn": null
         },
         {
           "id": 1702285668136,
@@ -2428,6 +2456,16 @@
           }
         }
       ]
+    },
+    {
+      "id": 1710748304,
+      "order": 4,
+      "name": "observation_toilet_outcomes_results",
+      "label": "OBSERVATION: TOILET OUTCOMES RESULTS",
+      "description": null,
+      "repeatable": false,
+      "translations": null,
+      "questions":[]
     },
     {
       "id": 1699429162795,
