@@ -230,7 +230,7 @@ const Users = () => {
             setPending={setPending}
             loading={loading}
             button={
-              <Link to="/control-center/user/add">
+              <Link to="/control-center/users/add">
                 <Button type="primary" shape="round" icon={<PlusOutlined />}>
                   {text.addNewUser}
                 </Button>

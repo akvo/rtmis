@@ -92,11 +92,11 @@ const RouteList = () => {
         }
       >
         <Route
-          path="user/add"
+          path="users/add"
           element={<Private element={AddUser} alias="user" />}
         />
         <Route
-          path="user/:id"
+          path="users/:id"
           element={<Private element={AddUser} alias="user" />}
         />
         <Route

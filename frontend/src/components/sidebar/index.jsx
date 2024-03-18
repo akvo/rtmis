@@ -143,11 +143,6 @@ const Sidebar = () => {
     superAdminRole.page_access
   );
 
-  const handleMenuClick = ({ key }) => {
-    const url = findUrlByKey(usersMenuItem, key);
-    navigate(url);
-  };
-
   const findUrlByKey = (items, key) => {
     for (const item of items) {
       if (item.key === key) {
@@ -160,6 +155,11 @@ const Sidebar = () => {
         }
       }
     }
+  };
+
+  const handleMenuClick = ({ key }) => {
+    const url = findUrlByKey(usersMenuItem, key);
+    navigate(url);
   };
 
   const findKeyByUrl = useCallback((items, url) => {
@@ -178,10 +178,8 @@ const Sidebar = () => {
 
   useEffect(() => {
     const currentKey = findKeyByUrl(usersMenuItem, location.pathname);
-
     if (currentKey !== selectedKey || openKeys.length === 0) {
       setSelectedKey(currentKey);
-
       const newOpenKeys = [];
       for (const menu of usersMenuItem) {
         if (menu.url && menu.key === currentKey) {
@@ -196,7 +194,6 @@ const Sidebar = () => {
           }
         }
       }
-
       if (JSON.stringify(openKeys) !== JSON.stringify(newOpenKeys)) {
         setOpenKeys(newOpenKeys);
       }
