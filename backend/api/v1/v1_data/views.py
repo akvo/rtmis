@@ -867,7 +867,9 @@ def list_pending_batch(request, version):
                tags=['Pending Data'],
                summary='To get list of pending data by batch')
 @api_view(['GET'])
-@permission_classes([IsAuthenticated, IsAdmin | IsApprover | IsSubmitter])
+@permission_classes([
+    IsAuthenticated, IsSuperAdmin | IsAdmin | IsApprover | IsSubmitter]
+)
 def list_pending_data_batch(request, version, batch_id):
     batch = get_object_or_404(PendingDataBatch, pk=batch_id)
     return Response(ListPendingFormDataSerializer(
