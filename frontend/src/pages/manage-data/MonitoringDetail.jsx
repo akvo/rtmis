@@ -54,7 +54,7 @@ const MonitoringDetail = () => {
     },
     {
       title: text.manageDataTitle,
-      link: "/control-center/data/manage",
+      link: "/control-center/data",
     },
     {
       title: text.monitoringDataTitle,
@@ -168,7 +168,7 @@ const MonitoringDetail = () => {
           <Button
             type="primary"
             shape="round"
-            onClick={() => navigate("/control-center/data/manage")}
+            onClick={() => navigate("/control-center/data")}
             icon={<ArrowLeftOutlined />}
           >
             {text.backManageData}

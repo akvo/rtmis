@@ -63,7 +63,7 @@ const EntityData = () => {
       render: (row) => {
         return (
           <Space>
-            <Link to={`/control-center/master-data/entities/${row}/edit`}>
+            <Link to={`/control-center/master-data/entities/${row}`}>
               <Button shape="round" type="primary">
                 {text.editButton}
               </Button>

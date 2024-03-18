@@ -51,6 +51,10 @@ const UploadData = () => {
       link: "/control-center",
     },
     {
+      title: text.manageDataTitle,
+      link: "/control-center/data",
+    },
+    {
       title: text.dataUploadTitle,
     },
   ];
