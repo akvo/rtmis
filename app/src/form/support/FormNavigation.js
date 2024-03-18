@@ -144,6 +144,9 @@ const FormNavigation = ({
           iconPosition="right"
           iconContainerStyle={styles.formNavigationIconSubmit}
           titleStyle={styles.formNavigationSubmit}
+          containerStyle={{
+            backgroundColor: '#2089dc',
+          }}
           testID="form-btn-submit"
         />
       )}
