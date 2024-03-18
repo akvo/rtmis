@@ -40,14 +40,8 @@ const Forms = () => {
       link: "/control-center",
     },
     {
-      title:
-        authUser?.role?.value === "Data Entry Supervisor"
-          ? authUser.name
-          : text.manageDataTitle,
-      link:
-        authUser?.role?.value === "Data Entry Supervisor"
-          ? "/profile"
-          : "/control-center/data",
+      title: text.manageDataTitle,
+      link: "/control-center/data",
     },
     {
       title: forms.name,
