@@ -29,7 +29,7 @@ jobs:
       - name: 📦 Install dependencies
         run: |
           cd ./app/
-          cp ./src/build.test.js ./src/build.js
+          cp ./src/build.testing.js ./src/build.js
           npm install
 
       - name: 🚀 Release to Expo Dev
