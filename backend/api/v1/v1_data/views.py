@@ -949,6 +949,10 @@ class BatchView(APIView):
                              required=True,
                              type=OpenApiTypes.NUMBER,
                              location=OpenApiParameter.QUERY),
+            OpenApiParameter(name='form',
+                             required=False,
+                             type=OpenApiTypes.NUMBER,
+                             location=OpenApiParameter.QUERY),
             OpenApiParameter(name='approved',
                              default=False,
                              type=OpenApiTypes.BOOL,
@@ -966,6 +970,9 @@ class BatchView(APIView):
             user=request.user,
             approved=serializer.validated_data.get('approved')
         ).order_by('-id')
+        form_id = serializer.validated_data.get('form')
+        if form_id:
+            queryset = queryset.filter(form_id=form_id)
         paginator = PageNumberPagination()
         instance = paginator.paginate_queryset(queryset, request)
         page_size = REST_FRAMEWORK.get('PAGE_SIZE')
