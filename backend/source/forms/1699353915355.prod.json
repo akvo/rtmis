@@ -336,7 +336,7 @@
           "id": 1699419048095,
           "order": 2,
           "name": "hh_head_given_first_name",
-          "label": "G1-1.2b INTERVIEW: Name the household head of the other household toilet used?",
+          "label": "Household head: given first name",
           "short_label": null,
           "type": "text",
           "tooltip": null,
@@ -1776,14 +1776,14 @@
               "id": 1699424076000,
               "order": 8,
               "label": "G1 Double latrine pit: under toilet (direct)",
-              "value": "g1_double_latrine_pit",
+              "value": "g1_double_latrine_pit_under_toilet",
               "color": "#38A15A"
             },
             {
               "id": 1710749570,
               "order": 9,
               "label": "G1 Double latrine pit: beside toilet (offset)",
-              "value": "g1_double_latrine_pit",
+              "value": "g1_double_latrine_pit_beside_toilet",
               "color": "#38A15A"
             },
             {
@@ -2571,8 +2571,71 @@
           "fn": null
         },
         {
-          "id": 1699430427692,
+          "id": 1710753128,
           "order": 2,
+          "name": "photo_01_handwashing_view_of_facility",
+          "label": "HANDWASHING PHOTO 01: view of entire facility (water container/tap, soap)",
+          "short_label": null,
+          "type": "photo",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 1699429162796,
+              "options": ["g1_handwashing_facility_by_toilet","g1_handwashing_facility_in_kitchen","g1_portable_handwashing_facility_basin_jug_jerrycan_container","g1_two_handwashing_facilities","g1_more_than_two_handwashing_facilities"]
+            }
+          ],
+          "fn": null
+        },
+        {
+          "id": 1710753585,
+          "order": 3,
+          "name": "functional_hwf",
+          "label": "G1-2.1b OBSERVATION: Functional handwashing facility",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: is the handwashing facility functional?</b> "
+          },
+          "required": true,
+          "meta": false,
+          "options": [
+            {
+              "id": 1710754040,
+              "order": 1,
+              "label": "No handwashing facility",
+              "value": "g0_no_handwashing_facility",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1710754053,
+              "order": 2,
+              "label": "Non-functional handwashing facility",
+              "value": "g0_non_functional_handwashing_facility",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1710754067,
+              "order": 3,
+              "label": "Partly functional handwashing facility",
+              "value": "g1_partly_functional_handwashing_facility",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1710754084,
+              "order": 4,
+              "label": "Fully functional handwashing facility",
+              "value": "g1_fully_functional_handwashing_facility",
+              "color": "#38A15A"
+            }
+          ],
+          "fn": null
+        },
+        {
+          "id": 1699430427692,
+          "order": 4,
           "name": "water_available_at_hwf",
           "label": "G1-2.2 OBSERVATION: Water available at handwashing facility",
           "short_label": null,
@@ -2584,22 +2647,29 @@
           "meta": false,
           "options": [
             {
-              "id": 1699430444403,
+              "id": 1710754168,
               "order": 1,
+              "label": "No handwashing facility",
+              "value": "g0_no_handwashing_facility",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699430444403,
+              "order": 2,
               "label": "No water available",
               "value": "g0_no_water_available",
               "color": "#DB3B3B"
             },
             {
               "id": 1699430444404,
-              "order": 2,
+              "order": 3,
               "label": "Water available",
               "value": "g1_water_available",
               "color": "#38A15A"
             },
             {
               "id": 1699430460966,
-              "order": 3,
+              "order": 4,
               "label": "Water container empty (evidence of washing)",
               "value": "g1_water_container_empty_evidence_of_washing",
               "color": "#38A15A"
@@ -2609,7 +2679,7 @@
         },
         {
           "id": 1699430472221,
-          "order": 3,
+          "order": 5,
           "name": "soap_available_at_hwf",
           "label": "G1-2.3 OBSERVATION: Soap available at handwashing facility",
           "short_label": null,
@@ -2621,29 +2691,36 @@
           "meta": false,
           "options": [
             {
-              "id": 1699430537952,
+              "id": 1710754288,
               "order": 1,
+              "label": "No handwashing facility",
+              "value": "g0_no_handwashing_facility",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699430537952,
+              "order": 2,
               "label": "No soap or other cleanser available",
               "value": "g0_no_soap_or_other_cleanser_available",
               "color": "#DB3B3B"
             },
             {
               "id": 1699430537953,
-              "order": 2,
+              "order": 3,
               "label": "Ash, mud or sand available",
               "value": "g0_ash_mud_or_sand_available",
               "color": "#DB3B3B"
             },
             {
               "id": 1699430550935,
-              "order": 3,
+              "order": 4,
               "label": "Soap in house, NOT at handwashing facility",
               "value": "g0_soap_in_house_not_at_handwashing_facility",
               "color": "#ffa57d"
             },
             {
               "id": 1699430561373,
-              "order": 4,
+              "order": 5,
               "label": "Solid, liquid or powder soap available",
               "value": "g1_solid_liquid_or_powder_soap_available",
               "color": "#38A15A"
@@ -2652,28 +2729,8 @@
           "fn": null
         },
         {
-          "id": 1702287053503,
-          "order": 4,
-          "name": "o_r_hwf_with_water_and_soap",
-          "label": "G1-2 Outcome result - Handwashing facility with water and soap",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "fn": {
-            "fnColor": {
-              "G1 Handwashing facility with soap and water": "#FDC74B",
-              "G0 Inadequate or no handwashing facility": "#FD3F31"
-            },
-            "fnString": "#handwashing_facility_observed#.includes(\"g1\") && #water_available_at_hwf#.includes(\"g1\") && #soap_available_at_hwf#.includes(\"g1\") ? \"G1 Handwashing facility with soap and water\" : \"G0 Inadequate or no handwashing facility\"",
-            "multiline": false
-          }
-        },
-        {
           "id": 1699430580239,
-          "order": 5,
+          "order": 6,
           "name": "handwashing_facility_type",
           "label": "G3-2.1 OBSERVATION: Handwashing facility type",
           "short_label": null,
@@ -2694,15 +2751,15 @@
             {
               "id": 1699430587797,
               "order": 2,
-              "label": "G1 Jerrycan or other closed container",
-              "value": "g1_jerrycan_or_other_closed_container",
+              "label": "G1 Jerrycan (or other closed container) with NO lid",
+              "value": "g1_jerrycan_or_other_closed_container_no_lid",
               "color": "#ffa57d"
             },
             {
-              "id": 1699430616653,
+              "id": 1710755171,
               "order": 3,
-              "label": "Portable bowl or other open container",
-              "value": "g1_portable_basin_or_other_open_container",
+              "label": "G1 Jerrycan (or other closed container) with lid",
+              "value": "g1_jerrycan_or_other_closed_container_with_lid",
               "color": "#ffa57d"
             },
             {
@@ -2713,17 +2770,17 @@
               "color": "#ffa57d"
             },
             {
-              "id": 1699430637426,
+              "id": 1699430616653,
               "order": 5,
-              "label": "Piped water tap with basin",
-              "value": "g3_piped_water_tap_with_basin",
-              "color": "#38A15A"
+              "label": "Portable bowl or other open container",
+              "value": "g1_portable_basin_or_other_open_container",
+              "color": "#ffa57d"
             },
             {
               "id": 1699430645941,
               "order": 6,
-              "label": "G3 Market handwashing station with adequate water storage",
-              "value": "g3_market_handwashing_station_with_adequate_water_storage",
+              "label": "Permanent handwashing station with water storage",
+              "value": "g3_permanent_handwashing_station_with_adequate_water_storage",
               "color": "#38A15A"
             },
             {
@@ -2732,13 +2789,20 @@
               "label": "Other permanent handwashing station",
               "value": "g3_other_permanent_handwashing_station",
               "color": "#38A15A"
+            },
+            {
+              "id": 1699430637426,
+              "order": 8,
+              "label": "Piped water tap with basin",
+              "value": "g3_piped_water_tap_with_basin",
+              "color": "#38A15A"
             }
           ],
           "fn": null
         },
         {
           "id": 1699430671868,
-          "order": 6,
+          "order": 7,
           "name": "handsfree_operation_of_handwashing_facility",
           "label": "G3-2.2 OBSERVATION: Hands-free handwashing facility",
           "short_label": null,
@@ -2750,36 +2814,43 @@
           "meta": false,
           "options": [
             {
-              "id": 1699430708818,
+              "id": 1710755509,
               "order": 1,
-              "label": "Hands touch the water)",
+              "label": "No handwashing facility",
+              "value": "g0_no_handwashing_facility",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699430708818,
+              "order": 2,
+              "label": "Hands touch the water",
               "value": "g0_hands_enter_the_water_container_during_collection_and_use",
               "color": "#DB3B3B"
             },
             {
               "id": 1699430708819,
-              "order": 2,
+              "order": 3,
               "label": "Water collected using a tool (ladle, cup, other)",
               "value": "g1_water_collected_by_hand_using_ladle_cup_other",
               "color": "#ffa57d"
             },
             {
               "id": 1699430719684,
-              "order": 3,
+              "order": 4,
               "label": "Closed water storage container with tap",
               "value": "g3_closed_water_storage_container_with_tap",
               "color": "#38A15A"
             },
             {
               "id": 1699430726294,
-              "order": 4,
+              "order": 5,
               "label": "Piped water supply with tap",
               "value": "g3_piped_water_tap",
               "color": "#38A15A"
             },
             {
               "id": 1699430734229,
-              "order": 5,
+              "order": 6,
               "label": "Other hands-free operation",
               "value": "g3_other_handsfree_operation",
               "color": "#38A15A"
@@ -2801,22 +2872,29 @@
           "meta": false,
           "options": [
             {
-              "id": 1699430769018,
+              "id": 1710755608,
               "order": 1,
+              "label": "No handwashing facility",
+              "value": "g0_no_handwashing_facility",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699430769018,
+              "order": 2,
               "label": "No collection or disposal of washing water",
               "value": "g0_no_collection_or_disposal_of_washing_water",
               "color": "#DB3B3B"
             },
             {
               "id": 1699430769019,
-              "order": 2,
+              "order": 3,
               "label": "Collection of washing water without good drainage or disposal",
               "value": "g1_collection_of_washing_water_without_drainage_or_disposal",
               "color": "#ffa57d"
             },
             {
               "id": 1699430803259,
-              "order": 3,
+              "order": 4,
               "label": "Safe collection and disposal of washing water",
               "value": "g3_safe_collection_and_disposal_of_washing_water",
               "color": "#38A15A"
@@ -2825,29 +2903,8 @@
           "fn": null
         },
         {
-          "id": 1702287685048,
-          "order": 8,
-          "name": "o_r_permanent_handwashing_station",
-          "label": "G3-2 Outcome result - Permanent handwashing station",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "fn": {
-            "fnColor": {
-              "G0 No or inadequate handwashing services": "#FD3F31",
-              "G3 Permanent handwashing services": "#4088F4",
-              "G1 Non-durable handwashing services": "#FDC74B"
-            },
-            "fnString": "#handwashing_facility_type#.includes(\"g0\") && #handsfree_operation_of_handwashing_facility#.includes(\"g0\") && #adequate_drainage_of_washing_water#.includes(\"g0\") ? \"G0 No or inadequate handwashing services\" : (#handwashing_facility_type#.includes(\"g3\") && #handsfree_operation_of_handwashing_facility#.includes(\"g3\") && #adequate_drainage_of_washing_water#.includes(\"g3\")) ? \"G3 Permanent handwashing services\" : \"G1 Non-durable handwashing services\"",
-            "multiline": false
-          }
-        },
-        {
           "id": 1699430839676,
-          "order": 9,
+          "order": 8,
           "name": "handwashing_critical_toilet_times",
           "label": "G2-2.1 INTERVIEW: when do you usually wash your hands? NOTE: Critical TOILET times",
           "short_label": null,
@@ -2905,7 +2962,7 @@
         },
         {
           "id": 1699431035188,
-          "order": 10,
+          "order": 9,
           "name": "handwashing_critical_food_times",
           "label": "G2-2.2 INTERVIEW: when do you usually wash your hands? NOTE: Critical FOOD times",
           "short_label": null,
@@ -2963,7 +3020,7 @@
         },
         {
           "id": 1699431983680,
-          "order": 11,
+          "order": 10,
           "name": "handwashing_critical_infant_times",
           "label": "G2-2.3 INTERVIEW: when do you usually wash your hands? NOTE: Critical INFANT EXCRETA times",
           "short_label": null,
@@ -3007,6 +3064,13 @@
               "order": 5,
               "label": "After ANY contact with infant excreta or soiled diapers",
               "value": "g2_after_cleaning_or_handling_infant_faeces_or_after_washing_or_disposal_of_diapers",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1710757211,
+              "order": 6,
+              "label": "No under-5 children",
+              "value": "g2_no_children_under_5",
               "color": "#38A15A"
             }
           ],
@@ -3059,13 +3123,51 @@
               "label": "After ANY contact with animals, animal products or animal wastes",
               "value": "g2_after_contact_with_animals_animal_products_or_animal_wastes",
               "color": "#38A15A"
+            },
+            {
+              "id": 1710757282,
+              "order": 5,
+              "label": "No animals",
+              "value": "g2_no_animals",
+              "color": "#38A15A"
             }
           ],
           "fn": null
+        }
+      ]
+    },
+    {
+      "id": 1710751471,
+      "order": 6,
+      "name": "observation_hand_hygiene_results",
+      "label": "OBSERVATION: HAND HYGIENE OUTCOMES RESULTS",
+      "description": null,
+      "repeatable": false,
+      "translations": null,
+      "questions":[
+        {
+          "id": 1702287053503,
+          "order": 1,
+          "name": "o_r_hwf_with_water_and_soap",
+          "label": "G1-2 Outcome result - Handwashing facility with water and soap",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "fn": {
+            "fnColor": {
+              "G1 Handwashing facility with soap and water": "#FDC74B",
+              "G0 Inadequate or no handwashing facility": "#FD3F31"
+            },
+            "fnString": "#handwashing_facility_observed#.includes(\"g1\") && #water_available_at_hwf#.includes(\"g1\") && #soap_available_at_hwf#.includes(\"g1\") ? \"G1 Handwashing facility with soap and water\" : \"G0 Inadequate or no handwashing facility\"",
+            "multiline": false
+          }
         },
         {
           "id": 1702288599133,
-          "order": 13,
+          "order": 2,
           "name": "o_r_handwashing_with_soap_at_critical_times",
           "label": "G2-2 Outcome result - Handwashing with soap at critical times",
           "short_label": null,
@@ -3083,18 +3185,29 @@
             "fnString": "#handwashing_critical_toilet_times#.includes(\"g0\") && #handwashing_critical_food_times#.includes(\"g0\") && #handwashing_critical_infant_times#.includes(\"g0\") && #handwashing_critical_animal_times#.includes(\"g0\") ? \"G0 No or inadequate handwashing services\" : #handwashing_critical_toilet_times#.includes(\"g2\") && #handwashing_critical_food_times#.includes(\"g2\") && #handwashing_critical_infant_times#.includes(\"g2\") && #handwashing_critical_animal_times#.includes(\"g2\") ? \"G2 Handwashing with soap at ALL critical times\" : \"G1 Some critical handwashing times NOT mentioned\"",
             "multiline": false
           }
+        },
+        {
+          "id": 1702287685048,
+          "order": 3,
+          "name": "o_r_permanent_handwashing_station",
+          "label": "G3-2 Outcome result - Permanent handwashing station",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "fn": {
+            "fnColor": {
+              "G0 No or inadequate handwashing services": "#FD3F31",
+              "G3 Permanent handwashing services": "#4088F4",
+              "G1 Non-durable handwashing services": "#FDC74B"
+            },
+            "fnString": "#handwashing_facility_type#.includes(\"g0\") && #handsfree_operation_of_handwashing_facility#.includes(\"g0\") && #adequate_drainage_of_washing_water#.includes(\"g0\") ? \"G0 No or inadequate handwashing services\" : (#handwashing_facility_type#.includes(\"g3\") && #handsfree_operation_of_handwashing_facility#.includes(\"g3\") && #adequate_drainage_of_washing_water#.includes(\"g3\")) ? \"G3 Permanent handwashing services\" : \"G1 Non-durable handwashing services\"",
+            "multiline": false
+          }
         }
       ]
-    },
-    {
-      "id": 1710751471,
-      "order": 6,
-      "name": "observation_hand_hygiene_results",
-      "label": "OBSERVATION: HAND HYGIENE OUTCOMES RESULTS",
-      "description": null,
-      "repeatable": false,
-      "translations": null,
-      "questions":[]
     },
     {
       "id": 1699432130950,
@@ -5884,8 +5997,18 @@
       ]
     },
     {
-      "id": 1703086270253,
+      "id": 1710757443,
       "order": 8,
+      "name": "observation__environmental_health_outcomes_results",
+      "label": "OBSERVATION:  Environmental Health outcomes RESULTS",
+      "description": null,
+      "repeatable": false,
+      "translations": null,
+      "questions":[]
+    },
+    {
+      "id": 1703086270253,
+      "order": 9,
       "name": "summary_of_outcomes",
       "label": "Summary of Outcomes",
       "description": "This section shows the summary of the outcomes for all toilet and hand washing indicators",
