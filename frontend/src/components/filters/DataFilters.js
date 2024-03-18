@@ -16,7 +16,7 @@ import {
 } from "@ant-design/icons";
 //import AdvancedFiltersButton from "./AdvancedFiltersButton";
 
-const DataFilters = ({ loading, showAdm = true }) => {
+const DataFilters = ({ loading, showAdm = true, resetFilter = true }) => {
   const {
     user: authUser,
     selectedForm,
@@ -100,7 +100,7 @@ const DataFilters = ({ loading, showAdm = true }) => {
             {showAdm && (
               <AdministrationDropdown loading={loading || loadingForm} />
             )}
-            <RemoveFiltersButton />
+            {resetFilter && <RemoveFiltersButton />}
           </Space>
         </Col>
       </Row>
