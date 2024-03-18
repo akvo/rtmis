@@ -210,11 +210,11 @@ const RouteList = () => {
           element={<Private element={MobileAssignment} alias="mobile" />}
         />
         <Route
-          path="mobile-assignment/form"
+          path="mobile-assignment/add"
           element={<Private element={AddAssignment} alias="mobile" />}
         />
         <Route
-          path="mobile-assignment/form/:id"
+          path="mobile-assignment/:id"
           element={<Private element={AddAssignment} alias="mobile" />}
         />
         <Route exact path="form/:formId" element={<Forms />} />

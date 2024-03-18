@@ -42,7 +42,7 @@ const MobileAssignment = () => {
     store.update((s) => {
       s.mobileAssignment = record;
     });
-    navigate(`/control-center/mobile-assignment/form/${record?.id}`);
+    navigate(`/control-center/mobile-assignment/${record?.id}`);
   };
 
   const handleMoreLinkClick = (rowKey) => {
@@ -173,7 +173,7 @@ const MobileAssignment = () => {
               </Space>
             </Col>
             <Col>
-              <Link to="/control-center/mobile-assignment/form">
+              <Link to="/control-center/mobile-assignment/add">
                 <Button icon={<PlusOutlined />} type="primary" shape="round">
                   {text.mobileButtonAdd}
                 </Button>
