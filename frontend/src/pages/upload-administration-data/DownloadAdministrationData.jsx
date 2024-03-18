@@ -127,7 +127,7 @@ const DownloadAdministrationData = () => {
         .then(() => {
           setLoading(false);
           formRef.current.resetFields();
-          navigate("/administration-download");
+          navigate("/downloads");
         })
         .catch((e) => {
           console.error(e);
