@@ -1461,68 +1461,6 @@
             }
           ],
           "fn": null
-        },
-        {
-          "id": 1702284734752,
-          "order": 4,
-          "name": "o_r_toilet_use_by_all_hh_members",
-          "label": "G1-1.2 Outcome result - Toilet use by all household members",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "fn": {
-            "fnColor": {
-              "G1 Toilet use by all household members": "#FDC74B",
-              "G0 Toilet NOT used (or used by too many)": "#FD3F31"
-            },
-            "fnString": "#od_or_toilet_use#.includes(\"g1\") && #all_hh_members_use_toilet#.includes(\"g1\") && #shared_toilet_use_number_of_people#.includes(\"g1\") ? \"G1 Toilet use by all household members\"  : \"G0 Toilet NOT used (or used by too many)\"",
-            "multiline": false
-          }
-        },
-        {
-          "id": 1702285101196,
-          "order": 6,
-          "name": "o_r_individual_use_of_own_hh_toilet",
-          "label": "G2-1.1 Outcome result - Individual use of own household toilet",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "fn": {
-            "fnColor": {
-              "G1 Some household members do not use their own toilet": "#FDC74B",
-              "G2 All household members use own toilet at all times": "#93D371",
-              "G0 All household members defecate in the open": "#FD3F31"
-            },
-            "fnString": "#toilet_use_by_all_members#.includes(\"g2\") ? \"G2 All household members use own toilet at all times\" : #toilet_use_by_all_members#.includes(\"g0\") ? \"G0 All household members defecate in the open\" : \"G1 Some household members do not use their own toilet\"",
-            "multiline": false
-          }
-        },
-        {
-          "id": 1702285668136,
-          "order": 9,
-          "name": "o_r_use_of_safely_managed_sanitation_services",
-          "label": "G3-1.1 Outcome result - Safe management of faecal sludge",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": false,
-          "meta": false,
-          "options": null,
-          "fn": {
-            "fnColor": {
-              "G3 Use of safely managed sanitation services": "#4088F4",
-              "G1 Inadequate sanitation services": "#FDC74B",
-              "G0 Sanitation services UNSAFELY managed": "#FD3F31"
-            },
-            "fnString": "#safely_managed_onsite_containment#.includes(\"g3\") && #safely_managed_sanitation_services#.includes(\"g3\") ? \"G3 Use of safely managed sanitation services\" : ((#safely_managed_onsite_containment#.includes(\"g0\") && #safely_managed_sanitation_services#.includes(\"g0\")) ? \"G0 Sanitation services UNSAFELY managed\" : \"G1 Inadequate sanitation services\")",
-            "multiline": false
-          }
         }
       ]
     },
@@ -2324,6 +2262,51 @@
           "fn": null
         },
         {
+          "id": 1699425943159,
+          "order": 3,
+          "name": "clean_toilet_floor",
+          "label": "Clean toilet floor",
+          "short_label": null,
+          "type": "option",
+          "tooltip": {
+            "text": "<b>OBSERVE: is the toilet floor clean?</b><br/><b>Clean:</b> floor of the toilet should appear clean, with no visible faeces, urine or used cleaning materials (for example, toilet paper or other paper, leaves or other anal cleansing materials).<br/><b>Easily cleaned:</b> minor traces of faeces or soiled materials are acceptable only if easily cleaned (for example, if the traces are not yet dry and difficult to clean)"
+          },
+          "required": true,
+          "meta": false,
+          "options": [
+            {
+              "id": 1699425951606,
+              "order": 1,
+              "label": "G0 NOT clean: heavy traces of faeces or soiled cleaning materials",
+              "value": "g0_not_clean_heavy_traces_of_faeces_or_soiled_cleaning_materials",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699425951607,
+              "order": 2,
+              "label": "G0 NOT clean: some faeces and soiled cleaning materials",
+              "value": "g0_not_clean_some_faeces_and_soiled_cleaning_materials",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699425996920,
+              "order": 3,
+              "label": "G1 Clean: minor traces of faeces or soiled materials (easily cleaned)",
+              "value": "g1_clean_minor_traces_of_faeces_or_soiled_materials_easily_cleaned",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1699426014393,
+              "order": 4,
+              "label": "G1 Clean: no visible faeces or soiled cleansing materials",
+              "value": "g1_clean_no_visible_faeces_or_soiled_cleansing_materials",
+              "color": "#38A15A"
+            }
+          ],
+          "dependency": null,
+          "fn": null
+        },
+        {
           "id": 1703066998352,
           "order": 15,
           "name": "photo_03_inside_toilet",
@@ -2375,8 +2358,28 @@
           }
         },
         {
-          "id": 1702281084786,
+          "id": 1702284734752,
           "order": 2,
+          "name": "o_r_toilet_use_by_all_hh_members",
+          "label": "G1-1.2 Outcome result - Toilet use by all household members",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "fn": {
+            "fnColor": {
+              "G1 Toilet use by all household members": "#FDC74B",
+              "G0 Toilet NOT used (or used by too many)": "#FD3F31"
+            },
+            "fnString": "#od_or_toilet_use#.includes(\"g1\") && #all_hh_members_use_toilet#.includes(\"g1\") && #shared_toilet_use_number_of_people#.includes(\"g1\") ? \"G1 Toilet use by all household members\"  : \"G0 Toilet NOT used (or used by too many)\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702281084786,
+          "order": 3,
           "name": "o_r_flyproof_toilet_type",
           "label": "G1-1.3 Outcome result -  Flyproof toilet type",
           "short_label": null,
@@ -2394,51 +2397,6 @@
             "fnString": "#toilet_interface#.includes(\"g1\") && #containment_or_collection_system#.includes(\"g1\") && #flyproof_toilet#.includes(\"g1\")  ? \"G1 Flyproof toilet\"  : \"G0 Toilet NOT flyproof\"",
             "multiline": false
           }
-        },
-        {
-          "id": 1699425943159,
-          "order": 3,
-          "name": "clean_toilet_floor",
-          "label": "Clean toilet floor",
-          "short_label": null,
-          "type": "option",
-          "tooltip": {
-            "text": "<b>OBSERVE: is the toilet floor clean?</b><br/><b>Clean:</b> floor of the toilet should appear clean, with no visible faeces, urine or used cleaning materials (for example, toilet paper or other paper, leaves or other anal cleansing materials).<br/><b>Easily cleaned:</b> minor traces of faeces or soiled materials are acceptable only if easily cleaned (for example, if the traces are not yet dry and difficult to clean)"
-          },
-          "required": true,
-          "meta": false,
-          "options": [
-            {
-              "id": 1699425951606,
-              "order": 1,
-              "label": "G0 NOT clean: heavy traces of faeces or soiled cleaning materials",
-              "value": "g0_not_clean_heavy_traces_of_faeces_or_soiled_cleaning_materials",
-              "color": "#DB3B3B"
-            },
-            {
-              "id": 1699425951607,
-              "order": 2,
-              "label": "G0 NOT clean: some faeces and soiled cleaning materials",
-              "value": "g0_not_clean_some_faeces_and_soiled_cleaning_materials",
-              "color": "#DB3B3B"
-            },
-            {
-              "id": 1699425996920,
-              "order": 3,
-              "label": "G1 Clean: minor traces of faeces or soiled materials (easily cleaned)",
-              "value": "g1_clean_minor_traces_of_faeces_or_soiled_materials_easily_cleaned",
-              "color": "#38A15A"
-            },
-            {
-              "id": 1699426014393,
-              "order": 4,
-              "label": "G1 Clean: no visible faeces or soiled cleansing materials",
-              "value": "g1_clean_no_visible_faeces_or_soiled_cleansing_materials",
-              "color": "#38A15A"
-            }
-          ],
-          "dependency": null,
-          "fn": null
         },
         {
           "id": 1702282119933,
@@ -2462,8 +2420,29 @@
           }
         },
         {
-          "id": 1702283171680,
+          "id": 1702285101196,
           "order": 5,
+          "name": "o_r_individual_use_of_own_hh_toilet",
+          "label": "G2-1.1 Outcome result - Individual use of own household toilet",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "fn": {
+            "fnColor": {
+              "G1 Some household members do not use their own toilet": "#FDC74B",
+              "G2 All household members use own toilet at all times": "#93D371",
+              "G0 All household members defecate in the open": "#FD3F31"
+            },
+            "fnString": "#toilet_use_by_all_members#.includes(\"g2\") ? \"G2 All household members use own toilet at all times\" : #toilet_use_by_all_members#.includes(\"g0\") ? \"G0 All household members defecate in the open\" : \"G1 Some household members do not use their own toilet\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702283171680,
+          "order": 6,
           "name": "o_r_durable_toilet",
           "label": "G2-1.2 Outcome result - Durable toilet slab",
           "short_label": null,
@@ -2483,7 +2462,7 @@
         },
         {
           "id": 1702283955461,
-          "order": 6,
+          "order": 7,
           "name": "o_r_toilet_with_safe_containment",
           "label": "G2-1.4 Outcome result - Toilet with safe containment",
           "short_label": null,
@@ -2498,6 +2477,27 @@
               "G0 Unsafe toilet containment": "#FD3F31"
             },
             "fnString": "#observe_safely_managed_containment#.includes(\"g2\") && #visible_surface_outflows#.includes(\"g2\") && #community_low_groundwater_contamination#.includes(\"g2\") ? \"G2 Toilet with safe containment\" : \"G0 Unsafe toilet containment\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702285668136,
+          "order": 8,
+          "name": "o_r_use_of_safely_managed_sanitation_services",
+          "label": "G3-1.1 Outcome result - Safe management of faecal sludge",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": false,
+          "meta": false,
+          "options": null,
+          "fn": {
+            "fnColor": {
+              "G3 Use of safely managed sanitation services": "#4088F4",
+              "G1 Inadequate sanitation services": "#FDC74B",
+              "G0 Sanitation services UNSAFELY managed": "#FD3F31"
+            },
+            "fnString": "#safely_managed_onsite_containment#.includes(\"g3\") && #safely_managed_sanitation_services#.includes(\"g3\") ? \"G3 Use of safely managed sanitation services\" : ((#safely_managed_onsite_containment#.includes(\"g0\") && #safely_managed_sanitation_services#.includes(\"g0\")) ? \"G0 Sanitation services UNSAFELY managed\" : \"G1 Inadequate sanitation services\")",
             "multiline": false
           }
         }
@@ -3087,8 +3087,18 @@
       ]
     },
     {
-      "id": 1699432130950,
+      "id": 1710751471,
       "order": 6,
+      "name": "observation_hand_hygiene_results",
+      "label": "OBSERVATION: HAND HYGIENE OUTCOMES RESULTS",
+      "description": null,
+      "repeatable": false,
+      "translations": null,
+      "questions":[]
+    },
+    {
+      "id": 1699432130950,
+      "order": 7,
       "name": "observation__environmental_health_outcomes",
       "label": "OBSERVATION:  Environmental Health outcomes",
       "description": null,
@@ -5875,7 +5885,7 @@
     },
     {
       "id": 1703086270253,
-      "order": 7,
+      "order": 8,
       "name": "summary_of_outcomes",
       "label": "Summary of Outcomes",
       "description": "This section shows the summary of the outcomes for all toilet and hand washing indicators",
