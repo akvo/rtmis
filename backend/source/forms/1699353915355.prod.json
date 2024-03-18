@@ -3936,7 +3936,7 @@
         },
         {
           "id": 1699433455365,
-          "order": 19,
+          "order": 14,
           "name": "clean_water_containers",
           "label": "G2-4.1a OBSERVATION: Clean water containers",
           "short_label": null,
@@ -3979,7 +3979,7 @@
         },
         {
           "id": 1699433503692,
-          "order": 20,
+          "order": 15,
           "name": "adequate_water_quality",
           "label": "G2-4.1b INTERVIEW: Good water quality",
           "short_label": null,
@@ -4029,7 +4029,7 @@
         },
         {
           "id": 1699433564057,
-          "order": 21,
+          "order": 16,
           "name": "safely_stored_drinking_water",
           "label": "G2-4.1c OBSERVATION: Safely stored drinking water",
           "short_label": null,
@@ -4072,7 +4072,7 @@
         },
         {
           "id": 1699433637971,
-          "order": 22,
+          "order": 17,
           "name": "safely_used_water",
           "label": "G2-4.1d OBSERVATION: Safely used water",
           "short_label": null,
@@ -4129,7 +4129,7 @@
         },
         {
           "id": 1699433719018,
-          "order": 24,
+          "order": 18,
           "name": "clean_water_points",
           "label": "G2-4.2a OBSERVATION: Clean water point",
           "short_label": null,
@@ -4179,7 +4179,7 @@
         },
         {
           "id": 1699433765217,
-          "order": 25,
+          "order": 19,
           "name": "protected_water_points",
           "label": "G2-4.2b OBSERVATION: Protected water point",
           "short_label": null,
@@ -4229,7 +4229,7 @@
         },
         {
           "id": 1699433833227,
-          "order": 26,
+          "order": 20,
           "name": "well_drained_water_points",
           "label": "G2-4.2c OBSERVATION: Well drained water point",
           "short_label": null,
@@ -4279,7 +4279,7 @@
         },
         {
           "id": 1699433937138,
-          "order": 28,
+          "order": 21,
           "name": "no_animal_wastes_in_house",
           "label": "G2-5.1a OBSERVATION: No animal wastes in house",
           "short_label": null,
@@ -4329,7 +4329,7 @@
         },
         {
           "id": 1699433983369,
-          "order": 29,
+          "order": 22,
           "name": "no_animal_wastes_in_compound",
           "label": "G2-5.1b OBSERVATION: No animal wastes in compound",
           "short_label": null,
@@ -4378,35 +4378,8 @@
           "fn": null
         },
         {
-          "id": 1702297046194,
-          "order": 30,
-          "name": "o_r_no_visible_animal_wastes_in_house_or_compound",
-          "label": "G2-5.1 Outcome result - No visible animal wastes in house or compound",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["yes"]
-            }
-          ],
-          "fn": {
-            "fnColor": {
-              "G0 Widespread presence of animal wastes": "#FD3F31",
-              "G1 Some animal wastes visible": "#FDC74B",
-              "G2 No visible animal wastes": "#93D371"
-            },
-            "fnString": "#no_animal_wastes_in_house#.includes(\"g0\") && #no_animal_wastes_in_compound#.includes(\"g0\") ? \"G0 Widespread presence of animal wastes\" : #no_animal_wastes_in_house#.includes(\"g2\") && #no_animal_wastes_in_compound#.includes(\"g2\") ? \"G2 No visible animal wastes\" : \"G1 Some animal wastes visible\"",
-            "multiline": false
-          }
-        },
-        {
           "id": 1699434044707,
-          "order": 31,
+          "order": 23,
           "name": "safely_managed_animal_waste_storage",
           "label": "G2-5.2a OBSERVATION: Presence of animal waste storage area",
           "short_label": null,
@@ -4456,7 +4429,7 @@
         },
         {
           "id": 1699434136823,
-          "order": 32,
+          "order": 24,
           "name": "safe_location_of_animal_waste_storage",
           "label": "G2-5.2b OBSERVATION: Safe location of animal waste storage",
           "short_label": null,
@@ -4506,7 +4479,7 @@
         },
         {
           "id": 1699434209933,
-          "order": 33,
+          "order": 25,
           "name": "safe_management_of_animal_waste_storage",
           "label": "G2-5.2c OBSERVATION: Safe management of animal waste storage",
           "short_label": null,
@@ -4555,35 +4528,8 @@
           "fn": null
         },
         {
-          "id": 1702297533085,
-          "order": 34,
-          "name": "o_r_safe_management_of_animal_wastes_in_compound",
-          "label": "G2-5.2 Outcome result - Safe management of animal wastes in compound",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["yes"]
-            }
-          ],
-          "fn": {
-            "fnColor": {
-              "G0 Animal wastes UNSAFELY managed": "#FD3F31",
-              "G2 Safely managed animal wastes": "#93D371",
-              "G1 Inadequate management of animal wastes": "#FDC74B"
-            },
-            "fnString": "#safely_managed_animal_waste_storage#.includes(\"g0\") && #safe_location_of_animal_waste_storage#.includes(\"g0\") && #safe_management_of_animal_waste_storage#.includes(\"g0\") ? \"G0 Animal wastes UNSAFELY managed\" : #safely_managed_animal_waste_storage#.includes(\"g2\") && #safe_location_of_animal_waste_storage#.includes(\"g2\") && #safe_management_of_animal_waste_storage#.includes(\"g2\") ? \"G2 Safely managed animal wastes\" : \"G1 Inadequate management of animal wastes\"",
-            "multiline": false
-          }
-        },
-        {
           "id": 1699434269372,
-          "order": 35,
+          "order": 26,
           "name": "location_animals_in_compound",
           "label": "G2-5.3a OBSERVATION: Location of animals in compound",
           "short_label": null,
@@ -4633,7 +4579,7 @@
         },
         {
           "id": 1699434327613,
-          "order": 36,
+          "order": 27,
           "name": "safe_confinement_of_animals",
           "label": "G2-5.3b OBSERVATION: Safe confinement of animals",
           "short_label": null,
@@ -4682,35 +4628,8 @@
           "fn": null
         },
         {
-          "id": 1702297797962,
-          "order": 37,
-          "name": "o_r_safe_separation_of_animals_from_under5_children",
-          "label": "G2-5.3 Outcome result - Safe separation of animals from under-5 children",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["yes"]
-            }
-          ],
-          "fn": {
-            "fnColor": {
-              "G0 Animals NOT separated from under-5 children": "#FD3F31",
-              "G2 Safe separation of animals from under-5 children": "#93D371",
-              "G1 Inadequate separation of animals from under-5 children": "#FDC74B"
-            },
-            "fnString": "#location_animals_in_compound#.includes(\"g0\") && #safe_confinement_of_animals#.includes(\"g0\") ? \"G0 Animals NOT separated from under-5 children\" : #location_animals_in_compound#.includes(\"g2\") && #safe_confinement_of_animals#.includes(\"g2\") ? \"G2 Safe separation of animals from under-5 children\" : \"G1 Inadequate separation of animals from under-5 children\"",
-            "multiline": false
-          }
-        },
-        {
           "id": 16994260598423,
-          "order": 38,
+          "order": 28,
           "name": "monitor_G3",
           "label": "Would you also like to monitor G3 outcomes",
           "short_label": null,
@@ -4820,7 +4739,7 @@
         },
         {
           "id": 1699434438966,
-          "order": 39,
+          "order": 29,
           "name": "soakpit_for_liquid_wastes",
           "label": "G3-3.1a OBSERVATION: Soakpit for liquid wastes",
           "short_label": null,
@@ -4863,7 +4782,7 @@
         },
         {
           "id": 1699434488410,
-          "order": 40,
+          "order": 30,
           "name": "drainage_for_stormwater",
           "label": "G3-3.1b OBSERVATION: Drainage of stormwater",
           "short_label": null,
@@ -4912,35 +4831,8 @@
           "fn": null
         },
         {
-          "id": 1702298080560,
-          "order": 41,
-          "name": "o_r_safe_management_of_liquid_wastes",
-          "label": "G3-3.1 Outcome result - Safe management of liquid wastes",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 16994260598423,
-              "options": ["yes"]
-            }
-          ],
-          "fn": {
-            "fnColor": {
-              "G0 Liquid wastes UNSAFELY managed": "#FD3F31",
-              "G3 Safe management of liquid wastes": "#4088F4",
-              "G2 Inadequate management of liquid wastes": "#93D371"
-            },
-            "fnString": "#soakpit_for_liquid_wastes#.includes(\"g0\") && #drainage_for_stormwater#.includes(\"g0\") ? \"G0 Liquid wastes UNSAFELY managed\"  : #soakpit_for_liquid_wastes#.includes(\"g3\") && #drainage_for_stormwater#.includes(\"g3\") ? \"G3 Safe management of liquid wastes\" : \"G2 Inadequate management of liquid wastes\"",
-            "multiline": false
-          }
-        },
-        {
           "id": 1699434553677,
-          "order": 42,
+          "order": 31,
           "name": "no_visible_solid_wastes",
           "label": "G3-3.2a OBSERVATION: No visible solid wastes",
           "short_label": null,
@@ -4983,7 +4875,7 @@
         },
         {
           "id": 1699434636655,
-          "order": 43,
+          "order": 32,
           "name": "solid_waste_facility_or_service",
           "label": "G3-3.2b OBSERVATION: Solid waste facility or service",
           "short_label": null,
@@ -5023,33 +4915,6 @@
             }
           ],
           "fn": null
-        },
-        {
-          "id": 1702298318702,
-          "order": 44,
-          "name": "o_r_safe_management_of_solid_wastes",
-          "label": "G3-3.2 Outcome result - Safe management of solid wastes",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 16994260598423,
-              "options": ["yes"]
-            }
-          ],
-          "fn": {
-            "fnColor": {
-              "G1 Solid wastes UNSAFELY managed": "#FDC74B",
-              "G2 Inadequate management of solid wastes": "#93D371",
-              "G3 Safe management of solid wastes": "#4088F4"
-            },
-            "fnString": "#no_visible_solid_wastes#.includes(\"g0\") && #solid_waste_facility_or_service#.includes(\"g0\") ? \"G1 Solid wastes UNSAFELY managed\" : ((#no_visible_solid_wastes#.includes(\"g3\") && #solid_waste_facility_or_service#.includes(\"g3\") ? \"G3 Safe management of solid wastes\" : \"G2 Inadequate management of solid wastes\"",
-            "multiline": false
-          }
         },
         {
           "id": 1699434694439,
@@ -5145,35 +5010,8 @@
           "fn": null
         },
         {
-          "id": 1702298602672,
-          "order": 47,
-          "name": "o_r_good_vector_control_in_compound",
-          "label": "G3-3.3 Outcome result - Good vector control in compound",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 16994260598423,
-              "options": ["yes"]
-            }
-          ],
-          "fn": {
-            "fnColor": {
-              "G1 Lack of vector control": "#FDC74B",
-              "G2 Inadequate vector control": "#93D371",
-              "G3 Good vector control": "#4088F4"
-            },
-            "fnString": "#no_standing_water#.includes(\"g0\") && #treated_larval_breeding_sites#.includes(\"g0\") ? \"G1 Lack of vector control\" : #no_standing_water#.includes(\"g3\") && #treated_larval_breeding_sites#.includes(\"g3\") ? \"G3 Good vector control\" : \"G2 Inadequate vector control\"",
-            "multiline": false
-          }
-        },
-        {
           "id": 1699434939105,
-          "order": 48,
+          "order": 33,
           "name": "clean_faces",
           "label": "G3-4.1a OBSERVATION: Clean faces",
           "short_label": null,
@@ -5216,7 +5054,7 @@
         },
         {
           "id": 1699434983278,
-          "order": 49,
+          "order": 34,
           "name": "clean_hands",
           "label": "G3-4.1b OBSERVATION: Clean hands",
           "short_label": null,
@@ -5258,35 +5096,8 @@
           "fn": null
         },
         {
-          "id": 1702298863458,
-          "order": 50,
-          "name": "o_r_clean_face_and_hands",
-          "label": "G3-4.1 Outcome result - Clean face and hands",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 16994260598423,
-              "options": ["yes"]
-            }
-          ],
-          "fn": {
-            "fnColor": {
-              "G1 No personal hygiene": "#FDC74B",
-              "G2 Inadequate personal hygiene": "#93D371",
-              "G3 Good personal hygiene": "#4088F4"
-            },
-            "fnString": "#clean_faces#.includes(\"g1\") && #clean_hands#.includes(\"g1\") ? \"G1 No personal hygiene\" : #clean_faces#.includes(\"g3\") && #clean_hands#.includes(\"g3\") ? \"G3 Good personal hygiene\" : \"G2 Inadequate personal hygiene\"",
-            "multiline": false
-          }
-        },
-        {
           "id": 1699435026311,
-          "order": 51,
+          "order": 35,
           "name": "adequate_washing_place",
           "label": "G3-4.2a OBSERVATION: Adequate washing place for menstrual hygiene",
           "short_label": null,
@@ -5323,13 +5134,20 @@
               "label": "Clean and private washing place",
               "value": "g3_clean_and_private_washing_place",
               "color": "#38A15A"
+            },
+            {
+              "id": 1710760872,
+              "order": 4,
+              "label": "No menstruating women or girls",
+              "value": "g3_no_menstruating_women_or_girls",
+              "color": "#38A15A"
             }
           ],
           "fn": null
         },
         {
           "id": 1699435088758,
-          "order": 52,
+          "order": 36,
           "name": "menstrual_hygiene_disposal_site",
           "label": "G3-4.2b OBSERVATION: Safe disposal site for menstrual hygiene wastes",
           "short_label": null,
@@ -5366,13 +5184,20 @@
               "label": "Safe disposal site",
               "value": "g3_safe_disposal_site",
               "color": "#38A15A"
+            },
+            {
+              "id": 1710760928,
+              "order": 4,
+              "label": "No menstruating women or girls",
+              "value": "g3_no_menstruating_women_or_girls",
+              "color": "#38A15A"
             }
           ],
           "fn": null
         },
         {
           "id": 1699435154797,
-          "order": 53,
+          "order": 37,
           "name": "availability_of_hygiene_materials",
           "label": "G3-4.2c INTERVIEW: Availability of menstrual hygiene materials",
           "short_label": null,
@@ -5409,40 +5234,20 @@
               "label": "Appropriate materials are available",
               "value": "g3_appropriate_materials_are_available",
               "color": "#38A15A"
+            },
+            {
+              "id": 1710761035,
+              "order": 4,
+              "label": "No menstruating women or girls",
+              "value": "g3_no_menstruating_women_or_girls",
+              "color": "#38A15A"
             }
           ],
           "fn": null
         },
         {
-          "id": 1702301820095,
-          "order": 54,
-          "name": "o_r_good_menstrual_health",
-          "label": "G3-4.2 Outcome result - Good menstrual health",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 16994260598423,
-              "options": ["yes"]
-            }
-          ],
-          "fn": {
-            "fnColor": {
-              "G1 No menstrual hygiene": "#FDC74B",
-              "G2 Inadequate menstrual hygiene": "#93D371",
-              "G3 Good menstrual hygiene": "#4088F4"
-            },
-            "fnString": "#adequate_washing_place#.includes(\"g1\") && #menstrual_hygiene_disposal_site#.includes(\"g1\") && #availability_of_hygiene_materials#.includes(\"g1\") ? \"G1 No menstrual hygiene\" : #adequate_washing_place#.includes(\"g3\") && #menstrual_hygiene_disposal_site#.includes(\"g3\") && #availability_of_hygiene_materials#.includes(\"g3\") ? \"G3 Good menstrual hygiene\" : \"G2 Inadequate menstrual hygiene\"",
-            "multiline": false
-          }
-        },
-        {
           "id": 1699435207476,
-          "order": 55,
+          "order": 38,
           "name": "fully_immunized_children",
           "label": "G3-5.1 OBSERVATION & INTERVIEW: Fully immunized children",
           "short_label": null,
@@ -5491,35 +5296,8 @@
           "fn": null
         },
         {
-          "id": 1702302041022,
-          "order": 56,
-          "name": "o_r_fully_immunized_children",
-          "label": "G3-5.1 Outcome result - Fully immunized children",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 16994260598423,
-              "options": ["yes"]
-            }
-          ],
-          "fn": {
-            "fnColor": {
-              "G1 Low nutrition or protection": "#FDC74B",
-              "G2 Inadequate nutrition or protection": "#93D371",
-              "G3 Good nutrition and protection": "#4088F4"
-            },
-            "fnString": "#fully_immunized_children#.includes(\"g1\") ? \"G1 Low nutrition or protection\" : #fully_immunized_children#.includes(\"g3\") ? \"G3 Good nutrition and protection\" : \"G2 Inadequate nutrition or protection\"",
-            "multiline": false
-          }
-        },
-        {
           "id": 1699435265962,
-          "order": 57,
+          "order": 39,
           "name": "vitamin_a_supplements_received",
           "label": "G3-5.2 OBSERVATION & INTERVIEW: Vitamin A supplements received",
           "short_label": null,
@@ -5568,35 +5346,8 @@
           "fn": null
         },
         {
-          "id": 1702302232732,
-          "order": 58,
-          "name": "o_r_vitamin_a_supplements",
-          "label": "G3-5.2 Outcome result - Vitamin A supplements",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 16994260598423,
-              "options": ["yes"]
-            }
-          ],
-          "fn": {
-            "fnColor": {
-              "G1 Low nutrition or protection": "#FDC74B",
-              "G2 Inadequate nutrition or protection": "#93D371",
-              "G3 Good nutrition and protection": "#4088F4"
-            },
-            "fnString": "#vitamin_a_supplements_received#.includes(\"g1\") ? \"G1 Low nutrition or protection\" : #vitamin_a_supplements_received#.includes(\"g3\") ? \"G3 Good nutrition and protection\" : \"G2 Inadequate nutrition or protection\"",
-            "multiline": false
-          }
-        },
-        {
           "id": 1699435329279,
-          "order": 59,
+          "order": 40,
           "name": "exclusive_breastfeeding_under_6_months",
           "label": "G3-5.3 INTERVIEW: Exclusive breastfeeding for under 6-month children",
           "short_label": null,
@@ -5645,35 +5396,8 @@
           "fn": null
         },
         {
-          "id": 1702302427536,
-          "order": 60,
-          "name": "o_r_exclusive_breastfeeding",
-          "label": "G3-5.3 Outcome result - Exclusive breastfeeding",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 16994260598423,
-              "options": ["yes"]
-            }
-          ],
-          "fn": {
-            "fnColor": {
-              "G1 Low nutrition or protection": "#FDC74B",
-              "G2 Inadequate nutrition or protection": "#93D371",
-              "G3 Good nutrition and protection": "#4088F4"
-            },
-            "fnString": "#exclusive_breastfeeding_under_6_months#.includes(\"g1\") ? \"G1 Low nutrition or protection\"  : #exclusive_breastfeeding_under_6_months#.includes(\"g3\") ? \"G3 Good nutrition and protection\" : \"G2 Inadequate nutrition or protection\"",
-            "multiline": false
-          }
-        },
-        {
           "id": 1699435397728,
-          "order": 61,
+          "order": 41,
           "name": "nutritious_diet_6m_2y",
           "label": "G3-5.4 INTERVIEW: Nutritious diet for 6-month to 2-year old children",
           "short_label": null,
@@ -5722,35 +5446,8 @@
           "fn": null
         },
         {
-          "id": 1702302507816,
-          "order": 62,
-          "name": "o_r_nutritious_diet",
-          "label": "G3-5.4 Outcome result - Nutritious diet",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 16994260598423,
-              "options": ["yes"]
-            }
-          ],
-          "fn": {
-            "fnColor": {
-              "G1 Low nutrition or protection": "#FDC74B",
-              "G2 Inadequate nutrition or protection": "#93D371",
-              "G3 Good nutrition and protection": "#4088F4"
-            },
-            "fnString": "#nutritious_diet_6m_2y#.includes(\"g1\") ? \"G1 Low nutrition or protection\" : #nutritious_diet_6m_2y#.includes(\"g3\") ? \"G3 Good nutrition and protection\" : \"G2 Inadequate nutrition or protection\"",
-            "multiline": false
-          }
-        },
-        {
           "id": 1699435455818,
-          "order": 63,
+          "order": 42,
           "name": "malariasafe_home",
           "label": "G3-E1 OBSERVATION: Malaria-safe home",
           "short_label": null,
@@ -5799,35 +5496,8 @@
           "fn": null
         },
         {
-          "id": 1702299714872,
-          "order": 64,
-          "name": "o_r_malariasafe_homes",
-          "label": "G3-E1 Outcome result - Malaria-endemic counties: Malaria-safe homes",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 16994260598423,
-              "options": ["yes"]
-            }
-          ],
-          "fn": {
-            "fnColor": {
-              "G1 No malaria protection": "#FDC74B",
-              "G2 Inadequate malaria protection": "#93D371",
-              "G3 Malaria-safe home": "#4088F4"
-            },
-            "fnString": "#malariasafe_home#.includes(\"g1\") ? \"G1 No malaria protection\"  : (#malariasafe_home#.includes(\"g3\") ? \"G3 Malaria-safe home\" : \"G2 Inadequate malaria protection\")",
-            "multiline": false
-          }
-        },
-        {
           "id": 1699435526190,
-          "order": 65,
+          "order": 43,
           "name": "dewormed_home",
           "label": "G3-E2 OBSERVATION: Dewormed home",
           "short_label": null,
@@ -5874,33 +5544,6 @@
             }
           ],
           "fn": null
-        },
-        {
-          "id": 1702299918738,
-          "order": 66,
-          "name": "o_r_dewormed_homes",
-          "label": "G3-E2 Outcome result - STH-endemic counties: Dewormed homes",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 16994260598423,
-              "options": ["yes"]
-            }
-          ],
-          "fn": {
-            "fnColor": {
-              "G1 No deworming": "#FDC74B",
-              "G2 Inadequate deworming": "#93D371",
-              "G3 Dewormed home": "#4088F4"
-            },
-            "fnString": "#dewormed_home#.includes(\"g1\") ? \"G1 No deworming\" : #dewormed_home#.includes(\"g3\") ? \"G3 Dewormed home\" : \"G2 Inadequate deworming\"",
-            "multiline": false
-          }
         }
       ]
     },
@@ -5914,35 +5557,8 @@
       "translations": null,
       "questions":[
         {
-          "id": 1702296406679,
-          "order": 23,
-          "name": "o_r_safe_management_of_drinking_water",
-          "label": "G2-4.1 Outcome result - Safe management of drinking water",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["yes"]
-            }
-          ],
-          "fn": {
-            "fnColor": {
-              "G0 Drinking water is UNSAFELY managed": "#FD3F31",
-              "G2 Safe management of drinking water": "#93D371",
-              "G1 Drinking water is NOT adequately managed": "#FDC74B"
-            },
-            "fnString": "#clean_water_containers#.includes(\"g0\") && #adequate_water_quality#.includes(\"g0\") && #safely_stored_drinking_water#.includes(\"g0\") && #safely_used_water#.includes(\"g0\") ? \"G0 Drinking water is UNSAFELY managed\"  : #clean_water_containers#.includes(\"g2\") && #adequate_water_quality#.includes(\"g2\") && #safely_stored_drinking_water#.includes(\"g2\") && #safely_used_water#.includes(\"g2\") ? \"G2 Safe management of drinking water\" : \"G1 Drinking water is NOT adequately managed\"",
-            "multiline": false
-          }
-        },
-        {
           "id": 1702289546185,
-          "order": 2,
+          "order": 1,
           "name": "o_r_no_exposed_human_excreta",
           "label": "G1-3 OUTCOME RESULT: NO EXPOSED HUMAN EXCRETA",
           "short_label": null,
@@ -5961,89 +5577,29 @@
           }
         },
         {
-          "id": 1702296839468,
-          "order": 27,
-          "name": "o_r_safe_management_of_water_sources",
-          "label": "G2-4.2 Outcome result - Safe management of water sources",
+          "id": 1702289725502,
+          "order": 2,
+          "name": "o_r_safe_management_of_child_excreta_and_diapers",
+          "label": "G1-4 OUTCOME RESULT: SAFE MANAGEMENT OF CHILD EXCRETA AND DIAPERS",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
           "required": true,
           "meta": false,
           "options": null,
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["yes"]
-            }
-          ],
+          "dependency": null,
           "fn": {
             "fnColor": {
-              "G0 Water points are UNSAFELY managed": "#FD3F31",
-              "G2 Safe management of water points": "#93D371",
-              "G1 Water points are NOT adequately managed": "#FDC74B"
+              "G1 Safely managed child excreta and diapers": "#FDC74B",
+              "G0 Child excreta and diapers UNSAFELY managed": "#FD3F31"
             },
-            "fnString": "#clean_water_points#.includes(\"g0\") && #protected_water_points#.includes(\"g0\") && #well_drained_water_points#.includes(\"g0\") ? \"G0 Water points are UNSAFELY managed\" : #clean_water_points#.includes(\"g2\") && #protected_water_points#.includes(\"g2\") && #well_drained_water_points#.includes(\"g2\") ? \"G2 Safe management of water points\" : \"G1 Water points are NOT adequately managed\"",
-            "multiline": false
-          }
-        },
-        {
-          "id": 1702296110410,
-          "order": 18,
-          "name": "o_r_clean_and_safely_stored_milk_containers",
-          "label": "G2-3.3 Outcome result - Clean and safely stored milk containers",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["yes"]
-            }
-          ],
-          "fn": {
-            "fnColor": {
-              "G0 Milk containers not clean and not safely stored": "#FD3F31",
-              "G2 Clean and safely stored milk containers": "#93D371",
-              "G1 Milk containers not adequately washed, or not safely stored": "#FDC74B"
-            },
-            "fnString": "#clean_milk_containers#.includes(\"g0\") && #covered_container_storage#.includes(\"g0\") && #raised_container_storage#.includes(\"g0\") ? \"G0 Milk containers not clean and not safely stored\" : #clean_milk_containers#.includes(\"g2\") && #covered_container_storage#.includes(\"g2\") && #raised_container_storage#.includes(\"g2\") ? \"G2 Clean and safely stored milk containers\" : \"G1 Milk containers not adequately washed, or not safely stored\"",
-            "multiline": false
-          }
-        },
-        {
-          "id": 1702295769122,
-          "order": 14,
-          "name": "o_r_clean_and_safely_stored_kitchen_utensils",
-          "label": "G2-3.2 Outcome result - Clean and safely stored kitchen utensils",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["yes"]
-            }
-          ],
-          "fn": {
-            "fnColor": {
-              "G0 Kitchen utensils not clean and not safely stored": "#FD3F31",
-              "G2 Clean and safely stored kitchen utensils": "#93D371",
-              "G1 Kitchen utensils not adequately washed, or not safely stored": "#FDC74B"
-            },
-            "fnString": "#clean_kitchen_utensils#.includes(\"g0\") && #covered_utensil_storage#.includes(\"g0\") && #raised_utensil_storage#.includes(\"g0\") ? \"G0 Kitchen utensils not clean and not safely stored\" : #clean_kitchen_utensils#.includes(\"g2\") && #covered_utensil_storage#.includes(\"g2\") && #raised_utensil_storage#.includes(\"g2\") ? \"G2 Clean and safely stored kitchen utensils\" : \"G1 Kitchen utensils not adequately washed, or not safely stored\"",
+            "fnString": "#safe_management_of_child_excreta_in_compound#.includes(\"g1\") && #safe_management_of_diapers_in_compound#.includes(\"g1\") ? \"G1 Safely managed child excreta and diapers\" : \"G0 Child excreta and diapers UNSAFELY managed\"",
             "multiline": false
           }
         },
         {
           "id": 1702295289084,
-          "order": 10,
+          "order": 3,
           "name": "o_r_clean_and_safely_stored_food",
           "label": "G2-3.1 Outcome result - Clean and safely stored food",
           "short_label": null,
@@ -6069,23 +5625,488 @@
           }
         },
         {
-          "id": 1702289725502,
-          "order": 5,
-          "name": "o_r_safe_management_of_child_excreta_and_diapers",
-          "label": "G1-4 OUTCOME RESULT: SAFE MANAGEMENT OF CHILD EXCRETA AND DIAPERS",
+          "id": 1702295769122,
+          "order": 4,
+          "name": "o_r_clean_and_safely_stored_kitchen_utensils",
+          "label": "G2-3.2 Outcome result - Clean and safely stored kitchen utensils",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
           "required": true,
           "meta": false,
           "options": null,
-          "dependency": null,
+          "dependency": [
+            {
+              "id": 16994260598422,
+              "options": ["yes"]
+            }
+          ],
           "fn": {
             "fnColor": {
-              "G1 Safely managed child excreta and diapers": "#FDC74B",
-              "G0 Child excreta and diapers UNSAFELY managed": "#FD3F31"
+              "G0 Kitchen utensils not clean and not safely stored": "#FD3F31",
+              "G2 Clean and safely stored kitchen utensils": "#93D371",
+              "G1 Kitchen utensils not adequately washed, or not safely stored": "#FDC74B"
             },
-            "fnString": "#safe_management_of_child_excreta_in_compound#.includes(\"g1\") && #safe_management_of_diapers_in_compound#.includes(\"g1\") ? \"G1 Safely managed child excreta and diapers\" : \"G0 Child excreta and diapers UNSAFELY managed\"",
+            "fnString": "#clean_kitchen_utensils#.includes(\"g0\") && #covered_utensil_storage#.includes(\"g0\") && #raised_utensil_storage#.includes(\"g0\") ? \"G0 Kitchen utensils not clean and not safely stored\" : #clean_kitchen_utensils#.includes(\"g2\") && #covered_utensil_storage#.includes(\"g2\") && #raised_utensil_storage#.includes(\"g2\") ? \"G2 Clean and safely stored kitchen utensils\" : \"G1 Kitchen utensils not adequately washed, or not safely stored\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702296110410,
+          "order": 5,
+          "name": "o_r_clean_and_safely_stored_milk_containers",
+          "label": "G2-3.3 Outcome result - Clean and safely stored milk containers",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598422,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G0 Milk containers not clean and not safely stored": "#FD3F31",
+              "G2 Clean and safely stored milk containers": "#93D371",
+              "G1 Milk containers not adequately washed, or not safely stored": "#FDC74B"
+            },
+            "fnString": "#clean_milk_containers#.includes(\"g0\") && #covered_container_storage#.includes(\"g0\") && #raised_container_storage#.includes(\"g0\") ? \"G0 Milk containers not clean and not safely stored\" : #clean_milk_containers#.includes(\"g2\") && #covered_container_storage#.includes(\"g2\") && #raised_container_storage#.includes(\"g2\") ? \"G2 Clean and safely stored milk containers\" : \"G1 Milk containers not adequately washed, or not safely stored\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702296406679,
+          "order": 6,
+          "name": "o_r_safe_management_of_drinking_water",
+          "label": "G2-4.1 Outcome result - Safe management of drinking water",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598422,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G0 Drinking water is UNSAFELY managed": "#FD3F31",
+              "G2 Safe management of drinking water": "#93D371",
+              "G1 Drinking water is NOT adequately managed": "#FDC74B"
+            },
+            "fnString": "#clean_water_containers#.includes(\"g0\") && #adequate_water_quality#.includes(\"g0\") && #safely_stored_drinking_water#.includes(\"g0\") && #safely_used_water#.includes(\"g0\") ? \"G0 Drinking water is UNSAFELY managed\"  : #clean_water_containers#.includes(\"g2\") && #adequate_water_quality#.includes(\"g2\") && #safely_stored_drinking_water#.includes(\"g2\") && #safely_used_water#.includes(\"g2\") ? \"G2 Safe management of drinking water\" : \"G1 Drinking water is NOT adequately managed\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702296839468,
+          "order": 7,
+          "name": "o_r_safe_management_of_water_sources",
+          "label": "G2-4.2 Outcome result - Safe management of water sources",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598422,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G0 Water points are UNSAFELY managed": "#FD3F31",
+              "G2 Safe management of water points": "#93D371",
+              "G1 Water points are NOT adequately managed": "#FDC74B"
+            },
+            "fnString": "#clean_water_points#.includes(\"g0\") && #protected_water_points#.includes(\"g0\") && #well_drained_water_points#.includes(\"g0\") ? \"G0 Water points are UNSAFELY managed\" : #clean_water_points#.includes(\"g2\") && #protected_water_points#.includes(\"g2\") && #well_drained_water_points#.includes(\"g2\") ? \"G2 Safe management of water points\" : \"G1 Water points are NOT adequately managed\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702297046194,
+          "order": 8,
+          "name": "o_r_no_visible_animal_wastes_in_house_or_compound",
+          "label": "G2-5.1 Outcome result - No visible animal wastes in house or compound",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598422,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G0 Widespread presence of animal wastes": "#FD3F31",
+              "G1 Some animal wastes visible": "#FDC74B",
+              "G2 No visible animal wastes": "#93D371"
+            },
+            "fnString": "#no_animal_wastes_in_house#.includes(\"g0\") && #no_animal_wastes_in_compound#.includes(\"g0\") ? \"G0 Widespread presence of animal wastes\" : #no_animal_wastes_in_house#.includes(\"g2\") && #no_animal_wastes_in_compound#.includes(\"g2\") ? \"G2 No visible animal wastes\" : \"G1 Some animal wastes visible\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702297533085,
+          "order": 9,
+          "name": "o_r_safe_management_of_animal_wastes_in_compound",
+          "label": "G2-5.2 Outcome result - Safe management of animal wastes in compound",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598422,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G0 Animal wastes UNSAFELY managed": "#FD3F31",
+              "G2 Safely managed animal wastes": "#93D371",
+              "G1 Inadequate management of animal wastes": "#FDC74B"
+            },
+            "fnString": "#safely_managed_animal_waste_storage#.includes(\"g0\") && #safe_location_of_animal_waste_storage#.includes(\"g0\") && #safe_management_of_animal_waste_storage#.includes(\"g0\") ? \"G0 Animal wastes UNSAFELY managed\" : #safely_managed_animal_waste_storage#.includes(\"g2\") && #safe_location_of_animal_waste_storage#.includes(\"g2\") && #safe_management_of_animal_waste_storage#.includes(\"g2\") ? \"G2 Safely managed animal wastes\" : \"G1 Inadequate management of animal wastes\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702297797962,
+          "order": 10,
+          "name": "o_r_safe_separation_of_animals_from_under5_children",
+          "label": "G2-5.3 Outcome result - Safe separation of animals from under-5 children",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598422,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G0 Animals NOT separated from under-5 children": "#FD3F31",
+              "G2 Safe separation of animals from under-5 children": "#93D371",
+              "G1 Inadequate separation of animals from under-5 children": "#FDC74B"
+            },
+            "fnString": "#location_animals_in_compound#.includes(\"g0\") && #safe_confinement_of_animals#.includes(\"g0\") ? \"G0 Animals NOT separated from under-5 children\" : #location_animals_in_compound#.includes(\"g2\") && #safe_confinement_of_animals#.includes(\"g2\") ? \"G2 Safe separation of animals from under-5 children\" : \"G1 Inadequate separation of animals from under-5 children\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702298080560,
+          "order": 11,
+          "name": "o_r_safe_management_of_liquid_wastes",
+          "label": "G3-3.1 Outcome result - Safe management of liquid wastes",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598423,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G0 Liquid wastes UNSAFELY managed": "#FD3F31",
+              "G3 Safe management of liquid wastes": "#4088F4",
+              "G2 Inadequate management of liquid wastes": "#93D371"
+            },
+            "fnString": "#soakpit_for_liquid_wastes#.includes(\"g0\") && #drainage_for_stormwater#.includes(\"g0\") ? \"G0 Liquid wastes UNSAFELY managed\"  : #soakpit_for_liquid_wastes#.includes(\"g3\") && #drainage_for_stormwater#.includes(\"g3\") ? \"G3 Safe management of liquid wastes\" : \"G2 Inadequate management of liquid wastes\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702298318702,
+          "order": 12,
+          "name": "o_r_safe_management_of_solid_wastes",
+          "label": "G3-3.2 Outcome result - Safe management of solid wastes",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598423,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G1 Solid wastes UNSAFELY managed": "#FDC74B",
+              "G2 Inadequate management of solid wastes": "#93D371",
+              "G3 Safe management of solid wastes": "#4088F4"
+            },
+            "fnString": "#no_visible_solid_wastes#.includes(\"g0\") && #solid_waste_facility_or_service#.includes(\"g0\") ? \"G1 Solid wastes UNSAFELY managed\" : ((#no_visible_solid_wastes#.includes(\"g3\") && #solid_waste_facility_or_service#.includes(\"g3\") ? \"G3 Safe management of solid wastes\" : \"G2 Inadequate management of solid wastes\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702298602672,
+          "order": 13,
+          "name": "o_r_good_vector_control_in_compound",
+          "label": "G3-3.3 Outcome result - Good vector control in compound",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598423,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G1 Lack of vector control": "#FDC74B",
+              "G2 Inadequate vector control": "#93D371",
+              "G3 Good vector control": "#4088F4"
+            },
+            "fnString": "#no_standing_water#.includes(\"g0\") && #treated_larval_breeding_sites#.includes(\"g0\") ? \"G1 Lack of vector control\" : #no_standing_water#.includes(\"g3\") && #treated_larval_breeding_sites#.includes(\"g3\") ? \"G3 Good vector control\" : \"G2 Inadequate vector control\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702298863458,
+          "order": 14,
+          "name": "o_r_clean_face_and_hands",
+          "label": "G3-4.1 Outcome result - Clean face and hands",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598423,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G1 No personal hygiene": "#FDC74B",
+              "G2 Inadequate personal hygiene": "#93D371",
+              "G3 Good personal hygiene": "#4088F4"
+            },
+            "fnString": "#clean_faces#.includes(\"g1\") && #clean_hands#.includes(\"g1\") ? \"G1 No personal hygiene\" : #clean_faces#.includes(\"g3\") && #clean_hands#.includes(\"g3\") ? \"G3 Good personal hygiene\" : \"G2 Inadequate personal hygiene\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702301820095,
+          "order": 15,
+          "name": "o_r_good_menstrual_health",
+          "label": "G3-4.2 Outcome result - Good menstrual health",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598423,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G1 No menstrual hygiene": "#FDC74B",
+              "G2 Inadequate menstrual hygiene": "#93D371",
+              "G3 Good menstrual hygiene": "#4088F4"
+            },
+            "fnString": "#adequate_washing_place#.includes(\"g1\") && #menstrual_hygiene_disposal_site#.includes(\"g1\") && #availability_of_hygiene_materials#.includes(\"g1\") ? \"G1 No menstrual hygiene\" : #adequate_washing_place#.includes(\"g3\") && #menstrual_hygiene_disposal_site#.includes(\"g3\") && #availability_of_hygiene_materials#.includes(\"g3\") ? \"G3 Good menstrual hygiene\" : \"G2 Inadequate menstrual hygiene\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702302041022,
+          "order": 16,
+          "name": "o_r_fully_immunized_children",
+          "label": "G3-5.1 Outcome result - Fully immunized children",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598423,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G1 Low nutrition or protection": "#FDC74B",
+              "G2 Inadequate nutrition or protection": "#93D371",
+              "G3 Good nutrition and protection": "#4088F4"
+            },
+            "fnString": "#fully_immunized_children#.includes(\"g1\") ? \"G1 Low nutrition or protection\" : #fully_immunized_children#.includes(\"g3\") ? \"G3 Good nutrition and protection\" : \"G2 Inadequate nutrition or protection\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702302232732,
+          "order": 17,
+          "name": "o_r_vitamin_a_supplements",
+          "label": "G3-5.2 Outcome result - Vitamin A supplements",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598423,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G1 Low nutrition or protection": "#FDC74B",
+              "G2 Inadequate nutrition or protection": "#93D371",
+              "G3 Good nutrition and protection": "#4088F4"
+            },
+            "fnString": "#vitamin_a_supplements_received#.includes(\"g1\") ? \"G1 Low nutrition or protection\" : #vitamin_a_supplements_received#.includes(\"g3\") ? \"G3 Good nutrition and protection\" : \"G2 Inadequate nutrition or protection\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702302427536,
+          "order": 18,
+          "name": "o_r_exclusive_breastfeeding",
+          "label": "G3-5.3 Outcome result - Exclusive breastfeeding",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598423,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G1 Low nutrition or protection": "#FDC74B",
+              "G2 Inadequate nutrition or protection": "#93D371",
+              "G3 Good nutrition and protection": "#4088F4"
+            },
+            "fnString": "#exclusive_breastfeeding_under_6_months#.includes(\"g1\") ? \"G1 Low nutrition or protection\"  : #exclusive_breastfeeding_under_6_months#.includes(\"g3\") ? \"G3 Good nutrition and protection\" : \"G2 Inadequate nutrition or protection\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702302507816,
+          "order": 19,
+          "name": "o_r_nutritious_diet",
+          "label": "G3-5.4 Outcome result - Nutritious diet",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598423,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G1 Low nutrition or protection": "#FDC74B",
+              "G2 Inadequate nutrition or protection": "#93D371",
+              "G3 Good nutrition and protection": "#4088F4"
+            },
+            "fnString": "#nutritious_diet_6m_2y#.includes(\"g1\") ? \"G1 Low nutrition or protection\" : #nutritious_diet_6m_2y#.includes(\"g3\") ? \"G3 Good nutrition and protection\" : \"G2 Inadequate nutrition or protection\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702299714872,
+          "order": 20,
+          "name": "o_r_malariasafe_homes",
+          "label": "G3-E1 Outcome result - Malaria-endemic counties: Malaria-safe homes",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598423,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G1 No malaria protection": "#FDC74B",
+              "G2 Inadequate malaria protection": "#93D371",
+              "G3 Malaria-safe home": "#4088F4"
+            },
+            "fnString": "#malariasafe_home#.includes(\"g1\") ? \"G1 No malaria protection\"  : (#malariasafe_home#.includes(\"g3\") ? \"G3 Malaria-safe home\" : \"G2 Inadequate malaria protection\")",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702299918738,
+          "order": 21,
+          "name": "o_r_dewormed_homes",
+          "label": "G3-E2 Outcome result - STH-endemic counties: Dewormed homes",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598423,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G1 No deworming": "#FDC74B",
+              "G2 Inadequate deworming": "#93D371",
+              "G3 Dewormed home": "#4088F4"
+            },
+            "fnString": "#dewormed_home#.includes(\"g1\") ? \"G1 No deworming\" : #dewormed_home#.includes(\"g3\") ? \"G3 Dewormed home\" : \"G2 Inadequate deworming\"",
             "multiline": false
           }
         }
