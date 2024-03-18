@@ -950,6 +950,8 @@ class ListBatchCommentSerializer(serializers.ModelSerializer):
 
 class BatchListRequestSerializer(serializers.Serializer):
     approved = CustomBooleanField(default=False)
+    form = CustomPrimaryKeyRelatedField(
+        queryset=Forms.objects.all(), required=False)
 
 
 class CreateBatchSerializer(serializers.Serializer):
