@@ -2849,7 +2849,7 @@
         },
         {
           "id": 1699430761393,
-          "order": 7,
+          "order": 8,
           "name": "adequate_drainage_of_washing_water",
           "label": "G3-2.3 OBSERVATION: Drainage of washing water",
           "short_label": null,
@@ -2893,7 +2893,7 @@
         },
         {
           "id": 1699430839676,
-          "order": 8,
+          "order": 9,
           "name": "handwashing_critical_toilet_times",
           "label": "G2-2.1 INTERVIEW: when do you usually wash your hands? NOTE: Critical TOILET times",
           "short_label": null,
@@ -2951,7 +2951,7 @@
         },
         {
           "id": 1699431035188,
-          "order": 9,
+          "order": 10,
           "name": "handwashing_critical_food_times",
           "label": "G2-2.2 INTERVIEW: when do you usually wash your hands? NOTE: Critical FOOD times",
           "short_label": null,
@@ -3009,7 +3009,7 @@
         },
         {
           "id": 1699431983680,
-          "order": 10,
+          "order": 11,
           "name": "handwashing_critical_infant_times",
           "label": "G2-2.3 INTERVIEW: when do you usually wash your hands? NOTE: Critical INFANT EXCRETA times",
           "short_label": null,
