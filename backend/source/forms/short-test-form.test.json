@@ -52,6 +52,10 @@
           ],
           "dependency": null,
           "fn": null,
+          "default_value": {
+            "monitoring": "update",
+            "registration": "new"
+          },
           "pre": {
             "answer": "new",
             "fill": [

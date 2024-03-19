@@ -183,7 +183,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
             'id', 'order', 'name', 'label', 'short_label', 'type', 'required',
             'dependency', 'option', 'center', 'api', 'meta', 'meta_uuid',
             'rule', 'extra', 'source', 'tooltip', 'fn', 'pre', 'hidden',
-            'displayOnly', 'monitoring'
+            'displayOnly', 'default_value', 'monitoring'
         ]
 
 
@@ -330,7 +330,7 @@ class FormDataListQuestionSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'form', 'question_group', 'name', 'label', 'short_label',
             'order', 'meta', 'api', 'type', 'required', 'rule', 'option',
-            'dependency', 'display_only', 'attributes'
+            'dependency', 'display_only', 'default_value', 'attributes'
         ]
 
 
