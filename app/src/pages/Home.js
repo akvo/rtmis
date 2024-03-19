@@ -7,7 +7,14 @@ import * as Notifications from 'expo-notifications';
 import * as Location from 'expo-location';
 import PropTypes from 'prop-types';
 import { BaseLayout } from '../components';
-import { FormState, UserState, UIState, BuildParamsState, DatapointSyncState } from '../store';
+import {
+  FormState,
+  UserState,
+  UIState,
+  BuildParamsState,
+  DatapointSyncState,
+  AuthState,
+} from '../store';
 import { crudForms, crudUsers } from '../database/crud';
 import { api, cascades, i18n } from '../lib';
 import crudJobs, { SYNC_DATAPOINT_JOB_NAME, jobStatus } from '../database/crud/crud-jobs';
@@ -25,6 +32,7 @@ const Home = ({ navigation, route }) => {
   const gpsInterval = BuildParamsState.useState((s) => s.gpsInterval);
   const isManualSynced = UIState.useState((s) => s.isManualSynced);
   const userId = UserState.useState((s) => s.id);
+  const passcode = AuthState.useState((s) => s.authenticationCode);
   const isOnline = UIState.useState((s) => s.online);
 
   const activeLang = UIState.useState((s) => s.lang);
@@ -44,9 +52,9 @@ const Home = ({ navigation, route }) => {
   const goToUsers = () => {
     navigation.navigate('Users');
   };
-  const syncAllForms = async () => {
+  const syncAllForms = async (newForms = []) => {
     try {
-      const endpoints = data.map((d) => api.get(`/form/${d.formId}`));
+      const endpoints = [...newForms, ...data].map((d) => api.get(`/form/${d.formId}`));
       const results = await Promise.allSettled(endpoints);
       const responses = results.filter(({ status }) => status === 'fulfilled');
       const cascadeFiles = responses.flatMap(({ value: res }) => res.data.cascades);
@@ -59,6 +67,15 @@ const Home = ({ navigation, route }) => {
       responses.forEach(async ({ value: res }) => {
         const { data: apiData } = res;
         const { id: formId, version } = apiData;
+        const findNew = newForms.find((n) => n.id === formId);
+        if (findNew) {
+          // insert new form to database
+          await crudForms.addForm({
+            ...findNew,
+            userId,
+            formJSON: apiData,
+          });
+        }
         await crudForms.updateForm({
           userId,
           formId,
@@ -79,10 +96,34 @@ const Home = ({ navigation, route }) => {
     }
   };
 
+  const syncUserForms = async () => {
+    const { data: apiData } = await api.post('/auth', { code: passcode });
+    api.setToken(apiData.syncToken);
+
+    const myForms = await crudForms.getMyForms();
+
+    if (myForms.length > apiData.formsUrl.length) {
+      /**
+       * Delete forms
+       */
+      await myForms
+        .filter((mf) => !apiData.formsUrl.map((n) => n?.id).includes(mf.formId))
+        .forEach(async (mf) => {
+          await crudForms.deleteForm(mf.id);
+        });
+    }
+
+    const newForms = apiData.formsUrl
+      .filter((f) => !myForms?.map((mf) => mf.formId)?.includes(f.id))
+      .map((f) => ({ ...f, formId: f.id }));
+
+    await syncAllForms(newForms);
+  };
+
   const handleOnSync = async () => {
     setSyncLoading(true);
     try {
-      await syncAllForms();
+      await syncUserForms();
       await crudUsers.updateLastSynced(userId);
       await crudJobs.addJob({
         user: userId,
@@ -93,8 +134,10 @@ const Home = ({ navigation, route }) => {
         s.inProgress = true;
         s.added = true;
       });
+      setSyncLoading(false);
     } catch (error) {
       ToastAndroid.show(`[ERROR SYNC DATAPOINT]: ${error}`, ToastAndroid.LONG);
+      setSyncLoading(false);
     }
   };
 
