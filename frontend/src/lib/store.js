@@ -26,7 +26,6 @@ const defaultUIState = {
   advancedFilters: [],
   administrationLevel: null,
   showContactFormModal: false,
-  mobileAssignment: {},
   masterData: {
     administration: {},
     attribute: {},
