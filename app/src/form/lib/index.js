@@ -239,14 +239,15 @@ export const onFilterDependency = (currentGroup, values, q) => {
 
 const transformValue = (question, value, prefilled = []) => {
   const findPrefilled = prefilled.find((p) => p?.id === question?.id);
-  const answer = value || findPrefilled?.answer;
+  const defaultValue = ['multiple_option', 'option'].includes(question?.type) ? [] : '';
+  const answer = value || findPrefilled?.answer || defaultValue;
   if (question?.type === 'cascade') {
     return [answer];
   }
   if (question?.type === 'geo') {
     return answer === '' ? [] : value;
   }
-  if (question?.type === 'number') {
+  if (question?.type === 'number' && typeof answer !== 'undefined') {
     return `${answer}`;
   }
   return answer;
