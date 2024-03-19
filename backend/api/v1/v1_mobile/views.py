@@ -406,7 +406,7 @@ def get_datapoint_download_list(request, version):
         )
 
     queryset = queryset.values(
-        'uuid', 'id', 'form_id', 'name', 'created'
+        'uuid', 'id', 'form_id', 'name', 'created', 'updated'
     ).order_by('-created')
 
     instance = paginator.paginate_queryset(queryset, request)

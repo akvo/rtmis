@@ -114,8 +114,8 @@ const SyncService = () => {
 
       try {
         const allData = await fetchDatapoints();
-        const urls = allData.map(({ url, form_id: formId }) => ({ url, formId }));
-        await Promise.all(urls.map(({ formId, url }) => downloadDatapointsJson(formId, url)));
+        const urls = allData.map(({ url, form_id: formId, last_updated: lastUpdated }) => ({ url, formId, lastUpdated }));
+        await Promise.all(urls.map((u) => downloadDatapointsJson(u)));
         await crudJobs.deleteJob(activeJob.id);
 
         DatapointSyncState.update((s) => {

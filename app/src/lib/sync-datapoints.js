@@ -18,13 +18,14 @@ export const fetchDatapoints = async (pageNumber = 1) => {
   }
 };
 
-export const downloadDatapointsJson = async (formId, url) => {
+export const downloadDatapointsJson = async ({ formId, url, lastUpdated }) => {
   try {
     const response = await api.get(url);
     if (response.status === 200) {
       const jsonData = response.data;
       const res = await crudMonitoring.syncForm({
         formId,
+        lastUpdated,
         formJSON: jsonData,
       });
       // eslint-disable-next-line no-console

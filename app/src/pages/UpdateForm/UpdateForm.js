@@ -41,10 +41,21 @@ const UpdateForm = ({ navigation, route }) => {
     });
   };
 
+  const handleOnSearch = (keyword) => {
+    if (keyword?.trim()?.length === 0) {
+      setForms([]);
+    }
+    setSearch(keyword);
+    if (!isLoading) {
+      setPage(0);
+      setIsLoading(true);
+    }
+  };
+
   const fetchTotal = useCallback(async () => {
-    const totalPage = await crudMonitoring.getTotal(formId);
+    const totalPage = await crudMonitoring.getTotal(formId, search);
     setTotal(totalPage);
-  }, [formId]);
+  }, [formId, search]);
 
   useEffect(() => {
     fetchTotal();
@@ -55,11 +66,15 @@ const UpdateForm = ({ navigation, route }) => {
       setIsLoading(false);
       const moreForms = await crudMonitoring.getFormsPaginated({
         formId,
-        search,
+        search: search.trim(),
         limit: 10,
         offset: page,
       });
-      setForms(forms.concat(moreForms));
+      if (search) {
+        setForms(moreForms);
+      } else {
+        setForms(forms.concat(moreForms));
+      }
     }
   }, [isLoading, forms, formId, page, search]);
 
@@ -81,13 +96,13 @@ const UpdateForm = ({ navigation, route }) => {
 
   return (
     <BaseLayout
-      title={route?.params?.name}
+      title={total ? `${route?.params?.name} (${total})` : route?.params?.name}
       rightComponent={false}
       search={{
         show: true,
         placeholder: trans.administrationSearch,
         value: search,
-        action: setSearch,
+        action: handleOnSearch,
       }}
     >
       <FlatList
