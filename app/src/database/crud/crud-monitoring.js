@@ -32,7 +32,7 @@ const monitoringQuery = () => ({
     const querySQL = search.length
       ? `SELECT COUNT(*) AS count FROM monitoring where formId = ? AND name LIKE ? COLLATE NOCASE`
       : `SELECT COUNT(*) AS count FROM monitoring where formId = ? `;
-    const params = search.length ? [formId, search] : [formId];
+    const params = search.length ? [formId, `%${search}%`] : [formId];
     const { rows } = await conn.tx(db, querySQL, params);
     return rows._array?.[0]?.count;
   },
