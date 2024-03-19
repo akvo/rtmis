@@ -109,7 +109,7 @@ const uiText = {
     about: 'About',
     autoSyncInProgress: 'Auto sync is in progress',
     connectToInternet: 'Connect to the internet to sync',
-    laodMore: 'Load more',
+    loadMore: 'Load more',
   },
   fr: {
     latitude: 'Latitude',
