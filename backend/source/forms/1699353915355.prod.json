@@ -981,21 +981,21 @@
             },
             {
               "id": 1700037304277,
-              "order": 1,
+              "order": 3,
               "label": "Toilet SHARED: MORE than 10-15 users",
               "value": "g0_toilet_shared_more_than_1015_users",
               "color": "#DB3B3B"
             },
             {
               "id": 1700037326498,
-              "order": 3,
+              "order": 4,
               "label": "Toilet NOT-shared: Less than 10-15 users",
               "value": "g1_toilet_notshared_less_than_1015_users",
               "color": "#38A15A"
             },
             {
               "id": 1700037338454,
-              "order": 4,
+              "order": 5,
               "label": "Toilet SHARED: Less than 10-15 users",
               "value": "g1_toilet_shared_less_than_1015_users",
               "color": "#38A15A"
@@ -1181,14 +1181,14 @@
             },
             {
               "id": 1699427675915,
-              "order": 9,
+              "order": 8,
               "label": "Pit lined with concrete",
               "value": "g2_containment_lined_with_concrete",
               "color": "#38A15A"
             },
             {
               "id": 1699427667581,
-              "order": 8,
+              "order": 9,
               "label": "Pit lined with resilient local materials",
               "value": "g2_containment_lined_with_resilient_local_materials",
               "color": "#38A15A"
@@ -1790,7 +1790,7 @@
               "order": 5,
               "label": "Single toilet vault (above ground)",
               "value": "g0_single_toilet_vault_above_ground",
-              "color": "#DB3B3B"
+              "color": "#ffa57d"
             },
             {
               "id": 1699424067066,
@@ -1878,8 +1878,8 @@
           "options": null,
           "dependency": [
             {
-              "id": 1699422286091,
-              "options": ["g1_toilet_observed"]
+              "id": 1699423946170,
+              "options": ["g1_single_latrine_pit_beside_toilet","g1_double_latrine_pit_beside_toilet"]
             }
           ],
           "fn": null
@@ -2294,70 +2294,6 @@
             }
           ],
           "fn": null
-        },
-        {
-          "id": 1699425943159,
-          "order": 3,
-          "name": "clean_toilet_floor",
-          "label": "Clean toilet floor",
-          "short_label": null,
-          "type": "option",
-          "tooltip": {
-            "text": "<b>OBSERVE: is the toilet floor clean?</b><br/><b>Clean:</b> floor of the toilet should appear clean, with no visible faeces, urine or used cleaning materials (for example, toilet paper or other paper, leaves or other anal cleansing materials).<br/><b>Easily cleaned:</b> minor traces of faeces or soiled materials are acceptable only if easily cleaned (for example, if the traces are not yet dry and difficult to clean)"
-          },
-          "required": true,
-          "meta": false,
-          "options": [
-            {
-              "id": 1699425951606,
-              "order": 1,
-              "label": "G0 NOT clean: heavy traces of faeces or soiled cleaning materials",
-              "value": "g0_not_clean_heavy_traces_of_faeces_or_soiled_cleaning_materials",
-              "color": "#DB3B3B"
-            },
-            {
-              "id": 1699425951607,
-              "order": 2,
-              "label": "G0 NOT clean: some faeces and soiled cleaning materials",
-              "value": "g0_not_clean_some_faeces_and_soiled_cleaning_materials",
-              "color": "#DB3B3B"
-            },
-            {
-              "id": 1699425996920,
-              "order": 3,
-              "label": "G1 Clean: minor traces of faeces or soiled materials (easily cleaned)",
-              "value": "g1_clean_minor_traces_of_faeces_or_soiled_materials_easily_cleaned",
-              "color": "#38A15A"
-            },
-            {
-              "id": 1699426014393,
-              "order": 4,
-              "label": "G1 Clean: no visible faeces or soiled cleansing materials",
-              "value": "g1_clean_no_visible_faeces_or_soiled_cleansing_materials",
-              "color": "#38A15A"
-            }
-          ],
-          "dependency": null,
-          "fn": null
-        },
-        {
-          "id": 1703066998352,
-          "order": 15,
-          "name": "photo_03_inside_toilet",
-          "label": "PHOTO 03: view of inside toilet (floor + pan/drophole + inside walls)",
-          "short_label": null,
-          "type": "photo",
-          "tooltip": null,
-          "required": true,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 1699422286091,
-              "options": ["g1_toilet_observed"]
-            }
-          ],
-          "fn": null
         }
       ]
     },
@@ -2605,8 +2541,27 @@
           "fn": null
         },
         {
-          "id": 1710753128,
+          "id": 1710840898,
           "order": 2,
+          "name": "photo_01_entire_facility",
+          "label": "HANDWASHING PHOTO 01: view of entire facility (water container/tap, soap)",
+          "short_label": "PHOTO: of handwashing facility nearest to toilet",
+          "type": "photo",
+          "tooltip": "OBSERVE: is the handwashing facility functional? ",
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 1699429162796,
+              "options": ["g1_handwashing_facility_by_toilet"]
+            }
+          ],
+          "fn": null
+        },
+        {
+          "id": 1710753128,
+          "order": 3,
           "name": "photo_01_handwashing_view_of_facility",
           "label": "HANDWASHING PHOTO 01: view of entire facility (water container/tap, soap)",
           "short_label": null,
@@ -2625,7 +2580,7 @@
         },
         {
           "id": 1710753585,
-          "order": 3,
+          "order": 4,
           "name": "functional_hwf",
           "label": "G1-2.1b OBSERVATION: Functional handwashing facility",
           "short_label": null,
