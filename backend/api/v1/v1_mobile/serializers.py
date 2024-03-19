@@ -16,13 +16,18 @@ class MobileDataPointDownloadListSerializer(serializers.Serializer):
     form_id = serializers.IntegerField()
     name = serializers.CharField()
     url = serializers.SerializerMethodField()
+    last_updated = serializers.SerializerMethodField()
 
     @extend_schema_field(OpenApiTypes.URI)
     def get_url(self, obj):
         return f"{WEBDOMAIN}/datapoints/{obj.get('uuid')}.json"
 
+    @extend_schema_field(OpenApiTypes.DATETIME)
+    def get_last_updated(self, obj):
+        return obj['updated'] if obj['updated'] else obj['created']
+
     class Meta:
-        fields = ["id", "form_id", "name", "url"]
+        fields = ["id", "form_id", "name", "url", "last_updated"]
 
 
 class MobileFormSerializer(serializers.ModelSerializer):
