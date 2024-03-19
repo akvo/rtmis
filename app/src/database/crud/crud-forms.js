@@ -81,6 +81,11 @@ const formsQuery = () => ({
     }
     return rows._array;
   },
+  deleteForm: async (id) => {
+    const sqlQuery = query.deleteRow('forms');
+    const { rowsAffected } = await conn.tx(db, sqlQuery, [id]);
+    return rowsAffected;
+  },
 });
 
 const crudForms = formsQuery();
