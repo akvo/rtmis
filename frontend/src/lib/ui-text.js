@@ -325,7 +325,6 @@ const uiText = {
     approvalsTab2: "Subordinates Approvals",
     approvalsTab3: "Approved",
     approvalsTitle: "Approvals",
-    manageQnApproval: "Manage Questionnaire Approval",
     // Approvers Tree
     notAssigned: "Not assigned",
     questionnaireText: "Questionnaire",

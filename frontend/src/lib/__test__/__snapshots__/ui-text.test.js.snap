@@ -384,7 +384,6 @@ Object {
       </ul>
     </React.Fragment>,
     "manageOrganisations": "Manage Organizations",
-    "manageQnApproval": "Manage Questionnaire Approval",
     "manageUserButton": "Manage Users",
     "manageUserText": <React.Fragment>
       This is where you manage users based on their roles , regions and questionnaire access . You can :
