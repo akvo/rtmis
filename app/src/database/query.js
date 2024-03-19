@@ -1,7 +1,7 @@
 const insert = (table, data = {}) => {
   const fields = Object.keys(data);
   const valuesString = fields
-    .map((key) => Number.isNaN(Number(data[key])) ? `'${data[key]}'` : data[key])
+    .map((key) => (Number.isNaN(Number(data[key])) ? `'${data[key]}'` : data[key]))
     .join(', ');
   const fieldsString = fields.join(', ');
   return `INSERT INTO ${table}(${fieldsString}) VALUES (${valuesString});`;
@@ -19,7 +19,9 @@ const insertPrepared = (table, data = {}) => {
 
 const update = (table, where = {}, data = {}) => {
   const fieldString = Object.keys(data)
-    .map((key) => (Number.isNaN(Number(data[key])) ? `${key} = '${data[key]}'` : `${key} = ${data[key]}`))
+    .map((key) =>
+      Number.isNaN(Number(data[key])) ? `${key} = '${data[key]}'` : `${key} = ${data[key]}`,
+    )
     .join(', ');
   const conditions = Object.keys(where).map((key) => `${key} = ?`);
   const conditionString = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
@@ -47,6 +49,8 @@ const clear = (tables = []) => tables.map((t) => `DELETE FROM ${t};`);
 
 const drop = (table) => `DROP TABLE IF EXISTS ${table};`;
 
+const deleteRow = (table) => `DELETE FROM ${table} WHERE id = ?`;
+
 const count = (table) => `SELECT COUNT(*) AS count FROM ${table}`;
 
 const initialQuery = (tableName, columns) => {
@@ -61,6 +65,7 @@ const query = {
   read,
   clear,
   drop,
+  deleteRow,
   count,
   initialQuery,
   insertPrepared,
