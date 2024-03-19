@@ -834,8 +834,37 @@
           "fn": null
         },
         {
-          "id": 1703073469466,
+          "id": 1710829091,
           "order": 21,
+          "name": "animals_kept_in_household_compund",
+          "label": "Do you keep animals in the household compound?",
+          "short_label": "Animals in houselhold compund",
+          "type": "option",
+          "tooltip": {
+            "text": "Animals in the household compound: include poultry (chickens, turkeys, ducks, geese), goats, cattle, sheep, camels, pigs, donkeys, rabbits and any other livestock (kept for food or income-generating purposes) "
+          },
+          "required": true,
+          "meta": false,
+          "options": [
+            {
+              "id": 1710829108,
+              "order": 1,
+              "label": "Yes",
+              "value": "yes_keep_animals_in_household_compound"
+            },
+            {
+              "id": 1710829128,
+              "order": 2,
+              "label": "No",
+              "value": "no_keep_animals_in_household_compound"
+            }
+          ],
+          "rule": null,
+          "fn": null
+        },
+        {
+          "id": 1703073469466,
+          "order": 22,
           "name": "Unique_hh_characteristics",
           "label": "Address or any unique household identifier",
           "short_label": null,
@@ -853,7 +882,7 @@
     },
     {
       "id": 1699428072668,
-      "order": 4,
+      "order": 3,
       "name": "interview_toilet_outcomes",
       "label": "INTERVIEW: TOILET OUTCOMES",
       "description": null,
@@ -1466,7 +1495,7 @@
     },
     {
       "id": 1699422286090,
-      "order": 3,
+      "order": 4,
       "name": "observation_toilet_outcomes",
       "label": "OBSERVATION: TOILET OUTCOMES",
       "description": null,
@@ -2329,7 +2358,7 @@
     },
     {
       "id": 1710748304,
-      "order": 4,
+      "order": 5,
       "name": "observation_toilet_outcomes_results",
       "label": "OUTCOME RESULTS: TOILET OUTCOMES",
       "description": null,
@@ -2505,7 +2534,7 @@
     },
     {
       "id": 1699429162795,
-      "order": 5,
+      "order": 6,
       "name": "observation_hand_hygiene_outcomes",
       "label": "OBSERVATION: HAND HYGIENE OUTCOMES",
       "description": null,
@@ -3138,7 +3167,7 @@
     },
     {
       "id": 1710751471,
-      "order": 6,
+      "order": 7,
       "name": "observation_hand_hygiene_results",
       "label": "OUTCOME RESULTS: HAND HYGIENE",
       "description": null,
@@ -3211,7 +3240,7 @@
     },
     {
       "id": 1699432130950,
-      "order": 7,
+      "order": 8,
       "name": "observation__environmental_health_outcomes",
       "label": "OBSERVATION:  Environmental Health outcomes",
       "description": null,
@@ -5549,7 +5578,7 @@
     },
     {
       "id": 1710757443,
-      "order": 8,
+      "order": 9,
       "name": "observation__environmental_health_outcomes_results",
       "label": "OUTCOME RESULTS:  Environmental Health",
       "description": null,
@@ -6114,7 +6143,7 @@
     },
     {
       "id": 1703086270253,
-      "order": 9,
+      "order": 10,
       "name": "summary_of_outcomes",
       "label": "Summary of Outcomes",
       "description": "This section shows the summary of the outcomes for all toilet and hand washing indicators",
