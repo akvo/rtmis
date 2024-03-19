@@ -14,7 +14,9 @@ from .views import (
 urlpatterns = [
     re_path(
         r'^(?P<version>(v1))/mobile-assignments/(?P<pk>[0-9]+)',
-        MobileAssignmentViewSet.as_view({'put': 'update', 'delete': 'destroy'})
+        MobileAssignmentViewSet.as_view({
+            'get': 'retrieve', 'put': 'update', 'delete': 'destroy'
+        })
     ),
     re_path(
         r'^(?P<version>(v1))/mobile-assignments',

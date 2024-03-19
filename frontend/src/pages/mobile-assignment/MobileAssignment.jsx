@@ -39,9 +39,6 @@ const MobileAssignment = () => {
   ];
 
   const handleOnEdit = (record) => {
-    store.update((s) => {
-      s.mobileAssignment = record;
-    });
     navigate(`/control-center/mobile-assignment/${record?.id}`);
   };
 
