@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import "./style.scss";
 import { Row, Col, Space, Button } from "antd";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import AdministrationDropdown from "./AdministrationDropdown";
 import FormDropdown from "./FormDropdown.js";
 import { useNotification } from "../../util/hooks";
-import { api, store } from "../../lib";
+import { api, store, uiText } from "../../lib";
 import { takeRight } from "lodash";
 import RemoveFiltersButton from "./RemoveFiltersButton";
 import AdvancedFilters from "./AdvancedFilters";
@@ -29,6 +29,12 @@ const DataFilters = ({ loading, showAdm = true, resetFilter = true }) => {
   const { notify } = useNotification();
   const [exporting, setExporting] = useState(false);
   const isUserHasForms = authUser?.forms ? authUser.forms.length : false;
+  const language = store.useState((s) => s.language);
+  const { active: activeLang } = language;
+
+  const text = useMemo(() => {
+    return uiText[activeLang];
+  }, [activeLang]);
 
   const exportGenerate = () => {
     setExporting(true);
@@ -64,21 +70,21 @@ const DataFilters = ({ loading, showAdm = true, resetFilter = true }) => {
         </Col>
         <Col>
           <Space>
-            {pathname === "/control-center/data/manage" && (
+            <Link to="/control-center/data/upload">
+              <Button shape="round" icon={<UploadOutlined />}>
+                Bulk Upload
+              </Button>
+            </Link>
+            {pathname === "/control-center/data" && (
               <Button
                 shape="round"
                 onClick={exportGenerate}
                 loading={exporting}
                 icon={<DownloadOutlined />}
               >
-                Download Data
+                {text.download}
               </Button>
             )}
-            <Link to="/control-center/data/upload">
-              <Button shape="round" icon={<UploadOutlined />}>
-                Bulk Upload
-              </Button>
-            </Link>
             <Link to={`/control-center/form/${selectedForm}`}>
               <Button
                 shape="round"
