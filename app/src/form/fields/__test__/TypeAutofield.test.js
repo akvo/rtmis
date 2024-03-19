@@ -155,4 +155,111 @@ describe('TypeAutofield component', () => {
       expect(autoField.props.value).toBe('4000');
     });
   });
+
+  test("it gives the correct values when some answers are undefined", async () => {
+    const mockFormQuestions = [
+      {
+        id: 1,
+        name: 'summary',
+        label: 'Summary',
+        question: [
+          {
+            id: 11,
+            order: 1,
+            name: 'institution_type',
+            label: 'Type of institution',
+            type: 'multiple_option',
+            options: [
+              {
+                id: 111,
+                order: 1,
+                label: 'School',
+                value: 'school',
+              },
+              {
+                id: 112,
+                order: 2,
+                label: 'Health Care Facilities',
+                value: 'hcf',
+              },
+              {
+                id: 113,
+                order: 3,
+                label: 'Public toilets',
+                value: 'public_toilet',
+              },
+            ],
+          },
+          {
+            id: 12,
+            order: 2,
+            name: 'total_schools',
+            label: 'Total schools',
+            type: 'number',
+            dependency: [
+              {
+                id: 11,
+                options: ['school'],
+              },
+            ],
+          },
+          {
+            id: 13,
+            order: 3,
+            name: 'total_hcf',
+            label: 'Total health facilities',
+            type: 'number',
+            dependency: [
+              {
+                id: 11,
+                options: ['hcf'],
+              },
+            ],
+          },
+          {
+            id: 14,
+            order: 4,
+            name: 'total_public_toilets',
+            label: 'Total public toilets',
+            type: 'number',
+            dependency: [
+              {
+                id: 11,
+                options: ['public_toilet'],
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues = {
+          11: ['school', 'public_toilet'],
+          12: 3,
+          14: 1,
+        };
+      });
+    });
+
+    const { getByTestId } = render(
+      <TypeAutofield
+        id="15"
+        name="total_institutions"
+        label="Total institutions"
+        fn={{
+          fnString: '#total_schools# + #total_hcf# + #total_public_toilets#',
+        }}
+        questions={mockFormQuestions}
+        keyform={1}
+      />,
+    );
+
+    await waitFor(() => {
+      const autoField = getByTestId('type-autofield');
+      expect(autoField).toBeDefined();
+      expect(autoField.props.value).toBe('4');
+    });
+  });
 });
