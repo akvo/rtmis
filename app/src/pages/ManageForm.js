@@ -20,7 +20,11 @@ const ManageForm = ({ navigation, route }) => {
       s.prefilled = false;
       s.prevAdmAnswer = null;
     });
-    navigation.navigate('FormPage', { ...route?.params, newSubmission: true });
+    navigation.navigate('FormPage', {
+      ...route?.params,
+      newSubmission: true,
+      type: 'registration',
+    });
   };
 
   const goToUpdateForm = () => {
