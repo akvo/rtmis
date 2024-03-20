@@ -31,6 +31,7 @@ describe('ManageFormPage', () => {
         id: 1,
         name: 'Health Facilities',
         newSubmission: true,
+        type: 'registration',
       },
     };
     const { getByTestId } = render(
