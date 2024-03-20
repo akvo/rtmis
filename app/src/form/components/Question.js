@@ -56,6 +56,32 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
       });
   }, [preload, group, values]);
 
+  const onPrefilled = (id, value, type, preFilled) => {
+    const isMatchAnswer =
+      type === 'multiple_option'
+        ? preFilled.answer.includes(value?.[0])
+        : JSON.stringify(preFilled.answer) === JSON.stringify(value) ||
+          String(preFilled.answer) === String(value);
+    if (isMatchAnswer) {
+      FormState.update((s) => {
+        s.loading = true;
+      });
+      const preValues = preFilled?.fill?.reduce((prev, current) => {
+        /**
+         * Make sure the answer criteria are not replaced by previous values
+         * eg:
+         * Previous value = "Update"
+         * Answer criteria = "New"
+         */
+        const answer = id === current.id ? current.answer : values?.[current.id] || current.answer;
+        return { [current.id]: answer, ...prev };
+      }, {});
+      FormState.update((s) => {
+        s.prefilled = preValues;
+      });
+    }
+  };
+
   const handleOnChange = (id, value, field) => {
     const fieldValues = { ...values, [id]: value };
     const isEmpty = Array.isArray(value) ? value.length === 0 : String(value)?.trim()?.length === 0;
@@ -68,28 +94,7 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
 
     const preFilled = field?.pre;
     if (preFilled?.answer) {
-      const isMatchAnswer =
-        JSON.stringify(preFilled?.answer) === JSON.stringify(value) ||
-        String(preFilled?.answer) === String(value);
-      if (isMatchAnswer) {
-        FormState.update((s) => {
-          s.loading = true;
-        });
-        FormState.update((s) => {
-          const preValues = preFilled?.fill?.reduce((prev, current) => {
-            /**
-             * Make sure the answer criteria are not replaced by previous values
-             * eg:
-             * Previous value = "Update"
-             * Answer criteria = "New"
-             */
-            const answer =
-              id === current.id ? current.answer : values?.[current.id] || current.answer;
-            return { [current.id]: answer, ...prev };
-          }, {});
-          s.prefilled = preValues;
-        });
-      }
+      onPrefilled(id, value, field.type, preFilled);
     }
 
     if (field?.source?.file === 'administrator.sqlite') {
@@ -117,7 +122,7 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
     }
   }, [index]);
 
-  const handleOnPrefilled = useCallback(() => {
+  const performPrefilled = useCallback(() => {
     /**
      * Prefilled
      */
@@ -134,8 +139,8 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
   }, [currentPreFilled]);
 
   useEffect(() => {
-    handleOnPrefilled();
-  }, [handleOnPrefilled]);
+    performPrefilled();
+  }, [performPrefilled]);
 
   return (
     <FlatList
@@ -151,6 +156,7 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
             onChange={handleOnChange}
             value={values?.[field.id]}
             questions={questions}
+            onPrefilled={onPrefilled}
           />
         </View>
       )}

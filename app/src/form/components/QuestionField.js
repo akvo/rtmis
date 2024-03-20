@@ -1,8 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
+import { useRoute } from '@react-navigation/native';
 import {
   TypeDate,
   TypeImage,
@@ -18,11 +19,15 @@ import {
 import styles from '../styles';
 import { FormState } from '../../store';
 
-const QuestionField = ({ keyform, field: questionField, onChange, value }) => {
+const QuestionField = ({ keyform, field: questionField, onChange, value, onPrefilled }) => {
   const questionType = questionField?.type;
-  const displayValue = questionField?.hidden ? 'none' : 'flex';
+  const defaultValQuestion = questionField?.default_value || {};
+  const displayValue =
+    questionField?.hidden || Object.keys(defaultValQuestion).length ? 'none' : 'flex';
   const formFeedback = FormState.useState((s) => s.feedback);
   const selectedForm = FormState.useState((s) => s.form);
+  const route = useRoute();
+  const formType = route.params?.type;
 
   const handleOnChangeField = useCallback(
     (id, val) => {
@@ -127,6 +132,32 @@ const QuestionField = ({ keyform, field: questionField, onChange, value }) => {
     }
   }, [selectedForm, questionField, questionType, keyform, value, handleOnChangeField]);
 
+  const handleDefaultValue = useCallback(() => {
+    if (questionField?.id && questionField?.default_value?.[formType] && !value) {
+      const defaultValue = ['option', 'multiple_option'].includes(questionType)
+        ? [questionField.default_value[formType]]
+        : questionField.default_value[formType];
+      if (questionField?.pre) {
+        onPrefilled(questionField.id, defaultValue, questionType, questionField.pre);
+      }
+      FormState.update((s) => {
+        s.currentValues[questionField.id] = defaultValue;
+      });
+    }
+  }, [
+    questionField?.default_value,
+    questionField?.id,
+    questionField?.pre,
+    value,
+    formType,
+    questionType,
+    onPrefilled,
+  ]);
+
+  useEffect(() => {
+    handleDefaultValue();
+  }, [handleDefaultValue]);
+
   return (
     <View testID="question-view" style={{ display: displayValue }}>
       {renderField()}
@@ -151,8 +182,10 @@ QuestionField.propTypes = {
     PropTypes.object,
     PropTypes.array,
   ]),
+  onPrefilled: PropTypes.func,
 };
 
 QuestionField.defaultProps = {
   value: null,
+  onPrefilled: () => {},
 };
