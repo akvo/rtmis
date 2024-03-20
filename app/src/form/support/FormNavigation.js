@@ -29,6 +29,12 @@ const FormNavigation = ({
     });
   };
 
+  const getFirstErrorMessage = (feedback) => {
+    const [questionID, errorMessage] = Object.entries(feedback).find(([, value]) => value !== true);
+    const question = currentGroup.question.find((q) => q?.id === parseInt(questionID, 10));
+    return errorMessage.replace('this', question?.label);
+  };
+
   const handleFormNavigation = async (index) => {
     // index 0 = prev group
     // index 1 = show question group list
@@ -64,7 +70,11 @@ const FormNavigation = ({
     }, {});
     const errors = Object.values(feedbackValues).filter((val) => val !== true);
     if (errors.length > 0 && index === 2) {
-      ToastAndroid.show(trans.mandatoryQuestions, ToastAndroid.LONG);
+      const isRequired = errors.find((e) => e.includes('required'));
+      const errorMessage = isRequired
+        ? trans.mandatoryQuestions
+        : getFirstErrorMessage(feedbackValues);
+      ToastAndroid.show(errorMessage, ToastAndroid.LONG);
     }
     FormState.update((s) => {
       s.feedback = feedbackValues;
@@ -120,11 +130,13 @@ const FormNavigation = ({
         testID="form-nav-btn-back"
         disabled={showQuestionGroupList}
         disabledStyle={{ backgroundColor: 'transparent' }}
+        containerStyle={styles.formNavigationBgLight}
       />
       <Tab.Item
         title={`${activeGroup + 1}/${totalGroup}`}
         titleStyle={styles.formNavigationGroupCount}
         testID="form-nav-group-count"
+        containerStyle={styles.formNavigationBgLight}
       />
       {activeGroup < totalGroup - 1 ? (
         <Tab.Item
@@ -136,6 +148,7 @@ const FormNavigation = ({
           testID="form-nav-btn-next"
           disabled={showQuestionGroupList}
           disabledStyle={{ backgroundColor: 'transparent' }}
+          containerStyle={styles.formNavigationBgLight}
         />
       ) : (
         <Tab.Item
@@ -144,9 +157,7 @@ const FormNavigation = ({
           iconPosition="right"
           iconContainerStyle={styles.formNavigationIconSubmit}
           titleStyle={styles.formNavigationSubmit}
-          containerStyle={{
-            backgroundColor: '#2089dc',
-          }}
+          containerStyle={styles.formNavigationBgPrimary}
           testID="form-btn-submit"
         />
       )}
