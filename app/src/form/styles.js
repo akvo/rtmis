@@ -146,6 +146,12 @@ const styles = StyleSheet.create({
     marginRight: -10,
     marginLeft: -10,
   },
+  formNavigationBgLight: {
+    backgroundColor: '#f9fafb',
+  },
+  formNavigationBgPrimary: {
+    backgroundColor: '#2089dc',
+  },
   inputGeoContainer: {
     paddingHorizontal: 16,
     display: 'flex',

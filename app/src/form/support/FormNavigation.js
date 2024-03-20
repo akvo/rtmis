@@ -120,11 +120,13 @@ const FormNavigation = ({
         testID="form-nav-btn-back"
         disabled={showQuestionGroupList}
         disabledStyle={{ backgroundColor: 'transparent' }}
+        containerStyle={styles.formNavigationBgLight}
       />
       <Tab.Item
         title={`${activeGroup + 1}/${totalGroup}`}
         titleStyle={styles.formNavigationGroupCount}
         testID="form-nav-group-count"
+        containerStyle={styles.formNavigationBgLight}
       />
       {activeGroup < totalGroup - 1 ? (
         <Tab.Item
@@ -136,6 +138,7 @@ const FormNavigation = ({
           testID="form-nav-btn-next"
           disabled={showQuestionGroupList}
           disabledStyle={{ backgroundColor: 'transparent' }}
+          containerStyle={styles.formNavigationBgLight}
         />
       ) : (
         <Tab.Item
@@ -144,9 +147,7 @@ const FormNavigation = ({
           iconPosition="right"
           iconContainerStyle={styles.formNavigationIconSubmit}
           titleStyle={styles.formNavigationSubmit}
-          containerStyle={{
-            backgroundColor: '#2089dc',
-          }}
+          containerStyle={styles.formNavigationBgPrimary}
           testID="form-btn-submit"
         />
       )}
