@@ -56,7 +56,7 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
       });
   }, [preload, group, values]);
 
-  const onPrefilled = (id, value, type, preFilled) => {
+  const onPrefilled = (id, value, type, preFilled, isLoading = true) => {
     const isMatchAnswer =
       type === 'multiple_option'
         ? preFilled.answer.includes(value?.[0])
@@ -64,7 +64,7 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
           String(preFilled.answer) === String(value);
     if (isMatchAnswer) {
       FormState.update((s) => {
-        s.loading = true;
+        s.loading = isLoading;
       });
       const preValues = preFilled?.fill?.reduce((prev, current) => {
         /**

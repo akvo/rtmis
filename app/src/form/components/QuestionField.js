@@ -138,7 +138,7 @@ const QuestionField = ({ keyform, field: questionField, onChange, value, onPrefi
         ? [questionField.default_value[formType]]
         : questionField.default_value[formType];
       if (questionField?.pre) {
-        onPrefilled(questionField.id, defaultValue, questionType, questionField.pre);
+        onPrefilled(questionField.id, defaultValue, questionType, questionField.pre, false);
       }
       FormState.update((s) => {
         s.currentValues[questionField.id] = defaultValue;
