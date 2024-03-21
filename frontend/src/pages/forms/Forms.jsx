@@ -20,7 +20,7 @@ const Forms = () => {
   const [submit, setSubmit] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const { notify } = useNotification();
-  const { language } = store.useState((s) => s);
+  const { language, initialValue } = store.useState((s) => s);
   const { active: activeLang } = language;
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -200,6 +200,7 @@ const Forms = () => {
                 languagesDropdownSetting={{
                   showLanguageDropdown: false,
                 }}
+                initialValue={initialValue}
               />
             )
           )}
@@ -226,7 +227,7 @@ const Forms = () => {
                 !redirectToBatch ? (
                   <Button
                     key="manage-button"
-                    onClick={() => navigate("/control-center/data/manage")}
+                    onClick={() => navigate("/control-center/data")}
                   >
                     {text.finishSubmissionBtn}
                   </Button>
