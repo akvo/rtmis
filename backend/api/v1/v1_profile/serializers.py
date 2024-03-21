@@ -155,6 +155,7 @@ class AdministrationSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'code',
+            'path',
             'parent',
             'level',
             'children',
