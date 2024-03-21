@@ -856,7 +856,7 @@
           "id": 1699428072669,
           "order": 1,
           "name": "od_or_toilet_use",
-          "label": " 🟢 G1-1.2a INTERVIEW: Does your household defecate in the open, or use a toilet?",
+          "label": " 🟢 G1-1.2a : Does your household defecate in the open, or use a toilet?",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -900,7 +900,7 @@
           "id": 1710742052,
           "order": 2,
           "name": "name_household_head_other_toilet_used",
-          "label": "🟢 G1-1.2b INTERVIEW: Name the household head of the other household toilet used?",
+          "label": "🟢 G1-1.2b : Name the household head of the other household toilet used?",
           "short_label": "Code",
           "type": "text",
           "tooltip": {
@@ -921,7 +921,7 @@
           "id": 1699428400205,
           "order": 3,
           "name": "shared_toilet_use_number_of_people",
-          "label": "🟢 G1-1.2c INTERVIEW: Do you share the toilet? How many people use the toilet?",
+          "label": "🟢 G1-1.2c : Do you share the toilet? How many people use the toilet?",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -972,7 +972,7 @@
           "id": 1710742384,
           "order": 4,
           "name": "households_using_toilet",
-          "label": " 🟢 G1-1.2d INTERVIEW: How many other households use the toilet?",
+          "label": " 🟢 G1-1.2d : How many other households use the toilet?",
           "short_label": "Other households using toilet",
           "type": "number",
           "tooltip": {
@@ -991,7 +991,7 @@
           "id": 1699428351326,
           "order": 5,
           "name": "all_hh_members_use_toilet",
-          "label": "🟢 G1-1.2e INTERVIEW: Does everyone use the toilet?",
+          "label": "🟢 G1-1.2e : Does everyone use the toilet?",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1035,7 +1035,7 @@
           "id": 1699428535663,
           "order": 6,
           "name": "toilet_use_by_all_members",
-          "label": " 🟢 G2-1.1 INTERVIEW: Individual use of toilet at all times (ask each person)",
+          "label": " 🟢 G2-1.1 : Individual use of toilet at all times (ask each person)",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1086,7 +1086,7 @@
           "id": 1699427574765,
           "order": 7,
           "name": "durable_toilet_containment_collection_system",
-          "label": " 🟢 G2-1.3 INTERVIEW: Is the toilet pit (or tank) durable?",
+          "label": " 🟢 G2-1.3 : Is the toilet pit (or tank) durable?",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1186,7 +1186,7 @@
           "id": 1699427885744,
           "order": 8,
           "name": "visible_surface_outflows",
-          "label": " 🟢 G2-1.4b INTERVIEW: are surface outflows from the pit ever visible?",
+          "label": " 🟢 G2-1.4b : are surface outflows from the pit ever visible?",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1237,7 +1237,7 @@
           "id": 1699428661689,
           "order": 9,
           "name": "safely_managed_onsite_containment",
-          "label": " 🟢 G3-1.1a INTERVIEW: has the pit (or tank) ever been emptied?",
+          "label": " 🟢 G3-1.1a : has the pit (or tank) ever been emptied?",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1337,7 +1337,7 @@
           "id": 1699428820338,
           "order": 10,
           "name": "safely_managed_sanitation_services",
-          "label": " 🟢 G3-1.1b INTERVIEW: where were the pit (or tank) contents emptied to?",
+          "label": " 🟢 G3-1.1b : where were the pit (or tank) contents emptied to?",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1476,7 +1476,7 @@
           "id": 1699422286091,
           "order": 1,
           "name": "hh_toilet_observed",
-          "label": "🔵 G1-1.1a OBSERVATION: Household toilet visible?",
+          "label": "🔵 G1-1.1a : Household toilet visible?",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1545,7 +1545,7 @@
           "id": 1699423357200,
           "order": 4,
           "name": "functional_toilet",
-          "label": " 🔵 G1-1b OBSERVATION: Functional toilet",
+          "label": " 🔵 G1-1b : Functional toilet",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1589,7 +1589,7 @@
           "id": 1699423571454,
           "order": 5,
           "name": "toilet_privacy",
-          "label": " 🔵 G1-1c OBSERVATION: Toilet privacy",
+          "label": " 🔵 G1-1c : Toilet privacy",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1633,7 +1633,7 @@
           "id": 1699423696720,
           "order": 6,
           "name": "toilet_interface",
-          "label": " 🔵 G1-1.3a OBSERVATION: Type of toilet interface",
+          "label": " 🔵 G1-1.3a : Type of toilet interface",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1713,7 +1713,7 @@
           "id": 1699423946170,
           "order": 7,
           "name": "containment_or_collection_system",
-          "label": " 🔵 G1-1.3b OBSERVATION: Type of pit, tank or connection",
+          "label": " 🔵 G1-1.3b : Type of pit, tank or connection",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1853,7 +1853,7 @@
           "id": 1699424375968,
           "order": 9,
           "name": "flyproof_toilet",
-          "label": " 🔵 G1-1.3c OBSERVATION: Is toilet flyproof?",
+          "label": " 🔵 G1-1.3c : Is toilet flyproof?",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1953,7 +1953,7 @@
           "id": 1699425852809,
           "order": 10,
           "name": "clean_toilet_pandrophole",
-          "label": " 🔵 G1-1.4a OBSERVATION: Clean toilet floor and pan",
+          "label": " 🔵 G1-1.4a : Clean toilet floor and pan",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2005,7 +2005,7 @@
           "id": 1699426059842,
           "order": 11,
           "name": "clean_toilet_walls",
-          "label": " 🔵 G1-1.4b OBSERVATION: Clean toilet walls",
+          "label": " 🔵 G1-1.4b : Clean toilet walls",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2057,7 +2057,7 @@
           "id": 1699427405024,
           "order": 12,
           "name": "durable_toilet_slab",
-          "label": " 🔵 G2-1.2 OBSERVATION: Durable toilet slab",
+          "label": " 🔵 G2-1.2 : Durable toilet slab",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2157,7 +2157,7 @@
           "id": 1699427743413,
           "order": 13,
           "name": "observe_safely_managed_containment",
-          "label": " 🔵 G2-1.4a OBSERVATION: excreta contained in pit (or tank)",
+          "label": " 🔵 G2-1.4a : excreta contained in pit (or tank)",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2451,7 +2451,7 @@
           "id": 1699429162796,
           "order": 1,
           "name": "handwashing_facility_observed",
-          "label": " 🔵 🟢 G1-2.1a OBSERVATION & INTERVIEW: presence of handwashing facility",
+          "label": "🔵 🟢 G1-2.1a : presence of handwashing facility",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2528,7 +2528,7 @@
           "id": 1710753585,
           "order": 3,
           "name": "functional_hwf",
-          "label": " 🔵 G1-2.1b OBSERVATION: Functional handwashing facility",
+          "label": " 🔵 G1-2.1b : Functional handwashing facility",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2572,7 +2572,7 @@
           "id": 1699430427692,
           "order": 4,
           "name": "water_available_at_hwf",
-          "label": " 🔵 G1-2.2 OBSERVATION: Water available at handwashing facility",
+          "label": " 🔵 G1-2.2 : Water available at handwashing facility",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2616,7 +2616,7 @@
           "id": 1699430472221,
           "order": 5,
           "name": "soap_available_at_hwf",
-          "label": " 🔵 G1-2.3 OBSERVATION: Soap available at handwashing facility",
+          "label": " 🔵 G1-2.3 : Soap available at handwashing facility",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2667,7 +2667,7 @@
           "id": 1699430580239,
           "order": 6,
           "name": "handwashing_facility_type",
-          "label": " 🔵 G3-2.1 OBSERVATION: Handwashing facility type",
+          "label": " 🔵 G3-2.1 : Handwashing facility type",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2739,7 +2739,7 @@
           "id": 1699430671868,
           "order": 7,
           "name": "handsfree_operation_of_handwashing_facility",
-          "label": " 🔵 G3-2.2 OBSERVATION: Hands-free handwashing facility",
+          "label": " 🔵 G3-2.2 : Hands-free handwashing facility",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2797,7 +2797,7 @@
           "id": 1699430761393,
           "order": 8,
           "name": "adequate_drainage_of_washing_water",
-          "label": " 🔵 G3-2.3 OBSERVATION: Drainage of washing water",
+          "label": " 🔵 G3-2.3 : Drainage of washing water",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2841,7 +2841,7 @@
           "id": 1699430839676,
           "order": 9,
           "name": "handwashing_critical_toilet_times",
-          "label": "🟢 G2-2.1 INTERVIEW: when do you usually wash your hands? NOTE: Critical TOILET times",
+          "label": "🟢 G2-2.1 : when do you usually wash your hands? NOTE: Critical TOILET times",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2899,7 +2899,7 @@
           "id": 1699431035188,
           "order": 10,
           "name": "handwashing_critical_food_times",
-          "label": "🟢 G2-2.2 INTERVIEW: when do you usually wash your hands? NOTE: Critical FOOD times",
+          "label": "🟢 G2-2.2 : when do you usually wash your hands? NOTE: Critical FOOD times",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2957,7 +2957,7 @@
           "id": 1699431983680,
           "order": 11,
           "name": "handwashing_critical_infant_times",
-          "label": "🟢 G2-2.3 INTERVIEW: when do you usually wash your hands? NOTE: Critical INFANT EXCRETA times",
+          "label": "🟢 G2-2.3 : when do you usually wash your hands? NOTE: Critical INFANT EXCRETA times",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -3015,7 +3015,7 @@
           "id": 1699432052966,
           "order": 12,
           "name": "handwashing_critical_animal_times",
-          "label": "🟢 G2-2.4 INTERVIEW: when do you usually wash your hands? NOTE: Critical ANIMAL times",
+          "label": "🟢 G2-2.4 : when do you usually wash your hands? NOTE: Critical ANIMAL times",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -3148,7 +3148,7 @@
       "id": 1699432130950,
       "order": 8,
       "name": "observation__environmental_health_outcomes",
-      "label": "OBSERVATION:  Environmental Health outcomes",
+      "label": "OBSERVATION: Environmental Health outcomes",
       "description": null,
       "repeatable": false,
       "translations": null,
@@ -3157,7 +3157,7 @@
           "id": 1699432663952,
           "order": 1,
           "name": "no_exposed_human_excreta_in_compound",
-          "label": "🔵 G1-3.1 OBSERVATION: No exposed human excreta in compound",
+          "label": "🔵 G1-3.1 : No exposed human excreta in compound",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -3187,7 +3187,7 @@
           "id": 1699432130951,
           "order": 2,
           "name": "safe_management_of_child_excreta_in_compound",
-          "label": "🟢 G1-4.1 INTERVIEW: Safe management of child excreta in compound",
+          "label": "🟢 G1-4.1 : Safe management of child excreta in compound",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -3266,7 +3266,7 @@
           "id": 1699432802923,
           "order": 3,
           "name": "safe_management_of_diapers_in_compound",
-          "label": "🔵 G1-4.2 OBSERVATION & INTERVIEW: Safe management of used diapers in compound",
+          "label": "🔵 🟢 G1-4.2 : Safe management of used diapers in compound",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -3485,7 +3485,7 @@
           "id": 1699432887212,
           "order": 1,
           "name": "clean_food",
-          "label": "🔵 G2-3.1a OBSERVATION: Clean food",
+          "label": "🔵 G2-3.1a : Clean food",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -3528,7 +3528,7 @@
           "id": 1699433027913,
           "order": 2,
           "name": "covered_food_storage",
-          "label": "🔵 G2-3.1b OBSERVATION: Covered food storage",
+          "label": "🔵 G2-3.1b : Covered food storage",
           "short_label": null,
           "type": "option",
           "tooltip": null,
@@ -3569,7 +3569,7 @@
           "id": 1699433058652,
           "order": 3,
           "name": "raised_food_storage",
-          "label": "🔵 G2-3.1c OBSERVATION: Raised food storage",
+          "label": "🔵 G2-3.1c : Raised food storage",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -3612,7 +3612,7 @@
           "id": 1699433108344,
           "order": 4,
           "name": "clean_kitchen_utensils",
-          "label": "🔵 G2-3.2a OBSERVATION: Clean kitchen utensils",
+          "label": "🔵 G2-3.2a : Clean kitchen utensils",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -3655,7 +3655,7 @@
           "id": 1699433162828,
           "order": 5,
           "name": "covered_utensil_storage",
-          "label": "🔵 G2-3.2b OBSERVATION: Covered utensil storage",
+          "label": "🔵 G2-3.2b : Covered utensil storage",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -3698,7 +3698,7 @@
           "id": 1699433205793,
           "order": 6,
           "name": "raised_utensil_storage",
-          "label": "🔵 G2-3.2c OBSERVATION: Raised utensil storage",
+          "label": "🔵 G2-3.2c : Raised utensil storage",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -3741,7 +3741,7 @@
           "id": 1699433286697,
           "order": 7,
           "name": "clean_milk_containers",
-          "label": "🔵 G2-3.3a OBSERVATION: Clean milk containers",
+          "label": "🔵 G2-3.3a : Clean milk containers",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -3784,7 +3784,7 @@
           "id": 1699433337417,
           "order": 8,
           "name": "covered_container_storage",
-          "label": "🔵 G2-3.3b OBSERVATION: Covered milk container storage",
+          "label": "🔵 G2-3.3b : Covered milk container storage",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -3834,7 +3834,7 @@
           "id": 1699433394633,
           "order": 9,
           "name": "raised_container_storage",
-          "label": "🔵 G2-3.3c OBSERVATION: Raised milk container storage",
+          "label": "🔵 G2-3.3c : Raised milk container storage",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -3886,7 +3886,7 @@
       "id": 1711022464,
       "order": 10,
       "name": "safe_water_management",
-      "label": "OBSERVATION: Safe water management",
+      "label": "Safe water management",
       "description": null,
       "repeatable": false,
       "translations": null,
@@ -3895,7 +3895,7 @@
           "id": 1699433455365,
           "order": 1,
           "name": "clean_water_containers",
-          "label": "🔵 G2-4.1a OBSERVATION: Clean water containers",
+          "label": "🔵 G2-4.1a : Clean water containers",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -3938,7 +3938,7 @@
           "id": 1699433503692,
           "order": 2,
           "name": "adequate_water_quality",
-          "label": "🟢 G2-4.1b INTERVIEW: Good water quality",
+          "label": "🟢 G2-4.1b : Good water quality",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -3988,7 +3988,7 @@
           "id": 1699433564057,
           "order": 3,
           "name": "safely_stored_drinking_water",
-          "label": "🔵 G2-4.1c OBSERVATION: Safely stored drinking water",
+          "label": "🔵 G2-4.1c : Safely stored drinking water",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -4031,7 +4031,7 @@
           "id": 1699433637971,
           "order": 4,
           "name": "safely_used_water",
-          "label": "🔵 G2-4.1d OBSERVATION: Safely used water",
+          "label": "🔵 G2-4.1d : Safely used water",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -4088,7 +4088,7 @@
           "id": 1699433719018,
           "order": 5,
           "name": "clean_water_points",
-          "label": "🔵 G2-4.2a OBSERVATION: Clean water point",
+          "label": "🔵 G2-4.2a : Clean water point",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -4138,7 +4138,7 @@
           "id": 1699433765217,
           "order": 6,
           "name": "protected_water_points",
-          "label": "🔵 G2-4.2b OBSERVATION: Protected water point",
+          "label": "🔵 G2-4.2b : Protected water point",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -4188,7 +4188,7 @@
           "id": 1699433833227,
           "order": 7,
           "name": "well_drained_water_points",
-          "label": "🔵 G2-4.2c OBSERVATION: Well drained water point",
+          "label": "🔵 G2-4.2c : Well drained water point",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -4240,7 +4240,7 @@
       "id": 1711022479,
       "order": 11,
       "name": "safe_management_of_animals_and_animal_wastes",
-      "label": "Safe management of animals and animal wastes",
+      "label": "OBSERVATION: Safe management of animals and animal wastes",
       "description": null,
       "repeatable": false,
       "translations": null,
@@ -4249,7 +4249,7 @@
           "id": 1699433937138,
           "order": 1,
           "name": "no_animal_wastes_in_house",
-          "label": "🔵 G2-5.1a OBSERVATION: No animal wastes in house",
+          "label": "🔵 G2-5.1a: No animal wastes in house",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -4299,7 +4299,7 @@
           "id": 1699433983369,
           "order": 2,
           "name": "no_animal_wastes_in_compound",
-          "label": "🔵 G2-5.1b OBSERVATION: No animal wastes in compound",
+          "label": "🔵 G2-5.1b : No animal wastes in compound",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -4349,7 +4349,7 @@
           "id": 1699434044707,
           "order": 3,
           "name": "safely_managed_animal_waste_storage",
-          "label": "🔵 G2-5.2a OBSERVATION: Presence of animal waste storage area",
+          "label": "🔵 G2-5.2a : Presence of animal waste storage area",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -4399,7 +4399,7 @@
           "id": 1699434136823,
           "order": 4,
           "name": "safe_location_of_animal_waste_storage",
-          "label": "🔵 G2-5.2b OBSERVATION: Safe location of animal waste storage",
+          "label": "🔵 G2-5.2b : Safe location of animal waste storage",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -4449,7 +4449,7 @@
           "id": 1699434209933,
           "order": 5,
           "name": "safe_management_of_animal_waste_storage",
-          "label": "🔵 G2-5.2c OBSERVATION: Safe management of animal waste storage",
+          "label": "🔵 G2-5.2c : Safe management of animal waste storage",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -4499,7 +4499,7 @@
           "id": 1699434269372,
           "order": 6,
           "name": "location_animals_in_compound",
-          "label": "🔵 G2-5.3a OBSERVATION: Location of animals in compound",
+          "label": "🔵 G2-5.3a : Location of animals in compound",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -4549,7 +4549,7 @@
           "id": 1699434327613,
           "order": 7,
           "name": "safe_confinement_of_animals",
-          "label": "🔵 G2-5.3b OBSERVATION: Safe confinement of animals",
+          "label": "🔵 G2-5.3b : Safe confinement of animals",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -4716,7 +4716,7 @@
           "id": 1699434438966,
           "order": 1,
           "name": "soakpit_for_liquid_wastes",
-          "label": "🔵 G3-3.1a OBSERVATION: Soakpit for liquid wastes",
+          "label": "🔵 G3-3.1a : Soakpit for liquid wastes",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -4759,7 +4759,7 @@
           "id": 1699434488410,
           "order": 2,
           "name": "drainage_for_stormwater",
-          "label": "🔵 G3-3.1b OBSERVATION: Drainage of stormwater",
+          "label": "🔵 G3-3.1b : Drainage of stormwater",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -4809,7 +4809,7 @@
           "id": 1699434553677,
           "order": 3,
           "name": "no_visible_solid_wastes",
-          "label": "🔵 G3-3.2a OBSERVATION: No visible solid wastes",
+          "label": "🔵 G3-3.2a : No visible solid wastes",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -4852,7 +4852,7 @@
           "id": 1699434636655,
           "order": 4,
           "name": "solid_waste_facility_or_service",
-          "label": "🔵 G3-3.2b OBSERVATION: Solid waste facility or service",
+          "label": "🔵 G3-3.2b : Solid waste facility or service",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -4895,7 +4895,7 @@
           "id": 1699434771449,
           "order": 5,
           "name": "good_vector_control",
-          "label": "🔵 G3-3.3 OBSERVATION and INTERVIEW: Good vector control",
+          "label": "🔵 🟢 G3-3.3 : Good vector control",
           "short_label": null,
           "dependency": [
             {
@@ -4956,7 +4956,7 @@
           "id": 1699434939105,
           "order": 1,
           "name": "clean_faces",
-          "label": "🔵 G3-4.1a OBSERVATION: Clean faces",
+          "label": "🔵 G3-4.1a : Clean faces",
           "short_label": null,
           "dependency": [
             {
@@ -4999,7 +4999,7 @@
           "id": 1699434983278,
           "order": 2,
           "name": "clean_hands",
-          "label": "🔵 G3-4.1b OBSERVATION: Clean hands",
+          "label": "🔵 G3-4.1b : Clean hands",
           "short_label": null,
           "dependency": [
             {
@@ -5042,7 +5042,7 @@
           "id": 1699435026311,
           "order": 3,
           "name": "adequate_washing_place",
-          "label": "🔵 G3-4.2a OBSERVATION: Adequate washing place for menstrual hygiene",
+          "label": "🔵 G3-4.2a : Adequate washing place for menstrual hygiene",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -5092,7 +5092,7 @@
           "id": 1699435088758,
           "order": 4,
           "name": "menstrual_hygiene_disposal_site",
-          "label": "🔵 G3-4.2b OBSERVATION: Safe disposal site for menstrual hygiene wastes",
+          "label": "🔵 G3-4.2b : Safe disposal site for menstrual hygiene wastes",
           "short_label": null,
           "dependency": [
             {
@@ -5142,7 +5142,7 @@
           "id": 1699435154797,
           "order": 5,
           "name": "availability_of_hygiene_materials",
-          "label": "🔵 G3-4.2c INTERVIEW: Availability of menstrual hygiene materials",
+          "label": "🔵 G3-4.2c : Availability of menstrual hygiene materials",
           "short_label": null,
           "dependency": [
             {
@@ -5203,7 +5203,7 @@
           "id": 1699435207476,
           "order": 1,
           "name": "fully_immunized_children",
-          "label": "🔵 G3-5.1 OBSERVATION & INTERVIEW: Fully immunized children",
+          "label": "🔵 🟢 G3-5.1 : Fully immunized children",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -5253,7 +5253,7 @@
           "id": 1699435265962,
           "order": 2,
           "name": "vitamin_a_supplements_received",
-          "label": "🔵 G3-5.2 OBSERVATION & INTERVIEW: Vitamin A supplements received",
+          "label": "🔵 🟢 G3-5.2 : Vitamin A supplements received",
           "short_label": null,
           "dependency": [
             {
@@ -5303,7 +5303,7 @@
           "id": 1699435329279,
           "order": 3,
           "name": "exclusive_breastfeeding_under_6_months",
-          "label": "🔵 G3-5.3 INTERVIEW: Exclusive breastfeeding for under 6-month children",
+          "label": "🔵 G3-5.3 : Exclusive breastfeeding for under 6-month children",
           "short_label": null,
           "type": "option",
           "dependency": [
@@ -5353,7 +5353,7 @@
           "id": 1699435397728,
           "order": 4,
           "name": "nutritious_diet_6m_2y",
-          "label": "🔵 G3-5.4 INTERVIEW: Nutritious diet for 6-month to 2-year old children",
+          "label": "🔵 G3-5.4 : Nutritious diet for 6-month to 2-year old children",
           "short_label": null,
           "dependency": [
             {
@@ -5403,7 +5403,7 @@
           "id": 1699435455818,
           "order": 5,
           "name": "malariasafe_home",
-          "label": "🔵 G3-E1 OBSERVATION: Malaria-safe home",
+          "label": "🔵 G3-E1 : Malaria-safe home",
           "short_label": null,
           "dependency": [
             {
@@ -5453,7 +5453,7 @@
           "id": 1699435526190,
           "order": 6,
           "name": "dewormed_home",
-          "label": "🔵 G3-E2 OBSERVATION: Dewormed home",
+          "label": "🔵 G3-E2 : Dewormed home",
           "short_label": null,
           "dependency": [
             {
