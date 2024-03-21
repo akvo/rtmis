@@ -269,7 +269,7 @@ describe('QuestionField component', () => {
     });
 
     await waitFor(() => {
-      const questionText = getByText('2. Your Name');
+      const questionText = getByText('1. Your Name');
       const inputElement = queryByTestId('type-input');
       const errorEl = queryByTestId('err-validation-text');
       expect(questionText).toBeDefined();

@@ -5,7 +5,13 @@ import TypeInput from '../TypeInput';
 describe('TypeInput component', () => {
   it('should render the component correctly', () => {
     const { getByTestId, getByText } = render(
-      <TypeInput onChange={() => jest.fn()} values={{}} id="inputField" label="Field Name" />,
+      <TypeInput
+        keyform={1}
+        onChange={() => jest.fn()}
+        values={{}}
+        id="inputField"
+        label="Field Name"
+      />,
     );
 
     const fieldLabel = getByTestId('field-label');
@@ -20,7 +26,13 @@ describe('TypeInput component', () => {
     const onChangeMock = jest.fn();
 
     const { getByTestId } = render(
-      <TypeInput onChange={onChangeMock} values={{}} id="inputField" label="Field Name" />,
+      <TypeInput
+        keyform={1}
+        onChange={onChangeMock}
+        values={{}}
+        id="inputField"
+        label="Field Name"
+      />,
     );
 
     const inputElement = getByTestId('type-input');
@@ -32,7 +44,13 @@ describe('TypeInput component', () => {
     const initialValue = 'Initial Value';
 
     const { getByTestId } = render(
-      <TypeInput onChange={() => {}} value={initialValue} id="inputField" label="Field Name" />,
+      <TypeInput
+        keyform={1}
+        onChange={() => {}}
+        value={initialValue}
+        id="inputField"
+        label="Field Name"
+      />,
     );
 
     const inputElement = getByTestId('type-input');
