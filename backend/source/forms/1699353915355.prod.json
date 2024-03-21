@@ -903,7 +903,9 @@
           "label": "🟢 G1-1.2b INTERVIEW: Name the household head of the other household toilet used?",
           "short_label": "Code",
           "type": "text",
-          "tooltip": null,
+          "tooltip": {
+            "text": "<b>Other household toilet:</b> enter the name of the household head who owns the other household toilet used <b>INTERVIEW: </b> do you share this toilet with others who are not members of your household?<br/><b>Shared toilet use:</b> shared use of a toilet is acceptable, providing that no more than 10-15 people use the toilet. The County Public Health Office should agree on the maximum number of people sharing a toilet based on local practices and evidence of hygienic outcomes in shared toilets."
+          },
           "required": false,
           "meta": false,
           "options": null,
@@ -974,7 +976,7 @@
           "short_label": "Other households using toilet",
           "type": "number",
           "tooltip": {
-            "text": ""
+            "text": "<b>INTERVIEW:</b> are any members of your household unable to use the toilet?<br/>INTERVIEW (for those unable to use): are they able to use the toilet with assistance?<br/><b>All use toilet:</b> household respondent confirms that everyone EITHER uses the toilet, OR is assisted to use the toilet"
           },
           "required": true,
           "meta": false,
@@ -1031,7 +1033,7 @@
         },
         {
           "id": 1699428535663,
-          "order": 5,
+          "order": 6,
           "name": "toilet_use_by_all_members",
           "label": " 🟢 G2-1.1 INTERVIEW: Individual use of toilet at all times (ask each person)",
           "short_label": null,
@@ -1082,7 +1084,7 @@
         },
         {
           "id": 1699427574765,
-          "order": 6,
+          "order": 7,
           "name": "durable_toilet_containment_collection_system",
           "label": " 🟢 G2-1.3 INTERVIEW: Is the toilet pit (or tank) durable?",
           "short_label": null,
@@ -1182,7 +1184,7 @@
         },
         {
           "id": 1699427885744,
-          "order": 7,
+          "order": 8,
           "name": "visible_surface_outflows",
           "label": " 🟢 G2-1.4b INTERVIEW: are surface outflows from the pit ever visible?",
           "short_label": null,
@@ -1233,7 +1235,7 @@
         },
         {
           "id": 1699428661689,
-          "order": 8,
+          "order": 9,
           "name": "safely_managed_onsite_containment",
           "label": " 🟢 G3-1.1a INTERVIEW: has the pit (or tank) ever been emptied?",
           "short_label": null,
@@ -1333,7 +1335,7 @@
         },
         {
           "id": 1699428820338,
-          "order": 9,
+          "order": 10,
           "name": "safely_managed_sanitation_services",
           "label": " 🟢 G3-1.1b INTERVIEW: where were the pit (or tank) contents emptied to?",
           "short_label": null,
@@ -3467,10 +3469,21 @@
               }
             ]
           }
-        },
+        }
+      ]
+    },
+    {
+      "id": 1711022444,
+      "order": 9,
+      "name": "safe_food_hygiene",
+      "label": "OBSERVATION: Safe food hygiene",
+      "description": null,
+      "repeatable": false,
+      "translations": null,
+      "questions":[
         {
           "id": 1699432887212,
-          "order": 5,
+          "order": 1,
           "name": "clean_food",
           "label": "🔵 G2-3.1a OBSERVATION: Clean food",
           "short_label": null,
@@ -3513,7 +3526,7 @@
         },
         {
           "id": 1699433027913,
-          "order": 6,
+          "order": 2,
           "name": "covered_food_storage",
           "label": "🔵 G2-3.1b OBSERVATION: Covered food storage",
           "short_label": null,
@@ -3554,7 +3567,7 @@
         },
         {
           "id": 1699433058652,
-          "order": 7,
+          "order": 3,
           "name": "raised_food_storage",
           "label": "🔵 G2-3.1c OBSERVATION: Raised food storage",
           "short_label": null,
@@ -3597,7 +3610,7 @@
         },
         {
           "id": 1699433108344,
-          "order": 8,
+          "order": 4,
           "name": "clean_kitchen_utensils",
           "label": "🔵 G2-3.2a OBSERVATION: Clean kitchen utensils",
           "short_label": null,
@@ -3640,7 +3653,7 @@
         },
         {
           "id": 1699433162828,
-          "order": 9,
+          "order": 5,
           "name": "covered_utensil_storage",
           "label": "🔵 G2-3.2b OBSERVATION: Covered utensil storage",
           "short_label": null,
@@ -3683,7 +3696,7 @@
         },
         {
           "id": 1699433205793,
-          "order": 10,
+          "order": 6,
           "name": "raised_utensil_storage",
           "label": "🔵 G2-3.2c OBSERVATION: Raised utensil storage",
           "short_label": null,
@@ -3726,7 +3739,7 @@
         },
         {
           "id": 1699433286697,
-          "order": 11,
+          "order": 7,
           "name": "clean_milk_containers",
           "label": "🔵 G2-3.3a OBSERVATION: Clean milk containers",
           "short_label": null,
@@ -3769,7 +3782,7 @@
         },
         {
           "id": 1699433337417,
-          "order": 12,
+          "order": 8,
           "name": "covered_container_storage",
           "label": "🔵 G2-3.3b OBSERVATION: Covered milk container storage",
           "short_label": null,
@@ -3819,7 +3832,7 @@
         },
         {
           "id": 1699433394633,
-          "order": 13,
+          "order": 9,
           "name": "raised_container_storage",
           "label": "🔵 G2-3.3c OBSERVATION: Raised milk container storage",
           "short_label": null,
@@ -3866,10 +3879,21 @@
             }
           ],
           "fn": null
-        },
+        }
+      ]
+    },
+    {
+      "id": 1711022464,
+      "order": 10,
+      "name": "safe_water_management",
+      "label": "OBSERVATION: Safe water management",
+      "description": null,
+      "repeatable": false,
+      "translations": null,
+      "questions":[
         {
           "id": 1699433455365,
-          "order": 14,
+          "order": 1,
           "name": "clean_water_containers",
           "label": "🔵 G2-4.1a OBSERVATION: Clean water containers",
           "short_label": null,
@@ -3912,7 +3936,7 @@
         },
         {
           "id": 1699433503692,
-          "order": 15,
+          "order": 2,
           "name": "adequate_water_quality",
           "label": "🟢 G2-4.1b INTERVIEW: Good water quality",
           "short_label": null,
@@ -3962,7 +3986,7 @@
         },
         {
           "id": 1699433564057,
-          "order": 16,
+          "order": 3,
           "name": "safely_stored_drinking_water",
           "label": "🔵 G2-4.1c OBSERVATION: Safely stored drinking water",
           "short_label": null,
@@ -4005,7 +4029,7 @@
         },
         {
           "id": 1699433637971,
-          "order": 17,
+          "order": 4,
           "name": "safely_used_water",
           "label": "🔵 G2-4.1d OBSERVATION: Safely used water",
           "short_label": null,
@@ -4062,7 +4086,7 @@
         },
         {
           "id": 1699433719018,
-          "order": 18,
+          "order": 5,
           "name": "clean_water_points",
           "label": "🔵 G2-4.2a OBSERVATION: Clean water point",
           "short_label": null,
@@ -4112,7 +4136,7 @@
         },
         {
           "id": 1699433765217,
-          "order": 19,
+          "order": 6,
           "name": "protected_water_points",
           "label": "🔵 G2-4.2b OBSERVATION: Protected water point",
           "short_label": null,
@@ -4162,7 +4186,7 @@
         },
         {
           "id": 1699433833227,
-          "order": 20,
+          "order": 7,
           "name": "well_drained_water_points",
           "label": "🔵 G2-4.2c OBSERVATION: Well drained water point",
           "short_label": null,
@@ -4209,10 +4233,21 @@
             }
           ],
           "fn": null
-        },
+        }
+      ]
+    },
+    {
+      "id": 1711022479,
+      "order": 11,
+      "name": "safe_management_of_animals_and_animal_wastes",
+      "label": "Safe management of animals and animal wastes",
+      "description": null,
+      "repeatable": false,
+      "translations": null,
+      "questions":[
         {
           "id": 1699433937138,
-          "order": 21,
+          "order": 1,
           "name": "no_animal_wastes_in_house",
           "label": "🔵 G2-5.1a OBSERVATION: No animal wastes in house",
           "short_label": null,
@@ -4262,7 +4297,7 @@
         },
         {
           "id": 1699433983369,
-          "order": 22,
+          "order": 2,
           "name": "no_animal_wastes_in_compound",
           "label": "🔵 G2-5.1b OBSERVATION: No animal wastes in compound",
           "short_label": null,
@@ -4312,7 +4347,7 @@
         },
         {
           "id": 1699434044707,
-          "order": 23,
+          "order": 3,
           "name": "safely_managed_animal_waste_storage",
           "label": "🔵 G2-5.2a OBSERVATION: Presence of animal waste storage area",
           "short_label": null,
@@ -4362,7 +4397,7 @@
         },
         {
           "id": 1699434136823,
-          "order": 24,
+          "order": 4,
           "name": "safe_location_of_animal_waste_storage",
           "label": "🔵 G2-5.2b OBSERVATION: Safe location of animal waste storage",
           "short_label": null,
@@ -4412,7 +4447,7 @@
         },
         {
           "id": 1699434209933,
-          "order": 25,
+          "order": 5,
           "name": "safe_management_of_animal_waste_storage",
           "label": "🔵 G2-5.2c OBSERVATION: Safe management of animal waste storage",
           "short_label": null,
@@ -4462,7 +4497,7 @@
         },
         {
           "id": 1699434269372,
-          "order": 26,
+          "order": 6,
           "name": "location_animals_in_compound",
           "label": "🔵 G2-5.3a OBSERVATION: Location of animals in compound",
           "short_label": null,
@@ -4512,7 +4547,7 @@
         },
         {
           "id": 1699434327613,
-          "order": 27,
+          "order": 7,
           "name": "safe_confinement_of_animals",
           "label": "🔵 G2-5.3b OBSERVATION: Safe confinement of animals",
           "short_label": null,
@@ -4562,7 +4597,7 @@
         },
         {
           "id": 16994260598423,
-          "order": 28,
+          "order": 8,
           "name": "monitor_G3",
           "label": "Would you also like to monitor G3 outcomes",
           "short_label": null,
@@ -4665,10 +4700,21 @@
               }
             ]
           }
-        },
+        }
+      ]
+    },
+    {
+      "id": 1711022498,
+      "order": 12,
+      "name": "safe_waste_management",
+      "label": "Safe waste management",
+      "description": null,
+      "repeatable": false,
+      "translations": null,
+      "questions":[
         {
           "id": 1699434438966,
-          "order": 29,
+          "order": 1,
           "name": "soakpit_for_liquid_wastes",
           "label": "🔵 G3-3.1a OBSERVATION: Soakpit for liquid wastes",
           "short_label": null,
@@ -4711,7 +4757,7 @@
         },
         {
           "id": 1699434488410,
-          "order": 30,
+          "order": 2,
           "name": "drainage_for_stormwater",
           "label": "🔵 G3-3.1b OBSERVATION: Drainage of stormwater",
           "short_label": null,
@@ -4761,7 +4807,7 @@
         },
         {
           "id": 1699434553677,
-          "order": 31,
+          "order": 3,
           "name": "no_visible_solid_wastes",
           "label": "🔵 G3-3.2a OBSERVATION: No visible solid wastes",
           "short_label": null,
@@ -4804,7 +4850,7 @@
         },
         {
           "id": 1699434636655,
-          "order": 32,
+          "order": 4,
           "name": "solid_waste_facility_or_service",
           "label": "🔵 G3-3.2b OBSERVATION: Solid waste facility or service",
           "short_label": null,
@@ -4847,7 +4893,7 @@
         },
         {
           "id": 1699434771449,
-          "order": 46,
+          "order": 5,
           "name": "good_vector_control",
           "label": "🔵 G3-3.3 OBSERVATION and INTERVIEW: Good vector control",
           "short_label": null,
@@ -4894,10 +4940,21 @@
             }
           ],
           "fn": null
-        },
+        }
+    ]
+    },
+    {
+      "id": 1711022512,
+      "order": 13,
+      "name": "good_personal_hygiene",
+      "label": "Good personal hygiene",
+      "description": null,
+      "repeatable": false,
+      "translations": null,
+      "questions":[
         {
           "id": 1699434939105,
-          "order": 33,
+          "order": 1,
           "name": "clean_faces",
           "label": "🔵 G3-4.1a OBSERVATION: Clean faces",
           "short_label": null,
@@ -4940,7 +4997,7 @@
         },
         {
           "id": 1699434983278,
-          "order": 34,
+          "order": 2,
           "name": "clean_hands",
           "label": "🔵 G3-4.1b OBSERVATION: Clean hands",
           "short_label": null,
@@ -4983,7 +5040,7 @@
         },
         {
           "id": 1699435026311,
-          "order": 35,
+          "order": 3,
           "name": "adequate_washing_place",
           "label": "🔵 G3-4.2a OBSERVATION: Adequate washing place for menstrual hygiene",
           "short_label": null,
@@ -5033,7 +5090,7 @@
         },
         {
           "id": 1699435088758,
-          "order": 36,
+          "order": 4,
           "name": "menstrual_hygiene_disposal_site",
           "label": "🔵 G3-4.2b OBSERVATION: Safe disposal site for menstrual hygiene wastes",
           "short_label": null,
@@ -5083,7 +5140,7 @@
         },
         {
           "id": 1699435154797,
-          "order": 37,
+          "order": 5,
           "name": "availability_of_hygiene_materials",
           "label": "🔵 G3-4.2c INTERVIEW: Availability of menstrual hygiene materials",
           "short_label": null,
@@ -5130,10 +5187,21 @@
             }
           ],
           "fn": null
-        },
+        }
+      ]
+    },
+    {
+      "id": 1711022528,
+      "order": 14,
+      "name": "good_nutrition",
+      "label": "Good nutrition",
+      "description": null,
+      "repeatable": false,
+      "translations": null,
+      "questions":[
         {
           "id": 1699435207476,
-          "order": 38,
+          "order": 1,
           "name": "fully_immunized_children",
           "label": "🔵 G3-5.1 OBSERVATION & INTERVIEW: Fully immunized children",
           "short_label": null,
@@ -5183,7 +5251,7 @@
         },
         {
           "id": 1699435265962,
-          "order": 39,
+          "order": 2,
           "name": "vitamin_a_supplements_received",
           "label": "🔵 G3-5.2 OBSERVATION & INTERVIEW: Vitamin A supplements received",
           "short_label": null,
@@ -5233,7 +5301,7 @@
         },
         {
           "id": 1699435329279,
-          "order": 40,
+          "order": 3,
           "name": "exclusive_breastfeeding_under_6_months",
           "label": "🔵 G3-5.3 INTERVIEW: Exclusive breastfeeding for under 6-month children",
           "short_label": null,
@@ -5283,7 +5351,7 @@
         },
         {
           "id": 1699435397728,
-          "order": 41,
+          "order": 4,
           "name": "nutritious_diet_6m_2y",
           "label": "🔵 G3-5.4 INTERVIEW: Nutritious diet for 6-month to 2-year old children",
           "short_label": null,
@@ -5333,7 +5401,7 @@
         },
         {
           "id": 1699435455818,
-          "order": 42,
+          "order": 5,
           "name": "malariasafe_home",
           "label": "🔵 G3-E1 OBSERVATION: Malaria-safe home",
           "short_label": null,
@@ -5383,7 +5451,7 @@
         },
         {
           "id": 1699435526190,
-          "order": 43,
+          "order": 6,
           "name": "dewormed_home",
           "label": "🔵 G3-E2 OBSERVATION: Dewormed home",
           "short_label": null,
@@ -5435,7 +5503,7 @@
     },
     {
       "id": 1710757443,
-      "order": 9,
+      "order": 15,
       "name": "observation__environmental_health_outcomes_results",
       "label": "OUTCOME RESULTS:  Environmental Health",
       "description": null,
@@ -6000,7 +6068,7 @@
     },
     {
       "id": 1703086270253,
-      "order": 10,
+      "order": 16,
       "name": "summary_of_outcomes",
       "label": "Summary of Outcomes",
       "description": "This section shows the summary of the outcomes for all toilet and hand washing indicators",
