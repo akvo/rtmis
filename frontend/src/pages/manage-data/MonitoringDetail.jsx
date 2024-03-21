@@ -17,6 +17,7 @@ import {
   DownCircleOutlined,
   DeleteOutlined,
   ArrowLeftOutlined,
+  FormOutlined,
 } from "@ant-design/icons";
 import { useParams, useNavigate } from "react-router-dom";
 import { api, config, store, uiText } from "../../lib";
@@ -37,6 +38,7 @@ const MonitoringDetail = () => {
   const [deleting, setDeleting] = useState(false);
   const [editedRecord, setEditedRecord] = useState({});
   const [editable, setEditable] = useState(false);
+  const [loadMonitoring, setLoadMonitoring] = useState(false);
   const { form, parentId } = useParams();
   const navigate = useNavigate();
 
@@ -118,6 +120,79 @@ const MonitoringDetail = () => {
     }
   };
 
+  const getAdministrations = async (id) => {
+    const { data: apiData } = await api.get(`administration/${id}`);
+    const parents = apiData?.path?.split(".") || [];
+    return [...parents, apiData?.id]
+      .filter((a) => a !== "")
+      .map((a) => parseInt(a, 10))
+      .slice(1);
+  };
+
+  const transformValue = (type, value) => {
+    if (type === "option" && Array.isArray(value) && value.length) {
+      return value[0];
+    }
+    if (type === "geo" && Array.isArray(value) && value.length === 2) {
+      const [lat, lng] = value;
+      return { lat, lng };
+    }
+    return value;
+  };
+
+  const goToMonitoring = async () => {
+    setLoadMonitoring(true);
+    try {
+      const { data: apiData } = await api.get(
+        `form/web/${selectedFormData?.form}`
+      );
+      const questions = apiData?.question_group?.flatMap((qg) => qg?.question);
+      const res = await fetch(
+        `${window.location.origin}/datapoints/${selectedFormData?.uuid}.json`
+      );
+      const { answers } = await res.json();
+      /**
+       * Get administrations value
+       */
+      const findAdmQuestion = questions.find(
+        (q) =>
+          q?.type === "cascade" && q?.source?.file === "administrator.sqlite"
+      );
+      let administrations = [answers?.[findAdmQuestion?.id]];
+      if (answers?.[findAdmQuestion?.id]) {
+        administrations = await getAdministrations(answers[findAdmQuestion.id]);
+      }
+      /**
+       * Transform answers to Webform format
+       */
+      const initialValue = questions.map((q) => ({
+        question: q?.id,
+        value:
+          q?.id === findAdmQuestion?.id
+            ? administrations
+            : transformValue(q?.type, answers?.[q?.id]),
+      }));
+
+      store.update((s) => {
+        s.initialValue = initialValue;
+      });
+
+      setTimeout(() => {
+        /**
+         * Add a second delay to complete the initial value
+         */
+        setLoadMonitoring(false);
+        navigate(`/control-center/form/${selectedFormData?.form}`);
+      }, 1000);
+    } catch (error) {
+      setLoadMonitoring(false);
+      Modal.error({
+        title: text.updateDataError,
+        content: String(error),
+      });
+    }
+  };
+
   useEffect(() => {
     if (form && !updateRecord) {
       setLoading(true);
@@ -165,14 +240,28 @@ const MonitoringDetail = () => {
 
       <div className="table-section">
         <div className="table-wrapper">
-          <Button
-            type="primary"
-            shape="round"
-            onClick={() => navigate("/control-center/data")}
-            icon={<ArrowLeftOutlined />}
-          >
-            {text.backManageData}
-          </Button>
+          <Row justify={"space-between"} align={"middle"}>
+            <Col span={6}>
+              <Button
+                shape="round"
+                onClick={() => navigate("/control-center/data")}
+                icon={<ArrowLeftOutlined />}
+              >
+                {text.backManageData}
+              </Button>
+            </Col>
+            <Col span={6} style={{ textAlign: "right" }}>
+              <Button
+                type="primary"
+                shape="round"
+                onClick={goToMonitoring}
+                icon={<FormOutlined />}
+                loading={loadMonitoring}
+              >
+                {text.updateDataButton}
+              </Button>
+            </Col>
+          </Row>
           <Divider />
           <Title>{selectedFormData?.name || dataset?.[0]?.name}</Title>
           <div
