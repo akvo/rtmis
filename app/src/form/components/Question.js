@@ -69,7 +69,7 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
       });
   }, [preload, group, values]);
 
-  const onPrefilled = (id, value, type, preFilled, isLoading = true) => {
+  const onDefaultValue = (id, value, type, preFilled, isLoading = true) => {
     const isMatchAnswer =
       type === 'multiple_option'
         ? preFilled.answer.includes(value?.[0])
@@ -107,7 +107,7 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
 
     const preFilled = field?.pre;
     if (preFilled?.answer) {
-      onPrefilled(id, value, field.type, preFilled);
+      onDefaultValue(id, value, field.type, preFilled);
     }
 
     if (field?.source?.file === 'administrator.sqlite') {
@@ -135,7 +135,7 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
     }
   }, [index]);
 
-  const performPrefilled = useCallback(() => {
+  const handleOnPrefilled = useCallback(() => {
     /**
      * Prefilled
      */
@@ -152,8 +152,8 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
   }, [currentPreFilled]);
 
   useEffect(() => {
-    performPrefilled();
-  }, [performPrefilled]);
+    handleOnPrefilled();
+  }, [handleOnPrefilled]);
 
   return (
     <FlatList
@@ -169,7 +169,7 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
             onChange={handleOnChange}
             value={values?.[field.id]}
             questions={questions}
-            onPrefilled={onPrefilled}
+            onDefaultValue={onDefaultValue}
           />
         </View>
       )}
