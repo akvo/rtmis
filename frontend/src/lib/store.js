@@ -34,6 +34,7 @@ const defaultUIState = {
   options: {
     entityTypes: [],
   },
+  initialValue: [],
 };
 
 const store = new Store(defaultUIState);
