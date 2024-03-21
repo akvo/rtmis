@@ -21,7 +21,7 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
 
   const questions = useMemo(() => {
     if (group?.question?.length) {
-      return group.question
+      const questionList = group.question
         .filter((q) => onFilterDependency(group, values, q))
         .filter((q) => (q?.extra?.type === 'entity' && prevAdmAnswer) || !q?.extra?.type)
         .filter((q) => {
@@ -33,6 +33,19 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
           }
           return q;
         });
+      const questionWithNumber = questionList.reduce((curr, q, i) => {
+        if (q?.default_value && i === 0) {
+          return [{ ...q, keyform: 0 }];
+        }
+        if (q?.default_value && i > 0) {
+          return [...curr, { ...q, keyform: curr[i - 1].keyform }];
+        }
+        if (i === 0) {
+          return [{ ...q, keyform: 1 }];
+        }
+        return [...curr, { ...q, keyform: curr[i - 1].keyform + 1 }];
+      }, []);
+      return questionWithNumber;
     }
     return [];
   }, [group, values, prevAdmAnswer, entityOptions]);
@@ -148,10 +161,10 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
       scrollEnabled
       data={questions}
       keyExtractor={(item) => `question-${item.id}`}
-      renderItem={({ item: field, index: ix }) => (
+      renderItem={({ item: field }) => (
         <View key={`question-${field.id}`} style={styles.questionContainer}>
           <QuestionField
-            keyform={ix}
+            keyform={field.keyform}
             field={field}
             onChange={handleOnChange}
             value={values?.[field.id]}
