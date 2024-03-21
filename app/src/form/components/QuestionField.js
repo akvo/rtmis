@@ -19,7 +19,7 @@ import {
 import styles from '../styles';
 import { FormState } from '../../store';
 
-const QuestionField = ({ keyform, field: questionField, onChange, value, onPrefilled }) => {
+const QuestionField = ({ keyform, field: questionField, onChange, value, onDefaultValue }) => {
   const questionType = questionField?.type;
   const defaultValQuestion = questionField?.default_value || {};
   const displayValue =
@@ -132,13 +132,13 @@ const QuestionField = ({ keyform, field: questionField, onChange, value, onPrefi
     }
   }, [selectedForm, questionField, questionType, keyform, value, handleOnChangeField]);
 
-  const handleDefaultValue = useCallback(() => {
+  const handleOnDefaultValue = useCallback(() => {
     if (questionField?.id && questionField?.default_value?.[formType] && !value) {
       const defaultValue = ['option', 'multiple_option'].includes(questionType)
         ? [questionField.default_value[formType]]
         : questionField.default_value[formType];
       if (questionField?.pre) {
-        onPrefilled(questionField.id, defaultValue, questionType, questionField.pre, false);
+        onDefaultValue(questionField.id, defaultValue, questionType, questionField.pre, false);
       }
       FormState.update((s) => {
         s.currentValues[questionField.id] = defaultValue;
@@ -151,12 +151,12 @@ const QuestionField = ({ keyform, field: questionField, onChange, value, onPrefi
     value,
     formType,
     questionType,
-    onPrefilled,
+    onDefaultValue,
   ]);
 
   useEffect(() => {
-    handleDefaultValue();
-  }, [handleDefaultValue]);
+    handleOnDefaultValue();
+  }, [handleOnDefaultValue]);
 
   return (
     <View testID="question-view" style={{ display: displayValue }}>
@@ -182,10 +182,10 @@ QuestionField.propTypes = {
     PropTypes.object,
     PropTypes.array,
   ]),
-  onPrefilled: PropTypes.func,
+  onDefaultValue: PropTypes.func,
 };
 
 QuestionField.defaultProps = {
   value: null,
-  onPrefilled: () => {},
+  onDefaultValue: () => {},
 };
