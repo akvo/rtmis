@@ -59,6 +59,18 @@ const DataFilters = ({ loading, showAdm = true, resetFilter = true }) => {
         setExporting(false);
       });
   };
+
+  const goToAddForm = () => {
+    /***
+     * reset initial value and monitoring
+     */
+    store.update((s) => {
+      s.initialValue = [];
+      s.monitoring = null;
+    });
+    navigate(`/control-center/form/${selectedForm}`);
+  };
+
   return (
     <>
       <Row style={{ marginBottom: "16px" }}>
@@ -85,18 +97,17 @@ const DataFilters = ({ loading, showAdm = true, resetFilter = true }) => {
                 {text.download}
               </Button>
             )}
-            <Link to={`/control-center/form/${selectedForm}`}>
-              <Button
-                shape="round"
-                icon={<PlusOutlined />}
-                type="primary"
-                disabled={
-                  !isUserHasForms && authUser?.role?.value !== "Super Admin"
-                }
-              >
-                Add New
-              </Button>
-            </Link>
+            <Button
+              shape="round"
+              icon={<PlusOutlined />}
+              type="primary"
+              disabled={
+                !isUserHasForms && authUser?.role?.value !== "Super Admin"
+              }
+              onClick={goToAddForm}
+            >
+              Add New
+            </Button>
           </Space>
         </Col>
       </Row>
