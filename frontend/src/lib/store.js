@@ -34,6 +34,8 @@ const defaultUIState = {
   options: {
     entityTypes: [],
   },
+  initialValue: [],
+  monitoring: null,
 };
 
 const store = new Store(defaultUIState);
