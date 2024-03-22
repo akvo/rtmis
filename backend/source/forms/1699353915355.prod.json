@@ -61,10 +61,6 @@
                 "answer": ["other_gender"]
               },
               {
-                "id": 1699420491508,
-                "answer": ["yes_owned"]
-              },
-              {
                 "id": 1699420621840,
                 "answer": ["other_hh_not_in_atrisk_category"]
               },
@@ -94,12 +90,6 @@
               },
               {
                 "id": 1699425852809,
-                "answer": [
-                  "g0_not_clean_heavy_traces_of_faeces_or_soiled_cleaning_materials"
-                ]
-              },
-              {
-                "id": 1699425943159,
                 "answer": [
                   "g0_not_clean_heavy_traces_of_faeces_or_soiled_cleaning_materials"
                 ]
@@ -364,7 +354,7 @@
           "short_label": null,
           "type": "text",
           "tooltip": null,
-          "required": true,
+          "required": false,
           "meta": true,
           "options": null,
           "rule": null,
@@ -378,7 +368,7 @@
           "short_label": null,
           "type": "text",
           "tooltip": null,
-          "required": true,
+          "required": false,
           "meta": false,
           "options": null,
           "rule": null,
@@ -619,43 +609,8 @@
           }
         },
         {
-          "id": 1699420491508,
-          "order": 19,
-          "name": "family_own_house",
-          "label": "Does your family own the house that you live in?",
-          "short_label": null,
-          "type": "option",
-          "tooltip": {
-            "text": "Residential status"
-          },
-          "required": true,
-          "meta": false,
-          "options": [
-            {
-              "id": 1699420532760,
-              "order": 1,
-              "label": "Yes, owned",
-              "value": "yes_owned"
-            },
-            {
-              "id": 1699420532761,
-              "order": 2,
-              "label": "No, rented (single family)",
-              "value": "no_rented_single_family"
-            },
-            {
-              "id": 1699420568987,
-              "order": 3,
-              "label": "No, rented (shared with multiple families)",
-              "value": "no_rented_shared_with_multiple_families"
-            }
-          ],
-          "rule": null,
-          "fn": null
-        },
-        {
           "id": 1699420621840,
-          "order": 20,
+          "order": 19,
           "name": "hh_in_any_atrisk_categories",
           "label": "Household: in any at-risk categories?",
           "short_label": null,
@@ -667,101 +622,108 @@
           "meta": false,
           "options": [
             {
-              "id": 1702915144068,
-              "order": 1,
-              "label": "OTHER household (NOT in at-risk category)",
-              "value": "other_hh_not_in_atrisk_category",
-              "color": "#38A15A"
-            },
-            {
               "id": 1702915144069,
-              "order": 2,
+              "order": 1,
               "label": "AT RISK: Disabled household member (mentally or physically)",
               "value": "at_risk_disabled_hh_member_mentally_or_physically",
               "color": "#DB3B3B"
             },
             {
               "id": 1702916149557,
-              "order": 3,
+              "order": 2,
               "label": "AT RISK: Elderly-headed households (without support)",
               "value": "at_risk_elderlyheaded_households_without_support",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702916163485,
-              "order": 4,
-              "label": "AT RISK: Orphans and vulnerable children",
-              "value": "at_risk_orphans_and_vulnerable_children",
-              "color": "#DB3B3B"
-            },
-            {
-              "id": 1702916204384,
-              "order": 5,
-              "label": "AT RISK: Female-headed household (single mothers, divorcees, widows)",
-              "value": "at_risk_femaleheaded_hh_single_mothers_divorcees_widows",
-              "color": "#DB3B3B"
-            },
-            {
-              "id": 1702916223734,
-              "order": 6,
-              "label": "AT RISK: Internally displaced people",
-              "value": "at_risk_internally_displaced_people",
-              "color": "#DB3B3B"
-            },
-            {
-              "id": 1702916231272,
-              "order": 7,
-              "label": "AT RISK: Returning refugees",
-              "value": "at_risk_returning_refugees",
-              "color": "#DB3B3B"
-            },
-            {
-              "id": 1702916243750,
-              "order": 8,
-              "label": "AT RISK: HIV/AIDS affected (or other serious illness)",
-              "value": "at_risk_hivaids_affected_or_other_serious_illness",
-              "color": "#DB3B3B"
-            },
-            {
-              "id": 1702916252967,
-              "order": 9,
-              "label": "AT RISK: Religious minorities",
-              "value": "at_risk_religious_minorities",
-              "color": "#DB3B3B"
-            },
-            {
               "id": 1702916262350,
-              "order": 10,
+              "order": 3,
               "label": "AT RISK: Ethnic minorities",
               "value": "at_risk_ethnic_minorities",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702916282717,
-              "order": 11,
-              "label": "AT RISK: Nomadic or semi-nomadic pastoralists",
-              "value": "at_risk_nomadic_or_seminomadic",
+              "id": 1702916204384,
+              "order": 4,
+              "label": "AT RISK: Female-headed household (single mothers, divorcees, widows)",
+              "value": "at_risk_femaleheaded_hh_single_mothers_divorcees_widows",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702916285517,
-              "order": 12,
-              "label": "AT RISK: Seasonal migrants (fisherfolk, farmers etc)",
-              "value": "at_risk_seasonal_fishing_group",
+              "id": 1702916243750,
+              "order": 5,
+              "label": "AT RISK: HIV/AIDS affected (or other serious illness)",
+              "value": "at_risk_hivaids_affected_or_other_serious_illness",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1702916333235,
+              "order": 6,
+              "label": "AT RISK: In-migrants (new households in last 12 months)",
+              "value": "at_risk_inmigrants_new_households_in_last_12_months",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1702916223734,
+              "order": 7,
+              "label": "AT RISK: Internally displaced people",
+              "value": "at_risk_internally_displaced_people",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1702916311400,
+              "order": 7,
+              "label": "AT RISK: Landless/tenants",
+              "value": "at_risk_landlesstenants",
               "color": "#DB3B3B"
             },
             {
               "id": 1702916302450,
-              "order": 13,
+              "order": 8,
               "label": "AT RISK: Long-term poor",
               "value": "at_risk_longterm_poor",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702916311400,
+              "id": 1702916341267,
+              "order": 9,
+              "label": "AT RISK: New adult households (newly formed household)",
+              "value": "at_risk_new_adult_households_newly_formed_hh",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1702916282717,
+              "order": 10,
+              "label": "AT RISK: Nomadic or semi-nomadic pastoralists",
+              "value": "at_risk_nomadic_or_seminomadic",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1702916163485,
+              "order": 11,
+              "label": "AT RISK: Orphans and vulnerable children",
+              "value": "at_risk_orphans_and_vulnerable_children",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1702916252967,
+              "order": 12,
+              "label": "AT RISK: Religious minorities",
+              "value": "at_risk_religious_minorities",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1702916231272,
+              "order": 13,
+              "label": "AT RISK: Returning refugees",
+              "value": "at_risk_returning_refugees",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1702916285517,
               "order": 14,
-              "label": "AT RISK: Landless/tenants",
-              "value": "at_risk_landlesstenants",
+              "label": "AT RISK: Seasonal migrants (fisherfolk, farmers etc)",
+              "value": "at_risk_seasonal_fishing_group",
               "color": "#DB3B3B"
             },
             {
@@ -772,25 +734,18 @@
               "color": "#DB3B3B"
             },
             {
-              "id": 1702916333235,
-              "order": 16,
-              "label": "AT RISK: In-migrants (new households in last 12 months)",
-              "value": "at_risk_inmigrants_new_households_in_last_12_months",
-              "color": "#DB3B3B"
-            },
-            {
-              "id": 1702916341267,
-              "order": 17,
-              "label": "AT RISK: New adult households (newly formed household)",
-              "value": "at_risk_new_adult_households_newly_formed_hh",
-              "color": "#DB3B3B"
-            },
-            {
               "id": 1702916350017,
-              "order": 18,
+              "order": 16,
               "label": "AT RISK: previously collapsed or abandoned toilets",
               "value": "at_risk_households_with_previously_collapsed_or_flooded_toilets",
               "color": "#DB3B3B"
+            },
+            {
+              "id": 1702915144068,
+              "order": 17,
+              "label": "OTHER household (NOT in at-risk category)",
+              "value": "other_hh_not_in_atrisk_category",
+              "color": "#38A15A"
             }
           ],
           "rule": null,
@@ -798,7 +753,7 @@
         },
         {
           "id": 1710829091,
-          "order": 21,
+          "order": 20,
           "name": "animals_kept_in_household_compund",
           "label": "Do you keep animals in the household compound?",
           "short_label": "Animals in houselhold compund",
@@ -813,13 +768,13 @@
               "id": 1710829108,
               "order": 1,
               "label": "Yes",
-              "value": "yes_keep_animals_in_household_compound"
+              "value": "yes_animals_kept_in_household_compound"
             },
             {
               "id": 1710829128,
               "order": 2,
               "label": "No",
-              "value": "no_keep_animals_in_household_compound"
+              "value": "no_animals_kept_in_household_compound"
             }
           ],
           "rule": null,
@@ -827,7 +782,7 @@
         },
         {
           "id": 1703073469466,
-          "order": 22,
+          "order": 21,
           "name": "Unique_hh_characteristics",
           "label": "Address or any unique household identifier",
           "short_label": null,
@@ -847,7 +802,7 @@
       "id": 1699428072668,
       "order": 3,
       "name": "interview_toilet_outcomes",
-      "label": "INTERVIEW: TOILET OUTCOMES",
+      "label": "INTERVIEW: Toilet Outcomes",
       "description": null,
       "repeatable": false,
       "translations": null,
@@ -856,7 +811,7 @@
           "id": 1699428072669,
           "order": 1,
           "name": "od_or_toilet_use",
-          "label": " 🟢 G1-1.2a : Does your household defecate in the open, or use a toilet?",
+          "label": "🟢 G1-1.2a : Does your household defecate in the open, or use a toilet?",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1024,7 +979,7 @@
             {
               "id": 1699428387760,
               "order": 4,
-              "label": "G1 All members use toilet",
+              "label": "All use toilet",
               "value": "ALL use toilet",
               "color": "#38A15A"
             }
@@ -1035,7 +990,7 @@
           "id": 1699428535663,
           "order": 6,
           "name": "toilet_use_by_all_members",
-          "label": " 🟢 G2-1.1 : Individual use of toilet at all times (ask each person)",
+          "label": "🟢 G2-1.1 : Individual use of toilet at all times (ask each person)",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1086,7 +1041,7 @@
           "id": 1699427574765,
           "order": 7,
           "name": "durable_toilet_containment_collection_system",
-          "label": " 🟢 G2-1.3 : Is the toilet pit (or tank) durable?",
+          "label": "🟢 G2-1.3 : Is the toilet pit (or tank) durable?",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1186,7 +1141,7 @@
           "id": 1699427885744,
           "order": 8,
           "name": "visible_surface_outflows",
-          "label": " 🟢 G2-1.4b : are surface outflows from the pit ever visible?",
+          "label": "🟢 G2-1.4b : are surface outflows from the pit ever visible?",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1237,7 +1192,7 @@
           "id": 1699428661689,
           "order": 9,
           "name": "safely_managed_onsite_containment",
-          "label": " 🟢 G3-1.1a : has the pit (or tank) ever been emptied?",
+          "label": "🟢 G3-1.1a : has the pit (or tank) ever been emptied?",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1284,49 +1239,49 @@
             {
               "id": 1699428755154,
               "order": 6,
-              "label": "G3 Never emptied (first pit: NO intention to empty)",
+              "label": "Never emptied (first pit: NO intention to empty)",
               "value": "g3_never_emptied_first_pit_no_intention_to_empty",
               "color": "#38A15A"
             },
             {
               "id": 1699428767471,
               "order": 7,
-              "label": "G3 Never emptied ( previous pit replaced: NO intention to empty)",
+              "label": "Never emptied ( previous pit replaced: NO intention to empty)",
               "value": "g3_never_emptied_previous_pit_replaced_no_intention_to_empty",
               "color": "#38A15A"
             },
             {
               "id": 16994287702567,
               "order": 8,
-              "label": "G3 EMPTIED, ALL pit (or tank) contents removed",
+              "label": "EMPTIED: ALL pit (or tank) contents removed",
               "value": "g3_yes_containment_emptied",
               "color": "#38A15A"
             },
             {
               "id": 1710746939,
               "order": 9,
-              "label": "G3 EMPTIED, SOME pit (or tank) contents removed",
+              "label": "EMPTIED: SOME pit (or tank) contents removed",
               "value": "g3_yes_some_contents_removed",
               "color": "#38A15A"
             },
             {
               "id": 16994287702568,
               "order": 10,
-              "label": "G3 EMPTIED, closed container removed",
+              "label": "EMPTIED: closed container removed",
               "value": "g3_yes_closed_container_removed",
               "color": "#38A15A"
             },
             {
               "id": 16994287702569,
               "order": 11,
-              "label": "G3 Alternating twin pits",
+              "label": "Alternating twin pits",
               "value": "g3_alternating_twin_pits",
               "color": "#38A15A"
             },
             {
               "id": 16994287702561,
               "order": 12,
-              "label": "G3 Connection to sewer network",
+              "label": "Connection to sewer network",
               "value": "g3_connection_to_sewer_network",
               "color": "#38A15A"
             }
@@ -1467,7 +1422,7 @@
       "id": 1699422286090,
       "order": 4,
       "name": "observation_toilet_outcomes",
-      "label": "OBSERVATION: TOILET OUTCOMES",
+      "label": "OBSERVATION: Toilet Outcomes",
       "description": null,
       "repeatable": false,
       "translations": null,
@@ -1545,7 +1500,7 @@
           "id": 1699423357200,
           "order": 4,
           "name": "functional_toilet",
-          "label": " 🔵 G1-1b : Functional toilet",
+          "label": "🔵 G1-1b : Functional toilet",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1589,7 +1544,7 @@
           "id": 1699423571454,
           "order": 5,
           "name": "toilet_privacy",
-          "label": " 🔵 G1-1c : Toilet privacy",
+          "label": "🔵 G1-1c : Toilet privacy",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1633,7 +1588,7 @@
           "id": 1699423696720,
           "order": 6,
           "name": "toilet_interface",
-          "label": " 🔵 G1-1.3a : Type of toilet interface",
+          "label": "🔵 G1-1.3a : Type of toilet interface",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1685,17 +1640,17 @@
               "color": "#38A15A"
             },
             {
-              "id": 1699423903600,
+              "id": 1699423916078,
               "order": 6,
-              "label": "Urine separation (eco-toilet)",
-              "value": "g1_dry_toilet_with_urinediverting_drophole",
+              "label": "Open pipe to pit (no water seal)",
+              "value": "g1_open_pipe_no_water_seal",
               "color": "#38A15A"
             },
             {
-              "id": 1699423916078,
+              "id": 1699423903600,
               "order": 7,
-              "label": "Open pipe to pit (no water seal)",
-              "value": "g1_open_pipe_no_water_seal",
+              "label": "Urine separation (eco-toilet)",
+              "value": "g1_dry_toilet_with_urinediverting_drophole",
               "color": "#38A15A"
             },
             {
@@ -1713,7 +1668,7 @@
           "id": 1699423946170,
           "order": 7,
           "name": "containment_or_collection_system",
-          "label": " 🔵 G1-1.3b : Type of pit, tank or connection",
+          "label": "🔵 G1-1.3b : Type of pit, tank or connection",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2266,7 +2221,7 @@
       "id": 1710748304,
       "order": 5,
       "name": "observation_toilet_outcomes_results",
-      "label": "OUTCOME RESULTS: TOILET OUTCOMES",
+      "label": "OUTCOME RESULTS: Toilet Outcomes",
       "description": null,
       "repeatable": false,
       "translations": null,
@@ -2442,7 +2397,7 @@
       "id": 1699429162795,
       "order": 6,
       "name": "observation_hand_hygiene_outcomes",
-      "label": "OBSERVATION: HAND HYGIENE OUTCOMES",
+      "label": "OBSERVATION: Hand Hygiene Outcomes",
       "description": null,
       "repeatable": false,
       "translations": null,
@@ -3075,7 +3030,7 @@
       "id": 1710751471,
       "order": 7,
       "name": "observation_hand_hygiene_results",
-      "label": "OUTCOME RESULTS: HAND HYGIENE",
+      "label": "OUTCOME RESULTS: Hand Hygiene Outcomes",
       "description": null,
       "repeatable": false,
       "translations": null,
@@ -3886,7 +3841,7 @@
       "id": 1711022464,
       "order": 10,
       "name": "safe_water_management",
-      "label": "Safe water management",
+      "label": "OBSERVATION: Safe water management",
       "description": null,
       "repeatable": false,
       "translations": null,
@@ -4707,7 +4662,7 @@
       "id": 1711022498,
       "order": 12,
       "name": "safe_waste_management",
-      "label": "Safe waste management",
+      "label": "OBSERVATION: Safe waste management",
       "description": null,
       "repeatable": false,
       "translations": null,
@@ -4947,7 +4902,7 @@
       "id": 1711022512,
       "order": 13,
       "name": "good_personal_hygiene",
-      "label": "Good personal hygiene",
+      "label": "OBSERVATION: Good personal hygiene",
       "description": null,
       "repeatable": false,
       "translations": null,
@@ -5194,7 +5149,7 @@
       "id": 1711022528,
       "order": 14,
       "name": "good_nutrition",
-      "label": "Good nutrition",
+      "label": "OBSERVATION: Good nutrition",
       "description": null,
       "repeatable": false,
       "translations": null,
