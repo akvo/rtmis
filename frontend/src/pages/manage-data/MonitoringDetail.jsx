@@ -120,13 +120,31 @@ const MonitoringDetail = () => {
     }
   };
 
-  const getAdministrations = async (id) => {
-    const { data: apiData } = await api.get(`administration/${id}`);
-    const parents = apiData?.path?.split(".") || [];
-    return [...parents, apiData?.id]
-      .filter((a) => a !== "")
-      .map((a) => parseInt(a, 10))
-      .slice(1);
+  const getCascadeAnswerId = async (id, questonAPI, value) => {
+    const { initial, endpoint } = questonAPI;
+    if (initial) {
+      const cascadeID = value || initial;
+      const res = await fetch(
+        `${window.location.origin}${endpoint}/${cascadeID}`
+      );
+      const apiData = await res.json();
+      if (endpoint.includes("administration")) {
+        const parents = apiData?.path?.split(".");
+        return {
+          [id]: [...parents, apiData?.id]
+            .filter((a) => a !== "")
+            .map((a) => parseInt(a, 10))
+            .slice(1),
+        };
+      }
+      return { [id]: [apiData?.id] };
+    }
+    const res = await fetch(window.location.origin + endpoint);
+    const apiData = await res.json();
+    const findCascade = apiData?.find((d) => d?.name === value);
+    return {
+      [id]: findCascade ? [findCascade.id] : [],
+    };
   };
 
   const transformValue = (type, value) => {
@@ -137,10 +155,10 @@ const MonitoringDetail = () => {
       const [lat, lng] = value;
       return { lat, lng };
     }
-    return value;
+    return typeof value === "undefined" ? "" : value;
   };
 
-  const goToMonitoring = async () => {
+  const goToMonitoringForm = async () => {
     setLoadMonitoring(true);
     try {
       const { data: apiData } = await api.get(
@@ -152,29 +170,34 @@ const MonitoringDetail = () => {
       );
       const { answers } = await res.json();
       /**
-       * Get administrations value
+       * Transform cascade answers
        */
-      const findAdmQuestion = questions.find(
-        (q) =>
-          q?.type === "cascade" && q?.source?.file === "administrator.sqlite"
-      );
-      let administrations = [answers?.[findAdmQuestion?.id]];
-      if (answers?.[findAdmQuestion?.id]) {
-        administrations = await getAdministrations(answers[findAdmQuestion.id]);
-      }
+      const cascadeAPIs = questions
+        ?.filter((q) => q?.type === "cascade" && q?.api?.endpoint)
+        ?.map((q) => getCascadeAnswerId(q.id, q.api, answers?.[q.id]));
+      const cascadeResponses = await Promise.allSettled(cascadeAPIs);
+      const cascadeValues = cascadeResponses
+        .filter(({ status }) => status === "fulfilled")
+        .map(({ value }) => value)
+        .reduce((prev, curr) => {
+          const [key, value] = Object.entries(curr)[0];
+          prev[key] = value;
+          return prev;
+        }, {});
       /**
        * Transform answers to Webform format
        */
-      const initialValue = questions.map((q) => ({
-        question: q?.id,
-        value:
-          q?.id === findAdmQuestion?.id
-            ? administrations
-            : transformValue(q?.type, answers?.[q?.id]),
-      }));
-
+      const initialValue = questions.map((q) => {
+        return {
+          question: q?.id,
+          value: Object.keys(cascadeValues).includes(`${q?.id}`)
+            ? cascadeValues[q.id]
+            : transformValue(q?.type, answers?.[q.id]),
+        };
+      });
       store.update((s) => {
         s.initialValue = initialValue;
+        s.monitoring = selectedFormData;
       });
 
       setTimeout(() => {
@@ -254,7 +277,7 @@ const MonitoringDetail = () => {
               <Button
                 type="primary"
                 shape="round"
-                onClick={goToMonitoring}
+                onClick={goToMonitoringForm}
                 icon={<FormOutlined />}
                 loading={loadMonitoring}
               >
