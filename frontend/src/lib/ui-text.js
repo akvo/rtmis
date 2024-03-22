@@ -457,9 +457,9 @@ const uiText = {
     updateExisting: "Update Existing Data",
     templateDownloadHint:
       "If you do not already have a template, please download",
-    templateDownloadAdministrationHint: () => {
-      return <Fragment>If you do not already have a template, please</Fragment>;
-    },
+    templateDownloadAdministrationHint:
+      "If you do not already have a template, please ",
+    downloadHere: "download here",
     uploading: "Uploading..",
     dropFile: "Drop your file here",
     selectForm: "Please select a form",
