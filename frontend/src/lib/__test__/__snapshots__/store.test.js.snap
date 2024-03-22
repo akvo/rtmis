@@ -64,6 +64,7 @@ Object {
     "attribute": Object {},
     "entity": Object {},
   },
+  "monitoring": null,
   "options": Object {
     "entityTypes": Array [],
   },
