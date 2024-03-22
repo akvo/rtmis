@@ -155,6 +155,10 @@
                 "answer": ["g0_no_handwashing_facility"]
               },
               {
+                "id": 1710753585,
+                "answer": ["g0_no_handwashing_facility"]
+              },
+              {
                 "id": 1699430427692,
                 "answer": ["g0_no_water_available"]
               },
@@ -1908,7 +1912,7 @@
           "id": 1699425852809,
           "order": 10,
           "name": "clean_toilet_pandrophole",
-          "label": " 🔵 G1-1.4a : Clean toilet floor and pan",
+          "label": "🔵 G1-1.4a : Clean toilet floor and pan",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1960,7 +1964,7 @@
           "id": 1699426059842,
           "order": 11,
           "name": "clean_toilet_walls",
-          "label": " 🔵 G1-1.4b : Clean toilet walls",
+          "label": "🔵 G1-1.4b : Clean toilet walls",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2012,7 +2016,7 @@
           "id": 1699427405024,
           "order": 12,
           "name": "durable_toilet_slab",
-          "label": " 🔵 G2-1.2 : Durable toilet slab",
+          "label": "🔵 G2-1.2 : Durable toilet slab",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2112,7 +2116,7 @@
           "id": 1699427743413,
           "order": 13,
           "name": "observe_safely_managed_containment",
-          "label": " 🔵 G2-1.4a : excreta contained in pit (or tank)",
+          "label": "🔵 G2-1.4a : Excreta contained in pit (or tank)",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2467,7 +2471,7 @@
           "label": "HANDWASHING PHOTO 01: view of entire facility (water container/tap, soap)",
           "short_label": "PHOTO: of handwashing facility nearest to toilet",
           "type": "photo",
-          "tooltip": "OBSERVE: is the handwashing facility functional? ",
+          "tooltip": "OBSERVE: is the handwashing facility functional? <b>Functional handwashing facility:</b> the facility is functioning as intended, and all handwashing features can be used (not blocked, abandoned or unable to work)<br/><b>Partly functional handwashing facility:</b> the facility is functioning, but some features of the facility are not working as intended",
           "required": true,
           "meta": false,
           "options": null,
@@ -2483,7 +2487,7 @@
           "id": 1710753585,
           "order": 3,
           "name": "functional_hwf",
-          "label": " 🔵 G1-2.1b : Functional handwashing facility",
+          "label": "🔵 G1-2.1b : Functional handwashing facility",
           "short_label": null,
           "type": "option",
           "tooltip": {
