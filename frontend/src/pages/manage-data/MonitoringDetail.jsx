@@ -130,11 +130,12 @@ const MonitoringDetail = () => {
       const apiData = await res.json();
       if (endpoint.includes("administration")) {
         const parents = apiData?.path?.split(".");
+        const startLevel = authUser?.administration?.level;
         return {
           [id]: [...parents, apiData?.id]
-            .filter((a) => a !== "")
+            .filter((a) => a !== "" && a !== "1")
             .map((a) => parseInt(a, 10))
-            .slice(1),
+            .slice(startLevel),
         };
       }
       return { [id]: [apiData?.id] };
