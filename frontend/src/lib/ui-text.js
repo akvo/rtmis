@@ -708,6 +708,8 @@ const uiText = {
         </ul>
       </Fragment>
     ),
+    updateDataButton: "Update data",
+    updateDataError: "Unable to update data",
   },
 
   de: {},

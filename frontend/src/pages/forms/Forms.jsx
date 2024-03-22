@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, {
+  useEffect,
+  useState,
+  useMemo,
+  useRef,
+  useCallback,
+} from "react";
 import { Webform } from "akvo-react-form";
 import "akvo-react-form/dist/index.css";
 import "./style.scss";
@@ -15,12 +21,13 @@ const Forms = () => {
   const { user: authUser } = store.useState((s) => s);
   const { formId } = useParams();
   const [loading, setLoading] = useState(true);
+  const [preload, setPreload] = useState(true);
   const [forms, setForms] = useState([]);
   const [percentage, setPercentage] = useState(0);
   const [submit, setSubmit] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const { notify } = useNotification();
-  const { language } = store.useState((s) => s);
+  const { language, initialValue, monitoring } = store.useState((s) => s);
   const { active: activeLang } = language;
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -47,6 +54,8 @@ const Forms = () => {
       title: forms.name,
     },
   ];
+
+  const webformRef = useRef();
 
   const onFinish = (values) => {
     setSubmit(true);
@@ -86,16 +95,20 @@ const Forms = () => {
     const administration = answers.find(
       (x) => x.type === "cascade" && x.meta
     )?.value;
+    const dataPayload = {
+      administration: administration
+        ? takeRight(administration)[0]
+        : authUser.administration.id,
+      name: names.length
+        ? names
+        : `${authUser.administration.name} - ${moment().format("MMM YYYY")}`,
+      geo: geo || null,
+    };
+    if (monitoring?.uuid) {
+      dataPayload["uuid"] = monitoring.uuid;
+    }
     const data = {
-      data: {
-        administration: administration
-          ? takeRight(administration)[0]
-          : authUser.administration.id,
-        name: names.length
-          ? names
-          : `${authUser.administration.name} - ${moment().format("MMM YYYY")}`,
-        geo: geo || null,
-      },
+      data: dataPayload,
       answer: answers
         .map((x) => {
           if (x.type === "cascade") {
@@ -118,6 +131,15 @@ const Forms = () => {
         });
       })
       .finally(() => {
+        if (monitoring?.uuid) {
+          /**
+           * reset initial value and monitoring
+           */
+          store.update((s) => {
+            s.initialValue = [];
+            s.monitoring = null;
+          });
+        }
         setTimeout(() => {
           setSubmit(false);
         }, 2000);
@@ -169,6 +191,22 @@ const Forms = () => {
     }
   }, [formId, loading]);
 
+  const handleOnClearForm = useCallback(() => {
+    if (
+      preload &&
+      initialValue.length === 0 &&
+      typeof webformRef?.current?.resetFields === "function"
+    ) {
+      setPreload(false);
+      webformRef.current.resetFields();
+      webformRef.current;
+    }
+  }, [preload, initialValue]);
+
+  useEffect(() => {
+    handleOnClearForm();
+  }, [handleOnClearForm]);
+
   return (
     <div id="form">
       <div className="description-container">
@@ -192,6 +230,7 @@ const Forms = () => {
           ) : (
             !showSuccess && (
               <Webform
+                formRef={webformRef}
                 forms={forms}
                 onFinish={onFinish}
                 onCompleteFailed={onFinishFailed}
@@ -200,6 +239,7 @@ const Forms = () => {
                 languagesDropdownSetting={{
                   showLanguageDropdown: false,
                 }}
+                initialValue={initialValue}
               />
             )
           )}
@@ -226,7 +266,7 @@ const Forms = () => {
                 !redirectToBatch ? (
                   <Button
                     key="manage-button"
-                    onClick={() => navigate("/control-center/data/manage")}
+                    onClick={() => navigate("/control-center/data")}
                   >
                     {text.finishSubmissionBtn}
                   </Button>

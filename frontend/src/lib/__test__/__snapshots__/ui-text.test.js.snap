@@ -599,6 +599,8 @@ Object {
     "tourManageData": "Lorem ipsum dolor sit, amet consectetur adipisicing elit",
     "tourUserManagement": "Magni provident aliquam harum cupiditate iste",
     "upcomingEventText": "Upcoming Events",
+    "updateDataButton": "Update data",
+    "updateDataError": "Unable to update data",
     "updateExisting": "Update Existing Data",
     "updateOrganisation": "Update Organization",
     "updateUser": "Update User",
