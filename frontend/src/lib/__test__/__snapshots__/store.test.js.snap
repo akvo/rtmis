@@ -26,6 +26,7 @@ Object {
       "version": 1,
     },
   ],
+  "initialValue": Array [],
   "isLoggedIn": false,
   "language": Object {
     "active": "en",
@@ -63,6 +64,7 @@ Object {
     "attribute": Object {},
     "entity": Object {},
   },
+  "monitoring": null,
   "options": Object {
     "entityTypes": Array [],
   },

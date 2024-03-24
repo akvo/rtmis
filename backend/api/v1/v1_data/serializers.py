@@ -1046,6 +1046,7 @@ class SubmitPendingFormDataSerializer(serializers.ModelSerializer):
     geo = CustomListField(required=False, allow_null=True)
     submitter = CustomCharField(required=False)
     duration = CustomIntegerField(required=False)
+    uuid = serializers.CharField(required=False)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -1054,7 +1055,9 @@ class SubmitPendingFormDataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PendingFormData
-        fields = ["name", "geo", "administration", "submitter", "duration"]
+        fields = [
+            "name", "geo", "administration", "submitter", "duration", "uuid"
+        ]
 
 
 class SubmitPendingFormDataAnswerSerializer(serializers.ModelSerializer):
@@ -1238,6 +1241,8 @@ class SubmitPendingFormSerializer(serializers.Serializer):
                 )
 
         if direct_to_data:
+            if data.get("uuid"):
+                obj_data.uuid = data["uuid"]
             obj_data.save()
             obj_data.save_to_file
 
