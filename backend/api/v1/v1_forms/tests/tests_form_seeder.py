@@ -199,6 +199,9 @@ class FormSeederTestCase(TestCase):
             q for q in data['question_group'][0]['question']
             if q['name'] == 'phone'
         ][0]
-        self.assertIn('monitoring', phone)
+        self.assertIn('disabled', phone)
         self.assertEqual(phone['short_label'], "Phone Number")
-        self.assertTrue(phone['monitoring'])
+        self.assertEqual(
+            phone['disabled'],
+            {"submission_type": ["monitoring"]}
+        )

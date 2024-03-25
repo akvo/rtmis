@@ -115,7 +115,9 @@
             }
           ],
           "fn": null,
-          "monitoring": true
+          "disabled": {
+            "submission_type": ["monitoring"]
+          }
         },
         {
           "id": 17030862702533,
@@ -136,7 +138,9 @@
             "type": "entity",
             "name": "School"
           },
-          "monitoring": true
+          "disabled": {
+            "submission_type": ["monitoring"]
+          }
         },
         {
           "id": 17030862702534,
@@ -157,7 +161,9 @@
             "type": "entity",
             "name": "Health Care Facilities"
           },
-          "monitoring": true
+          "disabled": {
+            "submission_type": ["monitoring"]
+          }
         },
         {
           "id": 17029147539571,
@@ -177,7 +183,9 @@
             }
           ],
           "fn": null,
-          "monitoring": true
+          "disabled": {
+            "submission_type": ["monitoring"]
+          }
         },
         {
           "id": 17029148037321,
@@ -265,7 +273,9 @@
           "options": null,
           "rule": null,
           "fn": null,
-          "monitoring": true
+          "disabled": {
+            "submission_type": ["monitoring"]
+          }
         },
         {
           "id": 16994198156601,

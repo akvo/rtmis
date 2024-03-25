@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { View } from 'react-native';
 import { Dialog } from '@rneui/themed';
 import PropTypes from 'prop-types';
-
+import { useRoute } from '@react-navigation/native';
 import { BaseLayout } from '../components';
 import { FormNavigation, QuestionGroupList } from './support';
 import QuestionGroup from './components/QuestionGroup';
@@ -64,7 +64,7 @@ LoadingOverlay.propTypes = {
   trans: PropTypes.shape({ loadingPrefilledAnswer: PropTypes.string }).isRequired,
 };
 
-const FormContainer = ({ forms, onSubmit, setShowDialogMenu, isMonitoring }) => {
+const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
   const [activeGroup, setActiveGroup] = useState(0);
   const [showQuestionGroupList, setShowQuestionGroupList] = useState(false);
   const currentValues = FormState.useState((s) => s.currentValues);
@@ -72,8 +72,9 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu, isMonitoring }) => 
   const activeLang = FormState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
   const formLoading = FormState.useState((s) => s.loading);
+  const route = useRoute();
 
-  const formDefinition = transformForm(forms, activeLang, isMonitoring);
+  const formDefinition = transformForm(forms, activeLang, route.params.submission_type);
   const activeQuestions = formDefinition?.question_group?.flatMap((qg) =>
     qg?.question?.filter((q) => onFilterDependency(qg, currentValues, q)),
   );
@@ -151,10 +152,8 @@ FormContainer.propTypes = {
   forms: PropTypes.object,
   onSubmit: PropTypes.func.isRequired,
   setShowDialogMenu: PropTypes.func.isRequired,
-  isMonitoring: PropTypes.bool,
 };
 
 FormContainer.defaultProps = {
   forms: {},
-  isMonitoring: false,
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent, waitFor, act } from '@testing-library/react-native';
 import { Platform } from 'react-native';
+import { useRoute } from '@react-navigation/native';
 import FormContainer from '../FormContainer';
 import { FormState } from '../../store';
 
@@ -10,6 +11,12 @@ jest.mock('expo-asset');
 jest.doMock('react-native/Libraries/Utilities/Platform.android.js', () => ({
   OS: 'android',
   select: jest.fn(),
+}));
+jest.mock('@react-navigation/native', () => ({
+  ...jest.requireActual('@react-navigation/native'),
+  useRoute: jest.fn().mockReturnValue({
+    params: { submission_type: 'registration' },
+  }),
 }));
 
 const exampleTestForm = {
@@ -423,6 +430,69 @@ describe('FormContainer component on submit', () => {
         3: '0',
         4: ['male'],
       },
+    });
+  });
+
+  it('should disable input when submission type is monitoring', async () => {
+    const testForm = {
+      name: 'Testing Form',
+      languages: ['en', 'id'],
+      defaultLanguage: 'en',
+      translations: [
+        {
+          name: 'Formulir untuk Testing',
+          language: 'id',
+        },
+      ],
+      question_group: [
+        {
+          name: 'registration',
+          label: 'Registration',
+          order: 1,
+          translations: [
+            {
+              name: 'Registrasi',
+              language: 'id',
+            },
+          ],
+          question: [
+            {
+              id: 1,
+              name: 'your_name',
+              label: 'Your Name',
+              order: 1,
+              type: 'input',
+              required: true,
+              meta: true,
+              disabled: {
+                submission_type: ['monitoring'],
+              },
+            },
+          ],
+        },
+      ],
+    };
+
+    useRoute.mockReturnValue({
+      params: { submission_type: 'monitoring' },
+    });
+
+    const handleOnSubmit = jest.fn();
+    const handleOnShowDialog = jest.fn();
+    const { getByTestId, getByText } = render(
+      <FormContainer
+        forms={testForm}
+        initialValues={{}}
+        onSubmit={handleOnSubmit}
+        setShowDialogMenu={handleOnShowDialog}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(getByText('1. Your Name')).toBeDefined();
+      const inputEl = getByTestId('type-input');
+      expect(inputEl).toBeDefined();
+      expect(inputEl.props.editable).toBeFalsy();
     });
   });
 });

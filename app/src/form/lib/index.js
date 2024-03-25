@@ -29,7 +29,7 @@ const getDependencyAncestors = (questions, current, dependencies) => {
   return current;
 };
 
-export const transformForm = (forms, lang = 'en', filterMonitoring = false) => {
+export const transformForm = (forms, lang = 'en', submissionType = 'registration') => {
   const nonEnglish = lang !== 'en';
   const currentForm = nonEnglish ? i18n.transform(lang, forms) : forms;
   const questions = currentForm.question_group
@@ -53,10 +53,13 @@ export const transformForm = (forms, lang = 'en', filterMonitoring = false) => {
       }
       return q;
     });
-  const filteredQuestions = questions.map((q) => ({
-    ...q,
-    disabled: filterMonitoring && q?.monitoring,
-  }));
+  const filteredQuestions = questions.map((q) => {
+    const disabled = q?.disabled ? q.disabled?.submission_type?.includes(submissionType) : false;
+    return {
+      ...q,
+      disabled,
+    };
+  });
 
   const transformed = filteredQuestions.map((x) => {
     let requiredSignTemp = x?.requiredSign || null;

@@ -132,10 +132,10 @@ class Command(BaseCommand):
                             fn=q.get("fn"),
                             pre=q.get("pre"),
                             display_only=q.get("displayOnly"),
-                            monitoring=q.get("monitoring"),
                             meta_uuid=q.get("meta_uuid"),
                             extra=q.get("extra"),
                             default_value=q.get("default_value"),
+                            disabled=q.get("disabled"),
                         )
                     else:
                         question.question_group = question_group
@@ -155,10 +155,10 @@ class Command(BaseCommand):
                         question.hidden = q.get("hidden")
                         question.display_only = q.get("displayOnly")
                         question.pre = q.get("pre")
-                        question.monitoring = q.get("monitoring")
                         question.meta_uuid = q.get("meta_uuid")
                         question.extra = q.get("extra")
                         question.default_value = q.get("default_value")
+                        question.disabled = q.get("disabled")
                         question.save()
                     QO.objects.filter(question=question).all().delete()
                     if q.get("options"):
