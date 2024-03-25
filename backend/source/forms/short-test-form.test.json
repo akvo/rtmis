@@ -53,8 +53,10 @@
           "dependency": null,
           "fn": null,
           "default_value": {
-            "monitoring": "update",
-            "registration": "new"
+            "submission_type": {
+              "monitoring": "update",
+              "registration": "new"
+            }
           },
           "pre": {
             "answer": "new",
