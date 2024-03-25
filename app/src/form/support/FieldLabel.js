@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import styles from '../styles';
 import AnimatedTooltip from '../../components/AnimatedTooltip';
 
-const FieldLabel = ({ keyform = 0, name, tooltip, requiredSign = null }) => {
+const FieldLabel = ({ keyform, name, tooltip, requiredSign = null }) => {
   const [open, setOpen] = useState(false);
-  const labelText = `${keyform + 1}. ${name}`;
+  const labelText = `${keyform}. ${name}`;
   const tooltipText = tooltip?.text;
   return (
     <View style={styles.fieldLabelContainer}>

@@ -12,7 +12,13 @@ describe('TypeText component', () => {
     const name = 'Text Field';
 
     const { getByText, getByTestId } = render(
-      <TypeText onChange={onChangeMock} value={values.textValue} id={id} label={name} />,
+      <TypeText
+        keyform={1}
+        onChange={onChangeMock}
+        value={values.textValue}
+        id={id}
+        label={name}
+      />,
     );
 
     const textAreaFieldLabel = getByText(`1. ${name}`);
@@ -27,14 +33,16 @@ describe('TypeText component', () => {
   });
 
   it('should not show required sign if required param is false and requiredSign is not defined', () => {
-    const wrapper = render(<TypeText id="textValue" label="Text Field" required={false} />);
+    const wrapper = render(
+      <TypeText keyform={1} id="textValue" label="Text Field" required={false} />,
+    );
     const requiredIcon = wrapper.queryByTestId('field-required-icon');
     expect(requiredIcon).toBeFalsy();
   });
 
   it('should not show required sign if required param is false but requiredSign is defined', () => {
     const wrapper = render(
-      <TypeText id="textValue" label="Text Field" required={false} requiredSign="*" />,
+      <TypeText keyform={1} id="textValue" label="Text Field" required={false} requiredSign="*" />,
     );
     const requiredIcon = wrapper.queryByTestId('field-required-icon');
     expect(requiredIcon).toBeFalsy();
@@ -42,7 +50,7 @@ describe('TypeText component', () => {
 
   it('should not show required sign if required param is true and requiredSign defined', () => {
     const wrapper = render(
-      <TypeText id="textValue" label="Text Field" required requiredSign="*" />,
+      <TypeText keyform={1} id="textValue" label="Text Field" required requiredSign="*" />,
     );
     const requiredIcon = wrapper.queryByTestId('field-required-icon');
     expect(requiredIcon).toBeTruthy();
@@ -50,7 +58,7 @@ describe('TypeText component', () => {
 
   it('should show required sign with custom requiredSign', () => {
     const wrapper = render(
-      <TypeText id="textValue" label="Text Field" required requiredSign="**" />,
+      <TypeText keyform={1} id="textValue" label="Text Field" required requiredSign="**" />,
     );
     const requiredIcon = wrapper.getByText('**');
     expect(requiredIcon).toBeTruthy();

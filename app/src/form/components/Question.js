@@ -21,7 +21,7 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
 
   const questions = useMemo(() => {
     if (group?.question?.length) {
-      return group.question
+      const questionList = group.question
         .filter((q) => onFilterDependency(group, values, q))
         .filter((q) => (q?.extra?.type === 'entity' && prevAdmAnswer) || !q?.extra?.type)
         .filter((q) => {
@@ -33,6 +33,19 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
           }
           return q;
         });
+      const questionWithNumber = questionList.reduce((curr, q, i) => {
+        if (q?.default_value && i === 0) {
+          return [{ ...q, keyform: 0 }];
+        }
+        if (q?.default_value && i > 0) {
+          return [...curr, { ...q, keyform: curr[i - 1].keyform }];
+        }
+        if (i === 0) {
+          return [{ ...q, keyform: 1 }];
+        }
+        return [...curr, { ...q, keyform: curr[i - 1].keyform + 1 }];
+      }, []);
+      return questionWithNumber;
     }
     return [];
   }, [group, values, prevAdmAnswer, entityOptions]);
@@ -56,6 +69,32 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
       });
   }, [preload, group, values]);
 
+  const onDefaultValue = (id, value, type, preFilled, isLoading = true) => {
+    const isMatchAnswer =
+      type === 'multiple_option'
+        ? preFilled.answer.some((a) => value.includes(a))
+        : JSON.stringify(preFilled.answer) === JSON.stringify(value) ||
+          String(preFilled.answer) === String(value);
+    if (isMatchAnswer) {
+      FormState.update((s) => {
+        s.loading = isLoading;
+      });
+      const preValues = preFilled?.fill?.reduce((prev, current) => {
+        /**
+         * Make sure the answer criteria are not replaced by previous values
+         * eg:
+         * Previous value = "Update"
+         * Answer criteria = "New"
+         */
+        const answer = id === current.id ? current.answer : values?.[current.id] || current.answer;
+        return { [current.id]: answer, ...prev };
+      }, {});
+      FormState.update((s) => {
+        s.prefilled = preValues;
+      });
+    }
+  };
+
   const handleOnChange = (id, value, field) => {
     const fieldValues = { ...values, [id]: value };
     const isEmpty = Array.isArray(value) ? value.length === 0 : String(value)?.trim()?.length === 0;
@@ -68,28 +107,7 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
 
     const preFilled = field?.pre;
     if (preFilled?.answer) {
-      const isMatchAnswer =
-        JSON.stringify(preFilled?.answer) === JSON.stringify(value) ||
-        String(preFilled?.answer) === String(value);
-      if (isMatchAnswer) {
-        FormState.update((s) => {
-          s.loading = true;
-        });
-        FormState.update((s) => {
-          const preValues = preFilled?.fill?.reduce((prev, current) => {
-            /**
-             * Make sure the answer criteria are not replaced by previous values
-             * eg:
-             * Previous value = "Update"
-             * Answer criteria = "New"
-             */
-            const answer =
-              id === current.id ? current.answer : values?.[current.id] || current.answer;
-            return { [current.id]: answer, ...prev };
-          }, {});
-          s.prefilled = preValues;
-        });
-      }
+      onDefaultValue(id, value, field.type, preFilled);
     }
 
     if (field?.source?.file === 'administrator.sqlite') {
@@ -143,14 +161,15 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
       scrollEnabled
       data={questions}
       keyExtractor={(item) => `question-${item.id}`}
-      renderItem={({ item: field, index: ix }) => (
+      renderItem={({ item: field }) => (
         <View key={`question-${field.id}`} style={styles.questionContainer}>
           <QuestionField
-            keyform={ix}
+            keyform={field.keyform}
             field={field}
             onChange={handleOnChange}
             value={values?.[field.id]}
             questions={questions}
+            onDefaultValue={onDefaultValue}
           />
         </View>
       )}

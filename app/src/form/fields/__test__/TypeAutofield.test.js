@@ -21,7 +21,7 @@ describe('TypeAutofield component', () => {
     };
 
     const { getByText, getByTestId } = render(
-      <TypeAutofield id={id} label={name} fn={fn} keyform={0} />,
+      <TypeAutofield id={id} label={name} fn={fn} keyform={1} />,
     );
 
     const autoFieldLabel = getByText(`1. ${name}`);
@@ -156,7 +156,7 @@ describe('TypeAutofield component', () => {
     });
   });
 
-  test("it gives the correct values when some answers are undefined", async () => {
+  test('it gives the correct values when some answers are undefined', async () => {
     const mockFormQuestions = [
       {
         id: 1,

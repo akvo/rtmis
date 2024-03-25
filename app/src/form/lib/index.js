@@ -239,8 +239,8 @@ export const onFilterDependency = (currentGroup, values, q) => {
 
 const transformValue = (question, value, prefilled = []) => {
   const findPrefilled = prefilled.find((p) => p?.id === question?.id);
-  const defaultValue = ['multiple_option', 'option'].includes(question?.type) ? [] : '';
-  const answer = value || findPrefilled?.answer || defaultValue;
+  const defaultEmpty = ['multiple_option', 'option'].includes(question?.type) ? [] : '';
+  const answer = value || findPrefilled?.answer || defaultEmpty;
   if (question?.type === 'cascade') {
     return [answer];
   }
@@ -249,6 +249,11 @@ const transformValue = (question, value, prefilled = []) => {
   }
   if (question?.type === 'number' && typeof answer !== 'undefined') {
     return `${answer}`;
+  }
+  if (question?.default_value?.monitoring) {
+    return ['multiple_option', 'option'].includes(question?.type)
+      ? [question.default_value.monitoring]
+      : question.default_value.monitoring;
   }
   return answer;
 };

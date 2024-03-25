@@ -13,11 +13,11 @@ describe('TypeDate component', () => {
     const mockOnChange = jest.fn();
     const { getByText, getByTestId, queryByTestId } = render(
       <TypeDate
+        keyform={1}
         onChange={mockOnChange}
         value={initValues[1]}
         id="1"
         label="Date Field"
-        keyform={0}
         required={false}
       />,
     );
@@ -36,11 +36,11 @@ describe('TypeDate component', () => {
     const mockOnChange = jest.fn();
     const { getByTestId } = render(
       <TypeDate
+        keyform={1}
         onChange={mockOnChange}
         value={initValues[1]}
         id="1"
         label="Date Field"
-        keyform={0}
         required={false}
       />,
     );
@@ -56,11 +56,11 @@ describe('TypeDate component', () => {
     const mockOnChange = jest.fn();
     const { getByTestId, rerender } = render(
       <TypeDate
+        keyform={1}
         onChange={mockOnChange}
         value={initValues[1]}
         id="1"
         label="Date Field"
-        keyform={0}
         required={false}
       />,
     );
@@ -82,11 +82,11 @@ describe('TypeDate component', () => {
 
     rerender(
       <TypeDate
+        keyform={1}
         onChange={mockOnChange}
         value={result.current[1]}
         id="1"
         label="Date Field"
-        keyform={0}
         required={false}
       />,
     );
@@ -100,11 +100,11 @@ describe('TypeDate component', () => {
     const mockOnChange = jest.fn();
     const { getByTestId } = render(
       <TypeDate
+        keyform={1}
         onChange={mockOnChange}
         value={initValues[1]}
         id="1"
         label="Date Field"
-        keyform={0}
         required={false}
       />,
     );
@@ -122,7 +122,7 @@ describe('TypeDate component', () => {
         value={initValues[1]}
         id="1"
         label="Date Field"
-        keyform={0}
+        keyform={1}
         required={false}
       />,
     );
@@ -140,7 +140,7 @@ describe('TypeDate component', () => {
         value={initValues[1]}
         id="1"
         label="Date Field"
-        keyform={0}
+        keyform={1}
         required={false}
       />,
     );
@@ -158,7 +158,7 @@ describe('TypeDate component', () => {
         value={initValues[1]}
         id="1"
         label="Date Field"
-        keyform={0}
+        keyform={1}
         required
       />,
     );
@@ -175,7 +175,7 @@ describe('TypeDate component', () => {
         value={initValues[1]}
         id="1"
         label="Date Field"
-        keyform={0}
+        keyform={1}
         required
         requiredSign="**"
       />,
@@ -196,7 +196,7 @@ describe('TypeDate component', () => {
         value={initValues[1]}
         id="1"
         label="Date Field"
-        keyform={0}
+        keyform={1}
         required={false}
       />,
     );
