@@ -2520,11 +2520,15 @@
                 "answer": ["g0_no_handwashing_facility"]
               },
               {
-                "id": 1699430472221,
+                "id": 1710753585,
                 "answer": ["g0_no_handwashing_facility"]
               },
               {
                 "id": 1699430472221,
+                "answer": ["g0_no_handwashing_facility"]
+              },
+              {
+                "id": 1699430580239,
                 "answer": ["g0_no_handwashing_facility"]
               },
               {
@@ -2629,6 +2633,12 @@
           },
           "required": true,
           "meta": false,
+          "dependency": [
+            {
+              "id": 1699429162796,
+              "options": ["g0_no_handwashing_facility"]
+            }
+          ],
           "options": [
             {
               "id": 1710754168,
@@ -2673,6 +2683,12 @@
           },
           "required": true,
           "meta": false,
+          "dependency": [
+            {
+              "id": 1699429162796,
+              "options": ["g0_no_handwashing_facility"]
+            }
+          ],
           "options": [
             {
               "id": 1710754288,
@@ -2796,6 +2812,12 @@
           },
           "required": true,
           "meta": false,
+          "dependency": [
+            {
+              "id": 1699429162796,
+              "options": ["g0_no_handwashing_facility"]
+            }
+          ],
           "options": [
             {
               "id": 1710755509,
@@ -2898,6 +2920,12 @@
           },
           "required": true,
           "meta": false,
+          "dependency": [
+            {
+              "id": 1699429162796,
+              "options": ["g0_no_handwashing_facility"]
+            }
+          ],
           "options": [
             {
               "id": 1699430973814,
@@ -2956,6 +2984,12 @@
           },
           "required": true,
           "meta": false,
+          "dependency": [
+            {
+              "id": 1699429162796,
+              "options": ["g0_no_handwashing_facility"]
+            }
+          ],
           "options": [
             {
               "id": 1699431891671,
@@ -3014,6 +3048,12 @@
           },
           "required": true,
           "meta": false,
+          "dependency": [
+            {
+              "id": 1699429162796,
+              "options": ["g0_no_handwashing_facility"]
+            }
+          ],
           "options": [
             {
               "id": 1699431991247,
@@ -3072,6 +3112,12 @@
           },
           "required": true,
           "meta": false,
+          "dependency": [
+            {
+              "id": 1699429162796,
+              "options": ["g0_no_handwashing_facility"]
+            }
+          ],
           "options": [
             {
               "id": 1699432059735,
