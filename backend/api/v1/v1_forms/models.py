@@ -89,8 +89,8 @@ class Questions(models.Model):
     hidden = models.BooleanField(default=False, null=True)
     display_only = models.BooleanField(default=False, null=True)
     default_value = models.JSONField(default=None, null=True)
-    monitoring = models.BooleanField(default=False, null=True)
     meta_uuid = models.BooleanField(default=False, null=True)
+    disabled = models.JSONField(default=None, null=True)
 
     def __str__(self):
         return self.text
@@ -115,9 +115,9 @@ class Questions(models.Model):
             "fn": self.fn,
             "pre": self.pre,
             "display_only": self.display_only,
-            "monitoring": self.monitoring,
             "meta_uuid": self.meta_uuid,
-            "default_value": self.default_value
+            "default_value": self.default_value,
+            "disabled": self.disabled,
         }
 
     @property
