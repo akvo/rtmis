@@ -782,7 +782,56 @@
             }
           ],
           "rule": null,
-          "fn": null
+          "fn": null,
+          "pre": {
+            "answer": "no_animals_kept_in_household_compound",
+            "fill": [
+              {
+                "id": 1699432052966,
+                "answer": ["g2_no_animals"]
+              },
+              {
+                "id": 1699433286697,
+                "answer": ["g2_no_animals_no_milking"]
+              },
+              {
+                "id": 1699433337417,
+                "answer": ["g2_no_animals_no_milking"]
+              },
+              {
+                "id": 1699433394633,
+                "answer": ["g2_no_animals_no_milking"]
+              },
+              {
+                "id": 1699433937138,
+                "answer": ["g2_no_animals"]
+              },
+              {
+                "id": 1699433983369,
+                "answer": ["g2_no_animals"]
+              },
+              {
+                "id": 1699434044707,
+                "answer": ["g2_no_animal_wastes"]
+              },
+              {
+                "id": 1699434136823,
+                "answer": ["g2_no_animal_waste_storage"]
+              },
+              {
+                "id": 1699434209933,
+                "answer": ["g2_no_animal_waste_storage"]
+              },
+              {
+                "id": 1699434269372,
+                "answer": ["g2_no_animals"]
+              },
+              {
+                "id": 1699434327613,
+                "answer": ["g2_no_animals"]
+              }
+            ]
+          }
         },
         {
           "id": 1703073469466,
@@ -2462,7 +2511,48 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "answer": "g0_no_handwashing_facility",
+            "fill": [
+              {
+                "id": 1699430427692,
+                "answer": ["g0_no_handwashing_facility"]
+              },
+              {
+                "id": 1699430472221,
+                "answer": ["g0_no_handwashing_facility"]
+              },
+              {
+                "id": 1699430472221,
+                "answer": ["g0_no_handwashing_facility"]
+              },
+              {
+                "id": 1699430671868,
+                "answer": ["g0_no_handwashing_facility"]
+              },
+              {
+                "id": 1699430761393,
+                "answer": ["g0_no_handwashing_facility"]
+              },
+              {
+                "id": 1699430839676,
+                "answer": ["g0_no_handwashing_facility"]
+              },
+              {
+                "id": 1699431035188,
+                "answer": ["g0_no_handwashing_facility"]
+              },
+              {
+                "id": 1699431983680,
+                "answer": ["g0_no_handwashing_facility"]
+              },
+              {
+                "id": 1699432052966,
+                "answer": ["g0_no_handwashing_facility"]
+              }
+            ]
+          }
         },
         {
           "id": 1710840898,
@@ -3707,6 +3797,10 @@
             {
               "id": 16994260598422,
               "options": ["yes"]
+            },
+            {
+              "id": 1710829091,
+              "options": ["yes_animals_kept_in_household_compound"]
             }
           ],
           "tooltip": {
@@ -3735,6 +3829,13 @@
               "label": "Clean milk containers",
               "value": "g2_cleanwashed_milk_containers",
               "color": "#38A15A"
+            },
+            {
+              "id": 1711355928,
+              "order": 4,
+              "label": "G2 No animals / no milking",
+              "value": "g2_no_animals_no_milking",
+              "color": "#38A15A"
             }
           ],
           "fn": null
@@ -3750,6 +3851,10 @@
             {
               "id": 16994260598422,
               "options": ["yes"]
+            },
+            {
+              "id": 1710829091,
+              "options": ["yes_animals_kept_in_household_compound"]
             }
           ],
           "tooltip": {
@@ -3800,6 +3905,10 @@
             {
               "id": 16994260598422,
               "options": ["yes"]
+            },
+            {
+              "id": 1710829091,
+              "options": ["yes_animals_kept_in_household_compound"]
             }
           ],
           "tooltip": {
@@ -4215,6 +4324,10 @@
             {
               "id": 16994260598422,
               "options": ["yes"]
+            },
+            {
+              "id": 1710829091,
+              "options": ["yes_animals_kept_in_household_compound"]
             }
           ],
           "tooltip": {
@@ -4265,6 +4378,10 @@
             {
               "id": 16994260598422,
               "options": ["yes"]
+            },
+            {
+              "id": 1710829091,
+              "options": ["yes_animals_kept_in_household_compound"]
             }
           ],
           "tooltip": {
@@ -4315,6 +4432,10 @@
             {
               "id": 16994260598422,
               "options": ["yes"]
+            },
+            {
+              "id": 1710829091,
+              "options": ["yes_animals_kept_in_household_compound"]
             }
           ],
           "tooltip": {
@@ -4365,6 +4486,10 @@
             {
               "id": 16994260598422,
               "options": ["yes"]
+            },
+            {
+              "id": 1710829091,
+              "options": ["yes_animals_kept_in_household_compound"]
             }
           ],
           "tooltip": {
@@ -4415,6 +4540,10 @@
             {
               "id": 16994260598422,
               "options": ["yes"]
+            },
+            {
+              "id": 1710829091,
+              "options": ["yes_animals_kept_in_household_compound"]
             }
           ],
           "tooltip": {
@@ -4465,6 +4594,10 @@
             {
               "id": 16994260598422,
               "options": ["yes"]
+            },
+            {
+              "id": 1710829091,
+              "options": ["yes_animals_kept_in_household_compound"]
             }
           ],
           "tooltip": {
@@ -4488,17 +4621,17 @@
               "color": "#ffa57d"
             },
             {
-              "id": 1699434318735,
-              "order": 4,
-              "label": "No animals",
-              "value": "g2_no_animals",
-              "color": "#38A15A"
-            },
-            {
               "id": 1699434311373,
               "order": 3,
               "label": "Animals penned away from house and play areas",
               "value": "g2_animals_penned_away_from_house_and_play_areas",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1699434318735,
+              "order": 4,
+              "label": "No animals",
+              "value": "g2_no_animals",
               "color": "#38A15A"
             }
           ],
@@ -4515,6 +4648,10 @@
             {
               "id": 16994260598422,
               "options": ["yes"]
+            },
+            {
+              "id": 1710829091,
+              "options": ["yes_animals_kept_in_household_compound"]
             }
           ],
           "tooltip": {
