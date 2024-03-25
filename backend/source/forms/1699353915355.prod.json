@@ -132,15 +132,15 @@
               },
               {
                 "id": 1699428351326,
-                "answer": ["g0_no_members_use_toilet"]
+                "answer": ["g0_no_toilet"]
               },
               {
                 "id": 1699428400205,
-                "answer": ["g0_toilet_shared_more_than_1015_users"]
+                "answer": ["g0_no_toilet"]
               },
               {
                 "id": 1699428535663,
-                "answer": ["hh_member_1_g0_no_toilet_use_practice_od"]
+                "answer": ["g0_no_toilet"]
               },
               {
                 "id": 1699428661689,
@@ -1010,6 +1010,12 @@
           },
           "required": true,
           "meta": false,
+          "dependency": [
+            {
+              "id": 1699428072669,
+              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+            }
+          ],
           "options": [
             {
               "id": 1710742257,
@@ -1080,6 +1086,12 @@
           },
           "required": true,
           "meta": false,
+          "dependency": [
+            {
+              "id": 1699428072669,
+              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+            }
+          ],
           "options": [
             {
               "id": 1710743090,
@@ -1124,6 +1136,12 @@
           },
           "required": true,
           "meta": false,
+          "dependency": [
+            {
+              "id": 1699428072669,
+              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+            }
+          ],
           "options": [
             {
               "id": 1710743655,
@@ -1175,6 +1193,12 @@
           },
           "required": true,
           "meta": false,
+          "dependency": [
+            {
+              "id": 1699428072669,
+              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+            }
+          ],
           "options": [
             {
               "id": 1699427608150,
@@ -1275,6 +1299,12 @@
           },
           "required": true,
           "meta": false,
+          "dependency": [
+            {
+              "id": 1699428072669,
+              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+            }
+          ],
           "options": [
             {
               "id": 1699427918024,
@@ -1326,6 +1356,12 @@
           },
           "required": true,
           "meta": false,
+          "dependency": [
+            {
+              "id": 1699428072669,
+              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+            }
+          ],
           "options": [
             {
               "id": 1699428734675,
@@ -1426,6 +1462,12 @@
           },
           "required": true,
           "meta": false,
+          "dependency": [
+            {
+              "id": 1699428072669,
+              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+            }
+          ],
           "options": [
             {
               "id": 1699428827812,
@@ -1565,6 +1607,12 @@
           },
           "required": true,
           "meta": false,
+          "dependency": [
+            {
+              "id": 1699428072669,
+              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+            }
+          ],
           "options": [
             {
               "id": 1699422978623,
@@ -1581,7 +1629,6 @@
               "color": "#38A15A"
             }
           ],
-          "dependency": null,
           "fn": null
         },
         {
@@ -1634,6 +1681,12 @@
           },
           "required": true,
           "meta": false,
+          "dependency": [
+            {
+              "id": 1699428072669,
+              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+            }
+          ],
           "options": [
             {
               "id": 16994239628191,
@@ -1678,6 +1731,12 @@
           },
           "required": true,
           "meta": false,
+          "dependency": [
+            {
+              "id": 1699428072669,
+              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+            }
+          ],
           "options": [
             {
               "id": 16994239628192,
@@ -1787,7 +1846,12 @@
               "color": "#38A15A"
             }
           ],
-          "dependency": null,
+          "dependency": [
+            {
+              "id": 1699428072669,
+              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+            }
+          ],
           "fn": null
         },
         {
@@ -1909,6 +1973,12 @@
               "color": "#38A15A"
             }
           ],
+          "dependency": [
+            {
+              "id": 1699428072669,
+              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+            }
+          ],
           "fn": null
         },
         {
@@ -2028,6 +2098,12 @@
               "color": "#38A15A"
             }
           ],
+          "dependency": [
+            {
+              "id": 1699428072669,
+              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+            }
+          ],
           "fn": null
         },
         {
@@ -2079,7 +2155,12 @@
               "color": "#38A15A"
             }
           ],
-          "dependency": null,
+          "dependency": [
+            {
+              "id": 1699428072669,
+              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+            }
+          ],
           "fn": null
         },
         {
@@ -2131,7 +2212,12 @@
               "color": "#38A15A"
             }
           ],
-          "dependency": null,
+          "dependency": [
+            {
+              "id": 1699428072669,
+              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+            }
+          ],
           "fn": null
         },
         {
@@ -2232,6 +2318,12 @@
               "color": "#38A15A"
             }
           ],
+          "dependency": [
+            {
+              "id": 1699428072669,
+              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+            }
+          ],
           "fn": null
         },
         {
@@ -2309,6 +2401,12 @@
               "label": "Connection to sewer network (no surface outflows)",
               "value": "g2_sewer_connection_no_surface_outflows",
               "color": "#38A15A"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 1699428072669,
+              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
             }
           ],
           "fn": null
