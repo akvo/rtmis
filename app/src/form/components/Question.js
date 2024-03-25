@@ -72,7 +72,7 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
   const onDefaultValue = (id, value, type, preFilled, isLoading = true) => {
     const isMatchAnswer =
       type === 'multiple_option'
-        ? preFilled.answer.includes(value?.[0])
+        ? preFilled.answer.some((a) => value.includes(a))
         : JSON.stringify(preFilled.answer) === JSON.stringify(value) ||
           String(preFilled.answer) === String(value);
     if (isMatchAnswer) {
