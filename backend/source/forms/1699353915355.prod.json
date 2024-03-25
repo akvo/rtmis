@@ -90,13 +90,11 @@
               },
               {
                 "id": 1699425852809,
-                "answer": [
-                  "g0_not_clean_heavy_traces_of_faeces_or_soiled_cleaning_materials"
-                ]
+                "answer": ["g0_no_toilet"]
               },
               {
                 "id": 1699426059842,
-                "answer": ["g0_not_clean_heavy_traces_of_faeces"]
+                "answer": ["g0_no_toilet"]
               },
               {
                 "id": 16994260598422,
@@ -160,11 +158,11 @@
               },
               {
                 "id": 1699430427692,
-                "answer": ["g0_no_water_available"]
+                "answer": ["g0_no_handwashing_facility"]
               },
               {
                 "id": 1699430472221,
-                "answer": ["g0_no_soap_or_other_cleanser_available"]
+                "answer": ["g0_no_handwashing_facility"]
               },
               {
                 "id": 1699430580239,
@@ -178,7 +176,7 @@
               },
               {
                 "id": 1699430761393,
-                "answer": ["g0_no_collection_or_disposal_of_washing_water"]
+                "answer": ["g0_no_handwashing_facility"]
               },
               {
                 "id": 1699430839676,
@@ -972,7 +970,7 @@
               },
               {
                 "id": 1699427743413,
-                "answer": ["g0_no_toilet"]
+                "answer": ["g0_no_toilet_or_no_containment_or_collection_system"]
               }
             ]
           }  
@@ -2834,6 +2832,12 @@
               "color": "#38A15A"
             }
           ],
+          "dependency": [
+            {
+              "id": 1699429162796,
+              "options": ["g1_handwashing_facility_by_toilet","g1_handwashing_facility_in_kitchen","g1_portable_handwashing_facility_basin_jug_jerrycan_container","g1_two_handwashing_facilities","g1_more_than_two_handwashing_facilities"]
+            }
+          ],
           "fn": null
         },
         {
@@ -2883,6 +2887,12 @@
               "label": "Solid, liquid or powder soap available",
               "value": "g1_solid_liquid_or_powder_soap_available",
               "color": "#38A15A"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 1699429162796,
+              "options": ["g1_handwashing_facility_by_toilet","g1_handwashing_facility_in_kitchen","g1_portable_handwashing_facility_basin_jug_jerrycan_container","g1_two_handwashing_facilities","g1_more_than_two_handwashing_facilities"]
             }
           ],
           "fn": null
@@ -2957,6 +2967,12 @@
               "color": "#38A15A"
             }
           ],
+          "dependency": [
+            {
+              "id": 1699429162796,
+              "options": ["g1_handwashing_facility_by_toilet","g1_handwashing_facility_in_kitchen","g1_portable_handwashing_facility_basin_jug_jerrycan_container","g1_two_handwashing_facilities","g1_more_than_two_handwashing_facilities"]
+            }
+          ],
           "fn": null
         },
         {
@@ -3015,6 +3031,12 @@
               "color": "#38A15A"
             }
           ],
+          "dependency": [
+            {
+              "id": 1699429162796,
+              "options": ["g1_handwashing_facility_by_toilet","g1_handwashing_facility_in_kitchen","g1_portable_handwashing_facility_basin_jug_jerrycan_container","g1_two_handwashing_facilities","g1_more_than_two_handwashing_facilities"]
+            }
+          ],
           "fn": null
         },
         {
@@ -3057,6 +3079,12 @@
               "label": "Safe collection and disposal of washing water",
               "value": "g3_safe_collection_and_disposal_of_washing_water",
               "color": "#38A15A"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 1699429162796,
+              "options": ["g1_handwashing_facility_by_toilet","g1_handwashing_facility_in_kitchen","g1_portable_handwashing_facility_basin_jug_jerrycan_container","g1_two_handwashing_facilities","g1_more_than_two_handwashing_facilities"]
             }
           ],
           "fn": null
@@ -3117,6 +3145,12 @@
               "color": "#38A15A"
             }
           ],
+          "dependency": [
+            {
+              "id": 1699429162796,
+              "options": ["g1_handwashing_facility_by_toilet","g1_handwashing_facility_in_kitchen","g1_portable_handwashing_facility_basin_jug_jerrycan_container","g1_two_handwashing_facilities","g1_more_than_two_handwashing_facilities"]
+            }
+          ],
           "fn": null
         },
         {
@@ -3173,6 +3207,12 @@
               "label": "Before eating, food preparation and feeding children",
               "value": "g2_before_eating_food_preparation_and_feeding_children",
               "color": "#38A15A"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 1699429162796,
+              "options": ["g1_handwashing_facility_by_toilet","g1_handwashing_facility_in_kitchen","g1_portable_handwashing_facility_basin_jug_jerrycan_container","g1_two_handwashing_facilities","g1_more_than_two_handwashing_facilities"]
             }
           ],
           "fn": null
@@ -3233,6 +3273,12 @@
               "color": "#38A15A"
             }
           ],
+          "dependency": [
+            {
+              "id": 1699429162796,
+              "options": ["g1_handwashing_facility_by_toilet","g1_handwashing_facility_in_kitchen","g1_portable_handwashing_facility_basin_jug_jerrycan_container","g1_two_handwashing_facilities","g1_more_than_two_handwashing_facilities"]
+            }
+          ],
           "fn": null
         },
         {
@@ -3289,6 +3335,12 @@
               "label": "No animals",
               "value": "g2_no_animals",
               "color": "#38A15A"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 1699429162796,
+              "options": ["g1_handwashing_facility_by_toilet","g1_handwashing_facility_in_kitchen","g1_portable_handwashing_facility_basin_jug_jerrycan_container","g1_two_handwashing_facilities","g1_more_than_two_handwashing_facilities"]
             }
           ],
           "fn": null
