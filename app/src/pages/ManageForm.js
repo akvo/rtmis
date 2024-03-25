@@ -23,7 +23,7 @@ const ManageForm = ({ navigation, route }) => {
     navigation.navigate('FormPage', {
       ...route?.params,
       newSubmission: true,
-      type: 'registration',
+      submission_type: 'registration',
     });
   };
 

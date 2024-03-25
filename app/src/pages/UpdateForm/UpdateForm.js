@@ -38,7 +38,7 @@ const UpdateForm = ({ navigation, route }) => {
       showSubmitted: false,
       newSubmission: true,
       isMonitoring: true,
-      type: 'monitoring',
+      submission_type: 'monitoring',
     });
   };
 
