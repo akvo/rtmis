@@ -73,8 +73,10 @@
           "meta": true,
           "type": "number",
           "attributes": ["chart"],
-          "required": true,
-          "monitoring": true
+          "disabled": {
+            "submission_type": ["monitoring"]
+          },
+          "required": true
         },
         {
           "id": 204,
