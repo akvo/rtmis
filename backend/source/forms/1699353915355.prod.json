@@ -44,182 +44,7 @@
             }
           ],
           "dependency": null,
-          "fn": null,
-          "pre": {
-            "answer": "new",
-            "fill": [
-              {
-                "id": 1699354220734,
-                "answer": ["new"]
-              },
-              {
-                "id": 1699417958748,
-                "answer": ["hh_head"]
-              },
-              {
-                "id": 1699419372643,
-                "answer": ["other_gender"]
-              },
-              {
-                "id": 1699420160003,
-                "answer": ["no"]
-              },
-              {
-                "id": 1699420491508,
-                "answer": ["yes_owned"]
-              },
-              {
-                "id": 1699420621840,
-                "answer": ["other_hh_not_in_atrisk_category"]
-              },
-              {
-                "id": 1699422286091,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699423357200,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699423571454,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699423696720,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699423946170,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699424375968,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699425852809,
-                "answer": [
-                  "g0_not_clean_heavy_traces_of_faeces_or_soiled_cleaning_materials"
-                ]
-              },
-              {
-                "id": 1699425943159,
-                "answer": [
-                  "g0_not_clean_heavy_traces_of_faeces_or_soiled_cleaning_materials"
-                ]
-              },
-              {
-                "id": 1699426059842,
-                "answer": ["g0_not_clean_heavy_traces_of_faeces"]
-              },
-              {
-                "id": 16994260598422,
-                "answer": ["no"]
-              },
-              {
-                "id": 1699427405024,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699427574765,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699427743413,
-                "answer": [
-                  "g0_no_toilet_or_no_containment_or_collection_system"
-                ]
-              },
-              {
-                "id": 1699427885744,
-                "answer": [
-                  "g0_no_toilet_or_no_containment_or_collection_system"
-                ]
-              },
-              {
-                "id": 1702282796765,
-                "answer": ["g0_high_risk_of_groundwater_contamination"]
-              },
-              {
-                "id": 1699428072669,
-                "answer": ["g0_no_toilet_practice_od"]
-              },
-              {
-                "id": 1699428351326,
-                "answer": ["g0_no_members_use_toilet"]
-              },
-              {
-                "id": 1699428400205,
-                "answer": ["g0_toilet_shared_more_than_1015_users"]
-              },
-              {
-                "id": 1699428535663,
-                "answer": ["hh_member_1_g0_no_toilet_use_practice_od"]
-              },
-              {
-                "id": 1699428661689,
-                "answer": ["g0_no_toilet_or_no_containmentcollection_system"]
-              },
-              {
-                "id": 1699428820338,
-                "answer": ["g0_no_toilet_or_no_containmentcollection_system"]
-              },
-              {
-                "id": 1699429162796,
-                "answer": ["g0_no_handwashing_facility"]
-              },
-              {
-                "id": 1699430427692,
-                "answer": ["g0_no_water_available"]
-              },
-              {
-                "id": 1699430472221,
-                "answer": ["g0_no_soap_or_other_cleanser_available"]
-              },
-              {
-                "id": 1699430580239,
-                "answer": ["g0_no_handwashing_facility"]
-              },
-              {
-                "id": 1699430671868,
-                "answer": [
-                  "g0_hands_enter_the_water_container_during_collection_and_use"
-                ]
-              },
-              {
-                "id": 1699430761393,
-                "answer": ["g0_no_collection_or_disposal_of_washing_water"]
-              },
-              {
-                "id": 1699430839676,
-                "answer": ["g0_no_handwashing_facility"]
-              },
-              {
-                "id": 1699431035188,
-                "answer": ["g0_no_handwashing_facility"]
-              },
-              {
-                "id": 1699431983680,
-                "answer": ["g0_no_handwashing_facility"]
-              },
-              {
-                "id": 1699432052966,
-                "answer": ["g0_no_handwashing_facility"]
-              },
-              {
-                "id": 1699432663952,
-                "answer": ["g0_child_or_adult_excreta_observed_in_the_compound"]
-              },
-              {
-                "id": 1699432130951,
-                "answer": ["g0_soiled_potty_or_collection_tool_unsafely_washed"]
-              },
-              {
-                "id": 1699432802923,
-                "answer": ["g0_used_diapers_visible_in_the_compound"]
-              }
-            ]
-          }
+          "fn": null
         },
         {
           "id": 1699354849382,
@@ -236,7 +61,9 @@
           "dependency": [
             {
               "id": 1699354220734,
-              "options": ["new"]
+              "options": [
+                "new"
+              ]
             }
           ],
           "fn": null
@@ -255,7 +82,9 @@
           "dependency": [
             {
               "id": 1699354220734,
-              "options": ["new"]
+              "options": [
+                "new"
+              ]
             }
           ],
           "fn": null
@@ -330,7 +159,14 @@
             }
           ],
           "rule": null,
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "hh_head"
+              ]
+            }
+          }
         },
         {
           "id": 1699419048095,
@@ -427,7 +263,14 @@
             }
           ],
           "rule": null,
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "other_gender"
+              ]
+            }
+          }
         },
         {
           "id": 1699419815660,
@@ -653,7 +496,14 @@
             }
           ],
           "rule": null,
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "no"
+              ]
+            }
+          }
         },
         {
           "id": 1699420491508,
@@ -688,7 +538,14 @@
             }
           ],
           "rule": null,
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "yes_owned"
+              ]
+            }
+          }
         },
         {
           "id": 1699420621840,
@@ -831,7 +688,14 @@
             }
           ],
           "rule": null,
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "other_hh_not_in_atrisk_category"
+              ]
+            }
+          }
         },
         {
           "id": 1703073469466,
@@ -889,7 +753,14 @@
             }
           ],
           "dependency": null,
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet"
+              ]
+            }
+          }
         },
         {
           "id": 1703066902325,
@@ -905,7 +776,9 @@
           "dependency": [
             {
               "id": 1699422286091,
-              "options": ["g1_toilet_observed"]
+              "options": [
+                "g1_toilet_observed"
+              ]
             }
           ],
           "fn": null
@@ -924,7 +797,9 @@
           "dependency": [
             {
               "id": 1699422286091,
-              "options": ["g1_toilet_observed"]
+              "options": [
+                "g1_toilet_observed"
+              ]
             }
           ],
           "fn": null
@@ -943,7 +818,9 @@
           "dependency": [
             {
               "id": 1699422286091,
-              "options": ["g1_toilet_observed"]
+              "options": [
+                "g1_toilet_observed"
+              ]
             }
           ],
           "fn": null
@@ -962,7 +839,9 @@
           "dependency": [
             {
               "id": 1699422286091,
-              "options": ["g1_toilet_observed"]
+              "options": [
+                "g1_toilet_observed"
+              ]
             }
           ],
           "fn": null
@@ -1009,7 +888,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet"
+              ]
+            }
+          }
         },
         {
           "id": 1699423571454,
@@ -1053,7 +939,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet"
+              ]
+            }
+          }
         },
         {
           "id": 1701810579091,
@@ -1154,7 +1047,14 @@
             }
           ],
           "dependency": null,
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet"
+              ]
+            }
+          }
         },
         {
           "id": 1699423946170,
@@ -1261,7 +1161,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet"
+              ]
+            }
+          }
         },
         {
           "id": 1699424375968,
@@ -1361,7 +1268,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet"
+              ]
+            }
+          }
         },
         {
           "id": 1702281084786,
@@ -1427,7 +1341,14 @@
             }
           ],
           "dependency": null,
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_not_clean_heavy_traces_of_faeces_or_soiled_cleaning_materials"
+              ]
+            }
+          }
         },
         {
           "id": 1699425943159,
@@ -1472,7 +1393,14 @@
             }
           ],
           "dependency": null,
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_not_clean_heavy_traces_of_faeces_or_soiled_cleaning_materials"
+              ]
+            }
+          }
         },
         {
           "id": 1699426059842,
@@ -1517,7 +1445,14 @@
             }
           ],
           "dependency": null,
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_not_clean_heavy_traces_of_faeces"
+              ]
+            }
+          }
         },
         {
           "id": 1702282119933,
@@ -1638,7 +1573,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet"
+              ]
+            }
+          }
         },
         {
           "id": 1699427574765,
@@ -1738,7 +1680,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet"
+              ]
+            }
+          }
         },
         {
           "id": 1702283171680,
@@ -1830,7 +1779,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet_or_no_containment_or_collection_system"
+              ]
+            }
+          }
         },
         {
           "id": 1699427885744,
@@ -1874,7 +1830,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet_or_no_containment_or_collection_system"
+              ]
+            }
+          }
         },
         {
           "id": 1702282796765,
@@ -1902,7 +1865,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_high_risk_of_groundwater_contamination"
+              ]
+            }
+          }
         },
         {
           "id": 1702283955461,
@@ -1970,7 +1940,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet_practice_od"
+              ]
+            }
+          }
         },
         {
           "id": 1699428351326,
@@ -2007,7 +1984,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_members_use_toilet"
+              ]
+            }
+          }
         },
         {
           "id": 1699428400205,
@@ -2051,7 +2035,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_toilet_shared_more_than_1015_users"
+              ]
+            }
+          }
         },
         {
           "id": 1702284734752,
@@ -2115,7 +2106,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "hh_member_1_g0_no_toilet_use_practice_od"
+              ]
+            }
+          }
         },
         {
           "id": 1702285101196,
@@ -2229,7 +2227,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet_or_no_containmentcollection_system"
+              ]
+            }
+          }
         },
         {
           "id": 1699428820338,
@@ -2336,7 +2341,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet_or_no_containmentcollection_system"
+              ]
+            }
+          }
         },
         {
           "id": 1702285668136,
@@ -2426,7 +2438,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_handwashing_facility"
+              ]
+            }
+          }
         },
         {
           "id": 1699430427692,
@@ -2463,7 +2482,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_water_available"
+              ]
+            }
+          }
         },
         {
           "id": 1699430472221,
@@ -2507,7 +2533,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_soap_or_other_cleanser_available"
+              ]
+            }
+          }
         },
         {
           "id": 1702287053503,
@@ -2592,7 +2625,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_handwashing_facility"
+              ]
+            }
+          }
         },
         {
           "id": 1699430671868,
@@ -2643,7 +2683,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_hands_enter_the_water_container_during_collection_and_use"
+              ]
+            }
+          }
         },
         {
           "id": 1699430761393,
@@ -2680,7 +2727,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_collection_or_disposal_of_washing_water"
+              ]
+            }
+          }
         },
         {
           "id": 1702287685048,
@@ -2759,7 +2813,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_handwashing_facility"
+              ]
+            }
+          }
         },
         {
           "id": 1699431035188,
@@ -2817,7 +2878,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_handwashing_facility"
+              ]
+            }
+          }
         },
         {
           "id": 1699431983680,
@@ -2868,7 +2936,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_handwashing_facility"
+              ]
+            }
+          }
         },
         {
           "id": 1699432052966,
@@ -2919,7 +2994,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_handwashing_facility"
+              ]
+            }
+          }
         },
         {
           "id": 1702288599133,
@@ -2981,7 +3063,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_child_or_adult_excreta_observed_in_the_compound"
+              ]
+            }
+          }
         },
         {
           "id": 1702289546185,
@@ -3066,7 +3155,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_soiled_potty_or_collection_tool_unsafely_washed"
+              ]
+            }
+          }
         },
         {
           "id": 1699432802923,
@@ -3124,7 +3220,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_used_diapers_visible_in_the_compound"
+              ]
+            }
+          }
         },
         {
           "id": 1702289725502,
@@ -3173,108 +3276,7 @@
             }
           ],
           "dependency": null,
-          "fn": null,
-          "pre": {
-            "answer": "yes",
-            "fill": [
-              {
-                "id": 1699432887212,
-                "answer": ["g0_visible_dirt_or_contamination"]
-              },
-              {
-                "id": 1699433027913,
-                "answer": ["g0_no_storage"]
-              },
-              {
-                "id": 1699433058652,
-                "answer": ["g0_on_ground"]
-              },
-              {
-                "id": 1699433108344,
-                "answer": ["g0_visible_dirt_or_contamination"]
-              },
-              {
-                "id": 1699433162828,
-                "answer": ["g0_no_storage"]
-              },
-              {
-                "id": 1699433205793,
-                "answer": ["g0_on_ground"]
-              },
-              {
-                "id": 1699433286697,
-                "answer": ["g0_visible_dirt_or_contamination"]
-              },
-              {
-                "id": 1699433337417,
-                "answer": ["g0_no_storage"]
-              },
-              {
-                "id": 1699433394633,
-                "answer": ["g0_on_ground"]
-              },
-              {
-                "id": 1699433455365,
-                "answer": ["g0_visible_dirt_or_contamination"]
-              },
-              {
-                "id": 1699433503692,
-                "answer": ["g0_no_treatment_and_low_quality"]
-              },
-              {
-                "id": 1699433564057,
-                "answer": ["g0_unsafe_drinking_water_storage"]
-              },
-              {
-                "id": 1699433637971,
-                "answer": ["g0_unsafe_water_use"]
-              },
-              {
-                "id": 1699433719018,
-                "answer": ["g0_visible_dirt_or_contamination"]
-              },
-              {
-                "id": 1699433765217,
-                "answer": ["g0_no_protection_of_water_points"]
-              },
-              {
-                "id": 1699433833227,
-                "answer": ["g0_standing_water_visible_around_water_point"]
-              },
-              {
-                "id": 1699433937138,
-                "answer": ["g0_widespread_animal_wastes"]
-              },
-              {
-                "id": 1699433983369,
-                "answer": ["g0_widespread_animal_wastes"]
-              },
-              {
-                "id": 1699434044707,
-                "answer": ["g0_unsafe_location_of_animal_waste_storage"]
-              },
-              {
-                "id": 1699434136823,
-                "answer": ["g0_unsafe_animal_waste_storage_location"]
-              },
-              {
-                "id": 1699434209933,
-                "answer": ["g0_animal_waste_storage_is_unsafely_managed"]
-              },
-              {
-                "id": 1699434269372,
-                "answer": ["g0_no_animal_pens"]
-              },
-              {
-                "id": 1699434327613,
-                "answer": ["g0_no_animal_pens"]
-              },
-              {
-                "id": 16994260598423,
-                "answer": ["no"]
-              }
-            ]
-          }
+          "fn": null
         },
         {
           "id": 1699432887212,
@@ -3286,7 +3288,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -3317,7 +3321,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_visible_dirt_or_contamination"
+              ]
+            }
+          }
         },
         {
           "id": 1699433027913,
@@ -3332,7 +3343,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "options": [
@@ -3358,7 +3371,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_no_storage"
+              ]
+            }
+          }
         },
         {
           "id": 1699433058652,
@@ -3370,7 +3390,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -3401,7 +3423,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_on_ground"
+              ]
+            }
+          }
         },
         {
           "id": 1702295289084,
@@ -3417,7 +3446,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -3440,7 +3471,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -3471,7 +3504,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_visible_dirt_or_contamination"
+              ]
+            }
+          }
         },
         {
           "id": 1699433162828,
@@ -3483,7 +3523,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -3514,7 +3556,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_no_storage"
+              ]
+            }
+          }
         },
         {
           "id": 1699433205793,
@@ -3526,7 +3575,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -3557,7 +3608,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_on_ground"
+              ]
+            }
+          }
         },
         {
           "id": 1702295769122,
@@ -3573,7 +3631,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -3596,7 +3656,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -3627,7 +3689,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_visible_dirt_or_contamination"
+              ]
+            }
+          }
         },
         {
           "id": 1699433337417,
@@ -3639,7 +3708,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -3670,7 +3741,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_no_storage"
+              ]
+            }
+          }
         },
         {
           "id": 1699433394633,
@@ -3682,7 +3760,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -3713,7 +3793,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_on_ground"
+              ]
+            }
+          }
         },
         {
           "id": 1702296110410,
@@ -3729,7 +3816,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -3752,7 +3841,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -3783,7 +3874,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_visible_dirt_or_contamination"
+              ]
+            }
+          }
         },
         {
           "id": 1699433503692,
@@ -3795,7 +3893,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -3833,7 +3933,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_no_treatment_and_low_quality"
+              ]
+            }
+          }
         },
         {
           "id": 1699433564057,
@@ -3845,7 +3952,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -3876,7 +3985,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_unsafe_drinking_water_storage"
+              ]
+            }
+          }
         },
         {
           "id": 1699433637971,
@@ -3888,7 +4004,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -3933,7 +4051,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_unsafe_water_use"
+              ]
+            }
+          }
         },
         {
           "id": 1702296406679,
@@ -3949,7 +4074,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -3972,7 +4099,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -4003,7 +4132,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_visible_dirt_or_contamination"
+              ]
+            }
+          }
         },
         {
           "id": 1699433765217,
@@ -4015,7 +4151,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -4046,7 +4184,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_no_protection_of_water_points"
+              ]
+            }
+          }
         },
         {
           "id": 1699433833227,
@@ -4058,7 +4203,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -4089,7 +4236,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_standing_water_visible_around_water_point"
+              ]
+            }
+          }
         },
         {
           "id": 1702296839468,
@@ -4105,7 +4259,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -4128,7 +4284,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -4159,7 +4317,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_widespread_animal_wastes"
+              ]
+            }
+          }
         },
         {
           "id": 1699433983369,
@@ -4171,7 +4336,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -4202,7 +4369,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_widespread_animal_wastes"
+              ]
+            }
+          }
         },
         {
           "id": 1702297046194,
@@ -4218,7 +4392,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -4241,7 +4417,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -4279,7 +4457,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_unsafe_location_of_animal_waste_storage"
+              ]
+            }
+          }
         },
         {
           "id": 1699434136823,
@@ -4291,7 +4476,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -4329,7 +4516,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_unsafe_animal_waste_storage_location"
+              ]
+            }
+          }
         },
         {
           "id": 1699434209933,
@@ -4341,7 +4535,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -4379,7 +4575,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_animal_waste_storage_is_unsafely_managed"
+              ]
+            }
+          }
         },
         {
           "id": 1702297533085,
@@ -4395,7 +4598,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -4418,7 +4623,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -4456,7 +4663,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_no_animal_pens"
+              ]
+            }
+          }
         },
         {
           "id": 1699434327613,
@@ -4468,7 +4682,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -4506,7 +4722,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_no_animal_pens"
+              ]
+            }
+          }
         },
         {
           "id": 1702297797962,
@@ -4522,7 +4745,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -4547,7 +4772,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "options": [
@@ -4566,84 +4793,7 @@
               "color": ""
             }
           ],
-          "fn": null,
-          "pre": {
-            "answer": "yes",
-            "fill": [
-              {
-                "id": 1699434438966,
-                "answer": ["g0_visible_wastewater"]
-              },
-              {
-                "id": 1699434488410,
-                "answer": ["g0_significant_erosion"]
-              },
-              {
-                "id": 1699434553677,
-                "answer": ["g0_significant_visible_solid_wastes"]
-              },
-              {
-                "id": 1699434636655,
-                "answer": ["g0_no_solid_waste_management"]
-              },
-              {
-                "id": 1699434694439,
-                "answer": ["g0_significant_standing_water"]
-              },
-              {
-                "id": 1699434771449,
-                "answer": ["g0_no_treatment_or_management"]
-              },
-              {
-                "id": 1699434939105,
-                "answer": ["g1_all_with_dirty_faces"]
-              },
-              {
-                "id": 1699434983278,
-                "answer": ["g1_all_with_dirty_hands"]
-              },
-              {
-                "id": 1699435026311,
-                "answer": ["g1_no_washing_place"]
-              },
-              {
-                "id": 1699435088758,
-                "answer": ["g1_no_disposal_site"]
-              },
-              {
-                "id": 1699435154797,
-                "answer": ["g1_materials_are_not_available_or_not_appropriate"]
-              },
-              {
-                "id": 1699435207476,
-                "answer": ["g1_no_children_vaccinated"]
-              },
-              {
-                "id": 1699435265962,
-                "answer": ["g1_no_children_received_supplements"]
-              },
-              {
-                "id": 1699435329279,
-                "answer": [
-                  "g1_under_6month_children_regularly_receive_water_or_other_food"
-                ]
-              },
-              {
-                "id": 1699435397728,
-                "answer": [
-                  "g1_low_nutrition_diet_some_or_all_children_eat_from_only_12_food_groups"
-                ]
-              },
-              {
-                "id": 1699435455818,
-                "answer": ["g1_no_protection_no_bed_nets_and_no_insect_screen"]
-              },
-              {
-                "id": 1699435526190,
-                "answer": ["g1_no_deworming_no_children_or_adults_treated"]
-              }
-            ]
-          }
+          "fn": null
         },
         {
           "id": 1699434438966,
@@ -4655,7 +4805,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -4686,7 +4838,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g0_visible_wastewater"
+              ]
+            }
+          }
         },
         {
           "id": 1699434488410,
@@ -4698,7 +4857,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -4736,7 +4897,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g0_significant_erosion"
+              ]
+            }
+          }
         },
         {
           "id": 1702298080560,
@@ -4752,7 +4920,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -4775,7 +4945,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -4806,7 +4978,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g0_significant_visible_solid_wastes"
+              ]
+            }
+          }
         },
         {
           "id": 1699434636655,
@@ -4818,7 +4997,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -4849,7 +5030,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g0_no_solid_waste_management"
+              ]
+            }
+          }
         },
         {
           "id": 1702298318702,
@@ -4865,7 +5053,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -4887,7 +5077,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "type": "option",
@@ -4919,7 +5111,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g0_significant_standing_water"
+              ]
+            }
+          }
         },
         {
           "id": 1699434771449,
@@ -4930,7 +5129,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "type": "option",
@@ -4969,7 +5170,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g0_no_treatment_or_management"
+              ]
+            }
+          }
         },
         {
           "id": 1702298602672,
@@ -4985,7 +5193,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -5007,7 +5217,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "type": "option",
@@ -5039,7 +5251,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g1_all_with_dirty_faces"
+              ]
+            }
+          }
         },
         {
           "id": 1699434983278,
@@ -5050,7 +5269,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "type": "option",
@@ -5082,7 +5303,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g1_all_with_dirty_hands"
+              ]
+            }
+          }
         },
         {
           "id": 1702298863458,
@@ -5098,7 +5326,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -5121,7 +5351,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -5152,7 +5384,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g1_no_washing_place"
+              ]
+            }
+          }
         },
         {
           "id": 1699435088758,
@@ -5163,7 +5402,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "type": "option",
@@ -5195,7 +5436,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g1_no_disposal_site"
+              ]
+            }
+          }
         },
         {
           "id": 1699435154797,
@@ -5206,7 +5454,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "type": "option",
@@ -5238,7 +5488,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g1_materials_are_not_available_or_not_appropriate"
+              ]
+            }
+          }
         },
         {
           "id": 1702301820095,
@@ -5254,7 +5511,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -5277,7 +5536,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -5315,7 +5576,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g1_no_children_vaccinated"
+              ]
+            }
+          }
         },
         {
           "id": 1702302041022,
@@ -5331,7 +5599,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -5353,7 +5623,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "type": "option",
@@ -5392,7 +5664,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g1_no_children_received_supplements"
+              ]
+            }
+          }
         },
         {
           "id": 1702302232732,
@@ -5408,7 +5687,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -5431,7 +5712,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -5469,7 +5752,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g1_under_6month_children_regularly_receive_water_or_other_food"
+              ]
+            }
+          }
         },
         {
           "id": 1702302427536,
@@ -5485,7 +5775,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -5507,7 +5799,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "type": "option",
@@ -5546,7 +5840,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g1_low_nutrition_diet_some_or_all_children_eat_from_only_12_food_groups"
+              ]
+            }
+          }
         },
         {
           "id": 1702302507816,
@@ -5562,7 +5863,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -5584,7 +5887,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "type": "option",
@@ -5623,7 +5928,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g1_no_protection_no_bed_nets_and_no_insect_screen"
+              ]
+            }
+          }
         },
         {
           "id": 1702299714872,
@@ -5639,7 +5951,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -5661,7 +5975,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "type": "option",
@@ -5700,7 +6016,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g1_no_deworming_no_children_or_adults_treated"
+              ]
+            }
+          }
         },
         {
           "id": 1702299918738,
@@ -5716,7 +6039,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
