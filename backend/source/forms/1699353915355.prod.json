@@ -1289,7 +1289,7 @@
           "id": 1699427885744,
           "order": 8,
           "name": "visible_surface_outflows",
-          "label": "🟢 G2-1.4b : are surface outflows from the pit ever visible?",
+          "label": "🟢 G2-1.4b : Are surface outflows from the pit ever visible?",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1917,14 +1917,14 @@
             {
               "id": 1699424076000,
               "order": 8,
-              "label": "G1 Double latrine pit: under toilet (direct)",
+              "label": "Double latrine pit: under toilet (direct)",
               "value": "g1_double_latrine_pit_under_toilet",
               "color": "#38A15A"
             },
             {
               "id": 1710749570,
               "order": 9,
-              "label": "G1 Double latrine pit: beside toilet (offset)",
+              "label": "Double latrine pit: beside toilet (offset)",
               "value": "g1_double_latrine_pit_beside_toilet",
               "color": "#38A15A"
             },
@@ -1952,7 +1952,7 @@
             {
               "id": 1699424135551,
               "order": 13,
-              "label": "G1 Flush or pour-flush to don't know",
+              "label": "Flush or pour-flush to don't know",
               "value": "g1_flush_to_dont_know",
               "color": "#38A15A"
             },
@@ -2527,13 +2527,34 @@
               "G1 Clean toilet": "#FDC74B",
               "G0 Toilet NOT clean": "#FD3F31"
             },
-            "fnString": "#clean_toilet_pandrophole#.includes(\"g1\") && #clean_toilet_floor#.includes(\"g1\") && #clean_toilet_walls#.includes(\"g1\") ? \"G1 Clean toilet\" : \"G0 Toilet NOT clean\"",
+            "fnString": "#clean_toilet_pandrophole#.includes(\"g1\") && #clean_toilet_walls#.includes(\"g1\") ? \"G1 Clean toilet\" : \"G0 Toilet NOT clean\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1711434672,
+          "order": 5,
+          "name": "o_r_flyproof_and_clean_toilet",
+          "label": "G1-1.1 Outcome result - Use of flyproof and clean toilet",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": null,
+          "fn": {
+            "fnColor": {
+              "G1 Flyproof and clean toilet": "#FDC74B",
+              "G0 Toilet NOT flyproof and clean": "#FD3F31"
+            },
+            "fnString": "#toilet_interface#.includes(\"g1\") && #containment_or_collection_system#.includes(\"g1\") && #flyproof_toilet#.includes(\"g1\") && #clean_toilet_pandrophole#.includes(\"g1\") && #clean_toilet_walls#.includes(\"g1\") ? \"G1 flyproof and clean toilet\" : \"G0 Toilet NOT flyproof and clean\"",
             "multiline": false
           }
         },
         {
           "id": 1702285101196,
-          "order": 5,
+          "order": 6,
           "name": "o_r_individual_use_of_own_hh_toilet",
           "label": "G2-1.1 Outcome result - Individual use of own household toilet",
           "short_label": null,
@@ -2554,7 +2575,7 @@
         },
         {
           "id": 1702283171680,
-          "order": 6,
+          "order": 7,
           "name": "o_r_durable_toilet",
           "label": "G2-1.2 Outcome result - Durable toilet slab",
           "short_label": null,
@@ -2574,7 +2595,7 @@
         },
         {
           "id": 1702283955461,
-          "order": 7,
+          "order": 8,
           "name": "o_r_toilet_with_safe_containment",
           "label": "G2-1.4 Outcome result - Toilet with safe containment",
           "short_label": null,
@@ -2593,8 +2614,28 @@
           }
         },
         {
+          "id": 1711436502,
+          "order": 9,
+          "name": "o_r_durable_toilet_with_safe_containment",
+          "label": "G2-1 Outome result: Individual Use of durable toilet with safe containment",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "fn": {
+            "fnColor": {
+              "G2 Durable toilet with safe containment": "#93D371",
+              "G0 Toilet NOT durable and with safe no containment": "#FD3F31"
+            },
+            "fnString": "#observe_safely_managed_containment#.includes(\"g2\") && #visible_surface_outflows#.includes(\"g2\") && #community_low_groundwater_contamination#.includes(\"g2\") && #durable_toilet_slab#.includes(\"g2\") && #durable_toilet_containment_collection_system#.includes(\"g2\") ? \"G2 Durable toilet with safe containment\" : \"G0 Toilet NOT durable and with no safe containment\"",
+            "multiline": false
+          }
+        },
+        {
           "id": 1702285668136,
-          "order": 8,
+          "order": 10,
           "name": "o_r_use_of_safely_managed_sanitation_services",
           "label": "G3-1.1 Outcome result - Safe management of faecal sludge",
           "short_label": null,
