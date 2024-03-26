@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet, ToastAndroid } from 'react-native';
-import { ListItem } from '@rneui/themed';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { ActivityIndicator, FlatList, StyleSheet } from 'react-native';
+import { Button, ListItem } from '@rneui/themed';
+import PropTypes from 'prop-types';
 import { BaseLayout } from '../../components';
 import { FormState, UIState } from '../../store';
 import { i18n } from '../../lib';
@@ -11,42 +12,15 @@ const UpdateForm = ({ navigation, route }) => {
   const params = route?.params || null;
   const [search, setSearch] = useState('');
   const [forms, setForms] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const limit = 10;
+  const [page, setPage] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   const activeLang = UIState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
   const selectedForm = FormState.useState((s) => s.form);
 
   const formId = params?.formId;
-
-  const fetchData = async (reset = false) => {
-    const forms = await crudMonitoring.getAllForms();
-
-    if (isLoading) return;
-    const currentOffset = reset ? 0 : forms.length;
-    setIsLoading(true);
-    try {
-      const moreForms = await crudMonitoring.getFormsPaginated({
-        formId,
-        search,
-        limit,
-        offset: currentOffset,
-      });
-
-      if (reset) {
-        setForms(moreForms);
-      } else {
-        setForms((prevForms) => [...prevForms, ...moreForms]);
-      }
-    } catch (error) {
-      ToastAndroid.show(`${error?.errorCode}: ${error?.message}`, ToastAndroid.LONG);
-    }
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    fetchData(true);
-  }, [search]);
+  const loadMore = useMemo(() => forms.length < total, [forms, total]);
 
   const handleUpdateForm = (item) => {
     const { currentValues, prevAdmAnswer } = transformMonitoringData(
@@ -64,8 +38,50 @@ const UpdateForm = ({ navigation, route }) => {
       showSubmitted: false,
       newSubmission: true,
       isMonitoring: true,
+      submission_type: 'monitoring',
     });
   };
+
+  const handleOnSearch = (keyword) => {
+    if (keyword?.trim()?.length === 0) {
+      setForms([]);
+    }
+    setSearch(keyword);
+    if (!isLoading) {
+      setPage(0);
+      setIsLoading(true);
+    }
+  };
+
+  const fetchTotal = useCallback(async () => {
+    const totalPage = await crudMonitoring.getTotal(formId, search);
+    setTotal(totalPage);
+  }, [formId, search]);
+
+  useEffect(() => {
+    fetchTotal();
+  }, [fetchTotal]);
+
+  const fetchData = useCallback(async () => {
+    if (isLoading) {
+      setIsLoading(false);
+      const moreForms = await crudMonitoring.getFormsPaginated({
+        formId,
+        search: search.trim(),
+        limit: 10,
+        offset: page,
+      });
+      if (search) {
+        setForms(moreForms);
+      } else {
+        setForms(forms.concat(moreForms));
+      }
+    }
+  }, [isLoading, forms, formId, page, search]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const renderItem = ({ item }) => (
     <ListItem
@@ -81,13 +97,13 @@ const UpdateForm = ({ navigation, route }) => {
 
   return (
     <BaseLayout
-      title={route?.params?.name}
+      title={total ? `${route?.params?.name} (${total})` : route?.params?.name}
       rightComponent={false}
       search={{
         show: true,
         placeholder: trans.administrationSearch,
         value: search,
-        action: setSearch,
+        action: handleOnSearch,
       }}
     >
       <FlatList
@@ -97,6 +113,16 @@ const UpdateForm = ({ navigation, route }) => {
         onEndReachedThreshold={0.5}
         ListFooterComponent={isLoading ? <ActivityIndicator size="large" color="#0000ff" /> : null}
       />
+      {loadMore && (
+        <Button
+          onPress={() => {
+            setIsLoading(true);
+            setPage(page + 1);
+          }}
+        >
+          {trans.loadMore}
+        </Button>
+      )}
     </BaseLayout>
   );
 };
@@ -104,11 +130,10 @@ const UpdateForm = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   listItemContainer: {
     position: 'relative',
-    paddingVertical: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 10,
+    paddingVertical: 15,
   },
   syncButton: {
     backgroundColor: 'transparent',
@@ -116,3 +141,11 @@ const styles = StyleSheet.create({
 });
 
 export default UpdateForm;
+
+UpdateForm.propTypes = {
+  route: PropTypes.object,
+};
+
+UpdateForm.defaultProps = {
+  route: null,
+};

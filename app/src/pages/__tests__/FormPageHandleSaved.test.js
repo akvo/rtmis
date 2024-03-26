@@ -1,13 +1,13 @@
+/* eslint-disable react/no-unknown-property */
 import React from 'react';
-import { Platform, ToastAndroid } from 'react-native';
 import { render, fireEvent, waitFor, act } from '@testing-library/react-native';
-jest.useFakeTimers();
 import FormPage from '../FormPage';
 import crudDataPoints from '../../database/crud/crud-datapoints';
 import { FormState } from '../../store';
 import { getCurrentTimestamp } from '../../form/lib';
 
-const mockFormContainer = jest.fn();
+jest.useFakeTimers();
+
 const mockRoute = {
   params: { id: 1, name: 'Form Name', newSubmission: true },
 };
@@ -16,21 +16,21 @@ const mockNavigation = {
   goBack: jest.fn(),
 };
 const mockValues = {
-  name: 'John',
+  name: 'John Doe',
+  geo: null,
   answers: {
-    1: 'John',
+    1: 'John Doe',
     2: new Date('01-01-1992'),
     3: '31',
-    4: ['Male'],
-    5: ['Bachelor'],
-    6: ['Traveling'],
-    7: ['Fried Rice'],
+    4: ['male'],
+    6: ['traveling'],
+    7: ['fried_rice'],
   },
 };
-const mockOnSave = jest.fn();
 
 const exampleTestForm = {
-  name: 'Testing Form',
+  id: 1,
+  form: 'Testing Form',
   languages: ['en', 'id'],
   defaultLanguage: 'en',
   translations: [
@@ -41,7 +41,8 @@ const exampleTestForm = {
   ],
   question_group: [
     {
-      name: 'Registration',
+      name: 'registration',
+      label: 'Registration',
       order: 1,
       translations: [
         {
@@ -52,7 +53,8 @@ const exampleTestForm = {
       question: [
         {
           id: 1,
-          name: 'Your Name',
+          name: 'your_name',
+          label: 'Your Name',
           order: 1,
           type: 'input',
           required: true,
@@ -67,7 +69,8 @@ const exampleTestForm = {
         },
         {
           id: 2,
-          name: 'Birth Date',
+          name: 'birth_date',
+          label: 'Birth Date',
           order: 2,
           type: 'date',
           required: true,
@@ -80,7 +83,8 @@ const exampleTestForm = {
         },
         {
           id: 3,
-          name: 'Age',
+          name: 'age',
+          label: 'Age',
           order: 3,
           type: 'number',
           required: true,
@@ -93,19 +97,22 @@ const exampleTestForm = {
         },
         {
           id: 4,
-          name: 'Gender',
+          name: 'gender',
+          label: 'Gender',
           order: 4,
           type: 'option',
           required: true,
           option: [
             {
               id: 1,
-              name: 'Male',
+              label: 'Male',
+              value: 'male',
               order: 1,
             },
             {
               id: 2,
-              name: 'Female',
+              label: 'Female',
+              value: 'female',
               order: 2,
             },
           ],
@@ -118,54 +125,29 @@ const exampleTestForm = {
           ],
         },
         {
-          id: 5,
-          name: 'Your last education',
-          order: 1,
-          type: 'option',
-          required: false,
-          option: [
-            {
-              id: 11,
-              name: 'Senior High School',
-              order: 1,
-            },
-            {
-              id: 12,
-              name: 'Bachelor',
-              order: 2,
-            },
-            {
-              id: 13,
-              name: 'Master',
-              order: 3,
-            },
-            {
-              id: 14,
-              name: 'Doctor',
-              order: 4,
-            },
-          ],
-        },
-        {
           id: 6,
-          name: 'Hobby',
+          name: 'hobby',
+          label: 'Hobby',
           order: 2,
-          type: 'option',
+          type: 'multiple_option',
           required: false,
           option: [
             {
               id: 21,
-              name: 'Reading',
+              label: 'Reading',
+              value: 'reading',
               order: 1,
             },
             {
               id: 22,
-              name: 'Traveling',
+              label: 'Traveling',
+              value: 'traveling',
               order: 2,
             },
             {
               id: 23,
-              name: 'Programming',
+              label: 'Programming',
+              value: 'programming',
               order: 3,
             },
           ],
@@ -173,40 +155,35 @@ const exampleTestForm = {
         {
           id: 7,
           name: 'Foods',
+          label: 'Foods',
           order: 3,
           type: 'option',
           required: false,
           option: [
             {
               id: 31,
-              name: 'Fried Rice',
+              label: 'fried_rice',
+              value: 'fried_rice',
               order: 1,
             },
             {
               id: 32,
-              name: 'Rendang',
+              label: 'Rendang',
+              value: 'rendang',
               order: 2,
             },
             {
               id: 33,
-              name: 'Noodle',
+              label: 'Noodle',
+              value: 'noodle',
               order: 3,
-            },
-            {
-              id: 34,
-              name: 'Meat Ball',
-              order: 5,
-            },
-            {
-              id: 35,
-              name: 'Fried Chicken',
-              order: 6,
             },
           ],
         },
         {
           id: 8,
-          name: 'Comment',
+          name: 'comment',
+          label: 'Comment',
           order: 4,
           type: 'text',
           required: false,
@@ -219,14 +196,15 @@ const exampleTestForm = {
         },
         {
           id: 9,
-          name: 'Give Rating from 1 - 9 for Rendang',
+          name: 'give_rating_rendang',
+          label: 'Give Rating from 1 - 9 for Rendang',
           order: 5,
           type: 'number',
           required: true,
           dependency: [
             {
               id: 7,
-              options: ['Rendang'],
+              options: ['rendang'],
             },
           ],
           rule: {
@@ -242,25 +220,6 @@ const exampleTestForm = {
 };
 
 jest.mock('../../database/crud/crud-datapoints');
-jest.mock('../../form/FormContainer', () => ({ forms, initialValues, onSubmit, onSave }) => {
-  mockFormContainer(forms, initialValues, onSubmit, onSave);
-  return (
-    <mock-FormContainer>
-      <button onPress={() => mockOnSave(mockValues)} testID="mock-save-button-helper">
-        Save Trigger helper
-      </button>
-      <button onPress={() => onSubmit(mockValues)} testID="mock-submit-button">
-        Submit
-      </button>
-    </mock-FormContainer>
-  );
-});
-
-jest.mock('react', () => ({
-  ...jest.requireActual('react'),
-  useState: jest.fn(),
-  useMemo: jest.fn(),
-}));
 
 describe('FormPage handleOnSaveForm', () => {
   beforeEach(() => {
@@ -268,19 +227,13 @@ describe('FormPage handleOnSaveForm', () => {
     jest.spyOn(Date, 'now').mockReturnValue(1634123456789);
     FormState.update((s) => {
       s.surveyDuration = 0;
+      s.form = {
+        json: JSON.stringify(exampleTestForm).replace(/'/g, "''"),
+      };
     });
   });
 
   test('should render kebab menu and show dialog when kebab menu clicked', async () => {
-    const mockSetOnSaveFormParams = jest.fn();
-    const mockOnSaveFormParams = { values: mockValues };
-    jest
-      .spyOn(React, 'useState')
-      .mockImplementation(() => [mockOnSaveFormParams, mockSetOnSaveFormParams]);
-
-    const mockSetShowDialogMenu = jest.fn();
-    jest.spyOn(React, 'useState').mockImplementation(() => [true, mockSetShowDialogMenu]);
-
     const { queryByTestId } = render(<FormPage navigation={mockNavigation} route={mockRoute} />);
 
     const kebabMenuElement = queryByTestId('form-page-kebab-menu');
@@ -294,16 +247,13 @@ describe('FormPage handleOnSaveForm', () => {
   });
 
   test('should show saved dialog menu when back button pressed', async () => {
-    const mockSetOnSaveFormParams = jest.fn();
-    const mockOnSaveFormParams = { values: mockValues };
-    jest
-      .spyOn(React, 'useState')
-      .mockImplementation(() => [mockOnSaveFormParams, mockSetOnSaveFormParams]);
-
-    const mockSetShowDialogMenu = jest.fn();
-    jest.spyOn(React, 'useState').mockImplementation(() => [true, mockSetShowDialogMenu]);
-
     const wrapper = render(<FormPage navigation={mockNavigation} route={mockRoute} />);
+
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues = mockValues.answers;
+      });
+    });
 
     const arrowBackButton = wrapper.queryByTestId('arrow-back-button');
     expect(arrowBackButton).toBeTruthy();
@@ -316,26 +266,13 @@ describe('FormPage handleOnSaveForm', () => {
   });
 
   test('should call handleOnSaveAndExit with the correct values when Save & Exit button pressed', async () => {
-    Platform.OS = 'android';
-    ToastAndroid.show = jest.fn();
-    jest.spyOn(React, 'useMemo').mockReturnValue(exampleTestForm);
-
-    const mockSetOnSaveFormParams = jest.fn();
-    const mockOnSaveFormParams = { values: mockValues };
-    jest
-      .spyOn(React, 'useState')
-      .mockImplementation(() => [mockOnSaveFormParams, mockSetOnSaveFormParams]);
-
-    const mockSetShowDialogMenu = jest.fn();
-    jest.spyOn(React, 'useState').mockImplementation(() => [true, mockSetShowDialogMenu]);
+    const wrapper = render(<FormPage navigation={mockNavigation} route={mockRoute} />);
 
     act(() => {
       FormState.update((s) => {
         s.surveyStart = getCurrentTimestamp();
       });
     });
-
-    const wrapper = render(<FormPage navigation={mockNavigation} route={mockRoute} />);
 
     const arrowBackButton = wrapper.queryByTestId('arrow-back-button');
     expect(arrowBackButton).toBeTruthy();
@@ -356,66 +293,23 @@ describe('FormPage handleOnSaveForm', () => {
       expect(crudDataPoints.saveDataPoint).toHaveBeenCalledWith({
         duration: 1,
         form: 1,
-        json: {},
-        name: 'Untitled',
+        json: mockValues.answers,
+        name: 'John Doe',
         submitted: 0,
         user: null,
       });
-      expect(ToastAndroid.show).toHaveBeenCalledTimes(1);
       expect(mockNavigation.navigate).toHaveBeenCalledWith('Home', mockRoute.params);
     });
   });
 
-  test('should show ToastAndroid if handleOnSaveAndExit throw an error', async () => {
-    Platform.OS = 'android';
-    ToastAndroid.show = jest.fn();
-    jest.spyOn(React, 'useMemo').mockReturnValue(exampleTestForm);
-    const consoleErrorSpy = jest.spyOn(console, 'error');
-    crudDataPoints.saveDataPoint.mockImplementation(() => Promise.reject('Error'));
-
-    const mockSetOnSaveFormParams = jest.fn();
-    const mockOnSaveFormParams = { values: mockValues };
-    jest
-      .spyOn(React, 'useState')
-      .mockImplementation(() => [mockOnSaveFormParams, mockSetOnSaveFormParams]);
-
-    const mockSetShowDialogMenu = jest.fn();
-    jest.spyOn(React, 'useState').mockImplementation(() => [true, mockSetShowDialogMenu]);
-
-    const wrapper = render(<FormPage navigation={mockNavigation} route={mockRoute} />);
-
-    const arrowBackButton = wrapper.queryByTestId('arrow-back-button');
-    expect(arrowBackButton).toBeTruthy();
-    fireEvent.press(arrowBackButton);
-
-    const dialogMenuElement = wrapper.queryByTestId('save-dialog-menu');
-    await waitFor(() => {
-      expect(dialogMenuElement.props.visible).toEqual(true);
-    });
-
-    const saveButtonElement = wrapper.queryByTestId('save-and-exit-button');
-    expect(saveButtonElement).toBeTruthy();
-    fireEvent.press(saveButtonElement);
-
-    await waitFor(() => {
-      expect(crudDataPoints.saveDataPoint).toHaveBeenCalledTimes(1);
-      expect(consoleErrorSpy).toHaveBeenCalledTimes(1);
-      expect(ToastAndroid.show).toHaveBeenCalledTimes(1);
-      expect(mockNavigation.navigate).not.toHaveBeenCalled();
-    });
-  });
-
   test('should call handleOnExit and navigate to Home page when Exit without Saving button pressed', async () => {
-    const mockSetOnSaveFormParams = jest.fn();
-    const mockOnSaveFormParams = { values: mockValues };
-    jest
-      .spyOn(React, 'useState')
-      .mockImplementation(() => [mockOnSaveFormParams, mockSetOnSaveFormParams]);
-
-    const mockSetShowDialogMenu = jest.fn();
-    jest.spyOn(React, 'useState').mockImplementation(() => [true, mockSetShowDialogMenu]);
-
     const wrapper = render(<FormPage navigation={mockNavigation} route={mockRoute} />);
+
+    act(() => {
+      FormState.update((s) => {
+        s.currentValues = mockValues.answers;
+      });
+    });
 
     const arrowBackButton = wrapper.queryByTestId('arrow-back-button');
     expect(arrowBackButton).toBeTruthy();

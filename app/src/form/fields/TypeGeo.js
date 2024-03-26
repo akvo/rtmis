@@ -1,10 +1,12 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Text, Button } from '@rneui/themed';
+import PropTypes from 'prop-types';
 
 import { FormState, BuildParamsState, UserState } from '../../store';
 import { FieldLabel } from '../support';
-import { styles } from '../styles';
+import styles from '../styles';
 import { loc, i18n } from '../../lib';
 
 const TypeGeo = ({ keyform, id, label, value, tooltip, required, requiredSign, disabled }) => {
@@ -122,3 +124,21 @@ const TypeGeo = ({ keyform, id, label, value, tooltip, required, requiredSign, d
 };
 
 export default TypeGeo;
+
+TypeGeo.propTypes = {
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.array]),
+  keyform: PropTypes.number.isRequired,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  label: PropTypes.string.isRequired,
+  tooltip: PropTypes.object,
+  required: PropTypes.bool.isRequired,
+  requiredSign: PropTypes.string,
+  disabled: PropTypes.bool,
+};
+
+TypeGeo.defaultProps = {
+  value: '',
+  requiredSign: '*',
+  disabled: false,
+  tooltip: null,
+};

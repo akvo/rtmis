@@ -30,16 +30,12 @@ const Sidebar = () => {
       label: "Manage Mobile Users",
       url: "/control-center/mobile-assignment",
     },
-    data: [
-      { label: "Manage Data", url: "/control-center/data/manage" },
-      // { label: "Download Data", url: "/control-center/data/export" },
-    ],
+    data: [{ label: "Manage Data", url: "/control-center/data" }],
     "master-data": [
-      { label: "Administrative List", url: "/control-center/master-data" },
-      // {
-      //   label: "Administrative Download",
-      //   url: "/control-center/master-data/download-administration-data",
-      // },
+      {
+        label: "Administrative List",
+        url: "/control-center/master-data/administration",
+      },
       { label: "Attributes", url: "/control-center/master-data/attributes" },
       { label: "Entities", url: "/control-center/master-data/entities" },
       {
@@ -74,7 +70,7 @@ const Sidebar = () => {
       childrenKeys: ["master-data"],
     },
     download: {
-      label: "Download",
+      label: "Downloads",
       icon: DownloadOutlined,
     },
   };
@@ -138,7 +134,7 @@ const Sidebar = () => {
         key: "download",
         icon: downloadItem.icon ? React.createElement(downloadItem.icon) : null,
         label: downloadItem.label,
-        url: "/administration-download",
+        url: "/downloads",
       });
     }
 
@@ -149,11 +145,6 @@ const Sidebar = () => {
     superAdminRole.control_center_order,
     superAdminRole.page_access
   );
-
-  const handleMenuClick = ({ key }) => {
-    const url = findUrlByKey(usersMenuItem, key);
-    navigate(url);
-  };
 
   const findUrlByKey = (items, key) => {
     for (const item of items) {
@@ -169,10 +160,27 @@ const Sidebar = () => {
     }
   };
 
+  const handleMenuClick = ({ key }) => {
+    const url = findUrlByKey(usersMenuItem, key);
+    navigate(url);
+  };
+
   const findKeyByUrl = useCallback((items, url) => {
     for (const item of items) {
       if (item.url === url) {
         return item.key;
+      }
+      if (url.split("/").length > 2) {
+        const parentUrl = url.split("/").slice(0, 3).join("/");
+        if (parentUrl === item.url) {
+          return item.key;
+        }
+      }
+      if (url.split("/").length > 3) {
+        const parentUrl = url.split("/").slice(0, 4).join("/");
+        if (parentUrl === item.url) {
+          return item.key;
+        }
       }
       if (item.children) {
         const key = findKeyByUrl(item.children, url);
@@ -185,10 +193,8 @@ const Sidebar = () => {
 
   useEffect(() => {
     const currentKey = findKeyByUrl(usersMenuItem, location.pathname);
-
     if (currentKey !== selectedKey || openKeys.length === 0) {
       setSelectedKey(currentKey);
-
       const newOpenKeys = [];
       for (const menu of usersMenuItem) {
         if (menu.url && menu.key === currentKey) {
@@ -203,7 +209,6 @@ const Sidebar = () => {
           }
         }
       }
-
       if (JSON.stringify(openKeys) !== JSON.stringify(newOpenKeys)) {
         setOpenKeys(newOpenKeys);
       }

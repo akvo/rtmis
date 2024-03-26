@@ -66,7 +66,7 @@ const MasterData = () => {
             shape="round"
             type="primary"
             onClick={() =>
-              navigate(`/control-center/master-data/${recordID}/edit`)
+              navigate(`/control-center/master-data/administration/${recordID}`)
             }
           >
             {text.editButton}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@rneui/themed';
 import { Menu, MenuItem, MenuDivider } from 'react-native-material-menu';
 import { StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
 import { langConfig } from '../../pages/Settings/config';
 import DialogForm from '../../pages/Settings/DialogForm';
 import { FormState, UIState } from '../../store';
@@ -41,7 +42,7 @@ const SaveDropdownMenu = ({ anchor, visible, setVisible, handleOnSaveAndExit, ha
         }
         onRequestClose={() => {
           if (setVisible) {
-            return setVisible(false);
+            setVisible(false);
           }
         }}
         testID="save-dropdown-menu"
@@ -50,7 +51,7 @@ const SaveDropdownMenu = ({ anchor, visible, setVisible, handleOnSaveAndExit, ha
         <MenuItem
           onPress={() => {
             if (handleOnSaveAndExit) {
-              return handleOnSaveAndExit();
+              handleOnSaveAndExit();
             }
           }}
           testID="save-and-exit-menu-item"
@@ -60,7 +61,7 @@ const SaveDropdownMenu = ({ anchor, visible, setVisible, handleOnSaveAndExit, ha
         <MenuItem
           onPress={() => {
             if (handleOnExit) {
-              return handleOnExit();
+              handleOnExit();
             }
           }}
           testID="exit-without-saving-menu-item"
@@ -96,3 +97,17 @@ const styles = StyleSheet.create({
 });
 
 export default SaveDropdownMenu;
+
+SaveDropdownMenu.propTypes = {
+  anchor: PropTypes.node,
+  visible: PropTypes.bool.isRequired,
+  setVisible: PropTypes.func.isRequired,
+  handleOnExit: PropTypes.func,
+  handleOnSaveAndExit: PropTypes.func,
+};
+
+SaveDropdownMenu.defaultProps = {
+  anchor: null,
+  handleOnExit: null,
+  handleOnSaveAndExit: null,
+};

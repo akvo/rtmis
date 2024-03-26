@@ -1,4 +1,4 @@
-export const tables = [
+const tables = [
   {
     name: 'users',
     fields: {
@@ -87,3 +87,5 @@ export const tables = [
     },
   },
 ];
+
+export default tables;

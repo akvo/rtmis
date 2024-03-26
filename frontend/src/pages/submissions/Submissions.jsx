@@ -13,7 +13,7 @@ import { useNotification } from "../../util/hooks";
 import { columnsBatch, columnsSelected } from "./";
 import UploadDetail from "./UploadDetail";
 import BatchDetail from "./BatchDetail";
-import FormDropdown from "../../components/filters/FormDropdown";
+import { DataFilters } from "../../components";
 import { isEmpty, union, xor } from "lodash";
 
 const { TextArea } = Input;
@@ -157,10 +157,10 @@ const Submissions = () => {
         url = `/form-pending-data/${selectedForm}/?page=${currentPage}`;
         setModalButton(true);
       } else if (dataTab === "pending-approval") {
-        url = `/batch/?page=${currentPage}`;
+        url = `batch/?form=${selectedForm}&page=${currentPage}`;
         setModalButton(false);
       } else if (dataTab === "approved") {
-        url = `batch/?page=${currentPage}&approved=true`;
+        url = `batch/?form=${selectedForm}&page=${currentPage}&approved=true`;
         setModalButton(false);
       }
       api
@@ -323,7 +323,7 @@ const Submissions = () => {
       </div>
       <div className="table-section">
         <div className="table-wrapper">
-          <FormDropdown hidden={true} />
+          <DataFilters showAdm={false} resetFilter={false} />
           <div style={{ padding: 0 }} bodystyle={{ padding: 30 }}>
             <Tabs
               className="main-tab"

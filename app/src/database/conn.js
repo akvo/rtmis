@@ -9,26 +9,27 @@ const openDatabase = () => {
 
 const init = openDatabase();
 
-const tx = (db, query, params = []) => {
-  return new Promise((resolve, reject) => {
+const tx = (db, query, params = []) =>
+  new Promise((resolve, reject) => {
     db.transaction(
       (transaction) => {
         if (Array.isArray(query)) {
-          const promises = query.map((q) => {
-            return new Promise((innerResolve, innerReject) => {
-              transaction.executeSql(
-                q,
-                params,
-                (_, resultSet) => {
-                  innerResolve(resultSet);
-                },
-                (_, error) => {
-                  innerReject(error);
-                  return false; // Rollback the transaction
-                },
-              );
-            });
-          });
+          const promises = query.map(
+            (q) =>
+              new Promise((innerResolve, innerReject) => {
+                transaction.executeSql(
+                  q,
+                  params,
+                  (_, resultSet) => {
+                    innerResolve(resultSet);
+                  },
+                  (_, error) => {
+                    innerReject(error);
+                    return false; // Rollback the transaction
+                  },
+                );
+              }),
+          );
 
           Promise.all(promises)
             .then((results) => {
@@ -56,15 +57,14 @@ const tx = (db, query, params = []) => {
       },
     );
   });
-};
 
 const openDBfile = async (databaseFile, databaseName) => {
-  if (!(await FileSystem.getInfoAsync(FileSystem.documentDirectory + 'SQLite')).exists) {
-    await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'SQLite');
+  if (!(await FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite`)).exists) {
+    await FileSystem.makeDirectoryAsync(`${FileSystem.documentDirectory}SQLite`);
   }
   await FileSystem.downloadAsync(
     Asset.fromModule(databaseFile).uri,
-    FileSystem.documentDirectory + `SQLite/${databaseName}.db`,
+    `${FileSystem.documentDirectory}SQLite/${databaseName}.db`,
   );
   return SQLite.openDatabase(`${databaseName}.db`);
 };
@@ -84,16 +84,20 @@ const removeDB = async () => {
          * Reset all databases inside the SQLite folder (the directory and all its contents are recursively deleted).
          */
         await FileSystem.deleteAsync(`${FileSystem.documentDirectory}SQLite`);
+        return true;
       }
     }
+    return false;
   } catch (error) {
     return Promise.reject(error);
   }
 };
 
-export const conn = {
+const conn = {
   file: (dbFile, dbName) => openDBfile(dbFile, dbName),
   reset: () => removeDB(),
   init,
   tx,
 };
+
+export default conn;

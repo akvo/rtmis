@@ -36,7 +36,7 @@ const UploadAdministrationData = () => {
     },
     {
       title: text.manageAdministrativeList,
-      link: "/control-center/master-data",
+      link: "/control-center/master-data/administration",
     },
     {
       title: text.AdministrationDataUpload,
@@ -167,11 +167,10 @@ const UploadAdministrationData = () => {
                   </div>
                   <Space align="center" size={32}>
                     <img src="/assets/data-download.svg" />
-                    {/*TODO Translate the text */}
                     <p>
-                      If you do not already have a template, please{" "}
-                      <Link to="/control-center/master-data/download-administration-data">
-                        download here
+                      {text.templateDownloadAdministrationHint}
+                      <Link to="/control-center/master-data/administration/download">
+                        {text.downloadHere}
                       </Link>
                     </p>
                   </Space>

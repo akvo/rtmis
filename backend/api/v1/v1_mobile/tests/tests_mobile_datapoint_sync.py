@@ -82,3 +82,7 @@ class MobileDataPointDownloadListTestCase(TestCase):
             data["data"][0]["url"],
             f"{WEBDOMAIN}/datapoints/{self.uuid}.json"
         )
+        self.assertEqual(
+            list(data["data"][0]),
+            ["id", "form_id", "name", "url", "last_updated"]
+        )

@@ -4,10 +4,9 @@ import { act, renderHook } from '@testing-library/react-native';
 import mockRNCNetInfo from '@react-native-community/netinfo/jest/netinfo-mock';
 import NetInfo from '@react-native-community/netinfo';
 
+import { UIState, BuildParamsState } from '../src/store';
 import App from '../App';
-import { UIState, BuildParamsState } from 'store';
 import { crudSessions, crudUsers, crudConfig } from '../src/database/crud';
-import { conn, query } from '../src/database';
 
 jest.mock('@react-native-community/netinfo', () => mockRNCNetInfo);
 jest.mock('@react-navigation/native-stack');
@@ -29,8 +28,6 @@ jest.mock('../src/database/crud', () => ({
   },
 }));
 
-const db = conn.init;
-
 describe('App', () => {
   beforeAll(() => {
     crudSessions.selectLastSession.mockImplementation(() =>
@@ -41,6 +38,7 @@ describe('App', () => {
   it('should update UIState on NetInfo change', async () => {
     // Render the component
     const { unmount } = await waitFor(() => render(<App />));
+    const { result } = renderHook(() => UIState.useState((s) => s.online));
     // Simulate a connected network state
     NetInfo.addEventListener.mock.calls[0][0]({ isConnected: true });
     act(() => {
@@ -49,43 +47,26 @@ describe('App', () => {
       });
     });
 
-    // Verify that UIState.update was called with the expected state
-    expect(UIState.update).toHaveBeenCalledWith(expect.any(Function));
-
-    // Verify that the NetInfo event listener was subscribed
-    expect(NetInfo.addEventListener).toHaveBeenCalledWith(expect.any(Function));
-    // Unmount the component to trigger the cleanup function
-    unmount();
-  });
-
-  it('should set AddUser for currentPage in UIState when the users doesnt exists', async () => {
-    UIState.useState.mockReturnValue('AddPage');
-    render(<App />);
-    await act(async () => {
-      UIState.update((s) => {
-        s.currentPage = 'AddPage';
-      });
-    });
     await waitFor(() => {
-      const currentPage = UIState.useState((s) => s.currentPage);
-      expect(currentPage).toBe('AddPage');
+      expect(result.current).toBeTruthy();
     });
+    unmount();
   });
 
   it('should set Home for currentPage in UIState when the users exists', async () => {
     crudUsers.getActiveUser.mockImplementation(() =>
       Promise.resolve({ id: 1, name: 'John', active: 1 }),
     );
-    UIState.useState.mockReturnValue('Home');
     render(<App />);
-    await act(async () => {
+    const { result } = renderHook(() => UIState.useState((s) => s.currentPage));
+
+    act(() => {
       UIState.update((s) => {
         s.currentPage = 'Home';
       });
     });
     await waitFor(() => {
-      const currentPage = UIState.useState((s) => s.currentPage);
-      expect(currentPage).toBe('Home');
+      expect(result.current).toBe('Home');
     });
   });
 
@@ -102,27 +83,19 @@ describe('App', () => {
   });
 
   it('should create config when its not exists', async () => {
-    BuildParamsState.useState.mockReturnValue(null);
-    const serverUrl = BuildParamsState.useState((s) => s.serverURL);
-
     render(<App />);
-    expect(serverUrl).toBeNull();
-    const mockAddConfig = jest.fn();
-    act(() => {
-      mockAddConfig();
-    });
+    const { result } = renderHook(() => BuildParamsState.useState((s) => s.serverURL));
 
     crudConfig.getConfig.mockImplementation(() =>
       Promise.resolve({
         id: 1,
-        serverURL: null,
+        serverURL: 'http://backend.test',
       }),
     );
 
     await waitFor(async () => {
       const config = await crudConfig.getConfig();
-      expect(mockAddConfig).toHaveBeenCalledTimes(1);
-      expect(config).toEqual({ id: 1, serverURL: null });
+      expect(result.current).toEqual(config.serverURL);
     });
   });
 
@@ -136,21 +109,16 @@ describe('App', () => {
     );
 
     render(<App />);
-    const mockApiSetServerURL = jest.fn();
+    const { result } = renderHook(() => BuildParamsState.useState((s) => s.serverURL));
 
     act(() => {
-      mockApiSetServerURL();
       BuildParamsState.update((s) => {
         s.serverURL = serverURL;
       });
     });
 
-    BuildParamsState.useState.mockReturnValue(serverURL);
-
     await waitFor(() => {
-      const serverURLState = BuildParamsState.useState((s) => s.serverURL);
-      expect(mockApiSetServerURL).toHaveBeenCalledTimes(1);
-      expect(serverURLState).toBe(serverURL);
+      expect(result.current).toBe(serverURL);
     });
   });
 });

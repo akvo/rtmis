@@ -1,4 +1,5 @@
 import crudSessions from '../crud-sessions';
+
 jest.mock('expo-sqlite');
 
 describe('crudSessions function', () => {

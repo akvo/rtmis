@@ -7,7 +7,7 @@ describe('FieldGroupHeader component', () => {
     const name = 'Group Title';
     const description = 'Group description';
 
-    const { getByText } = render(<FieldGroupHeader name={name} description={description} />);
+    const { getByText,  } = render(<FieldGroupHeader label={name} description={description} index={0} />);
 
     const nameOutput = `1. ${name}`;
     const nameElement = getByText(nameOutput);

@@ -63,7 +63,7 @@ const EntityData = () => {
       render: (row) => {
         return (
           <Space>
-            <Link to={`/control-center/master-data/entities/${row}/edit`}>
+            <Link to={`/control-center/master-data/entities/${row}`}>
               <Button shape="round" type="primary">
                 {text.editButton}
               </Button>
@@ -89,7 +89,7 @@ const EntityData = () => {
       }
       const params = new URLSearchParams(query);
       await api.get(`/export/entity-data?${params.toString()}`);
-      navigate("/administration-download");
+      navigate("/downloads");
     } catch (err) {
       Modal.error({
         title: text.exportEntityError,

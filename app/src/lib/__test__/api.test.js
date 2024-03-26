@@ -16,7 +16,7 @@ describe('API module', () => {
     const result = await api.get(url);
 
     expect(axios).toHaveBeenCalledWith({
-      url: url,
+      url,
       ...config,
     });
     expect(result.data).toEqual(response.data);
@@ -31,7 +31,7 @@ describe('API module', () => {
     const result = await api.post(url, data);
 
     expect(axios).toHaveBeenCalledWith({
-      url: url,
+      url,
       method: 'POST',
       data,
       ...config,
@@ -48,7 +48,7 @@ describe('API module', () => {
     const result = await api.put(url, data);
 
     expect(axios).toHaveBeenCalledWith({
-      url: url,
+      url,
       method: 'PUT',
       data,
       ...config,
@@ -65,7 +65,7 @@ describe('API module', () => {
     const result = await api.patch(url, data);
 
     expect(axios).toHaveBeenCalledWith({
-      url: url,
+      url,
       method: 'PATCH',
       data,
       ...config,
@@ -81,7 +81,7 @@ describe('API module', () => {
     const result = await api.delete(url);
 
     expect(axios).toHaveBeenCalledWith({
-      url: url,
+      url,
       method: 'DELETE',
       ...config,
     });

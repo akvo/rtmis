@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import { create } from 'react-test-renderer';
 import { render, renderHook, fireEvent, act, waitFor } from '@testing-library/react-native';
 import { useNavigation } from '@react-navigation/native';
+// eslint-disable-next-line import/extensions
 import mockBackHandler from 'react-native/Libraries/Utilities/__mocks__/BackHandler.js';
 
 import Users from '../Users';
@@ -16,7 +17,7 @@ jest.mock('react', () => ({
 
 jest.mock('react-native/Libraries/Utilities/BackHandler', () => mockBackHandler);
 
-db = conn.init;
+const db = conn.init;
 
 describe('UsersPage', () => {
   beforeAll(() => {
@@ -32,7 +33,7 @@ describe('UsersPage', () => {
         active: 1,
       },
     ];
-    const mockSelectSql = jest.fn((query, params, successCallback) => {
+    const mockSelectSql = jest.fn((_query, _params, successCallback) => {
       successCallback(null, { rows: { length: usersData.length, _array: usersData } });
     });
 
@@ -65,7 +66,7 @@ describe('UsersPage', () => {
 
   it('should show empty page when users table has no data', () => {
     const mockNavigation = useNavigation();
-    const mockSelectSql = jest.fn((query, params, successCallback) => {
+    const mockSelectSql = jest.fn((_query, _params, successCallback) => {
       successCallback(null, { rows: { length: 0, _array: [] } });
     });
     db.transaction.mockImplementation((transactionFunction) => {
@@ -94,7 +95,7 @@ describe('UsersPage', () => {
         active: 0,
       },
     ];
-    const mockSelectSql = jest.fn((query, params, successCallback) => {
+    const mockSelectSql = jest.fn((_query, _params, successCallback) => {
       successCallback(null, { rows: { length: usersData.length, _array: usersData } });
     });
 
@@ -164,7 +165,7 @@ describe('UsersPage', () => {
         active: 0,
       },
     ];
-    const mockSelectSql = jest.fn((query, params, successCallback) => {
+    const mockSelectSql = jest.fn((_query, _params, successCallback) => {
       successCallback(null, { rows: { length: usersData.length, _array: usersData } });
     });
 
@@ -207,7 +208,7 @@ describe('UsersPage', () => {
         active: 1,
       },
     ];
-    const mockUpdatedSql = jest.fn((query, params, successCallback) => {
+    const mockUpdatedSql = jest.fn((_query, _params, successCallback) => {
       successCallback(null, { rows: { length: updatedUserData.length, _array: updatedUserData } });
     });
 
@@ -225,10 +226,10 @@ describe('UsersPage', () => {
     });
 
     await waitFor(() => {
-      const { result } = renderHook(() => UserState.useState((s) => s.name));
+      const { result: res } = renderHook(() => UserState.useState((s) => s.name));
       const selectedUserChecked = getByTestId('icon-checkmark-2');
       expect(selectedUserChecked).toBeDefined();
-      expect(result.current).toBe('Miles Morales');
+      expect(res.current).toBe('Miles Morales');
     });
   });
 
@@ -266,10 +267,6 @@ describe('UsersPage', () => {
       },
     };
     const { getByText } = render(<Users navigation={mockNavigation} route={mockRoute} />);
-    const { result } = renderHook(() => useState([]));
-    const { result: resLoading } = renderHook(() => useState(true));
-    const [users, setUsers] = result.current;
-    const [loading, setLoading] = resLoading.current;
 
     const mockLoadUsers = jest.fn();
     act(() => {
@@ -287,7 +284,7 @@ describe('UsersPage', () => {
         active: 0,
       },
     ];
-    const mockUpdatedSql = jest.fn((query, params, successCallback) => {
+    const mockUpdatedSql = jest.fn((_query, _params, successCallback) => {
       successCallback(null, { rows: { length: updatedUserData.length, _array: updatedUserData } });
     });
 

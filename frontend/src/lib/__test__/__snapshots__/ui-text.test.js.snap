@@ -158,7 +158,8 @@ Object {
     "deleteUserHint": "Deleting this user will not delete the data association(s)",
     "deleteUserTitle": "You are about to delete the user",
     "download": "Download",
-    "downloadTitle": "Download",
+    "downloadHere": "download here",
+    "downloadTitle": "Downloads",
     "dropFile": "Drop your file here",
     "editAdmDesc": "This page allows you to edit administration to the RUSH platform.",
     "editAdministration": "Edit Administration",
@@ -384,7 +385,6 @@ Object {
       </ul>
     </React.Fragment>,
     "manageOrganisations": "Manage Organizations",
-    "manageQnApproval": "Manage Questionnaire Approval",
     "manageUserButton": "Manage Users",
     "manageUserText": <React.Fragment>
       This is where you manage users based on their roles , regions and questionnaire access . You can :
@@ -588,7 +588,7 @@ Object {
     "successEntityDataUpdated": "Entity data updated",
     "successUpdatedEntity": "Entity updated",
     "successUpdatedOrg": "Organisation updated",
-    "templateDownloadAdministrationHint": [Function],
+    "templateDownloadAdministrationHint": "If you do not already have a template, please ",
     "templateDownloadHint": "If you do not already have a template, please download",
     "templateFetchFail": "Could not fetch template",
     "tourApprovals": "Placeat impedit iure quaerat neque sit quasi",
@@ -600,6 +600,8 @@ Object {
     "tourManageData": "Lorem ipsum dolor sit, amet consectetur adipisicing elit",
     "tourUserManagement": "Magni provident aliquam harum cupiditate iste",
     "upcomingEventText": "Upcoming Events",
+    "updateDataButton": "Update data",
+    "updateDataError": "Unable to update data",
     "updateExisting": "Update Existing Data",
     "updateOrganisation": "Update Organization",
     "updateUser": "Update User",

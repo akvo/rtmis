@@ -51,6 +51,10 @@ const UploadData = () => {
       link: "/control-center",
     },
     {
+      title: text.manageDataTitle,
+      link: "/control-center/data",
+    },
+    {
       title: text.dataUploadTitle,
     },
   ];
@@ -65,7 +69,7 @@ const UploadData = () => {
           message: text.dataExportSuccess,
         });
         setLoading(false);
-        navigate("/administration-download");
+        navigate("/downloads");
       })
       .catch(() => {
         notify({

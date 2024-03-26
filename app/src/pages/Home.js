@@ -1,14 +1,22 @@
+/* eslint-disable no-console */
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Button, FAB } from '@rneui/themed';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Platform, ToastAndroid } from 'react-native';
-import { BaseLayout } from '../components';
-import { FormState, UserState, UIState, BuildParamsState, DatapointSyncState } from '../store';
-import { crudForms, crudUsers } from '../database/crud';
-import { api, cascades, i18n } from '../lib';
 import * as Notifications from 'expo-notifications';
 import * as Location from 'expo-location';
-import * as FileSystem from 'expo-file-system';
+import PropTypes from 'prop-types';
+import { BaseLayout } from '../components';
+import {
+  FormState,
+  UserState,
+  UIState,
+  BuildParamsState,
+  DatapointSyncState,
+  AuthState,
+} from '../store';
+import { crudForms, crudUsers } from '../database/crud';
+import { api, cascades, i18n } from '../lib';
 import crudJobs, { SYNC_DATAPOINT_JOB_NAME, jobStatus } from '../database/crud/crud-jobs';
 
 const Home = ({ navigation, route }) => {
@@ -24,6 +32,7 @@ const Home = ({ navigation, route }) => {
   const gpsInterval = BuildParamsState.useState((s) => s.gpsInterval);
   const isManualSynced = UIState.useState((s) => s.isManualSynced);
   const userId = UserState.useState((s) => s.id);
+  const passcode = AuthState.useState((s) => s.authenticationCode);
   const isOnline = UIState.useState((s) => s.online);
 
   const activeLang = UIState.useState((s) => s.lang);
@@ -37,27 +46,36 @@ const Home = ({ navigation, route }) => {
     FormState.update((s) => {
       s.form = findForm;
     });
-    navigation.navigate('ManageForm', { id: id, name: findForm.name, formId: findForm.formId });
+    navigation.navigate('ManageForm', { id, name: findForm.name, formId: findForm.formId });
   };
 
   const goToUsers = () => {
     navigation.navigate('Users');
   };
-  const syncAllForms = async () => {
+  const syncAllForms = async (newForms = []) => {
     try {
-      const endpoints = data.map((d) => api.get(`/form/${d.formId}`));
+      const endpoints = [...newForms, ...data].map((d) => api.get(`/form/${d.formId}`));
       const results = await Promise.allSettled(endpoints);
       const responses = results.filter(({ status }) => status === 'fulfilled');
       const cascadeFiles = responses.flatMap(({ value: res }) => res.data.cascades);
       const downloadFiles = [...new Set(cascadeFiles)];
 
       downloadFiles.forEach(async (file) => {
-        await cascades.download(api.getConfig().baseURL + file, file, true)
+        await cascades.download(api.getConfig().baseURL + file, file, true);
       });
 
       responses.forEach(async ({ value: res }) => {
         const { data: apiData } = res;
         const { id: formId, version } = apiData;
+        const findNew = newForms.find((n) => n.id === formId);
+        if (findNew) {
+          // insert new form to database
+          await crudForms.addForm({
+            ...findNew,
+            userId,
+            formJSON: apiData,
+          });
+        }
         await crudForms.updateForm({
           userId,
           formId,
@@ -74,14 +92,38 @@ const Home = ({ navigation, route }) => {
         s.isManualSynced = true;
       });
     } catch (error) {
-      return Promise.reject(error);
+      Promise.reject(error);
     }
+  };
+
+  const syncUserForms = async () => {
+    const { data: apiData } = await api.post('/auth', { code: passcode });
+    api.setToken(apiData.syncToken);
+
+    const myForms = await crudForms.getMyForms();
+
+    if (myForms.length > apiData.formsUrl.length) {
+      /**
+       * Delete forms
+       */
+      await myForms
+        .filter((mf) => !apiData.formsUrl.map((n) => n?.id).includes(mf.formId))
+        .forEach(async (mf) => {
+          await crudForms.deleteForm(mf.id);
+        });
+    }
+
+    const newForms = apiData.formsUrl
+      .filter((f) => !myForms?.map((mf) => mf.formId)?.includes(f.id))
+      .map((f) => ({ ...f, formId: f.id }));
+
+    await syncAllForms(newForms);
   };
 
   const handleOnSync = async () => {
     setSyncLoading(true);
     try {
-      await syncAllForms();
+      await syncUserForms();
       await crudUsers.updateLastSynced(userId);
       await crudJobs.addJob({
         user: userId,
@@ -92,8 +134,10 @@ const Home = ({ navigation, route }) => {
         s.inProgress = true;
         s.added = true;
       });
+      setSyncLoading(false);
     } catch (error) {
       ToastAndroid.show(`[ERROR SYNC DATAPOINT]: ${error}`, ToastAndroid.LONG);
+      setSyncLoading(false);
     }
   };
 
@@ -136,7 +180,17 @@ const Home = ({ navigation, route }) => {
         }
       }
     }
-  }, [currentUserId, params, appLang, activeLang, isManualSynced]);
+  }, [
+    params,
+    currentUserId,
+    activeLang,
+    appLang,
+    isManualSynced,
+    trans.versionLabel,
+    trans.submittedLabel,
+    trans.draftLabel,
+    trans.syncLabel,
+  ]);
 
   useEffect(() => {
     getUserForms();
@@ -148,21 +202,23 @@ const Home = ({ navigation, route }) => {
         ToastAndroid.show(trans.downloadingData, ToastAndroid.SHORT);
       }
     }
-  }, [loading]);
+  }, [loading, trans.downloadingData]);
 
-  const filteredData = useMemo(() => {
-    return data.filter(
-      (d) => (search && d?.name?.toLowerCase().includes(search.toLowerCase())) || !search,
-    );
-  }, [data, search]);
+  const filteredData = useMemo(
+    () =>
+      data.filter(
+        (d) => (search && d?.name?.toLowerCase().includes(search.toLowerCase())) || !search,
+      ),
+    [data, search],
+  );
 
   useEffect(() => {
-    const subscription = Notifications.addNotificationReceivedListener((notification) => {
+    const subscription = Notifications.addNotificationReceivedListener(() => {
       getUserForms();
     });
 
     return () => subscription.remove();
-  }, []);
+  }, [getUserForms]);
 
   const watchCurrentPosition = useCallback(
     async (unsubscribe = false) => {
@@ -235,8 +291,8 @@ const Home = ({ navigation, route }) => {
       <BaseLayout.Content data={filteredData} action={goToManageForm} columns={2} />
       <FAB
         icon={{ name: 'sync', color: 'white' }}
-        size={'large'}
-        color={'#1651b6'}
+        size="large"
+        color="#1651b6"
         title={syncLoading ? trans.syncingText : trans.syncDataPointBtn}
         style={{ marginBottom: 16 }}
         disabled={!isOnline || syncLoading}
@@ -247,3 +303,11 @@ const Home = ({ navigation, route }) => {
 };
 
 export default Home;
+
+Home.propTypes = {
+  route: PropTypes.object,
+};
+
+Home.defaultProps = {
+  route: null,
+};

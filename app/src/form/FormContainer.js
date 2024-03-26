@@ -1,11 +1,13 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { BaseLayout } from '../components';
 import { View } from 'react-native';
+import { Dialog } from '@rneui/themed';
+import PropTypes from 'prop-types';
+import { useRoute } from '@react-navigation/native';
+import { BaseLayout } from '../components';
 import { FormNavigation, QuestionGroupList } from './support';
 import QuestionGroup from './components/QuestionGroup';
 import { transformForm, generateDataPointName, onFilterDependency } from './lib';
 import { FormState } from '../store';
-import { Dialog } from '@rneui/themed';
 import { i18n } from '../lib';
 
 // TODO:: Allow other not supported yet
@@ -20,7 +22,9 @@ const checkValuesBeforeCallback = (values) =>
       }
       // check array
       if (value && Array.isArray(value)) {
-        const check = value.filter((y) => typeof y !== 'undefined' && (y || isNaN(y)));
+        const check = value.filter(
+          (y) => typeof y !== 'undefined' && (y || Number.isNaN(Number(y))),
+        );
         value = check.length ? check : null;
       }
       // check empty
@@ -36,7 +40,31 @@ const style = {
   flex: 1,
 };
 
-const FormContainer = ({ forms, onSubmit, setShowDialogMenu, isMonitoring }) => {
+const LoadingOverlay = ({ trans }) => (
+  <View
+    style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    }}
+  >
+    <Dialog isVisible>
+      <Dialog.Title title={`${trans.loadingPrefilledAnswer}...`} />
+      <Dialog.Loading />
+    </Dialog>
+  </View>
+);
+
+LoadingOverlay.propTypes = {
+  trans: PropTypes.shape({ loadingPrefilledAnswer: PropTypes.string }).isRequired,
+};
+
+const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
   const [activeGroup, setActiveGroup] = useState(0);
   const [showQuestionGroupList, setShowQuestionGroupList] = useState(false);
   const currentValues = FormState.useState((s) => s.currentValues);
@@ -44,23 +72,23 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu, isMonitoring }) => 
   const activeLang = FormState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
   const formLoading = FormState.useState((s) => s.loading);
+  const route = useRoute();
 
-  const formDefinition = transformForm(forms, activeLang, isMonitoring);
+  const formDefinition = transformForm(forms, activeLang, route.params.submission_type);
   const activeQuestions = formDefinition?.question_group?.flatMap((qg) =>
     qg?.question?.filter((q) => onFilterDependency(qg, currentValues, q)),
   );
 
-  const currentGroup = useMemo(() => {
-    return formDefinition?.question_group?.[activeGroup] || {};
-  }, [formDefinition, activeGroup]);
+  const currentGroup = useMemo(
+    () => formDefinition?.question_group?.[activeGroup] || {},
+    [formDefinition, activeGroup],
+  );
   const numberOfQuestion = currentGroup?.question?.length || 0;
 
   const handleOnSubmitForm = () => {
     const validValues = Object.keys(currentValues)
       .filter((qkey) => activeQuestions.map((q) => `${q.id}`).includes(qkey))
-      .reduce((prev, current) => {
-        return { [current]: currentValues[current], ...prev };
-      }, {});
+      .reduce((prev, current) => ({ [current]: currentValues[current], ...prev }), {});
     const results = checkValuesBeforeCallback(validValues);
     if (onSubmit) {
       const { dpName, dpGeo } = generateDataPointName(forms, validValues, cascades);
@@ -81,29 +109,9 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu, isMonitoring }) => 
     }
   }, [numberOfQuestion, formLoading]);
 
-  const LoadingOverlay = () => (
-    <View
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      }}
-    >
-      <Dialog isVisible>
-        <Dialog.Title title={`${trans.loadingPrefilledAnswer}...`} />
-        <Dialog.Loading />
-      </Dialog>
-    </View>
-  );
-
   return (
     <>
-      {formLoading && <LoadingOverlay />}
+      {formLoading && <LoadingOverlay trans={trans} />}
       <BaseLayout.Content>
         <View style={style}>
           {!showQuestionGroupList ? (
@@ -139,3 +147,13 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu, isMonitoring }) => 
 };
 
 export default FormContainer;
+
+FormContainer.propTypes = {
+  forms: PropTypes.object,
+  onSubmit: PropTypes.func.isRequired,
+  setShowDialogMenu: PropTypes.func.isRequired,
+};
+
+FormContainer.defaultProps = {
+  forms: {},
+};

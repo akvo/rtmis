@@ -4,13 +4,12 @@ import { renderHook, fireEvent, act } from '@testing-library/react-native';
 import { route } from '@react-navigation/native';
 import SettingsForm from '../SettingsForm';
 import { config } from '../config';
-import { BuildParamsState } from '../../../store';
 import { conn, query } from '../../../database';
 
 jest.mock('@react-navigation/native');
 jest.mock('expo-sqlite');
 
-db = conn.init;
+const db = conn.init;
 
 describe('SettingsForm', () => {
   it('renders correctly', () => {
@@ -36,7 +35,7 @@ describe('SettingsForm', () => {
     const { unmount, getByTestId } = render(<SettingsForm route={route} />);
 
     const { result } = renderHook(() => useState(null));
-    const [edit, setEdit] = result.current;
+    const [, setEdit] = result.current;
 
     const authCodeItem = getByTestId('settings-form-item-2');
     fireEvent.press(authCodeItem);
@@ -52,6 +51,7 @@ describe('SettingsForm', () => {
     act(() => {
       setEdit(authCodeConfig);
     });
+    expect(result.current[0]).toEqual(authCodeConfig);
 
     const dialogEl = getByTestId('settings-form-dialog');
     expect(dialogEl).toBeDefined();

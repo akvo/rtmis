@@ -135,6 +135,12 @@ const Home = () => {
                 <img
                   src={"/assets/rtmis-girl-washing-her-hands.png"}
                   alt="Girl washing her hands"
+                  style={{
+                    webkitTransform: "scaleX(-1)",
+                    transform: "scaleX(-1)",
+                    marginRight: "-50px",
+                    maxWidth: "820px",
+                  }}
                 />
               </div>
             </Col>

@@ -867,7 +867,9 @@ def list_pending_batch(request, version):
                tags=['Pending Data'],
                summary='To get list of pending data by batch')
 @api_view(['GET'])
-@permission_classes([IsAuthenticated, IsAdmin | IsApprover | IsSubmitter])
+@permission_classes([
+    IsAuthenticated, IsSuperAdmin | IsAdmin | IsApprover | IsSubmitter]
+)
 def list_pending_data_batch(request, version, batch_id):
     batch = get_object_or_404(PendingDataBatch, pk=batch_id)
     return Response(ListPendingFormDataSerializer(
@@ -949,6 +951,10 @@ class BatchView(APIView):
                              required=True,
                              type=OpenApiTypes.NUMBER,
                              location=OpenApiParameter.QUERY),
+            OpenApiParameter(name='form',
+                             required=False,
+                             type=OpenApiTypes.NUMBER,
+                             location=OpenApiParameter.QUERY),
             OpenApiParameter(name='approved',
                              default=False,
                              type=OpenApiTypes.BOOL,
@@ -966,6 +972,9 @@ class BatchView(APIView):
             user=request.user,
             approved=serializer.validated_data.get('approved')
         ).order_by('-id')
+        form_id = serializer.validated_data.get('form')
+        if form_id:
+            queryset = queryset.filter(form_id=form_id)
         paginator = PageNumberPagination()
         instance = paginator.paginate_queryset(queryset, request)
         page_size = REST_FRAMEWORK.get('PAGE_SIZE')

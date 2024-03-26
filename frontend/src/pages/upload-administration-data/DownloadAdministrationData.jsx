@@ -29,7 +29,7 @@ const DownloadAdministrationData = () => {
   const { notify } = useNotification();
   const navigate = useNavigate();
   const levels = store.useState((s) =>
-    s.levels?.slice(2, s.levels?.length - 1)
+    s.levels?.slice(1, s.levels?.length - 1)
   );
   const [selectedAdm] = store.useState((s) => s.administration?.slice(-1));
   const { active: activeLang } = store.useState((s) => s.language);
@@ -45,7 +45,7 @@ const DownloadAdministrationData = () => {
     },
     {
       title: text.manageAdministrativeList,
-      link: "/control-center/master-data",
+      link: "/control-center/master-data/administration",
     },
     {
       title: text.AdministrationDataDownload,
@@ -127,7 +127,7 @@ const DownloadAdministrationData = () => {
         .then(() => {
           setLoading(false);
           formRef.current.resetFields();
-          navigate("/administration-download");
+          navigate("/downloads");
         })
         .catch((e) => {
           console.error(e);

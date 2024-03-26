@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { Text, Tooltip, Icon } from '@rneui/themed';
-import { styles } from '../styles';
-import RenderHtml from 'react-native-render-html';
-import { useWindowDimensions } from 'react-native';
+import { Text, Icon } from '@rneui/themed';
+import PropTypes from 'prop-types';
+import styles from '../styles';
 import AnimatedTooltip from '../../components/AnimatedTooltip';
 
-const FieldLabel = ({ keyform = 0, name, tooltip, requiredSign = null }) => {
+const FieldLabel = ({ keyform, name, tooltip, requiredSign = null }) => {
   const [open, setOpen] = useState(false);
-  const labelText = `${keyform + 1}. ${name}`;
+  const labelText = `${keyform}. ${name}`;
   const tooltipText = tooltip?.text;
-  const { width } = useWindowDimensions();
   return (
     <View style={styles.fieldLabelContainer}>
       {requiredSign && (
@@ -43,3 +41,16 @@ const FieldLabel = ({ keyform = 0, name, tooltip, requiredSign = null }) => {
 };
 
 export default FieldLabel;
+
+FieldLabel.propTypes = {
+  keyform: PropTypes.number,
+  name: PropTypes.string.isRequired,
+  tooltip: PropTypes.shape({ text: PropTypes.string }),
+  requiredSign: PropTypes.string,
+};
+
+FieldLabel.defaultProps = {
+  keyform: 0,
+  tooltip: null,
+  requiredSign: null,
+};

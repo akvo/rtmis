@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, fireEvent, act, waitFor } from '@testing-library/react-native';
+import { View } from 'react-native';
 import TypeOption from '../TypeOption';
 
 // According to the issue on @testing-library/react-native
-import { View } from 'react-native';
 jest.spyOn(View.prototype, 'measureInWindow').mockImplementation((cb) => {
   cb(18, 113, 357, 50);
 });
@@ -154,7 +154,7 @@ describe('TypeOption component', () => {
 
   it('should not show required sign if required param is true and requiredSign defined', () => {
     const wrapper = render(
-      <TypeOption id="dropdownField" label="Dropdown" required={true} requiredSign="*" />,
+      <TypeOption id="dropdownField" label="Dropdown" required requiredSign="*" />,
     );
     const requiredIcon = wrapper.queryByTestId('field-required-icon');
     expect(requiredIcon).toBeTruthy();
@@ -162,7 +162,7 @@ describe('TypeOption component', () => {
 
   it('should show required sign with custom requiredSign', () => {
     const wrapper = render(
-      <TypeOption id="dropdownField" label="Dropdown" required={true} requiredSign="**" />,
+      <TypeOption id="dropdownField" label="Dropdown" required requiredSign="**" />,
     );
     const requiredIcon = wrapper.getByText('**');
     expect(requiredIcon).toBeTruthy();

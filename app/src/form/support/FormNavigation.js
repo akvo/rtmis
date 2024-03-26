@@ -1,7 +1,8 @@
 import React from 'react';
 import { ToastAndroid } from 'react-native';
 import { Tab } from '@rneui/themed';
-import { styles } from '../styles';
+import PropTypes from 'prop-types';
+import styles from '../styles';
 import { UIState, FormState } from '../../store';
 import { i18n } from '../../lib';
 import { generateValidationSchemaFieldLevel, onFilterDependency } from '../lib';
@@ -28,20 +29,25 @@ const FormNavigation = ({
     });
   };
 
+  const getFirstErrorMessage = (feedback) => {
+    const [questionID, errorMessage] = Object.entries(feedback).find(([, value]) => value !== true);
+    const question = currentGroup.question.find((q) => q?.id === parseInt(questionID, 10));
+    return errorMessage.replace('this', question?.label);
+  };
+
   const handleFormNavigation = async (index) => {
     // index 0 = prev group
     // index 1 = show question group list
     // index 2 = next group
     const validateSync = currentGroup?.question
       ?.filter((q) => onFilterDependency(currentGroup, currentValues, q))
-      ?.filter((q) => {
-        /**
-         * Only entity cascade should not be undefined due to depends on options and prevAdmAnswer
-         */
-        return (
-          (q?.extra?.type === 'entity' && currentValues?.[q?.id] !== undefined) || !q?.extra?.type
-        );
-      })
+      ?.filter(
+        (q) =>
+          /**
+           * Only entity cascade should not be undefined due to depends on options and prevAdmAnswer
+           */
+          (q?.extra?.type === 'entity' && currentValues?.[q?.id] !== undefined) || !q?.extra?.type,
+      )
       ?.map((q) => {
         const defaultVal = ['cascade', 'multiple_option', 'option', 'geo'].includes(q?.type)
           ? null
@@ -64,7 +70,11 @@ const FormNavigation = ({
     }, {});
     const errors = Object.values(feedbackValues).filter((val) => val !== true);
     if (errors.length > 0 && index === 2) {
-      ToastAndroid.show(trans.mandatoryQuestions, ToastAndroid.LONG);
+      const isRequired = errors.find((e) => e.includes('required'));
+      const errorMessage = isRequired
+        ? trans.mandatoryQuestions
+        : getFirstErrorMessage(feedbackValues);
+      ToastAndroid.show(errorMessage, ToastAndroid.LONG);
     }
     FormState.update((s) => {
       s.feedback = feedbackValues;
@@ -108,7 +118,7 @@ const FormNavigation = ({
     <Tab
       buttonStyle={styles.formNavigationButton}
       onChange={handleFormNavigation}
-      disableIndicator={true}
+      disableIndicator
       value={activeGroup}
     >
       <Tab.Item
@@ -120,11 +130,13 @@ const FormNavigation = ({
         testID="form-nav-btn-back"
         disabled={showQuestionGroupList}
         disabledStyle={{ backgroundColor: 'transparent' }}
+        containerStyle={styles.formNavigationBgLight}
       />
       <Tab.Item
         title={`${activeGroup + 1}/${totalGroup}`}
         titleStyle={styles.formNavigationGroupCount}
         testID="form-nav-group-count"
+        containerStyle={styles.formNavigationBgLight}
       />
       {activeGroup < totalGroup - 1 ? (
         <Tab.Item
@@ -136,6 +148,7 @@ const FormNavigation = ({
           testID="form-nav-btn-next"
           disabled={showQuestionGroupList}
           disabledStyle={{ backgroundColor: 'transparent' }}
+          containerStyle={styles.formNavigationBgLight}
         />
       ) : (
         <Tab.Item
@@ -144,6 +157,7 @@ const FormNavigation = ({
           iconPosition="right"
           iconContainerStyle={styles.formNavigationIconSubmit}
           titleStyle={styles.formNavigationSubmit}
+          containerStyle={styles.formNavigationBgPrimary}
           testID="form-btn-submit"
         />
       )}
@@ -152,3 +166,14 @@ const FormNavigation = ({
 };
 
 export default FormNavigation;
+
+FormNavigation.propTypes = {
+  currentGroup: PropTypes.object.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  activeGroup: PropTypes.number.isRequired,
+  setActiveGroup: PropTypes.func.isRequired,
+  totalGroup: PropTypes.number.isRequired,
+  showQuestionGroupList: PropTypes.bool.isRequired,
+  setShowQuestionGroupList: PropTypes.func.isRequired,
+  setShowDialogMenu: PropTypes.func.isRequired,
+};

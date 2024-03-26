@@ -1,7 +1,8 @@
-import crudDataPoints from '../crud-datapoints';
 import { act } from '@testing-library/react-native';
+import crudDataPoints from '../crud-datapoints';
+import conn from '../../conn';
+
 jest.mock('expo-sqlite');
-import { conn } from '../../conn';
 
 const db = conn.init;
 

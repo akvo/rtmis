@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-native-testing-library';
-import { Titles } from '../Titles';
+import Titles from '../Titles';
 
 describe('Titles component', () => {
   it('renders titles correctly', () => {

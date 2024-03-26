@@ -325,7 +325,6 @@ const uiText = {
     approvalsTab2: "Subordinates Approvals",
     approvalsTab3: "Approved",
     approvalsTitle: "Approvals",
-    manageQnApproval: "Manage Questionnaire Approval",
     // Approvers Tree
     notAssigned: "Not assigned",
     questionnaireText: "Questionnaire",
@@ -458,9 +457,9 @@ const uiText = {
     updateExisting: "Update Existing Data",
     templateDownloadHint:
       "If you do not already have a template, please download",
-    templateDownloadAdministrationHint: () => {
-      return <Fragment>If you do not already have a template, please</Fragment>;
-    },
+    templateDownloadAdministrationHint:
+      "If you do not already have a template, please ",
+    downloadHere: "download here",
     uploading: "Uploading..",
     dropFile: "Drop your file here",
     selectForm: "Please select a form",
@@ -498,7 +497,7 @@ const uiText = {
     tourDataUploadsPanel:
       "Velit amet omnis dolores. Ad eveniet ex beatae dolorum",
     //downloads
-    downloadTitle: "Download",
+    downloadTitle: "Downloads",
     // Add user modal notification
     existingApproverTitle: "There are existing approvers for:",
     existingApproverDescription:
@@ -709,6 +708,8 @@ const uiText = {
         </ul>
       </Fragment>
     ),
+    updateDataButton: "Update data",
+    updateDataError: "Unable to update data",
   },
 
   de: {},

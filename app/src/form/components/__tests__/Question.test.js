@@ -66,9 +66,6 @@ describe('Question component', () => {
       ],
     };
 
-    const setFieldValue = jest.fn();
-    const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
-
     const { getAllByTestId, queryByText } = render(<Question group={mockGroupQuestions} />);
 
     const questionView = getAllByTestId('question-view');
@@ -133,7 +130,6 @@ describe('Question component', () => {
     };
 
     const setFieldValue = jest.fn();
-    const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
 
     const { getAllByTestId, queryByText, getByTestId } = render(
       <Question group={mockGroupQuestions} />,
@@ -146,7 +142,7 @@ describe('Question component', () => {
 
     expect(setFieldValue).toHaveBeenCalledTimes(0);
     const inputElement = getByTestId('type-input');
-    expect(inputElement.props.value).not.toBeDefined();
+    expect(inputElement.props.value).toBeNull();
   });
 
   it('should store valid uuidv4', async () => {
@@ -165,9 +161,6 @@ describe('Question component', () => {
         },
       ],
     };
-
-    const setFieldValue = jest.fn();
-    const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
 
     const { getByTestId, rerender } = render(<Question group={mockGroupQuestions} />);
 

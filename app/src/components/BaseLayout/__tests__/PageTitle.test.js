@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import PageTitle from '../PageTitle';
 import { useNavigation } from '@react-navigation/native';
+import PageTitle from '../PageTitle';
 
 jest.mock('@react-navigation/native');
 

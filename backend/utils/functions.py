@@ -19,7 +19,7 @@ def get_answer_value(answer: Answers):
     elif answer.question.type == QuestionTypes.number:
         return answer.value
     elif answer.question.type == QuestionTypes.administration:
-        return int(float(answer.value))
+        return int(float(answer.value)) if answer.value else None
     else:
         return answer.name
 

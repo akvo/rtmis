@@ -2,6 +2,7 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { View } from 'react-native';
 import { ListItem } from '@rneui/themed';
+import PropTypes from 'prop-types';
 import { BaseLayout } from '../components';
 import { UIState, FormState } from '../store';
 import { i18n } from '../lib';
@@ -19,7 +20,11 @@ const ManageForm = ({ navigation, route }) => {
       s.prefilled = false;
       s.prevAdmAnswer = null;
     });
-    navigation.navigate('FormPage', { ...route?.params, newSubmission: true });
+    navigation.navigate('FormPage', {
+      ...route?.params,
+      newSubmission: true,
+      submission_type: 'registration',
+    });
   };
 
   const goToUpdateForm = () => {
@@ -69,7 +74,7 @@ const ManageForm = ({ navigation, route }) => {
           }}
         >
           {items.map((i, ix) => (
-            <ListItem key={ix} onPress={() => i.goTo()} testID={`goto-item-${ix}`}>
+            <ListItem key={i.id} onPress={() => i.goTo()} testID={`goto-item-${ix}`}>
               <Icon name={i.icon} color="grey" size={18} />
               <ListItem.Content>
                 <ListItem.Title>{i.text}</ListItem.Title>
@@ -84,3 +89,11 @@ const ManageForm = ({ navigation, route }) => {
 };
 
 export default ManageForm;
+
+ManageForm.propTypes = {
+  route: PropTypes.object,
+};
+
+ManageForm.defaultProps = {
+  route: null,
+};

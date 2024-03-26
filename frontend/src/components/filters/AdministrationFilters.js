@@ -17,7 +17,7 @@ const { Search } = Input;
 const AdministrationFilters = ({
   loading,
   onSearchChange = () => {},
-  addLink = "/control-center/master-data/add-administration",
+  addLink = "/control-center/master-data/administration/add",
   maxLevel = null,
 }) => {
   const authUser = store.useState((s) => s.user);
@@ -46,12 +46,12 @@ const AdministrationFilters = ({
         {["Super Admin"].includes(authUser?.role?.value) && (
           <Col>
             <Space>
-              <Link to="/control-center/master-data/upload-administration-data">
+              <Link to="/control-center/master-data/administration/upload">
                 <Button icon={<UploadOutlined />} shape="round">
                   {text.bulkUploadButton}
                 </Button>
               </Link>
-              <Link to="/control-center/master-data/download-administration-data">
+              <Link to="/control-center/master-data/administration/download">
                 <Button icon={<DownloadOutlined />} shape="round">
                   {text.download}
                 </Button>

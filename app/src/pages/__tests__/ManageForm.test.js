@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import { render, fireEvent } from '@testing-library/react-native';
 import { useNavigation } from '@react-navigation/native';
 import ManageFormPage from '../ManageForm';
-import { FormState } from '../../store/';
+import { FormState } from '../../store';
 
 jest.mock('@react-navigation/native');
 
@@ -31,6 +31,7 @@ describe('ManageFormPage', () => {
         id: 1,
         name: 'Health Facilities',
         newSubmission: true,
+        submission_type: 'registration',
       },
     };
     const { getByTestId } = render(

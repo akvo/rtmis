@@ -63,7 +63,7 @@ const AddAdministration = () => {
         type: "success",
         message: text.admSuccessDeleted,
       });
-      navigate("/control-center/master-data");
+      navigate("/control-center/master-data/administration");
     } catch {
       Modal.error({
         title: text.admErrDeleteTitle,
@@ -146,7 +146,7 @@ const AddAdministration = () => {
         s.masterData.administration = {};
       });
       setSubmitting(false);
-      navigate("/control-center/master-data");
+      navigate("/control-center/master-data/administration");
     } catch (e) {
       console.error(e);
       setSubmitting(false);
@@ -255,7 +255,7 @@ const AddAdministration = () => {
     },
     {
       title: text.manageAdministrativeList,
-      link: "/control-center/master-data",
+      link: "/control-center/master-data/administration",
     },
     {
       title: id ? text.editAdministration : text.addAdministration,

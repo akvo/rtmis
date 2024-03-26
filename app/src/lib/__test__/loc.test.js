@@ -17,9 +17,7 @@ describe('lib/loc.js', () => {
   });
 
   it('should handle denied permission', () => {
-    const mockRequestDenied = jest.fn().mockImplementation(() => {
-      return Promise.resolve({ status: 'denied' });
-    });
+    const mockRequestDenied = jest.fn().mockImplementation(() => Promise.resolve({ status: 'denied' }));
     Location.requestForegroundPermissionsAsync.mockImplementation(mockRequestDenied);
 
     loc.getCurrentLocation(null, (err) => {

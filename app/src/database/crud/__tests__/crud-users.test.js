@@ -1,6 +1,7 @@
 import crudUsers from '../crud-users';
+import conn from '../../conn';
+
 jest.mock('expo-sqlite');
-import { conn } from '../../conn';
 
 const db = conn.init;
 

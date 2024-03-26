@@ -1,8 +1,9 @@
+// eslint-disable-next-line import/no-unresolved
 import { SERVER_URL } from '@env';
-import build_json from './build.json';
+import buildJson from './build.json';
 
 const defaultBuildParams = {
-  ...build_json,
+  ...buildJson,
   serverURL: SERVER_URL,
 };
 
