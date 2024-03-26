@@ -132,10 +132,12 @@ const UploadAdministrationData = () => {
                   </Button>,
                   <Button
                     key="page"
-                    onClick={() => navigate("/control-center")}
+                    onClick={() =>
+                      navigate("/control-center/master-data/administration")
+                    }
                     shape="round"
                   >
-                    {text.backToCenterLabel}
+                    {text.backToAdmLabel}
                   </Button>,
                 ]}
               />
