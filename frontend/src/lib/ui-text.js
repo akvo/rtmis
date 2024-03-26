@@ -361,6 +361,7 @@ const uiText = {
     uploadMasterDataLabel: "Upload your data",
     uploadAnotherFileLabel: "Upload Another File",
     backToCenterLabel: "Back to Control Center",
+    backToAdmLabel: "Back to Administrative List",
     uploadThankyouText: (
       <Fragment>
         Thank you for uploading the data file. Do note that the data will be
