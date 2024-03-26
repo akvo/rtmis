@@ -78,10 +78,15 @@ class SeedDataTestCase(TestCase, ProfileTestHelperMixin):
             self.option_att.id])
         df.loc[len(df)] = [
                 'Indonesia',
+                '001',
                 'Jakarta',
+                '101',
                 'South Jakarta',
+                '201',
                 'Pasar Minggu',
+                '301',
                 'Lenteng Agung',
+                '401',
                 'y',
                 'opt #1'
                 ]
@@ -117,10 +122,15 @@ class SeedDataTestCase(TestCase, ProfileTestHelperMixin):
             self.aggregate_att.id])
         df.loc[len(df)] = [
                 'Indonesia',
+                '001',
                 'Jakarta',
+                '101',
                 'South Jakarta',
+                '201',
                 'Pasar Minggu',
+                '301',
                 'Lenteng Agung',
+                '401',
                 '1',
                 'opt #1',
                 'opt #1 | opt #2',
@@ -156,19 +166,29 @@ class SeedDataTestCase(TestCase, ProfileTestHelperMixin):
             self.option_att.id])
         df.loc[len(df)] = [
                 'Indonesia',
+                '001',
                 'Jakarta',
+                '101',
                 'South Jakarta',
+                '201',
                 'Pasar Minggu',
+                '301',
                 'Lenteng Agung',
+                '401',
                 'y',
                 'opt #1'
                 ]
         df.loc[len(df)] = [
                 'Indonesia',
+                '001',
                 'Jakarta',
+                '201',
                 'South Jakarta',
+                None,
                 '',
+                None,
                 '',
+                None,
                 'y',
                 ''
                 ]
@@ -324,10 +344,15 @@ class ValidateBulkUploadTestCase(TestCase, ProfileTestHelperMixin):
             self.aggregate_att.id])
         df.loc[len(df)] = [
                 'Indonesia',
+                '001',
                 'Jakarta',
+                '101',
                 'South Jakarta',
+                '201',
                 'Pasar Minggu',
+                '301',
                 'Lenteng Agung',
+                '401',
                 '1',
                 'invalid',
                 'opt #1 | invalid',

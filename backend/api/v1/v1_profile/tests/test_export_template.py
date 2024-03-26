@@ -39,8 +39,9 @@ class AdministrationBulkUploadTemplateExportTestCase(
         self.assertEqual(response['Content-Type'], self.XLSX_MIME)
         df = pd.read_excel(response.content, sheet_name='data')
         expected = [
-            f'{lvl.id}|{lvl.name}'
+            col
             for lvl in Levels.objects.order_by('level').all()
+            for col in [f'{lvl.id}|{lvl.name}', f'{lvl.id}|{lvl.name} Code']
         ]
         actual = [val for val in list(df)]
         self.assertEqual(expected, actual)
@@ -56,7 +57,11 @@ class AdministrationBulkUploadTemplateExportTestCase(
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Type'], self.XLSX_MIME)
         df = pd.read_excel(response.content, sheet_name='data')
-        levels = [f'{lvl.id}|{lvl.name}' for lvl in Levels.objects.all()]
+        levels = [
+            col
+            for lvl in Levels.objects.all()
+            for col in [f'{lvl.id}|{lvl.name}', f'{lvl.id}|{lvl.name} Code']
+        ]
         attributes = [
             f'{self.attribute1.id}|{self.attribute1.name}',
             f'{self.attribute2.id}|{self.attribute2.name}|opt #1',
