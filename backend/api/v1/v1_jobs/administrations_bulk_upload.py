@@ -2,6 +2,7 @@ from collections import OrderedDict
 import logging
 from django.db import transaction
 import pandas as pd
+import numpy as np
 from typing import Any, Dict, List, Tuple, Type, Union
 from django.db.models import Model
 from pandas.core.frame import itertools
@@ -20,17 +21,30 @@ logger = logging.getLogger(__name__)
 def seed_administration_data(io_file):
     df = pd.read_excel(io_file, sheet_name='data')
     columns = list(df)
+    columns = [col for col in columns if 'Code' not in col]
     level_count = Levels.objects.count()
     level_map = map_column_model(columns[:level_count], Levels)
     attribute_map = map_column_model(
-            columns[level_count:], AdministrationAttribute)
+        columns[level_count:],
+        AdministrationAttribute
+    )
     records = df.to_dict('records')
     for row in records:
         administration_data = []
         for col, level in level_map.items():
             if bool(pd.isnull(row[col])):
                 break
-            administration_data.append((level, row[col]))
+            administration_code = None
+            if (
+                f"{col} Code" in row and
+                not np.isnan(row[f"{col} Code"])
+            ):
+                administration_code = row[f"{col} Code"]
+            administration_data.append((
+                level,
+                row[col],
+                administration_code
+            ))
         target_administration = seed_administrations(administration_data)
         if not target_administration:
             break
@@ -43,12 +57,17 @@ def seed_administration_data(io_file):
 
 
 def seed_administrations(
-        data: List[Tuple[Levels, str]]) -> Union[Administration, None]:
+        data: List[Tuple[Levels, str, str]]
+        ) -> Union[Administration, None]:
     last_obj = None
     for item in data:
-        level, name = item
+        level, name, code = item
         obj, _ = Administration.objects.get_or_create(
-            name=name, level=level, parent=last_obj)
+            code=code,
+            name=name,
+            level=level,
+            parent=last_obj
+        )
         last_obj = obj
     return last_obj
 
@@ -112,6 +131,7 @@ def validate_administrations_bulk_upload(io_file):
             "error_message": ValidationText.file_empty_validation.value,
         }]
     headers = list(df)
+    headers = [h for h in headers if 'Code' not in h]
     header_count = len(headers)
     levels = list(Levels.objects.all())
     level_count = len(levels)
