@@ -75,7 +75,7 @@ const TypeImage = ({
   };
 
   return (
-    <View>
+    <View style={{ marginBottom: 20 }}>
       <FieldLabel keyform={keyform} name={label} tooltip={tooltip} requiredSign={requiredValue} />
       <View style={styles.fieldImageContainer}>
         <Button type="outline" onPress={handleCamera} testID="btn-use-camera">
@@ -143,7 +143,7 @@ TypeImage.propTypes = {
 
 TypeImage.defaultProps = {
   value: '',
-  requiredSign: "*",
+  requiredSign: '*',
   useGallery: false,
   tooltip: null,
 };

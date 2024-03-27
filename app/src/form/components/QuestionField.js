@@ -1,9 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback } from 'react';
 
 import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
-import { useRoute } from '@react-navigation/native';
 import {
   TypeDate,
   TypeImage,
@@ -19,25 +18,13 @@ import {
 import styles from '../styles';
 import { FormState } from '../../store';
 
-const QuestionField = ({ keyform, field: questionField, onChange, value, onDefaultValue }) => {
+const QuestionField = ({ keyform, field: questionField, onChange, value }) => {
   const questionType = questionField?.type;
   const defaultValQuestion = questionField?.default_value || {};
   const displayValue =
     questionField?.hidden || Object.keys(defaultValQuestion).length ? 'none' : 'flex';
   const formFeedback = FormState.useState((s) => s.feedback);
   const selectedForm = FormState.useState((s) => s.form);
-  const route = useRoute();
-
-  const defaultValue = useMemo(() => {
-    if (!questionField?.default_value) {
-      return null;
-    }
-    /**
-     * Get default value based on routeParams
-     */
-    const key = Object.keys(route.params).find((k) => questionField.default_value?.[k]);
-    return questionField.default_value?.[key]?.[route.params?.[key]];
-  }, [route.params, questionField?.default_value]);
 
   const handleOnChangeField = useCallback(
     (id, val) => {
@@ -142,23 +129,6 @@ const QuestionField = ({ keyform, field: questionField, onChange, value, onDefau
     }
   }, [selectedForm, questionField, questionType, keyform, value, handleOnChangeField]);
 
-  const handleOnDefaultValue = useCallback(() => {
-    if (questionField?.id && defaultValue && !value) {
-      if (questionField?.pre) {
-        onDefaultValue(questionField.id, defaultValue, questionType, questionField.pre, false);
-      }
-      FormState.update((s) => {
-        s.currentValues[questionField.id] = ['option', 'multiple_option'].includes(questionType)
-          ? [defaultValue]
-          : defaultValue;
-      });
-    }
-  }, [questionField?.id, questionField?.pre, value, defaultValue, questionType, onDefaultValue]);
-
-  useEffect(() => {
-    handleOnDefaultValue();
-  }, [handleOnDefaultValue]);
-
   return (
     <View testID="question-view" style={{ display: displayValue }}>
       {renderField()}
@@ -183,10 +153,8 @@ QuestionField.propTypes = {
     PropTypes.object,
     PropTypes.array,
   ]),
-  onDefaultValue: PropTypes.func,
 };
 
 QuestionField.defaultProps = {
   value: null,
-  onDefaultValue: () => {},
 };
