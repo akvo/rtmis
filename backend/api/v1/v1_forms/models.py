@@ -4,9 +4,10 @@ from django.db import models
 
 # Create your models here.
 from api.v1.v1_forms.constants import QuestionTypes, \
-    FormTypes, AttributeTypes
+    FormTypes, AttributeTypes, SubmissionTypes
 from api.v1.v1_profile.models import Administration
 from api.v1.v1_users.models import SystemUser
+from django.contrib.postgres.fields import ArrayField
 
 
 class Forms(models.Model):
@@ -16,6 +17,10 @@ class Forms(models.Model):
     type = models.IntegerField(choices=FormTypes.FieldStr.items(),
                                default=None,
                                null=True)
+    submission_types = ArrayField(
+        models.IntegerField(choices=SubmissionTypes.FieldStr.items()),
+        default=list,
+        blank=True)
     approval_instructions = models.JSONField(default=None, null=True)
 
     def __str__(self):
