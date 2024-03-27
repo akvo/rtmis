@@ -67,12 +67,24 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
   }, [preload, group, values]);
 
   const handleOnChange = (id, value, field) => {
-    const preQuestions = questions.filter((q) => q?.pre?.[field?.name]?.[value]);
+    const preQuestions = questions.filter(
+      (q) => typeof q?.pre === 'object' && Object.keys(q?.pre).length,
+    );
     const fieldValues = preQuestions?.length
       ? {
           ...values,
           ...preQuestions
-            .map((q) => ({ [q?.id]: values?.[q?.id] || q.pre[field.name][value] }))
+            .map((q) => {
+              const preKey = Object.keys(q.pre)[0];
+              const findqs = activeQuestions?.find((aq) => aq?.name === preKey);
+              const answer =
+                values?.[q?.id] ||
+                q?.pre?.[field.name]?.[value] ||
+                q?.pre?.[findqs?.name]?.[values?.[findqs?.id]];
+              return {
+                [q?.id]: answer,
+              };
+            })
             .reduce((prev, curr) => ({ ...prev, ...curr }), {}),
           [id]: value,
         }
