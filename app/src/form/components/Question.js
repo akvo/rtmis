@@ -4,7 +4,6 @@ import * as Crypto from 'expo-crypto';
 import PropTypes from 'prop-types';
 import QuestionField from './QuestionField';
 import styles from '../styles';
-import { onFilterDependency } from '../lib';
 import { FormState } from '../../store';
 
 const Question = memo(({ group, activeQuestions = [], index }) => {
@@ -14,7 +13,6 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
    */
   const [preload, setPreload] = useState(true);
   const values = FormState.useState((s) => s.currentValues);
-  const currentPreFilled = FormState.useState((s) => s.prefilled);
   const prevAdmAnswer = FormState.useState((s) => s.prevAdmAnswer);
   const entityOptions = FormState.useState((s) => s.entityOptions);
   const flatListRef = useRef(null);
@@ -22,7 +20,6 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
   const questions = useMemo(() => {
     if (group?.question?.length) {
       const questionList = group.question
-        .filter((q) => onFilterDependency(group, values, q))
         .filter((q) => (q?.extra?.type === 'entity' && prevAdmAnswer) || !q?.extra?.type)
         .filter((q) => {
           if (q?.extra?.type === 'entity' && entityOptions?.[q?.id]?.length) {
@@ -48,7 +45,7 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
       return questionWithNumber;
     }
     return [];
-  }, [group, values, prevAdmAnswer, entityOptions]);
+  }, [group, prevAdmAnswer, entityOptions]);
 
   const handleOnGenerateUUID = useCallback(() => {
     if (preload) {
@@ -69,45 +66,22 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
       });
   }, [preload, group, values]);
 
-  const onDefaultValue = (id, value, type, preFilled, isLoading = true) => {
-    const isMatchAnswer =
-      type === 'multiple_option'
-        ? preFilled.answer.some((a) => value.includes(a))
-        : JSON.stringify(preFilled.answer) === JSON.stringify(value) ||
-          String(preFilled.answer) === String(value);
-    if (isMatchAnswer) {
-      FormState.update((s) => {
-        s.loading = isLoading;
-      });
-      const preValues = preFilled?.fill?.reduce((prev, current) => {
-        /**
-         * Make sure the answer criteria are not replaced by previous values
-         * eg:
-         * Previous value = "Update"
-         * Answer criteria = "New"
-         */
-        const answer = id === current.id ? current.answer : values?.[current.id] || current.answer;
-        return { [current.id]: answer, ...prev };
-      }, {});
-      FormState.update((s) => {
-        s.prefilled = preValues;
-      });
-    }
-  };
-
   const handleOnChange = (id, value, field) => {
-    const fieldValues = { ...values, [id]: value };
+    const preQuestions = questions.filter((q) => q?.pre?.[field?.name]?.[value]);
+    const fieldValues = preQuestions?.length
+      ? {
+          ...values,
+          ...preQuestions
+            .map((q) => ({ [q?.id]: values?.[q?.id] || q.pre[field.name][value] }))
+            .reduce((prev, curr) => ({ ...prev, ...curr }), {}),
+          [id]: value,
+        }
+      : { ...values, [id]: value };
     const isEmpty = Array.isArray(value) ? value.length === 0 : String(value)?.trim()?.length === 0;
-
     if (!isEmpty) {
       FormState.update((s) => {
         s.feedback = { ...s.feedback, [id]: true };
       });
-    }
-
-    const preFilled = field?.pre;
-    if (preFilled?.answer) {
-      onDefaultValue(id, value, field.type, preFilled);
     }
 
     if (field?.source?.file === 'administrator.sqlite') {
@@ -135,26 +109,6 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
     }
   }, [index]);
 
-  const handleOnPrefilled = useCallback(() => {
-    /**
-     * Prefilled
-     */
-    if (currentPreFilled) {
-      FormState.update((s) => {
-        const activeValues = {
-          ...s.currentValues,
-          ...currentPreFilled,
-        };
-        s.currentValues = activeValues;
-        s.prefilled = false;
-      });
-    }
-  }, [currentPreFilled]);
-
-  useEffect(() => {
-    handleOnPrefilled();
-  }, [handleOnPrefilled]);
-
   return (
     <FlatList
       ref={flatListRef}
@@ -169,7 +123,6 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
             onChange={handleOnChange}
             value={values?.[field.id]}
             questions={questions}
-            onDefaultValue={onDefaultValue}
           />
         </View>
       )}
