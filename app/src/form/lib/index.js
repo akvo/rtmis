@@ -29,7 +29,25 @@ const getDependencyAncestors = (questions, current, dependencies) => {
   return current;
 };
 
-export const transformForm = (forms, lang = 'en', submissionType = 'registration') => {
+export const onFilterDependency = (currentGroup, values, q) => {
+  if (q?.dependency) {
+    const modifiedDependency = modifyDependency(currentGroup, q, 0);
+    const unmatches = modifiedDependency
+      .map((x) => validateDependency(x, values?.[x.id]))
+      .filter((x) => x === false);
+    if (unmatches.length) {
+      return false;
+    }
+  }
+  return q;
+};
+
+export const transformForm = (
+  forms,
+  currentValues,
+  lang = 'en',
+  submissionType = 'registration',
+) => {
   const nonEnglish = lang !== 'en';
   const currentForm = nonEnglish ? i18n.transform(lang, forms) : forms;
   const questions = currentForm.question_group
@@ -94,7 +112,8 @@ export const transformForm = (forms, lang = 'en', submissionType = 'registration
         const transformedQuestions = qg.question
           ?.sort((a, b) => a.order - b.order)
           ?.map((q) => transformed.find((t) => t.id === q.id))
-          .filter((q) => q);
+          ?.filter((q) => q)
+          ?.filter((q) => onFilterDependency(qg, currentValues, q));
 
         if (transformedQuestions.length > 0) {
           return {
@@ -107,7 +126,8 @@ export const transformForm = (forms, lang = 'en', submissionType = 'registration
         }
         return undefined;
       })
-      .filter((qg) => qg),
+      .filter((qg) => qg)
+      .filter((qg) => qg.question.length),
   };
 };
 
@@ -225,19 +245,6 @@ export const getDurationInMinutes = (startTime) => {
   const durationInSeconds = endTime - startTime;
 
   return Math.floor(durationInSeconds / 60);
-};
-
-export const onFilterDependency = (currentGroup, values, q) => {
-  if (q?.dependency) {
-    const modifiedDependency = modifyDependency(currentGroup, q, 0);
-    const unmatches = modifiedDependency
-      .map((x) => validateDependency(x, values?.[x.id]))
-      .filter((x) => x === false);
-    if (unmatches.length) {
-      return false;
-    }
-  }
-  return q;
 };
 
 const transformValue = (question, value, prefilled = []) => {
