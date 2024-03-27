@@ -282,6 +282,12 @@
               "color": null,
               "id": 1709689765860
             }
+          ],
+          "dependency": [
+            {
+              "id": 1709698185027,
+              "options": ["yes"]
+            }
           ]
         },
         {
@@ -321,6 +327,12 @@
               "value": ">_95%",
               "color": "#417505",
               "id": 1709689765868
+            }
+          ],
+          "dependency": [
+            {
+              "id": 1709698185027,
+              "options": ["yes"]
             }
           ]
         },
@@ -362,6 +374,12 @@
               "color": "#417505",
               "id": 1709689706978
             }
+          ],
+          "dependency": [
+            {
+              "id": 1709698185027,
+              "options": ["yes"]
+            }
           ]
         }
       ]
@@ -376,10 +394,24 @@
       "translations": null,
       "questions": [
         {
+          "id": 1709698674760,
+          "label": "What is the budget required for sanitation and hygiene",
+          "name": "budget_required_sanitation_hygiene",
+          "order": 1,
+          "questionGroupId": 1709698674762,
+          "type": "number",
+          "required": true,
+          "meta": false,
+          "rule": {
+            "min": 0
+          },
+          "options": []
+        },
+        {
           "id": 1709698674764,
           "label": "Budget allocated to sanitation and hygiene in last financial year",
           "name": "budget_allocation_sanitation_hygiene",
-          "order": 1,
+          "order": 2,
           "questionGroupId": 1709698674762,
           "type": "number",
           "required": true,
@@ -394,14 +426,16 @@
           "id": 1719698674764,
           "label": "Percentage of required",
           "name": "budget_allocation_percentage",
-          "order": 2,
+          "order": 3,
           "questionGroupId": 1709698674762,
-          "type": "number",
+          "type": "autofield",
           "required": true,
           "meta": false,
-          "rule": {
-            "min": 0,
-            "max": 100
+          "rule": null,
+          "fn": {
+            "fnColor": {},
+            "fnString": "#budget_required_sanitation_hygiene# > 0 ? #budget_allocation_sanitation_hygiene# / #budget_required_sanitation_hygiene# * 100 : 0",
+            "multiline": false
           },
           "options": []
         },
@@ -409,7 +443,7 @@
           "id": 1709698888801,
           "label": "Budget utilised for sanitation and hygiene in last financial year",
           "name": "budget_utilization_sanitation_hygiene",
-          "order": 3,
+          "order": 4,
           "questionGroupId": 1709698674762,
           "type": "number",
           "required": true,
@@ -424,14 +458,16 @@
           "id": 1719698888801,
           "label": "Percentage of required",
           "name": "budget_utilization_percentage",
-          "order": 4,
+          "order": 5,
           "questionGroupId": 1709698674762,
-          "type": "number",
+          "type": "autofield",
           "required": true,
           "meta": false,
-          "rule": {
-            "min": 0,
-            "max": 100
+          "rule": null,
+          "fn": {
+            "fnColor": {},
+            "fnString": "#budget_required_sanitation_hygiene# > 0 ? #budget_utilization_sanitation_hygiene# / #budget_required_sanitation_hygiene# * 100 : 0",
+            "multiline": false
           },
           "options": []
         },
@@ -439,7 +475,7 @@
           "id": 1709698891681,
           "label": "Funding gap for sanitation and hygiene",
           "name": "funding_gap_sanitation_hygiene",
-          "order": 5,
+          "order": 6,
           "questionGroupId": 1709698674762,
           "type": "number",
           "required": true,
@@ -454,14 +490,16 @@
           "id": 1719698891681,
           "label": "Percentage of required",
           "name": "funding_gap_percentage",
-          "order": 6,
+          "order": 7,
           "questionGroupId": 1709698674762,
           "type": "number",
           "required": true,
           "meta": false,
-          "rule": {
-            "min": 0,
-            "max": 100
+          "rule": null,
+          "fn": {
+            "fnColor": {},
+            "fnString": "#budget_required_sanitation_hygiene# > 0 ? #funding_gap_sanitation_hygiene# / #budget_required_sanitation_hygiene# * 100 : 0",
+            "multiline": false
           },
           "options": []
         }
@@ -626,50 +664,43 @@
           "required": true,
           "meta": false,
           "tooltip": {
-            "text": "Where 1 is very low and 6 is very high"
+            "text": "Where 1 is very low and 5 is very high"
           },
           "options": [
             {
               "order": 1,
-              "label": "1",
+              "label": "1. Very low",
               "value": "1",
               "color": null,
               "id": 1709689766927
             },
             {
               "order": 2,
-              "label": "2",
+              "label": "2. Low",
               "value": "2",
               "color": null,
               "id": 1709689717537
             },
             {
               "order": 3,
-              "label": "3",
+              "label": "3. Middle",
               "value": "3",
               "color": null,
               "id": 1709689766934
             },
             {
               "order": 4,
-              "label": "4",
+              "label": "4. High",
               "value": "4",
               "color": null,
               "id": 1709689717583
             },
             {
               "order": 5,
-              "label": "5",
+              "label": "5. Very high",
               "value": "5",
               "color": null,
               "id": 1709689717604
-            },
-            {
-              "order": 6,
-              "label": "6",
-              "value": "6",
-              "color": null,
-              "id": 1709689766940
             }
           ]
         },
@@ -683,50 +714,43 @@
           "required": true,
           "meta": false,
           "tooltip": {
-            "text": "Where 1 is very low and 6 is very high"
+            "text": "Where 1 is very low and 5 is very high"
           },
           "options": [
             {
               "order": 1,
-              "label": "1",
+              "label": "1. Very low",
               "value": "1",
               "color": null,
               "id": 1709689717659
             },
             {
               "order": 2,
-              "label": "2",
+              "label": "2. Low",
               "value": "2",
               "color": null,
               "id": 1709689766946
             },
             {
               "order": 3,
-              "label": "3",
+              "label": "3. Middle",
               "value": "3",
               "color": null,
               "id": 1709689766948
             },
             {
               "order": 4,
-              "label": "4",
+              "label": "4. High",
               "value": "4",
               "color": null,
               "id": 1709689766950
             },
             {
               "order": 5,
-              "label": "5",
+              "label": "5. Very high",
               "value": "5",
               "color": null,
               "id": 1709689766952
-            },
-            {
-              "order": 6,
-              "label": "6",
-              "value": "6",
-              "color": null,
-              "id": 1709689717766
             }
           ]
         },
