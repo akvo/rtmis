@@ -7,6 +7,7 @@
   "version": 1,
   "type": 1,
   "translations": null,
+  "submission_types": ["registration", "monitoring"],
   "question_groups": [
     {
       "id": 1701172125597,
@@ -59,9 +60,7 @@
           "dependency": [
             {
               "id": 1701172125598,
-              "options": [
-                "new"
-              ]
+              "options": ["new"]
             }
           ]
         },
@@ -81,9 +80,7 @@
           "dependency": [
             {
               "id": 1701172125598,
-              "options": [
-                "new"
-              ]
+              "options": ["new"]
             }
           ]
         },
@@ -242,9 +239,7 @@
           ],
           "pre": {
             "new_institution_monitoring_update": {
-              "new": [
-                "g0_all_inst_toil_are_nonf"
-              ]
+              "new": ["g0_all_inst_toil_are_nonf"]
             }
           }
         },
@@ -319,9 +314,7 @@
           ],
           "pre": {
             "new_institution_monitoring_update": {
-              "new": [
-                "g0_all_inst_toil_are_not_flyp"
-              ]
+              "new": ["g0_all_inst_toil_are_not_flyp"]
             }
           }
         },
@@ -362,9 +355,7 @@
           ],
           "pre": {
             "new_institution_monitoring_update": {
-              "new": [
-                "g0_all_inst_toil_are_not_clea"
-              ]
+              "new": ["g0_all_inst_toil_are_not_clea"]
             }
           }
         },
@@ -405,9 +396,7 @@
           ],
           "pre": {
             "new_institution_monitoring_update": {
-              "new": [
-                "g0_all_inst_toil_slab_are_not_dura"
-              ]
+              "new": ["g0_all_inst_toil_slab_are_not_dura"]
             }
           }
         },
@@ -448,9 +437,7 @@
           ],
           "pre": {
             "new_institution_monitoring_update": {
-              "new": [
-                "g0_all_inst_toil_pits_are_not_dura"
-              ]
+              "new": ["g0_all_inst_toil_pits_are_not_dura"]
             }
           }
         },
@@ -491,9 +478,7 @@
           ],
           "pre": {
             "new_institution_monitoring_update": {
-              "new": [
-                "g0_visi_surf_outf_from_cont"
-              ]
+              "new": ["g0_visi_surf_outf_from_cont"]
             }
           }
         },
@@ -696,9 +681,7 @@
           "fn": null,
           "pre": {
             "new_institution_monitoring_update": {
-              "new": [
-                "g0_high_risk_grou_cont"
-              ]
+              "new": ["g0_high_risk_grou_cont"]
             }
           }
         },
@@ -781,9 +764,7 @@
           ],
           "pre": {
             "new_institution_monitoring_update": {
-              "new": [
-                "g0_no_hand_faci"
-              ]
+              "new": ["g0_no_hand_faci"]
             }
           }
         },
@@ -824,9 +805,7 @@
           ],
           "pre": {
             "new_institution_monitoring_update": {
-              "new": [
-                "g0_no_wate_avai"
-              ]
+              "new": ["g0_no_wate_avai"]
             }
           }
         },
@@ -874,9 +853,7 @@
           ],
           "pre": {
             "new_institution_monitoring_update": {
-              "new": [
-                "g0_no_soap_othe_clea_avai"
-              ]
+              "new": ["g0_no_soap_othe_clea_avai"]
             }
           }
         },
@@ -945,9 +922,7 @@
           ],
           "pre": {
             "new_institution_monitoring_update": {
-              "new": [
-                "g0_no_hand_faci"
-              ]
+              "new": ["g0_no_hand_faci"]
             }
           }
         },
@@ -1002,9 +977,7 @@
           ],
           "pre": {
             "new_institution_monitoring_update": {
-              "new": [
-                "g0_hand_ente_wate_cont_duri_coll_use"
-              ]
+              "new": ["g0_hand_ente_wate_cont_duri_coll_use"]
             }
           }
         },
@@ -1045,9 +1018,7 @@
           ],
           "pre": {
             "new_institution_monitoring_update": {
-              "new": [
-                "g0_no_coll_disp_wash_wate"
-              ]
+              "new": ["g0_no_coll_disp_wash_wate"]
             }
           }
         },

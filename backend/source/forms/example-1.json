@@ -2,6 +2,7 @@
   "id": 1,
   "form": "Test Form",
   "type": 1,
+  "submission_types": ["registration", "monitoring"],
   "question_groups": [
     {
       "id": 11,

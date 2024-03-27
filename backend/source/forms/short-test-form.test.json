@@ -14,6 +14,7 @@
       "I approve this data for submission"
     ]
   },
+  "submission_types": ["registration", "monitoring"],
   "question_groups": [
     {
       "id": 16993539153821,
@@ -221,14 +222,10 @@
           ],
           "rule": null,
           "fn": null,
-          "attributes": [
-            "advanced_filter"
-          ],
+          "attributes": ["advanced_filter"],
           "pre": {
             "new_or_monitoring": {
-              "new": [
-                "household_head"
-              ]
+              "new": ["household_head"]
             }
           }
         },
@@ -246,9 +243,7 @@
           "rule": null,
           "fn": null,
           "disabled": {
-            "submission_type": [
-              "monitoring"
-            ]
+            "submission_type": ["monitoring"]
           }
         },
         {
@@ -267,9 +262,7 @@
             "min": 0
           },
           "fn": null,
-          "attributes": [
-            "advanced_filter"
-          ]
+          "attributes": ["advanced_filter"]
         },
         {
           "id": 169941986117211,
@@ -469,14 +462,10 @@
           ],
           "rule": null,
           "fn": null,
-          "attributes": [
-            "advanced_filter"
-          ],
+          "attributes": ["advanced_filter"],
           "pre": {
             "new_or_monitoring": {
-              "new": [
-                "other_household_not_in_atrisk_category"
-              ]
+              "new": ["other_household_not_in_atrisk_category"]
             }
           }
         },
@@ -537,14 +526,10 @@
           ],
           "dependency": null,
           "fn": null,
-          "attributes": [
-            "advanced_filter"
-          ],
+          "attributes": ["advanced_filter"],
           "pre": {
             "new_or_monitoring": {
-              "new": [
-                "g0_no_toilet"
-              ]
+              "new": ["g0_no_toilet"]
             }
           }
         },
@@ -606,14 +591,10 @@
             }
           ],
           "fn": null,
-          "attributes": [
-            "advanced_filter"
-          ],
+          "attributes": ["advanced_filter"],
           "pre": {
             "new_or_monitoring": {
-              "new": [
-                "g0_nonfunctional_toilet"
-              ]
+              "new": ["g0_nonfunctional_toilet"]
             }
           }
         },
@@ -656,14 +637,10 @@
             }
           ],
           "fn": null,
-          "attributes": [
-            "advanced_filter"
-          ],
+          "attributes": ["advanced_filter"],
           "pre": {
             "new_or_monitoring": {
-              "new": [
-                "g0_no_toilet_privacy"
-              ]
+              "new": ["g0_no_toilet_privacy"]
             }
           }
         },
@@ -749,14 +726,10 @@
           ],
           "dependency": null,
           "fn": null,
-          "attributes": [
-            "advanced_filter"
-          ],
+          "attributes": ["advanced_filter"],
           "pre": {
             "new_or_monitoring": {
-              "new": [
-                "g0_no_toilet"
-              ]
+              "new": ["g0_no_toilet"]
             }
           }
         },
@@ -859,14 +832,10 @@
             }
           ],
           "fn": null,
-          "attributes": [
-            "advanced_filter"
-          ],
+          "attributes": ["advanced_filter"],
           "pre": {
             "new_or_monitoring": {
-              "new": [
-                "g0_no_toilet"
-              ]
+              "new": ["g0_no_toilet"]
             }
           }
         },
@@ -962,14 +931,10 @@
             }
           ],
           "fn": null,
-          "attributes": [
-            "advanced_filter"
-          ],
+          "attributes": ["advanced_filter"],
           "pre": {
             "new_or_monitoring": {
-              "new": [
-                "g0_vip_vent_pipe_without_insect_screen"
-              ]
+              "new": ["g0_vip_vent_pipe_without_insect_screen"]
             }
           }
         },
@@ -1038,9 +1003,7 @@
           "dependency": [
             {
               "id": 17030862702501,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "type": "option",
@@ -1060,9 +1023,7 @@
           ],
           "pre": {
             "new_autofield": {
-              "yes": [
-                "b"
-              ]
+              "yes": ["b"]
             }
           }
         },
@@ -1077,9 +1038,7 @@
           "dependency": [
             {
               "id": 17030862702502,
-              "options": [
-                "b"
-              ]
+              "options": ["b"]
             }
           ],
           "type": "option",
@@ -1099,9 +1058,7 @@
           ],
           "pre": {
             "new_autofield": {
-              "yes": [
-                "b"
-              ]
+              "yes": ["b"]
             }
           }
         },

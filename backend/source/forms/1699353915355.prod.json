@@ -7,6 +7,7 @@
   "version": 1,
   "type": 1,
   "translations": null,
+  "submission_types": ["registration", "monitoring"],
   "question_groups": [
     {
       "id": 1699353915382,
@@ -61,9 +62,7 @@
           "dependency": [
             {
               "id": 1699354220734,
-              "options": [
-                "new"
-              ]
+              "options": ["new"]
             }
           ],
           "fn": null
@@ -82,9 +81,7 @@
           "dependency": [
             {
               "id": 1699354220734,
-              "options": [
-                "new"
-              ]
+              "options": ["new"]
             }
           ],
           "fn": null
@@ -162,9 +159,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "hh_head"
-              ]
+              "new": ["hh_head"]
             }
           }
         },
@@ -266,9 +261,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "other_gender"
-              ]
+              "new": ["other_gender"]
             }
           }
         },
@@ -609,9 +602,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "other_hh_not_in_atrisk_category"
-              ]
+              "new": ["other_hh_not_in_atrisk_category"]
             }
           }
         },
@@ -731,9 +722,7 @@
           "dependency": [
             {
               "id": 1699428072669,
-              "options": [
-                "g1_use_other_hh_toilet"
-              ]
+              "options": ["g1_use_other_hh_toilet"]
             }
           ],
           "meta_uuid": true
@@ -800,9 +789,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_toilet"
-              ]
+              "new": ["g0_no_toilet"]
             }
           }
         },
@@ -880,9 +867,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_toilet"
-              ]
+              "new": ["g0_no_toilet"]
             }
           }
         },
@@ -948,9 +933,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_toilet"
-              ]
+              "new": ["g0_no_toilet"]
             }
           }
         },
@@ -1065,9 +1048,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_toilet"
-              ]
+              "new": ["g0_no_toilet"]
             }
           }
         },
@@ -1133,9 +1114,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_toilet_or_no_containment_or_collection_system"
-              ]
+              "new": ["g0_no_toilet_or_no_containment_or_collection_system"]
             }
           }
         },
@@ -1250,9 +1229,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_toilet_or_no_containmentcollection_system"
-              ]
+              "new": ["g0_no_toilet_or_no_containmentcollection_system"]
             }
           }
         },
@@ -1395,9 +1372,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_toilet_or_no_containmentcollection_system"
-              ]
+              "new": ["g0_no_toilet_or_no_containmentcollection_system"]
             }
           }
         }
@@ -1453,9 +1428,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_toilet"
-              ]
+              "new": ["g0_no_toilet"]
             }
           }
         },
@@ -1473,9 +1446,7 @@
           "dependency": [
             {
               "id": 1699422286091,
-              "options": [
-                "g1_toilet_observed"
-              ]
+              "options": ["g1_toilet_observed"]
             }
           ],
           "fn": null
@@ -1494,9 +1465,7 @@
           "dependency": [
             {
               "id": 1699422286091,
-              "options": [
-                "g1_toilet_observed"
-              ]
+              "options": ["g1_toilet_observed"]
             }
           ],
           "fn": null
@@ -1556,9 +1525,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_toilet"
-              ]
+              "new": ["g0_no_toilet"]
             }
           }
         },
@@ -1617,9 +1584,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_toilet"
-              ]
+              "new": ["g0_no_toilet"]
             }
           }
         },
@@ -1713,9 +1678,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_toilet"
-              ]
+              "new": ["g0_no_toilet"]
             }
           }
         },
@@ -1851,9 +1814,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_toilet"
-              ]
+              "new": ["g0_no_toilet"]
             }
           }
         },
@@ -1990,9 +1951,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_toilet"
-              ]
+              "new": ["g0_no_toilet"]
             }
           }
         },
@@ -2058,9 +2017,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_toilet"
-              ]
+              "new": ["g0_no_toilet"]
             }
           }
         },
@@ -2126,9 +2083,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_toilet"
-              ]
+              "new": ["g0_no_toilet"]
             }
           }
         },
@@ -2243,9 +2198,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_toilet"
-              ]
+              "new": ["g0_no_toilet"]
             }
           }
         },
@@ -2339,9 +2292,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_toilet_or_no_containment_or_collection_system"
-              ]
+              "new": ["g0_no_toilet_or_no_containment_or_collection_system"]
             }
           }
         },
@@ -2374,9 +2325,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_high_risk_of_groundwater_contamination"
-              ]
+              "new": ["g0_high_risk_of_groundwater_contamination"]
             }
           }
         }
@@ -2682,9 +2631,7 @@
           "dependency": [
             {
               "id": 1699429162796,
-              "options": [
-                "g1_handwashing_facility_by_toilet"
-              ]
+              "options": ["g1_handwashing_facility_by_toilet"]
             }
           ],
           "fn": null
@@ -2734,9 +2681,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_handwashing_facility"
-              ]
+              "new": ["g0_no_handwashing_facility"]
             }
           }
         },
@@ -2797,9 +2742,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_handwashing_facility"
-              ]
+              "new": ["g0_no_handwashing_facility"]
             }
           }
         },
@@ -2867,9 +2810,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_handwashing_facility"
-              ]
+              "new": ["g0_no_handwashing_facility"]
             }
           }
         },
@@ -2958,9 +2899,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_handwashing_facility"
-              ]
+              "new": ["g0_no_handwashing_facility"]
             }
           }
         },
@@ -3098,9 +3037,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_handwashing_facility"
-              ]
+              "new": ["g0_no_handwashing_facility"]
             }
           }
         },
@@ -3175,9 +3112,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_handwashing_facility"
-              ]
+              "new": ["g0_no_handwashing_facility"]
             }
           }
         },
@@ -3252,9 +3187,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_handwashing_facility"
-              ]
+              "new": ["g0_no_handwashing_facility"]
             }
           }
         },
@@ -3329,9 +3262,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_handwashing_facility"
-              ]
+              "new": ["g0_no_handwashing_facility"]
             }
           }
         },
@@ -3406,9 +3337,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_no_handwashing_facility"
-              ]
+              "new": ["g0_no_handwashing_facility"]
             }
           }
         }
@@ -3527,9 +3456,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_child_or_adult_excreta_observed_in_the_compound"
-              ]
+              "new": ["g0_child_or_adult_excreta_observed_in_the_compound"]
             }
           }
         },
@@ -3613,9 +3540,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_soiled_potty_or_collection_tool_unsafely_washed"
-              ]
+              "new": ["g0_soiled_potty_or_collection_tool_unsafely_washed"]
             }
           }
         },
@@ -3699,9 +3624,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": [
-                "g0_used_diapers_visible_in_the_compound"
-              ]
+              "new": ["g0_used_diapers_visible_in_the_compound"]
             }
           }
         },
@@ -3754,9 +3677,7 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "tooltip": {
@@ -3790,9 +3711,7 @@
           "fn": null,
           "pre": {
             "monitor_G2": {
-              "yes": [
-                "g0_visible_dirt_or_contamination"
-              ]
+              "yes": ["g0_visible_dirt_or_contamination"]
             }
           }
         },
@@ -3809,9 +3728,7 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "options": [
@@ -3840,9 +3757,7 @@
           "fn": null,
           "pre": {
             "monitor_G2": {
-              "yes": [
-                "g0_no_storage"
-              ]
+              "yes": ["g0_no_storage"]
             }
           }
         },
@@ -3856,9 +3771,7 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "tooltip": {
@@ -3892,9 +3805,7 @@
           "fn": null,
           "pre": {
             "monitor_G2": {
-              "yes": [
-                "g0_on_ground"
-              ]
+              "yes": ["g0_on_ground"]
             }
           }
         },
@@ -3908,9 +3819,7 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "tooltip": {
@@ -3944,9 +3853,7 @@
           "fn": null,
           "pre": {
             "monitor_G2": {
-              "yes": [
-                "g0_visible_dirt_or_contamination"
-              ]
+              "yes": ["g0_visible_dirt_or_contamination"]
             }
           }
         },
@@ -3960,9 +3867,7 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "tooltip": {
@@ -3996,9 +3901,7 @@
           "fn": null,
           "pre": {
             "monitor_G2": {
-              "yes": [
-                "g0_no_storage"
-              ]
+              "yes": ["g0_no_storage"]
             }
           }
         },
@@ -4012,9 +3915,7 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "tooltip": {
@@ -4048,9 +3949,7 @@
           "fn": null,
           "pre": {
             "monitor_G2": {
-              "yes": [
-                "g0_on_ground"
-              ]
+              "yes": ["g0_on_ground"]
             }
           }
         },
@@ -4064,15 +3963,11 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             },
             {
               "id": 1710829091,
-              "options": [
-                "yes_animals_kept_in_household_compound"
-              ]
+              "options": ["yes_animals_kept_in_household_compound"]
             }
           ],
           "tooltip": {
@@ -4129,15 +4024,11 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             },
             {
               "id": 1710829091,
-              "options": [
-                "yes_animals_kept_in_household_compound"
-              ]
+              "options": ["yes_animals_kept_in_household_compound"]
             }
           ],
           "tooltip": {
@@ -4194,15 +4085,11 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             },
             {
               "id": 1710829091,
-              "options": [
-                "yes_animals_kept_in_household_compound"
-              ]
+              "options": ["yes_animals_kept_in_household_compound"]
             }
           ],
           "tooltip": {
@@ -4270,9 +4157,7 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "tooltip": {
@@ -4306,9 +4191,7 @@
           "fn": null,
           "pre": {
             "monitor_G2": {
-              "yes": [
-                "g0_visible_dirt_or_contamination"
-              ]
+              "yes": ["g0_visible_dirt_or_contamination"]
             }
           }
         },
@@ -4322,9 +4205,7 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "tooltip": {
@@ -4365,9 +4246,7 @@
           "fn": null,
           "pre": {
             "monitor_G2": {
-              "yes": [
-                "g0_no_treatment_and_low_quality"
-              ]
+              "yes": ["g0_no_treatment_and_low_quality"]
             }
           }
         },
@@ -4381,9 +4260,7 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "tooltip": {
@@ -4417,9 +4294,7 @@
           "fn": null,
           "pre": {
             "monitor_G2": {
-              "yes": [
-                "g0_unsafe_drinking_water_storage"
-              ]
+              "yes": ["g0_unsafe_drinking_water_storage"]
             }
           }
         },
@@ -4433,9 +4308,7 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "tooltip": {
@@ -4483,9 +4356,7 @@
           "fn": null,
           "pre": {
             "monitor_G2": {
-              "yes": [
-                "g0_unsafe_water_use"
-              ]
+              "yes": ["g0_unsafe_water_use"]
             }
           }
         },
@@ -4499,9 +4370,7 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "tooltip": {
@@ -4542,9 +4411,7 @@
           "fn": null,
           "pre": {
             "monitor_G2": {
-              "yes": [
-                "g0_visible_dirt_or_contamination"
-              ]
+              "yes": ["g0_visible_dirt_or_contamination"]
             }
           }
         },
@@ -4558,9 +4425,7 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "tooltip": {
@@ -4601,9 +4466,7 @@
           "fn": null,
           "pre": {
             "monitor_G2": {
-              "yes": [
-                "g0_no_protection_of_water_points"
-              ]
+              "yes": ["g0_no_protection_of_water_points"]
             }
           }
         },
@@ -4617,9 +4480,7 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "tooltip": {
@@ -4660,9 +4521,7 @@
           "fn": null,
           "pre": {
             "monitor_G2": {
-              "yes": [
-                "g0_standing_water_visible_around_water_point"
-              ]
+              "yes": ["g0_standing_water_visible_around_water_point"]
             }
           }
         }
@@ -4687,15 +4546,11 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             },
             {
               "id": 1710829091,
-              "options": [
-                "yes_animals_kept_in_household_compound"
-              ]
+              "options": ["yes_animals_kept_in_household_compound"]
             }
           ],
           "tooltip": {
@@ -4736,9 +4591,7 @@
           "fn": null,
           "pre": {
             "animals_kept_in_household_compund": {
-              "no_animals_kept_in_household_compound": [
-                "g2_no_animals"
-              ]
+              "no_animals_kept_in_household_compound": ["g2_no_animals"]
             }
           }
         },
@@ -4752,15 +4605,11 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             },
             {
               "id": 1710829091,
-              "options": [
-                "yes_animals_kept_in_household_compound"
-              ]
+              "options": ["yes_animals_kept_in_household_compound"]
             }
           ],
           "tooltip": {
@@ -4801,9 +4650,7 @@
           "fn": null,
           "pre": {
             "animals_kept_in_household_compund": {
-              "no_animals_kept_in_household_compound": [
-                "g2_no_animals"
-              ]
+              "no_animals_kept_in_household_compound": ["g2_no_animals"]
             }
           }
         },
@@ -4817,15 +4664,11 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             },
             {
               "id": 1710829091,
-              "options": [
-                "yes_animals_kept_in_household_compound"
-              ]
+              "options": ["yes_animals_kept_in_household_compound"]
             }
           ],
           "tooltip": {
@@ -4866,9 +4709,7 @@
           "fn": null,
           "pre": {
             "animals_kept_in_household_compund": {
-              "no_animals_kept_in_household_compound": [
-                "g2_no_animal_wastes"
-              ]
+              "no_animals_kept_in_household_compound": ["g2_no_animal_wastes"]
             }
           }
         },
@@ -4882,15 +4723,11 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             },
             {
               "id": 1710829091,
-              "options": [
-                "yes_animals_kept_in_household_compound"
-              ]
+              "options": ["yes_animals_kept_in_household_compound"]
             }
           ],
           "tooltip": {
@@ -4947,15 +4784,11 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             },
             {
               "id": 1710829091,
-              "options": [
-                "yes_animals_kept_in_household_compound"
-              ]
+              "options": ["yes_animals_kept_in_household_compound"]
             }
           ],
           "tooltip": {
@@ -5012,15 +4845,11 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             },
             {
               "id": 1710829091,
-              "options": [
-                "yes_animals_kept_in_household_compound"
-              ]
+              "options": ["yes_animals_kept_in_household_compound"]
             }
           ],
           "tooltip": {
@@ -5061,9 +4890,7 @@
           "fn": null,
           "pre": {
             "animals_kept_in_household_compund": {
-              "no_animals_kept_in_household_compound": [
-                "g2_no_animals"
-              ]
+              "no_animals_kept_in_household_compound": ["g2_no_animals"]
             }
           }
         },
@@ -5077,15 +4904,11 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             },
             {
               "id": 1710829091,
-              "options": [
-                "yes_animals_kept_in_household_compound"
-              ]
+              "options": ["yes_animals_kept_in_household_compound"]
             }
           ],
           "tooltip": {
@@ -5126,9 +4949,7 @@
           "fn": null,
           "pre": {
             "animals_kept_in_household_compund": {
-              "no_animals_kept_in_household_compound": [
-                "g2_no_animals"
-              ]
+              "no_animals_kept_in_household_compound": ["g2_no_animals"]
             }
           }
         },
@@ -5144,9 +4965,7 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "options": [
@@ -5188,9 +5007,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "tooltip": {
@@ -5224,9 +5041,7 @@
           "fn": null,
           "pre": {
             "monitor_G3": {
-              "yes": [
-                "g0_visible_wastewater"
-              ]
+              "yes": ["g0_visible_wastewater"]
             }
           }
         },
@@ -5240,9 +5055,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "tooltip": {
@@ -5283,9 +5096,7 @@
           "fn": null,
           "pre": {
             "monitor_G3": {
-              "yes": [
-                "g0_significant_erosion"
-              ]
+              "yes": ["g0_significant_erosion"]
             }
           }
         },
@@ -5299,9 +5110,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "tooltip": {
@@ -5335,9 +5144,7 @@
           "fn": null,
           "pre": {
             "monitor_G3": {
-              "yes": [
-                "g0_significant_visible_solid_wastes"
-              ]
+              "yes": ["g0_significant_visible_solid_wastes"]
             }
           }
         },
@@ -5351,9 +5158,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "tooltip": {
@@ -5387,9 +5192,7 @@
           "fn": null,
           "pre": {
             "monitor_G3": {
-              "yes": [
-                "g0_no_solid_waste_management"
-              ]
+              "yes": ["g0_no_solid_waste_management"]
             }
           }
         },
@@ -5402,9 +5205,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "type": "option",
@@ -5446,9 +5247,7 @@
           "fn": null,
           "pre": {
             "monitor_G3": {
-              "yes": [
-                "g0_significant_visible_solid_wastes"
-              ]
+              "yes": ["g0_significant_visible_solid_wastes"]
             }
           }
         }
@@ -5472,9 +5271,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "type": "option",
@@ -5509,9 +5306,7 @@
           "fn": null,
           "pre": {
             "monitor_G3": {
-              "yes": [
-                "g1_all_with_dirty_faces"
-              ]
+              "yes": ["g1_all_with_dirty_faces"]
             }
           }
         },
@@ -5524,9 +5319,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "type": "option",
@@ -5561,9 +5354,7 @@
           "fn": null,
           "pre": {
             "monitor_G3": {
-              "yes": [
-                "g1_all_with_dirty_hands"
-              ]
+              "yes": ["g1_all_with_dirty_hands"]
             }
           }
         },
@@ -5577,9 +5368,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "tooltip": {
@@ -5620,9 +5409,7 @@
           "fn": null,
           "pre": {
             "monitor_G3": {
-              "yes": [
-                "g1_no_washing_place"
-              ]
+              "yes": ["g1_no_washing_place"]
             }
           }
         },
@@ -5635,9 +5422,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "type": "option",
@@ -5679,9 +5464,7 @@
           "fn": null,
           "pre": {
             "monitor_G3": {
-              "yes": [
-                "g1_no_disposal_site"
-              ]
+              "yes": ["g1_no_disposal_site"]
             }
           }
         },
@@ -5694,9 +5477,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "type": "option",
@@ -5738,9 +5519,7 @@
           "fn": null,
           "pre": {
             "monitor_G3": {
-              "yes": [
-                "g1_materials_are_not_available_or_not_appropriate"
-              ]
+              "yes": ["g1_materials_are_not_available_or_not_appropriate"]
             }
           }
         }
@@ -5765,9 +5544,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "tooltip": {
@@ -5808,9 +5585,7 @@
           "fn": null,
           "pre": {
             "monitor_G3": {
-              "yes": [
-                "g1_no_children_vaccinated"
-              ]
+              "yes": ["g1_no_children_vaccinated"]
             }
           }
         },
@@ -5823,9 +5598,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "type": "option",
@@ -5867,9 +5640,7 @@
           "fn": null,
           "pre": {
             "monitor_G3": {
-              "yes": [
-                "g1_no_children_received_supplements"
-              ]
+              "yes": ["g1_no_children_received_supplements"]
             }
           }
         },
@@ -5883,9 +5654,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "tooltip": {
@@ -5941,9 +5710,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "type": "option",
@@ -6000,9 +5767,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "type": "option",
@@ -6044,9 +5809,7 @@
           "fn": null,
           "pre": {
             "monitor_G3": {
-              "yes": [
-                "g1_no_protection_no_bed_nets_and_no_insect_screen"
-              ]
+              "yes": ["g1_no_protection_no_bed_nets_and_no_insect_screen"]
             }
           }
         },
@@ -6059,9 +5822,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "type": "option",
@@ -6103,9 +5864,7 @@
           "fn": null,
           "pre": {
             "monitor_G3": {
-              "yes": [
-                "g1_no_deworming_no_children_or_adults_treated"
-              ]
+              "yes": ["g1_no_deworming_no_children_or_adults_treated"]
             }
           }
         }
@@ -6175,9 +5934,7 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "fn": {
@@ -6204,9 +5961,7 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "fn": {
@@ -6233,9 +5988,7 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "fn": {
@@ -6262,9 +6015,7 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "fn": {
@@ -6291,9 +6042,7 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "fn": {
@@ -6320,9 +6069,7 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "fn": {
@@ -6349,9 +6096,7 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "fn": {
@@ -6378,9 +6123,7 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "fn": {
@@ -6407,9 +6150,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "fn": {
@@ -6436,9 +6177,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "fn": {
@@ -6465,9 +6204,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "fn": {
@@ -6494,9 +6231,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "fn": {
@@ -6523,9 +6258,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "fn": {
@@ -6552,9 +6285,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "fn": {
@@ -6581,9 +6312,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "fn": {
@@ -6610,9 +6339,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "fn": {
@@ -6639,9 +6366,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "fn": {
@@ -6668,9 +6393,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "fn": {
@@ -6697,9 +6420,7 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": [
-                "yes"
-              ]
+              "options": ["yes"]
             }
           ],
           "fn": {
