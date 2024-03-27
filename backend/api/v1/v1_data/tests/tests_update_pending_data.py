@@ -5,7 +5,7 @@ from django.db.models import ProtectedError
 from api.v1.v1_data.tests.tests_add_new_data import create_user
 from api.v1.v1_data.models import Forms, FormData, PendingFormData, \
     PendingAnswers, PendingAnswerHistory
-from api.v1.v1_forms.constants import FormTypes
+from api.v1.v1_forms.constants import FormTypes, SubmissionTypes
 from api.v1.v1_users.models import SystemUser
 
 
@@ -34,7 +34,8 @@ class UpdatePendingDataTestCase(TestCase):
             "data": {
                 "name": "Testing Data Entry",
                 "administration": 2,
-                "geo": [6.2088, 106.8456]
+                "geo": [6.2088, 106.8456],
+                "submission_type": SubmissionTypes.registration,
             },
             "answer": [{
                 "question": 101,

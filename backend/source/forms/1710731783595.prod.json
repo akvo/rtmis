@@ -3,6 +3,7 @@
   "type": 1,
   "form": "Urban sanitation form",
   "description": "Urban sanitation form",
+  "submission_types": ["registration", "monitoring"],
   "question_groups": [
     {
       "id": 1710731783596,

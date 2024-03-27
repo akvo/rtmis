@@ -3,6 +3,7 @@
   "type": 2,
   "form": "Governance Form",
   "description": "Governance Form",
+  "submission_types": ["registration", "monitoring"],
   "question_groups": [
     {
       "id": 1709689683441,

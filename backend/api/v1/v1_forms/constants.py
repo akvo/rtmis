@@ -34,6 +34,20 @@ class FormTypes:
     }
 
 
+class SubmissionTypes:
+    registration = 1
+    monitoring = 2
+    verification = 3
+    certification = 4
+
+    FieldStr = {
+        registration: 'Registration',
+        monitoring: 'Monitoring',
+        verification: 'Verification',
+        certification: 'Certification',
+    }
+
+
 class AttributeTypes:
     chart = 1
     aggregate = 2

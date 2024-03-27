@@ -183,7 +183,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
             'id', 'order', 'name', 'label', 'short_label', 'type', 'required',
             'dependency', 'option', 'center', 'api', 'meta', 'meta_uuid',
             'rule', 'extra', 'source', 'tooltip', 'fn', 'pre', 'hidden',
-            'displayOnly', 'default_value', 'disabled',
+            'displayOnly', 'default_value', 'disabled'
         ]
 
 
@@ -261,8 +261,9 @@ class WebFormDetailSerializer(serializers.ModelSerializer):
             'name',
             'version',
             'cascades',
+            'approval_instructions',
+            'submission_types',
             'question_group',
-            'approval_instructions'
         ]
 
 
@@ -281,7 +282,10 @@ class ListFormSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Forms
-        fields = ['id', 'name', 'type', 'version', 'type_text']
+        fields = [
+            'id', 'name', 'type', 'version',
+            'type_text', 'submission_types'
+        ]
 
 
 class FormDataListQuestionSerializer(serializers.ModelSerializer):

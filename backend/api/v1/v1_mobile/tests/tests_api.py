@@ -130,8 +130,9 @@ class MobileAssignmentApiTest(TestCase):
                 'name',
                 'version',
                 'cascades',
+                'approval_instructions',
+                'submission_types',
                 'question_group',
-                'approval_instructions'
             ],
         )
 
