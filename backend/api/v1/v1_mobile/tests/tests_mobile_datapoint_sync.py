@@ -4,7 +4,7 @@ from api.v1.v1_mobile.models import MobileAssignment
 from api.v1.v1_profile.models import Administration, Access
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_forms.models import Forms
-from api.v1.v1_forms.constants import FormTypes
+from api.v1.v1_forms.constants import FormTypes, SubmissionTypes
 from api.v1.v1_data.models import FormData
 from api.v1.v1_users.models import SystemUser
 from django.core.management import call_command
@@ -52,6 +52,7 @@ class MobileDataPointDownloadListTestCase(TestCase):
             administration=self.administration_children.first(),
             created_by=self.user,
             uuid=self.uuid,
+            submission_type=SubmissionTypes.registration,
         )
 
     def test_get_datapoints_list_url(self):

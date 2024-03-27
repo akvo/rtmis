@@ -45,12 +45,16 @@ from api.v1.v1_forms.models import Forms, Questions, QuestionTypes
 from api.v1.v1_profile.models import Access
 from api.v1.v1_data.models import FormData
 from api.v1.v1_forms.serializers import WebFormDetailSerializer
+from api.v1.v1_forms.constants import SubmissionTypes
 from api.v1.v1_data.serializers import SubmitPendingFormSerializer
 from api.v1.v1_files.serializers import UploadImagesSerializer
 from api.v1.v1_files.functions import process_image
 from utils.custom_helper import CustomPasscode
 from utils.default_serializers import DefaultResponseSerializer
-from utils.custom_serializer_fields import validate_serializers_message
+from utils.custom_serializer_fields import (
+    validate_serializers_message,
+    CustomChoiceField
+)
 from utils import storage
 
 apk_path = os.path.join(BASE_DIR, MASTER_DATA)
@@ -143,6 +147,10 @@ def get_raw_token(request):
             'submittedAt': serializers.DateTimeField(),
             'submitter': serializers.CharField(),
             'geo': serializers.ListField(child=serializers.IntegerField()),
+            'submission_type': CustomChoiceField(
+                choices=SubmissionTypes.FieldStr,
+                required=True,
+            ),
             'answers': serializers.DictField(),
         },
     ),
@@ -181,6 +189,7 @@ def sync_pending_form_data(request, version):
             'geo': request.data.get('geo'),
             'submitter': assignment.name,
             'duration': request.data.get('duration'),
+            'submission_type': request.data.get('submission_type'),
         },
         'answer': answers,
     }
