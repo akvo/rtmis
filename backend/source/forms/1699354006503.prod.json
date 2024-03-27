@@ -42,102 +42,7 @@
               "label": "Update",
               "value": "upda"
             }
-          ],
-          "pre": {
-            "answer": "new",
-            "fill": [
-              {
-                "id": 1699354006535,
-                "answer": ["new"]
-              },
-              {
-                "id": 1699951538608,
-                "answer": ["vill_chie_head"]
-              },
-              {
-                "id": 1699951986776,
-                "answer": ["medi_drai_soil_medi_sand_weat_rock"]
-              },
-              {
-                "id": 1699952153243,
-                "answer": ["less_than_5m"]
-              },
-              {
-                "id": 1699952219561,
-                "answer": ["prot_grou_sour_prot_bore_prot_dug_well_prot_spri"]
-              },
-              {
-                "id": 1699952295823,
-                "answer": ["more_than_25_perc"]
-              },
-              {
-                "id": 1699952355848,
-                "answer": ["more_than_25_perc"]
-              },
-              {
-                "id": 1699952418978,
-                "answer": ["more_than_25_perc"]
-              },
-              {
-                "id": 1702364544574,
-                "answer": ["g0_high_risk_grou_cont"]
-              },
-              {
-                "id": 1702324544574,
-                "answer": ["g0_atri_hh_no_disa_data_avai_from_comm"]
-              },
-              {
-                "id": 1699958670124,
-                "answer": ["g0_acti_plan_for_g2_not_avai_not_appr_not_use"]
-              },
-              {
-                "id": 1699958822791,
-                "answer": ["g0_acti_plan_for_g3_not_avai_not_appr_not_use"]
-              },
-              {
-                "id": 1699959649782,
-                "answer": ["g0_chil_adul_excr_obse_comm_area"]
-              },
-              {
-                "id": 1699959743410,
-                "answer": ["g0_used_diap_visi_comm_area"]
-              },
-              {
-                "id": 1699959861479,
-                "answer": ["g0_visi_dirt_cont"]
-              },
-              {
-                "id": 1699960025562,
-                "answer": ["g0_no_prot_wate_poin"]
-              },
-              {
-                "id": 1699960104326,
-                "answer": ["g0_stan_wate_visi_arou_wate_poin"]
-              },
-              {
-                "id": 1699960255414,
-                "answer": [
-                  "g0_unsa_disp_to_open_pit_open_spac_open_drai_wate_body_comm_area"
-                ]
-              },
-              {
-                "id": 1699960354498,
-                "answer": ["g0_sign_eros_comm_area"]
-              },
-              {
-                "id": 1699960411329,
-                "answer": ["g0_sign_visi_soli_wast_comm_area"]
-              },
-              {
-                "id": 1699960488230,
-                "answer": ["g0_sign_stan_wate_comm_area"]
-              },
-              {
-                "id": 1699960542156,
-                "answer": ["g0_no_trea_mana_comm_area"]
-              }
-            ]
-          }
+          ]
         },
         {
           "id": 1699951210638,
@@ -154,7 +59,9 @@
           "dependency": [
             {
               "id": 1699354006535,
-              "options": ["new"]
+              "options": [
+                "new"
+              ]
             }
           ]
         },
@@ -174,7 +81,9 @@
           "dependency": [
             {
               "id": 1699354006535,
-              "options": ["new"]
+              "options": [
+                "new"
+              ]
             }
           ]
         }
@@ -239,7 +148,14 @@
               "value": "natu_lead_clts"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "new_or_update": {
+              "new": [
+                "vill_chie_head"
+              ]
+            }
+          }
         },
         {
           "id": 1699951727891,
@@ -322,7 +238,14 @@
               "value": "low_drai_soil_fine_sand_silt_clay"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "new_or_update": {
+              "new": [
+                "medi_drai_soil_medi_sand_weat_rock"
+              ]
+            }
+          }
         },
         {
           "id": 1699952153243,
@@ -356,7 +279,14 @@
               "value": "more_than_10m"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "new_or_update": {
+              "new": [
+                "less_than_5m"
+              ]
+            }
+          }
         },
         {
           "id": 1699952219561,
@@ -390,7 +320,14 @@
               "value": "no_grou_sour_used"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "new_or_update": {
+              "new": [
+                "prot_grou_sour_prot_bore_prot_dug_well_prot_spri"
+              ]
+            }
+          }
         },
         {
           "id": 1699952295823,
@@ -424,7 +361,14 @@
               "value": "zero_perc"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "new_or_update": {
+              "new": [
+                "more_than_25_perc"
+              ]
+            }
+          }
         },
         {
           "id": 1699952355848,
@@ -452,7 +396,14 @@
               "value": "less_than_25_perc"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "new_or_update": {
+              "new": [
+                "more_than_25_perc"
+              ]
+            }
+          }
         },
         {
           "id": 1699952418978,
@@ -480,7 +431,14 @@
               "value": "less_than_25_perc"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "new_or_update": {
+              "new": [
+                "more_than_25_perc"
+              ]
+            }
+          }
         },
         {
           "id": 1702364544574,
@@ -507,7 +465,14 @@
               "value": "g2_low_risk_grou_cont",
               "color": "#38A15A"
             }
-          ]
+          ],
+          "pre": {
+            "new_or_update": {
+              "new": [
+                "g0_high_risk_grou_cont"
+              ]
+            }
+          }
         }
       ]
     },
@@ -660,7 +625,14 @@
               "value": "g1g2_atri_hh_syst_func_less_than_5_diff_data",
               "color": "#38A15A"
             }
-          ]
+          ],
+          "pre": {
+            "new_or_update": {
+              "new": [
+                "g0_atri_hh_no_disa_data_avai_from_comm"
+              ]
+            }
+          }
         },
         {
           "id": 1699958670124,
@@ -690,7 +662,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "new_or_update": {
+              "new": [
+                "g0_acti_plan_for_g2_not_avai_not_appr_not_use"
+              ]
+            }
+          }
         },
         {
           "id": 1699958822791,
@@ -720,7 +699,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "new_or_update": {
+              "new": [
+                "g0_acti_plan_for_g3_not_avai_not_appr_not_use"
+              ]
+            }
+          }
         }
       ]
     },
@@ -761,7 +747,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "new_or_update": {
+              "new": [
+                "g0_chil_adul_excr_obse_comm_area"
+              ]
+            }
+          }
         },
         {
           "id": 1702303499563,
@@ -839,7 +832,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "new_or_update": {
+              "new": [
+                "g0_used_diap_visi_comm_area"
+              ]
+            }
+          }
         },
         {
           "id": 1702303769667,
@@ -896,7 +896,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "new_or_update": {
+              "new": [
+                "g0_visi_dirt_cont"
+              ]
+            }
+          }
         },
         {
           "id": 1699960025562,
@@ -933,7 +940,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "new_or_update": {
+              "new": [
+                "g0_no_prot_wate_poin"
+              ]
+            }
+          }
         },
         {
           "id": 1699960104326,
@@ -970,7 +984,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "new_or_update": {
+              "new": [
+                "g0_stan_wate_visi_arou_wate_poin"
+              ]
+            }
+          }
         },
         {
           "id": 1702303919369,
@@ -1035,7 +1056,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "new_or_update": {
+              "new": [
+                "g0_unsa_disp_to_open_pit_open_spac_open_drai_wate_body_comm_area"
+              ]
+            }
+          }
         },
         {
           "id": 1702304803791,
@@ -1100,7 +1128,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "new_or_update": {
+              "new": [
+                "g0_sign_eros_comm_area"
+              ]
+            }
+          }
         },
         {
           "id": 1702306876033,
@@ -1158,7 +1193,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "new_or_update": {
+              "new": [
+                "g0_sign_visi_soli_wast_comm_area"
+              ]
+            }
+          }
         },
         {
           "id": 1702307100780,
@@ -1216,7 +1258,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "new_or_update": {
+              "new": [
+                "g0_sign_stan_wate_comm_area"
+              ]
+            }
+          }
         },
         {
           "id": 1699960542156,
@@ -1260,7 +1309,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "new_or_update": {
+              "new": [
+                "g0_no_trea_mana_comm_area"
+              ]
+            }
+          }
         },
         {
           "id": 1702307258403,
@@ -1381,7 +1437,9 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["scho"]
+              "options": [
+                "scho"
+              ]
             }
           ],
           "required": true,
@@ -1402,7 +1460,9 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["heal_faci"]
+              "options": [
+                "heal_faci"
+              ]
             }
           ],
           "required": true,
@@ -1423,7 +1483,9 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["tran_stat_bus_trai_airp_fuel_othe"]
+              "options": [
+                "tran_stat_bus_trai_airp_fuel_othe"
+              ]
             }
           ],
           "required": true,
@@ -1444,7 +1506,9 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["mark"]
+              "options": [
+                "mark"
+              ]
             }
           ],
           "required": true,
@@ -1465,7 +1529,9 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["publ_toil"]
+              "options": [
+                "publ_toil"
+              ]
             }
           ],
           "required": true,
@@ -1486,7 +1552,9 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["gove_offi"]
+              "options": [
+                "gove_offi"
+              ]
             }
           ],
           "required": true,
@@ -1507,7 +1575,9 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["camp_fish_mini_farm"]
+              "options": [
+                "camp_fish_mini_farm"
+              ]
             }
           ],
           "required": true,
@@ -1528,7 +1598,9 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["wors_cent_chur_cath_mosq_temp_othe"]
+              "options": [
+                "wors_cent_chur_cath_mosq_temp_othe"
+              ]
             }
           ],
           "required": true,
@@ -1549,7 +1621,9 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["buri_plac"]
+              "options": [
+                "buri_plac"
+              ]
             }
           ],
           "required": true,
@@ -1570,7 +1644,9 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["pris"]
+              "options": [
+                "pris"
+              ]
             }
           ],
           "required": true,
@@ -1591,7 +1667,9 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["priv_inst"]
+              "options": [
+                "priv_inst"
+              ]
             }
           ],
           "required": true,
@@ -1612,7 +1690,9 @@
           "dependency": [
             {
               "id": 1699960591715,
-              "options": ["othe_inst"]
+              "options": [
+                "othe_inst"
+              ]
             }
           ],
           "required": true,

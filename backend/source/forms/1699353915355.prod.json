@@ -44,170 +44,7 @@
             }
           ],
           "dependency": null,
-          "fn": null,
-          "pre": {
-            "answer": "new",
-            "fill": [
-              {
-                "id": 1699354220734,
-                "answer": ["new"]
-              },
-              {
-                "id": 1699417958748,
-                "answer": ["hh_head"]
-              },
-              {
-                "id": 1699419372643,
-                "answer": ["other_gender"]
-              },
-              {
-                "id": 1699420621840,
-                "answer": ["other_hh_not_in_atrisk_category"]
-              },
-              {
-                "id": 1699422286091,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699423357200,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699423571454,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699423696720,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699423946170,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699424375968,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699425852809,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699426059842,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 16994260598422,
-                "answer": ["no"]
-              },
-              {
-                "id": 1699427405024,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699427574765,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699427743413,
-                "answer": [
-                  "g0_no_toilet_or_no_containment_or_collection_system"
-                ]
-              },
-              {
-                "id": 1699427885744,
-                "answer": [
-                  "g0_no_toilet_or_no_containment_or_collection_system"
-                ]
-              },
-              {
-                "id": 1702282796765,
-                "answer": ["g0_high_risk_of_groundwater_contamination"]
-              },
-              {
-                "id": 1699428072669,
-                "answer": ["g0_no_toilet_practice_od"]
-              },
-              {
-                "id": 1699428351326,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699428400205,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699428535663,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699428661689,
-                "answer": ["g0_no_toilet_or_no_containmentcollection_system"]
-              },
-              {
-                "id": 1699428820338,
-                "answer": ["g0_no_toilet_or_no_containmentcollection_system"]
-              },
-              {
-                "id": 1699429162796,
-                "answer": ["g0_no_handwashing_facility"]
-              },
-              {
-                "id": 1710753585,
-                "answer": ["g0_no_handwashing_facility"]
-              },
-              {
-                "id": 1699430427692,
-                "answer": ["g0_no_handwashing_facility"]
-              },
-              {
-                "id": 1699430472221,
-                "answer": ["g0_no_handwashing_facility"]
-              },
-              {
-                "id": 1699430580239,
-                "answer": ["g0_no_handwashing_facility"]
-              },
-              {
-                "id": 1699430671868,
-                "answer": [
-                  "g0_hands_enter_the_water_container_during_collection_and_use"
-                ]
-              },
-              {
-                "id": 1699430761393,
-                "answer": ["g0_no_handwashing_facility"]
-              },
-              {
-                "id": 1699430839676,
-                "answer": ["g0_no_handwashing_facility"]
-              },
-              {
-                "id": 1699431035188,
-                "answer": ["g0_no_handwashing_facility"]
-              },
-              {
-                "id": 1699431983680,
-                "answer": ["g0_no_handwashing_facility"]
-              },
-              {
-                "id": 1699432052966,
-                "answer": ["g0_no_handwashing_facility"]
-              },
-              {
-                "id": 1699432663952,
-                "answer": ["g0_child_or_adult_excreta_observed_in_the_compound"]
-              },
-              {
-                "id": 1699432130951,
-                "answer": ["g0_soiled_potty_or_collection_tool_unsafely_washed"]
-              },
-              {
-                "id": 1699432802923,
-                "answer": ["g0_used_diapers_visible_in_the_compound"]
-              }
-            ]
-          }
+          "fn": null
         },
         {
           "id": 1699354849382,
@@ -224,7 +61,9 @@
           "dependency": [
             {
               "id": 1699354220734,
-              "options": ["new"]
+              "options": [
+                "new"
+              ]
             }
           ],
           "fn": null
@@ -243,7 +82,9 @@
           "dependency": [
             {
               "id": 1699354220734,
-              "options": ["new"]
+              "options": [
+                "new"
+              ]
             }
           ],
           "fn": null
@@ -318,7 +159,14 @@
             }
           ],
           "rule": null,
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "hh_head"
+              ]
+            }
+          }
         },
         {
           "id": 1699419048095,
@@ -415,7 +263,14 @@
             }
           ],
           "rule": null,
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "other_gender"
+              ]
+            }
+          }
         },
         {
           "id": 1699419815660,
@@ -751,7 +606,14 @@
             }
           ],
           "rule": null,
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "other_hh_not_in_atrisk_category"
+              ]
+            }
+          }
         },
         {
           "id": 1710829091,
@@ -780,56 +642,7 @@
             }
           ],
           "rule": null,
-          "fn": null,
-          "pre": {
-            "answer": "no_animals_kept_in_household_compound",
-            "fill": [
-              {
-                "id": 1699432052966,
-                "answer": ["g2_no_animals"]
-              },
-              {
-                "id": 1699433286697,
-                "answer": ["g2_no_animals_no_milking"]
-              },
-              {
-                "id": 1699433337417,
-                "answer": ["g2_no_animals_no_milking"]
-              },
-              {
-                "id": 1699433394633,
-                "answer": ["g2_no_animals_no_milking"]
-              },
-              {
-                "id": 1699433937138,
-                "answer": ["g2_no_animals"]
-              },
-              {
-                "id": 1699433983369,
-                "answer": ["g2_no_animals"]
-              },
-              {
-                "id": 1699434044707,
-                "answer": ["g2_no_animal_wastes"]
-              },
-              {
-                "id": 1699434136823,
-                "answer": ["g2_no_animal_waste_storage"]
-              },
-              {
-                "id": 1699434209933,
-                "answer": ["g2_no_animal_waste_storage"]
-              },
-              {
-                "id": 1699434269372,
-                "answer": ["g2_no_animals"]
-              },
-              {
-                "id": 1699434327613,
-                "answer": ["g2_no_animals"]
-              }
-            ]
-          }
+          "fn": null
         },
         {
           "id": 1703073469466,
@@ -862,7 +675,7 @@
           "id": 1699428072669,
           "order": 1,
           "name": "od_or_toilet_use",
-          "label": "🟢 G1-1.2a : Does your household defecate in the open, or use a toilet?",
+          "label": "\ud83d\udfe2 G1-1.2a : Does your household defecate in the open, or use a toilet?",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -900,86 +713,13 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null,
-          "pre": {
-            "answer": "g0_no_toilet_practice_od",
-            "fill": [
-              {
-                "id": 1699428400205,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699428351326,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699428535663,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699427574765,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699427885744,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699428661689,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699428820338,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699422286091,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699423357200,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699423571454,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699423696720,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699423946170,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699424375968,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699425852809,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699426059842,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699427405024,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 1699427743413,
-                "answer": ["g0_no_toilet_or_no_containment_or_collection_system"]
-              }
-            ]
-          }  
+          "fn": null
         },
         {
           "id": 1710742052,
           "order": 2,
           "name": "name_household_head_other_toilet_used",
-          "label": "🟢 G1-1.2b : Name the household head of the other household toilet used?",
+          "label": "\ud83d\udfe2 G1-1.2b : Name the household head of the other household toilet used?",
           "short_label": "Code",
           "type": "text",
           "tooltip": {
@@ -991,7 +731,9 @@
           "dependency": [
             {
               "id": 1699428072669,
-              "options": ["g1_use_other_hh_toilet"]
+              "options": [
+                "g1_use_other_hh_toilet"
+              ]
             }
           ],
           "meta_uuid": true
@@ -1000,7 +742,7 @@
           "id": 1699428400205,
           "order": 3,
           "name": "shared_toilet_use_number_of_people",
-          "label": "🟢 G1-1.2c : Do you share the toilet? How many people use the toilet?",
+          "label": "\ud83d\udfe2 G1-1.2c : Do you share the toilet? How many people use the toilet?",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1011,7 +753,11 @@
           "dependency": [
             {
               "id": 1699428072669,
-              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+              "options": [
+                "g0_do_not_use_toilet_practice_od",
+                "g1_use_own_toilet",
+                "g1_use_other_hh_toilet"
+              ]
             }
           ],
           "options": [
@@ -1051,13 +797,20 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet"
+              ]
+            }
+          }
         },
         {
           "id": 1710742384,
           "order": 4,
           "name": "households_using_toilet",
-          "label": " 🟢 G1-1.2d : How many other households use the toilet?",
+          "label": " \ud83d\udfe2 G1-1.2d : How many other households use the toilet?",
           "short_label": "Other households using toilet",
           "type": "number",
           "tooltip": {
@@ -1076,7 +829,7 @@
           "id": 1699428351326,
           "order": 5,
           "name": "all_hh_members_use_toilet",
-          "label": "🟢 G1-1.2e : Does everyone use the toilet?",
+          "label": "\ud83d\udfe2 G1-1.2e : Does everyone use the toilet?",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1087,7 +840,11 @@
           "dependency": [
             {
               "id": 1699428072669,
-              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+              "options": [
+                "g0_do_not_use_toilet_practice_od",
+                "g1_use_own_toilet",
+                "g1_use_other_hh_toilet"
+              ]
             }
           ],
           "options": [
@@ -1120,13 +877,20 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet"
+              ]
+            }
+          }
         },
         {
           "id": 1699428535663,
           "order": 6,
           "name": "toilet_use_by_all_members",
-          "label": "🟢 G2-1.1 : Individual use of toilet at all times (ask each person)",
+          "label": "\ud83d\udfe2 G2-1.1 : Individual use of toilet at all times (ask each person)",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1137,7 +901,11 @@
           "dependency": [
             {
               "id": 1699428072669,
-              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+              "options": [
+                "g0_do_not_use_toilet_practice_od",
+                "g1_use_own_toilet",
+                "g1_use_other_hh_toilet"
+              ]
             }
           ],
           "options": [
@@ -1177,13 +945,20 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet"
+              ]
+            }
+          }
         },
         {
           "id": 1699427574765,
           "order": 7,
           "name": "durable_toilet_containment_collection_system",
-          "label": "🟢 G2-1.3 : Is the toilet pit (or tank) durable?",
+          "label": "\ud83d\udfe2 G2-1.3 : Is the toilet pit (or tank) durable?",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1194,7 +969,11 @@
           "dependency": [
             {
               "id": 1699428072669,
-              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+              "options": [
+                "g0_do_not_use_toilet_practice_od",
+                "g1_use_own_toilet",
+                "g1_use_other_hh_toilet"
+              ]
             }
           ],
           "options": [
@@ -1283,13 +1062,20 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet"
+              ]
+            }
+          }
         },
         {
           "id": 1699427885744,
           "order": 8,
           "name": "visible_surface_outflows",
-          "label": "🟢 G2-1.4b : Are surface outflows from the pit ever visible?",
+          "label": "\ud83d\udfe2 G2-1.4b : Are surface outflows from the pit ever visible?",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1300,7 +1086,11 @@
           "dependency": [
             {
               "id": 1699428072669,
-              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+              "options": [
+                "g0_do_not_use_toilet_practice_od",
+                "g1_use_own_toilet",
+                "g1_use_other_hh_toilet"
+              ]
             }
           ],
           "options": [
@@ -1340,13 +1130,20 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet_or_no_containment_or_collection_system"
+              ]
+            }
+          }
         },
         {
           "id": 1699428661689,
           "order": 9,
           "name": "safely_managed_onsite_containment",
-          "label": "🟢 G3-1.1a : has the pit (or tank) ever been emptied?",
+          "label": "\ud83d\udfe2 G3-1.1a : has the pit (or tank) ever been emptied?",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1357,7 +1154,11 @@
           "dependency": [
             {
               "id": 1699428072669,
-              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+              "options": [
+                "g0_do_not_use_toilet_practice_od",
+                "g1_use_own_toilet",
+                "g1_use_other_hh_toilet"
+              ]
             }
           ],
           "options": [
@@ -1446,13 +1247,20 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet_or_no_containmentcollection_system"
+              ]
+            }
+          }
         },
         {
           "id": 1699428820338,
           "order": 10,
           "name": "safely_managed_sanitation_services",
-          "label": " 🟢 G3-1.1b : where were the pit (or tank) contents emptied to?",
+          "label": " \ud83d\udfe2 G3-1.1b : where were the pit (or tank) contents emptied to?",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1463,7 +1271,11 @@
           "dependency": [
             {
               "id": 1699428072669,
-              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+              "options": [
+                "g0_do_not_use_toilet_practice_od",
+                "g1_use_own_toilet",
+                "g1_use_other_hh_toilet"
+              ]
             }
           ],
           "options": [
@@ -1580,7 +1392,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet_or_no_containmentcollection_system"
+              ]
+            }
+          }
         }
       ]
     },
@@ -1597,7 +1416,7 @@
           "id": 1699422286091,
           "order": 1,
           "name": "hh_toilet_observed",
-          "label": "🔵 G1-1.1a : Household toilet visible?",
+          "label": "\ud83d\udd35 G1-1.1a : Household toilet visible?",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1608,7 +1427,11 @@
           "dependency": [
             {
               "id": 1699428072669,
-              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+              "options": [
+                "g0_do_not_use_toilet_practice_od",
+                "g1_use_own_toilet",
+                "g1_use_other_hh_toilet"
+              ]
             }
           ],
           "options": [
@@ -1627,7 +1450,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet"
+              ]
+            }
+          }
         },
         {
           "id": 1703066902325,
@@ -1643,7 +1473,9 @@
           "dependency": [
             {
               "id": 1699422286091,
-              "options": ["g1_toilet_observed"]
+              "options": [
+                "g1_toilet_observed"
+              ]
             }
           ],
           "fn": null
@@ -1662,7 +1494,9 @@
           "dependency": [
             {
               "id": 1699422286091,
-              "options": ["g1_toilet_observed"]
+              "options": [
+                "g1_toilet_observed"
+              ]
             }
           ],
           "fn": null
@@ -1671,7 +1505,7 @@
           "id": 1699423357200,
           "order": 4,
           "name": "functional_toilet",
-          "label": "🔵 G1-1b : Functional toilet",
+          "label": "\ud83d\udd35 G1-1b : Functional toilet",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1682,7 +1516,11 @@
           "dependency": [
             {
               "id": 1699428072669,
-              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+              "options": [
+                "g0_do_not_use_toilet_practice_od",
+                "g1_use_own_toilet",
+                "g1_use_other_hh_toilet"
+              ]
             }
           ],
           "options": [
@@ -1715,13 +1553,20 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet"
+              ]
+            }
+          }
         },
         {
           "id": 1699423571454,
           "order": 5,
           "name": "toilet_privacy",
-          "label": "🔵 G1-1c : Toilet privacy",
+          "label": "\ud83d\udd35 G1-1c : Toilet privacy",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1732,7 +1577,11 @@
           "dependency": [
             {
               "id": 1699428072669,
-              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+              "options": [
+                "g0_do_not_use_toilet_practice_od",
+                "g1_use_own_toilet",
+                "g1_use_other_hh_toilet"
+              ]
             }
           ],
           "options": [
@@ -1765,13 +1614,20 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet"
+              ]
+            }
+          }
         },
         {
           "id": 1699423696720,
           "order": 6,
           "name": "toilet_interface",
-          "label": "🔵 G1-1.3a : Type of toilet interface",
+          "label": "\ud83d\udd35 G1-1.3a : Type of toilet interface",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1847,16 +1703,27 @@
           "dependency": [
             {
               "id": 1699428072669,
-              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+              "options": [
+                "g0_do_not_use_toilet_practice_od",
+                "g1_use_own_toilet",
+                "g1_use_other_hh_toilet"
+              ]
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet"
+              ]
+            }
+          }
         },
         {
           "id": 1699423946170,
           "order": 7,
           "name": "containment_or_collection_system",
-          "label": "🔵 G1-1.3b : Type of pit, tank or connection",
+          "label": "\ud83d\udd35 G1-1.3b : Type of pit, tank or connection",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1974,10 +1841,21 @@
           "dependency": [
             {
               "id": 1699428072669,
-              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+              "options": [
+                "g0_do_not_use_toilet_practice_od",
+                "g1_use_own_toilet",
+                "g1_use_other_hh_toilet"
+              ]
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet"
+              ]
+            }
+          }
         },
         {
           "id": 1703067001886,
@@ -1993,7 +1871,10 @@
           "dependency": [
             {
               "id": 1699423946170,
-              "options": ["g1_single_latrine_pit_beside_toilet","g1_double_latrine_pit_beside_toilet"]
+              "options": [
+                "g1_single_latrine_pit_beside_toilet",
+                "g1_double_latrine_pit_beside_toilet"
+              ]
             }
           ],
           "fn": null
@@ -2002,7 +1883,7 @@
           "id": 1699424375968,
           "order": 9,
           "name": "flyproof_toilet",
-          "label": " 🔵 G1-1.3c : Is toilet flyproof?",
+          "label": " \ud83d\udd35 G1-1.3c : Is toilet flyproof?",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2099,16 +1980,27 @@
           "dependency": [
             {
               "id": 1699428072669,
-              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+              "options": [
+                "g0_do_not_use_toilet_practice_od",
+                "g1_use_own_toilet",
+                "g1_use_other_hh_toilet"
+              ]
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet"
+              ]
+            }
+          }
         },
         {
           "id": 1699425852809,
           "order": 10,
           "name": "clean_toilet_pandrophole",
-          "label": "🔵 G1-1.4a : Clean toilet floor and pan",
+          "label": "\ud83d\udd35 G1-1.4a : Clean toilet floor and pan",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2156,16 +2048,27 @@
           "dependency": [
             {
               "id": 1699428072669,
-              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+              "options": [
+                "g0_do_not_use_toilet_practice_od",
+                "g1_use_own_toilet",
+                "g1_use_other_hh_toilet"
+              ]
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet"
+              ]
+            }
+          }
         },
         {
           "id": 1699426059842,
           "order": 11,
           "name": "clean_toilet_walls",
-          "label": "🔵 G1-1.4b : Clean toilet walls",
+          "label": "\ud83d\udd35 G1-1.4b : Clean toilet walls",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2213,16 +2116,27 @@
           "dependency": [
             {
               "id": 1699428072669,
-              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+              "options": [
+                "g0_do_not_use_toilet_practice_od",
+                "g1_use_own_toilet",
+                "g1_use_other_hh_toilet"
+              ]
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet"
+              ]
+            }
+          }
         },
         {
           "id": 1699427405024,
           "order": 12,
           "name": "durable_toilet_slab",
-          "label": "🔵 G2-1.2 : Durable toilet slab",
+          "label": "\ud83d\udd35 G2-1.2 : Durable toilet slab",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2319,16 +2233,27 @@
           "dependency": [
             {
               "id": 1699428072669,
-              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+              "options": [
+                "g0_do_not_use_toilet_practice_od",
+                "g1_use_own_toilet",
+                "g1_use_other_hh_toilet"
+              ]
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet"
+              ]
+            }
+          }
         },
         {
           "id": 1699427743413,
           "order": 13,
           "name": "observe_safely_managed_containment",
-          "label": "🔵 G2-1.4a : Excreta contained in pit (or tank)",
+          "label": "\ud83d\udd35 G2-1.4a : Excreta contained in pit (or tank)",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2404,10 +2329,21 @@
           "dependency": [
             {
               "id": 1699428072669,
-              "options": ["g0_do_not_use_toilet_practice_od","g1_use_own_toilet","g1_use_other_hh_toilet"]
+              "options": [
+                "g0_do_not_use_toilet_practice_od",
+                "g1_use_own_toilet",
+                "g1_use_other_hh_toilet"
+              ]
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_toilet_or_no_containment_or_collection_system"
+              ]
+            }
+          }
         },
         {
           "id": 1702282796765,
@@ -2435,7 +2371,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_high_risk_of_groundwater_contamination"
+              ]
+            }
+          }
         }
       ]
     },
@@ -2447,7 +2390,7 @@
       "description": null,
       "repeatable": false,
       "translations": null,
-      "questions":[
+      "questions": [
         {
           "id": 1701810579091,
           "order": 1,
@@ -2669,7 +2612,7 @@
           "id": 1699429162796,
           "order": 1,
           "name": "handwashing_facility_observed",
-          "label": "🔵 🟢 G1-2.1a : presence of handwashing facility",
+          "label": "\ud83d\udd35 \ud83d\udfe2 G1-2.1a : presence of handwashing facility",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2721,52 +2664,7 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null,
-          "pre": {
-            "answer": "g0_no_handwashing_facility",
-            "fill": [
-              {
-                "id": 1699430427692,
-                "answer": ["g0_no_handwashing_facility"]
-              },
-              {
-                "id": 1710753585,
-                "answer": ["g0_no_handwashing_facility"]
-              },
-              {
-                "id": 1699430472221,
-                "answer": ["g0_no_handwashing_facility"]
-              },
-              {
-                "id": 1699430580239,
-                "answer": ["g0_no_handwashing_facility"]
-              },
-              {
-                "id": 1699430671868,
-                "answer": ["g0_no_handwashing_facility"]
-              },
-              {
-                "id": 1699430761393,
-                "answer": ["g0_no_handwashing_facility"]
-              },
-              {
-                "id": 1699430839676,
-                "answer": ["g0_no_handwashing_facility"]
-              },
-              {
-                "id": 1699431035188,
-                "answer": ["g0_no_handwashing_facility"]
-              },
-              {
-                "id": 1699431983680,
-                "answer": ["g0_no_handwashing_facility"]
-              },
-              {
-                "id": 1699432052966,
-                "answer": ["g0_no_handwashing_facility"]
-              }
-            ]
-          }
+          "fn": null
         },
         {
           "id": 1710840898,
@@ -2775,14 +2673,18 @@
           "label": "HANDWASHING PHOTO 01: view of entire facility (water container/tap, soap)",
           "short_label": "PHOTO: of handwashing facility nearest to toilet",
           "type": "photo",
-          "tooltip": "OBSERVE: is the handwashing facility functional? <b>Functional handwashing facility:</b> the facility is functioning as intended, and all handwashing features can be used (not blocked, abandoned or unable to work)<br/><b>Partly functional handwashing facility:</b> the facility is functioning, but some features of the facility are not working as intended",
+          "tooltip": {
+            "text": "OBSERVE: is the handwashing facility functional? <b>Functional handwashing facility:</b> the facility is functioning as intended, and all handwashing features can be used (not blocked, abandoned or unable to work)<br/><b>Partly functional handwashing facility:</b> the facility is functioning, but some features of the facility are not working as intended"
+          },
           "required": true,
           "meta": false,
           "options": null,
           "dependency": [
             {
               "id": 1699429162796,
-              "options": ["g1_handwashing_facility_by_toilet"]
+              "options": [
+                "g1_handwashing_facility_by_toilet"
+              ]
             }
           ],
           "fn": null
@@ -2791,7 +2693,7 @@
           "id": 1710753585,
           "order": 3,
           "name": "functional_hwf",
-          "label": "🔵 G1-2.1b : Functional handwashing facility",
+          "label": "\ud83d\udd35 G1-2.1b : Functional handwashing facility",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2829,13 +2731,20 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_handwashing_facility"
+              ]
+            }
+          }
         },
         {
           "id": 1699430427692,
           "order": 4,
           "name": "water_available_at_hwf",
-          "label": " 🔵 G1-2.2 : Water available at handwashing facility",
+          "label": " \ud83d\udd35 G1-2.2 : Water available at handwashing facility",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2876,16 +2785,29 @@
           "dependency": [
             {
               "id": 1699429162796,
-              "options": ["g1_handwashing_facility_by_toilet","g1_handwashing_facility_in_kitchen","g1_portable_handwashing_facility_basin_jug_jerrycan_container","g1_two_handwashing_facilities","g1_more_than_two_handwashing_facilities"]
+              "options": [
+                "g1_handwashing_facility_by_toilet",
+                "g1_handwashing_facility_in_kitchen",
+                "g1_portable_handwashing_facility_basin_jug_jerrycan_container",
+                "g1_two_handwashing_facilities",
+                "g1_more_than_two_handwashing_facilities"
+              ]
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_handwashing_facility"
+              ]
+            }
+          }
         },
         {
           "id": 1699430472221,
           "order": 5,
           "name": "soap_available_at_hwf",
-          "label": " 🔵 G1-2.3 : Soap available at handwashing facility",
+          "label": " \ud83d\udd35 G1-2.3 : Soap available at handwashing facility",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -2933,16 +2855,29 @@
           "dependency": [
             {
               "id": 1699429162796,
-              "options": ["g1_handwashing_facility_by_toilet","g1_handwashing_facility_in_kitchen","g1_portable_handwashing_facility_basin_jug_jerrycan_container","g1_two_handwashing_facilities","g1_more_than_two_handwashing_facilities"]
+              "options": [
+                "g1_handwashing_facility_by_toilet",
+                "g1_handwashing_facility_in_kitchen",
+                "g1_portable_handwashing_facility_basin_jug_jerrycan_container",
+                "g1_two_handwashing_facilities",
+                "g1_more_than_two_handwashing_facilities"
+              ]
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_handwashing_facility"
+              ]
+            }
+          }
         },
         {
           "id": 1699430580239,
           "order": 6,
           "name": "handwashing_facility_type",
-          "label": " 🔵 G3-2.1 : Handwashing facility type",
+          "label": " \ud83d\udd35 G3-2.1 : Handwashing facility type",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -3011,16 +2946,29 @@
           "dependency": [
             {
               "id": 1699429162796,
-              "options": ["g1_handwashing_facility_by_toilet","g1_handwashing_facility_in_kitchen","g1_portable_handwashing_facility_basin_jug_jerrycan_container","g1_two_handwashing_facilities","g1_more_than_two_handwashing_facilities"]
+              "options": [
+                "g1_handwashing_facility_by_toilet",
+                "g1_handwashing_facility_in_kitchen",
+                "g1_portable_handwashing_facility_basin_jug_jerrycan_container",
+                "g1_two_handwashing_facilities",
+                "g1_more_than_two_handwashing_facilities"
+              ]
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_handwashing_facility"
+              ]
+            }
+          }
         },
         {
           "id": 1699430671868,
           "order": 7,
           "name": "handsfree_operation_of_handwashing_facility",
-          "label": " 🔵 G3-2.2 : Hands-free handwashing facility",
+          "label": " \ud83d\udd35 G3-2.2 : Hands-free handwashing facility",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -3075,16 +3023,29 @@
           "dependency": [
             {
               "id": 1699429162796,
-              "options": ["g1_handwashing_facility_by_toilet","g1_handwashing_facility_in_kitchen","g1_portable_handwashing_facility_basin_jug_jerrycan_container","g1_two_handwashing_facilities","g1_more_than_two_handwashing_facilities"]
+              "options": [
+                "g1_handwashing_facility_by_toilet",
+                "g1_handwashing_facility_in_kitchen",
+                "g1_portable_handwashing_facility_basin_jug_jerrycan_container",
+                "g1_two_handwashing_facilities",
+                "g1_more_than_two_handwashing_facilities"
+              ]
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_hands_enter_the_water_container_during_collection_and_use"
+              ]
+            }
+          }
         },
         {
           "id": 1699430761393,
           "order": 8,
           "name": "adequate_drainage_of_washing_water",
-          "label": " 🔵 G3-2.3 : Drainage of washing water",
+          "label": " \ud83d\udd35 G3-2.3 : Drainage of washing water",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -3125,16 +3086,29 @@
           "dependency": [
             {
               "id": 1699429162796,
-              "options": ["g1_handwashing_facility_by_toilet","g1_handwashing_facility_in_kitchen","g1_portable_handwashing_facility_basin_jug_jerrycan_container","g1_two_handwashing_facilities","g1_more_than_two_handwashing_facilities"]
+              "options": [
+                "g1_handwashing_facility_by_toilet",
+                "g1_handwashing_facility_in_kitchen",
+                "g1_portable_handwashing_facility_basin_jug_jerrycan_container",
+                "g1_two_handwashing_facilities",
+                "g1_more_than_two_handwashing_facilities"
+              ]
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_handwashing_facility"
+              ]
+            }
+          }
         },
         {
           "id": 1699430839676,
           "order": 9,
           "name": "handwashing_critical_toilet_times",
-          "label": "🟢 G2-2.1 : when do you usually wash your hands? NOTE: Critical TOILET times",
+          "label": "\ud83d\udfe2 G2-2.1 : when do you usually wash your hands? NOTE: Critical TOILET times",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -3189,16 +3163,29 @@
           "dependency": [
             {
               "id": 1699429162796,
-              "options": ["g1_handwashing_facility_by_toilet","g1_handwashing_facility_in_kitchen","g1_portable_handwashing_facility_basin_jug_jerrycan_container","g1_two_handwashing_facilities","g1_more_than_two_handwashing_facilities"]
+              "options": [
+                "g1_handwashing_facility_by_toilet",
+                "g1_handwashing_facility_in_kitchen",
+                "g1_portable_handwashing_facility_basin_jug_jerrycan_container",
+                "g1_two_handwashing_facilities",
+                "g1_more_than_two_handwashing_facilities"
+              ]
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_handwashing_facility"
+              ]
+            }
+          }
         },
         {
           "id": 1699431035188,
           "order": 10,
           "name": "handwashing_critical_food_times",
-          "label": "🟢 G2-2.2 : when do you usually wash your hands? NOTE: Critical FOOD times",
+          "label": "\ud83d\udfe2 G2-2.2 : when do you usually wash your hands? NOTE: Critical FOOD times",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -3253,16 +3240,29 @@
           "dependency": [
             {
               "id": 1699429162796,
-              "options": ["g1_handwashing_facility_by_toilet","g1_handwashing_facility_in_kitchen","g1_portable_handwashing_facility_basin_jug_jerrycan_container","g1_two_handwashing_facilities","g1_more_than_two_handwashing_facilities"]
+              "options": [
+                "g1_handwashing_facility_by_toilet",
+                "g1_handwashing_facility_in_kitchen",
+                "g1_portable_handwashing_facility_basin_jug_jerrycan_container",
+                "g1_two_handwashing_facilities",
+                "g1_more_than_two_handwashing_facilities"
+              ]
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_handwashing_facility"
+              ]
+            }
+          }
         },
         {
           "id": 1699431983680,
           "order": 11,
           "name": "handwashing_critical_infant_times",
-          "label": "🟢 G2-2.3 : when do you usually wash your hands? NOTE: Critical INFANT EXCRETA times",
+          "label": "\ud83d\udfe2 G2-2.3 : when do you usually wash your hands? NOTE: Critical INFANT EXCRETA times",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -3317,16 +3317,29 @@
           "dependency": [
             {
               "id": 1699429162796,
-              "options": ["g1_handwashing_facility_by_toilet","g1_handwashing_facility_in_kitchen","g1_portable_handwashing_facility_basin_jug_jerrycan_container","g1_two_handwashing_facilities","g1_more_than_two_handwashing_facilities"]
+              "options": [
+                "g1_handwashing_facility_by_toilet",
+                "g1_handwashing_facility_in_kitchen",
+                "g1_portable_handwashing_facility_basin_jug_jerrycan_container",
+                "g1_two_handwashing_facilities",
+                "g1_more_than_two_handwashing_facilities"
+              ]
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_handwashing_facility"
+              ]
+            }
+          }
         },
         {
           "id": 1699432052966,
           "order": 12,
           "name": "handwashing_critical_animal_times",
-          "label": "🟢 G2-2.4 : when do you usually wash your hands? NOTE: Critical ANIMAL times",
+          "label": "\ud83d\udfe2 G2-2.4 : when do you usually wash your hands? NOTE: Critical ANIMAL times",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -3381,10 +3394,23 @@
           "dependency": [
             {
               "id": 1699429162796,
-              "options": ["g1_handwashing_facility_by_toilet","g1_handwashing_facility_in_kitchen","g1_portable_handwashing_facility_basin_jug_jerrycan_container","g1_two_handwashing_facilities","g1_more_than_two_handwashing_facilities"]
+              "options": [
+                "g1_handwashing_facility_by_toilet",
+                "g1_handwashing_facility_in_kitchen",
+                "g1_portable_handwashing_facility_basin_jug_jerrycan_container",
+                "g1_two_handwashing_facilities",
+                "g1_more_than_two_handwashing_facilities"
+              ]
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_no_handwashing_facility"
+              ]
+            }
+          }
         }
       ]
     },
@@ -3396,7 +3422,7 @@
       "description": null,
       "repeatable": false,
       "translations": null,
-      "questions":[
+      "questions": [
         {
           "id": 1702287053503,
           "order": 1,
@@ -3474,7 +3500,7 @@
           "id": 1699432663952,
           "order": 1,
           "name": "no_exposed_human_excreta_in_compound",
-          "label": "🔵 G1-3.1 : No exposed human excreta in compound",
+          "label": "\ud83d\udd35 G1-3.1 : No exposed human excreta in compound",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -3498,13 +3524,20 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_child_or_adult_excreta_observed_in_the_compound"
+              ]
+            }
+          }
         },
         {
           "id": 1699432130951,
           "order": 2,
           "name": "safe_management_of_child_excreta_in_compound",
-          "label": "🟢 G1-4.1 : Safe management of child excreta in compound",
+          "label": "\ud83d\udfe2 G1-4.1 : Safe management of child excreta in compound",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -3577,13 +3610,20 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_soiled_potty_or_collection_tool_unsafely_washed"
+              ]
+            }
+          }
         },
         {
           "id": 1699432802923,
           "order": 3,
           "name": "safe_management_of_diapers_in_compound",
-          "label": "🔵 🟢 G1-4.2 : Safe management of used diapers in compound",
+          "label": "\ud83d\udd35 \ud83d\udfe2 G1-4.2 : Safe management of used diapers in compound",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -3656,7 +3696,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "reg_or_update": {
+              "new": [
+                "g0_used_diapers_visible_in_the_compound"
+              ]
+            }
+          }
         },
         {
           "id": 16994260598422,
@@ -3684,108 +3731,7 @@
             }
           ],
           "dependency": null,
-          "fn": null,
-          "pre": {
-            "answer": "yes",
-            "fill": [
-              {
-                "id": 1699432887212,
-                "answer": ["g0_visible_dirt_or_contamination"]
-              },
-              {
-                "id": 1699433027913,
-                "answer": ["g0_no_storage"]
-              },
-              {
-                "id": 1699433058652,
-                "answer": ["g0_on_ground"]
-              },
-              {
-                "id": 1699433108344,
-                "answer": ["g0_visible_dirt_or_contamination"]
-              },
-              {
-                "id": 1699433162828,
-                "answer": ["g0_no_storage"]
-              },
-              {
-                "id": 1699433205793,
-                "answer": ["g0_on_ground"]
-              },
-              {
-                "id": 1699433286697,
-                "answer": ["g0_visible_dirt_or_contamination"]
-              },
-              {
-                "id": 1699433337417,
-                "answer": ["g0_no_storage"]
-              },
-              {
-                "id": 1699433394633,
-                "answer": ["g0_on_ground"]
-              },
-              {
-                "id": 1699433455365,
-                "answer": ["g0_visible_dirt_or_contamination"]
-              },
-              {
-                "id": 1699433503692,
-                "answer": ["g0_no_treatment_and_low_quality"]
-              },
-              {
-                "id": 1699433564057,
-                "answer": ["g0_unsafe_drinking_water_storage"]
-              },
-              {
-                "id": 1699433637971,
-                "answer": ["g0_unsafe_water_use"]
-              },
-              {
-                "id": 1699433719018,
-                "answer": ["g0_visible_dirt_or_contamination"]
-              },
-              {
-                "id": 1699433765217,
-                "answer": ["g0_no_protection_of_water_points"]
-              },
-              {
-                "id": 1699433833227,
-                "answer": ["g0_standing_water_visible_around_water_point"]
-              },
-              {
-                "id": 1699433937138,
-                "answer": ["g0_widespread_animal_wastes"]
-              },
-              {
-                "id": 1699433983369,
-                "answer": ["g0_widespread_animal_wastes"]
-              },
-              {
-                "id": 1699434044707,
-                "answer": ["g0_unsafe_location_of_animal_waste_storage"]
-              },
-              {
-                "id": 1699434136823,
-                "answer": ["g0_unsafe_animal_waste_storage_location"]
-              },
-              {
-                "id": 1699434209933,
-                "answer": ["g0_animal_waste_storage_is_unsafely_managed"]
-              },
-              {
-                "id": 1699434269372,
-                "answer": ["g0_no_animal_pens"]
-              },
-              {
-                "id": 1699434327613,
-                "answer": ["g0_no_animal_pens"]
-              },
-              {
-                "id": 16994260598423,
-                "answer": ["no"]
-              }
-            ]
-          }
+          "fn": null
         }
       ]
     },
@@ -3797,18 +3743,20 @@
       "description": null,
       "repeatable": false,
       "translations": null,
-      "questions":[
+      "questions": [
         {
           "id": 1699432887212,
           "order": 1,
           "name": "clean_food",
-          "label": "🔵 G2-3.1a : Clean food",
+          "label": "\ud83d\udd35 G2-3.1a : Clean food",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -3839,13 +3787,20 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_visible_dirt_or_contamination"
+              ]
+            }
+          }
         },
         {
           "id": 1699433027913,
           "order": 2,
           "name": "covered_food_storage",
-          "label": "🔵 G2-3.1b : Covered food storage",
+          "label": "\ud83d\udd35 G2-3.1b : Covered food storage",
           "short_label": null,
           "type": "option",
           "tooltip": null,
@@ -3854,7 +3809,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "options": [
@@ -3880,19 +3837,28 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_no_storage"
+              ]
+            }
+          }
         },
         {
           "id": 1699433058652,
           "order": 3,
           "name": "raised_food_storage",
-          "label": "🔵 G2-3.1c : Raised food storage",
+          "label": "\ud83d\udd35 G2-3.1c : Raised food storage",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -3923,19 +3889,28 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_on_ground"
+              ]
+            }
+          }
         },
         {
           "id": 1699433108344,
           "order": 4,
           "name": "clean_kitchen_utensils",
-          "label": "🔵 G2-3.2a : Clean kitchen utensils",
+          "label": "\ud83d\udd35 G2-3.2a : Clean kitchen utensils",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -3966,19 +3941,28 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_visible_dirt_or_contamination"
+              ]
+            }
+          }
         },
         {
           "id": 1699433162828,
           "order": 5,
           "name": "covered_utensil_storage",
-          "label": "🔵 G2-3.2b : Covered utensil storage",
+          "label": "\ud83d\udd35 G2-3.2b : Covered utensil storage",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -4009,19 +3993,28 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_no_storage"
+              ]
+            }
+          }
         },
         {
           "id": 1699433205793,
           "order": 6,
           "name": "raised_utensil_storage",
-          "label": "🔵 G2-3.2c : Raised utensil storage",
+          "label": "\ud83d\udd35 G2-3.2c : Raised utensil storage",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -4052,23 +4045,34 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_on_ground"
+              ]
+            }
+          }
         },
         {
           "id": 1699433286697,
           "order": 7,
           "name": "clean_milk_containers",
-          "label": "🔵 G2-3.3a : Clean milk containers",
+          "label": "\ud83d\udd35 G2-3.3a : Clean milk containers",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             },
             {
               "id": 1710829091,
-              "options": ["yes_animals_kept_in_household_compound"]
+              "options": [
+                "yes_animals_kept_in_household_compound"
+              ]
             }
           ],
           "tooltip": {
@@ -4106,23 +4110,34 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "animals_kept_in_household_compund": {
+              "no_animals_kept_in_household_compound": [
+                "g2_no_animals_no_milking"
+              ]
+            }
+          }
         },
         {
           "id": 1699433337417,
           "order": 8,
           "name": "covered_container_storage",
-          "label": "🔵 G2-3.3b : Covered milk container storage",
+          "label": "\ud83d\udd35 G2-3.3b : Covered milk container storage",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             },
             {
               "id": 1710829091,
-              "options": ["yes_animals_kept_in_household_compound"]
+              "options": [
+                "yes_animals_kept_in_household_compound"
+              ]
             }
           ],
           "tooltip": {
@@ -4160,23 +4175,34 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "animals_kept_in_household_compund": {
+              "no_animals_kept_in_household_compound": [
+                "g2_no_animals_no_milking"
+              ]
+            }
+          }
         },
         {
           "id": 1699433394633,
           "order": 9,
           "name": "raised_container_storage",
-          "label": "🔵 G2-3.3c : Raised milk container storage",
+          "label": "\ud83d\udd35 G2-3.3c : Raised milk container storage",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             },
             {
               "id": 1710829091,
-              "options": ["yes_animals_kept_in_household_compound"]
+              "options": [
+                "yes_animals_kept_in_household_compound"
+              ]
             }
           ],
           "tooltip": {
@@ -4214,7 +4240,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "animals_kept_in_household_compund": {
+              "no_animals_kept_in_household_compound": [
+                "g2_no_animals_no_milking"
+              ]
+            }
+          }
         }
       ]
     },
@@ -4226,18 +4259,20 @@
       "description": null,
       "repeatable": false,
       "translations": null,
-      "questions":[
+      "questions": [
         {
           "id": 1699433455365,
           "order": 1,
           "name": "clean_water_containers",
-          "label": "🔵 G2-4.1a : Clean water containers",
+          "label": "\ud83d\udd35 G2-4.1a : Clean water containers",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -4268,19 +4303,28 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_visible_dirt_or_contamination"
+              ]
+            }
+          }
         },
         {
           "id": 1699433503692,
           "order": 2,
           "name": "adequate_water_quality",
-          "label": "🟢 G2-4.1b : Good water quality",
+          "label": "\ud83d\udfe2 G2-4.1b : Good water quality",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -4318,19 +4362,28 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_no_treatment_and_low_quality"
+              ]
+            }
+          }
         },
         {
           "id": 1699433564057,
           "order": 3,
           "name": "safely_stored_drinking_water",
-          "label": "🔵 G2-4.1c : Safely stored drinking water",
+          "label": "\ud83d\udd35 G2-4.1c : Safely stored drinking water",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -4361,19 +4414,28 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_unsafe_drinking_water_storage"
+              ]
+            }
+          }
         },
         {
           "id": 1699433637971,
           "order": 4,
           "name": "safely_used_water",
-          "label": "🔵 G2-4.1d : Safely used water",
+          "label": "\ud83d\udd35 G2-4.1d : Safely used water",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -4418,19 +4480,28 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_unsafe_water_use"
+              ]
+            }
+          }
         },
         {
           "id": 1699433719018,
           "order": 5,
           "name": "clean_water_points",
-          "label": "🔵 G2-4.2a : Clean water point",
+          "label": "\ud83d\udd35 G2-4.2a : Clean water point",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -4468,19 +4539,28 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_visible_dirt_or_contamination"
+              ]
+            }
+          }
         },
         {
           "id": 1699433765217,
           "order": 6,
           "name": "protected_water_points",
-          "label": "🔵 G2-4.2b : Protected water point",
+          "label": "\ud83d\udd35 G2-4.2b : Protected water point",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -4518,19 +4598,28 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_no_protection_of_water_points"
+              ]
+            }
+          }
         },
         {
           "id": 1699433833227,
           "order": 7,
           "name": "well_drained_water_points",
-          "label": "🔵 G2-4.2c : Well drained water point",
+          "label": "\ud83d\udd35 G2-4.2c : Well drained water point",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -4568,7 +4657,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G2": {
+              "yes": [
+                "g0_standing_water_visible_around_water_point"
+              ]
+            }
+          }
         }
       ]
     },
@@ -4580,22 +4676,26 @@
       "description": null,
       "repeatable": false,
       "translations": null,
-      "questions":[
+      "questions": [
         {
           "id": 1699433937138,
           "order": 1,
           "name": "no_animal_wastes_in_house",
-          "label": "🔵 G2-5.1a: No animal wastes in house",
+          "label": "\ud83d\udd35 G2-5.1a: No animal wastes in house",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             },
             {
               "id": 1710829091,
-              "options": ["yes_animals_kept_in_household_compound"]
+              "options": [
+                "yes_animals_kept_in_household_compound"
+              ]
             }
           ],
           "tooltip": {
@@ -4633,23 +4733,34 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "animals_kept_in_household_compund": {
+              "no_animals_kept_in_household_compound": [
+                "g2_no_animals"
+              ]
+            }
+          }
         },
         {
           "id": 1699433983369,
           "order": 2,
           "name": "no_animal_wastes_in_compound",
-          "label": "🔵 G2-5.1b : No animal wastes in compound",
+          "label": "\ud83d\udd35 G2-5.1b : No animal wastes in compound",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             },
             {
               "id": 1710829091,
-              "options": ["yes_animals_kept_in_household_compound"]
+              "options": [
+                "yes_animals_kept_in_household_compound"
+              ]
             }
           ],
           "tooltip": {
@@ -4687,23 +4798,34 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "animals_kept_in_household_compund": {
+              "no_animals_kept_in_household_compound": [
+                "g2_no_animals"
+              ]
+            }
+          }
         },
         {
           "id": 1699434044707,
           "order": 3,
           "name": "safely_managed_animal_waste_storage",
-          "label": "🔵 G2-5.2a : Presence of animal waste storage area",
+          "label": "\ud83d\udd35 G2-5.2a : Presence of animal waste storage area",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             },
             {
               "id": 1710829091,
-              "options": ["yes_animals_kept_in_household_compound"]
+              "options": [
+                "yes_animals_kept_in_household_compound"
+              ]
             }
           ],
           "tooltip": {
@@ -4741,23 +4863,34 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "animals_kept_in_household_compund": {
+              "no_animals_kept_in_household_compound": [
+                "g2_no_animal_wastes"
+              ]
+            }
+          }
         },
         {
           "id": 1699434136823,
           "order": 4,
           "name": "safe_location_of_animal_waste_storage",
-          "label": "🔵 G2-5.2b : Safe location of animal waste storage",
+          "label": "\ud83d\udd35 G2-5.2b : Safe location of animal waste storage",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             },
             {
               "id": 1710829091,
-              "options": ["yes_animals_kept_in_household_compound"]
+              "options": [
+                "yes_animals_kept_in_household_compound"
+              ]
             }
           ],
           "tooltip": {
@@ -4795,23 +4928,34 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "animals_kept_in_household_compund": {
+              "no_animals_kept_in_household_compound": [
+                "g2_no_animal_waste_storage"
+              ]
+            }
+          }
         },
         {
           "id": 1699434209933,
           "order": 5,
           "name": "safe_management_of_animal_waste_storage",
-          "label": "🔵 G2-5.2c : Safe management of animal waste storage",
+          "label": "\ud83d\udd35 G2-5.2c : Safe management of animal waste storage",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             },
             {
               "id": 1710829091,
-              "options": ["yes_animals_kept_in_household_compound"]
+              "options": [
+                "yes_animals_kept_in_household_compound"
+              ]
             }
           ],
           "tooltip": {
@@ -4849,23 +4993,34 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "animals_kept_in_household_compund": {
+              "no_animals_kept_in_household_compound": [
+                "g2_no_animal_waste_storage"
+              ]
+            }
+          }
         },
         {
           "id": 1699434269372,
           "order": 6,
           "name": "location_animals_in_compound",
-          "label": "🔵 G2-5.3a : Location of animals in compound",
+          "label": "\ud83d\udd35 G2-5.3a : Location of animals in compound",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             },
             {
               "id": 1710829091,
-              "options": ["yes_animals_kept_in_household_compound"]
+              "options": [
+                "yes_animals_kept_in_household_compound"
+              ]
             }
           ],
           "tooltip": {
@@ -4903,23 +5058,34 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "animals_kept_in_household_compund": {
+              "no_animals_kept_in_household_compound": [
+                "g2_no_animals"
+              ]
+            }
+          }
         },
         {
           "id": 1699434327613,
           "order": 7,
           "name": "safe_confinement_of_animals",
-          "label": "🔵 G2-5.3b : Safe confinement of animals",
+          "label": "\ud83d\udd35 G2-5.3b : Safe confinement of animals",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             },
             {
               "id": 1710829091,
-              "options": ["yes_animals_kept_in_household_compound"]
+              "options": [
+                "yes_animals_kept_in_household_compound"
+              ]
             }
           ],
           "tooltip": {
@@ -4957,7 +5123,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "animals_kept_in_household_compund": {
+              "no_animals_kept_in_household_compound": [
+                "g2_no_animals"
+              ]
+            }
+          }
         },
         {
           "id": 16994260598423,
@@ -4971,7 +5144,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "options": [
@@ -4990,80 +5165,7 @@
               "color": ""
             }
           ],
-          "fn": null,
-          "pre": {
-            "answer": "yes",
-            "fill": [
-              {
-                "id": 1699434438966,
-                "answer": ["g0_visible_wastewater"]
-              },
-              {
-                "id": 1699434488410,
-                "answer": ["g0_significant_erosion"]
-              },
-              {
-                "id": 1699434553677,
-                "answer": ["g0_significant_visible_solid_wastes"]
-              },
-              {
-                "id": 1699434636655,
-                "answer": ["g0_no_solid_waste_management"]
-              },
-              {
-                "id": 1699434771449,
-                "answer": ["g0_significant_visible_solid_wastes"]
-              },
-              {
-                "id": 1699434939105,
-                "answer": ["g1_all_with_dirty_faces"]
-              },
-              {
-                "id": 1699434983278,
-                "answer": ["g1_all_with_dirty_hands"]
-              },
-              {
-                "id": 1699435026311,
-                "answer": ["g1_no_washing_place"]
-              },
-              {
-                "id": 1699435088758,
-                "answer": ["g1_no_disposal_site"]
-              },
-              {
-                "id": 1699435154797,
-                "answer": ["g1_materials_are_not_available_or_not_appropriate"]
-              },
-              {
-                "id": 1699435207476,
-                "answer": ["g1_no_children_vaccinated"]
-              },
-              {
-                "id": 1699435265962,
-                "answer": ["g1_no_children_received_supplements"]
-              },
-              {
-                "id": 1699435329279,
-                "answer": [
-                  "g1_under_6month_children_regularly_receive_water_or_other_food"
-                ]
-              },
-              {
-                "id": 1699435397728,
-                "answer": [
-                  "g1_low_nutrition_diet_some_or_all_children_eat_from_only_12_food_groups"
-                ]
-              },
-              {
-                "id": 1699435455818,
-                "answer": ["g1_no_protection_no_bed_nets_and_no_insect_screen"]
-              },
-              {
-                "id": 1699435526190,
-                "answer": ["g1_no_deworming_no_children_or_adults_treated"]
-              }
-            ]
-          }
+          "fn": null
         }
       ]
     },
@@ -5075,18 +5177,20 @@
       "description": null,
       "repeatable": false,
       "translations": null,
-      "questions":[
+      "questions": [
         {
           "id": 1699434438966,
           "order": 1,
           "name": "soakpit_for_liquid_wastes",
-          "label": "🔵 G3-3.1a : Soakpit for liquid wastes",
+          "label": "\ud83d\udd35 G3-3.1a : Soakpit for liquid wastes",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -5117,19 +5221,28 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g0_visible_wastewater"
+              ]
+            }
+          }
         },
         {
           "id": 1699434488410,
           "order": 2,
           "name": "drainage_for_stormwater",
-          "label": "🔵 G3-3.1b : Drainage of stormwater",
+          "label": "\ud83d\udd35 G3-3.1b : Drainage of stormwater",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -5167,19 +5280,28 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g0_significant_erosion"
+              ]
+            }
+          }
         },
         {
           "id": 1699434553677,
           "order": 3,
           "name": "no_visible_solid_wastes",
-          "label": "🔵 G3-3.2a : No visible solid wastes",
+          "label": "\ud83d\udd35 G3-3.2a : No visible solid wastes",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -5210,19 +5332,28 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g0_significant_visible_solid_wastes"
+              ]
+            }
+          }
         },
         {
           "id": 1699434636655,
           "order": 4,
           "name": "solid_waste_facility_or_service",
-          "label": "🔵 G3-3.2b : Solid waste facility or service",
+          "label": "\ud83d\udd35 G3-3.2b : Solid waste facility or service",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -5253,18 +5384,27 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g0_no_solid_waste_management"
+              ]
+            }
+          }
         },
         {
           "id": 1699434771449,
           "order": 5,
           "name": "good_vector_control",
-          "label": "🔵 🟢 G3-3.3 : Good vector control",
+          "label": "\ud83d\udd35 \ud83d\udfe2 G3-3.3 : Good vector control",
           "short_label": null,
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "type": "option",
@@ -5303,9 +5443,16 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g0_significant_visible_solid_wastes"
+              ]
+            }
+          }
         }
-    ]
+      ]
     },
     {
       "id": 1711022512,
@@ -5315,17 +5462,19 @@
       "description": null,
       "repeatable": false,
       "translations": null,
-      "questions":[
+      "questions": [
         {
           "id": 1699434939105,
           "order": 1,
           "name": "clean_faces",
-          "label": "🔵 G3-4.1a : Clean faces",
+          "label": "\ud83d\udd35 G3-4.1a : Clean faces",
           "short_label": null,
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "type": "option",
@@ -5357,18 +5506,27 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g1_all_with_dirty_faces"
+              ]
+            }
+          }
         },
         {
           "id": 1699434983278,
           "order": 2,
           "name": "clean_hands",
-          "label": "🔵 G3-4.1b : Clean hands",
+          "label": "\ud83d\udd35 G3-4.1b : Clean hands",
           "short_label": null,
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "type": "option",
@@ -5400,19 +5558,28 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g1_all_with_dirty_hands"
+              ]
+            }
+          }
         },
         {
           "id": 1699435026311,
           "order": 3,
           "name": "adequate_washing_place",
-          "label": "🔵 G3-4.2a : Adequate washing place for menstrual hygiene",
+          "label": "\ud83d\udd35 G3-4.2a : Adequate washing place for menstrual hygiene",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -5450,18 +5617,27 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g1_no_washing_place"
+              ]
+            }
+          }
         },
         {
           "id": 1699435088758,
           "order": 4,
           "name": "menstrual_hygiene_disposal_site",
-          "label": "🔵 G3-4.2b : Safe disposal site for menstrual hygiene wastes",
+          "label": "\ud83d\udd35 G3-4.2b : Safe disposal site for menstrual hygiene wastes",
           "short_label": null,
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "type": "option",
@@ -5500,18 +5676,27 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g1_no_disposal_site"
+              ]
+            }
+          }
         },
         {
           "id": 1699435154797,
           "order": 5,
           "name": "availability_of_hygiene_materials",
-          "label": "🔵 G3-4.2c : Availability of menstrual hygiene materials",
+          "label": "\ud83d\udd35 G3-4.2c : Availability of menstrual hygiene materials",
           "short_label": null,
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "type": "option",
@@ -5550,7 +5735,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g1_materials_are_not_available_or_not_appropriate"
+              ]
+            }
+          }
         }
       ]
     },
@@ -5562,18 +5754,20 @@
       "description": null,
       "repeatable": false,
       "translations": null,
-      "questions":[
+      "questions": [
         {
           "id": 1699435207476,
           "order": 1,
           "name": "fully_immunized_children",
-          "label": "🔵 🟢 G3-5.1 : Fully immunized children",
+          "label": "\ud83d\udd35 \ud83d\udfe2 G3-5.1 : Fully immunized children",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -5611,18 +5805,27 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g1_no_children_vaccinated"
+              ]
+            }
+          }
         },
         {
           "id": 1699435265962,
           "order": 2,
           "name": "vitamin_a_supplements_received",
-          "label": "🔵 🟢 G3-5.2 : Vitamin A supplements received",
+          "label": "\ud83d\udd35 \ud83d\udfe2 G3-5.2 : Vitamin A supplements received",
           "short_label": null,
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "type": "option",
@@ -5661,19 +5864,28 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g1_no_children_received_supplements"
+              ]
+            }
+          }
         },
         {
           "id": 1699435329279,
           "order": 3,
           "name": "exclusive_breastfeeding_under_6_months",
-          "label": "🔵 G3-5.3 : Exclusive breastfeeding for under 6-month children",
+          "label": "\ud83d\udd35 G3-5.3 : Exclusive breastfeeding for under 6-month children",
           "short_label": null,
           "type": "option",
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "tooltip": {
@@ -5711,18 +5923,27 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g1_under_6month_children_regularly_receive_water_or_other_food"
+              ]
+            }
+          }
         },
         {
           "id": 1699435397728,
           "order": 4,
           "name": "nutritious_diet_6m_2y",
-          "label": "🔵 G3-5.4 : Nutritious diet for 6-month to 2-year old children",
+          "label": "\ud83d\udd35 G3-5.4 : Nutritious diet for 6-month to 2-year old children",
           "short_label": null,
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "type": "option",
@@ -5761,18 +5982,27 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g1_low_nutrition_diet_some_or_all_children_eat_from_only_12_food_groups"
+              ]
+            }
+          }
         },
         {
           "id": 1699435455818,
           "order": 5,
           "name": "malariasafe_home",
-          "label": "🔵 G3-E1 : Malaria-safe home",
+          "label": "\ud83d\udd35 G3-E1 : Malaria-safe home",
           "short_label": null,
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "type": "option",
@@ -5811,18 +6041,27 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g1_no_protection_no_bed_nets_and_no_insect_screen"
+              ]
+            }
+          }
         },
         {
           "id": 1699435526190,
           "order": 6,
           "name": "dewormed_home",
-          "label": "🔵 G3-E2 : Dewormed home",
+          "label": "\ud83d\udd35 G3-E2 : Dewormed home",
           "short_label": null,
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "type": "option",
@@ -5861,7 +6100,14 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "monitor_G3": {
+              "yes": [
+                "g1_no_deworming_no_children_or_adults_treated"
+              ]
+            }
+          }
         }
       ]
     },
@@ -5873,7 +6119,7 @@
       "description": null,
       "repeatable": false,
       "translations": null,
-      "questions":[
+      "questions": [
         {
           "id": 1702289546185,
           "order": 1,
@@ -5929,7 +6175,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -5956,7 +6204,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -5983,7 +6233,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -6010,7 +6262,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -6037,7 +6291,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -6064,7 +6320,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -6091,7 +6349,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -6118,7 +6378,9 @@
           "dependency": [
             {
               "id": 16994260598422,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -6145,7 +6407,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -6172,7 +6436,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -6181,7 +6447,7 @@
               "G2 Inadequate management of solid wastes": "#93D371",
               "G3 Safe management of solid wastes": "#4088F4"
             },
-            "fnString": "#no_visible_solid_wastes#.includes(\"g0\") && #solid_waste_facility_or_service#.includes(\"g0\") ? \"G1 Solid wastes UNSAFELY managed\" : ((#no_visible_solid_wastes#.includes(\"g3\") && #solid_waste_facility_or_service#.includes(\"g3\") ? \"G3 Safe management of solid wastes\" : \"G2 Inadequate management of solid wastes\"",
+            "fnString": "#no_visible_solid_wastes#.includes(\"g0\") && #solid_waste_facility_or_service#.includes(\"g0\") ? \"G1 Solid wastes UNSAFELY managed\" : #no_visible_solid_wastes#.includes(\"g3\") && #solid_waste_facility_or_service#.includes(\"g3\") ? \"G3 Safe management of solid wastes\" : \"G2 Inadequate management of solid wastes\"",
             "multiline": false
           }
         },
@@ -6199,7 +6465,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -6226,7 +6494,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -6253,7 +6523,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -6280,7 +6552,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -6307,7 +6581,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -6334,7 +6610,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -6361,7 +6639,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -6388,7 +6668,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
@@ -6415,7 +6697,9 @@
           "dependency": [
             {
               "id": 16994260598423,
-              "options": ["yes"]
+              "options": [
+                "yes"
+              ]
             }
           ],
           "fn": {
