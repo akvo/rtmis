@@ -1,12 +1,15 @@
 .. raw:: html
 
     <style>
+      .bolditalic {font-style: italic; font-weight: 700;}
       .heading {font-size: 34px; font-weight: 700;}
     </style>
 
 .. role:: heading
 
 :heading:`Data Management`
+
+.. role:: bolditalic
 
 Data Protection Act
 --------------------
@@ -36,7 +39,13 @@ During phase 2 of RUSH RTMIS implementation, data collection will be done at eve
 Deleting data
 --------------
 
-From the Manage Data section of the control centre, expand the toggle button next to a data point to delete it.
+1. From the Data menu of the sidebar, click on the :bolditalic:`Manage Data` submenu.
+
+.. image:: ../assests/image51.png
+    :alt: Deleting Data
+    :width: 100%
+
+2. Expand the toggle button next to a data point to delete it.
 
 .. image:: ../assests/image43.png
     :alt: Deleting Data
@@ -44,12 +53,9 @@ From the Manage Data section of the control centre, expand the toggle button nex
 
 Downloading data
 -----------------
+1. Select the questionnaire and click on :bolditalic:`Download Data` button
 
 .. image:: ../assests/image11.png
-    :alt: Downloading Data
-    :width: 100%
-
-.. image:: ../assests/image41.png
     :alt: Downloading Data
     :width: 100%
 
