@@ -434,7 +434,7 @@
           "rule": null,
           "fn": {
             "fnColor": {},
-            "fnString": "#budget_required_sanitation_hygiene# > 0 ? #budget_allocation_sanitation_hygiene# / #budget_required_sanitation_hygiene# * 100 : 0",
+            "fnString": "#budget_required_sanitation_hygiene# > 0 && #budget_allocation_sanitation_hygiene# <= #budget_required_sanitation_hygiene# ? #budget_allocation_sanitation_hygiene# / #budget_required_sanitation_hygiene# * 100 : 0",
             "multiline": false
           },
           "options": []
@@ -442,7 +442,7 @@
         {
           "id": 1709698888801,
           "label": "Budget utilised for sanitation and hygiene in last financial year",
-          "name": "budget_utilization_sanitation_hygiene",
+          "name": "budget_util_sanitation_hygiene",
           "order": 4,
           "questionGroupId": 1709698674762,
           "type": "number",
@@ -466,7 +466,7 @@
           "rule": null,
           "fn": {
             "fnColor": {},
-            "fnString": "#budget_required_sanitation_hygiene# > 0 ? #budget_utilization_sanitation_hygiene# / #budget_required_sanitation_hygiene# * 100 : 0",
+            "fnString": "#budget_required_sanitation_hygiene# > 0 && #budget_util_sanitation_hygiene# <= #budget_required_sanitation_hygiene# ? #budget_util_sanitation_hygiene# / #budget_required_sanitation_hygiene# * 100 : 0",
             "multiline": false
           },
           "options": []
@@ -492,13 +492,13 @@
           "name": "funding_gap_percentage",
           "order": 7,
           "questionGroupId": 1709698674762,
-          "type": "number",
+          "type": "autofield",
           "required": true,
           "meta": false,
           "rule": null,
           "fn": {
             "fnColor": {},
-            "fnString": "#budget_required_sanitation_hygiene# > 0 ? #funding_gap_sanitation_hygiene# / #budget_required_sanitation_hygiene# * 100 : 0",
+            "fnString": "#budget_required_sanitation_hygiene# > 0 && #funding_gap_sanitation_hygiene# <= #budget_required_sanitation_hygiene# ? #funding_gap_sanitation_hygiene# / #budget_required_sanitation_hygiene# * 100 : 0",
             "multiline": false
           },
           "options": []
@@ -548,12 +548,14 @@
           "name": "num_g0_communities_percentage",
           "order": 3,
           "questionGroupId": 1709698946090,
-          "type": "number",
+          "type": "autofield",
           "required": true,
           "meta": false,
-          "rule": {
-            "min": 0,
-            "max": 100
+          "rule": null,
+          "fn": {
+            "fnColor": {},
+            "fnString": "#num_g0_communities# > 0 && #num_g0_communities_supported# <= #num_g0_communities# ? #num_g0_communities_supported# / #num_g0_communities# * 100 : 0",
+            "multiline": false
           },
           "options": []
         },
@@ -591,12 +593,14 @@
           "name": "num_g1_communities_percentage",
           "order": 6,
           "questionGroupId": 1709698946090,
-          "type": "number",
+          "type": "autofield",
           "required": true,
           "meta": false,
-          "rule": {
-            "min": 0,
-            "max": 100
+          "rule": null,
+          "fn": {
+            "fnColor": {},
+            "fnString": "#num_g1_communities# > 0 && #num_g1_communities_supported# <= #num_g1_communities# ? #num_g1_communities_supported# / #num_g1_communities# * 100 : 0",
+            "multiline": false
           },
           "options": []
         },
@@ -634,12 +638,14 @@
           "name": "num_g2_communities_percentage",
           "order": 9,
           "questionGroupId": 1709698946090,
-          "type": "number",
+          "type": "autofield",
           "required": true,
           "meta": false,
-          "rule": {
-            "min": 0,
-            "max": 100
+          "rule": null,
+          "fn": {
+            "fnColor": {},
+            "fnString": "#num_g2_communities# > 0 && #num_g2_communities_supported# <= #num_g2_communities# ? #num_g2_communities_supported# / #num_g2_communities# * 100 : 0",
+            "multiline": false
           },
           "options": []
         }
