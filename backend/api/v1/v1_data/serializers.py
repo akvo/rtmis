@@ -311,7 +311,8 @@ class ListFormDataSerializer(serializers.ModelSerializer):
             "updated_by",
             "created",
             "updated",
-            "pending_data"
+            "pending_data",
+            "submission_type"
         ]
 
 

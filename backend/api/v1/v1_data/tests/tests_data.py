@@ -33,6 +33,7 @@ class DataTestCase(TestCase):
         self.assertEqual(list(result['data'][0]), [
             'id', 'uuid', 'name', 'form', 'administration', 'geo',
             'created_by', 'updated_by', 'created', 'updated', 'pending_data',
+            'submission_type'
         ])
         self.assertIsNotNone(result['data'][0]['uuid'])
 
