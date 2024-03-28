@@ -23,10 +23,7 @@ import {
 } from '../pages';
 import { UIState, AuthState, FormState } from '../store';
 import { backgroundTask, notification } from '../lib';
-import {
-  SYNC_FORM_SUBMISSION_TASK_NAME,
-  SYNC_FORM_VERSION_TASK_NAME,
-} from '../lib/background-task';
+import { SYNC_FORM_SUBMISSION_TASK_NAME, SYNC_FORM_VERSION_TASK_NAME } from '../lib/constants';
 
 const Stack = createNativeStackNavigator();
 
