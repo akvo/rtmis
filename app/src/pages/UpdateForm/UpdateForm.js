@@ -95,6 +95,7 @@ const UpdateForm = ({ navigation, route }) => {
   return (
     <BaseLayout
       title={total ? `${route?.params?.name} (${total})` : route?.params?.name}
+      subTitle={route.params?.submission_type?.toUpperCase()}
       rightComponent={false}
       search={{
         show: true,
