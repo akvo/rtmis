@@ -5,6 +5,7 @@ import api from '../api';
 import backgroundTask from '../background-task';
 import notification from '../notification';
 import { crudForms, crudUsers, crudDataPoints } from '../../database/crud';
+import { SUBMISSION_TYPES } from '../constants';
 
 jest.mock('../api');
 jest.mock('../../database/crud');
@@ -88,6 +89,7 @@ describe('backgroundTask', () => {
             },
           ],
         }),
+        submission_type: SUBMISSION_TYPES.registration,
       },
     ];
     beforeAll(() => {
@@ -142,6 +144,7 @@ describe('backgroundTask', () => {
           name: 'Data point 1 name',
           submittedAt: '2023-07-28T07:53:40.210Z',
           submitter: 'John Doe',
+          submission_type: SUBMISSION_TYPES.registration,
         });
         expect(crudDataPoints.updateDataPoint).not.toHaveBeenCalled();
         expect(notification.sendPushNotification).not.toHaveBeenCalledWith();
@@ -179,6 +182,7 @@ describe('backgroundTask', () => {
           name: 'Data point 1 name',
           submittedAt: '2023-07-28T07:53:40.210Z',
           submitter: 'John Doe',
+          submission_type: SUBMISSION_TYPES.registration,
         });
         expect(crudDataPoints.updateDataPoint).toHaveBeenCalled();
         expect(notification.sendPushNotification).toHaveBeenCalledWith('sync-form-submission');

@@ -32,13 +32,10 @@ const UpdateForm = ({ navigation, route }) => {
       s.prevAdmAnswer = prevAdmAnswer;
     });
     navigation.navigate('FormPage', {
-      formId: route?.params.formId,
-      id: route?.params.id,
-      name: route?.params.name,
+      ...route.params,
       showSubmitted: false,
       newSubmission: true,
       isMonitoring: true,
-      submission_type: 'monitoring',
     });
   };
 
@@ -98,6 +95,7 @@ const UpdateForm = ({ navigation, route }) => {
   return (
     <BaseLayout
       title={total ? `${route?.params?.name} (${total})` : route?.params?.name}
+      subTitle={route.params?.submission_type?.toUpperCase()}
       rightComponent={false}
       search={{
         show: true,

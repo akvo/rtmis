@@ -15,6 +15,7 @@ import UploadDetail from "./UploadDetail";
 import BatchDetail from "./BatchDetail";
 import { DataFilters } from "../../components";
 import { isEmpty, union, xor } from "lodash";
+import { SubmissionTypeIcon } from "../../components/Icons";
 
 const { TextArea } = Input;
 
@@ -75,7 +76,8 @@ const Submissions = () => {
       render: (name, row) => (
         <Row align="middle" gutter={16}>
           <Col>
-            <FileTextFilled
+            <SubmissionTypeIcon
+              type={row.submission_type}
               style={{ color: "#666666", fontSize: 28, paddingRight: "1rem" }}
             />
           </Col>

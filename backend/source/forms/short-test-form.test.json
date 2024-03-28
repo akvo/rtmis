@@ -14,7 +14,7 @@
       "I approve this data for submission"
     ]
   },
-  "submission_types": ["registration", "monitoring"],
+  "submission_types": ["registration", "monitoring", "verification", "certification"],
   "question_groups": [
     {
       "id": 16993539153821,

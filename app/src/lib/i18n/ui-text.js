@@ -110,6 +110,8 @@ const uiText = {
     autoSyncInProgress: 'Auto sync is in progress',
     connectToInternet: 'Connect to the internet to sync',
     loadMore: 'Load more',
+    manageVerification: 'Verification form',
+    manageCertification: 'Certification form',
   },
   fr: {
     latitude: 'Latitude',
@@ -213,6 +215,8 @@ const uiText = {
     doneText: 'Fait!',
     autoSyncInProgress: 'La synchronisation automatique est en cours',
     loadMore: 'Charger plus',
+    manageVerification: 'Formulaire de vérification',
+    manageCertification: "Formulaire d'attestation",
   },
 };
 

@@ -87,6 +87,7 @@ const FormPage = ({ navigation, route }) => {
         submitted: 0,
         duration: surveyDuration,
         json: currentValues || {},
+        submissionType: route.params.submission_type,
       };
       const dbCall = isNewSubmission
         ? crudDataPoints.saveDataPoint
