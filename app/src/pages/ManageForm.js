@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { View } from 'react-native';
 import { ListItem } from '@rneui/themed';
@@ -7,12 +7,20 @@ import { BaseLayout } from '../components';
 import { UIState, FormState } from '../store';
 import { i18n } from '../lib';
 import { getCurrentTimestamp } from '../form/lib';
+import { SUBMISSION_TYPES } from '../lib/constants';
 
 const ManageForm = ({ navigation, route }) => {
-  const draftCount = FormState.useState((s) => s.form?.draft);
-  const submittedCount = FormState.useState((s) => s.form?.submitted);
+  const activeForm = FormState.useState((s) => s.form);
   const activeLang = UIState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
+  const subTypesAvailable = useMemo(() => {
+    try {
+      const form = JSON.parse(activeForm.json.replace(/''/g, "'"));
+      return form?.submission_types;
+    } catch {
+      return [];
+    }
+  }, [activeForm]);
 
   const goToNewForm = () => {
     FormState.update((s) => {
@@ -26,41 +34,17 @@ const ManageForm = ({ navigation, route }) => {
     });
   };
 
-  const goToUpdateForm = () => {
+  const goToUpdateForm = (submissionType) => {
     FormState.update((s) => {
       s.surveyStart = getCurrentTimestamp();
     });
-    navigation.navigate('UpdateForm', { ...route?.params, monitoring: true, newSubmission: true });
+    navigation.navigate('UpdateForm', {
+      ...route?.params,
+      newSubmission: true,
+      submission_type: submissionType,
+    });
   };
 
-  const items = [
-    {
-      id: 1,
-      text: trans.manageNewBlank,
-      icon: 'clipboard-outline',
-      goTo: goToNewForm,
-    },
-    // /* TODO: Enable this when we have a way to update a form
-    {
-      id: 2,
-      text: trans.manageUpdate,
-      icon: 'clipboard-edit-outline',
-      goTo: goToUpdateForm,
-    },
-    // */
-    {
-      id: 3,
-      text: `${trans.manageEditSavedForm} (${draftCount})`,
-      icon: 'folder-open',
-      goTo: () => navigation.navigate('FormData', { ...route?.params, showSubmitted: false }),
-    },
-    {
-      id: 4,
-      text: `${trans.manageViewSubmitted} (${submittedCount})`,
-      icon: 'eye',
-      goTo: () => navigation.navigate('FormData', { ...route?.params, showSubmitted: true }),
-    },
-  ];
   return (
     <BaseLayout title={route?.params?.name} rightComponent={false}>
       <BaseLayout.Content>
@@ -71,15 +55,68 @@ const ManageForm = ({ navigation, route }) => {
             paddingHorizontal: 16,
           }}
         >
-          {items.map((i, ix) => (
-            <ListItem key={i.id} onPress={() => i.goTo()} testID={`goto-item-${ix}`}>
-              <Icon name={i.icon} color="grey" size={18} />
+          {subTypesAvailable.includes(SUBMISSION_TYPES.registration) && (
+            <ListItem key={1} onPress={goToNewForm} testID="goto-item-1">
+              <Icon name="clipboard-outline" color="grey" size={18} />
               <ListItem.Content>
-                <ListItem.Title>{i.text}</ListItem.Title>
+                <ListItem.Title>{trans.manageNewBlank}</ListItem.Title>
               </ListItem.Content>
               <ListItem.Chevron />
             </ListItem>
-          ))}
+          )}
+          {subTypesAvailable.includes(SUBMISSION_TYPES.monitoring) && (
+            <ListItem key={2} onPress={() => goToUpdateForm('monitoring')} testID="goto-item-2">
+              <Icon name="clipboard-edit-outline" color="grey" size={18} />
+              <ListItem.Content>
+                <ListItem.Title>{trans.manageUpdate}</ListItem.Title>
+              </ListItem.Content>
+              <ListItem.Chevron />
+            </ListItem>
+          )}
+          {subTypesAvailable.includes(SUBMISSION_TYPES.verification) && (
+            <ListItem key={5} onPress={() => goToUpdateForm('verification')} testID="goto-item-5">
+              <Icon name="clipboard-check" color="grey" size={18} />
+              <ListItem.Content>
+                <ListItem.Title>{trans.manageVerification}</ListItem.Title>
+              </ListItem.Content>
+              <ListItem.Chevron />
+            </ListItem>
+          )}
+          {subTypesAvailable.includes(SUBMISSION_TYPES.certification) && (
+            <ListItem key={6} onPress={() => goToUpdateForm('certification')} testID="goto-item-6">
+              <Icon name="ribbon" color="grey" size={18} />
+              <ListItem.Content>
+                <ListItem.Title>{trans.manageCertification}</ListItem.Title>
+              </ListItem.Content>
+              <ListItem.Chevron />
+            </ListItem>
+          )}
+          <ListItem
+            key={3}
+            onPress={() =>
+              navigation.navigate('FormData', { ...route?.params, showSubmitted: false })
+            }
+            testID="goto-item-3"
+          >
+            <Icon name="folder-open" color="grey" size={18} />
+            <ListItem.Content>
+              <ListItem.Title>{`${trans.manageEditSavedForm} (${activeForm?.draft})`}</ListItem.Title>
+            </ListItem.Content>
+            <ListItem.Chevron />
+          </ListItem>
+          <ListItem
+            key={4}
+            onPress={() =>
+              navigation.navigate('FormData', { ...route?.params, showSubmitted: true })
+            }
+            testID="goto-item-4"
+          >
+            <Icon name="eye" color="grey" size={18} />
+            <ListItem.Content>
+              <ListItem.Title>{`${trans.manageViewSubmitted} (${activeForm?.submitted})`}</ListItem.Title>
+            </ListItem.Content>
+            <ListItem.Chevron />
+          </ListItem>
         </View>
       </BaseLayout.Content>
     </BaseLayout>
