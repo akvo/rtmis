@@ -194,6 +194,7 @@ describe('FormDataPage', () => {
         duration: 145,
         syncedAt: null,
         submitted: 0,
+        submission_type: 'registration',
       },
     ];
     crudDataPoints.selectDataPointsByFormAndSubmitted.mockResolvedValue(mockData);
