@@ -32,13 +32,10 @@ const UpdateForm = ({ navigation, route }) => {
       s.prevAdmAnswer = prevAdmAnswer;
     });
     navigation.navigate('FormPage', {
-      formId: route?.params.formId,
-      id: route?.params.id,
-      name: route?.params.name,
+      ...route.params,
       showSubmitted: false,
       newSubmission: true,
       isMonitoring: true,
-      submission_type: 'monitoring',
     });
   };
 
