@@ -6,9 +6,9 @@ import crudJobs, {
   MAX_ATTEMPT,
   SYNC_DATAPOINT_JOB_NAME,
 } from '../database/crud/crud-jobs';
-import { SYNC_FORM_SUBMISSION_TASK_NAME, syncStatus } from '../lib/background-task';
 import { crudDataPoints } from '../database/crud';
 import { downloadDatapointsJson, fetchDatapoints } from '../lib/sync-datapoints';
+import { SYNC_FORM_SUBMISSION_TASK_NAME, SYNC_STATUS } from '../lib/constants';
 /**
  * This sync only works in the foreground service
  */
@@ -44,7 +44,7 @@ const SyncService = () => {
         if (pendingToSync) {
           UIState.update((s) => {
             s.statusBar = {
-              type: syncStatus.RE_SYNC,
+              type: SYNC_STATUS.re_sync,
               bgColor: '#d97706',
               icon: 'repeat',
             };
@@ -56,7 +56,7 @@ const SyncService = () => {
         } else {
           UIState.update((s) => {
             s.statusBar = {
-              type: syncStatus.SUCCESS,
+              type: SYNC_STATUS.success,
               bgColor: '#16a34a',
               icon: 'checkmark-done',
             };
@@ -72,7 +72,7 @@ const SyncService = () => {
     ) {
       UIState.update((s) => {
         s.statusBar = {
-          type: syncStatus.ON_PROGRESS,
+          type: SYNC_STATUS.on_progress,
           bgColor: '#2563eb',
           icon: 'sync',
         };
@@ -114,7 +114,11 @@ const SyncService = () => {
 
       try {
         const allData = await fetchDatapoints();
-        const urls = allData.map(({ url, form_id: formId, last_updated: lastUpdated }) => ({ url, formId, lastUpdated }));
+        const urls = allData.map(({ url, form_id: formId, last_updated: lastUpdated }) => ({
+          url,
+          formId,
+          lastUpdated,
+        }));
         await Promise.all(urls.map((u) => downloadDatapointsJson(u)));
         await crudJobs.deleteJob(activeJob.id);
 

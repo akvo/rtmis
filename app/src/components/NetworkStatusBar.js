@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { UIState } from '../store';
 import { i18n } from '../lib';
-import { syncStatus } from '../lib/background-task';
+import { SYNC_STATUS } from '../lib/constants';
 
 const TIMEOUT_DISMISS = 3000; // 3second
 
@@ -25,7 +25,7 @@ const NetworkStatusBar = () => {
     /**
      * Check only for final result
      */
-    if (statusBar?.type === syncStatus.SUCCESS) {
+    if (statusBar?.type === SYNC_STATUS.success) {
       setTimeout(() => {
         UIState.update((s) => {
           s.statusBar = null;

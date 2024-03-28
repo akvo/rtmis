@@ -20,7 +20,7 @@ import { UserState, UIState, FormState } from '../store';
 import { generateDataPointName, getDurationInMinutes } from '../form/lib';
 import { i18n } from '../lib';
 import crudJobs, { jobStatus } from '../database/crud/crud-jobs';
-import { SYNC_FORM_SUBMISSION_TASK_NAME } from '../lib/background-task';
+import { SYNC_FORM_SUBMISSION_TASK_NAME } from '../lib/constants';
 
 const FormPage = ({ navigation, route }) => {
   const selectedForm = FormState.useState((s) => s.form);
@@ -149,6 +149,7 @@ const FormPage = ({ navigation, route }) => {
         submitted: 1,
         duration: surveyDuration,
         json: answers,
+        submissionType: route.params.submission_type,
       };
       const dbCall = isNewSubmission
         ? crudDataPoints.saveDataPoint

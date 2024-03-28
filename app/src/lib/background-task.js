@@ -7,12 +7,12 @@ import { crudForms, crudDataPoints, crudUsers, crudConfig } from '../database/cr
 import notification from './notification';
 import crudJobs, { jobStatus, MAX_ATTEMPT } from '../database/crud/crud-jobs';
 import { UIState } from '../store';
-
-export const syncStatus = {
-  ON_PROGRESS: 1,
-  RE_SYNC: 2,
-  SUCCESS: 3,
-};
+import {
+  SUBMISSION_TYPES,
+  SYNC_FORM_SUBMISSION_TASK_NAME,
+  SYNC_FORM_VERSION_TASK_NAME,
+  SYNC_STATUS,
+} from './constants';
 
 const syncFormVersion = async ({
   showNotificationOnly = true,
@@ -176,6 +176,7 @@ const syncFormSubmission = async (activeJob = {}) => {
         submitter: session.name,
         geo,
         answers: answerValues,
+        submission_type: SUBMISSION_TYPES?.[d.submission_type],
       };
       console.info('[syncFormSubmision] SyncData:', syncData);
       // sync data point
@@ -202,7 +203,7 @@ const syncFormSubmission = async (activeJob = {}) => {
       // TODO: rename isManualSynced w/ isSynced to refresh the Homepage stats
       s.isManualSynced = true;
       s.statusBar = {
-        type: syncStatus.SUCCESS,
+        type: SYNC_STATUS.success,
         bgColor: '#16a34a',
         icon: 'checkmark-done',
       };
@@ -238,10 +239,6 @@ const backgroundTaskHandler = () => ({
 });
 
 const backgroundTask = backgroundTaskHandler();
-
-export const SYNC_FORM_VERSION_TASK_NAME = 'sync-form-version';
-
-export const SYNC_FORM_SUBMISSION_TASK_NAME = 'sync-form-submission';
 
 export const defineSyncFormVersionTask = () =>
   TaskManager.defineTask(SYNC_FORM_VERSION_TASK_NAME, async () => {

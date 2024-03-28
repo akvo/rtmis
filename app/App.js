@@ -14,12 +14,9 @@ import { UIState, AuthState, UserState, BuildParamsState } from './src/store';
 import { crudUsers, crudConfig, crudDataPoints } from './src/database/crud';
 import { api } from './src/lib';
 import { NetworkStatusBar, SyncService } from './src/components';
-import backgroundTask, {
-  SYNC_FORM_SUBMISSION_TASK_NAME,
-  SYNC_FORM_VERSION_TASK_NAME,
-  defineSyncFormVersionTask,
-} from './src/lib/background-task';
+import backgroundTask, { defineSyncFormVersionTask } from './src/lib/background-task';
 import crudJobs, { jobStatus, MAX_ATTEMPT } from './src/database/crud/crud-jobs';
+import { SYNC_FORM_SUBMISSION_TASK_NAME, SYNC_FORM_VERSION_TASK_NAME } from './src/lib/constants';
 
 export const setNotificationHandler = () =>
   Notifications.setNotificationHandler({

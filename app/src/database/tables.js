@@ -53,6 +53,7 @@ const tables = [
       submittedAt: 'DATETIME',
       syncedAt: 'DATETIME',
       json: 'TEXT',
+      submission_type: 'VARCHAR(191)',
     },
   },
   {
