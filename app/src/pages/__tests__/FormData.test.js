@@ -209,6 +209,7 @@ describe('FormDataPage', () => {
       ...mockRoute.params,
       dataPointId: 1,
       newSubmission: false,
+      submission_type: 'registration',
     });
   });
 
