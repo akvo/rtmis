@@ -96,6 +96,11 @@ const MobileAssignment = () => {
       width: 500,
     },
     {
+      title: "Created by",
+      dataIndex: "created_by",
+      key: "created_by",
+    },
+    {
       title: "Action",
       dataIndex: "id",
       key: "id",
