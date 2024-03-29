@@ -16,7 +16,7 @@ from rtmis.settings import (
 )
 from django.http import HttpResponse
 from django.utils import timezone
-from django.db.models import Max, Q
+from django.db.models import Max, Q, Prefetch
 
 from rest_framework import status, serializers
 from rest_framework.response import Response
@@ -42,7 +42,7 @@ from .serializers import (
 )
 from .models import MobileAssignment, MobileApk
 from api.v1.v1_forms.models import Forms, Questions, QuestionTypes
-from api.v1.v1_profile.models import Access, Administration
+from api.v1.v1_profile.models import Access
 from api.v1.v1_data.models import FormData
 from api.v1.v1_forms.serializers import WebFormDetailSerializer
 from api.v1.v1_forms.constants import SubmissionTypes
@@ -359,17 +359,24 @@ class MobileAssignmentViewSet(ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        parents = Administration.objects.filter(
-            Q(pk=user.user_access.administration.id) |
-            Q(parent=user.user_access.administration)
-        ).values('id')
-        return MobileAssignment.objects\
+        adm_path = user.user_access.administration.path
+        adm_path += f"{user.user_access.administration.id}"
+        forms_queryset = Forms.objects.filter(
+            pk__in=user.user_form.values('form_id')
+        )
+        mobile_users = MobileAssignment.objects\
+            .prefetch_related(
+                'administrations',
+                Prefetch('forms', queryset=forms_queryset)
+            )\
+            .filter(user=user)
+        mobile_users |= MobileAssignment.objects\
             .prefetch_related('administrations', 'forms')\
             .filter(
-                Q(user=user) |
-                Q(user__user_access__administration__parent__in=parents)
-            ) \
-            .order_by('id')
+                administrations__path__startswith=adm_path,
+                forms__id__in=user.user_form.values('form_id')
+            )
+        return mobile_users.order_by('-id').distinct()
 
 
 @extend_schema(
@@ -414,7 +421,6 @@ def get_datapoint_download_list(request, version):
         form_id__in=forms,
         pk__in=latest_ids_per_uuid,
     )
-    print("assignment.last_synced_at ", assignment.last_synced_at)
     if assignment.last_synced_at:
         queryset = queryset.filter(
             Q(created__gte=assignment.last_synced_at) |
