@@ -176,7 +176,7 @@ const syncFormSubmission = async (activeJob = {}) => {
         submitter: session.name,
         geo,
         answers: answerValues,
-        submission_type: SUBMISSION_TYPES?.[d.submission_type],
+        submission_type: SUBMISSION_TYPES?.[d.submission_type] || SUBMISSION_TYPES.registration,
       };
       console.info('[syncFormSubmision] SyncData:', syncData);
       // sync data point

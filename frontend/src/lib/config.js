@@ -905,6 +905,12 @@ const config = {
     ],
     optionTypes: ["option", "multiple_option", "aggregate"],
   },
+  submissionType: {
+    registration: 1,
+    monitoring: 2,
+    verification: 3,
+    certification: 4,
+  },
 };
 
 export default config;

@@ -16,8 +16,6 @@ import {
   DownCircleOutlined,
   LoadingOutlined,
   HistoryOutlined,
-  FileSyncOutlined,
-  FileTextOutlined,
 } from "@ant-design/icons";
 import { api, store, config, uiText } from "../../lib";
 import { EditableCell } from "../../components";
@@ -25,6 +23,7 @@ import { isEqual, flatten } from "lodash";
 import { useNotification } from "../../util/hooks";
 import { HistoryTable } from "../../components";
 import { getTimeDifferenceText } from "../../util/date";
+import { SubmissionTypeIcon } from "../../components/Icons";
 const { TextArea } = Input;
 const { TabPane } = Tabs;
 
@@ -47,7 +46,7 @@ const columnsRawData = [
         <div>
           {name}
           <span className="monitoring-icon">
-            {row.is_monitoring ? <FileSyncOutlined /> : <FileTextOutlined />}
+            <SubmissionTypeIcon type={row?.submission_type} />
           </span>
         </div>
       );
