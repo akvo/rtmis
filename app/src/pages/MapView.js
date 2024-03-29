@@ -31,7 +31,7 @@ const MapView = ({ navigation, route }) => {
     navigation.navigate('FormPage', {
       id: selectedForm?.id,
       name: selectedForm?.name,
-      newSubmission: route?.params?.newSubmission,
+      ...route?.params,
     });
   };
 

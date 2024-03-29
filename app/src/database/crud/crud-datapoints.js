@@ -19,7 +19,11 @@ const dataPointsQuery = () => ({
   selectDataPointsByFormAndSubmitted: async ({ form, submitted, user }) => {
     const columns = user ? { form, submitted, user } : { form, submitted };
     const params = user ? [form, submitted, user] : [form, submitted];
-    const { rows } = await conn.tx(db, query.read('datapoints', { ...columns }), [...params]);
+    const { rows } = await conn.tx(
+      db,
+      query.read('datapoints', { ...columns }, true, 'syncedAt', 'DESC'),
+      [...params],
+    );
     if (!rows.length) {
       return [];
     }
