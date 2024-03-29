@@ -1,6 +1,7 @@
 from django.utils import timezone
 from api.v1.v1_data.models import FormData, Answers, \
     PendingAnswers, AnswerHistory
+from api.v1.v1_forms.constants import SubmissionTypes
 
 
 def seed_approved_data(data):
@@ -19,7 +20,7 @@ def seed_approved_data(data):
         form_data.geo = data.geo
         form_data.updated_by = data.created_by
         form_data.updated = timezone.now()
-        form_data.save_to_file
+        form_data.submission_type = data.submission_type
         form_data.save()
 
         for answer in data.pending_data_answer.all():
@@ -43,6 +44,7 @@ def seed_approved_data(data):
             geo=data.geo,
             created_by=data.created_by,
             created=data.created,
+            submission_type=data.submission_type,
         )
         data.data = form_data
         data.approved = True
@@ -59,4 +61,8 @@ def seed_approved_data(data):
             created_by=answer.created_by,
         )
 
-    form_data.save_to_file
+    if form_data.submission_type in [
+        SubmissionTypes.registration,
+        SubmissionTypes.monitoring
+    ]:
+        form_data.save_to_file
