@@ -146,7 +146,10 @@ class MobileAssignmentTestCase(TestCase, ProfileTestHelperMixin):
 
         self.assertEqual(response.status_code, 200)
         data = response.json()
-        self.assertEqual([it['id'] for it in data['forms']], [form2.id])
+        self.assertEqual(
+            [it['id'] for it in data['forms']],
+            [form2.id, form1.id]
+        )
         self.assertEqual(
                 [it['id'] for it in data['administrations']],
                 [adm2.id, adm3.id])
