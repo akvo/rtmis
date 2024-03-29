@@ -42,7 +42,7 @@ from .serializers import (
 )
 from .models import MobileAssignment, MobileApk
 from api.v1.v1_forms.models import Forms, Questions, QuestionTypes
-from api.v1.v1_profile.models import Access
+from api.v1.v1_profile.models import Access, Administration
 from api.v1.v1_data.models import FormData
 from api.v1.v1_forms.serializers import WebFormDetailSerializer
 from api.v1.v1_forms.constants import SubmissionTypes
@@ -359,9 +359,16 @@ class MobileAssignmentViewSet(ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
+        parents = Administration.objects.filter(
+            Q(pk=user.user_access.administration.id) |
+            Q(parent=user.user_access.administration)
+        ).values('id')
         return MobileAssignment.objects\
             .prefetch_related('administrations', 'forms')\
-            .filter(user=user)\
+            .filter(
+                Q(user=user) |
+                Q(user__user_access__administration__parent__in=parents)
+            ) \
             .order_by('id')
 
 
