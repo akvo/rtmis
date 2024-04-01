@@ -182,9 +182,7 @@ class FormCertificationAssignmentViewSet(ModelViewSet):
         return FormCertificationAssignmentSerializer
 
     def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+        return super().list(request, *args, **kwargs)
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
