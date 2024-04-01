@@ -6,8 +6,14 @@ from drf_spectacular.utils import extend_schema_field, inline_serializer
 from rest_framework import serializers
 
 from api.v1.v1_forms.constants import QuestionTypes, AttributeTypes, FormTypes
-from api.v1.v1_forms.models import Forms, QuestionGroup, Questions, \
-    QuestionOptions, QuestionAttribute
+from api.v1.v1_forms.models import (
+    Forms,
+    QuestionGroup,
+    Questions,
+    QuestionOptions,
+    QuestionAttribute,
+    FormCertificationAssignment
+)
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration, Entity
 from api.v1.v1_users.models import SystemUser
@@ -405,3 +411,20 @@ class FormApproverResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Administration
         fields = ['user', 'administration']
+
+
+class FormCertificationAssignmentRequestSerializer(
+        serializers.ModelSerializer):
+    administrations = serializers.PrimaryKeyRelatedField(
+        queryset=Administration.objects.all(), many=True
+    )
+
+    class Meta:
+        model = FormCertificationAssignment
+        fields = ['id', 'assignee', 'administrations']
+
+
+class FormCertificationAssignmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FormCertificationAssignment
+        fields = ['id', 'assignee', 'administrations', 'updated']
