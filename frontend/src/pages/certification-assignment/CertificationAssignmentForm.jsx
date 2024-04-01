@@ -152,16 +152,14 @@ const CertificationAssignmentForm = () => {
 
   const fetchCounties = useCallback(async () => {
     try {
-      const { data: apiData } = await api.get("/administrations?parent=1");
+      const { data: apiData } = await api.get("/administrations/1");
       /**
        * Filter by level name = County
        */
-      const countyOptions = apiData?.data
-        ?.filter((d) => d?.level?.name === "County")
-        ?.map((d) => ({
-          label: d?.name,
-          value: d?.id,
-        }));
+      const countyOptions = apiData?.children?.map((d) => ({
+        label: d?.name,
+        value: d?.id,
+      }));
       setCounties(countyOptions);
     } catch {
       setCounties([]);
