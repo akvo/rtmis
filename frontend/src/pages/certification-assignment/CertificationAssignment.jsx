@@ -6,6 +6,7 @@ import {
   LeftCircleOutlined,
 } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
+import moment from "moment";
 import {
   AdministrationDropdown,
   Breadcrumbs,
@@ -65,9 +66,13 @@ const CertificationAssignment = () => {
       },
     },
     {
-      title: "Updated at",
+      title: "Last updated",
       dataIndex: "updated",
       key: "updated",
+      render: (record) =>
+        record
+          ? moment(record, "DD-MM-YYYY hh:mm:ss").format("MMMM Do YYYY hh:mm a")
+          : "-",
     },
     {
       title: "Action",
