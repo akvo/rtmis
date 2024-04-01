@@ -133,13 +133,19 @@ class MobileAssignmentSerializer(serializers.ModelSerializer):
     administrations = IdAndNameRelatedField(
         queryset=Administration.objects.all(), many=True
     )
+    certifications = IdAndNameRelatedField(
+        queryset=Administration.objects.all(),
+        many=True,
+        required=False
+    )
     passcode = serializers.SerializerMethodField()
     created_by = serializers.ReadOnlyField(source='user.email')
 
     class Meta:
         model = MobileAssignment
         fields = [
-            "id", "name", "passcode", "forms", "administrations", "created_by"
+            "id", "name", "passcode", "forms", "administrations",
+            "created_by", "certifications"
         ]
         read_only_fields = ["passcode"]
 
