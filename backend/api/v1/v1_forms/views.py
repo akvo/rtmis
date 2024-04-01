@@ -10,16 +10,28 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from api.v1.v1_forms.constants import FormTypes
-from api.v1.v1_forms.models import Forms, \
-    FormApprovalAssignment
-from api.v1.v1_forms.serializers import ListFormSerializer, \
-    WebFormDetailSerializer, FormDataSerializer, ListFormRequestSerializer, \
-    FormApproverRequestSerializer, \
-    FormApproverResponseSerializer
+from api.v1.v1_forms.models import (
+    Forms,
+    FormApprovalAssignment,
+    FormCertificationAssignment,
+)
+from api.v1.v1_forms.serializers import (
+    ListFormSerializer,
+    WebFormDetailSerializer,
+    FormDataSerializer,
+    ListFormRequestSerializer,
+    FormApproverRequestSerializer,
+    FormApproverResponseSerializer,
+    FormCertificationAssignmentSerializer,
+    FormCertificationAssignmentRequestSerializer,
+)
+from django.db.models import Q
+from rest_framework.viewsets import ModelViewSet
 from api.v1.v1_profile.models import Administration
 from api.v1.v1_data.functions import get_cache, create_cache
 from utils.custom_permissions import IsSuperAdmin, IsAdmin
 from utils.custom_serializer_fields import validate_serializers_message
+from utils.custom_pagination import Pagination
 
 
 @extend_schema(responses={200: ListFormSerializer(many=True)},
@@ -139,3 +151,60 @@ def check_form_approver(request, form_id, version):
         form=form, administration_id__in=adm_ids).count()
     return Response({'count': approver},
                     status=status.HTTP_200_OK)
+
+
+@extend_schema(tags=['Certification Assignment'])
+class FormCertificationAssignmentViewSet(ModelViewSet):
+    serializer_class = FormCertificationAssignmentSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = Pagination
+
+    def get_queryset(self):
+        allowed_path = self.request.user.user_access.administration.path
+        user_administration_id = self.request\
+                                     .user.user_access.administration_id
+        if self.request.user.is_superuser:
+            queryset = FormCertificationAssignment\
+                .objects.all()\
+                .order_by('-id')
+        else:
+            queryset = FormCertificationAssignment.objects\
+                .prefetch_related('administrations')\
+                .filter(
+                    Q(administrations__path__startswith=allowed_path) |
+                    Q(administrations__id=user_administration_id)
+                ).order_by('-id')
+        return queryset
+
+    def get_serializer_class(self):
+        if self.action in ['create', 'update']:
+            return FormCertificationAssignmentRequestSerializer
+        return FormCertificationAssignmentSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
