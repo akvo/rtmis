@@ -16,7 +16,7 @@ from rtmis.settings import (
 )
 from django.http import HttpResponse
 from django.utils import timezone
-from django.db.models import Max, Q
+from django.db.models import Max, Q, OuterRef, Exists
 
 from rest_framework import status, serializers
 from rest_framework.response import Response
@@ -41,7 +41,7 @@ from .serializers import (
     MobileDataPointDownloadListSerializer
 )
 from .models import MobileAssignment, MobileApk
-from api.v1.v1_forms.models import Forms, Questions, QuestionTypes
+from api.v1.v1_forms.models import Forms, Questions, QuestionTypes, UserForms
 from api.v1.v1_profile.models import Access
 from api.v1.v1_data.models import FormData
 from api.v1.v1_forms.serializers import WebFormDetailSerializer
@@ -359,10 +359,35 @@ class MobileAssignmentViewSet(ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        return MobileAssignment.objects\
+        adm_path = user.user_access.administration.path
+        adm_path += f"{user.user_access.administration.id}"
+        mobile_users = MobileAssignment.objects\
             .prefetch_related('administrations', 'forms')\
-            .filter(user=user)\
-            .order_by('id')
+            .filter(user=user)
+
+        user_form_subquery = UserForms.objects.filter(
+            user=user,
+            form_id=OuterRef('forms__pk'),
+        ).values('form_id')
+
+        exclude_ids = MobileAssignment.objects\
+            .filter(
+                administrations__path__startswith=adm_path
+            )\
+            .annotate(
+                has_matching_user_form=Exists(user_form_subquery)
+            ) \
+            .filter(
+                has_matching_user_form=False
+            ).distinct()
+
+        mobile_users |= MobileAssignment.objects\
+            .prefetch_related('administrations', 'forms')\
+            .filter(
+                administrations__path__startswith=adm_path,
+            )\
+            .exclude(pk__in=exclude_ids)
+        return mobile_users.order_by('-id').distinct()
 
 
 @extend_schema(
@@ -407,7 +432,6 @@ def get_datapoint_download_list(request, version):
         form_id__in=forms,
         pk__in=latest_ids_per_uuid,
     )
-    print("assignment.last_synced_at ", assignment.last_synced_at)
     if assignment.last_synced_at:
         queryset = queryset.filter(
             Q(created__gte=assignment.last_synced_at) |

@@ -134,10 +134,13 @@ class MobileAssignmentSerializer(serializers.ModelSerializer):
         queryset=Administration.objects.all(), many=True
     )
     passcode = serializers.SerializerMethodField()
+    created_by = serializers.ReadOnlyField(source='user.email')
 
     class Meta:
         model = MobileAssignment
-        fields = ["id", "name", "passcode", "forms", "administrations"]
+        fields = [
+            "id", "name", "passcode", "forms", "administrations", "created_by"
+        ]
         read_only_fields = ["passcode"]
 
     def create(self, validated_data: Dict[str, Any]):
