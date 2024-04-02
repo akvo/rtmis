@@ -103,6 +103,7 @@ const AddAssignment = () => {
             ...data,
             administrations: data.administrations.map((a) => a?.id),
             forms: data.forms.map((f) => f?.id),
+            certifications: data?.certifications?.map((c) => c?.id),
           });
         })
         .catch((error) => {
@@ -158,6 +159,7 @@ const AddAssignment = () => {
         name: values.name,
         administrations: selectedAdministrations,
         forms: values.forms,
+        certifications: values?.certifications || [],
       };
       if (id) {
         await api.put(`/mobile-assignments/${id}`, payload);
@@ -338,6 +340,20 @@ const AddAssignment = () => {
                     allowMultiple
                     isSelectAllVillage={true}
                     selectedAdministrations={selectedAdministrations}
+                  />
+                </Form.Item>
+              </div>
+            )}
+            {authUser?.certification && (
+              <div className="form-row">
+                <Form.Item name="certifications" label={text.certificationList}>
+                  <Select
+                    getPopupContainer={(trigger) => trigger.parentNode}
+                    placeholder={text.selectCertification}
+                    fieldNames={{ value: "id", label: "full_name" }}
+                    options={authUser?.certification}
+                    mode="multiple"
+                    allowClear
                   />
                 </Form.Item>
               </div>

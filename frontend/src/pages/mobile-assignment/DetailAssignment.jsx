@@ -48,6 +48,13 @@ const DetailAssignment = ({ record }) => {
                 ),
               },
               {
+                key: "certifications",
+                field: "Certifications",
+                value: (
+                  <>{record.certifications.map((a) => a.name).join(" | ")}</>
+                ),
+              },
+              {
                 key: "forms",
                 field: "Forms",
                 value: <>{record.forms.map((f) => f.name).join(" | ")}</>,
