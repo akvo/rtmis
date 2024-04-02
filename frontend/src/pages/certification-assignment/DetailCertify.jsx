@@ -6,7 +6,7 @@ const DetailCertify = ({ record }) => {
     {
       title: "#",
       dataIndex: "id",
-      key: "index",
+      key: "id",
       render: (_row, _record, index) => index + 1,
       width: 50,
     },
@@ -24,6 +24,7 @@ const DetailCertify = ({ record }) => {
           className="table-child"
           dataSource={record?.administrations}
           pagination={false}
+          rowKey="id"
         />
       </Col>
     </Row>
