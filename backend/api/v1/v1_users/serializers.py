@@ -14,6 +14,7 @@ from api.v1.v1_profile.models import Administration, Access, Levels
 from api.v1.v1_users.models import SystemUser, \
         Organisation, OrganisationAttribute
 from api.v1.v1_mobile.models import MobileAssignment
+from api.v1.v1_forms.models import FormCertificationAssignment
 from utils.custom_serializer_fields import CustomEmailField, CustomCharField, \
     CustomPrimaryKeyRelatedField, CustomChoiceField, CustomBooleanField, \
     CustomMultipleChoiceField
@@ -453,6 +454,7 @@ class UserSerializer(serializers.ModelSerializer):
     forms = serializers.SerializerMethodField()
     last_login = serializers.SerializerMethodField()
     passcode = serializers.SerializerMethodField()
+    certification = serializers.SerializerMethodField()
 
     @extend_schema_field(UserAdministrationSerializer)
     def get_administration(self, instance: SystemUser):
@@ -494,12 +496,23 @@ class UserSerializer(serializers.ModelSerializer):
             return passcode
         return None
 
+    @extend_schema_field(UserAdministrationSerializer(many=True))
+    def get_certification(self, instance: SystemUser):
+        certify = FormCertificationAssignment.objects\
+            .filter(assignee=instance.user_access.administration).first()
+        if certify:
+            return UserAdministrationSerializer(
+                instance=certify.administrations,
+                many=True
+            ).data
+        return None
+
     class Meta:
         model = SystemUser
         fields = [
             'email', 'name', 'administration', 'trained', 'role',
             'phone_number', 'designation', 'forms', 'organisation',
-            'last_login', 'passcode'
+            'last_login', 'passcode', 'certification'
         ]
 
 
