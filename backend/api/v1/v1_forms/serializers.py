@@ -16,6 +16,7 @@ from api.v1.v1_forms.models import (
 )
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration, Entity
+from api.v1.v1_profile.serializers import RelatedAdministrationField
 from api.v1.v1_users.models import SystemUser
 from rtmis.settings import FORM_GEO_VALUE
 from utils.custom_serializer_fields import CustomChoiceField, \
@@ -425,6 +426,18 @@ class FormCertificationAssignmentRequestSerializer(
 
 
 class FormCertificationAssignmentSerializer(serializers.ModelSerializer):
+    county_id = serializers.SerializerMethodField()
+    assignee = RelatedAdministrationField(
+        queryset=Administration.objects.all()
+    )
+    administrations = RelatedAdministrationField(
+        queryset=Administration.objects.all(), many=True
+    )
+
+    @extend_schema_field(OpenApiTypes.INT)
+    def get_county_id(self, instance: FormCertificationAssignment):
+        return instance.assignee.parent.pk
+
     class Meta:
         model = FormCertificationAssignment
-        fields = ['id', 'assignee', 'administrations', 'updated']
+        fields = ['id', 'assignee', 'administrations', 'updated', 'county_id']

@@ -47,6 +47,10 @@ const Sidebar = () => {
         url: "/control-center/master-data/organisations",
       },
     ],
+    certification: {
+      label: "Certification Assignment'",
+      url: "/control-center/certification",
+    },
   };
 
   const controlCenterToLabelMapping = {
@@ -57,7 +61,7 @@ const Sidebar = () => {
     "manage-user": {
       label: "Users",
       icon: UserOutlined,
-      childrenKeys: ["user", "approvers", "mobile"],
+      childrenKeys: ["user", "approvers", "mobile", "certification"],
     },
     "manage-data": {
       label: "Data",

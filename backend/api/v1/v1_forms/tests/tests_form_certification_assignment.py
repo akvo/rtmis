@@ -60,9 +60,9 @@ class FormCertificationAssignmentTestCase(TestCase):
         data = response.json()
 
         # Check if data matches the created assignment
-        self.assertEqual(data['assignee'], assignment_data['assignee'])
+        self.assertEqual(data['assignee']['id'], assignment_data['assignee'])
         self.assertEqual(
-            data['administrations'],
+            [a['id'] for a in data['administrations']],
             assignment_data['administrations']
         )
 
@@ -95,9 +95,11 @@ class FormCertificationAssignmentTestCase(TestCase):
         data = response.json()
 
         # Check if data matches the updated assignment
-        self.assertEqual(data['assignee'], updated_data['assignee'])
-        self.assertEqual(data['administrations'],
-                         updated_data['administrations'])
+        self.assertEqual(data['assignee']['id'], updated_data['assignee'])
+        self.assertEqual(
+            [a['id'] for a in data['administrations']],
+            updated_data['administrations']
+        )
 
     def test_delete_assignment(self):
 

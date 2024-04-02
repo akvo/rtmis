@@ -46,6 +46,7 @@ const config = {
         "organisation",
         "master-data",
         "downloads",
+        "certification",
       ],
       administration_level: [1],
       description:
@@ -76,6 +77,7 @@ const config = {
         "form",
         "reports",
         "downloads",
+        "certification",
       ],
       administration_level: [2],
       description:
