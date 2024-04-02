@@ -254,6 +254,20 @@ class MobileAssignmentTestCase(TestCase, ProfileTestHelperMixin):
                 len(data['certifications']),
                 assignment.administrations.count())
 
+        # Test mobile authentication with certifications
+
+        code = {'code': data["passcode"]}
+        auth = typing.cast(
+                HttpResponse,
+                self.client.post(
+                    '/api/v1/device/auth',
+                    code,
+                    content_type='application/json'))
+
+        self.assertEqual(auth.status_code, 200)
+        data = auth.json()
+        self.assertEqual(data['certifications'], [adm.id])
+
         # Test delete certifications via update
         payload = {
             'name': 'test assignment',
@@ -269,6 +283,7 @@ class MobileAssignmentTestCase(TestCase, ProfileTestHelperMixin):
                     content_type="application/json",
                     HTTP_AUTHORIZATION=f'Bearer {self.token}'))
 
+        self.assertEqual(response.status_code, 200)
         data = response.json()
         assignment = MobileAssignment.objects.get(name='test assignment')
         self.assertEqual(len(data['certifications']), 0)
