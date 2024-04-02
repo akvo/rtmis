@@ -904,11 +904,11 @@
             },
             {
               "id": 1703265705460,
-              "max": 1
+              "min": 1
             },
             {
               "id": 1703265879204,
-              "max": 1
+              "min": 1
             }
           ],
           "options": [
@@ -978,11 +978,11 @@
             },
             {
               "id": 1703265705460,
-              "max": 2
+              "min": 2
             },
             {
               "id": 1703265879204,
-              "max": 2
+              "min": 2
             }
           ],
           "options": [
@@ -1052,11 +1052,11 @@
             },
             {
               "id": 1703265705460,
-              "max": 3
+              "min": 3
             },
             {
               "id": 1703265879204,
-              "max": 3
+              "min": 3
             }
           ],
           "options": [
@@ -1126,11 +1126,11 @@
             },
             {
               "id": 1703265705460,
-              "max": 4
+              "min": 4
             },
             {
               "id": 1703265879204,
-              "max": 4
+              "min": 4
             }
           ],
           "options": [
@@ -1200,11 +1200,11 @@
             },
             {
               "id": 1703265705460,
-              "max": 5
+              "min": 5
             },
             {
               "id": 1703265879204,
-              "max": 5
+              "min": 5
             }
           ],
           "options": [
@@ -1274,11 +1274,11 @@
             },
             {
               "id": 1703265705460,
-              "max": 6
+              "min": 6
             },
             {
               "id": 1703265879204,
-              "max": 6
+              "min": 6
             }
           ],
           "options": [
@@ -1348,11 +1348,11 @@
             },
             {
               "id": 1703265705460,
-              "max": 7
+              "min": 7
             },
             {
               "id": 1703265879204,
-              "max": 7
+              "min": 7
             }
           ],
           "options": [
@@ -1422,11 +1422,11 @@
             },
             {
               "id": 1703265705460,
-              "max": 8
+              "min": 8
             },
             {
               "id": 1703265879204,
-              "max": 8
+              "min": 8
             }
           ],
           "options": [
@@ -1496,11 +1496,11 @@
             },
             {
               "id": 1703265705460,
-              "max": 9
+              "min": 9
             },
             {
               "id": 1703265879204,
-              "max": 9
+              "min": 9
             }
           ],
           "options": [
@@ -1570,11 +1570,11 @@
             },
             {
               "id": 1703265705460,
-              "max": 10
+              "min": 10
             },
             {
               "id": 1703265879204,
-              "max": 10
+              "min": 10
             }
           ],
           "options": [
@@ -1814,16 +1814,6 @@
           },
           "required": true,
           "meta": false,
-          "dependency": [
-            {
-              "id": 1699428072669,
-              "options": [
-                "g0_do_not_use_toilet_practice_od",
-                "g1_use_own_toilet",
-                "g1_use_other_hh_toilet"
-              ]
-            }
-          ],
           "options": [
             {
               "id": 1699428734675,
@@ -1908,6 +1898,16 @@
               "label": "Connection to sewer network",
               "value": "g3_connection_to_sewer_network",
               "color": "#38A15A"
+            }
+          ],
+          "dependency": [
+            {
+              "id": 1699428072669,
+              "options": [
+                "g0_do_not_use_toilet_practice_od",
+                "g1_use_own_toilet",
+                "g1_use_other_hh_toilet"
+              ]
             }
           ],
           "fn": null,
@@ -4083,7 +4083,7 @@
               "G2 Handwashing with soap at ALL critical times": "#93D371",
               "G0 No or inadequate handwashing services": "#FD3F31"
             },
-            "fnString": "#handwashing_critical_toilet_times#.includes(\"g0\") && #handwashing_critical_food_times#.includes(\"g0\") && #handwashing_critical_infant_times#.includes(\"g0\") && #handwashing_critical_animal_times#.includes(\"g0\") ? \"G0 No or inadequate handwashing services\" : #handwashing_critical_toilet_times#.includes(\"g2\") && #handwashing_critical_food_times#.includes(\"g2\") && #handwashing_critical_infant_times#.includes(\"g2\") && #handwashing_critical_animal_times#.includes(\"g2\") ? \"G2 Handwashing with soap at ALL critical times\" : \"G1 Some critical handwashing times NOT mentioned\"",
+            "fnString": "#handwashing_critical_toilet_times#.includes(\"g0\") && #handwashing_critical_food_times#.includes(\"g0\") && #handwashing_critical_animal_times#.includes(\"g0\") ? \"G0 No or inadequate handwashing services\" : #handwashing_critical_toilet_times#.includes(\"g2\") && #handwashing_critical_food_times#.includes(\"g2\") && #handwashing_critical_animal_times#.includes(\"g2\") ? \"G2 Handwashing with soap at ALL critical times\" : \"G1 Some critical handwashing times NOT mentioned\"",
             "multiline": false
           }
         },
@@ -6425,6 +6425,14 @@
             {
               "id": 16994260598423,
               "options": ["yes"]
+            },
+            {
+              "id": 1699419861172,
+              "min": 1
+            },
+            {
+              "id": 1699419951523,
+              "min": 1
             }
           ],
           "tooltip": {
@@ -6481,6 +6489,14 @@
             {
               "id": 16994260598423,
               "options": ["yes"]
+            },
+            {
+              "id": 1699419861172,
+              "min": 1
+            },
+            {
+              "id": 1699419951523,
+              "min": 1
             }
           ],
           "type": "option",
