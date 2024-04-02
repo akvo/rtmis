@@ -19,6 +19,7 @@ const AdministrationDropdown = ({
   isSelectAllVillage = false,
   selectedAdministrations = [],
   certify = null,
+  excluded = [],
   ...props
 }) => {
   const { user, administration, levels } = store.useState((state) => state);
@@ -186,10 +187,11 @@ const AdministrationDropdown = ({
                     {region.children
                       .filter(
                         (c) =>
-                          (!certify &&
+                          ((!certify &&
                             (!currentId ||
                               c?.id !== parseInt(currentId, 10))) ||
-                          (certify && c?.id !== certify)
+                            (certify && c?.id !== certify)) &&
+                          !excluded?.includes(c?.id)
                       ) // prevents circular loops when primary ID has the same parent ID
                       .map((optionValue, optionIdx) => (
                         <Select.Option key={optionIdx} value={optionValue.id}>
@@ -224,6 +226,7 @@ AdministrationDropdown.propTypes = {
   allowMultiple: PropTypes.bool,
   onChange: PropTypes.func,
   certify: PropTypes.number,
+  excluded: PropTypes.array,
 };
 
 export default React.memo(AdministrationDropdown);
