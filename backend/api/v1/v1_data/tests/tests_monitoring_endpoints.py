@@ -144,3 +144,8 @@ class MonitoringDataTestCase(TestCase):
         data = data.json()
         self.assertEqual(data['total'], 1)
         self.assertEqual(data['data'][0]['name'], lastest.name)
+        self.assertEqual(
+            list(data['data'][0]),
+            ['id', 'uuid', 'name', 'form', 'administration',
+             'geo', 'created_by', 'updated_by', 'created', 'updated',
+             'pending_data', 'submission_type'])

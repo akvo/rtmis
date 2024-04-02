@@ -21,20 +21,21 @@ jest.mock('@react-navigation/native');
 jest.mock('expo-location');
 
 jest.mock('expo-asset', () => ({
-    Asset: {
-      loadAsync: jest.fn(() => Promise.resolve([{ localUri: 'mocked-uri' }])),
-    },
-  }));
+  Asset: {
+    loadAsync: jest.fn(() => Promise.resolve([{ localUri: 'mocked-uri' }])),
+  },
+}));
 
 jest.mock('expo-file-system', () => ({
-    readAsStringAsync: jest.fn(() => Promise.resolve(htmlData)),
-  }));
+  readAsStringAsync: jest.fn(() => Promise.resolve(htmlData)),
+}));
 
 jest.mock('react-native/Libraries/Utilities/BackHandler', () => mockBackHandler);
 
 const mockSelectedForm = {
   id: 1,
   name: 'Health Facilities',
+  submission_type: 'registration',
 };
 
 describe('MapView', () => {
@@ -187,7 +188,10 @@ describe('MapView', () => {
         lat: 36.12345,
         lng: -122.6789,
       });
-      expect(mockNavigation.navigate).toHaveBeenCalledWith('FormPage', mockSelectedForm);
+      expect(mockNavigation.navigate).toHaveBeenCalledWith('FormPage', {
+        ...route.params,
+        name: 'Health Facilities',
+      });
     });
   });
 });

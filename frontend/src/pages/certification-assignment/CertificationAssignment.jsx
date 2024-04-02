@@ -1,24 +1,26 @@
-import React, { useMemo, useState, useEffect, useCallback } from "react";
-import { Row, Col, Button, Divider, Table, Space, Input } from "antd";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
+import { Row, Col, Button, Divider, Space, Table } from "antd";
 import {
   DownCircleOutlined,
   PlusOutlined,
   LeftCircleOutlined,
 } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
-import { Breadcrumbs, DescriptionPanel } from "../../components";
+import moment from "moment";
+import {
+  AdministrationDropdown,
+  Breadcrumbs,
+  DescriptionPanel,
+  RemoveFiltersButton,
+} from "../../components";
 import { api, store, uiText } from "../../lib";
-import DetailAssignment from "./DetailAssignment";
+import DetailCertify from "./DetailCertify";
 
-const { Search } = Input;
-
-const MobileAssignment = () => {
+const CertificationAssignment = () => {
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState(null);
   const [dataset, setDataset] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [expandedRows, setExpandedRows] = useState({});
 
   const navigate = useNavigate();
   const { language } = store.useState((s) => s);
@@ -28,28 +30,19 @@ const MobileAssignment = () => {
     return uiText[activeLang];
   }, [activeLang]);
 
+  const handleOnEdit = (data) => {
+    navigate(`/control-center/certification/${data.id}/edit`);
+  };
+
   const pagePath = [
     {
       title: text.controlCenter,
       link: "/control-center",
     },
     {
-      title: text.mobilePanelTitle,
+      title: text.certificationTitle,
     },
   ];
-
-  const handleOnEdit = (record) => {
-    navigate(`/control-center/mobile-assignment/${record?.id}`);
-  };
-
-  const handleMoreLinkClick = (rowKey) => {
-    setExpandedRows((prevExpandedRows) => ({
-      ...prevExpandedRows,
-      [rowKey]: !prevExpandedRows[rowKey],
-    }));
-  };
-
-  const descriptionData = <div>{text.mobilePanelText}</div>;
 
   const columns = [
     {
@@ -59,46 +52,27 @@ const MobileAssignment = () => {
         index + 1 /* eslint-disable no-unused-vars */,
     },
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Certifying Sub-county",
+      dataIndex: "assignee",
+      key: "subcounty_certifying",
+      render: (record) => record?.full_name,
     },
     {
-      title: "Administrations",
+      title: "To certify",
       dataIndex: "administrations",
-      key: "administrations",
-      render: (record, row) => {
-        const displayedItems = expandedRows[row.id]
-          ? record
-          : record?.slice(0, 4);
-
-        return (
-          <>
-            {displayedItems?.map((r) => r?.name || r?.label)?.join(" , ")}
-            {record?.length > 4 && (
-              <a onClick={() => handleMoreLinkClick(row.id)}>
-                {expandedRows[row.id]
-                  ? ` - Less`
-                  : ` + ${record?.slice(4).length} More`}
-              </a>
-            )}
-          </>
-        );
-      },
-    },
-    {
-      title: "Forms",
-      dataIndex: "forms",
-      key: "Forms",
+      key: "administration_count",
       render: (record) => {
-        return <>{record?.map((r) => r?.name || r?.label)?.join(" | ")}</>;
+        return <>{`${record?.length} Village(s)`}</>;
       },
-      width: 500,
     },
     {
-      title: "Created by",
-      dataIndex: "created_by",
-      key: "created_by",
+      title: "Last updated",
+      dataIndex: "updated",
+      key: "updated",
+      render: (record) =>
+        record
+          ? moment(record, "DD-MM-YYYY hh:mm:ss").format("MMMM Do YYYY hh:mm a")
+          : "-",
     },
     {
       title: "Action",
@@ -120,17 +94,13 @@ const MobileAssignment = () => {
     Table.EXPAND_COLUMN,
   ];
 
-  const handleChange = (e) => {
-    setCurrentPage(e.current);
-  };
-
   const fetchData = useCallback(async () => {
     try {
       const { data: apiData } = await api.get(
-        `/mobile-assignments?page=${currentPage}`
+        `/form/certification-assignment?page=${currentPage}`
       );
-      const { total, current, data: _assignments } = apiData || {};
-      setDataset(_assignments);
+      const { total, current, data: assignments } = apiData || {};
+      setDataset(assignments);
       setTotalCount(total);
       setCurrentPage(current);
       setLoading(false);
@@ -150,8 +120,8 @@ const MobileAssignment = () => {
           <Col>
             <Breadcrumbs pagePath={pagePath} />
             <DescriptionPanel
-              description={descriptionData}
-              title={text.mobilePanelTitle}
+              description={text.certificationDesc}
+              title={text.certificationTitle}
             />
           </Col>
         </Row>
@@ -159,31 +129,22 @@ const MobileAssignment = () => {
 
       <div className="table-section">
         <div className="table-wrapper">
-          {/* Filter */}
           <Row>
             <Col flex={1}>
               <Space>
-                <Search
-                  placeholder="Search..."
-                  onChange={(e) => {
-                    setSearch(e.target.value);
-                  }}
-                  style={{ width: 425 }}
-                  value={search}
-                  allowClear
-                />
+                <AdministrationDropdown />
+                <RemoveFiltersButton />
               </Space>
             </Col>
             <Col>
-              <Link to="/control-center/mobile-assignment/add">
+              <Link to="/control-center/certification/add">
                 <Button icon={<PlusOutlined />} type="primary" shape="round">
-                  {text.mobileButtonAdd}
+                  {text.certificationAdd}
                 </Button>
               </Link>
             </Col>
           </Row>
           <Divider />
-
           {/* Table start here */}
           <div
             style={{ padding: 0, minHeight: "40vh" }}
@@ -193,7 +154,7 @@ const MobileAssignment = () => {
               columns={columns}
               dataSource={dataset}
               loading={loading}
-              onChange={handleChange}
+              onChange={(e) => setCurrentPage(e.current)}
               pagination={{
                 showSizeChanger: false,
                 current: currentPage,
@@ -205,7 +166,7 @@ const MobileAssignment = () => {
               rowKey="id"
               expandable={{
                 expandedRowRender: (record) => (
-                  <DetailAssignment record={record} />
+                  <DetailCertify record={record} />
                 ),
                 expandIcon: ({ expanded, onExpand, record }) =>
                   expanded ? (
@@ -230,4 +191,4 @@ const MobileAssignment = () => {
   );
 };
 
-export default React.memo(MobileAssignment);
+export default CertificationAssignment;

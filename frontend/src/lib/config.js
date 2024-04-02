@@ -46,6 +46,7 @@ const config = {
         "organisation",
         "master-data",
         "downloads",
+        "certification",
       ],
       administration_level: [1],
       description:
@@ -76,6 +77,7 @@ const config = {
         "form",
         "reports",
         "downloads",
+        "certification",
       ],
       administration_level: [2],
       description:
@@ -904,6 +906,12 @@ const config = {
       },
     ],
     optionTypes: ["option", "multiple_option", "aggregate"],
+  },
+  submissionType: {
+    registration: 1,
+    monitoring: 2,
+    verification: 3,
+    certification: 4,
   },
 };
 
