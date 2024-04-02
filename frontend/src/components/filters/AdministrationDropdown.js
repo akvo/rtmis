@@ -18,6 +18,7 @@ const AdministrationDropdown = ({
   limitLevel = false,
   isSelectAllVillage = false,
   selectedAdministrations = [],
+  certify = null,
   ...props
 }) => {
   const { user, administration, levels } = store.useState((state) => state);
@@ -36,17 +37,25 @@ const AdministrationDropdown = ({
   const fetchUserAdmin = useCallback(async () => {
     if (user && !persist) {
       try {
-        const { data: _userAdm } = await api.get(
-          `administration/${user.administration.id}`
-        );
+        const apiURL = certify
+          ? "administration/1"
+          : `administration/${user.administration.id}`;
+        const { data: apiData } = await api.get(apiURL);
         store.update((s) => {
-          s.administration = [_userAdm];
+          s.administration = [
+            {
+              ...apiData,
+              children: certify
+                ? apiData.children.filter((c) => c?.id !== certify)
+                : apiData.children,
+            },
+          ];
         });
       } catch (error) {
         console.error(error);
       }
     }
-  }, [user, persist]);
+  }, [user, persist, certify]);
 
   useEffect(() => {
     fetchUserAdmin();
@@ -218,6 +227,7 @@ AdministrationDropdown.propTypes = {
   maxLevel: PropTypes.number,
   allowMultiple: PropTypes.bool,
   onChange: PropTypes.func,
+  certify: PropTypes.number,
 };
 
 export default React.memo(AdministrationDropdown);
