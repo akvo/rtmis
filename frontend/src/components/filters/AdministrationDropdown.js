@@ -37,25 +37,17 @@ const AdministrationDropdown = ({
   const fetchUserAdmin = useCallback(async () => {
     if (user && !persist) {
       try {
-        const apiURL = certify
-          ? "administration/1"
-          : `administration/${user.administration.id}`;
-        const { data: apiData } = await api.get(apiURL);
+        const { data: apiData } = await api.get(
+          `administration/${user.administration.id}`
+        );
         store.update((s) => {
-          s.administration = [
-            {
-              ...apiData,
-              children: certify
-                ? apiData.children.filter((c) => c?.id !== certify)
-                : apiData.children,
-            },
-          ];
+          s.administration = [apiData];
         });
       } catch (error) {
         console.error(error);
       }
     }
-  }, [user, persist, certify]);
+  }, [user, persist]);
 
   useEffect(() => {
     fetchUserAdmin();
@@ -193,7 +185,11 @@ const AdministrationDropdown = ({
                   >
                     {region.children
                       .filter(
-                        (c) => !currentId || c?.id !== parseInt(currentId, 10)
+                        (c) =>
+                          (!certify &&
+                            (!currentId ||
+                              c?.id !== parseInt(currentId, 10))) ||
+                          (certify && c?.id !== certify)
                       ) // prevents circular loops when primary ID has the same parent ID
                       .map((optionValue, optionIdx) => (
                         <Select.Option key={optionIdx} value={optionValue.id}>
