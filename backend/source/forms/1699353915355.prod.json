@@ -870,7 +870,7 @@
               "id": 1699428387760,
               "order": 4,
               "label": "All use toilet",
-              "value": "ALL use toilet",
+              "value": "g1_all_use_toilet",
               "color": "#38A15A"
             }
           ],
