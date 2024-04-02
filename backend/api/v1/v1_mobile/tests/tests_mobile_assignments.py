@@ -227,7 +227,8 @@ class MobileAssignmentTestCase(TestCase, ProfileTestHelperMixin):
                 assignment.administrations.count())
 
     def test_create_with_certifications(self):
-        adm = Administration.objects.first()
+        entity = EntityData.objects.last()
+        adm = entity.administration
         form = Forms.objects.get(pk=2)
         payload = {
             'name': 'test assignment',
@@ -257,12 +258,11 @@ class MobileAssignmentTestCase(TestCase, ProfileTestHelperMixin):
         # Test mobile authentication with certifications
 
         code = {'code': data["passcode"]}
-        auth = typing.cast(
-                HttpResponse,
-                self.client.post(
-                    '/api/v1/device/auth',
-                    code,
-                    content_type='application/json'))
+        auth = self.client.post(
+            '/api/v1/device/auth',
+            code,
+            content_type='application/json'
+        )
 
         self.assertEqual(auth.status_code, 200)
         data = auth.json()
