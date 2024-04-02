@@ -148,7 +148,7 @@ const CertificationAssignmentForm = () => {
     const findCounty = selectedAdm?.[0]?.children?.find((c) =>
       values?.includes(c?.id)
     );
-    if (findCounty && findCounty.id !== county) {
+    if (findCounty && findCounty.id !== county && findCounty?.level === 2) {
       setCounty(findCounty.id);
       setAssignee(null);
       setSubCounties([]);
