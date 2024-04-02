@@ -130,15 +130,17 @@ const CertificationAssignmentForm = () => {
           !villages.filter((v) => v?.id === c?.id).length
       );
       if (village) {
-        form.setFieldValue("administrations", [
-          ...villages,
-          {
-            ...village,
-            full_name: village?.full_name?.replace(/\|/g, " - "),
-          },
-        ]);
+        form.setFieldsValue({
+          administrations: [
+            ...villages,
+            {
+              ...village,
+              full_name: village?.full_name?.replace(/\|/g, " - "),
+            },
+          ],
+        });
         store.update((s) => {
-          s.administration = selectedAdm.slice(0, 2);
+          s.administration = selectedAdm.slice(0, selectedAdm.length);
         });
       }
     }
@@ -152,7 +154,7 @@ const CertificationAssignmentForm = () => {
       setCounty(findCounty.id);
       setAssignee(null);
       setSubCounties([]);
-      form.setFieldValue("administrations", []);
+      form.setFieldsValue({ administrations: [] });
     }
   };
 
