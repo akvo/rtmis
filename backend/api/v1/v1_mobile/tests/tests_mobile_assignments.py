@@ -228,7 +228,7 @@ class MobileAssignmentTestCase(TestCase, ProfileTestHelperMixin):
 
     def test_create_with_certifications(self):
         adm = Administration.objects.first()
-        form = Forms.objects.first()
+        form = Forms.objects.get(pk=2)
         payload = {
             'name': 'test assignment',
             'forms': [form.id],
