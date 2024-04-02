@@ -25,7 +25,6 @@ from api.v1.v1_forms.serializers import (
     FormCertificationAssignmentSerializer,
     FormCertificationAssignmentRequestSerializer,
 )
-from django.db.models import Q
 from rest_framework.viewsets import ModelViewSet
 from api.v1.v1_profile.models import Administration
 from api.v1.v1_data.functions import get_cache, create_cache
@@ -160,7 +159,6 @@ class FormCertificationAssignmentViewSet(ModelViewSet):
     pagination_class = Pagination
 
     def get_queryset(self):
-        allowed_path = self.request.user.user_access.administration.path
         user_administration_id = self.request\
                                      .user.user_access.administration_id
         if self.request.user.is_superuser:
@@ -168,12 +166,13 @@ class FormCertificationAssignmentViewSet(ModelViewSet):
                 .objects.all()\
                 .order_by('-id')
         else:
+            allowed_path = self.request.user.user_access.administration.path
+            allowed_path += f"{user_administration_id}" \
+                if user_administration_id else ""
             queryset = FormCertificationAssignment.objects\
                 .prefetch_related('administrations')\
-                .filter(
-                    Q(administrations__path__startswith=allowed_path) |
-                    Q(administrations__id=user_administration_id)
-                ).order_by('-id')
+                .filter(assignee__path__startswith=allowed_path) \
+                .order_by('-id').distinct()
         return queryset
 
     def get_serializer_class(self):
