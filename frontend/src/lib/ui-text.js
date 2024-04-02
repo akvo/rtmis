@@ -724,6 +724,7 @@ const uiText = {
     certifySuccessAdded: "Certification sub-county successfully added",
     certifySuccessUpdated: "Certification sub-county successfully updated",
     certifySuccessDeleted: "Certification sub-county has been deleted",
+    selectVillage: "Select village",
   },
 
   de: {},

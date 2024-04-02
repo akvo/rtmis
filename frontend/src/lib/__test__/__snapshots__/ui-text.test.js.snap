@@ -583,6 +583,7 @@ Object {
     "selectOne": "Select one...",
     "selectText": "Select...",
     "selectType": "Select type...",
+    "selectVillage": "Select village",
     "sendInstructions": "Send Instructions",
     "sendNewRequest": "Notify Approver",
     "settings": "System Settings",
