@@ -313,6 +313,9 @@ const CertificationAssignmentForm = () => {
                   size="large"
                   width="100%"
                   certify={assignee}
+                  excluded={form
+                    .getFieldValue("administrations")
+                    ?.map((a) => a?.id)}
                   onChange={onSelectVillage}
                 />
               </Form.Item>
