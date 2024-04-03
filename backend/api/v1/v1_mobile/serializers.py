@@ -6,6 +6,7 @@ from api.v1.v1_forms.models import Forms
 from drf_spectacular.types import OpenApiTypes
 from api.v1.v1_mobile.authentication import MobileAssignmentToken
 from api.v1.v1_profile.models import Administration, Entity
+from api.v1.v1_profile.serializers import RelatedAdministrationField
 from utils.custom_serializer_fields import CustomCharField
 from api.v1.v1_mobile.models import MobileAssignment, MobileApk
 from utils.custom_helper import CustomPasscode, generate_random_string
@@ -137,7 +138,7 @@ class MobileAssignmentSerializer(serializers.ModelSerializer):
     administrations = IdAndNameRelatedField(
         queryset=Administration.objects.all(), many=True
     )
-    certifications = IdAndNameRelatedField(
+    certifications = RelatedAdministrationField(
         queryset=Administration.objects.all(),
         many=True,
         required=False

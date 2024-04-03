@@ -71,11 +71,11 @@ class SystemUserEndpointsTestCase(TestCase):
         self.assertEqual(1, SystemUser.objects.count())
         user = user.json()
 
-        self.assertEqual([
+        self.assertEqual(set([
             "email", "name", "administration", "trained", "role",
             'phone_number', 'designation', 'forms', "organisation",
-            "last_login", "passcode", "token", "invite"
-        ], list(user))
+            "last_login", "passcode", "token", "certification", "invite"
+        ]), set(list(user)))
 
         user = {"email": "admin@rush.com", "password": "Test105"}
         user = self.client.post('/api/v1/login',

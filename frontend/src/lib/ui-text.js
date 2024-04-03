@@ -724,6 +724,8 @@ const uiText = {
     certifySuccessDeleted: "Certification sub-county has been deleted",
     selectCounty: "Select county",
     selectSubCounty: "Select Sub-county",
+    selectCertification: "Select certification",
+    certificationList: "Certification list",
   },
 
   de: {},
