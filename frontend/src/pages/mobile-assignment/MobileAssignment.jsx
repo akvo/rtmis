@@ -21,7 +21,7 @@ const MobileAssignment = () => {
   const [expandedRows, setExpandedRows] = useState({});
 
   const navigate = useNavigate();
-  const { language } = store.useState((s) => s);
+  const { language, user: authUser } = store.useState((s) => s);
   const { active: activeLang } = language;
 
   const text = useMemo(() => {
@@ -111,6 +111,10 @@ const MobileAssignment = () => {
             shape="round"
             type="primary"
             onClick={() => handleOnEdit(record)}
+            disabled={
+              record.created_by !== authUser.email &&
+              authUser.administration.level !== 2
+            }
           >
             {text.editButton}
           </Button>
