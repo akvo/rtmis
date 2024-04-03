@@ -42,3 +42,4 @@ export { default as Downloads } from "./downloads/Downloads";
 export { default as UploadAdministrationData } from "./upload-administration-data/UploadAdministrationData";
 export { default as DownloadAdministrationData } from "./upload-administration-data/DownloadAdministrationData";
 export { default as CertificationAssignment } from "./certification-assignment/CertificationAssignment";
+export { default as ManageDataClaim } from "./manage-data-claim/ManageDataClaim";
