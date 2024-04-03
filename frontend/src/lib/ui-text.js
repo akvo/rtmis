@@ -726,6 +726,10 @@ const uiText = {
     selectSubCounty: "Select Sub-county",
     selectCertification: "Select certification",
     certificationList: "Certification list",
+    ManageDataClaimTitle: "Manage Data Claim",
+    ManageDataClaimText: (
+      <Fragment>This is where you can view certification data</Fragment>
+    ),
   },
 
   de: {},

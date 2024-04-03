@@ -7,6 +7,10 @@ Object {
     "AdministrationDataDownload": "Administration Data Download",
     "AdministrationDataUpload": "Administration Data Upload",
     "AdministrationDownloadPageHint": "Uncheck Prefilled if you only want an upload template",
+    "ManageDataClaimText": <React.Fragment>
+      This is where you can view certification data
+    </React.Fragment>,
+    "ManageDataClaimTitle": "Manage Data Claim",
     "aboutRush": "About RUSH",
     "aboutText": "The Kenya Rural Urban Sanitation and Hygiene (RUSH) platform is a real-time monitoring and information system owned by the Ministry of Health. The platform aggregates quantitative and qualitative data from county and national levels and facilitates data analysis, report generation and visualizations.",
     "accountDisclaimer": "The user is accountable for his/her account and in case there are any changes (Transfers, retirement, any kind of leave, resignation etc) this should be communicated to the County Administrator or National Super Admin who might be able to assign the roles to the new officer.",
