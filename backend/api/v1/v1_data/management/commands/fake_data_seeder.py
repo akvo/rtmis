@@ -124,6 +124,11 @@ def get_created_by(administration, form):
 
 
 def seed_data(form, fake_geo, level_names, repeat, test):
+    counties = Administration.objects.filter(parent=1).all()
+    county_paths = [
+        f"{c.path}{c.pk}"
+        for c in counties
+    ]
     for i in range(repeat):
         now_date = datetime.now()
         start_date = now_date - timedelta(days=5 * 365)
@@ -133,13 +138,17 @@ def seed_data(form, fake_geo, level_names, repeat, test):
         geo_value = [geo["X"], geo["Y"]]
         level_id = 1
         last_level = Levels.objects.order_by('-id').first()
+        len_path = len(county_paths)
+        adm_path = county_paths[i % len_path]
         if not test:
             for level_name in level_names:
                 level = level_name.split("_")
                 administration = Administration.objects.filter(
+                    path__startswith=adm_path,
                     parent_id=level_id,
                     level=Levels.objects.filter(level=level[1]).first(),
-                    name=geo[level_name]).first()
+                    name=geo[level_name]
+                ).order_by('?').first()
                 if form.type == FormTypes.national:
                     access_obj = Access.objects
                     access_super_admin = access_obj.filter(
@@ -190,7 +199,10 @@ def seed_data(form, fake_geo, level_names, repeat, test):
                     add_fake_answers(data, form.type)
         else:
             administration = Administration.objects \
-                .filter(level=last_level).order_by('?').first()
+                .filter(
+                    path__startswith=adm_path,
+                    level=last_level
+                ).order_by('?').first()
             created_by = get_created_by(
                 administration=administration, form=form
             )
