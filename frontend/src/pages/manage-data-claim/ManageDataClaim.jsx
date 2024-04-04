@@ -135,7 +135,10 @@ const ManageDataClaim = () => {
           <Row>
             <Col>
               <Space>
-                <FormDropdown loading={loading} />
+                <FormDropdown
+                  loading={loading}
+                  submissionTypes={[config.submissionType.certification]}
+                />
                 <AdministrationDropdown loading={loading} />
               </Space>
             </Col>
