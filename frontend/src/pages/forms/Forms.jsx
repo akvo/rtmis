@@ -10,7 +10,7 @@ import "akvo-react-form/dist/index.css";
 import "./style.scss";
 import { useParams, useNavigate } from "react-router-dom";
 import { Row, Col, Space, Progress, Result, Button, notification } from "antd";
-import { api, store, uiText } from "../../lib";
+import { api, config, store, uiText } from "../../lib";
 import { takeRight, pick } from "lodash";
 import { PageLoader, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
@@ -103,6 +103,7 @@ const Forms = () => {
         ? names
         : `${authUser.administration.name} - ${moment().format("MMM YYYY")}`,
       geo: geo || null,
+      submission_type: config.submissionType.registration,
     };
     if (monitoring?.uuid) {
       dataPayload["uuid"] = monitoring.uuid;
