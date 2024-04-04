@@ -8,11 +8,12 @@ from django.utils.timezone import make_aware
 from faker import Faker
 
 from api.v1.v1_data.models import FormData, Answers, PendingAnswers
-from api.v1.v1_forms.constants import QuestionTypes, FormTypes
-from api.v1.v1_forms.models import Forms
+from api.v1.v1_forms.constants import QuestionTypes, FormTypes, SubmissionTypes
+from api.v1.v1_forms.models import Forms, UserForms
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Access, Administration, Levels
 from api.v1.v1_users.models import SystemUser
+from api.v1.v1_users.management.commands.fake_user_seeder import create_user
 from api.v1.v1_data.functions import refresh_materialized_data
 
 fake = Faker()
@@ -81,7 +82,7 @@ def add_fake_answers(data: FormData,
                 else:
                     prev_answer = PendingAnswers.objects.filter(
                         pending_data=data, question_id=d.get('id')).first()
-                if prev_answer:
+                if prev_answer and prev_answer.options:
                     seed = False
                     for o in prev_answer.options:
                         if o in d.get("options"):
@@ -108,6 +109,20 @@ def add_fake_answers(data: FormData,
     data.save()
 
 
+def get_created_by(administration, form):
+    created_by = SystemUser.objects.filter(
+        user_access__administration=administration.parent
+    ).first()
+    if not created_by:
+        created_by = create_user(
+            role=UserRoleTypes.approver,
+            administration=administration.parent,
+            random_password=False
+        )
+    UserForms.objects.get_or_create(form=form, user=created_by)
+    return created_by
+
+
 def seed_data(form, fake_geo, level_names, repeat, test):
     for i in range(repeat):
         now_date = datetime.now()
@@ -117,6 +132,7 @@ def seed_data(form, fake_geo, level_names, repeat, test):
         geo = fake_geo.iloc[i].to_dict()
         geo_value = [geo["X"], geo["Y"]]
         level_id = 1
+        last_level = Levels.objects.order_by('-id').first()
         if not test:
             for level_name in level_names:
                 level = level_name.split("_")
@@ -140,32 +156,51 @@ def seed_data(form, fake_geo, level_names, repeat, test):
                             geo=geo_value,
                             form=form,
                             administration=administration,
-                            created_by=access.user)
+                            created_by=access.user,
+                            submission_type=SubmissionTypes.registration,
+                        )
                         national_data.created = make_aware(created)
                         level_id = administration.id
                         national_data.save()
                         add_fake_answers(national_data, form.type)
                 else:
+                    if (
+                        not administration or
+                        administration.level.level != last_level.level
+                    ):
+                        administration = Administration.objects \
+                            .filter(level=last_level) \
+                            .order_by('?').first()
+                    created_by = get_created_by(
+                        administration=administration,
+                        form=form
+                    )
                     data = FormData.objects.create(
                         name=fake.pystr_format(),
                         geo=geo_value,
                         form=form,
                         administration=administration,
-                        created_by=SystemUser.objects.order_by('?').first())
+                        created_by=created_by,
+                        submission_type=SubmissionTypes.registration,
+                    )
                     data.created = make_aware(created)
                     level_id = administration.id
                     data.save_to_file
                     data.save()
                     add_fake_answers(data, form.type)
         else:
-            level = Levels.objects.order_by('-id').first()
+            administration = Administration.objects \
+                .filter(level=last_level).order_by('?').first()
+            created_by = get_created_by(
+                administration=administration, form=form
+            )
             test_data = FormData.objects.create(
                 name=fake.pystr_format(),
                 geo=geo_value,
                 form=form,
-                administration=Administration.objects.filter(
-                    level=level).order_by('?').first(),
-                created_by=SystemUser.objects.order_by('?').first())
+                administration=administration,
+                created_by=created_by
+            )
             test_data.save_to_file
             test_data.save()
             add_fake_answers(test_data, form.type)
