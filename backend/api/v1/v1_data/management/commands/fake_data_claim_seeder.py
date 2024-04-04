@@ -32,10 +32,12 @@ def create_certification(assignee, certification, form):
         user_access__administration__path__startswith=subcounty_path,
         user_access__administration__level__name="Ward",
         user_access__role=UserRoleTypes.user,
-    ).first()
+    ).order_by('?').first()
 
-    mobile_assignment = entry_user.mobile_assignments.order_by('?').first()
-    if not mobile_assignment:
+    mobile_assignment_count = entry_user.mobile_assignments.count()
+    if mobile_assignment_count > 0:
+        mobile_assignment = entry_user.mobile_assignments.order_by('?').first()
+    else:
         mobile_assignment = MobileAssignment.objects.create_assignment(
             user=entry_user,
             name=fake.user_name(),
@@ -59,7 +61,7 @@ class Command(BaseCommand):
             "-r",
             "--repeat",
             nargs="?",
-            const=20,
+            const=10,
             default=10,
             type=int
         )
@@ -76,91 +78,94 @@ class Command(BaseCommand):
             submission_types__contains=[SubmissionTypes.certification],
             type=FormTypes.county,
         ).all()
-
-        existing_certification_uuids = FormData.objects.filter(
-            submission_type=SubmissionTypes.certification
-        ).values('uuid')
-
-        datapoints = FormData.objects.filter(
-            form__in=certification_forms.values('id'),
-            submission_type=SubmissionTypes.registration
-        ) \
-            .exclude(uuid__in=existing_certification_uuids) \
-            .order_by('-id')[:repeat]
-
-        last_level = Levels.objects.order_by('-level').first()
-        for dp in datapoints:
-            stop_level = last_level.level - 1
-            target_id = dp.administration.path.split(".")[2:stop_level][0]
-            target_adms = Administration.objects.filter(
-                path__startswith=dp.administration.path
-            )\
-                .exclude(pk=dp.administration.pk) \
-                .order_by('?')[:2]
-            target_stop = stop_level - 1
-            target_path = ".".join(
-                dp.administration.path.split(".")[0:target_stop]
-            )
-            user_assignee = SystemUser.objects.filter(
-                user_access__administration__path__startswith=target_path,
-                user_access__administration__level__name="Sub-County",
-                user_form__form_id__in=[dp.form.id]
-            )\
-                .exclude(
-                    user_access__administration__id=target_id
-                ).first()
-            if user_assignee:
-                entry_user, submitter_name = create_certification(
-                    assignee=user_assignee.user_access.administration,
-                    certification=[dp.administration, *target_adms],
-                    form=dp.form,
+        for form in certification_forms:
+            print(f"Seeding - {form.name}")
+            existing_certification_uuids = FormData.objects.filter(
+                form=form,
+                submission_type=SubmissionTypes.certification
+            ).values('uuid')
+            datapoints = FormData.objects.filter(
+                form=form,
+                submission_type=SubmissionTypes.registration
+            ) \
+                .exclude(uuid__in=existing_certification_uuids) \
+                .order_by('-id')[:repeat]
+            last_level = Levels.objects.order_by('-level').first()
+            for dp in datapoints:
+                stop_level = last_level.level - 1
+                target_id = dp.administration.path.split(".")[2:stop_level][0]
+                target_adms = Administration.objects.filter(
+                    path__startswith=dp.administration.path
+                )\
+                    .exclude(pk=dp.administration.pk) \
+                    .order_by('?')[:2]
+                target_stop = stop_level - 1
+                target_path = ".".join(
+                    dp.administration.path.split(".")[0:target_stop]
                 )
-                pending_data = PendingFormData.objects.create(
-                    name=dp.name,
-                    geo=dp.geo,
-                    form=dp.form,
-                    administration=dp.administration,
-                    created_by=entry_user,
-                    submitter=submitter_name,
-                    submission_type=SubmissionTypes.certification,
-                )
-                add_fake_answers(
-                    pending_data,
-                    form_type=FormTypes.county,
-                    pending=True
-                )
-                batch = CreateBatchSerializer(data={
-                    "name": fake.sentence(nb_words=2),
-                    "comment": fake.sentence(nb_words=5),
-                    "data": [pending_data.pk]
-                })
-                if batch.is_valid():
-                    batch = batch.save(user=entry_user)
-                    batch.approved = True
-                    batch.save()
-                    path = "{0}{1}".format(
-                        entry_user.user_access.administration.path,
-                        entry_user.user_access.administration.pk
+                user_assignee = SystemUser.objects.filter(
+                    user_access__administration__path__startswith=target_path,
+                    user_access__administration__level__name="Sub-County",
+                    user_form__form_id__in=[form.pk]
+                )\
+                    .exclude(
+                        user_access__administration__id=target_id
+                    ).order_by('?').first()
+                if user_assignee:
+                    assignee = user_assignee.user_access.administration
+                    certification = [dp.administration, *target_adms]
+                    print(f"\nCertifying Sub-county: {assignee}")
+                    print(f"\nVillages to Certify: {certification}")
+                    entry_user, submitter_name = create_certification(
+                        assignee=assignee,
+                        certification=certification,
+                        form=form,
                     )
-                    parent_adms = Administration.objects.filter(
-                        id__in=path.split(".")
+                    pending_data = PendingFormData.objects.create(
+                        uuid=dp.uuid,
+                        name=dp.name,
+                        geo=dp.geo,
+                        form=form,
+                        administration=dp.administration,
+                        created_by=entry_user,
+                        submitter=submitter_name,
+                        submission_type=SubmissionTypes.certification,
                     )
-                    for adm in parent_adms:
-                        assignment = FormApprovalAssignment.objects.filter(
-                            form_id=dp.form.id,
-                            administration=adm
-                        ).first()
-                        if assignment:
-                            level = entry_user.user_access \
-                                .administration.level_id
-                            PendingDataApproval.objects.create(
-                                batch=batch,
-                                user=entry_user,
-                                level_id=level,
-                                status=DataApprovalStatus.approved
-                            )
-                    if batch.approved:
-                        print("batch", batch)
+                    add_fake_answers(
+                        pending_data,
+                        form_type=FormTypes.county,
+                        pending=True
+                    )
+                    batch = CreateBatchSerializer(data={
+                        "name": fake.sentence(nb_words=2),
+                        "comment": fake.sentence(nb_words=5),
+                        "data": [pending_data.pk]
+                    })
+                    if batch.is_valid():
+                        batch = batch.save(user=entry_user)
+                        batch.approved = True
+                        batch.save()
+                        path = "{0}{1}".format(
+                            entry_user.user_access.administration.path,
+                            entry_user.user_access.administration.pk
+                        )
+                        parent_adms = Administration.objects.filter(
+                            id__in=path.split(".")
+                        )
+                        for adm in parent_adms:
+                            assignment = FormApprovalAssignment.objects.filter(
+                                form_id=dp.form.id,
+                                administration=adm
+                            ).first()
+                            if assignment:
+                                level = entry_user.user_access \
+                                    .administration.level_id
+                                PendingDataApproval.objects.create(
+                                    batch=batch,
+                                    user=entry_user,
+                                    level_id=level,
+                                    status=DataApprovalStatus.approved
+                                )
                         for pending in batch.batch_pending_data_batch.all():
                             seed_approved_data(pending)
-        # refresh_materialized_data()
+            # refresh_materialized_data()
