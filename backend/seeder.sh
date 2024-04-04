@@ -45,6 +45,12 @@ if [[ "${seed_fake_data}" == 'y' || "${seed_fake_data}" == 'Y' ]]; then
     python manage.py fake_data_seeder
 fi
 
+echo "Seed Fake Data Claim? [y/n]"
+read -r seed_fake_data_claim
+if [[ "${seed_fake_data_claim}" == 'y' || "${seed_fake_data_claim}" == 'Y' ]]; then
+    python manage.py fake_data_claim_seeder
+fi
+
 echo "Seed Organisation? [y/n]"
 read -r seed_organization
 if [[ "${seed_organization}" == 'y' || "${seed_organization}" == 'Y' ]]; then
