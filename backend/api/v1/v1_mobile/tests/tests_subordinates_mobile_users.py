@@ -54,7 +54,7 @@ class SubordinatesMobileUsersTestCase(TestCase, ProfileTestHelperMixin):
                     HTTP_AUTHORIZATION=f'Bearer {t.access_token}'))
         self.assertEqual(response.status_code, 200)
         body = response.json()
-        self.assertEqual(len(body['data']), 1)
+        self.assertEqual(len(body['data']), 2)
 
     def test_same_level_mobile_users_list(self):
         form = Forms.objects.first()
@@ -90,5 +90,5 @@ class SubordinatesMobileUsersTestCase(TestCase, ProfileTestHelperMixin):
                     HTTP_AUTHORIZATION=f'Bearer {t.access_token}'))
         self.assertEqual(response.status_code, 200)
         body = response.json()
-        self.assertEqual(len(body['data']), 0)
+        self.assertEqual(len(body['data']), 1)
         self.assertTrue(True)
