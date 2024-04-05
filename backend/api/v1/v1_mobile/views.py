@@ -403,6 +403,14 @@ class MobileAssignmentViewSet(ModelViewSet):
         )
     },
     parameters=[
+        # parameter for data type
+        # certification = true, default false
+        OpenApiParameter(
+            name='certification',
+            required=False,
+            description='If true, only return certified datapoints',
+            type=OpenApiTypes.BOOL,
+        ),
         OpenApiParameter(
             name='page',
             required=True,
@@ -416,8 +424,15 @@ class MobileAssignmentViewSet(ModelViewSet):
 @permission_classes([IsMobileAssignment])
 def get_datapoint_download_list(request, version):
     assignment = cast(MobileAssignmentToken, request.auth).assignment
-    administrations = assignment.administrations.values('id')
     forms = assignment.forms.values('id')
+    if not request.query_params.get("certification"):
+        administrations = assignment.administrations.values('id')
+    else:
+        administrations = assignment.certifications.values('id')
+        forms = Forms.objects.filter(
+            id__in=forms,
+            submission_types__contains=SubmissionTypes.certification
+        ).values('id')
     paginator = Pagination()
 
     latest_ids_per_uuid = FormData.objects.filter(
