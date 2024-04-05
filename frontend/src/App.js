@@ -44,6 +44,7 @@ import {
   MonitoringDetail,
   Downloads,
   CertificationAssignment,
+  ManageDataClaim,
   // Visualisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
@@ -190,6 +191,10 @@ const RouteList = () => {
         <Route
           path="data/submissions"
           element={<Private element={Submissions} alias="data" />}
+        />
+        <Route
+          path="data-claim"
+          element={<Private element={ManageDataClaim} alias="data" />}
         />
         <Route
           path="approvals"

@@ -77,7 +77,7 @@ class FormDataUpdateTestCase(TestCase):
         data = data.json()
         self.assertEqual(data, {"message": "ok"})
         # Get all data from form
-        data = self.client.get('/api/v1/form-data/1?page=1',
+        data = self.client.get('/api/v1/form-data/1?submission_type=1&page=1',
                                content_type='application/json',
                                **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
         self.assertEqual(data.status_code, 200)
@@ -119,7 +119,7 @@ class FormDataUpdateTestCase(TestCase):
         data = data.json()
         self.assertEqual(data, {"message": "direct update success"})
         # Get all data from form
-        data = self.client.get('/api/v1/form-data/1?page=1',
+        data = self.client.get('/api/v1/form-data/1?submission_type=1&page=1',
                                content_type='application/json',
                                **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
         self.assertEqual(data.status_code, 200)
@@ -258,7 +258,7 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(response['email'], 'wayan@example.com')
         self.assertEqual(response['role']['id'], UserRoleTypes.user)
         # Get all data from form
-        data = self.client.get('/api/v1/form-data/1?page=1',
+        data = self.client.get('/api/v1/form-data/1?submission_type=1&page=1',
                                content_type='application/json',
                                **{'HTTP_AUTHORIZATION':
                                    f'Bearer {data_entry_user_token}'})
@@ -335,7 +335,7 @@ class FormDataUpdateTestCase(TestCase):
         }]
         self.assertEqual(data, results)
         # test get form data with pending data object inside
-        data = self.client.get('/api/v1/form-data/1?page=1',
+        data = self.client.get('/api/v1/form-data/1?submission_type=1&page=1',
                                content_type='application/json',
                                **{'HTTP_AUTHORIZATION':
                                    f'Bearer {token}'})
@@ -451,7 +451,7 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(response['email'], 'county_admin@example.com')
         self.assertEqual(response['role']['id'], UserRoleTypes.admin)
         # Get all data from form
-        data = self.client.get('/api/v1/form-data/2?page=1',
+        data = self.client.get('/api/v1/form-data/2?submission_type=1&page=1',
                                content_type='application/json',
                                **{'HTTP_AUTHORIZATION':
                                    f'Bearer {county_admin_token}'})
@@ -529,7 +529,7 @@ class FormDataUpdateTestCase(TestCase):
         }]
         self.assertEqual(data, results)
         # test get form data with pending data object inside
-        data = self.client.get('/api/v1/form-data/2?page=1',
+        data = self.client.get('/api/v1/form-data/2?submission_type=1&page=1',
                                content_type='application/json',
                                **{'HTTP_AUTHORIZATION':
                                    f'Bearer {token}'})
@@ -646,7 +646,7 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(response['email'], 'county_admin@example.com')
         self.assertEqual(response['role']['id'], UserRoleTypes.admin)
         # Get all data from form
-        data = self.client.get('/api/v1/form-data/1?page=1',
+        data = self.client.get('/api/v1/form-data/1?submission_type=1&page=1',
                                content_type='application/json',
                                **{'HTTP_AUTHORIZATION':
                                    f'Bearer {county_admin_token}'})
@@ -691,7 +691,7 @@ class FormDataUpdateTestCase(TestCase):
         data = data.json()
         self.assertEqual(data, {"message": "direct update success"})
         # Get all data from form
-        data = self.client.get('/api/v1/form-data/1?page=1',
+        data = self.client.get('/api/v1/form-data/1?submission_type=1&page=1',
                                content_type='application/json',
                                **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
         self.assertEqual(data.status_code, 200)

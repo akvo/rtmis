@@ -23,7 +23,7 @@ class DataTestCase(TestCase):
 
         # PRIVATE ACCESS
         data = self.client.get(
-            "/api/v1/form-data/1?page=1&administration=1",
+            "/api/v1/form-data/1?submission_type=1&page=1&administration=1",
             follow=True,
             **header)
         result = data.json()

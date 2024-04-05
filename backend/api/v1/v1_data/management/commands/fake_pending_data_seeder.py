@@ -8,15 +8,18 @@ from faker import Faker
 
 from api.v1.v1_data.models import PendingFormData, \
     PendingAnswers, PendingDataApproval, PendingDataBatch
-from api.v1.v1_forms.constants import QuestionTypes, FormTypes
+from api.v1.v1_forms.constants import QuestionTypes, FormTypes, SubmissionTypes
 from api.v1.v1_forms.models import FormApprovalAssignment
 from api.v1.v1_forms.models import Forms, UserForms
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.management.commands.administration_seeder import (
-        MAX_LEVEL_IN_SOURCE_FILE)
+    MAX_LEVEL_IN_SOURCE_FILE
+)
 from api.v1.v1_profile.models import Administration, Access, Levels
 from api.v1.v1_users.models import SystemUser, Organisation
-
+from api.v1.v1_users.management.commands.demo_approval_flow import (
+    create_approver
+)
 fake = Faker()
 
 
@@ -85,19 +88,25 @@ def add_fake_answers(data: PendingFormData):
 def seed_data(form, fake_geo, repeat, created_by):
     for i in range(repeat):
         administration = created_by.user_access.administration
+        mobile_assignment = created_by.mobile_assignments.order_by('?').first()
         geo = fake_geo.iloc[i].to_dict()
-        data = PendingFormData.objects.create(name=fake.pystr_format(),
-                                              geo=[geo["X"], geo["Y"]],
-                                              form=form,
-                                              administration=administration,
-                                              created_by=created_by)
+        data = PendingFormData.objects.create(
+            name=fake.pystr_format(),
+            geo=[geo["X"], geo["Y"]],
+            form=form,
+            administration=administration,
+            created_by=created_by,
+            submission_type=SubmissionTypes.registration,
+            submitter=mobile_assignment.name if mobile_assignment else None,
+        )
         add_fake_answers(data)
 
 
 def create_or_get_submitter(role):
     organisation = Organisation.objects.first()
     level = Levels.objects.filter(
-            level__lte=MAX_LEVEL_IN_SOURCE_FILE).order_by('-level').first()
+        level__lt=MAX_LEVEL_IN_SOURCE_FILE
+    ).order_by('-level').first()
     last_name = "User"
     email = "user"
     if role == UserRoleTypes.admin:
@@ -131,38 +140,25 @@ def assign_batch_for_approval(batch, user, test):
     randoms = Levels.objects.filter(level__gt=1).count()
     randoms = [n + 1 for n in range(randoms)]
     levels = Levels.objects.filter(
-            level__lte=MAX_LEVEL_IN_SOURCE_FILE).order_by('-level').all()
-    administrations = Administration.objects.filter(id__in=complete_path,
-                                                    level__in=levels).all()
+        level__lt=MAX_LEVEL_IN_SOURCE_FILE
+    ).order_by('-level').all()
+    administrations = Administration.objects.filter(
+        id__in=complete_path,
+        level__in=levels
+    ).all()
     for administration in administrations:
         # check if approval assignment for the path is not available
         assignment = FormApprovalAssignment.objects.filter(
             form=batch.form, administration=administration).first()
         if not assignment:
-            email = ("{}{}@test.com").format(
-                re.sub('[^A-Za-z0-9]+', '', administration.name.lower()),
-                administration.id)
-            last_name = "Approver"
-            role = UserRoleTypes.approver
-            if administration.level.level == 1:
-                role = UserRoleTypes.admin
-                last_name = "Admin"
-            # check if someone has access to ancestor adminisration
-            approver, created = SystemUser.objects.get_or_create(
+            assignment = create_approver(
+                form=batch.form,
+                administration=administration,
                 organisation=organisation,
-                email=email,
-                first_name=administration.name,
-                last_name=last_name)
-            if created:
-                approver.set_password("test")
-                approver.save()
-                Access.objects.create(user=approver,
-                                      role=role,
-                                      administration=administration)
-            assignment = FormApprovalAssignment.objects.create(
-                form=batch.form, administration=administration, user=approver)
-            UserForms.objects.get_or_create(form=batch.form, user=approver)
+            )
             if not test:
+                last_name = "Admin" if administration.level.level == 1 \
+                    else "Approver"
                 print("Level: {} ({})".format(administration.level.level,
                                               administration.level.name))
                 print(f"- Administration Name: {administration.name}")

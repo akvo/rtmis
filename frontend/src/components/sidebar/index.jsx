@@ -30,7 +30,7 @@ const Sidebar = () => {
       label: "Manage Mobile Users",
       url: "/control-center/mobile-assignment",
     },
-    data: [{ label: "Manage Data", url: "/control-center/data" }],
+    data: { label: "Manage Data", url: "/control-center/data" },
     "master-data": [
       {
         label: "Administrative List",
@@ -51,6 +51,10 @@ const Sidebar = () => {
       label: "Certification Assignment'",
       url: "/control-center/certification",
     },
+    "data-claim": {
+      label: "Manage Data Claim",
+      url: "/control-center/data-claim",
+    },
   };
 
   const controlCenterToLabelMapping = {
@@ -66,7 +70,7 @@ const Sidebar = () => {
     "manage-data": {
       label: "Data",
       icon: TableOutlined,
-      childrenKeys: ["data"],
+      childrenKeys: ["data", "data-claim"],
     },
     "manage-master-data": {
       label: "Master Data",

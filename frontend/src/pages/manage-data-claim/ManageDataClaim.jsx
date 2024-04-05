@@ -1,23 +1,31 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
-import { Row, Col, Divider, Table, ConfigProvider, Empty } from "antd";
-import { useNavigate } from "react-router-dom";
-
+import { Row, Col, Divider, Table, ConfigProvider, Empty, Space } from "antd";
+import { DownCircleOutlined, LeftCircleOutlined } from "@ant-design/icons";
 import { api, config, store, uiText } from "../../lib";
-import { DataFilters, Breadcrumbs, DescriptionPanel } from "../../components";
+import {
+  Breadcrumbs,
+  DescriptionPanel,
+  AdministrationDropdown,
+} from "../../components";
 import { generateAdvanceFilterURL } from "../../util/filter";
+import FormDropdown from "../../components/filters/FormDropdown";
+import DataClaimDetail from "./DataClaimDetail";
 
-const ManageData = () => {
+const ManageDataClaim = () => {
   const [loading, setLoading] = useState(false);
   const [dataset, setDataset] = useState([]);
-  const [query, setQuery] = useState("");
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [updateRecord, setUpdateRecord] = useState(false);
-  const navigate = useNavigate();
 
-  const { administration, selectedForm } = store.useState((state) => state);
-  const { language, advancedFilters } = store.useState((s) => s);
+  const {
+    language,
+    advancedFilters,
+    administration,
+    selectedForm,
+    questionGroups,
+  } = store.useState((s) => s);
   const { active: activeLang } = language;
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -29,16 +37,9 @@ const ManageData = () => {
       link: "/control-center",
     },
     {
-      title: text.manageDataTitle,
+      title: text.ManageDataClaimTitle,
     },
   ];
-
-  const goToMonitoring = (record) => {
-    store.update((s) => {
-      s.selectedFormData = record;
-    });
-    navigate(`/control-center/data/${selectedForm}/monitoring/${record.id}`);
-  };
 
   const isAdministrationLoaded = administration.length;
   const selectedAdministration =
@@ -48,18 +49,17 @@ const ManageData = () => {
 
   const columns = [
     {
+      title: "Last Updated",
+      dataIndex: "updated",
+      render: (cell, row) => cell || row.created,
+    },
+    {
       title: "Name",
       dataIndex: "name",
       key: "name",
       filtered: true,
-      filteredValue: query.trim() === "" ? [] : [query],
       onFilter: (value, filters) =>
         filters.name.toLowerCase().includes(value.toLowerCase()),
-    },
-    {
-      title: "Last Updated",
-      dataIndex: "updated",
-      render: (cell, row) => cell || row.created,
     },
     {
       title: "User",
@@ -69,6 +69,7 @@ const ManageData = () => {
       title: "Region",
       dataIndex: "administration",
     },
+    Table.EXPAND_COLUMN,
   ];
 
   const handleChange = (e) => {
@@ -82,7 +83,7 @@ const ManageData = () => {
   useEffect(() => {
     if (selectedForm && isAdministrationLoaded && !updateRecord) {
       setLoading(true);
-      let url = `/form-data/${selectedForm}/?submission_type=${config.submissionType.registration}&page=${currentPage}`;
+      let url = `/form-data/${selectedForm}/?submission_type=${config.submissionType.certification}&page=${currentPage}`;
       if (selectedAdministration?.id) {
         url += `&administration=${selectedAdministration.id}`;
       }
@@ -116,14 +117,14 @@ const ManageData = () => {
   ]);
 
   return (
-    <div id="manageData">
+    <div id="manage-data-claim">
       <div className="description-container">
         <Row justify="space-between">
           <Col>
             <Breadcrumbs pagePath={pagePath} />
             <DescriptionPanel
-              description={text.manageDataText}
-              title={text.manageDataTitle}
+              description={text.ManageDataClaimText}
+              title={text.ManageDataClaimTitle}
             />
           </Col>
         </Row>
@@ -131,7 +132,17 @@ const ManageData = () => {
 
       <div className="table-section">
         <div className="table-wrapper">
-          <DataFilters query={query} setQuery={setQuery} loading={loading} />
+          <Row>
+            <Col>
+              <Space>
+                <FormDropdown
+                  loading={loading}
+                  submissionTypes={[config.submissionType.certification]}
+                />
+                <AdministrationDropdown loading={loading} />
+              </Space>
+            </Col>
+          </Row>
           <Divider />
           <div
             style={{ padding: 0, minHeight: "40vh" }}
@@ -159,11 +170,29 @@ const ManageData = () => {
                   showTotal: (total, range) =>
                     `Results: ${range[0]} - ${range[1]} of ${total} data`,
                 }}
-                rowClassName="row-normal sticky"
                 rowKey="id"
-                onRow={(record) => ({
-                  onClick: () => goToMonitoring(record),
-                })}
+                expandable={{
+                  expandedRowRender: (record) => (
+                    <DataClaimDetail
+                      questionGroups={questionGroups}
+                      record={record}
+                    />
+                  ),
+                  expandIcon: ({ expanded, onExpand, record }) =>
+                    expanded ? (
+                      <DownCircleOutlined
+                        onClick={(e) => onExpand(record, e)}
+                        style={{ color: "#1651B6", fontSize: "19px" }}
+                      />
+                    ) : (
+                      <LeftCircleOutlined
+                        onClick={(e) => onExpand(record, e)}
+                        style={{ color: "#1651B6", fontSize: "19px" }}
+                      />
+                    ),
+                }}
+                rowClassName="expandable-row row-normal sticky"
+                expandRowByClick
               />
             </ConfigProvider>
           </div>
@@ -173,4 +202,4 @@ const ManageData = () => {
   );
 };
 
-export default React.memo(ManageData);
+export default React.memo(ManageDataClaim);
