@@ -33,14 +33,14 @@ class AdministrationTestCase(TestCase, ProfileTestHelperMixin):
 
         self.assertEqual(response.status_code, 200)
         body = response.json()
-        self.assertEqual(len(body.get('data')), len(geo_config))
-        self.assertEqual(body.get('total'), len(geo_config))
+        self.assertEqual(len(body.get('data')), len(geo_config) * 2 - 1)
+        self.assertEqual(body.get('total'), len(geo_config) * 2 - 1)
         self.assertEqual(body.get('current'), 1)
         self.assertEqual(body.get('total_page'), 1)
 
     def test_create(self):
         level_2 = Levels.objects.get(level=2)
-        adm_level_1 = Administration.objects.get(level__level=1)
+        adm_level_1 = Administration.objects.filter(level__level=1).first()
         payload = {'parent': adm_level_1.id, 'name': 'Test'}
 
         response = typing.cast(
@@ -58,7 +58,7 @@ class AdministrationTestCase(TestCase, ProfileTestHelperMixin):
         self.assertEqual(created.level, level_2)
 
     def test_create_with_code(self):
-        adm_level_1 = Administration.objects.get(level__level=1)
+        adm_level_1 = Administration.objects.filter(level__level=1).first()
         payload = {'parent': adm_level_1.id, 'name': 'Test', 'code': 'T'}
 
         response = typing.cast(
@@ -122,8 +122,8 @@ class AdministrationTestCase(TestCase, ProfileTestHelperMixin):
     def test_update(self):
         level_2 = Levels.objects.get(level=2)
         level_3 = Levels.objects.get(level=3)
-        adm_level_1 = Administration.objects.get(level__level=1)
-        adm_level_2 = Administration.objects.get(level__level=2)
+        adm_level_1 = Administration.objects.filter(level__level=1).first()
+        adm_level_2 = Administration.objects.filter(level__level=2).first()
         test_adm = Administration.objects.create(
                 parent=adm_level_2,
                 name='Test',
@@ -150,7 +150,7 @@ class AdministrationTestCase(TestCase, ProfileTestHelperMixin):
 
     def test_delete(self):
         level_2 = Levels.objects.get(level=2)
-        adm_level_1 = Administration.objects.get(level__level=1)
+        adm_level_1 = Administration.objects.filter(level__level=1).first()
         test_adm = Administration.objects.create(
                 parent=adm_level_1,
                 name='Test',
@@ -228,7 +228,7 @@ class AdministrationAttributeValueTestCase(TestCase, ProfileTestHelperMixin):
         self.assertEqual(len(body.get('attributes')), 4)
 
     def test_create(self):
-        adm = Administration.objects.get(level__level=1)
+        adm = Administration.objects.filter(level__level=1).first()
         payload = {
             'parent': adm.id,
             'name': 'Test',
@@ -279,7 +279,7 @@ class AdministrationAttributeValueTestCase(TestCase, ProfileTestHelperMixin):
             {'opt #1': 1, 'opt #2': None})
 
     def test_create_invalid_value_attribute(self):
-        adm = Administration.objects.get(level__level=1)
+        adm = Administration.objects.filter(level__level=1).first()
         payload = {
             'parent': adm.id,
             'name': 'Test',
@@ -300,7 +300,7 @@ class AdministrationAttributeValueTestCase(TestCase, ProfileTestHelperMixin):
         self.assertIn('attributes', body)
 
     def test_create_invalid_option_attribute(self):
-        adm = Administration.objects.get(level__level=1)
+        adm = Administration.objects.filter(level__level=1).first()
         payload = {
             'parent': adm.id,
             'name': 'Test',
@@ -324,7 +324,7 @@ class AdministrationAttributeValueTestCase(TestCase, ProfileTestHelperMixin):
         self.assertIn('attributes', body)
 
     def test_create_invalid_multiple_options_attribute(self):
-        adm = Administration.objects.get(level__level=1)
+        adm = Administration.objects.filter(level__level=1).first()
         payload = {
             'parent': adm.id,
             'name': 'Test',
@@ -348,7 +348,7 @@ class AdministrationAttributeValueTestCase(TestCase, ProfileTestHelperMixin):
         self.assertIn('attributes', body)
 
     def test_create_invalid_aggregate_attribute(self):
-        adm = Administration.objects.get(level__level=1)
+        adm = Administration.objects.filter(level__level=1).first()
         payload = {
             'parent': adm.id,
             'name': 'Test',

@@ -56,6 +56,13 @@ class AdministrationSeederTestCase(TestCase):
                     "full_name": "Indonesia|Jakarta",
                     "parent": 1,
                     "path": "1."
+                }, {
+                    "id": 10,
+                    "level": 2,
+                    "name": "Yogyakarta",
+                    "full_name": "Indonesia|Yogyakarta",
+                    "parent": 1,
+                    "path": "1."
                 }],
                 "children_level_name": "County",
             }, response.json())
