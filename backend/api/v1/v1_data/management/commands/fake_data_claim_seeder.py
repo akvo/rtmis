@@ -2,11 +2,11 @@ import pandas as pd
 from django.core.management import BaseCommand
 from faker import Faker
 from api.v1.v1_data.models import (
-    FormData, PendingFormData, PendingDataApproval
+    FormData, PendingFormData
 )
 from api.v1.v1_forms.constants import FormTypes, SubmissionTypes
 from api.v1.v1_forms.models import (
-    Forms, FormCertificationAssignment, FormApprovalAssignment
+    Forms, FormCertificationAssignment, UserForms
 )
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_profile.constants import UserRoleTypes
@@ -14,6 +14,9 @@ from api.v1.v1_users.models import SystemUser
 # from api.v1.v1_data.functions import refresh_materialized_data
 from api.v1.v1_data.management.commands.fake_data_seeder import (
     add_fake_answers
+)
+from api.v1.v1_users.management.commands.demo_approval_flow import (
+    create_approver
 )
 from api.v1.v1_data.serializers import CreateBatchSerializer
 from api.v1.v1_data.constants import DataApprovalStatus
@@ -34,22 +37,24 @@ def create_certification(assignee, certification, form):
         user_access__role=UserRoleTypes.user,
     ).order_by('?').first()
 
-    mobile_assignment_count = entry_user.mobile_assignments.count()
-    if mobile_assignment_count > 0:
-        mobile_assignment = entry_user.mobile_assignments.order_by('?').first()
-    else:
+    UserForms.objects.get_or_create(form=form, user=entry_user)
+
+    mobile_assignment = entry_user.mobile_assignments.filter(
+        forms__id__in=[form.pk]
+    ).first()
+    if not mobile_assignment:
         mobile_assignment = MobileAssignment.objects.create_assignment(
             user=entry_user,
             name=fake.user_name(),
             certification=certification
         )
+        mobile_assignment.forms.add(form)
     administration_children = Administration.objects.filter(
-        parent=assignee
+        parent=entry_user.user_access.administration
     ).order_by('?')[:2]
     mobile_assignment.administrations.set(
         administration_children
     )
-    mobile_assignment.forms.set([form])
     mobile_assignment.certifications.set(certification)
     submitter_name = mobile_assignment.name
     return entry_user, submitter_name
@@ -70,7 +75,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        # test = options.get("test")
+        test = options.get("test")
         repeat = options.get("repeat")
         fake_geo = pd.read_csv("./source/kenya_random_points-2024.csv")
         fake_geo = fake_geo.sample(frac=1).reset_index(drop=True)
@@ -111,11 +116,24 @@ class Command(BaseCommand):
                     .exclude(
                         user_access__administration__id=target_id
                     ).order_by('?').first()
+                if not user_assignee:
+                    subcounty = Administration.objects.filter(
+                            path__startswith=target_path,
+                            level__name="Sub-County"
+                    ) \
+                       .exclude(pk=target_id).order_by('?').first()
+                    approver = create_approver(
+                        form=form,
+                        administration=subcounty,
+                        organisation=dp.created_by.organisation
+                    )
+                    user_assignee = approver.user
                 if user_assignee:
                     assignee = user_assignee.user_access.administration
                     certification = [dp.administration, *target_adms]
-                    print(f"\nCertifying Sub-county: {assignee}")
-                    print(f"\nVillages to Certify: {certification}")
+                    if not test:
+                        print(f"Certifying Sub-county: {assignee}\n")
+                        print(f"Villages to Certify: {certification}\n")
                     entry_user, submitter_name = create_certification(
                         assignee=assignee,
                         certification=certification,
@@ -145,27 +163,10 @@ class Command(BaseCommand):
                         batch = batch.save(user=entry_user)
                         batch.approved = True
                         batch.save()
-                        path = "{0}{1}".format(
-                            entry_user.user_access.administration.path,
-                            entry_user.user_access.administration.pk
-                        )
-                        parent_adms = Administration.objects.filter(
-                            id__in=path.split(".")
-                        )
-                        for adm in parent_adms:
-                            assignment = FormApprovalAssignment.objects.filter(
-                                form_id=dp.form.id,
-                                administration=adm
-                            ).first()
-                            if assignment:
-                                level = entry_user.user_access \
-                                    .administration.level_id
-                                PendingDataApproval.objects.create(
-                                    batch=batch,
-                                    user=entry_user,
-                                    level_id=level,
-                                    status=DataApprovalStatus.approved
-                                )
+                        for approval in batch.batch_approval.all():
+                            approval.status = DataApprovalStatus.approved
+                            approval.save()
                         for pending in batch.batch_pending_data_batch.all():
+                            pending
                             seed_approved_data(pending)
             # refresh_materialized_data()
