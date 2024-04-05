@@ -40,11 +40,13 @@ class SubordinatesMobileUsersTestCase(TestCase, ProfileTestHelperMixin):
 
         self.assertEqual(response.status_code, 201)
 
-        # Login as county user
-        county_user = SystemUser.objects.filter(
-            user_access__role=UserRoleTypes.admin
+        # Login as Sub-county user
+        subcounty = self.user.user_access.administration.parent
+        subcounty_user = SystemUser.objects.filter(
+            user_access__administration=subcounty,
+            user_access__role=UserRoleTypes.approver
         ).first()
-        t = RefreshToken.for_user(county_user)
+        t = RefreshToken.for_user(subcounty_user)
 
         response = typing.cast(
                 HttpResponse,

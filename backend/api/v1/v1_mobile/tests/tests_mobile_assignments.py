@@ -4,7 +4,11 @@ from django.http import HttpResponse
 from django.test import TestCase, override_settings
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_mobile.models import MobileAssignment
-from api.v1.v1_profile.models import Administration, EntityData
+from api.v1.v1_profile.models import (
+    Administration,
+    EntityData,
+    Entity
+)
 
 from api.v1.v1_profile.tests.mixins import ProfileTestHelperMixin
 from utils.custom_helper import CustomPasscode
@@ -18,6 +22,15 @@ class MobileAssignmentTestCase(TestCase, ProfileTestHelperMixin):
         call_command("administration_seeder", "--test")
         call_command('form_seeder', '--test')
         call_command("entities_seeder", "-t", True)
+        for entity in Entity.objects.all():
+            for adm in Administration.objects.filter(
+                    parent__isnull=False
+            ).all():
+                EntityData.objects.create(
+                    entity=entity,
+                    administration=adm,
+                    name=f"{entity.name} - {adm.name}"
+                )
         self.user = self.create_user('test@akvo.org', self.ROLE_ADMIN)
         self.token = self.get_auth_token(self.user.email)
 
@@ -124,7 +137,7 @@ class MobileAssignmentTestCase(TestCase, ProfileTestHelperMixin):
     def test_update_relations(self):
         adm1 = Administration.objects.first()
         adm2 = Administration.objects.all()[1]
-        adm3 = Administration.objects.last()
+        adm3 = Administration.objects.filter(parent=adm2).first()
         form1 = Forms.objects.first()
         form2 = Forms.objects.last()
         assignment = MobileAssignment.objects.create_assignment(
