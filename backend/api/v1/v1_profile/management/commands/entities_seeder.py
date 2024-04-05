@@ -1,7 +1,7 @@
 from django.core.management import BaseCommand
 from django.core.management import call_command
 from api.v1.v1_profile.models import (
-    Administration, Entity, EntityData, SystemUser
+    Administration, Entity, EntityData, SystemUser, Levels
 )
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_forms.models import Forms
@@ -60,6 +60,18 @@ def seed_data(self, repeat: int = 3, test: bool = False):
             administration=village,
             test=test
         )
+    if len(users) == 0 and len(adms) == 0:
+        # Generate randomly
+        last_level = Levels.objects.order_by('-id').first()
+        randoms = Administration.objects.filter(
+            level=last_level
+        ).order_by('?')[:repeat]
+        for r in randoms:
+            create_entity_data(
+                self,
+                administration=r,
+                test=test
+            )
 
 
 class Command(BaseCommand):
