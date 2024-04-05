@@ -13,7 +13,7 @@ fake = Faker()
 
 
 def create_approver(form, administration, organisation):
-    email = ("{}{}.{}@test.com").format(
+    email = ("{}{}.{}@approver.com").format(
         re.sub('[^A-Za-z0-9]+', '', administration.name.lower()),
         administration.id,
         random.randint(1, 1000)
@@ -48,7 +48,7 @@ def create_approver(form, administration, organisation):
         administration=administration,
         user=approver
     )
-    return assignment, last_name
+    return assignment
 
 
 class Command(BaseCommand):
@@ -70,11 +70,13 @@ class Command(BaseCommand):
             assignment = FormApprovalAssignment.objects.filter(
                 form=form, administration=ancestor).first()
             if not assignment:
-                assignment, last_name = create_approver(
+                assignment = create_approver(
                     form=form,
                     administration=ancestor,
                     organisation=organisation,
                 )
+                last_name = "Admin" if ancestor.level.level == 1 \
+                    else "Approver"
                 print("Level: {} ({})".format(ancestor.level.level,
                                               ancestor.level.name))
                 print(f"- Administration Name: {ancestor.name}")
@@ -115,7 +117,8 @@ class Command(BaseCommand):
             name=fake.user_name()
         )
         administration_children = Administration.objects.filter(
-            parent=administration
+            parent=submitter.user_access.administration,
+            level_id=submitter.user_access.administration.level.id + 1
         ).order_by('?')[:2]
         mobile_assignment.administrations.add(
             *administration_children

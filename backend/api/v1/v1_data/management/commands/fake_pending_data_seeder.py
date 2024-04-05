@@ -151,12 +151,14 @@ def assign_batch_for_approval(batch, user, test):
         assignment = FormApprovalAssignment.objects.filter(
             form=batch.form, administration=administration).first()
         if not assignment:
-            assignment, last_name = create_approver(
+            assignment = create_approver(
                 form=batch.form,
                 administration=administration,
                 organisation=organisation,
             )
             if not test:
+                last_name = "Admin" if administration.level.level == 1 \
+                    else "Approver"
                 print("Level: {} ({})".format(administration.level.level,
                                               administration.level.name))
                 print(f"- Administration Name: {administration.name}")
