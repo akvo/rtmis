@@ -425,14 +425,15 @@ class MobileAssignmentViewSet(ModelViewSet):
 def get_datapoint_download_list(request, version):
     assignment = cast(MobileAssignmentToken, request.auth).assignment
     forms = assignment.forms.values('id')
-    if not request.query_params.get("certification"):
-        administrations = assignment.administrations.values('id')
-    else:
+    is_certification = request.query_params.get("certification")
+    if is_certification:
         administrations = assignment.certifications.values('id')
         forms = Forms.objects.filter(
             id__in=forms,
-            submission_types__contains=SubmissionTypes.certification
+            submission_types__contains=[SubmissionTypes.certification]
         ).values('id')
+    else:
+        administrations = assignment.administrations.values('id')
     paginator = Pagination()
 
     latest_ids_per_uuid = FormData.objects.filter(
@@ -447,7 +448,7 @@ def get_datapoint_download_list(request, version):
         form_id__in=forms,
         pk__in=latest_ids_per_uuid,
     )
-    if assignment.last_synced_at:
+    if assignment.last_synced_at and not is_certification:
         queryset = queryset.filter(
             Q(created__gte=assignment.last_synced_at) |
             Q(updated__gte=assignment.last_synced_at)
