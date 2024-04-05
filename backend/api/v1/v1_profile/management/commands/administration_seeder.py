@@ -72,6 +72,21 @@ def seed_administration_test():
                                         path=path)
         administration.save()
 
+    administration = Administration.objects.get(id=1)
+    for index, name in enumerate(
+            ["Yogyakarta", "Sleman", "Seturan", "Cepit Baru"]):
+        id = index + 10
+        level = Levels.objects.filter(level=index + 1).first()
+        path = '{0}.'.format(administration.id)
+        if index:
+            path = '{0}{1}.'.format(administration.path, administration.id)
+        administration = Administration(id=id,
+                                        name=name,
+                                        parent=administration,
+                                        level=level,
+                                        path=path)
+        administration.save()
+
 
 def get_path(df, parent, current=[]):
     p = df[df['id'] == parent].reset_index()
