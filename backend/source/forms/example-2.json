@@ -6,6 +6,7 @@
     "text": "test",
     "action": ["action #1"]
   },
+  "submission_types": ["registration", "monitoring"],
   "question_groups": [
     {
       "id": 21,

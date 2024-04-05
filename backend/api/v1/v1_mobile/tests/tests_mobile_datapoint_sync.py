@@ -4,7 +4,7 @@ from api.v1.v1_mobile.models import MobileAssignment
 from api.v1.v1_profile.models import Administration, Access
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_forms.models import Forms
-from api.v1.v1_forms.constants import FormTypes
+from api.v1.v1_forms.constants import FormTypes, SubmissionTypes
 from api.v1.v1_data.models import FormData
 from api.v1.v1_users.models import SystemUser
 from django.core.management import call_command
@@ -22,15 +22,17 @@ class MobileDataPointDownloadListTestCase(TestCase):
             first_name='test',
             last_name='testing',
         )
-        self.administration = Administration.objects.filter(
-            parent__isnull=True
-        ).first()
+        self.administrations = Administration.objects.filter(
+            level__level=2
+        )
+        self.administration = self.administrations.first()
         role = UserRoleTypes.user
         self.user_access = Access.objects.create(
             user=self.user, role=role, administration=self.administration
         )
         self.forms = Forms.objects.filter(
-            type=FormTypes.county
+            type=FormTypes.county,
+            submission_types__contains=[SubmissionTypes.certification]
         ).all()
         self.uuid = '1234'
         self.passcode = 'passcode1234'
@@ -52,6 +54,26 @@ class MobileDataPointDownloadListTestCase(TestCase):
             administration=self.administration_children.first(),
             created_by=self.user,
             uuid=self.uuid,
+            submission_type=SubmissionTypes.registration,
+        )
+
+        # create a data for certification
+        self.cert_administration = self.administrations.last()
+        self.cert_administration_children = Administration.objects.filter(
+            parent=self.cert_administration
+        ).all()
+        self.mobile_assignment.certifications.add(
+            *self.cert_administration_children
+        )
+        self.cert_uuid = '5678'
+        self.form_data_cert = FormData.objects.create(
+            name="TEST",
+            geo=None,
+            form=self.forms[0],
+            administration=self.cert_administration_children.first(),
+            created_by=self.user,
+            uuid=self.cert_uuid,
+            submission_type=SubmissionTypes.registration,
         )
 
     def test_get_datapoints_list_url(self):
@@ -85,4 +107,28 @@ class MobileDataPointDownloadListTestCase(TestCase):
         self.assertEqual(
             list(data["data"][0]),
             ["id", "form_id", "name", "url", "last_updated"]
+        )
+
+        # test for certification datapoints
+
+        form_data = FormData.objects.all()
+        self.assertEqual(len(form_data), 2)
+        self.assertNotEqual(form_data[0].administration,
+                            form_data[1].administration)
+        self.assertTrue(self.mobile_assignment.certifications.all())
+
+        url = "/api/v1/device/datapoint-list/?certification=true"
+        response = self.client.get(
+            url,
+            follow=True,
+            content_type='application/json',
+            **{'HTTP_AUTHORIZATION':
+                f'Bearer {token}'},
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = response.json()
+        self.assertEqual(data["total"], 1)
+        self.assertEqual(
+            data["data"][0]["id"],
+            self.form_data_cert.id
         )

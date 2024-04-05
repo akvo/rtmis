@@ -2,6 +2,7 @@ from django.core.management import call_command
 from django.test import TestCase
 from django.test.utils import override_settings
 from api.v1.v1_data.models import FormData, Forms, Answers, AnswerHistory
+from api.v1.v1_forms.constants import SubmissionTypes
 from utils import storage
 import json
 
@@ -22,7 +23,7 @@ class DataTestCase(TestCase):
 
         # PRIVATE ACCESS
         data = self.client.get(
-            "/api/v1/form-data/1?page=1&administration=1",
+            "/api/v1/form-data/1?submission_type=1&page=1&administration=1",
             follow=True,
             **header)
         result = data.json()
@@ -32,6 +33,7 @@ class DataTestCase(TestCase):
         self.assertEqual(list(result['data'][0]), [
             'id', 'uuid', 'name', 'form', 'administration', 'geo',
             'created_by', 'updated_by', 'created', 'updated', 'pending_data',
+            'submission_type'
         ])
         self.assertIsNotNone(result['data'][0]['uuid'])
 
@@ -98,7 +100,8 @@ class DataTestCase(TestCase):
             "data": {
                 "name": "Testing Data",
                 "administration": 2,
-                "geo": [6.2088, 106.8456]
+                "geo": [6.2088, 106.8456],
+                "submission_type": SubmissionTypes.registration,
             },
             "answer": [{
                 "question": 101,

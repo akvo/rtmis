@@ -43,6 +43,8 @@ import {
   BIDashboard,
   MonitoringDetail,
   Downloads,
+  CertificationAssignment,
+  ManageDataClaim,
   // Visualisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
@@ -51,6 +53,7 @@ import { Layout, PageLoader } from "./components";
 import { useNotification } from "./util/hooks";
 import { eraseCookieFromAllPaths } from "./util/date";
 import { reloadData } from "./util/form";
+import CertificationAssignmentForm from "./pages/certification-assignment/CertificationAssignmentForm";
 
 const Private = ({ element: Element, alias }) => {
   const { user: authUser } = store.useState((state) => state);
@@ -190,6 +193,10 @@ const RouteList = () => {
           element={<Private element={Submissions} alias="data" />}
         />
         <Route
+          path="data-claim"
+          element={<Private element={ManageDataClaim} alias="data" />}
+        />
+        <Route
           path="approvals"
           element={<Private element={Approvals} alias="approvals" />}
         />
@@ -221,6 +228,30 @@ const RouteList = () => {
         <Route
           path="profile"
           element={<Private element={Profile} alias="profile" />}
+        />
+        <Route
+          path="certification"
+          element={
+            <Private element={CertificationAssignment} alias="certification" />
+          }
+        />
+        <Route
+          path="certification/add"
+          element={
+            <Private
+              element={CertificationAssignmentForm}
+              alias="certification"
+            />
+          }
+        />
+        <Route
+          path="certification/:id/edit"
+          element={
+            <Private
+              element={CertificationAssignmentForm}
+              alias="certification"
+            />
+          }
         />
       </Route>
       <Route

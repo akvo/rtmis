@@ -18,6 +18,8 @@ const AdministrationDropdown = ({
   limitLevel = false,
   isSelectAllVillage = false,
   selectedAdministrations = [],
+  certify = null,
+  excluded = [],
   ...props
 }) => {
   const { user, administration, levels } = store.useState((state) => state);
@@ -36,11 +38,11 @@ const AdministrationDropdown = ({
   const fetchUserAdmin = useCallback(async () => {
     if (user && !persist) {
       try {
-        const { data: _userAdm } = await api.get(
+        const { data: apiData } = await api.get(
           `administration/${user.administration.id}`
         );
         store.update((s) => {
-          s.administration = [_userAdm];
+          s.administration = [apiData];
         });
       } catch (error) {
         console.error(error);
@@ -184,7 +186,12 @@ const AdministrationDropdown = ({
                   >
                     {region.children
                       .filter(
-                        (c) => !currentId || c?.id !== parseInt(currentId, 10)
+                        (c) =>
+                          ((!certify &&
+                            (!currentId ||
+                              c?.id !== parseInt(currentId, 10))) ||
+                            (certify && c?.id !== certify)) &&
+                          !excluded?.includes(c?.id)
                       ) // prevents circular loops when primary ID has the same parent ID
                       .map((optionValue, optionIdx) => (
                         <Select.Option key={optionIdx} value={optionValue.id}>
@@ -218,6 +225,8 @@ AdministrationDropdown.propTypes = {
   maxLevel: PropTypes.number,
   allowMultiple: PropTypes.bool,
   onChange: PropTypes.func,
+  certify: PropTypes.number,
+  excluded: PropTypes.array,
 };
 
 export default React.memo(AdministrationDropdown);

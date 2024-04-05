@@ -1,52 +1,77 @@
-import random
 from django.core.management import BaseCommand
 from django.core.management import call_command
-from api.v1.v1_profile.models import Administration, Entity, EntityData
+from api.v1.v1_profile.models import (
+    Administration, Entity, EntityData, SystemUser, Levels
+)
+from api.v1.v1_profile.constants import UserRoleTypes
+from api.v1.v1_forms.models import Forms
+from api.v1.v1_mobile.models import MobileAssignment
 from faker import Faker
 
 fake = Faker()
 
 
-def get_entity_type(name: str):
-    entity, _ = Entity.objects.get_or_create(name=name)
-    return entity
+def create_entity_data(self, administration: Administration, test: bool):
+    entity_types = ["School", "Health Care Facilities"]
+    for t in entity_types:
+        entity, created = Entity.objects.get_or_create(name=t)
+        name = f"{entity.name} - {fake.company()}" \
+            if created else f"{t} - {fake.company()}"
+        if not test:
+            self.stdout.write(name)
+        EntityData.objects.create(
+            name=name,
+            administration=administration,
+            entity=entity
+        )
 
 
 def seed_data(self, repeat: int = 3, test: bool = False):
-    entity_types = ["School", "Health Care Facilities"]
-    wards = Administration.objects.filter(level=4).all()
-    ward = random.choice(wards)
-    if ward:
-        if not test:
-            self.stdout.write(f"WARD: {ward.full_path_name}")
-        random_type = random.choice(entity_types)
-        entity_type = get_entity_type(name=random_type)
-        EntityData.objects.create(
-            name=f"{random_type} - {fake.company()}- {ward.name}",
-            administration=ward,
-            entity=entity_type
+    mobile_assignments = MobileAssignment.objects.prefetch_related(
+        'administrations', 'certifications'
+    ).all()
+    adms = [
+        adm
+        for m in mobile_assignments
+        for adm in [a for a in m.administrations.all()] +
+        [c for c in m.certifications.all()]
+    ]
+    for adm in adms:
+        create_entity_data(
+            self,
+            administration=adm,
+            test=test
         )
-        villages = Administration.objects.filter(parent=ward.id)
-        for row in range(repeat):
-            village = random.choice(villages)
-            entities = []
-            if not test:
-                self.stdout.write(f"SEEDING - {village.name}")
-            for i in range(repeat):
-                find_type = random.choice(entity_types)
-                entity_type = get_entity_type(name=find_type)
-                ename = f"{entity_type.name} - {fake.company()} {row}{i+1}"
-                if not test:
-                    self.stdout.write(ename)
-                entities.append({
-                    'entity': entity_type,
-                    'name': ename
-                })
-                EntityData.objects.create(
-                    name=ename,
-                    administration=village,
-                    entity=entity_type
-                )
+    entity_form = Forms.objects.filter(
+        form_question_group__question_group_question__extra__contains="entity"
+    ).order_by('?').first()
+    users = SystemUser.objects.filter(
+        user_access__role=UserRoleTypes.user,
+        user_form__form=entity_form
+    ).order_by('?')[:repeat]
+    for user in users:
+        path = f"{user.user_access.administration.path}"
+        path += f"{user.user_access.administration.id}"
+        village = Administration.objects.filter(
+            path__startswith=path
+        ).order_by('?').first()
+        create_entity_data(
+            self,
+            administration=village,
+            test=test
+        )
+    if len(users) == 0 and len(adms) == 0:
+        # Generate randomly
+        last_level = Levels.objects.order_by('-id').first()
+        randoms = Administration.objects.filter(
+            level=last_level
+        ).order_by('?')[:repeat]
+        for r in randoms:
+            create_entity_data(
+                self,
+                administration=r,
+                test=test
+            )
 
 
 class Command(BaseCommand):

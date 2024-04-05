@@ -30,9 +30,13 @@ class ProfileTestHelperMixin:
         UserRoleTypes.user
     ]
 
-    def create_user(self, email: str,
-                    role_level: int,
-                    password: str = 'password') -> SystemUser:
+    def create_user(
+        self,
+        email: str,
+        role_level: int,
+        password: str = 'password',
+        administration: Administration = None
+    ) -> SystemUser:
         profile = fake.profile()
         name = profile.get("name")
         name = name.split(" ")
@@ -44,11 +48,13 @@ class ProfileTestHelperMixin:
         user.save()
 
         level = Levels.objects.filter(level=role_level).first()
+        administration = administration or Administration.objects.filter(
+                level=level).order_by('?').first()
         Access.objects.create(
             user=user,
             role=self.ROLES_LEVELS[role_level],
-            administration=Administration.objects.filter(
-                level=level).order_by('?').first())
+            administration=administration,
+        )
         return user
 
     @staticmethod

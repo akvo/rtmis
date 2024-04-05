@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useMemo } from "react";
 import "./style.scss";
 import { Select } from "antd";
 import PropTypes from "prop-types";
@@ -9,10 +9,22 @@ const FormDropdown = ({
   loading: parentLoading = false,
   title = false,
   hidden = false,
+  submissionTypes = [],
   ...props
 }) => {
   const { forms, selectedForm, loadingForm } = store.useState((state) => state);
-  const filterForms = title ? window.forms : forms;
+  const filterForms = useMemo(() => {
+    const form_items = title ? window.forms : forms;
+    return form_items.filter(
+      (f) =>
+        !submissionTypes.length ||
+        (submissionTypes.length &&
+          f?.content?.submission_types?.length &&
+          submissionTypes.filter((st) =>
+            f.content.submission_types.includes(st)
+          ).length)
+    );
+  }, [title, submissionTypes, forms]);
 
   const handleChange = useCallback((e) => {
     if (!e) {
@@ -32,7 +44,10 @@ const FormDropdown = ({
     });
   }, []);
   useEffect(() => {
-    if (!!filterForms?.length && !selectedForm) {
+    if (
+      filterForms?.length &&
+      (!selectedForm || !filterForms.map((f) => f.id).includes(selectedForm))
+    ) {
       handleChange(filterForms[0].id);
     }
   }, [filterForms, selectedForm, handleChange]);
@@ -44,7 +59,7 @@ const FormDropdown = ({
         onChange={(e) => {
           handleChange(e);
         }}
-        value={selectedForm || null}
+        value={filterForms.length ? selectedForm : null}
         className={`form-dropdown ${title ? " form-dropdown-title" : ""}`}
         disabled={parentLoading || loadingForm}
         getPopupContainer={(trigger) => trigger.parentNode}

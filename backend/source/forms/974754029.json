@@ -2,6 +2,7 @@
   "id": 974754029,
   "form": "CLTS",
   "type": 1,
+  "submission_types": ["registration", "monitoring"],
   "question_groups": [
     {
       "id": 9747540291,

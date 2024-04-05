@@ -6,6 +6,7 @@ from api.v1.v1_forms.models import Forms
 from drf_spectacular.types import OpenApiTypes
 from api.v1.v1_mobile.authentication import MobileAssignmentToken
 from api.v1.v1_profile.models import Administration, Entity
+from api.v1.v1_profile.serializers import RelatedAdministrationField
 from utils.custom_serializer_fields import CustomCharField
 from api.v1.v1_mobile.models import MobileAssignment, MobileApk
 from utils.custom_helper import CustomPasscode, generate_random_string
@@ -49,6 +50,7 @@ class MobileAssignmentFormsSerializer(serializers.Serializer):
     name = serializers.CharField(read_only=True)
     syncToken = serializers.SerializerMethodField()
     formsUrl = serializers.SerializerMethodField()
+    certifications = serializers.SerializerMethodField()
 
     @extend_schema_field(MobileFormSerializer(many=True))
     def get_formsUrl(self, obj):
@@ -63,8 +65,11 @@ class MobileAssignmentFormsSerializer(serializers.Serializer):
             raise serializers.ValidationError("Invalid passcode")
         return value
 
+    def get_certifications(self, obj):
+        return obj.certifications.values_list("id", flat=True)
+
     class Meta:
-        fields = ["name", "syncToken", "formsUrl", "code"]
+        fields = ["name", "syncToken", "formsUrl", "code", "certifications"]
 
 
 class IdAndNameRelatedField(serializers.PrimaryKeyRelatedField):
@@ -133,11 +138,20 @@ class MobileAssignmentSerializer(serializers.ModelSerializer):
     administrations = IdAndNameRelatedField(
         queryset=Administration.objects.all(), many=True
     )
+    certifications = RelatedAdministrationField(
+        queryset=Administration.objects.all(),
+        many=True,
+        required=False
+    )
     passcode = serializers.SerializerMethodField()
+    created_by = serializers.ReadOnlyField(source='user.email')
 
     class Meta:
         model = MobileAssignment
-        fields = ["id", "name", "passcode", "forms", "administrations"]
+        fields = [
+            "id", "name", "passcode", "forms", "administrations",
+            "created_by", "certifications"
+        ]
         read_only_fields = ["passcode"]
 
     def create(self, validated_data: Dict[str, Any]):

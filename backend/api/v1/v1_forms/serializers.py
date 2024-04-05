@@ -6,10 +6,17 @@ from drf_spectacular.utils import extend_schema_field, inline_serializer
 from rest_framework import serializers
 
 from api.v1.v1_forms.constants import QuestionTypes, AttributeTypes, FormTypes
-from api.v1.v1_forms.models import Forms, QuestionGroup, Questions, \
-    QuestionOptions, QuestionAttribute
+from api.v1.v1_forms.models import (
+    Forms,
+    QuestionGroup,
+    Questions,
+    QuestionOptions,
+    QuestionAttribute,
+    FormCertificationAssignment
+)
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Administration, Entity
+from api.v1.v1_profile.serializers import RelatedAdministrationField
 from api.v1.v1_users.models import SystemUser
 from rtmis.settings import FORM_GEO_VALUE
 from utils.custom_serializer_fields import CustomChoiceField, \
@@ -183,7 +190,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
             'id', 'order', 'name', 'label', 'short_label', 'type', 'required',
             'dependency', 'option', 'center', 'api', 'meta', 'meta_uuid',
             'rule', 'extra', 'source', 'tooltip', 'fn', 'pre', 'hidden',
-            'displayOnly', 'default_value', 'disabled',
+            'displayOnly', 'default_value', 'disabled'
         ]
 
 
@@ -261,8 +268,9 @@ class WebFormDetailSerializer(serializers.ModelSerializer):
             'name',
             'version',
             'cascades',
+            'approval_instructions',
+            'submission_types',
             'question_group',
-            'approval_instructions'
         ]
 
 
@@ -281,7 +289,10 @@ class ListFormSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Forms
-        fields = ['id', 'name', 'type', 'version', 'type_text']
+        fields = [
+            'id', 'name', 'type', 'version',
+            'type_text', 'submission_types'
+        ]
 
 
 class FormDataListQuestionSerializer(serializers.ModelSerializer):
@@ -361,7 +372,10 @@ class FormDataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Forms
-        fields = ['id', 'name', 'question_group', 'approval_instructions']
+        fields = [
+            'id', 'name', 'question_group', 'approval_instructions',
+            'submission_types'
+        ]
 
 
 class FormApproverRequestSerializer(serializers.Serializer):
@@ -401,3 +415,32 @@ class FormApproverResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Administration
         fields = ['user', 'administration']
+
+
+class FormCertificationAssignmentRequestSerializer(
+        serializers.ModelSerializer):
+    administrations = serializers.PrimaryKeyRelatedField(
+        queryset=Administration.objects.all(), many=True
+    )
+
+    class Meta:
+        model = FormCertificationAssignment
+        fields = ['id', 'assignee', 'administrations']
+
+
+class FormCertificationAssignmentSerializer(serializers.ModelSerializer):
+    county_id = serializers.SerializerMethodField()
+    assignee = RelatedAdministrationField(
+        queryset=Administration.objects.all()
+    )
+    administrations = RelatedAdministrationField(
+        queryset=Administration.objects.all(), many=True
+    )
+
+    @extend_schema_field(OpenApiTypes.INT)
+    def get_county_id(self, instance: FormCertificationAssignment):
+        return instance.assignee.parent.pk
+
+    class Meta:
+        model = FormCertificationAssignment
+        fields = ['id', 'assignee', 'administrations', 'updated', 'county_id']

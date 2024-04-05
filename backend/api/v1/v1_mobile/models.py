@@ -6,7 +6,7 @@ from utils.custom_helper import generate_random_string, CustomPasscode
 
 
 class MobileAssignmentManager(models.Manager):
-    def create_assignment(self, user, name, passcode=None):
+    def create_assignment(self, user, name, passcode=None, certification=[]):
         if not passcode:
             passcode = generate_random_string(8)
         mobile_assignment = self.create(
@@ -14,6 +14,7 @@ class MobileAssignmentManager(models.Manager):
             name=name,
             passcode=CustomPasscode().encode(passcode),
         )
+        mobile_assignment.certifications.set(certification)
         return mobile_assignment
 
 
@@ -29,6 +30,10 @@ class MobileAssignment(models.Model):
 
     forms = models.ManyToManyField(Forms)
     administrations = models.ManyToManyField(Administration)
+    certifications = models.ManyToManyField(
+        Administration,
+        related_name='certifications'
+    )
 
     def set_passcode(self, passcode):
         self.passcode = CustomPasscode().encode(passcode)

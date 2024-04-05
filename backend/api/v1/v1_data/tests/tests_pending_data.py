@@ -68,7 +68,7 @@ class PendingDataTestCase(TestCase):
                 self.assertEqual(200, response.status_code)
                 self.assertEqual([
                     'id', 'uuid', 'data_id', 'name', 'form', 'administration',
-                    'geo', 'created_by', 'created', 'is_monitoring'
+                    'geo', 'created_by', 'created'
                 ], list(response.json()[0]))
 
         county_form = Forms.objects.filter(type=FormTypes.county).first()
@@ -142,7 +142,7 @@ class PendingDataTestCase(TestCase):
 
         # get the lowest level approver
         approval: Union[PendingDataApproval, None] = PendingDataApproval\
-            .objects.filter(level__level=MAX_LEVEL_IN_SOURCE_FILE)\
+            .objects.filter(level__level=MAX_LEVEL_IN_SOURCE_FILE - 1)\
             .first()
         t_child = RefreshToken.for_user(approval.user)
         header = {'HTTP_AUTHORIZATION': f'Bearer {t_child.access_token}'}

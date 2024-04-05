@@ -45,7 +45,7 @@ from api.v1.v1_data.serializers import SubmitFormSerializer, \
     ListMapOverviewDataPointRequestSerializer
 from api.v1.v1_data.functions import get_cache, create_cache, \
     get_advance_filter_data_ids, transform_glass_answer
-from api.v1.v1_forms.constants import QuestionTypes, FormTypes
+from api.v1.v1_forms.constants import QuestionTypes, FormTypes, SubmissionTypes
 from api.v1.v1_forms.models import Forms, Questions
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
@@ -100,6 +100,11 @@ class FormDataAddListView(APIView):
             OpenApiParameter(name='parent',
                              required=False,
                              type=OpenApiTypes.NUMBER,
+                             location=OpenApiParameter.QUERY),
+            OpenApiParameter(name='submission_type',
+                             required=False,
+                             enum=SubmissionTypes.FieldStr.keys(),
+                             type=OpenApiTypes.NUMBER,
                              location=OpenApiParameter.QUERY)],
         summary='To get list of form data')
     def get(self, request, form_id, version):
@@ -136,11 +141,18 @@ class FormDataAddListView(APIView):
             }
             return Response(data, status=status.HTTP_200_OK)
 
+        submission_type = request.GET.get(
+            "submission_type", SubmissionTypes.registration
+        )
         filter_data = {}
-        latest_ids_per_uuid = form.form_form_data.values('uuid').annotate(
-            latest_id=Max('id')
-        ).values_list('latest_id', flat=True)
-        filter_data["pk__in"] = latest_ids_per_uuid
+        filter_data["submission_type"] = submission_type
+        if submission_type in [
+            SubmissionTypes.registration, SubmissionTypes.monitoring
+        ]:
+            latest_ids_per_uuid = form.form_form_data.values('uuid').annotate(
+                latest_id=Max('id')
+            ).values_list('latest_id', flat=True)
+            filter_data["pk__in"] = latest_ids_per_uuid
         if serializer.validated_data.get('administration'):
             filter_administration = serializer.validated_data.get(
                 'administration')

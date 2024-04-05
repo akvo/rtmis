@@ -6,7 +6,7 @@ from django.test.utils import override_settings
 from faker import Faker
 
 from api.v1.v1_forms.models import Forms
-from api.v1.v1_forms.constants import FormTypes
+from api.v1.v1_forms.constants import FormTypes, SubmissionTypes
 from api.v1.v1_profile.models import Access, Levels, Administration
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_users.models import SystemUser
@@ -66,7 +66,8 @@ class AddNewDataTestCase(TestCase):
             "data": {
                 "name": "Testing Data",
                 "administration": 2,
-                "geo": [6.2088, 106.8456]
+                "geo": [6.2088, 106.8456],
+                "submission_type": SubmissionTypes.registration,
             },
             "answer": [{
                 "question": 101,
@@ -142,7 +143,8 @@ class AddNewDataTestCase(TestCase):
             "data": {
                 "name": "Testing Data County",
                 "administration": 2,
-                "geo": [6.2088, 106.8456]
+                "geo": [6.2088, 106.8456],
+                "submission_type": SubmissionTypes.registration,
             },
             "answer": [{
                 "question": 101,
@@ -207,7 +209,8 @@ class AddNewDataTestCase(TestCase):
             "data": {
                 "name": "Testing Data National",
                 "administration": 2,
-                "geo": [6.2088, 106.8456]
+                "geo": [6.2088, 106.8456],
+                "submission_type": SubmissionTypes.registration,
             },
             "answer": [{
                 "question": 201,
@@ -268,7 +271,8 @@ class AddNewDataTestCase(TestCase):
             "data": {
                 "name": "Testing Data Entry",
                 "administration": 2,
-                "geo": [6.2088, 106.8456]
+                "geo": [6.2088, 106.8456],
+                "submission_type": SubmissionTypes.registration,
             },
             "answer": [{
                 "question": 101,

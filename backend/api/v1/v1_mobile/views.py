@@ -16,7 +16,7 @@ from rtmis.settings import (
 )
 from django.http import HttpResponse
 from django.utils import timezone
-from django.db.models import Max, Q
+from django.db.models import Max, Q, OuterRef, Exists
 
 from rest_framework import status, serializers
 from rest_framework.response import Response
@@ -41,16 +41,20 @@ from .serializers import (
     MobileDataPointDownloadListSerializer
 )
 from .models import MobileAssignment, MobileApk
-from api.v1.v1_forms.models import Forms, Questions, QuestionTypes
+from api.v1.v1_forms.models import Forms, Questions, QuestionTypes, UserForms
 from api.v1.v1_profile.models import Access
 from api.v1.v1_data.models import FormData
 from api.v1.v1_forms.serializers import WebFormDetailSerializer
+from api.v1.v1_forms.constants import SubmissionTypes
 from api.v1.v1_data.serializers import SubmitPendingFormSerializer
 from api.v1.v1_files.serializers import UploadImagesSerializer
 from api.v1.v1_files.functions import process_image
 from utils.custom_helper import CustomPasscode
 from utils.default_serializers import DefaultResponseSerializer
-from utils.custom_serializer_fields import validate_serializers_message
+from utils.custom_serializer_fields import (
+    validate_serializers_message,
+    CustomChoiceField
+)
 from utils import storage
 
 apk_path = os.path.join(BASE_DIR, MASTER_DATA)
@@ -143,6 +147,10 @@ def get_raw_token(request):
             'submittedAt': serializers.DateTimeField(),
             'submitter': serializers.CharField(),
             'geo': serializers.ListField(child=serializers.IntegerField()),
+            'submission_type': CustomChoiceField(
+                choices=SubmissionTypes.FieldStr,
+                required=True,
+            ),
             'answers': serializers.DictField(),
         },
     ),
@@ -181,6 +189,7 @@ def sync_pending_form_data(request, version):
             'geo': request.data.get('geo'),
             'submitter': assignment.name,
             'duration': request.data.get('duration'),
+            'submission_type': request.data.get('submission_type'),
         },
         'answer': answers,
     }
@@ -350,10 +359,35 @@ class MobileAssignmentViewSet(ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        return MobileAssignment.objects\
+        adm_path = user.user_access.administration.path
+        adm_path += f"{user.user_access.administration.id}"
+        mobile_users = MobileAssignment.objects\
             .prefetch_related('administrations', 'forms')\
-            .filter(user=user)\
-            .order_by('id')
+            .filter(user=user)
+
+        user_form_subquery = UserForms.objects.filter(
+            user=user,
+            form_id=OuterRef('forms__pk'),
+        ).values('form_id')
+
+        exclude_ids = MobileAssignment.objects\
+            .filter(
+                administrations__path__startswith=adm_path
+            )\
+            .annotate(
+                has_matching_user_form=Exists(user_form_subquery)
+            ) \
+            .filter(
+                has_matching_user_form=False
+            ).distinct()
+
+        mobile_users |= MobileAssignment.objects\
+            .prefetch_related('administrations', 'forms')\
+            .filter(
+                administrations__path__startswith=adm_path,
+            )\
+            .exclude(pk__in=exclude_ids)
+        return mobile_users.order_by('-id').distinct()
 
 
 @extend_schema(
@@ -369,6 +403,14 @@ class MobileAssignmentViewSet(ModelViewSet):
         )
     },
     parameters=[
+        # parameter for data type
+        # certification = true, default false
+        OpenApiParameter(
+            name='certification',
+            required=False,
+            description='If true, only return certified datapoints',
+            type=OpenApiTypes.BOOL,
+        ),
         OpenApiParameter(
             name='page',
             required=True,
@@ -382,8 +424,16 @@ class MobileAssignmentViewSet(ModelViewSet):
 @permission_classes([IsMobileAssignment])
 def get_datapoint_download_list(request, version):
     assignment = cast(MobileAssignmentToken, request.auth).assignment
-    administrations = assignment.administrations.values('id')
     forms = assignment.forms.values('id')
+    is_certification = request.query_params.get("certification")
+    if is_certification:
+        administrations = assignment.certifications.values('id')
+        forms = Forms.objects.filter(
+            id__in=forms,
+            submission_types__contains=[SubmissionTypes.certification]
+        ).values('id')
+    else:
+        administrations = assignment.administrations.values('id')
     paginator = Pagination()
 
     latest_ids_per_uuid = FormData.objects.filter(
@@ -398,8 +448,7 @@ def get_datapoint_download_list(request, version):
         form_id__in=forms,
         pk__in=latest_ids_per_uuid,
     )
-    print("assignment.last_synced_at ", assignment.last_synced_at)
-    if assignment.last_synced_at:
+    if assignment.last_synced_at and not is_certification:
         queryset = queryset.filter(
             Q(created__gte=assignment.last_synced_at) |
             Q(updated__gte=assignment.last_synced_at)

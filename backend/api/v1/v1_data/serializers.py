@@ -19,7 +19,9 @@ from api.v1.v1_data.models import (
     AnswerHistory,
     PendingAnswerHistory,
 )
-from api.v1.v1_forms.constants import QuestionTypes, FormTypes
+from api.v1.v1_forms.constants import (
+    QuestionTypes, FormTypes, SubmissionTypes
+)
 from api.v1.v1_forms.models import (
     Questions,
     QuestionOptions,
@@ -56,7 +58,7 @@ class SubmitFormDataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FormData
-        fields = ["name", "geo", "administration"]
+        fields = ["name", "geo", "administration", "submission_type"]
 
 
 class SubmitFormDataAnswerSerializer(serializers.ModelSerializer):
@@ -309,7 +311,8 @@ class ListFormDataSerializer(serializers.ModelSerializer):
             "updated_by",
             "created",
             "updated",
-            "pending_data"
+            "pending_data",
+            "submission_type"
         ]
 
 
@@ -600,7 +603,7 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
     created = serializers.SerializerMethodField()
     administration = serializers.ReadOnlyField(source="administration.name")
     pending_answer_history = serializers.SerializerMethodField()
-    is_monitoring = serializers.SerializerMethodField()
+    submission_type = CustomChoiceField(choices=SubmissionTypes.FieldStr)
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_created_by(self, instance: PendingFormData):
@@ -616,20 +619,6 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
             pending_data=instance).count()
         return True if history > 0 else False
 
-    @extend_schema_field(OpenApiTypes.BOOL)
-    def get_is_monitoring(self, instance: PendingFormData):
-        if instance.data_id:
-            registration = FormData.objects.filter(
-                id=instance.data_id,
-                parent=None
-            ).first()
-            return True if registration else False
-        monitoring = FormData.objects.filter(
-            uuid=instance.uuid,
-            parent=None
-        ).first()
-        return True if monitoring else False
-
     class Meta:
         model = PendingFormData
         fields = [
@@ -644,8 +633,8 @@ class ListPendingFormDataSerializer(serializers.ModelSerializer):
             "duration",
             "created_by",
             "created",
+            "submission_type",
             "pending_answer_history",
-            "is_monitoring",
         ]
 
 
@@ -1047,6 +1036,8 @@ class SubmitPendingFormDataSerializer(serializers.ModelSerializer):
     submitter = CustomCharField(required=False)
     duration = CustomIntegerField(required=False)
     uuid = serializers.CharField(required=False)
+    submission_type = CustomChoiceField(
+        choices=SubmissionTypes.FieldStr, required=True)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -1056,7 +1047,8 @@ class SubmitPendingFormDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = PendingFormData
         fields = [
-            "name", "geo", "administration", "submitter", "duration", "uuid"
+            "name", "geo", "administration", "submitter", "duration", "uuid",
+            "submission_type"
         ]
 
 
@@ -1169,6 +1161,7 @@ class SubmitPendingFormSerializer(serializers.Serializer):
                 geo=data.get("geo"),
                 created_by=data.get("created_by"),
                 created=data.get("submitedAt") or timezone.now(),
+                submission_type=data.get("submission_type"),
             )
 
         for answer in validated_data.get("answer"):

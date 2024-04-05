@@ -53,7 +53,7 @@ fi
 image_prefix="eu.gcr.io/akvo-lumen/rtmis"
 
 dc () {
-    docker-compose \
+    docker compose \
         --ansi never \
         "$@"
 }

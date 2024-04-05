@@ -36,6 +36,7 @@ const config = {
         "user",
         "control-center",
         "data",
+        "data-claim",
         "visualisation",
         "questionnaires",
         "approvals",
@@ -46,6 +47,7 @@ const config = {
         "organisation",
         "master-data",
         "downloads",
+        "certification",
       ],
       administration_level: [1],
       description:
@@ -69,6 +71,7 @@ const config = {
         "user",
         "control-center",
         "data",
+        "data-claim",
         "visualisation",
         "questionnaires",
         "approvals",
@@ -76,6 +79,7 @@ const config = {
         "form",
         "reports",
         "downloads",
+        "certification",
       ],
       administration_level: [2],
       description:
@@ -98,6 +102,7 @@ const config = {
         "profile",
         "control-center",
         "data",
+        "data-claim",
         "visualisation",
         "approvals",
         "questionnaires",
@@ -126,6 +131,7 @@ const config = {
         "profile",
         "form",
         "data",
+        "data-claim",
         "visualisation",
         "control-center",
         "reports",
@@ -904,6 +910,12 @@ const config = {
       },
     ],
     optionTypes: ["option", "multiple_option", "aggregate"],
+  },
+  submissionType: {
+    registration: 1,
+    monitoring: 2,
+    verification: 3,
+    certification: 4,
   },
 };
 

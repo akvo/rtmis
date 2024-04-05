@@ -3,7 +3,7 @@ from django.core.management import call_command
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_data.models import FormData
 from api.v1.v1_forms.models import Forms
-from api.v1.v1_forms.constants import FormTypes
+from api.v1.v1_forms.constants import FormTypes, SubmissionTypes
 from api.v1.v1_profile.models import Administration, Access
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_data.management.commands.fake_data_seeder import (
@@ -102,11 +102,12 @@ class MonitoringDataTestCase(TestCase):
             form=self.form,
             administration=self.administration,
             created_by=self.user,
+            submission_type=SubmissionTypes.monitoring,
         )
         add_fake_answers(monitoring, form_type=FormTypes.county)
 
         data = self.client.get(
-            f"/api/v1/form-data/1/{self.form.id}",
+            f"/api/v1/form-data/1/{self.form.id}?submission_type=1",
             content_type='application/json',
             **{'HTTP_AUTHORIZATION': f'Bearer {self.token}'}
         )
@@ -144,3 +145,8 @@ class MonitoringDataTestCase(TestCase):
         data = data.json()
         self.assertEqual(data['total'], 1)
         self.assertEqual(data['data'][0]['name'], lastest.name)
+        self.assertEqual(
+            list(data['data'][0]),
+            ['id', 'uuid', 'name', 'form', 'administration',
+             'geo', 'created_by', 'updated_by', 'created', 'updated',
+             'pending_data', 'submission_type'])

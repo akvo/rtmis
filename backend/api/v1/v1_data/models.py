@@ -2,7 +2,10 @@ from django.db import models
 
 # Create your models here.
 from api.v1.v1_data.constants import DataApprovalStatus
-from api.v1.v1_forms.constants import QuestionTypes
+from api.v1.v1_forms.constants import (
+    QuestionTypes,
+    SubmissionTypes,
+)
 from api.v1.v1_forms.models import Forms, Questions
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
@@ -27,6 +30,9 @@ class FormData(models.Model):
                                        related_name='administration_form_data')
     geo = models.JSONField(null=True, default=None)
     uuid = models.CharField(max_length=255, default=uuid.uuid4, null=True)
+    submission_type = models.IntegerField(
+        choices=SubmissionTypes.FieldStr.items(),
+        default=SubmissionTypes.registration)
     created_by = models.ForeignKey(to=SystemUser,
                                    on_delete=models.CASCADE,
                                    related_name='form_data_created')
@@ -154,6 +160,9 @@ class PendingFormData(SoftDeletes):
                              related_name='pending_data_form_data',
                              default=None,
                              null=True)
+    submission_type = models.IntegerField(
+        choices=SubmissionTypes.FieldStr.items(),
+        default=SubmissionTypes.registration)
     administration = models.ForeignKey(
         to=Administration,
         on_delete=models.PROTECT,
