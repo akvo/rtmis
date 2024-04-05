@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Dialog } from '@rneui/themed';
+import PropTypes from 'prop-types';
 import { UIState } from '../../store';
 import { i18n } from '../../lib';
 
@@ -16,7 +17,7 @@ const SaveDialogMenu = ({ visible, setVisible, handleOnSaveAndExit, handleOnExit
         testID="save-and-exit-button"
         onPress={() => {
           if (handleOnSaveAndExit) {
-            return handleOnSaveAndExit();
+            handleOnSaveAndExit();
           }
         }}
       />
@@ -28,7 +29,7 @@ const SaveDialogMenu = ({ visible, setVisible, handleOnSaveAndExit, handleOnExit
         titleStyle={styles.textDanger}
         onPress={() => {
           if (handleOnExit) {
-            return handleOnExit();
+            handleOnExit();
           }
         }}
       />
@@ -37,9 +38,7 @@ const SaveDialogMenu = ({ visible, setVisible, handleOnSaveAndExit, handleOnExit
         title={trans.buttonCancel}
         testID="cancel-button"
         onPress={() => {
-          if (setVisible) {
-            return setVisible(false);
-          }
+          setVisible(false);
         }}
       />
     </Dialog>
@@ -57,3 +56,15 @@ const styles = StyleSheet.create({
 });
 
 export default SaveDialogMenu;
+
+SaveDialogMenu.propTypes = {
+  visible: PropTypes.bool.isRequired,
+  setVisible: PropTypes.func.isRequired,
+  handleOnExit: PropTypes.func,
+  handleOnSaveAndExit: PropTypes.func,
+};
+
+SaveDialogMenu.defaultProps = {
+  handleOnExit: null,
+  handleOnSaveAndExit: null,
+};

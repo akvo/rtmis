@@ -66,9 +66,6 @@ describe('Question component', () => {
       ],
     };
 
-    const setFieldValue = jest.fn();
-    const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
-
     const { getAllByTestId, queryByText } = render(<Question group={mockGroupQuestions} />);
 
     const questionView = getAllByTestId('question-view');
@@ -133,7 +130,6 @@ describe('Question component', () => {
     };
 
     const setFieldValue = jest.fn();
-    const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
 
     const { getAllByTestId, queryByText, getByTestId } = render(
       <Question group={mockGroupQuestions} />,
@@ -146,7 +142,7 @@ describe('Question component', () => {
 
     expect(setFieldValue).toHaveBeenCalledTimes(0);
     const inputElement = getByTestId('type-input');
-    expect(inputElement.props.value).not.toBeDefined();
+    expect(inputElement.props.value).toBeNull();
   });
 
   it('should store valid uuidv4', async () => {
@@ -165,9 +161,6 @@ describe('Question component', () => {
         },
       ],
     };
-
-    const setFieldValue = jest.fn();
-    const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
 
     const { getByTestId, rerender } = render(<Question group={mockGroupQuestions} />);
 
@@ -235,24 +228,17 @@ describe('Question component', () => {
         {
           id: 1,
           label: 'Your Age',
+          name: 'your_age',
           order: 1,
           type: 'number',
           required: true,
           meta: true,
           translations: [],
-          pre: {
-            answer: 18,
-            fill: [
-              {
-                id: 2,
-                answer: ['Senior High School'],
-              },
-            ],
-          },
         },
         {
           id: 2,
           label: 'Last Education',
+          name: 'last_education',
           order: 2,
           type: 'option',
           required: false,
@@ -262,28 +248,33 @@ describe('Question component', () => {
             {
               id: 11,
               label: 'Senior High School',
-              value: 'Senior High School',
+              value: 'senior_high_school',
               order: 1,
             },
             {
               id: 12,
               label: 'Bachelor',
-              value: 'Bachelor',
+              value: 'bachelor',
               order: 2,
             },
             {
               id: 13,
               label: 'Master',
-              value: 'Master',
+              value: 'master',
               order: 3,
             },
             {
               id: 14,
               label: 'Doctor',
-              value: 'Master',
+              value: 'doctor',
               order: 4,
             },
           ],
+          pre: {
+            your_age: {
+              18: ['senior_high_school'],
+            },
+          },
         },
       ],
     };
@@ -293,9 +284,6 @@ describe('Question component', () => {
 
     act(() => {
       fireEvent.changeText(getByTestId('type-number'), '18');
-      FormState.update((s) => {
-        s.currentValues = { 1: '18' };
-      });
     });
 
     await waitFor(() => {
@@ -303,7 +291,7 @@ describe('Question component', () => {
       expect(inputElement.props.value).toEqual('18');
       expect(getByText('Senior High School')).toBeDefined();
 
-      expect(result.current).toEqual({ 1: '18', 2: ['Senior High School'] });
+      expect(result.current).toEqual({ 1: '18', 2: ['senior_high_school'] });
     });
   });
 
@@ -314,20 +302,12 @@ describe('Question component', () => {
         {
           id: 1,
           label: 'Are you willing to participate in the survey?',
+          name: 'willing_to_survey',
           order: 1,
           type: 'option',
           required: true,
           meta: true,
           translations: [],
-          pre: {
-            answer: ['Yes'],
-            fill: [
-              {
-                id: 2,
-                answer: 10,
-              },
-            ],
-          },
           option: [
             {
               id: 11,
@@ -346,12 +326,18 @@ describe('Question component', () => {
         {
           id: 2,
           label: 'Your Point',
+          name: 'your_point',
           order: 2,
           type: 'number',
           required: false,
           meta: false,
           translations: [],
           option: null,
+          pre: {
+            willing_to_survey: {
+              Yes: 10,
+            },
+          },
         },
       ],
     };

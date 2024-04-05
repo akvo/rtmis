@@ -45,7 +45,8 @@ const config = {
         "settings",
         "organisation",
         "master-data",
-        "administration-download",
+        "downloads",
+        "certification",
       ],
       administration_level: [1],
       description:
@@ -75,7 +76,8 @@ const config = {
         "approvers",
         "form",
         "reports",
-        "administration-download",
+        "downloads",
+        "certification",
       ],
       administration_level: [2],
       description:
@@ -104,7 +106,7 @@ const config = {
         "reports",
         "mobile",
         "form",
-        "administration-download",
+        "downloads",
       ],
       administration_level: [3, 4],
       description:
@@ -130,7 +132,7 @@ const config = {
         "control-center",
         "reports",
         "mobile",
-        "administration-download",
+        "downloads",
       ],
       administration_level: [4],
       description:
@@ -904,6 +906,12 @@ const config = {
       },
     ],
     optionTypes: ["option", "multiple_option", "aggregate"],
+  },
+  submissionType: {
+    registration: 1,
+    monitoring: 2,
+    verification: 3,
+    certification: 4,
   },
 };
 

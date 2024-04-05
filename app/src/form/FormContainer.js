@@ -1,11 +1,13 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { BaseLayout } from '../components';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { View } from 'react-native';
+import { Dialog } from '@rneui/themed';
+import PropTypes from 'prop-types';
+import { useRoute } from '@react-navigation/native';
+import { BaseLayout } from '../components';
 import { FormNavigation, QuestionGroupList } from './support';
 import QuestionGroup from './components/QuestionGroup';
-import { transformForm, generateDataPointName, onFilterDependency } from './lib';
+import { transformForm, generateDataPointName } from './lib';
 import { FormState } from '../store';
-import { Dialog } from '@rneui/themed';
 import { i18n } from '../lib';
 
 // TODO:: Allow other not supported yet
@@ -20,7 +22,9 @@ const checkValuesBeforeCallback = (values) =>
       }
       // check array
       if (value && Array.isArray(value)) {
-        const check = value.filter((y) => typeof y !== 'undefined' && (y || isNaN(y)));
+        const check = value.filter(
+          (y) => typeof y !== 'undefined' && (y || Number.isNaN(Number(y))),
+        );
         value = check.length ? check : null;
       }
       // check empty
@@ -36,7 +40,31 @@ const style = {
   flex: 1,
 };
 
-const FormContainer = ({ forms, onSubmit, setShowDialogMenu, isMonitoring }) => {
+const LoadingOverlay = ({ trans }) => (
+  <View
+    style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    }}
+  >
+    <Dialog isVisible>
+      <Dialog.Title title={`${trans.loadingPrefilledAnswer}...`} />
+      <Dialog.Loading />
+    </Dialog>
+  </View>
+);
+
+LoadingOverlay.propTypes = {
+  trans: PropTypes.shape({ loadingPrefilledAnswer: PropTypes.string }).isRequired,
+};
+
+const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
   const [activeGroup, setActiveGroup] = useState(0);
   const [showQuestionGroupList, setShowQuestionGroupList] = useState(false);
   const currentValues = FormState.useState((s) => s.currentValues);
@@ -44,23 +72,25 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu, isMonitoring }) => 
   const activeLang = FormState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
   const formLoading = FormState.useState((s) => s.loading);
+  const route = useRoute();
 
-  const formDefinition = transformForm(forms, activeLang, isMonitoring);
-  const activeQuestions = formDefinition?.question_group?.flatMap((qg) =>
-    qg?.question?.filter((q) => onFilterDependency(qg, currentValues, q)),
+  const formDefinition = transformForm(
+    forms,
+    currentValues,
+    activeLang,
+    route.params.submission_type,
   );
+  const activeQuestions = formDefinition?.question_group?.flatMap((qg) => qg?.question);
 
-  const currentGroup = useMemo(() => {
-    return formDefinition?.question_group?.[activeGroup] || {};
-  }, [formDefinition, activeGroup]);
-  const numberOfQuestion = currentGroup?.question?.length || 0;
+  const currentGroup = useMemo(
+    () => formDefinition?.question_group?.[activeGroup] || {},
+    [formDefinition, activeGroup],
+  );
 
   const handleOnSubmitForm = () => {
     const validValues = Object.keys(currentValues)
       .filter((qkey) => activeQuestions.map((q) => `${q.id}`).includes(qkey))
-      .reduce((prev, current) => {
-        return { [current]: currentValues[current], ...prev };
-      }, {});
+      .reduce((prev, current) => ({ [current]: currentValues[current], ...prev }), {});
     const results = checkValuesBeforeCallback(validValues);
     if (onSubmit) {
       const { dpName, dpGeo } = generateDataPointName(forms, validValues, cascades);
@@ -68,42 +98,66 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu, isMonitoring }) => 
     }
   };
 
-  useEffect(() => {
-    if (numberOfQuestion === 0) {
-      return;
-    }
-    if (formLoading) {
+  const handleOnActiveGroup = (page) => {
+    const group = formDefinition?.question_group?.[page];
+    const currentPrefilled = group.question
+      ?.filter((q) => q?.pre && q?.id)
+      ?.filter(
+        (q) => currentValues?.[q.id] === null || typeof currentValues?.[q.id] === 'undefined',
+      )
+      ?.map((q) => {
+        const questionName = Object.keys(q.pre)?.[0];
+        const findQuestion = activeQuestions.find((aq) => aq?.name === questionName);
+        const prefillValue = q.pre?.[questionName]?.[currentValues?.[findQuestion?.id]];
+        return { [q.id]: prefillValue };
+      })
+      ?.reduce((prev, current) => ({ ...prev, ...current }), {});
+    if (Object.keys(currentPrefilled).length) {
+      FormState.update((s) => {
+        s.loading = true;
+        s.currentValues = {
+          ...s.currentValues,
+          ...currentPrefilled,
+        };
+      });
+      const interval = group?.question?.length || 0;
       setTimeout(() => {
+        setActiveGroup(page);
         FormState.update((s) => {
           s.loading = false;
         });
-      }, numberOfQuestion);
+      }, interval);
+    } else {
+      setActiveGroup(page);
     }
-  }, [numberOfQuestion, formLoading]);
+  };
 
-  const LoadingOverlay = () => (
-    <View
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      }}
-    >
-      <Dialog isVisible>
-        <Dialog.Title title={`${trans.loadingPrefilledAnswer}...`} />
-        <Dialog.Loading />
-      </Dialog>
-    </View>
-  );
+  const handleOnDefaultValue = useCallback(() => {
+    const defaultValues = activeQuestions
+      .filter((aq) => aq?.default_value)
+      .map((aq) => {
+        const key = Object.keys(route.params).find((k) => aq.default_value?.[k]);
+        const defaultValue = aq.default_value?.[key]?.[route.params?.[key]];
+        return {
+          [aq.id]: ['option', 'multiple_option'].includes(aq.type) ? [defaultValue] : defaultValue,
+        };
+      })
+      .reduce((prev, current) => ({ ...prev, ...current }), {});
+
+    if (Object.keys(defaultValues).length) {
+      FormState.update((s) => {
+        s.currentValues = { ...defaultValues, ...s.currentValues };
+      });
+    }
+  }, [activeQuestions, route.params]);
+
+  useEffect(() => {
+    handleOnDefaultValue();
+  }, [handleOnDefaultValue]);
 
   return (
     <>
-      {formLoading && <LoadingOverlay />}
+      {formLoading && <LoadingOverlay trans={trans} />}
       <BaseLayout.Content>
         <View style={style}>
           {!showQuestionGroupList ? (
@@ -127,7 +181,7 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu, isMonitoring }) => 
           currentGroup={currentGroup}
           onSubmit={handleOnSubmitForm}
           activeGroup={activeGroup}
-          setActiveGroup={setActiveGroup}
+          setActiveGroup={handleOnActiveGroup}
           totalGroup={formDefinition?.question_group?.length || 0}
           showQuestionGroupList={showQuestionGroupList}
           setShowQuestionGroupList={setShowQuestionGroupList}
@@ -139,3 +193,13 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu, isMonitoring }) => 
 };
 
 export default FormContainer;
+
+FormContainer.propTypes = {
+  forms: PropTypes.object,
+  onSubmit: PropTypes.func.isRequired,
+  setShowDialogMenu: PropTypes.func.isRequired,
+};
+
+FormContainer.defaultProps = {
+  forms: {},
+};

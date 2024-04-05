@@ -213,8 +213,18 @@ const uiText = {
       <Fragment>
         This is where you :
         <ul>
-          <li>Download upload template</li>
-          <li>Bulk upload new data</li>
+          <li>Bulk upload administration data</li>
+        </ul>
+      </Fragment>
+    ),
+    AdministrationDataDownload: "Administration Data Download",
+    AdministrationDownloadPageHint:
+      "Uncheck Prefilled if you only want an upload template",
+    dataAdministrationDownloadText: (
+      <Fragment>
+        This is where you :
+        <ul>
+          <li>Download administration data</li>
         </ul>
       </Fragment>
     ),
@@ -315,7 +325,6 @@ const uiText = {
     approvalsTab2: "Subordinates Approvals",
     approvalsTab3: "Approved",
     approvalsTitle: "Approvals",
-    manageQnApproval: "Manage Questionnaire Approval",
     // Approvers Tree
     notAssigned: "Not assigned",
     questionnaireText: "Questionnaire",
@@ -447,7 +456,10 @@ const uiText = {
     templateFetchFail: "Could not fetch template",
     updateExisting: "Update Existing Data",
     templateDownloadHint:
-      "If you do not already have a template, please download it",
+      "If you do not already have a template, please download",
+    templateDownloadAdministrationHint:
+      "If you do not already have a template, please ",
+    downloadHere: "download here",
     uploading: "Uploading..",
     dropFile: "Drop your file here",
     selectForm: "Please select a form",
@@ -485,7 +497,7 @@ const uiText = {
     tourDataUploadsPanel:
       "Velit amet omnis dolores. Ad eveniet ex beatae dolorum",
     //downloads
-    downloadTitle: "Download",
+    downloadTitle: "Downloads",
     // Add user modal notification
     existingApproverTitle: "There are existing approvers for:",
     existingApproverDescription:
@@ -696,6 +708,24 @@ const uiText = {
         </ul>
       </Fragment>
     ),
+    updateDataButton: "Update data",
+    updateDataError: "Unable to update data",
+    certificationDesc:
+      "This page is designed for assigning sub-county user admins to specific administration. The goal is to enable sub-county admins to manage their mobile users with certification permissions.",
+    certificationTitle: "Certification Assignment",
+    certificationAdd: "New assignment",
+    certificationEdit: "Edit assignment",
+    certifyAssignee: "Certifying Sub-county",
+    certifyAssigneeRequired: "Certifying Sub-county is required",
+    admToCertify: "Villages to certify",
+    admToCertifyRequired: "Villages to certify is required",
+    certifySuccessAdded: "Certification sub-county successfully added",
+    certifySuccessUpdated: "Certification sub-county successfully updated",
+    certifySuccessDeleted: "Certification sub-county has been deleted",
+    selectCounty: "Select county",
+    selectSubCounty: "Select Sub-county",
+    selectCertification: "Select certification",
+    certificationList: "Certification list",
   },
 
   de: {},

@@ -227,12 +227,14 @@ const DataDetail = ({
             <Table
               pagination={false}
               dataSource={r.question}
-              rowClassName={(record) =>
-                (record.newValue || record.newValue === 0) &&
-                !isEqual(record.newValue, record.value)
-                  ? "row-edited"
-                  : "row-normal"
-              }
+              rowClassName={(record) => {
+                const rowEdited =
+                  (record.newValue || record.newValue === 0) &&
+                  !isEqual(record.newValue, record.value)
+                    ? "row-edited"
+                    : "row-normal";
+                return `expandable-row ${rowEdited}`;
+              }}
               rowKey="id"
               columns={[
                 {
@@ -241,6 +243,7 @@ const DataDetail = ({
                   width: "50%",
                   render: (_, row) =>
                     row.short_label ? row.short_label : row.label,
+                  className: "table-col-question",
                 },
                 {
                   title: "Response",

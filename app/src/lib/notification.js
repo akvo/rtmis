@@ -1,9 +1,9 @@
+/* eslint-disable no-console */
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 
 const registerForPushNotificationsAsync = async () => {
-  let token;
   if (Platform.OS === 'android') {
     await Notifications.setNotificationChannelAsync('default', {
       name: 'default',
@@ -23,11 +23,10 @@ const registerForPushNotificationsAsync = async () => {
       console.warn('[Notification]Failed to get push token for push notification!');
       return;
     }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
+    await Notifications.getExpoPushTokenAsync().data;
   } else {
     console.warn('[Notification]Must use physical device for Push Notifications');
   }
-  return token;
 };
 
 const sendPushNotification = async (type = 'sync-form-version') => {
@@ -41,7 +40,7 @@ const sendPushNotification = async (type = 'sync-form-version') => {
         content: {
           title: 'Sync submission completed',
           body: 'Your submission has been successfully synchronized.',
-          data: data,
+          data,
         },
         trigger: null,
       };
@@ -51,21 +50,19 @@ const sendPushNotification = async (type = 'sync-form-version') => {
         content: {
           title: 'New Form version available',
           body: 'A new version of the form is now available',
-          data: data,
+          data,
         },
         trigger: null,
       };
       break;
   }
-  return await Notifications.scheduleNotificationAsync(notificationBody);
+  await Notifications.scheduleNotificationAsync(notificationBody);
 };
 
-const notificationHandler = () => {
-  return {
-    registerForPushNotificationsAsync,
-    sendPushNotification,
-  };
-};
+const notificationHandler = () => ({
+  registerForPushNotificationsAsync,
+  sendPushNotification,
+});
 
 const notification = notificationHandler();
 export default notification;

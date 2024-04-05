@@ -6,6 +6,7 @@
     "text": "test",
     "action": ["action #1"]
   },
+  "submission_types": ["registration", "monitoring"],
   "question_groups": [
     {
       "id": 21,
@@ -73,8 +74,10 @@
           "meta": true,
           "type": "number",
           "attributes": ["chart"],
-          "required": true,
-          "monitoring": true
+          "disabled": {
+            "submission_type": ["monitoring"]
+          },
+          "required": true
         },
         {
           "id": 204,

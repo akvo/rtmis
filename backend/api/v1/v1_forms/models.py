@@ -4,9 +4,10 @@ from django.db import models
 
 # Create your models here.
 from api.v1.v1_forms.constants import QuestionTypes, \
-    FormTypes, AttributeTypes
+    FormTypes, AttributeTypes, SubmissionTypes
 from api.v1.v1_profile.models import Administration
 from api.v1.v1_users.models import SystemUser
+from django.contrib.postgres.fields import ArrayField
 
 
 class Forms(models.Model):
@@ -16,6 +17,10 @@ class Forms(models.Model):
     type = models.IntegerField(choices=FormTypes.FieldStr.items(),
                                default=None,
                                null=True)
+    submission_types = ArrayField(
+        models.IntegerField(choices=SubmissionTypes.FieldStr.items()),
+        default=list,
+        blank=True)
     approval_instructions = models.JSONField(default=None, null=True)
 
     def __str__(self):
@@ -43,6 +48,37 @@ class FormApprovalAssignment(models.Model):
 
     class Meta:
         db_table = 'form_approval_assignment'
+
+
+class FormCertificationAssignment(models.Model):
+    assignee = models.ForeignKey(
+        to=Administration,
+        on_delete=models.PROTECT,
+        related_name='certification_assignee')
+    administrations = models.ManyToManyField(
+        to=Administration,
+        through='FormCertificationAdministration',
+        related_name='certification_administrations')
+    updated = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.assignee.name
+
+    class Meta:
+        db_table = 'form_certification_assignment'
+
+
+class FormCertificationAdministration(models.Model):
+    assignment = models.ForeignKey(
+        to=FormCertificationAssignment,
+        on_delete=models.CASCADE)
+    administration = models.ForeignKey(
+        to=Administration,
+        on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('assignment', 'administration')
+        db_table = 'form_certification_administration'
 
 
 class QuestionGroup(models.Model):
@@ -88,8 +124,9 @@ class Questions(models.Model):
     pre = models.JSONField(default=None, null=True)
     hidden = models.BooleanField(default=False, null=True)
     display_only = models.BooleanField(default=False, null=True)
-    monitoring = models.BooleanField(default=False, null=True)
+    default_value = models.JSONField(default=None, null=True)
     meta_uuid = models.BooleanField(default=False, null=True)
+    disabled = models.JSONField(default=None, null=True)
 
     def __str__(self):
         return self.text
@@ -114,8 +151,9 @@ class Questions(models.Model):
             "fn": self.fn,
             "pre": self.pre,
             "display_only": self.display_only,
-            "monitoring": self.monitoring,
             "meta_uuid": self.meta_uuid,
+            "default_value": self.default_value,
+            "disabled": self.disabled,
         }
 
     @property

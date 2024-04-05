@@ -1,0 +1,20 @@
+#certification-assignments {
+  .administrations-list {
+    .ant-space-vertical {
+      .ant-space-item {
+        padding-bottom: 12px;
+        .ant-form-item {
+          margin-bottom: 0;
+          height: 0;
+        }
+        .ant-tag .ant-tag-close-icon {
+          margin-left: 6px;
+          svg {
+            width: 1.5em;
+            height: 1.5em;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,17 +1,18 @@
-import { crudForms, crudDataPoints, crudUsers, crudConfig } from '../database/crud';
-import api from './api';
+/* eslint-disable no-console */
 import * as BackgroundFetch from 'expo-background-fetch';
 import * as TaskManager from 'expo-task-manager';
 import * as Network from 'expo-network';
+import api from './api';
+import { crudForms, crudDataPoints, crudUsers, crudConfig } from '../database/crud';
 import notification from './notification';
 import crudJobs, { jobStatus, MAX_ATTEMPT } from '../database/crud/crud-jobs';
 import { UIState } from '../store';
-
-export const syncStatus = {
-  ON_PROGRESS: 1,
-  RE_SYNC: 2,
-  SUCCESS: 3,
-};
+import {
+  SUBMISSION_TYPES,
+  SYNC_FORM_SUBMISSION_TASK_NAME,
+  SYNC_FORM_VERSION_TASK_NAME,
+  SYNC_STATUS,
+} from './constants';
 
 const syncFormVersion = async ({
   showNotificationOnly = true,
@@ -50,8 +51,8 @@ const syncFormVersion = async ({
         console.info('[syncForm]Saved Forms...', form.id);
         return savedForm;
       });
-      Promise.all(promises).then((res) => {
-        const exist = res.filter((x) => x);
+      Promise.all(promises).then((r) => {
+        const exist = r.filter((x) => x);
         if (!exist.length || !showNotificationOnly) {
           return;
         }
@@ -66,12 +67,13 @@ const syncFormVersion = async ({
 const registerBackgroundTask = async (TASK_NAME, settingsValue = null) => {
   try {
     const config = await crudConfig.getConfig();
-    const syncInterval = settingsValue || parseInt(config?.syncInterval) || 3600;
-    await BackgroundFetch.registerTaskAsync(TASK_NAME, {
+    const syncInterval = settingsValue || parseInt(config?.syncInterval, 10) || 3600;
+    const res = await BackgroundFetch.registerTaskAsync(TASK_NAME, {
       minimumInterval: syncInterval,
       stopOnTerminate: false, // android only,
       startOnBoot: true, // android only
     });
+    return res;
   } catch (err) {
     return Promise.reject(err);
   }
@@ -79,7 +81,8 @@ const registerBackgroundTask = async (TASK_NAME, settingsValue = null) => {
 
 const unregisterBackgroundTask = async (TASK_NAME) => {
   try {
-    await BackgroundFetch.unregisterTaskAsync(TASK_NAME);
+    const res = await BackgroundFetch.unregisterTaskAsync(TASK_NAME);
+    return res;
   } catch (err) {
     return Promise.reject(err);
   }
@@ -133,9 +136,8 @@ const handleOnUploadPhotos = async (data) => {
       })
       .filter((d) => d);
     return results;
-  } else {
-    return [];
   }
+  return [];
 };
 
 const syncFormSubmission = async (activeJob = {}) => {
@@ -174,6 +176,7 @@ const syncFormSubmission = async (activeJob = {}) => {
         submitter: session.name,
         geo,
         answers: answerValues,
+        submission_type: SUBMISSION_TYPES?.[d.submission_type] || SUBMISSION_TYPES.registration,
       };
       console.info('[syncFormSubmision] SyncData:', syncData);
       // sync data point
@@ -193,14 +196,14 @@ const syncFormSubmission = async (activeJob = {}) => {
         status: res.status,
       };
     });
-    const res = await Promise.all(syncProcess);
+    await Promise.all(syncProcess);
     console.info('[syncFormSubmision] Finish: ', new Date());
 
     UIState.update((s) => {
       // TODO: rename isManualSynced w/ isSynced to refresh the Homepage stats
       s.isManualSynced = true;
       s.statusBar = {
-        type: syncStatus.SUCCESS,
+        type: SYNC_STATUS.success,
         bgColor: '#16a34a',
         icon: 'checkmark-done',
       };
@@ -214,35 +217,28 @@ const syncFormSubmission = async (activeJob = {}) => {
       // delete the job when it's succeed
       await crudJobs.deleteJob(activeJob.id);
     }
-    return res;
   } catch (error) {
-    const { status: errorCode } = error?.response;
+    const { status: errorCode } = error?.response || {};
     if (activeJob?.id) {
       const updatePayload =
         activeJob.attempt < MAX_ATTEMPT
           ? { status: jobStatus.FAILED, attempt: activeJob.attempt + 1 }
-          : { status: jobStatus.ON_PROGRESS, info: String(err) };
+          : { status: jobStatus.ON_PROGRESS, info: String(error) };
       crudJobs.updateJob(activeJob.id, updatePayload);
     }
-    return Promise.reject({ errorCode, message: error?.message });
+    Promise.reject(new Error({ errorCode, message: error?.message }));
   }
 };
 
-const backgroundTaskHandler = () => {
-  return {
-    syncFormVersion,
-    registerBackgroundTask,
-    unregisterBackgroundTask,
-    backgroundTaskStatus,
-    syncFormSubmission,
-  };
-};
+const backgroundTaskHandler = () => ({
+  syncFormVersion,
+  registerBackgroundTask,
+  unregisterBackgroundTask,
+  backgroundTaskStatus,
+  syncFormSubmission,
+});
 
 const backgroundTask = backgroundTaskHandler();
-
-export const SYNC_FORM_VERSION_TASK_NAME = 'sync-form-version';
-
-export const SYNC_FORM_SUBMISSION_TASK_NAME = 'sync-form-submission';
 
 export const defineSyncFormVersionTask = () =>
   TaskManager.defineTask(SYNC_FORM_VERSION_TASK_NAME, async () => {

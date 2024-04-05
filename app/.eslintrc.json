@@ -27,6 +27,14 @@
     // prevent eslint to complain about the "styles" variable being used before it was defined
     "no-use-before-define": ["error", { "variables": false }],
     // ignore errors for the react-navigation package
-    "react/prop-types": ["error", { "ignore": ["navigation", "navigation.navigate"] }]
+    "react/prop-types": ["error", { "ignore": ["navigation", "navigation.navigate"] }],
+    "no-param-reassign": [2, { "props": false }],
+    "react/function-component-definition": ["error", {
+      "namedComponents": ["arrow-function", "function-expression"],
+      "unnamedComponents": ["arrow-function", "function-expression"]
+    }],
+    // handle for _array results from SQLite
+    "no-underscore-dangle": ["error", { "allow": ["_array"] }],
+    "react/forbid-prop-types": ["error", { "forbid": ["any"] }]
   }
 }

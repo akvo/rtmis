@@ -16,8 +16,6 @@ import {
   DownCircleOutlined,
   LoadingOutlined,
   HistoryOutlined,
-  FileSyncOutlined,
-  FileTextOutlined,
 } from "@ant-design/icons";
 import { api, store, config, uiText } from "../../lib";
 import { EditableCell } from "../../components";
@@ -25,6 +23,7 @@ import { isEqual, flatten } from "lodash";
 import { useNotification } from "../../util/hooks";
 import { HistoryTable } from "../../components";
 import { getTimeDifferenceText } from "../../util/date";
+import { SubmissionTypeIcon } from "../../components/Icons";
 const { TextArea } = Input;
 const { TabPane } = Tabs;
 
@@ -47,7 +46,7 @@ const columnsRawData = [
         <div>
           {name}
           <span className="monitoring-icon">
-            {row.is_monitoring ? <FileSyncOutlined /> : <FileTextOutlined />}
+            <SubmissionTypeIcon type={row?.submission_type} />
           </span>
         </div>
       );
@@ -89,14 +88,14 @@ const summaryColumns = [
           .filter((x) => x.total)
           .map((val) => `${val.type} - (${val.total})`);
         return (
-          <ul className="option-list">
+          <ul className="option-list blue">
             {data.map((d, di) => (
               <li key={di}>{d}</li>
             ))}
           </ul>
         );
       }
-      return value;
+      return <span className="blue">value</span>;
     },
   },
 ];
@@ -436,9 +435,6 @@ const ApprovalDetail = ({
         columns={columns}
         // scroll={{ y: 500 }}
         pagination={false}
-        rowClassName={(record) =>
-          record.edited ? "row-edited" : "row-normal sticky"
-        }
         style={{ borderBottom: "solid 1px #ddd" }}
         rowKey="id"
         expandable={
@@ -602,6 +598,10 @@ const ApprovalDetail = ({
             }
           },
         })}
+        rowClassName={(record) => {
+          const rowEdited = record.edited ? "row-edited" : "row-normal sticky";
+          return `expandable-row ${rowEdited}`;
+        }}
         expandRowByClick
       />
       <h3 style={{ paddingTop: "1rem" }}>Notes {"&"} Feedback</h3>

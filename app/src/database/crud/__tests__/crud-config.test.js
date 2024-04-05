@@ -1,4 +1,5 @@
 import crudConfig from '../crud-config';
+
 jest.mock('expo-sqlite');
 
 describe('crudConfig function', () => {

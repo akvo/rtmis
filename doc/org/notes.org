@@ -77,3 +77,29 @@ In case Jogja has 5 Cities, 100 Kecamatan
 | id | type           | name          | attribute         | option     | value |
 |  1 | administration | Bantul        | Water Points Type | Dugwell    |     1 |
 |  2 | entity         | Bantul School | Type of school    | Highschool |     1 |
+
+* 2024-03-14 List of Effort for Governance Form
+
+** Requirements
+- Super Admin and County Admin can add Monitoring Form for Governance Form via Webform
+- The Monitoring Form will not goes into Approval Process
+- Governance Form can be accessible via Mobile ??
+
+** Required Efforts
+
+*** Monitoring Form Mechanism via Webform
+
+**** Backend Changes
+
+Currently API endpoint for form submission via frontend http://localhost:3000/api/v1/form-pending-data doesn't support monitoring form.
+
+- Currently we have 2 types of form: County (1), National (2). The National form is olny accessible by County
+- Batch Process might not be required for the National form, currently when a County Admin submitting a National form, the batch process is happenend, and there's not approver setup for this type of form.
+- The backend should responsible to handle POST API with existing UUID parameter
+- Backend should also have an endpoint where frontend can get the latest data for a specific UUID, this API will be use for pre-filling the webform.
+
+**** Frontend Changes
+
+- Frontend will responsible to handle pre-filling data for the monitoring form; NP: akvo-react-form can handle pre-filled data already
+- Frontend will send submission to the endpoint with optional UUID parameter if it's monitoring submission
+- We should think about approval mechanism of National type of Form

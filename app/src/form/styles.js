@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   formContainer: {
     flex: 1,
   },
@@ -103,7 +103,6 @@ export const styles = StyleSheet.create({
     marginRight: 0,
   },
   formNavigationButton: {
-    // backgroundColor:'red',
     borderTopColor: 'grey',
     borderTopWidth: 0.5,
     borderBottomWidth: 0,
@@ -120,7 +119,6 @@ export const styles = StyleSheet.create({
     paddingRight: 15,
     marginRight: 0,
     marginLeft: 0,
-    backgroundColor: '#2089dc',
   },
   formNavigationTitle: {
     paddingTop: 9,
@@ -135,8 +133,7 @@ export const styles = StyleSheet.create({
     paddingTop: 12,
     paddingBottom: 13,
     paddingRight: 10,
-    color: '#FFFFFF',
-    backgroundColor: '#2089dc',
+    color: '#ffffff',
     fontWeight: 'normal',
     fontSize: 14,
   },
@@ -148,6 +145,12 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     marginRight: -10,
     marginLeft: -10,
+  },
+  formNavigationBgLight: {
+    backgroundColor: '#f9fafb',
+  },
+  formNavigationBgPrimary: {
+    backgroundColor: '#2089dc',
   },
   inputGeoContainer: {
     paddingHorizontal: 16,
@@ -217,3 +220,5 @@ export const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
 });
+
+export default styles;

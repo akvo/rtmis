@@ -52,7 +52,7 @@ const ManageEntityTypes = () => {
       render: (row) => {
         return (
           <Space>
-            <Link to={`/control-center/master-data/entity-types/${row}/edit`}>
+            <Link to={`/control-center/master-data/entity-types/${row}`}>
               <Button shape="round" type="primary">
                 {text.editButton}
               </Button>
@@ -89,7 +89,7 @@ const ManageEntityTypes = () => {
   }, [fetchData]);
 
   return (
-    <div id="users">
+    <div id="masterDataEntities">
       <div className="description-container">
         <Row justify="space-between" align="bottom">
           <Col>

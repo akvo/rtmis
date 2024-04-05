@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, act, waitFor } from '@testing-library/react-native';
+import { render, act, waitFor } from '@testing-library/react-native';
 import TypeMultipleOption from '../TypeMultipleOption';
 import { FormState } from '../../../store';
 
@@ -58,7 +58,7 @@ describe('TypeMultipleOption', () => {
       <TypeMultipleOption
         id="multipleOptionField"
         label="Multiple Option Field Name"
-        required={true}
+        required
         requiredSign="*"
       />,
     );
@@ -71,7 +71,7 @@ describe('TypeMultipleOption', () => {
       <TypeMultipleOption
         id="multipleOptionField"
         label="Multiple Option Field Name"
-        required={true}
+        required
         requiredSign="**"
       />,
     );
@@ -88,7 +88,7 @@ describe('TypeMultipleOption', () => {
     ];
     const onChange = jest.fn();
 
-    const { getByText, getByTestId } = render(
+    const { getByText } = render(
       <TypeMultipleOption
         onChange={onChange}
         value={[]}

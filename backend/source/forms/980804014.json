@@ -2,6 +2,7 @@
   "id": 571070071,
   "form": "Water System",
   "type": 2,
+  "submission_types": ["registration", "monitoring"],
   "question_groups": [
     {
       "id": 5710700711,

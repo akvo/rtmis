@@ -1,25 +1,23 @@
 import React from 'react';
 import { render, fireEvent, waitFor, act } from 'react-native-testing-library';
 import * as ImagePicker from 'expo-image-picker';
-import TypeImage from '../TypeImage';
 import { PermissionsAndroid } from 'react-native';
-import { FormState } from '../../../store/';
 import { renderHook } from '@testing-library/react-native';
+import TypeImage from '../TypeImage';
+import { FormState } from '../../../store';
 
-jest.mock('react-native/Libraries/PermissionsAndroid/PermissionsAndroid', () => {
-  return {
-    PERMISSIONS: {
-      READ_EXTERNAL_STORAGE: 'android.permission.READ_EXTERNAL_STORAGE',
-      CAMERA: 'android.permission.CAMERA',
-    },
-    RESULTS: {
-      GRANTED: 'granted',
-      DENIED: 'denied',
-    },
-    check: jest.fn().mockResolvedValue(true),
-    request: jest.fn().mockResolvedValue('granted'),
-  };
-});
+jest.mock('react-native/Libraries/PermissionsAndroid/PermissionsAndroid', () => ({
+  PERMISSIONS: {
+    READ_EXTERNAL_STORAGE: 'android.permission.READ_EXTERNAL_STORAGE',
+    CAMERA: 'android.permission.CAMERA',
+  },
+  RESULTS: {
+    GRANTED: 'granted',
+    DENIED: 'denied',
+  },
+  check: jest.fn().mockResolvedValue(true),
+  request: jest.fn().mockResolvedValue('granted'),
+}));
 
 jest.mock('expo-image-picker', () => ({
   launchImageLibraryAsync: jest.fn(() =>
@@ -31,15 +29,6 @@ jest.mock('expo-image-picker', () => ({
 }));
 jest.mock('expo-font');
 jest.mock('expo-asset');
-
-const mockImagePickerResult = {
-  canceled: false,
-  assets: [
-    {
-      uri: 'selected_image_uri',
-    },
-  ],
-};
 
 describe('TypeImage component', () => {
   beforeAll(() => {
@@ -55,9 +44,7 @@ describe('TypeImage component', () => {
   it('should render correctly by default', () => {
     const fieldID = 'imageField';
     const mockValues = { [fieldID]: null };
-    const mockOnChange = jest.fn(() => (fieldID, value) => {
-      mockValues[fieldID] = value;
-    });
+    const mockOnChange = jest.fn();
     const { getByTestId, queryByText, queryByTestId } = render(
       <TypeImage
         onChange={mockOnChange}
@@ -80,9 +67,7 @@ describe('TypeImage component', () => {
   it('should render correctly when useGallery is true', () => {
     const fieldID = 'imageField';
     const mockValues = { [fieldID]: null };
-    const mockOnChange = jest.fn(() => (fieldID, value) => {
-      mockValues[fieldID] = value;
-    });
+    const mockOnChange = jest.fn();
     const { getByTestId, queryByText, queryByTestId } = render(
       <TypeImage
         onChange={mockOnChange}
@@ -156,10 +141,8 @@ describe('TypeImage component', () => {
 
     const fieldID = 'imageField';
     const mockValues = { [fieldID]: null };
-    const mockOnChange = jest.fn(() => (fieldID, value) => {
-      mockValues[fieldID] = value;
-    });
-    const { getByTestId, queryByText, queryByTestId } = render(
+    const mockOnChange = jest.fn();
+    const { getByTestId, queryByTestId } = render(
       <TypeImage
         onChange={mockOnChange}
         keyform={1}
@@ -188,10 +171,8 @@ describe('TypeImage component', () => {
     PermissionsAndroid.check.mockResolvedValueOnce(false);
     const fieldID = 'imageField';
     const mockValues = { [fieldID]: null };
-    const mockOnChange = jest.fn(() => (fieldID, value) => {
-      mockValues[fieldID] = value;
-    });
-    const { getByTestId, queryByText, queryByTestId } = render(
+    const mockOnChange = jest.fn();
+    const { getByTestId } = render(
       <TypeImage
         onChange={mockOnChange}
         keyform={1}
@@ -247,7 +228,7 @@ describe('TypeImage component', () => {
       <TypeImage
         onChange={mockOnChange}
         keyform={1}
-        value={'file://captured.jpeg'}
+        value="file://captured.jpeg"
         id={fieldID}
         label="Latrine photo"
       />,
@@ -273,10 +254,8 @@ describe('TypeImage component', () => {
 
     const fieldID = 'imageField';
     const mockValues = { [fieldID]: null };
-    const mockOnChange = jest.fn(() => (fieldID, value) => {
-      mockValues[fieldID] = value;
-    });
-    const { getByTestId, queryByText, queryByTestId } = render(
+    const mockOnChange = jest.fn();
+    const { getByTestId } = render(
       <TypeImage
         onChange={mockOnChange}
         keyform={1}
@@ -315,10 +294,8 @@ describe('TypeImage component', () => {
   it('should be cancelable when capturing image from camera', async () => {
     const fieldID = 'imageField';
     const mockValues = { [fieldID]: null };
-    const mockOnChange = jest.fn(() => (fieldID, value) => {
-      mockValues[fieldID] = value;
-    });
-    const { getByTestId, queryByText, queryByTestId } = render(
+    const mockOnChange = jest.fn();
+    const { getByTestId, queryByTestId } = render(
       <TypeImage
         onChange={mockOnChange}
         keyform={1}
@@ -347,10 +324,8 @@ describe('TypeImage component', () => {
   it('should be able to remove image', () => {
     const fieldID = 'imageField';
     const mockValues = { [fieldID]: '/images/initial.jpg' };
-    const mockOnChange = jest.fn(() => (fieldID, value) => {
-      mockValues[fieldID] = value;
-    });
-    const { getByTestId, queryByText, queryByTestId, rerender } = render(
+    const mockOnChange = jest.fn();
+    const { getByTestId, queryByTestId, rerender } = render(
       <TypeImage
         onChange={mockOnChange}
         keyform={1}
@@ -382,9 +357,7 @@ describe('TypeImage component', () => {
   it('should not show required sign if required param is false and requiredSign is not defined', () => {
     const fieldID = 'imageField';
     const mockValues = { [fieldID]: null };
-    const mockOnChange = jest.fn(() => (fieldID, value) => {
-      mockValues[fieldID] = value;
-    });
+    const mockOnChange = jest.fn();
     const { queryByTestId } = render(
       <TypeImage
         onChange={mockOnChange}
@@ -403,9 +376,7 @@ describe('TypeImage component', () => {
   it('should not show required sign if required param is false but requiredSign is defined', () => {
     const fieldID = 'imageField';
     const mockValues = { [fieldID]: null };
-    const mockOnChange = jest.fn(() => (fieldID, value) => {
-      mockValues[fieldID] = value;
-    });
+    const mockOnChange = jest.fn();
     const { queryByTestId } = render(
       <TypeImage
         onChange={mockOnChange}
@@ -425,9 +396,7 @@ describe('TypeImage component', () => {
   it('should show required sign if required param is true and requiredSign defined', () => {
     const fieldID = 'imageField';
     const mockValues = { [fieldID]: null };
-    const mockOnChange = jest.fn(() => (fieldID, value) => {
-      mockValues[fieldID] = value;
-    });
+    const mockOnChange = jest.fn();
     const { queryByTestId } = render(
       <TypeImage
         onChange={mockOnChange}
@@ -435,7 +404,7 @@ describe('TypeImage component', () => {
         value={mockValues[fieldID]}
         id={fieldID}
         label="Latrine photo"
-        required={true}
+        required
         requiredSign="*"
       />,
     );
@@ -447,9 +416,7 @@ describe('TypeImage component', () => {
   it('should show required sign with custom requiredSign', () => {
     const fieldID = 'imageField';
     const mockValues = { [fieldID]: null };
-    const mockOnChange = jest.fn(() => (fieldID, value) => {
-      mockValues[fieldID] = value;
-    });
+    const mockOnChange = jest.fn();
     const { getByText } = render(
       <TypeImage
         onChange={mockOnChange}
@@ -457,7 +424,7 @@ describe('TypeImage component', () => {
         value={mockValues[fieldID]}
         id={fieldID}
         label="Latrine photo"
-        required={true}
+        required
         requiredSign="**"
       />,
     );

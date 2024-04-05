@@ -253,11 +253,11 @@ const PanelSubmissions = () => {
       setModalButton(true);
     }
     if (selectedTab === "pending-batch") {
-      url = `batch/?page=${currentPage}`;
+      url = `batch/?form=${selectedForm}&page=${currentPage}`;
       setModalButton(false);
     }
     if (selectedTab === "approved-batch") {
-      url = `batch/?page=${currentPage}&approved=true`;
+      url = `batch/?form=${selectedForm}&page=${currentPage}&approved=true`;
       setModalButton(false);
     }
     if (
@@ -443,6 +443,8 @@ const PanelSubmissions = () => {
                 },
               }
         }
+        rowClassName={pane === "pending-data" ? null : "expandable-row"}
+        expandRowByClick
       />
     );
   };

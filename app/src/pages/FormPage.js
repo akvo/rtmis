@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   Platform,
@@ -10,16 +11,16 @@ import {
 import { Button, Dialog, Text } from '@rneui/themed';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as SQLite from 'expo-sqlite';
-
-import { FormContainer } from '../form';
+import PropTypes from 'prop-types';
+import FormContainer from '../form/FormContainer';
 import { SaveDialogMenu, SaveDropdownMenu } from '../form/support';
 import { BaseLayout } from '../components';
-import { crudDataPoints, crudMonitoring } from '../database/crud';
+import { crudDataPoints } from '../database/crud';
 import { UserState, UIState, FormState } from '../store';
 import { generateDataPointName, getDurationInMinutes } from '../form/lib';
 import { i18n } from '../lib';
 import crudJobs, { jobStatus } from '../database/crud/crud-jobs';
-import { SYNC_FORM_SUBMISSION_TASK_NAME } from '../lib/background-task';
+import { SYNC_FORM_SUBMISSION_TASK_NAME } from '../lib/constants';
 
 const FormPage = ({ navigation, route }) => {
   const selectedForm = FormState.useState((s) => s.form);
@@ -35,61 +36,11 @@ const FormPage = ({ navigation, route }) => {
   const trans = i18n.text(activeLang);
 
   const currentFormId = route?.params?.id;
-  const isMonitoring = route?.params?.isMonitoring;
   // continue saved submission
   const savedDataPointId = route?.params?.dataPointId;
   const isNewSubmission = route?.params?.newSubmission;
   const [currentDataPoint, setCurrentDataPoint] = useState({});
   const [loading, setLoading] = useState(false);
-
-  const closeAllCascades = () => {
-    const { cascades: cascadesFiles } = formJSON || {};
-    cascadesFiles?.forEach((csFile) => {
-      const [dbFile] = csFile?.split('/')?.slice(-1);
-      const connDB = SQLite.openDatabase(dbFile);
-      connDB.closeAsync();
-    });
-  };
-
-  const refreshForm = () => {
-    closeAllCascades();
-    FormState.update((s) => {
-      s.currentValues = {};
-      s.visitedQuestionGroup = [];
-      s.cascades = {};
-      s.surveyDuration = 0;
-    });
-  };
-
-  useEffect(() => {
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-      if (Object.keys(currentValues).length) {
-        setShowDialogMenu(true);
-        return true;
-      }
-      refreshForm();
-      return false;
-    });
-    return () => backHandler.remove();
-  }, [currentValues]);
-
-  useEffect(() => {
-    if (!isNewSubmission) {
-      fetchSavedSubmission().catch((e) => console.error('[Fetch Data Point Failed]: ', e));
-    }
-  }, [isNewSubmission]);
-
-  const fetchSavedSubmission = useCallback(async () => {
-    setLoading(true);
-    const dpValue = await crudDataPoints.selectDataPointById({ id: savedDataPointId });
-    setCurrentDataPoint(dpValue);
-    if (dpValue?.json && Object.keys(dpValue.json)?.length) {
-      FormState.update((s) => {
-        s.currentValues = dpValue.json;
-      });
-    }
-    setLoading(false);
-  }, [savedDataPointId]);
 
   const formJSON = useMemo(() => {
     if (!selectedForm?.json) {
@@ -98,13 +49,32 @@ const FormPage = ({ navigation, route }) => {
     return JSON.parse(selectedForm.json);
   }, [selectedForm]);
 
+  const refreshForm = useCallback(() => {
+    /**
+     * Close connection for all cascade SQLite
+     */
+    const { cascades: cascadesFiles } = formJSON || {};
+    cascadesFiles?.forEach((csFile) => {
+      const [dbFile] = csFile?.split('/')?.slice(-1) || [];
+      const connDB = SQLite.openDatabase(dbFile);
+      connDB.closeAsync();
+    });
+
+    FormState.update((s) => {
+      s.currentValues = {};
+      s.visitedQuestionGroup = [];
+      s.cascades = {};
+      s.surveyDuration = 0;
+    });
+  }, [formJSON]);
+
   const handleOnPressArrowBackButton = () => {
     if (Object.keys(currentValues).length) {
       setShowDialogMenu(true);
       return;
     }
     refreshForm();
-    return navigation.goBack();
+    navigation.goBack();
   };
 
   const handleOnSaveAndExit = async () => {
@@ -117,6 +87,7 @@ const FormPage = ({ navigation, route }) => {
         submitted: 0,
         duration: surveyDuration,
         json: currentValues || {},
+        submissionType: route.params.submission_type,
       };
       const dbCall = isNewSubmission
         ? crudDataPoints.saveDataPoint
@@ -156,17 +127,18 @@ const FormPage = ({ navigation, route }) => {
       formJSON.question_group
         .flatMap((qg) => qg.question)
         .forEach((q) => {
-          let val = values.answers?.[q.id];
+          const val = values.answers?.[q.id];
           if (!val && val !== 0) {
             return;
           }
-          if (q.type === 'cascade') {
-            val = val.slice(-1)[0];
+          answers[q.id] = val;
+          if (q.type === 'cascade' && Array.isArray(val) && val.length) {
+            const [cascadeValue] = val.slice(-1);
+            answers[q.id] = cascadeValue;
           }
           if (q.type === 'number') {
-            val = parseFloat(val);
+            answers[q.id] = parseFloat(val);
           }
-          answers[q.id] = val;
         });
 
       const datapoitName = values?.name || trans.untitled;
@@ -178,6 +150,7 @@ const FormPage = ({ navigation, route }) => {
         submitted: 1,
         duration: surveyDuration,
         json: answers,
+        submissionType: route.params.submission_type,
       };
       const dbCall = isNewSubmission
         ? crudDataPoints.saveDataPoint
@@ -209,6 +182,36 @@ const FormPage = ({ navigation, route }) => {
       }
     }
   };
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      if (Object.keys(currentValues).length) {
+        setShowDialogMenu(true);
+        return true;
+      }
+      refreshForm();
+      return false;
+    });
+    return () => backHandler.remove();
+  }, [currentValues, refreshForm]);
+
+  const fetchSavedSubmission = useCallback(async () => {
+    setLoading(true);
+    const dpValue = await crudDataPoints.selectDataPointById({ id: savedDataPointId });
+    setCurrentDataPoint(dpValue);
+    if (dpValue?.json && Object.keys(dpValue.json)?.length) {
+      FormState.update((s) => {
+        s.currentValues = dpValue.json;
+      });
+    }
+    setLoading(false);
+  }, [savedDataPointId]);
+
+  useEffect(() => {
+    if (!isNewSubmission) {
+      fetchSavedSubmission().catch((e) => console.error('[Fetch Data Point Failed]: ', e));
+    }
+  }, [isNewSubmission, fetchSavedSubmission]);
 
   return (
     <BaseLayout
@@ -242,7 +245,6 @@ const FormPage = ({ navigation, route }) => {
           forms={formJSON}
           onSubmit={handleOnSubmitForm}
           setShowDialogMenu={setShowDialogMenu}
-          isMonitoring={isMonitoring}
         />
       ) : (
         <View style={styles.loadingContainer}>
@@ -283,3 +285,11 @@ const styles = StyleSheet.create({
 });
 
 export default FormPage;
+
+FormPage.propTypes = {
+  route: PropTypes.object,
+};
+
+FormPage.defaultProps = {
+  route: null,
+};

@@ -4,7 +4,11 @@ from django.http import HttpResponse
 from django.test import TestCase, override_settings
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_mobile.models import MobileAssignment
-from api.v1.v1_profile.models import Administration, EntityData
+from api.v1.v1_profile.models import (
+    Administration,
+    EntityData,
+    Entity
+)
 
 from api.v1.v1_profile.tests.mixins import ProfileTestHelperMixin
 from utils.custom_helper import CustomPasscode
@@ -18,6 +22,15 @@ class MobileAssignmentTestCase(TestCase, ProfileTestHelperMixin):
         call_command("administration_seeder", "--test")
         call_command('form_seeder', '--test')
         call_command("entities_seeder", "-t", True)
+        for entity in Entity.objects.all():
+            for adm in Administration.objects.filter(
+                    parent__isnull=False
+            ).all():
+                EntityData.objects.create(
+                    entity=entity,
+                    administration=adm,
+                    name=f"{entity.name} - {adm.name}"
+                )
         self.user = self.create_user('test@akvo.org', self.ROLE_ADMIN)
         self.token = self.get_auth_token(self.user.email)
 
@@ -124,7 +137,7 @@ class MobileAssignmentTestCase(TestCase, ProfileTestHelperMixin):
     def test_update_relations(self):
         adm1 = Administration.objects.first()
         adm2 = Administration.objects.all()[1]
-        adm3 = Administration.objects.last()
+        adm3 = Administration.objects.filter(parent=adm2).first()
         form1 = Forms.objects.first()
         form2 = Forms.objects.last()
         assignment = MobileAssignment.objects.create_assignment(
@@ -225,3 +238,65 @@ class MobileAssignmentTestCase(TestCase, ProfileTestHelperMixin):
         self.assertEqual(
                 len(data['administrations']),
                 assignment.administrations.count())
+
+    def test_create_with_certifications(self):
+        entity = EntityData.objects.last()
+        adm = entity.administration
+        form = Forms.objects.get(pk=2)
+        payload = {
+            'name': 'test assignment',
+            'forms': [form.id],
+            'administrations': [adm.id],
+            'certifications': [adm.id]
+        }
+
+        response = typing.cast(
+                HttpResponse,
+                self.client.post(
+                    '/api/v1/mobile-assignments',
+                    payload,
+                    content_type="application/json",
+                    HTTP_AUTHORIZATION=f'Bearer {self.token}'))
+
+        self.assertEqual(response.status_code, 201)
+        data = response.json()
+        assignment = MobileAssignment.objects.get(name='test assignment')
+        self.assertEqual(
+                CustomPasscode().encode(data['passcode']), assignment.passcode)
+        self.assertEqual(len(data['forms']), assignment.forms.count())
+        self.assertEqual(
+                len(data['certifications']),
+                assignment.administrations.count())
+
+        # Test mobile authentication with certifications
+
+        code = {'code': data["passcode"]}
+        auth = self.client.post(
+            '/api/v1/device/auth',
+            code,
+            content_type='application/json'
+        )
+
+        self.assertEqual(auth.status_code, 200)
+        data = auth.json()
+        self.assertEqual(data['certifications'], [adm.id])
+
+        # Test delete certifications via update
+        payload = {
+            'name': 'test assignment',
+            'forms': [form.id],
+            'administrations': [adm.id],
+            'certifications': []
+        }
+        response = typing.cast(
+                HttpResponse,
+                self.client.put(
+                    f'/api/v1/mobile-assignments/{assignment.id}',
+                    payload,
+                    content_type="application/json",
+                    HTTP_AUTHORIZATION=f'Bearer {self.token}'))
+
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        assignment = MobileAssignment.objects.get(name='test assignment')
+        self.assertEqual(len(data['certifications']), 0)

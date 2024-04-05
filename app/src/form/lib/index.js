@@ -4,6 +4,7 @@ import { i18n } from '../../lib';
 const intersection = (array1, array2) => {
   const set1 = new Set(array1);
   const result = [];
+  // eslint-disable-next-line no-restricted-syntax
   for (const item of array2) {
     if (set1.has(item)) {
       result.push(item);
@@ -16,10 +17,11 @@ const getDependencyAncestors = (questions, current, dependencies) => {
   const ids = dependencies.map((x) => x.id);
   const ancestors = questions.filter((q) => ids.includes(q.id)).filter((q) => q?.dependency);
   if (ancestors.length) {
-    dependencies = ancestors.map((x) => x.dependency);
-    current = [current, ...dependencies].flatMap((x) => x);
+    // eslint-disable-next-line no-param-reassign
+    current = [current, ...ancestors.map((x) => x.dependency)].flatMap((x) => x);
     ancestors.forEach((a) => {
       if (a?.dependency) {
+        // eslint-disable-next-line no-param-reassign
         current = getDependencyAncestors(questions, current, a.dependency);
       }
     });
@@ -27,23 +29,34 @@ const getDependencyAncestors = (questions, current, dependencies) => {
   return current;
 };
 
-export const transformForm = (forms, lang = 'en', filterMonitoring = false) => {
-  const nonEnglish = lang !== 'en';
-  if (nonEnglish) {
-    forms = i18n.transform(lang, forms);
+export const onFilterDependency = (currentGroup, values, q) => {
+  if (q?.dependency) {
+    const modifiedDependency = modifyDependency(currentGroup, q, 0);
+    const unmatches = modifiedDependency
+      .map((x) => validateDependency(x, values?.[x.id]))
+      .filter((x) => x === false);
+    if (unmatches.length) {
+      return false;
+    }
   }
+  return q;
+};
 
-  const questions = forms.question_group
-    .map((x) => {
-      return x.question;
-    })
+export const transformForm = (
+  forms,
+  currentValues,
+  lang = 'en',
+  submissionType = 'registration',
+) => {
+  const nonEnglish = lang !== 'en';
+  const currentForm = nonEnglish ? i18n.transform(lang, forms) : forms;
+  const questions = currentForm.question_group
+    .map((x) => x.question)
     .flatMap((q) => q)
     .map((q) => (nonEnglish ? i18n.transform(lang, q) : q))
     .map((q) => {
       if (q.type === 'option' || q.type === 'multiple_option') {
-        const options = q.option.map((o) => {
-          return nonEnglish ? i18n.transform(lang, o) : o;
-        });
+        const options = q.option.map((o) => (nonEnglish ? i18n.transform(lang, o) : o));
         return {
           ...q,
           option: options.sort((a, b) => a.order - b.order),
@@ -58,10 +71,13 @@ export const transformForm = (forms, lang = 'en', filterMonitoring = false) => {
       }
       return q;
     });
-  const filteredQuestions = questions.map((q) => ({
-    ...q,
-    disabled: filterMonitoring && q?.monitoring,
-  }));
+  const filteredQuestions = questions.map((q) => {
+    const disabled = q?.disabled ? q.disabled?.submission_type?.includes(submissionType) : false;
+    return {
+      ...q,
+      disabled,
+    };
+  });
 
   const transformed = filteredQuestions.map((x) => {
     let requiredSignTemp = x?.requiredSign || null;
@@ -95,10 +111,9 @@ export const transformForm = (forms, lang = 'en', filterMonitoring = false) => {
         const translatedQg = nonEnglish ? i18n.transform(lang, qg) : qg;
         const transformedQuestions = qg.question
           ?.sort((a, b) => a.order - b.order)
-          ?.map((q) => {
-            return transformed.find((t) => t.id === q.id);
-          })
-          .filter((q) => q);
+          ?.map((q) => transformed.find((t) => t.id === q.id))
+          ?.filter((q) => q)
+          ?.filter((q) => onFilterDependency(qg, currentValues, q));
 
         if (transformedQuestions.length > 0) {
           return {
@@ -111,7 +126,8 @@ export const transformForm = (forms, lang = 'en', filterMonitoring = false) => {
         }
         return undefined;
       })
-      .filter((qg) => qg),
+      .filter((qg) => qg)
+      .filter((qg) => qg.question.length),
   };
 };
 
@@ -127,10 +143,8 @@ export const modifyDependency = ({ question }, { dependency }, repeat) => {
 
 export const validateDependency = (dependency, value) => {
   if (dependency?.options && typeof value !== 'undefined') {
-    if (typeof value === 'string') {
-      value = [value];
-    }
-    return intersection(dependency.options, value)?.length > 0;
+    const v = typeof value === 'string' ? [value] : value;
+    return intersection(dependency.options, v)?.length > 0;
   }
   let valid = false;
   if (dependency?.min) {
@@ -154,15 +168,14 @@ export const generateValidationSchemaFieldLevel = async (currentValue, field) =>
   switch (type) {
     case 'number':
       // number rules
-      const isEmpyCurrentValue = currentValue === '';
-      yupType = isEmpyCurrentValue ? Yup.string() : Yup.number();
-      if (!isEmpyCurrentValue && rule?.min) {
+      yupType = currentValue === '' ? Yup.string() : Yup.number();
+      if (currentValue !== '' && rule?.min) {
         yupType = yupType.min(rule.min);
       }
-      if (!isEmpyCurrentValue && rule?.max) {
+      if (currentValue !== '' && rule?.max) {
         yupType = yupType.max(rule.max);
       }
-      if (!isEmpyCurrentValue && !rule?.allowDecimal) {
+      if (currentValue !== '' && !rule?.allowDecimal) {
         // by default decimal is allowed
         yupType = yupType.integer();
       }
@@ -234,32 +247,23 @@ export const getDurationInMinutes = (startTime) => {
   return Math.floor(durationInSeconds / 60);
 };
 
-export const onFilterDependency = (currentGroup, values, q) => {
-  if (q?.dependency) {
-    const modifiedDependency = modifyDependency(currentGroup, q, 0);
-    const unmatches = modifiedDependency
-      .map((x) => {
-        return validateDependency(x, values?.[x.id]);
-      })
-      .filter((x) => x === false);
-    if (unmatches.length) {
-      return false;
-    }
-  }
-  return q;
-};
-
 const transformValue = (question, value, prefilled = []) => {
   const findPrefilled = prefilled.find((p) => p?.id === question?.id);
-  const answer = value || findPrefilled?.answer;
+  const defaultEmpty = ['multiple_option', 'option'].includes(question?.type) ? [] : '';
+  const answer = value || findPrefilled?.answer || defaultEmpty;
   if (question?.type === 'cascade') {
     return [answer];
   }
   if (question?.type === 'geo') {
     return answer === '' ? [] : value;
   }
-  if (question?.type === 'number') {
+  if (question?.type === 'number' && typeof answer !== 'undefined') {
     return `${answer}`;
+  }
+  if (question?.default_value?.monitoring) {
+    return ['multiple_option', 'option'].includes(question?.type)
+      ? [question.default_value.monitoring]
+      : question.default_value.monitoring;
   }
   return answer;
 };

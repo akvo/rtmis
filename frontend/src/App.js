@@ -12,7 +12,6 @@ import {
   Approvals,
   ApproversTree,
   Profile,
-  ExportData,
   UploadData,
   NewsEvents,
   HowWeWork,
@@ -40,9 +39,11 @@ import {
   AddEntityData,
   ControlCenter,
   UploadAdministrationData,
+  DownloadAdministrationData,
   BIDashboard,
   MonitoringDetail,
-  AdministrationDownload,
+  Downloads,
+  CertificationAssignment,
   // Visualisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
@@ -51,6 +52,7 @@ import { Layout, PageLoader } from "./components";
 import { useNotification } from "./util/hooks";
 import { eraseCookieFromAllPaths } from "./util/date";
 import { reloadData } from "./util/form";
+import CertificationAssignmentForm from "./pages/certification-assignment/CertificationAssignmentForm";
 
 const Private = ({ element: Element, alias }) => {
   const { user: authUser } = store.useState((state) => state);
@@ -92,11 +94,11 @@ const RouteList = () => {
         }
       >
         <Route
-          path="user/add"
+          path="users/add"
           element={<Private element={AddUser} alias="user" />}
         />
         <Route
-          path="user/:id"
+          path="users/:id"
           element={<Private element={AddUser} alias="user" />}
         />
         <Route
@@ -112,7 +114,7 @@ const RouteList = () => {
           element={<Private element={ApproversTree} alias="approvers" />}
         />
         <Route
-          path="data/manage"
+          path="data"
           element={<Private element={ManageData} alias="data" />}
         />
         <Route
@@ -120,25 +122,27 @@ const RouteList = () => {
           element={<Private element={MonitoringDetail} alias="data" />}
         />
         <Route
-          path="data/export"
-          element={<Private element={ExportData} alias="data" />}
-        />
-        <Route
-          path="master-data"
+          path="master-data/administration"
           element={<Private element={MasterData} alias="master-data" />}
         />
         <Route
-          path="master-data/upload-administration-data"
+          path="master-data/administration/upload"
           element={
             <Private element={UploadAdministrationData} alias="master-data" />
           }
         />
         <Route
-          path="master-data/add-administration"
+          path="master-data/administration/download"
+          element={
+            <Private element={DownloadAdministrationData} alias="master-data" />
+          }
+        />
+        <Route
+          path="master-data/administration/add"
           element={<Private element={AddAdministration} alias="master-data" />}
         />
         <Route
-          path="master-data/:id/edit"
+          path="master-data/administration/:id"
           element={<Private element={AddAdministration} alias="master-data" />}
         />
         <Route
@@ -152,7 +156,7 @@ const RouteList = () => {
           element={<Private element={AddAttribute} alias="master-data" />}
         />
         <Route
-          path="master-data/attributes/:id/edit"
+          path="master-data/attributes/:id"
           element={<Private element={AddAttribute} alias="master-data" />}
         />
         <Route
@@ -164,7 +168,7 @@ const RouteList = () => {
           element={<Private element={AddEntity} alias="master-data" />}
         />
         <Route
-          path="master-data/entity-types/:id/edit"
+          path="master-data/entity-types/:id"
           element={<Private element={AddEntity} alias="master-data" />}
         />
         <Route
@@ -176,7 +180,7 @@ const RouteList = () => {
           element={<Private element={AddEntityData} alias="master-data" />}
         />
         <Route
-          path="master-data/entities/:id/edit"
+          path="master-data/entities/:id"
           element={<Private element={AddEntityData} alias="master-data" />}
         />
         <Route
@@ -192,11 +196,11 @@ const RouteList = () => {
           element={<Private element={Approvals} alias="approvals" />}
         />
         <Route
-          path="organisation/add"
+          path="master-data/organisations/add"
           element={<Private element={AddOrganisation} alias="organisation" />}
         />
         <Route
-          path="organisation/:id"
+          path="master-data/organisations/:id"
           element={<Private element={AddOrganisation} alias="organisation" />}
         />
         <Route
@@ -208,11 +212,11 @@ const RouteList = () => {
           element={<Private element={MobileAssignment} alias="mobile" />}
         />
         <Route
-          path="mobile-assignment/form"
+          path="mobile-assignment/add"
           element={<Private element={AddAssignment} alias="mobile" />}
         />
         <Route
-          path="mobile-assignment/form/:id"
+          path="mobile-assignment/:id"
           element={<Private element={AddAssignment} alias="mobile" />}
         />
         <Route exact path="form/:formId" element={<Forms />} />
@@ -220,15 +224,34 @@ const RouteList = () => {
           path="profile"
           element={<Private element={Profile} alias="profile" />}
         />
+        <Route
+          path="certification"
+          element={
+            <Private element={CertificationAssignment} alias="certification" />
+          }
+        />
+        <Route
+          path="certification/add"
+          element={
+            <Private
+              element={CertificationAssignmentForm}
+              alias="certification"
+            />
+          }
+        />
+        <Route
+          path="certification/:id/edit"
+          element={
+            <Private
+              element={CertificationAssignmentForm}
+              alias="certification"
+            />
+          }
+        />
       </Route>
       <Route
-        path="/administration-download"
-        element={
-          <Private
-            element={AdministrationDownload}
-            alias="administration-download"
-          />
-        }
+        path="/downloads"
+        element={<Private element={Downloads} alias="downloads" />}
       />
       <Route
         path="/settings"

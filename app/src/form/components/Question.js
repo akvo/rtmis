@@ -1,9 +1,9 @@
 import React, { memo, useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import { FlatList, View } from 'react-native';
 import * as Crypto from 'expo-crypto';
+import PropTypes from 'prop-types';
 import QuestionField from './QuestionField';
-import { styles } from '../styles';
-import { onFilterDependency } from '../lib';
+import styles from '../styles';
 import { FormState } from '../../store';
 
 const Question = memo(({ group, activeQuestions = [], index }) => {
@@ -13,18 +13,14 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
    */
   const [preload, setPreload] = useState(true);
   const values = FormState.useState((s) => s.currentValues);
-  const currentPreFilled = FormState.useState((s) => s.prefilled);
   const prevAdmAnswer = FormState.useState((s) => s.prevAdmAnswer);
   const entityOptions = FormState.useState((s) => s.entityOptions);
   const flatListRef = useRef(null);
 
   const questions = useMemo(() => {
     if (group?.question?.length) {
-      return group.question
-        .filter((q) => onFilterDependency(group, values, q))
-        .filter((q) => {
-          return (q?.extra?.type === 'entity' && prevAdmAnswer) || !q?.extra?.type;
-        })
+      const questionList = group.question
+        .filter((q) => (q?.extra?.type === 'entity' && prevAdmAnswer) || !q?.extra?.type)
         .filter((q) => {
           if (q?.extra?.type === 'entity' && entityOptions?.[q?.id]?.length) {
             /**
@@ -34,9 +30,22 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
           }
           return q;
         });
+      const questionWithNumber = questionList.reduce((curr, q, i) => {
+        if (q?.default_value && i === 0) {
+          return [{ ...q, keyform: 0 }];
+        }
+        if (q?.default_value && i > 0) {
+          return [...curr, { ...q, keyform: curr[i - 1].keyform }];
+        }
+        if (i === 0) {
+          return [{ ...q, keyform: 1 }];
+        }
+        return [...curr, { ...q, keyform: curr[i - 1].keyform + 1 }];
+      }, []);
+      return questionWithNumber;
     }
     return [];
-  }, [group, values, prevAdmAnswer, entityOptions]);
+  }, [group, prevAdmAnswer, entityOptions]);
 
   const handleOnGenerateUUID = useCallback(() => {
     if (preload) {
@@ -58,41 +67,33 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
   }, [preload, group, values]);
 
   const handleOnChange = (id, value, field) => {
-    const fieldValues = { ...values, [id]: value };
+    const preQuestions = questions.filter(
+      (q) => typeof q?.pre === 'object' && Object.keys(q?.pre).length,
+    );
+    const fieldValues = preQuestions?.length
+      ? {
+          ...values,
+          ...preQuestions
+            .map((q) => {
+              const preKey = Object.keys(q.pre)[0];
+              const findqs = activeQuestions?.find((aq) => aq?.name === preKey);
+              const answer =
+                values?.[q?.id] ||
+                q?.pre?.[field.name]?.[value] ||
+                q?.pre?.[findqs?.name]?.[values?.[findqs?.id]];
+              return {
+                [q?.id]: answer,
+              };
+            })
+            .reduce((prev, curr) => ({ ...prev, ...curr }), {}),
+          [id]: value,
+        }
+      : { ...values, [id]: value };
     const isEmpty = Array.isArray(value) ? value.length === 0 : String(value)?.trim()?.length === 0;
-
     if (!isEmpty) {
       FormState.update((s) => {
         s.feedback = { ...s.feedback, [id]: true };
       });
-    }
-
-    const preFilled = field?.pre;
-    if (preFilled?.answer) {
-      const isMatchAnswer =
-        JSON.stringify(preFilled?.answer) === JSON.stringify(value) ||
-        String(preFilled?.answer) === String(value);
-      if (isMatchAnswer) {
-        FormState.update((s) => {
-          s.loading = true;
-        });
-        FormState.update((s) => {
-          const preValues = preFilled?.fill?.reduce((prev, current) => {
-            /**
-             * Make sure the answer criteria are not replaced by previous values
-             * eg:
-             * Previous value = "Update"
-             * Answer criteria = "New"
-             */
-            const answer =
-              id === current['id']
-                ? current['answer']
-                : values?.[current['id']] || current['answer'];
-            return { [current['id']]: answer, ...prev };
-          }, {});
-          s.prefilled = preValues;
-        });
-      }
     }
 
     if (field?.source?.file === 'administrator.sqlite') {
@@ -120,45 +121,23 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
     }
   }, [index]);
 
-  const handleOnPrefilled = useCallback(() => {
-    /**
-     * Prefilled
-     */
-    if (currentPreFilled) {
-      FormState.update((s) => {
-        const activeValues = {
-          ...s.currentValues,
-          ...currentPreFilled,
-        };
-        s.currentValues = activeValues;
-        s.prefilled = false;
-      });
-    }
-  }, [currentPreFilled, questions]);
-
-  useEffect(() => {
-    handleOnPrefilled();
-  }, [handleOnPrefilled]);
-
   return (
     <FlatList
       ref={flatListRef}
-      scrollEnabled={true}
+      scrollEnabled
       data={questions}
       keyExtractor={(item) => `question-${item.id}`}
-      renderItem={({ item: field, index }) => {
-        return (
-          <View key={`question-${field.id}`} style={styles.questionContainer}>
-            <QuestionField
-              keyform={index}
-              field={field}
-              onChange={handleOnChange}
-              value={values?.[field.id]}
-              questions={questions}
-            />
-          </View>
-        );
-      }}
+      renderItem={({ item: field }) => (
+        <View key={`question-${field.id}`} style={styles.questionContainer}>
+          <QuestionField
+            keyform={field.keyform}
+            field={field}
+            onChange={handleOnChange}
+            value={values?.[field.id]}
+            questions={questions}
+          />
+        </View>
+      )}
       extraData={group}
       removeClippedSubviews={false}
     />
@@ -166,3 +145,13 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
 });
 
 export default Question;
+
+Question.propTypes = {
+  group: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired,
+  activeQuestions: PropTypes.array,
+};
+
+Question.defaultProps = {
+  activeQuestions: [],
+};

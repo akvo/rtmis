@@ -2,9 +2,9 @@ import React from 'react';
 import { fireEvent, render, renderHook, waitFor } from '@testing-library/react-native';
 import * as Formik from 'formik';
 import { View } from 'react-native';
+import { act } from 'react-test-renderer';
 import QuestionField from '../QuestionField';
 import { FormState } from '../../../store';
-import { act } from 'react-test-renderer';
 import { generateValidationSchemaFieldLevel } from '../../lib';
 
 jest.spyOn(View.prototype, 'measureInWindow').mockImplementation((cb) => {
@@ -23,16 +23,16 @@ const fakeData = [
 jest.mock('expo-sqlite');
 jest.mock('../../../lib', () => ({
   cascades: {
-    loadDataSource: jest.fn(async (source, id) => {
-      return id
+    loadDataSource: jest.fn(async (source, id) =>
+      id
         ? { rows: { length: 1, _array: [{ id: 42, name: 'Akvo', parent: 0 }] } }
         : {
             rows: {
               length: fakeData.length,
               _array: fakeData,
             },
-          };
-    }),
+          },
+    ),
   },
   i18n: {
     text: jest.fn(() => ({
@@ -114,7 +114,7 @@ describe('QuestionField component', () => {
     const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
     const values = result.current;
 
-    const { queryByTestId, queryByText, debug, getByA11yHint } = render(
+    const { queryByTestId, queryByText } = render(
       <QuestionField
         keyform={keyform}
         field={field}
@@ -269,7 +269,7 @@ describe('QuestionField component', () => {
     });
 
     await waitFor(() => {
-      const questionText = getByText('2. Your Name');
+      const questionText = getByText('1. Your Name');
       const inputElement = queryByTestId('type-input');
       const errorEl = queryByTestId('err-validation-text');
       expect(questionText).toBeDefined();
@@ -300,6 +300,23 @@ describe('QuestionField component', () => {
         fnString: '() => #5 * #6',
       },
     };
+    const example = {
+      id: 1,
+      form: 'Test',
+      question_group: [
+        {
+          id: 71,
+          question: [field],
+        },
+      ],
+    };
+    act(() => {
+      FormState.update((s) => {
+        s.form = {
+          json: JSON.stringify(example).replace(/'/g, "''"),
+        };
+      });
+    });
 
     const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
     const values = result.current;

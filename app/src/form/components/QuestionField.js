@@ -1,4 +1,8 @@
-import React, { useCallback, useEffect, useState, memo } from 'react';
+/* eslint-disable react/jsx-props-no-spreading */
+import React, { useCallback } from 'react';
+
+import { View, Text } from 'react-native';
+import PropTypes from 'prop-types';
 import {
   TypeDate,
   TypeImage,
@@ -11,28 +15,32 @@ import {
   TypeCascade,
   TypeAutofield,
 } from '../fields';
-import { View, Text } from 'react-native';
-import { styles } from '../styles';
+import styles from '../styles';
 import { FormState } from '../../store';
 
 const QuestionField = ({ keyform, field: questionField, onChange, value }) => {
   const questionType = questionField?.type;
-  const displayValue = questionField?.hidden ? 'none' : 'flex';
+  const defaultValQuestion = questionField?.default_value || {};
+  const displayValue =
+    questionField?.hidden || Object.keys(defaultValQuestion).length ? 'none' : 'flex';
   const formFeedback = FormState.useState((s) => s.feedback);
   const selectedForm = FormState.useState((s) => s.form);
-  const questions =
-    selectedForm && Object.keys(selectedForm).length > 0
-      ? JSON.parse(selectedForm.json)?.question_group
-      : {};
 
-  const handleOnChangeField = (id, val) => {
-    if (questionField?.displayOnly) {
-      return;
-    }
-    onChange(id, val, questionField);
-  };
+  const handleOnChangeField = useCallback(
+    (id, val) => {
+      if (questionField?.displayOnly) {
+        return;
+      }
+      onChange(id, val, questionField);
+    },
+    [onChange, questionField],
+  );
 
   const renderField = useCallback(() => {
+    const questions =
+      selectedForm && Object.keys(selectedForm).length > 0
+        ? JSON.parse(selectedForm.json)?.question_group
+        : {};
     switch (questionType) {
       case 'date':
         return (
@@ -105,6 +113,7 @@ const QuestionField = ({ keyform, field: questionField, onChange, value }) => {
             keyform={keyform}
             onChange={handleOnChangeField}
             questions={questions}
+            value={value}
             {...questionField}
           />
         );
@@ -118,7 +127,7 @@ const QuestionField = ({ keyform, field: questionField, onChange, value }) => {
           />
         );
     }
-  }, [questionField, keyform, handleOnChangeField, value]);
+  }, [selectedForm, questionField, questionType, keyform, value, handleOnChangeField]);
 
   return (
     <View testID="question-view" style={{ display: displayValue }}>
@@ -133,3 +142,19 @@ const QuestionField = ({ keyform, field: questionField, onChange, value }) => {
 };
 
 export default QuestionField;
+
+QuestionField.propTypes = {
+  keyform: PropTypes.number.isRequired,
+  field: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.array,
+  ]),
+};
+
+QuestionField.defaultProps = {
+  value: null,
+};

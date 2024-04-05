@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import "./style.scss";
-import { Row, Col, Table, Tabs, Button } from "antd";
+import { Row, Col, Table, Tabs } from "antd";
 import { Breadcrumbs } from "../../components";
-import { Link } from "react-router-dom";
 import { LeftCircleOutlined, DownCircleOutlined } from "@ant-design/icons";
 import { api, store, uiText, config } from "../../lib";
 import { columnsApproval } from "./";
@@ -16,7 +15,6 @@ const Approvals = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [expandedKeys, setExpandedKeys] = useState([]);
-  const [role, setRole] = useState(null);
   const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState(0);
   const { user } = store.useState((state) => state);
@@ -68,10 +66,6 @@ const Approvals = () => {
   }, [user, approvalTab]);
 
   useEffect(() => {
-    setRole(user?.role?.id);
-  }, [user]);
-
-  useEffect(() => {
     setLoading(true);
     let url = `/form-pending-batch/?page=${currentPage}`;
     if (approvalTab === "subordinate") {
@@ -103,21 +97,6 @@ const Approvals = () => {
         <Row justify="space-between">
           <Col>
             <Breadcrumbs pagePath={pagePath} />
-          </Col>
-          <Col>
-            {(role === 1 || role === 2) && (
-              <Link
-                to={
-                  role === 1
-                    ? "/control-center/questionnaires"
-                    : "/control-center/questionnaires/admin"
-                }
-              >
-                <Button type="primary" shape="round">
-                  {text.manageQnApproval}
-                </Button>
-              </Link>
-            )}
           </Col>
         </Row>
       </div>
@@ -202,6 +181,7 @@ const Approvals = () => {
                   ),
               }}
               rowKey="id"
+              rowClassName="expandable-row"
               expandRowByClick
             />
           </div>

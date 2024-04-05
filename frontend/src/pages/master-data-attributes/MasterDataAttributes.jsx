@@ -41,7 +41,7 @@ const MasterDataAttributes = () => {
         options: record?.options?.map((opt) => ({ name: opt })),
       };
     });
-    navigate(`/control-center/master-data/attributes/${record.id}/edit`);
+    navigate(`/control-center/master-data/attributes/${record.id}`);
   };
 
   const columns = [
@@ -134,7 +134,7 @@ const MasterDataAttributes = () => {
   }, [fetchData]);
 
   return (
-    <div id="users">
+    <div id="masterDataAttributes">
       <div className="description-container">
         <Row justify="space-between" align="bottom">
           <Col>

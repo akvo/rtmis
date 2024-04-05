@@ -230,7 +230,7 @@ const Users = () => {
             setPending={setPending}
             loading={loading}
             button={
-              <Link to="/control-center/user/add">
+              <Link to="/control-center/users/add">
                 <Button type="primary" shape="round" icon={<PlusOutlined />}>
                   {text.addNewUser}
                 </Button>
@@ -244,7 +244,6 @@ const Users = () => {
           >
             <Table
               columns={columns}
-              rowClassName={() => "editable-row"}
               dataSource={dataset}
               loading={loading}
               onChange={handleChange}
@@ -278,6 +277,7 @@ const Users = () => {
                     />
                   ),
               }}
+              rowClassName="editable-row expandable-row"
               expandRowByClick
             />
           </div>

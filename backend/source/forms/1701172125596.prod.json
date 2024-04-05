@@ -7,6 +7,7 @@
   "version": 1,
   "type": 1,
   "translations": null,
+  "submission_types": ["registration", "monitoring"],
   "question_groups": [
     {
       "id": 1701172125597,
@@ -42,74 +43,7 @@
               "label": "Update",
               "value": "upda"
             }
-          ],
-          "pre": {
-            "answer": "new",
-            "fill": [
-              {
-                "id": 1701172125598,
-                "answer": ["new"]
-              },
-              {
-                "id": 1701329515408,
-                "answer": ["g0_all_inst_toil_are_nonf"]
-              },
-              {
-                "id": 1701331306965,
-                "answer": ["g0_all_inst_toil_are_not_flyp"]
-              },
-              {
-                "id": 1701331373050,
-                "answer": ["g0_all_inst_toil_are_not_clea"]
-              },
-              {
-                "id": 1701331438759,
-                "answer": ["g0_all_inst_toil_slab_are_not_dura"]
-              },
-              {
-                "id": 1701331908015,
-                "answer": ["g0_all_inst_toil_pits_are_not_dura"]
-              },
-              {
-                "id": 1701332234354,
-                "answer": ["g0_visi_surf_outf_from_cont"]
-              },
-              {
-                "id": 1701334423738,
-                "answer": [
-                  "g0_unsa_disp_to_open_pit_open_spac_open_drai_wate_body_with_500m"
-                ]
-              },
-              {
-                "id": 1701334833791,
-                "answer": ["g0_no_hand_faci"]
-              },
-              {
-                "id": 1701334972999,
-                "answer": ["g0_no_wate_avai"]
-              },
-              {
-                "id": 1701335557029,
-                "answer": ["g0_no_soap_othe_clea_avai"]
-              },
-              {
-                "id": 1701358601048,
-                "answer": ["g0_no_hand_faci"]
-              },
-              {
-                "id": 1701359046016,
-                "answer": ["g0_hand_ente_wate_cont_duri_coll_use"]
-              },
-              {
-                "id": 1701359231461,
-                "answer": ["g0_no_coll_disp_wash_wate"]
-              },
-              {
-                "id": 17022827967659,
-                "answer": ["g0_high_risk_grou_cont"]
-              }
-            ]
-          }
+          ]
         },
         {
           "id": 1701329787633,
@@ -302,7 +236,12 @@
               "value": "g3_all_toil_inst_are_func",
               "color": "#38A15A"
             }
-          ]
+          ],
+          "pre": {
+            "new_institution_monitoring_update": {
+              "new": ["g0_all_inst_toil_are_nonf"]
+            }
+          }
         },
         {
           "id": 16994198156601,
@@ -372,7 +311,12 @@
               "value": "g3_all_func_toil_are_flyp",
               "color": "#38A15A"
             }
-          ]
+          ],
+          "pre": {
+            "new_institution_monitoring_update": {
+              "new": ["g0_all_inst_toil_are_not_flyp"]
+            }
+          }
         },
         {
           "id": 1701331373050,
@@ -408,7 +352,12 @@
               "value": "g3_all_func_toil_are_clea",
               "color": "#38A15A"
             }
-          ]
+          ],
+          "pre": {
+            "new_institution_monitoring_update": {
+              "new": ["g0_all_inst_toil_are_not_clea"]
+            }
+          }
         },
         {
           "id": 1701331438759,
@@ -444,7 +393,12 @@
               "value": "g3_all_inst_func_toil_slab_are_dura",
               "color": "#38A15A"
             }
-          ]
+          ],
+          "pre": {
+            "new_institution_monitoring_update": {
+              "new": ["g0_all_inst_toil_slab_are_not_dura"]
+            }
+          }
         },
         {
           "id": 1701331908015,
@@ -480,7 +434,12 @@
               "value": "g3_all_inst_func_toil_pits_are_dura",
               "color": "#38A15A"
             }
-          ]
+          ],
+          "pre": {
+            "new_institution_monitoring_update": {
+              "new": ["g0_all_inst_toil_pits_are_not_dura"]
+            }
+          }
         },
         {
           "id": 1701332234354,
@@ -516,7 +475,12 @@
               "value": "g3_safe_mana_cont_all_inst_no_surf_outf",
               "color": "#38A15A"
             }
-          ]
+          ],
+          "pre": {
+            "new_institution_monitoring_update": {
+              "new": ["g0_visi_surf_outf_from_cont"]
+            }
+          }
         },
         {
           "id": 1701332496414,
@@ -679,7 +643,14 @@
               "value": "g3_safe_mana_othe_safe_mana_serv",
               "color": "#38A15A"
             }
-          ]
+          ],
+          "pre": {
+            "new_institution_monitoring_update": {
+              "new": [
+                "g0_unsa_disp_to_open_pit_open_spac_open_drai_wate_body_with_500m"
+              ]
+            }
+          }
         },
         {
           "id": 17022827967659,
@@ -707,7 +678,12 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null
+          "fn": null,
+          "pre": {
+            "new_institution_monitoring_update": {
+              "new": ["g0_high_risk_grou_cont"]
+            }
+          }
         },
         {
           "id": 17022839554619,
@@ -726,7 +702,7 @@
               "G1 Inadequate institutional sanitation services": "#FDC74B",
               "G3 Use of safely managed institutional sanitation services": "#4088F4"
             },
-            "fnString": "#functional_institutional_toilet#.includes(\"g0\") && #flyproof_institutional_toilet#.includes(\"g0\") && #clean_institutional_toilet#.includes(\"g0\") && #durable_toilet_slab#.includes(\"g0\") && #durable_toilet_pits#.includes(\"g0\") && #safely_managed_wastewater_containment#.includes(\"g0\") && #safely_managed_faecal_sludge_containment#.includes(\"g0\")  && #safely_managed_sanitation_services#.includes(\"g0\")) ? \"G0 Institutional sanitation services UNSAFELY managed\" : ((#functional_institutional_toilet#.includes(\"g3\") && #flyproof_institutional_toilet#.includes(\"g3\") && #clean_institutional_toilet#.includes(\"g3\")  && #durable_toilet_slab#.includes(\"g3\") && #durable_toilet_pits#.includes(\"g3\") && #safely_managed_wastewater_containment#.includes(\"g3\") && #safely_managed_faecal_sludge_containment#.includes(\"g3\") && #safely_managed_sanitation_services#.includes(\"g3\")) ? \"G3 Use of safely managed institutional sanitation services\" : \"G1 Inadequate institutional sanitation services\"",
+            "fnString": "#functional_institutional_toilet#.includes(\"g0\") && #flyproof_institutional_toilet#.includes(\"g0\") && #clean_institutional_toilet#.includes(\"g0\") && #durable_toilet_slab#.includes(\"g0\") && #durable_toilet_pits#.includes(\"g0\") && #safely_managed_wastewater_containment#.includes(\"g0\") && #safely_managed_faecal_sludge_containment#.includes(\"g0\")  && #safely_managed_sanitation_services#.includes(\"g0\") ? \"G0 Institutional sanitation services UNSAFELY managed\" : (#functional_institutional_toilet#.includes(\"g3\") && #flyproof_institutional_toilet#.includes(\"g3\") && #clean_institutional_toilet#.includes(\"g3\")  && #durable_toilet_slab#.includes(\"g3\") && #durable_toilet_pits#.includes(\"g3\") && #safely_managed_wastewater_containment#.includes(\"g3\") && #safely_managed_faecal_sludge_containment#.includes(\"g3\") && #safely_managed_sanitation_services#.includes(\"g3\")) ? \"G3 Use of safely managed institutional sanitation services\" : \"G1 Inadequate institutional sanitation services\"",
             "multiline": false
           }
         },
@@ -785,7 +761,12 @@
               "value": "g1_more_than_two_hand_faci",
               "color": "#38A15A"
             }
-          ]
+          ],
+          "pre": {
+            "new_institution_monitoring_update": {
+              "new": ["g0_no_hand_faci"]
+            }
+          }
         },
         {
           "id": 1701334972999,
@@ -821,7 +802,12 @@
               "value": "g1_wate_cont_empt_evid_wash",
               "color": "#38A15A"
             }
-          ]
+          ],
+          "pre": {
+            "new_institution_monitoring_update": {
+              "new": ["g0_no_wate_avai"]
+            }
+          }
         },
         {
           "id": 1701335557029,
@@ -864,7 +850,12 @@
               "value": "g1_soli_liqu_powd_soap_avai",
               "color": "#38A15A"
             }
-          ]
+          ],
+          "pre": {
+            "new_institution_monitoring_update": {
+              "new": ["g0_no_soap_othe_clea_avai"]
+            }
+          }
         },
         {
           "id": 1701358601048,
@@ -928,7 +919,12 @@
               "value": "g3_mark_hand_stat_with_adeq_wate_stor",
               "color": "#38A15A"
             }
-          ]
+          ],
+          "pre": {
+            "new_institution_monitoring_update": {
+              "new": ["g0_no_hand_faci"]
+            }
+          }
         },
         {
           "id": 1701359046016,
@@ -978,7 +974,12 @@
               "value": "g3_othe_hand_oper",
               "color": "#38A15A"
             }
-          ]
+          ],
+          "pre": {
+            "new_institution_monitoring_update": {
+              "new": ["g0_hand_ente_wate_cont_duri_coll_use"]
+            }
+          }
         },
         {
           "id": 1701359231461,
@@ -1014,7 +1015,12 @@
               "value": "g3_safe_coll_disp_wash_wate",
               "color": "#38A15A"
             }
-          ]
+          ],
+          "pre": {
+            "new_institution_monitoring_update": {
+              "new": ["g0_no_coll_disp_wash_wate"]
+            }
+          }
         },
         {
           "id": 1701358131461,
@@ -1033,7 +1039,7 @@
               "G1 Non-durable handwashing services": "#FDC74B",
               "G3 Permanent handwashing services": "#4088F4"
             },
-            "fnString": "#handwashing_facility_institution#.includes(\"g0\") && #water_available_institutional_HWF#.includes(\"g0\") && #soap_available_institutional_HWF#.includes(\"g0\") && #institutional_HWF_type#.includes(\"g0\") && #hands_free_operation_institutional_HWF#.includes(\"g0\") && #adequate_drainage_washing_water#.includes(\"g0\")) ? \"G0 No or inadequate handwashing services\" : ((#institutional_HWF_type#.includes(\"g3\") && #hands_free_operation_institutional_HWF#.includes(\"g3\") && #adequate_drainage_washing_water#.includes(\"g3\")) ? \"G3 Permanent handwashing services\" : \"G1 Non-durable handwashing services\"",
+            "fnString": "#handwashing_facility_institution#.includes(\"g0\") && #water_available_institutional_HWF#.includes(\"g0\") && #soap_available_institutional_HWF#.includes(\"g0\") && #institutional_HWF_type#.includes(\"g0\") && #hands_free_operation_institutional_HWF#.includes(\"g0\") && #adequate_drainage_washing_water#.includes(\"g0\") ? \"G0 No or inadequate handwashing services\" : (#institutional_HWF_type#.includes(\"g3\") && #hands_free_operation_institutional_HWF#.includes(\"g3\") && #adequate_drainage_washing_water#.includes(\"g3\")) ? \"G3 Permanent handwashing services\" : \"G1 Non-durable handwashing services\"",
             "multiline": false
           }
         }

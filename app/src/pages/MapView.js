@@ -1,16 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
-import {
-  View,
-  StyleSheet,
-  ActivityIndicator,
-  Platform,
-  ToastAndroid,
-  BackHandler,
-} from 'react-native';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { Asset } from 'expo-asset';
 import * as FileSystem from 'expo-file-system';
-import { Button, Dialog, Text } from '@rneui/themed';
+import { Button } from '@rneui/themed';
+import PropTypes from 'prop-types';
 import { FormState, UIState } from '../store';
 import { i18n } from '../lib';
 
@@ -20,7 +14,7 @@ const MapView = ({ navigation, route }) => {
     longitude: lngParam,
     id: questionID,
     current_location: currentLocation,
-  } = route?.params;
+  } = route.params;
   const [htmlContent, setHtmlContent] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -37,7 +31,7 @@ const MapView = ({ navigation, route }) => {
     navigation.navigate('FormPage', {
       id: selectedForm?.id,
       name: selectedForm?.name,
-      newSubmission: route?.params?.newSubmission,
+      ...route?.params,
     });
   };
 
@@ -57,14 +51,15 @@ const MapView = ({ navigation, route }) => {
     goBack();
   };
 
-  const loadHtml = async () => {
+  const loadHtml = useCallback(async () => {
+    // eslint-disable-next-line global-require
     const [{ localUri }] = await Asset.loadAsync(require('../../assets/map.html'));
     const fileContents = await FileSystem.readAsStringAsync(localUri);
     const htmlContents = fileContents
       .replace(/{{latitude}}/g, latParam)
       .replace(/{{longitude}}/g, lngParam);
     setHtmlContent(htmlContents);
-  };
+  }, [latParam, lngParam]);
 
   const handleUseSelectedLocation = () => {
     const { lat, lng } = markerData;
@@ -79,7 +74,7 @@ const MapView = ({ navigation, route }) => {
 
   useEffect(() => {
     loadHtml();
-  }, []);
+  }, [loadHtml]);
 
   useEffect(() => {
     if (loading && htmlContent) {
@@ -132,3 +127,11 @@ const styles = StyleSheet.create({
 });
 
 export default MapView;
+
+MapView.propTypes = {
+  route: PropTypes.object,
+};
+
+MapView.defaultProps = {
+  route: null,
+};

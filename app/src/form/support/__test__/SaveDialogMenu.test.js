@@ -12,7 +12,7 @@ describe('SaveDialogMenu component', () => {
   });
 
   it('should show dialog if visible prop true', () => {
-    const wrapper = render(<SaveDialogMenu visible={true} setVisible={jest.fn()} />);
+    const wrapper = render(<SaveDialogMenu visible setVisible={jest.fn()} />);
 
     const dialogElement = wrapper.queryByTestId('save-dialog-menu');
     expect(dialogElement).toBeTruthy();
@@ -20,7 +20,7 @@ describe('SaveDialogMenu component', () => {
   });
 
   it('should show Save and Exit button on dialog', () => {
-    const wrapper = render(<SaveDialogMenu visible={true} setVisible={jest.fn()} />);
+    const wrapper = render(<SaveDialogMenu visible setVisible={jest.fn()} />);
 
     const dialogElement = wrapper.queryByTestId('save-dialog-menu');
     expect(dialogElement).toBeTruthy();
@@ -30,7 +30,7 @@ describe('SaveDialogMenu component', () => {
   });
 
   it('should show Exit without Saving button on dialog', () => {
-    const wrapper = render(<SaveDialogMenu visible={true} setVisible={jest.fn()} />);
+    const wrapper = render(<SaveDialogMenu visible setVisible={jest.fn()} />);
 
     const dialogElement = wrapper.queryByTestId('save-dialog-menu');
     expect(dialogElement).toBeTruthy();
@@ -40,7 +40,7 @@ describe('SaveDialogMenu component', () => {
   });
 
   it('should show Cancel button on dialog', () => {
-    const wrapper = render(<SaveDialogMenu visible={true} setVisible={jest.fn()} />);
+    const wrapper = render(<SaveDialogMenu visible setVisible={jest.fn()} />);
 
     const dialogElement = wrapper.queryByTestId('save-dialog-menu');
     expect(dialogElement).toBeTruthy();
@@ -54,7 +54,7 @@ describe('SaveDialogMenu component', () => {
 
     const wrapper = render(
       <SaveDialogMenu
-        visible={true}
+        visible
         setVisible={jest.fn()}
         handleOnSaveAndExit={mockHandleOnSaveAndExit}
       />,
@@ -75,7 +75,7 @@ describe('SaveDialogMenu component', () => {
 
     const wrapper = render(
       <SaveDialogMenu
-        visible={true}
+        visible
         setVisible={jest.fn()}
         handleOnExit={mockHandleExitWithoutSaving}
       />,
@@ -94,7 +94,7 @@ describe('SaveDialogMenu component', () => {
   it('should hide dialog menu when Cancel button pressed', () => {
     const mockSetIsVisible = jest.fn();
 
-    const wrapper = render(<SaveDialogMenu visible={true} setVisible={mockSetIsVisible} />);
+    const wrapper = render(<SaveDialogMenu visible setVisible={mockSetIsVisible} />);
 
     const dialogElement = wrapper.queryByTestId('save-dialog-menu');
     expect(dialogElement).toBeTruthy();

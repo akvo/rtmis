@@ -4,8 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 
 import LogoutButton from '../LogoutButton';
 import { AuthState, UserState } from '../../store';
-import { conn, query } from '../../database';
-import { cascades, i18n, api } from '../../lib';
+import { conn, query as dbQuery } from '../../database';
+import { cascades, i18n } from '../../lib';
 
 jest.mock('@react-navigation/native');
 jest.mock('expo-sqlite');
@@ -62,7 +62,7 @@ describe('LogoutButton', () => {
       });
     });
 
-    const { getByText, getByTestId } = render(<LogoutButton />);
+    const { getByTestId } = render(<LogoutButton />);
     const logoutEl = getByTestId('list-item-logout');
     fireEvent.press(logoutEl);
 
@@ -76,7 +76,7 @@ describe('LogoutButton', () => {
       const { result } = renderHook(() => AuthState.useState());
       const { token } = result.current;
       const table = 'sessions';
-      const selectQuery = query.read(table);
+      const selectQuery = dbQuery.read(table);
       const sessionRes = await conn.tx(db, selectQuery);
       expect(token).toEqual(mockToken);
       expect(sessionRes.rows).toHaveLength(sessionData.length);
@@ -86,7 +86,7 @@ describe('LogoutButton', () => {
 
   test('clear state and all tables on successfull logout', async () => {
     const mockToken = 'Bearer mockToken';
-    const mockPasscode = 'secret123';
+
     act(() => {
       AuthState.update((s) => {
         s.token = mockToken;
@@ -101,7 +101,7 @@ describe('LogoutButton', () => {
       });
     });
 
-    const { getByText, getByTestId } = render(<LogoutButton />);
+    const { getByTestId } = render(<LogoutButton />);
     const logoutEl = getByTestId('list-item-logout');
     fireEvent.press(logoutEl);
 

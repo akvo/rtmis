@@ -220,6 +220,11 @@
               }
             }
           }
+          .ant-table-tbody {
+            .ant-table-row {
+              cursor: default;
+            }
+          }
         }
       }
 

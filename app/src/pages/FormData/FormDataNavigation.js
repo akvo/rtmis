@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Button } from '@rneui/themed';
 import Icon from 'react-native-vector-icons/Ionicons';
+import PropTypes from 'prop-types';
 import { UIState } from '../../store';
 import { i18n } from '../../lib';
 
@@ -85,3 +86,9 @@ const styles = StyleSheet.create({
 });
 
 export default FormDataNavigation;
+
+FormDataNavigation.propTypes = {
+  totalPage: PropTypes.number.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  setCurrentPage: PropTypes.func.isRequired,
+};

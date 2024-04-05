@@ -17,6 +17,7 @@ import {
   DownCircleOutlined,
   DeleteOutlined,
   ArrowLeftOutlined,
+  FormOutlined,
 } from "@ant-design/icons";
 import { useParams, useNavigate } from "react-router-dom";
 import { api, config, store, uiText } from "../../lib";
@@ -37,6 +38,7 @@ const MonitoringDetail = () => {
   const [deleting, setDeleting] = useState(false);
   const [editedRecord, setEditedRecord] = useState({});
   const [editable, setEditable] = useState(false);
+  const [loadMonitoring, setLoadMonitoring] = useState(false);
   const { form, parentId } = useParams();
   const navigate = useNavigate();
 
@@ -54,7 +56,7 @@ const MonitoringDetail = () => {
     },
     {
       title: text.manageDataTitle,
-      link: "/control-center/data/manage",
+      link: "/control-center/data",
     },
     {
       title: text.monitoringDataTitle,
@@ -118,6 +120,103 @@ const MonitoringDetail = () => {
     }
   };
 
+  const getCascadeAnswerId = async (id, questonAPI, value) => {
+    const { initial, endpoint } = questonAPI;
+    if (initial) {
+      const cascadeID = value || initial;
+      const res = await fetch(
+        `${window.location.origin}${endpoint}/${cascadeID}`
+      );
+      const apiData = await res.json();
+      if (endpoint.includes("administration")) {
+        const parents = apiData?.path?.split(".");
+        const startLevel = authUser?.administration?.level;
+        return {
+          [id]: [...parents, apiData?.id]
+            .filter((a) => a !== "" && a !== "1")
+            .map((a) => parseInt(a, 10))
+            .slice(startLevel),
+        };
+      }
+      return { [id]: [apiData?.id] };
+    }
+    const res = await fetch(window.location.origin + endpoint);
+    const apiData = await res.json();
+    const findCascade = apiData?.find((d) => d?.name === value);
+    return {
+      [id]: findCascade ? [findCascade.id] : [],
+    };
+  };
+
+  const transformValue = (type, value) => {
+    if (type === "option" && Array.isArray(value) && value.length) {
+      return value[0];
+    }
+    if (type === "geo" && Array.isArray(value) && value.length === 2) {
+      const [lat, lng] = value;
+      return { lat, lng };
+    }
+    return typeof value === "undefined" ? "" : value;
+  };
+
+  const goToMonitoringForm = async () => {
+    setLoadMonitoring(true);
+    try {
+      const { data: apiData } = await api.get(
+        `form/web/${selectedFormData?.form}`
+      );
+      const questions = apiData?.question_group?.flatMap((qg) => qg?.question);
+      const res = await fetch(
+        `${window.location.origin}/datapoints/${selectedFormData?.uuid}.json`
+      );
+      const { answers } = await res.json();
+      /**
+       * Transform cascade answers
+       */
+      const cascadeAPIs = questions
+        ?.filter((q) => q?.type === "cascade" && q?.api?.endpoint)
+        ?.map((q) => getCascadeAnswerId(q.id, q.api, answers?.[q.id]));
+      const cascadeResponses = await Promise.allSettled(cascadeAPIs);
+      const cascadeValues = cascadeResponses
+        .filter(({ status }) => status === "fulfilled")
+        .map(({ value }) => value)
+        .reduce((prev, curr) => {
+          const [key, value] = Object.entries(curr)[0];
+          prev[key] = value;
+          return prev;
+        }, {});
+      /**
+       * Transform answers to Webform format
+       */
+      const initialValue = questions.map((q) => {
+        return {
+          question: q?.id,
+          value: Object.keys(cascadeValues).includes(`${q?.id}`)
+            ? cascadeValues[q.id]
+            : transformValue(q?.type, answers?.[q.id]),
+        };
+      });
+      store.update((s) => {
+        s.initialValue = initialValue;
+        s.monitoring = selectedFormData;
+      });
+
+      setTimeout(() => {
+        /**
+         * Add a second delay to complete the initial value
+         */
+        setLoadMonitoring(false);
+        navigate(`/control-center/form/${selectedFormData?.form}`);
+      }, 1000);
+    } catch (error) {
+      setLoadMonitoring(false);
+      Modal.error({
+        title: text.updateDataError,
+        content: String(error),
+      });
+    }
+  };
+
   useEffect(() => {
     if (form && !updateRecord) {
       setLoading(true);
@@ -165,14 +264,28 @@ const MonitoringDetail = () => {
 
       <div className="table-section">
         <div className="table-wrapper">
-          <Button
-            type="primary"
-            shape="round"
-            onClick={() => navigate("/control-center/data/manage")}
-            icon={<ArrowLeftOutlined />}
-          >
-            {text.backManageData}
-          </Button>
+          <Row justify={"space-between"} align={"middle"}>
+            <Col span={6}>
+              <Button
+                shape="round"
+                onClick={() => navigate("/control-center/data")}
+                icon={<ArrowLeftOutlined />}
+              >
+                {text.backManageData}
+              </Button>
+            </Col>
+            <Col span={6} style={{ textAlign: "right" }}>
+              <Button
+                type="primary"
+                shape="round"
+                onClick={goToMonitoringForm}
+                icon={<FormOutlined />}
+                loading={loadMonitoring}
+              >
+                {text.updateDataButton}
+              </Button>
+            </Col>
+          </Row>
           <Divider />
           <Title>{selectedFormData?.name || dataset?.[0]?.name}</Title>
           <div
@@ -195,9 +308,6 @@ const MonitoringDetail = () => {
                   showTotal: (total, range) =>
                     `Results: ${range[0]} - ${range[1]} of ${total} data`,
                 }}
-                rowClassName={(record) =>
-                  editedRecord[record.id] ? "row-edited" : "row-normal sticky"
-                }
                 rowKey="id"
                 expandable={{
                   expandedRowRender: (record) => (
@@ -224,6 +334,12 @@ const MonitoringDetail = () => {
                         style={{ color: "#1651B6", fontSize: "19px" }}
                       />
                     ),
+                }}
+                rowClassName={(record) => {
+                  const rowEdited = editedRecord[record.id]
+                    ? "row-edited"
+                    : "row-normal sticky";
+                  return `expandable-row ${rowEdited}`;
                 }}
                 expandRowByClick
               />

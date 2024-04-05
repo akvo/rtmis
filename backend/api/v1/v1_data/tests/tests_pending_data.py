@@ -68,7 +68,7 @@ class PendingDataTestCase(TestCase):
                 self.assertEqual(200, response.status_code)
                 self.assertEqual([
                     'id', 'uuid', 'data_id', 'name', 'form', 'administration',
-                    'geo', 'created_by', 'created', 'is_monitoring'
+                    'geo', 'created_by', 'created'
                 ], list(response.json()[0]))
 
         county_form = Forms.objects.filter(type=FormTypes.county).first()

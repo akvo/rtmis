@@ -21,7 +21,7 @@ const MobileAssignment = () => {
   const [expandedRows, setExpandedRows] = useState({});
 
   const navigate = useNavigate();
-  const { language } = store.useState((s) => s);
+  const { language, user: authUser } = store.useState((s) => s);
   const { active: activeLang } = language;
 
   const text = useMemo(() => {
@@ -39,10 +39,7 @@ const MobileAssignment = () => {
   ];
 
   const handleOnEdit = (record) => {
-    store.update((s) => {
-      s.mobileAssignment = record;
-    });
-    navigate(`/control-center/mobile-assignment/form/${record?.id}`);
+    navigate(`/control-center/mobile-assignment/${record?.id}`);
   };
 
   const handleMoreLinkClick = (rowKey) => {
@@ -99,6 +96,11 @@ const MobileAssignment = () => {
       width: 500,
     },
     {
+      title: "Created by",
+      dataIndex: "created_by",
+      key: "created_by",
+    },
+    {
       title: "Action",
       dataIndex: "id",
       key: "id",
@@ -109,6 +111,10 @@ const MobileAssignment = () => {
             shape="round"
             type="primary"
             onClick={() => handleOnEdit(record)}
+            disabled={
+              record.created_by !== authUser.email &&
+              authUser.administration.level !== 2
+            }
           >
             {text.editButton}
           </Button>
@@ -173,7 +179,7 @@ const MobileAssignment = () => {
               </Space>
             </Col>
             <Col>
-              <Link to="/control-center/mobile-assignment/form">
+              <Link to="/control-center/mobile-assignment/add">
                 <Button icon={<PlusOutlined />} type="primary" shape="round">
                   {text.mobileButtonAdd}
                 </Button>
@@ -189,7 +195,6 @@ const MobileAssignment = () => {
           >
             <Table
               columns={columns}
-              rowClassName={() => "editable-row"}
               dataSource={dataset}
               loading={loading}
               onChange={handleChange}
@@ -219,6 +224,7 @@ const MobileAssignment = () => {
                     />
                   ),
               }}
+              rowClassName="expandable-row editable-row"
               expandRowByClick
             />
           </div>

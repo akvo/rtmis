@@ -14,6 +14,7 @@
       "I approve this data for submission"
     ]
   },
+  "submission_types": ["registration", "monitoring", "verification", "certification"],
   "question_groups": [
     {
       "id": 16993539153821,
@@ -52,42 +53,11 @@
           ],
           "dependency": null,
           "fn": null,
-          "pre": {
-            "answer": "new",
-            "fill": [
-              {
-                "id": 16994179587481,
-                "answer": ["household_head"]
-              },
-              {
-                "id": 16994206218401,
-                "answer": ["other_household_not_in_atrisk_category"]
-              },
-              {
-                "id": 16994222860911,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 16994233572001,
-                "answer": ["g0_nonfunctional_toilet"]
-              },
-              {
-                "id": 16994235714541,
-                "answer": ["g0_no_toilet_privacy"]
-              },
-              {
-                "id": 16994236967201,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 16994239461701,
-                "answer": ["g0_no_toilet"]
-              },
-              {
-                "id": 16994243759681,
-                "answer": ["g0_vip_vent_pipe_without_insect_screen"]
-              }
-            ]
+          "default_value": {
+            "submission_type": {
+              "monitoring": "update",
+              "registration": "new"
+            }
           }
         },
         {
@@ -109,7 +79,9 @@
             }
           ],
           "fn": null,
-          "monitoring": true
+          "disabled": {
+            "submission_type": ["monitoring"]
+          }
         },
         {
           "id": 17030862702533,
@@ -130,7 +102,9 @@
             "type": "entity",
             "name": "School"
           },
-          "monitoring": true
+          "disabled": {
+            "submission_type": ["monitoring"]
+          }
         },
         {
           "id": 17030862702534,
@@ -151,7 +125,9 @@
             "type": "entity",
             "name": "Health Care Facilities"
           },
-          "monitoring": true
+          "disabled": {
+            "submission_type": ["monitoring"]
+          }
         },
         {
           "id": 17029147539571,
@@ -171,7 +147,9 @@
             }
           ],
           "fn": null,
-          "monitoring": true
+          "disabled": {
+            "submission_type": ["monitoring"]
+          }
         },
         {
           "id": 17029148037321,
@@ -244,7 +222,12 @@
           ],
           "rule": null,
           "fn": null,
-          "attributes": ["advanced_filter"]
+          "attributes": ["advanced_filter"],
+          "pre": {
+            "new_or_monitoring": {
+              "new": ["household_head"]
+            }
+          }
         },
         {
           "id": 16994190480951,
@@ -259,7 +242,9 @@
           "options": null,
           "rule": null,
           "fn": null,
-          "monitoring": true
+          "disabled": {
+            "submission_type": ["monitoring"]
+          }
         },
         {
           "id": 16994198156601,
@@ -477,7 +462,12 @@
           ],
           "rule": null,
           "fn": null,
-          "attributes": ["advanced_filter"]
+          "attributes": ["advanced_filter"],
+          "pre": {
+            "new_or_monitoring": {
+              "new": ["other_household_not_in_atrisk_category"]
+            }
+          }
         },
         {
           "id": 17030734694661,
@@ -536,7 +526,12 @@
           ],
           "dependency": null,
           "fn": null,
-          "attributes": ["advanced_filter"]
+          "attributes": ["advanced_filter"],
+          "pre": {
+            "new_or_monitoring": {
+              "new": ["g0_no_toilet"]
+            }
+          }
         },
         {
           "id": 17030669023251,
@@ -596,7 +591,12 @@
             }
           ],
           "fn": null,
-          "attributes": ["advanced_filter"]
+          "attributes": ["advanced_filter"],
+          "pre": {
+            "new_or_monitoring": {
+              "new": ["g0_nonfunctional_toilet"]
+            }
+          }
         },
         {
           "id": 16994235714541,
@@ -637,7 +637,12 @@
             }
           ],
           "fn": null,
-          "attributes": ["advanced_filter"]
+          "attributes": ["advanced_filter"],
+          "pre": {
+            "new_or_monitoring": {
+              "new": ["g0_no_toilet_privacy"]
+            }
+          }
         },
         {
           "id": 17018105790911,
@@ -721,7 +726,12 @@
           ],
           "dependency": null,
           "fn": null,
-          "attributes": ["advanced_filter"]
+          "attributes": ["advanced_filter"],
+          "pre": {
+            "new_or_monitoring": {
+              "new": ["g0_no_toilet"]
+            }
+          }
         },
         {
           "id": 16994239461701,
@@ -822,7 +832,12 @@
             }
           ],
           "fn": null,
-          "attributes": ["advanced_filter"]
+          "attributes": ["advanced_filter"],
+          "pre": {
+            "new_or_monitoring": {
+              "new": ["g0_no_toilet"]
+            }
+          }
         },
         {
           "id": 16994243759681,
@@ -916,7 +931,12 @@
             }
           ],
           "fn": null,
-          "attributes": ["advanced_filter"]
+          "attributes": ["advanced_filter"],
+          "pre": {
+            "new_or_monitoring": {
+              "new": ["g0_vip_vent_pipe_without_insect_screen"]
+            }
+          }
         },
         {
           "id": 17022810847861,
@@ -970,20 +990,7 @@
               "label": "No",
               "value": "no"
             }
-          ],
-          "pre": {
-            "answer": "yes",
-            "fill": [
-              {
-                "id": 17030862702502,
-                "answer": ["b"]
-              },
-              {
-                "id": 17030862702503,
-                "answer": ["b"]
-              }
-            ]
-          }
+          ]
         },
         {
           "id": 17030862702502,
@@ -1013,7 +1020,12 @@
               "color": "blue",
               "value": "b"
             }
-          ]
+          ],
+          "pre": {
+            "new_autofield": {
+              "yes": ["b"]
+            }
+          }
         },
         {
           "id": 17030862702503,
@@ -1043,7 +1055,12 @@
               "color": "blue",
               "value": "b"
             }
-          ]
+          ],
+          "pre": {
+            "new_autofield": {
+              "yes": ["b"]
+            }
+          }
         },
         {
           "id": 17030862702541,

@@ -7,12 +7,13 @@ from django.core.management import BaseCommand
 from django.core.cache import cache
 
 from api.v1.v1_forms.constants import QuestionTypes, AttributeTypes
-from api.v1.v1_forms.models import Forms
+from api.v1.v1_forms.models import (
+    Forms, Questions,
+    QuestionGroup as QG,
+    QuestionOptions as QO,
+    QuestionAttribute as QA)
+from api.v1.v1_forms.constants import SubmissionTypes
 from api.v1.v1_data.functions import refresh_materialized_data
-from api.v1.v1_forms.models import QuestionGroup as QG
-from api.v1.v1_forms.models import Questions
-from api.v1.v1_forms.models import QuestionOptions as QO
-from api.v1.v1_forms.models import QuestionAttribute as QA
 
 
 def clean_string(input_string):
@@ -65,6 +66,10 @@ class Command(BaseCommand):
             json_form = json.load(json_form)
             form = Forms.objects.filter(id=json_form["id"]).first()
             QA.objects.filter(question__form=form).all().delete()
+            submission_types = json_form.get("submission_types")
+            submission_types = [
+                getattr(SubmissionTypes, st) for st in submission_types
+            ]
             if not form:
                 form = Forms.objects.create(
                     id=json_form["id"],
@@ -73,7 +78,8 @@ class Command(BaseCommand):
                     type=json_form["type"],
                     approval_instructions=json_form.get(
                         'approval_instructions'
-                    )
+                    ),
+                    submission_types=submission_types,
                 )
                 if not TEST:
                     self.stdout.write(
@@ -82,6 +88,7 @@ class Command(BaseCommand):
                 form.name = json_form["form"]
                 form.version += 1
                 form.type = json_form["type"]
+                form.submission_types = submission_types
                 if json_form.get("approval_instructions"):
                     form.approval_instructions = json_form.get(
                         "approval_instructions"
@@ -132,9 +139,10 @@ class Command(BaseCommand):
                             fn=q.get("fn"),
                             pre=q.get("pre"),
                             display_only=q.get("displayOnly"),
-                            monitoring=q.get("monitoring"),
                             meta_uuid=q.get("meta_uuid"),
                             extra=q.get("extra"),
+                            default_value=q.get("default_value"),
+                            disabled=q.get("disabled"),
                         )
                     else:
                         question.question_group = question_group
@@ -154,9 +162,10 @@ class Command(BaseCommand):
                         question.hidden = q.get("hidden")
                         question.display_only = q.get("displayOnly")
                         question.pre = q.get("pre")
-                        question.monitoring = q.get("monitoring")
                         question.meta_uuid = q.get("meta_uuid")
                         question.extra = q.get("extra")
+                        question.default_value = q.get("default_value")
+                        question.disabled = q.get("disabled")
                         question.save()
                     QO.objects.filter(question=question).all().delete()
                     if q.get("options"):

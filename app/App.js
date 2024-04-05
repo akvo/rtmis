@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useCallback, useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import NetInfo from '@react-native-community/netinfo';
@@ -5,20 +6,17 @@ import * as Notifications from 'expo-notifications';
 import * as TaskManager from 'expo-task-manager';
 import * as BackgroundFetch from 'expo-background-fetch';
 
+import { ToastAndroid } from 'react-native';
+import * as Location from 'expo-location';
 import Navigation from './src/navigation';
 import { conn, query, tables } from './src/database';
 import { UIState, AuthState, UserState, BuildParamsState } from './src/store';
 import { crudUsers, crudConfig, crudDataPoints } from './src/database/crud';
 import { api } from './src/lib';
 import { NetworkStatusBar, SyncService } from './src/components';
-import backgroundTask, {
-  SYNC_FORM_SUBMISSION_TASK_NAME,
-  SYNC_FORM_VERSION_TASK_NAME,
-  defineSyncFormVersionTask,
-} from './src/lib/background-task';
+import backgroundTask, { defineSyncFormVersionTask } from './src/lib/background-task';
 import crudJobs, { jobStatus, MAX_ATTEMPT } from './src/database/crud/crud-jobs';
-import { ToastAndroid } from 'react-native';
-import * as Location from 'expo-location';
+import { SYNC_FORM_SUBMISSION_TASK_NAME, SYNC_FORM_VERSION_TASK_NAME } from './src/lib/constants';
 
 export const setNotificationHandler = () =>
   Notifications.setNotificationHandler({
@@ -91,7 +89,7 @@ const App = () => {
   const geoLocationTimeout = BuildParamsState.useState((s) => s.geoLocationTimeout);
   const locationIsGranted = UserState.useState((s) => s.locationIsGranted);
 
-  const handleCheckSession = () => {
+  const handleCheckSession = useCallback(() => {
     // check users exist
     crudUsers
       .getActiveUser()
@@ -116,9 +114,9 @@ const App = () => {
           s.currentPage = page;
         });
       });
-  };
+  }, []);
 
-  const handleInitConfig = async () => {
+  const handleInitConfig = useCallback(async () => {
     const configExist = await crudConfig.getConfig();
     const serverURL = configExist?.serverURL || serverURLState;
     const syncInterval = configExist?.syncInterval || syncValue;
@@ -149,7 +147,7 @@ const App = () => {
       });
     }
     console.info('[CONFIG] Server URL', serverURL);
-  };
+  }, [geoLocationTimeout, gpsAccuracyLevel, gpsThreshold, serverURLState, syncValue]);
 
   const handleInitDB = useCallback(async () => {
     /**
@@ -167,6 +165,7 @@ const App = () => {
       await handleInitConfig();
       handleCheckSession();
     } catch (error) {
+      console.error(`[INITIAL DB]: ${error}`);
       ToastAndroid.show(`[INITIAL DB]: ${error}`, ToastAndroid.LONG);
     }
   }, [handleInitConfig, handleCheckSession]);
@@ -225,7 +224,7 @@ const App = () => {
 
   return (
     <SafeAreaProvider>
-      <Navigation testID="navigation-element" />
+      <Navigation />
       <NetworkStatusBar />
       <SyncService />
     </SafeAreaProvider>

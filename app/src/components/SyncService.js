@@ -6,22 +6,22 @@ import crudJobs, {
   MAX_ATTEMPT,
   SYNC_DATAPOINT_JOB_NAME,
 } from '../database/crud/crud-jobs';
-import { SYNC_FORM_SUBMISSION_TASK_NAME, syncStatus } from '../lib/background-task';
 import { crudDataPoints } from '../database/crud';
 import { downloadDatapointsJson, fetchDatapoints } from '../lib/sync-datapoints';
+import { SYNC_FORM_SUBMISSION_TASK_NAME, SYNC_STATUS } from '../lib/constants';
 /**
  * This sync only works in the foreground service
  */
 const SyncService = () => {
   const isOnline = UIState.useState((s) => s.online);
   const syncInterval = BuildParamsState.useState((s) => s.dataSyncInterval);
-  const syncInSecond = parseInt(syncInterval) * 1000;
-  const statusBar = UIState.useState((s) => s.statusBar);
+  const syncInSecond = parseInt(syncInterval, 10) * 1000;
 
   const onSync = useCallback(async () => {
     const pendingToSync = await crudDataPoints.selectSubmissionToSync();
     const activeJob = await crudJobs.getActiveJob(SYNC_FORM_SUBMISSION_TASK_NAME);
 
+    // eslint-disable-next-line no-console
     console.info('[ACTIVE JOB]', activeJob);
 
     if (activeJob?.status === jobStatus.ON_PROGRESS) {
@@ -44,7 +44,7 @@ const SyncService = () => {
         if (pendingToSync) {
           UIState.update((s) => {
             s.statusBar = {
-              type: syncStatus.RE_SYNC,
+              type: SYNC_STATUS.re_sync,
               bgColor: '#d97706',
               icon: 'repeat',
             };
@@ -56,7 +56,7 @@ const SyncService = () => {
         } else {
           UIState.update((s) => {
             s.statusBar = {
-              type: syncStatus.SUCCESS,
+              type: SYNC_STATUS.success,
               bgColor: '#16a34a',
               icon: 'checkmark-done',
             };
@@ -72,7 +72,7 @@ const SyncService = () => {
     ) {
       UIState.update((s) => {
         s.statusBar = {
-          type: syncStatus.ON_PROGRESS,
+          type: SYNC_STATUS.on_progress,
           bgColor: '#2563eb',
           icon: 'sync',
         };
@@ -82,7 +82,7 @@ const SyncService = () => {
       });
       await backgroundTask.syncFormSubmission(activeJob);
     }
-  }, [statusBar]);
+  }, []);
 
   useEffect(() => {
     if (!syncInSecond || !isOnline) {
@@ -93,10 +93,10 @@ const SyncService = () => {
       onSync();
     }, syncInSecond);
 
-    return () => {
+    // eslint-disable-next-line consistent-return
+    return () =>
       // Clear the interval when the component unmounts
       clearInterval(syncTimer);
-    };
   }, [syncInSecond, isOnline, onSync]);
 
   const onSyncDataPoint = useCallback(async () => {
@@ -104,7 +104,7 @@ const SyncService = () => {
 
     DatapointSyncState.update((s) => {
       s.added = false;
-      s.inProgress = activeJob ? true : false;
+      s.inProgress = !!activeJob;
     });
 
     if (activeJob && activeJob.status === jobStatus.PENDING && activeJob.attempt < MAX_ATTEMPT) {
@@ -114,8 +114,12 @@ const SyncService = () => {
 
       try {
         const allData = await fetchDatapoints();
-        const urls = allData.map(({ url, form_id: formId }) => ({ url, formId }));
-        await Promise.all(urls.map(({ formId, url }) => downloadDatapointsJson(formId, url)));
+        const urls = allData.map(({ url, form_id: formId, last_updated: lastUpdated }) => ({
+          url,
+          formId,
+          lastUpdated,
+        }));
+        await Promise.all(urls.map((u) => downloadDatapointsJson(u)));
         await crudJobs.deleteJob(activeJob.id);
 
         DatapointSyncState.update((s) => {
@@ -135,6 +139,9 @@ const SyncService = () => {
 
     if (activeJob && activeJob.status === jobStatus.PENDING && activeJob.attempt === MAX_ATTEMPT) {
       await crudJobs.deleteJob(activeJob.id);
+      DatapointSyncState.update((s) => {
+        s.inProgress = false;
+      });
     }
   }, []);
 

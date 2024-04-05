@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { render, waitFor } from 'react-native-testing-library';
 import { renderHook, fireEvent, act } from '@testing-library/react-native';
-import { useNavigation } from '@react-navigation/native';
 import * as Location from 'expo-location';
 
 import TypeGeo from '../TypeGeo';
 import { UIState, FormState, BuildParamsState } from '../../../store';
-import { loc } from '../../../lib';
 
 jest.mock('expo-location');
 
@@ -21,7 +19,7 @@ describe('TypeGeo', () => {
       });
       FormState.update((s) => {
         s.currentValues = {
-          geoField: null,
+          1: null,
         };
       });
       UIState.update((s) => {
@@ -31,13 +29,21 @@ describe('TypeGeo', () => {
   });
 
   it('should render TypeGeo correctly', () => {
-    const values = { geoField: null };
+    const values = { 1: null };
     const mockedOnChange = jest.fn((fieldName, value) => {
       values[fieldName] = value;
     });
 
     const { getByTestId } = render(
-      <TypeGeo id="geoField" name="Geolocation" onChange={mockedOnChange} value={values} />,
+      <TypeGeo
+        id="1"
+        name="geo"
+        label="Geolocation"
+        onChange={mockedOnChange}
+        value={values[1]}
+        keyform={0}
+        required
+      />,
     );
 
     const buttonCurLocationEl = getByTestId('button-curr-location');
@@ -55,17 +61,19 @@ describe('TypeGeo', () => {
   });
 
   it('should not show required sign if required param is false and requiredSign is not defined', async () => {
-    const values = { geoField: [] };
+    const values = { 1: [] };
     const mockedOnChange = jest.fn((fieldName, value) => {
       values[fieldName] = value;
     });
     const wrapper = render(
       <TypeGeo
-        id="geoField"
-        name="Geolocation"
+        id="1"
+        name="geo"
+        label="Geolocation"
         required={false}
         onChange={mockedOnChange}
-        value={values}
+        value={values[1]}
+        keyform={0}
       />,
     );
     await waitFor(() => {
@@ -75,19 +83,21 @@ describe('TypeGeo', () => {
   });
 
   it('should not show required sign if required param is false but requiredSign is defined', async () => {
-    const values = { geoField: [] };
+    const values = { 1: [] };
     const mockedOnChange = jest.fn((fieldName, value) => {
       values[fieldName] = value;
     });
 
     const wrapper = render(
       <TypeGeo
-        id="geoField"
-        name="Geolocation"
+        id="1"
+        name="geo"
+        label="Geolocation"
         required={false}
         requiredSign="*"
         onChange={mockedOnChange}
-        value={values}
+        value={values[1]}
+        keyform={0}
       />,
     );
     await waitFor(() => {
@@ -97,19 +107,21 @@ describe('TypeGeo', () => {
   });
 
   it('should not show required sign if required param is true and requiredSign defined', async () => {
-    const values = { geoField: [] };
+    const values = { 1: [] };
     const mockedOnChange = jest.fn((fieldName, value) => {
       values[fieldName] = value;
     });
 
     const wrapper = render(
       <TypeGeo
-        id="geoField"
-        name="Geolocation"
-        required={true}
+        id="1"
+        name="geo"
+        label="Geolocation"
+        required
         requiredSign="*"
         onChange={mockedOnChange}
-        value={values}
+        value={values[1]}
+        keyform={0}
       />,
     );
     await waitFor(() => {
@@ -119,19 +131,21 @@ describe('TypeGeo', () => {
   });
 
   it('should show required sign with custom requiredSign', async () => {
-    const values = { geoField: [] };
+    const values = { 1: [] };
     const mockedOnChange = jest.fn((fieldName, value) => {
       values[fieldName] = value;
     });
 
     const wrapper = render(
       <TypeGeo
-        id="geoField"
-        name="Geolocation"
-        required={true}
+        id="1"
+        name="geo"
+        label="Geolocation"
+        required
         requiredSign="**"
         onChange={mockedOnChange}
-        value={values}
+        value={values[1]}
+        keyform={0}
       />,
     );
     await waitFor(() => {
@@ -140,52 +154,63 @@ describe('TypeGeo', () => {
     });
   });
 
-  it('should set empty object when getting current location failed', async () => {
-    const values = { geoField: [11, 12] };
+  it('should show error message and empty array when unable to get current location', async () => {
+    const values = { 1: [11, 12] };
     const mockedOnChange = jest.fn((fieldName, value) => {
       values[fieldName] = value;
     });
 
     const errorMessage = 'Permission to access location was denied';
-    Location.requestForegroundPermissionsAsync.mockImplementation(() => {
-      return Promise.resolve({ status: 'denied' });
-    });
-    Location.getCurrentPositionAsync.mockImplementation(() => {
-      return Promise.resolve({ coords: {} });
-    });
+    Location.requestForegroundPermissionsAsync.mockImplementation(() =>
+      Promise.resolve({ status: 'denied' }),
+    );
+    Location.getCurrentPositionAsync.mockImplementation(() => Promise.resolve({ coords: {} }));
 
     Location.getCurrentPositionAsync.mockRejectedValue({ message: errorMessage });
 
     const { getByTestId, getByText } = render(
-      <TypeGeo id="geoField" name="Geolocation" onChange={mockedOnChange} value={values} />,
+      <TypeGeo
+        id="1"
+        name="geo"
+        label="Geolocation"
+        onChange={mockedOnChange}
+        value={values[1]}
+        keyform={0}
+        required
+      />,
     );
-    const { result } = renderHook(() => useState());
-    const [errorMsg, setErrorMsg] = result.current;
 
     const buttonCurLocationEl = getByTestId('button-curr-location');
     expect(buttonCurLocationEl).toBeDefined();
     fireEvent.press(buttonCurLocationEl);
 
     act(() => {
-      mockedOnChange('geoField', []);
-      setErrorMsg(errorMessage);
+      mockedOnChange('1', []);
     });
 
     await waitFor(() => {
-      expect(result.current[0]).toBe(errorMessage);
       const errorText = getByText(errorMessage);
       expect(errorText).toBeDefined();
+      expect(mockedOnChange).toHaveBeenCalledWith('1', []);
     });
   });
 
   it('should not showing button open map when network is offline', async () => {
-    const values = { geoField: [11, 12] };
+    const values = { 1: [11, 12] };
     const mockedOnChange = jest.fn((fieldName, value) => {
       values[fieldName] = value;
     });
 
     const { queryByTestId } = render(
-      <TypeGeo id="geoField" name="Geolocation" onChange={mockedOnChange} value={values} />,
+      <TypeGeo
+        id="1"
+        name="geo"
+        label="Geolocation"
+        onChange={mockedOnChange}
+        value={values[1]}
+        keyform={0}
+        required
+      />,
     );
     const { result } = renderHook(() => UIState.useState());
 
@@ -203,24 +228,32 @@ describe('TypeGeo', () => {
   });
 
   it('should get current location by clicking the button', async () => {
-    Location.requestForegroundPermissionsAsync.mockImplementation(() => {
-      return Promise.resolve({ status: 'granted' });
-    });
-    Location.getCurrentPositionAsync.mockImplementation(() => {
-      return Promise.resolve({
+    Location.requestForegroundPermissionsAsync.mockImplementation(() =>
+      Promise.resolve({ status: 'granted' }),
+    );
+    Location.getCurrentPositionAsync.mockImplementation(() =>
+      Promise.resolve({
         coords: {
           latitude: 35677,
           longitude: -7811,
           accuracy: 20,
         },
-      });
-    });
+      }),
+    );
 
     const { result } = renderHook(() => FormState.useState((s) => s.currentValues));
     const mockedOnChange = jest.fn();
 
     const { getByTestId } = render(
-      <TypeGeo id="geoField" name="Geolocation" onChange={mockedOnChange} value={[]} />,
+      <TypeGeo
+        id="1"
+        name="geo"
+        label="Geolocation"
+        onChange={mockedOnChange}
+        value={[]}
+        keyform={0}
+        required
+      />,
     );
 
     const buttonCurLocationEl = getByTestId('button-curr-location');
@@ -229,50 +262,56 @@ describe('TypeGeo', () => {
 
     act(() => {
       FormState.update((s) => {
-        s.currentValues = { geoField: [35677, -7811] };
+        s.currentValues = { 1: [35677, -7811] };
       });
     });
 
     await waitFor(() => {
-      expect(result.current.geoField).toEqual([35677, -7811]);
+      expect(result.current[1]).toEqual([35677, -7811]);
     });
   });
 
   it('should show `Low Precission` when accuracy exceeded the threshold', async () => {
-    Location.requestForegroundPermissionsAsync.mockImplementation(() => {
-      return Promise.resolve({ status: 'granted' });
-    });
-    Location.getCurrentPositionAsync.mockImplementation(() => {
-      return Promise.resolve({
+    Location.requestForegroundPermissionsAsync.mockImplementation(() =>
+      Promise.resolve({ status: 'granted' }),
+    );
+    Location.getCurrentPositionAsync.mockImplementation(() =>
+      Promise.resolve({
         coords: {
           latitude: 12.345,
           longitude: -67.89,
           accuracy: 200,
         },
-      });
-    });
+      }),
+    );
 
-    const values = { geoField: [] };
+    const values = { 1: [] };
     const mockedOnChange = jest.fn((fieldName, value) => {
       values[fieldName] = value;
     });
 
-    const { getByTestId, getByText, rerender } = render(
-      <TypeGeo id="geoField" name="Geolocation" onChange={mockedOnChange} value={values} />,
+    const { getByTestId, getByText } = render(
+      <TypeGeo
+        id="1"
+        name="geo"
+        label="Geolocation"
+        onChange={mockedOnChange}
+        value={values[1]}
+        keyform={0}
+        required
+      />,
     );
 
     const buttonCurLocationEl = getByTestId('button-curr-location');
     expect(buttonCurLocationEl).toBeDefined();
     fireEvent.press(buttonCurLocationEl);
 
-    const mockGetCurrentLocation = jest.fn();
-
     await Location.getCurrentPositionAsync();
 
     await waitFor(() => {
       expect(Location.getCurrentPositionAsync).toHaveBeenCalledTimes(2);
       expect(getByText('Low Precission')).toBeDefined();
-      expect(values.geoField).toEqual([]);
+      expect(values[1]).toEqual([]);
     });
   });
 });

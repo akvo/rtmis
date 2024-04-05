@@ -1,12 +1,14 @@
-#add-attribute {
-  .ant-card {
-    margin-bottom: 16px;
-    .ant-space {
-      width: 100%;
-      align-items: flex-start;
-    }
-    .ant-form-item-control-input-content {
-      text-align: left;
+#masterDataAttributes {
+  #add-attribute {
+    .ant-card {
+      margin-bottom: 16px;
+      .ant-space {
+        width: 100%;
+        align-items: flex-start;
+      }
+      .ant-form-item-control-input-content {
+        text-align: left;
+      }
     }
   }
 }

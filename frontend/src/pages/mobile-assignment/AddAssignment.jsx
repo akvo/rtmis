@@ -22,7 +22,7 @@ const AddAssignment = () => {
     levels,
     administration: selectedAdm,
   } = store.useState((s) => s);
-  const editAssignment = store.useState((s) => s.mobileAssignment);
+  const [editAssignment, setEditAssignment] = useState(null);
   const userAdmLevel =
     levels.find((l) => l?.level === authUser.administration.level)?.id || null;
   const [submitting, setSubmitting] = useState(false);
@@ -93,6 +93,25 @@ const AddAssignment = () => {
     fetchUserAdmin();
   }, [fetchUserAdmin]);
 
+  useEffect(() => {
+    if (!editAssignment && id) {
+      api
+        .get(`/mobile-assignments/${id}`)
+        .then(({ data }) => {
+          setEditAssignment(data);
+          form.setFieldsValue({
+            ...data,
+            administrations: data.administrations.map((a) => a?.id),
+            forms: data.forms.map((f) => f?.id),
+            certifications: data?.certifications?.map((c) => c?.id),
+          });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [id, form, editAssignment]);
+
   const deleteAssginment = async () => {
     try {
       await api.delete(`/mobile-assignments/${id}`);
@@ -140,6 +159,7 @@ const AddAssignment = () => {
         name: values.name,
         administrations: selectedAdministrations,
         forms: values.forms,
+        certifications: values?.certifications || [],
       };
       if (id) {
         await api.put(`/mobile-assignments/${id}`, payload);
@@ -195,11 +215,6 @@ const AddAssignment = () => {
   const fetchData = useCallback(async () => {
     if (id && preload && editAssignment?.id && selectedAdm) {
       setPreload(false);
-      form.setFieldsValue({
-        ...editAssignment,
-        administrations: editAssignment.administrations.map((a) => a?.id),
-        forms: editAssignment.forms.map((f) => f?.id),
-      });
       const selectedAdministration = await Promise.all(
         (editAssignment.administrations.map((a) => a?.id) ?? [])
           .filter((p) => p)
@@ -244,7 +259,7 @@ const AddAssignment = () => {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, [id, fetchData]);
 
   return (
     <div id="add-assignment">
@@ -325,6 +340,20 @@ const AddAssignment = () => {
                     allowMultiple
                     isSelectAllVillage={true}
                     selectedAdministrations={selectedAdministrations}
+                  />
+                </Form.Item>
+              </div>
+            )}
+            {authUser?.certification && (
+              <div className="form-row">
+                <Form.Item name="certifications" label={text.certificationList}>
+                  <Select
+                    getPopupContainer={(trigger) => trigger.parentNode}
+                    placeholder={text.selectCertification}
+                    fieldNames={{ value: "id", label: "full_name" }}
+                    options={authUser?.certification}
+                    mode="multiple"
+                    allowClear
                   />
                 </Form.Item>
               </div>
