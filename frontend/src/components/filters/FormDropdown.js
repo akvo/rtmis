@@ -59,7 +59,7 @@ const FormDropdown = ({
         onChange={(e) => {
           handleChange(e);
         }}
-        value={selectedForm || null}
+        value={filterForms.length ? selectedForm : null}
         className={`form-dropdown ${title ? " form-dropdown-title" : ""}`}
         disabled={parentLoading || loadingForm}
         getPopupContainer={(trigger) => trigger.parentNode}
