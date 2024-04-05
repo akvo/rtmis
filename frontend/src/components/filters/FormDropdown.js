@@ -44,7 +44,10 @@ const FormDropdown = ({
     });
   }, []);
   useEffect(() => {
-    if (filterForms?.length && !selectedForm) {
+    if (
+      filterForms?.length &&
+      (!selectedForm || !filterForms.map((f) => f.id).includes(selectedForm))
+    ) {
       handleChange(filterForms[0].id);
     }
   }, [filterForms, selectedForm, handleChange]);
