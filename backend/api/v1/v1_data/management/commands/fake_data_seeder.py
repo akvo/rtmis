@@ -9,7 +9,7 @@ from faker import Faker
 
 from api.v1.v1_data.models import FormData, Answers, PendingAnswers
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes, SubmissionTypes
-from api.v1.v1_forms.models import Forms, UserForms
+from api.v1.v1_forms.models import Forms, UserForms, FormApprovalAssignment
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_profile.models import Access, Administration, Levels
 from api.v1.v1_users.models import SystemUser
@@ -123,6 +123,14 @@ def get_created_by(administration, form):
     return created_by
 
 
+def get_administration(path: str, level: int, name: str):
+    return Administration.objects.filter(
+        administration_data_approval__administration__path__startswith=path,
+        level__level=level,
+        name=name
+    ).order_by('?').first()
+
+
 def seed_data(form, fake_geo, level_names, repeat, test):
     counties = Administration.objects.filter(parent=1).all()
     county_paths = [
@@ -136,19 +144,17 @@ def seed_data(form, fake_geo, level_names, repeat, test):
         created = datetime.combine(created, time.min)
         geo = fake_geo.iloc[i].to_dict()
         geo_value = [geo["X"], geo["Y"]]
-        level_id = 1
         last_level = Levels.objects.order_by('-id').first()
         len_path = len(county_paths)
         adm_path = county_paths[i % len_path]
         if not test:
             for level_name in level_names:
                 level = level_name.split("_")
-                administration = Administration.objects.filter(
-                    path__startswith=adm_path,
-                    parent_id=level_id,
-                    level=Levels.objects.filter(level=level[1]).first(),
+                administration = get_administration(
+                    path=adm_path,
+                    level=level[1],
                     name=geo[level_name]
-                ).order_by('?').first()
+                )
                 if form.type == FormTypes.national:
                     access_obj = Access.objects
                     access_super_admin = access_obj.filter(
@@ -169,7 +175,6 @@ def seed_data(form, fake_geo, level_names, repeat, test):
                             submission_type=SubmissionTypes.registration,
                         )
                         national_data.created = make_aware(created)
-                        level_id = administration.id
                         national_data.save()
                         add_fake_answers(national_data, form.type)
                 else:
@@ -177,8 +182,12 @@ def seed_data(form, fake_geo, level_names, repeat, test):
                         not administration or
                         administration.level.level != last_level.level
                     ):
+                        assignment = FormApprovalAssignment.objects.filter(
+                            form=form,
+                            administration__level__level=last_level.level - 1
+                        ).order_by('?').first()
                         administration = Administration.objects \
-                            .filter(level=last_level) \
+                            .filter(parent=assignment.administration) \
                             .order_by('?').first()
                     created_by = get_created_by(
                         administration=administration,
@@ -193,7 +202,6 @@ def seed_data(form, fake_geo, level_names, repeat, test):
                         submission_type=SubmissionTypes.registration,
                     )
                     data.created = make_aware(created)
-                    level_id = administration.id
                     data.save_to_file
                     data.save()
                     add_fake_answers(data, form.type)
