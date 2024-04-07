@@ -24,9 +24,16 @@ def get_definition(form: Forms):
             dependency = []
             for d in q["dependency"]:
                 did = Questions.objects.get(pk=d["id"]).name
-                options = "|".join(d["options"])
-                dtext = f"{did}: " + options
-                dependency.append(dtext)
+                if d.get("options"):
+                    options = "|".join(d["options"])
+                    dtext = f"{did}: " + options
+                    dependency.append(dtext)
+                if d.get("min"):
+                    dtext = f"{did}: higher than {d['min']}"
+                    dependency.append(dtext)
+                if d.get("max"):
+                    dtext = f"{did}: lower than {d['max']}"
+                    dependency.append(dtext)
             dependency = "\n".join(dependency)
         if q["options"]:
             for o in q["options"]:
