@@ -92,33 +92,36 @@ const MasterData = () => {
     }
   }, []);
 
-  const fetchData = useCallback(async () => {
-    try {
-      let url = `/administrations?page=${currentPage}`;
-      if (parent) {
-        url = url + `&parent=${parent}`;
+  const fetchData = useCallback(
+    async (currentPage = 1, parent = null, search = null) => {
+      try {
+        let url = `/administrations?page=${currentPage}`;
+        if (parent) {
+          url = url + `&parent=${parent}`;
+        }
+        if (search) {
+          url = url + `&search=${search}`;
+        }
+        const { data: apiData } = await api.get(url);
+        const { total, current, data } = apiData;
+        setDataset(data);
+        setTotalCount(total);
+        setCurrentPage(current);
+        setLoading(false);
+      } catch {
+        setLoading(false);
       }
-      if (search) {
-        url = url + `&search=${search}`;
-      }
-      const { data: apiData } = await api.get(url);
-      const { total, current, data } = apiData;
-      setDataset(data);
-      setTotalCount(total);
-      setCurrentPage(current);
-      setLoading(false);
-    } catch {
-      setLoading(false);
-    }
-  }, [currentPage, parent, search]);
+    },
+    []
+  );
 
   useEffect(() => {
     fetchAttributes();
   }, [fetchAttributes]);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    fetchData(currentPage, parent, search);
+  }, [fetchData, currentPage, parent, search]);
 
   return (
     <div id="masterData">

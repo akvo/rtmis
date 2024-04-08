@@ -68,7 +68,11 @@ const AdministrationFilters = ({
       <Row>
         <Col>
           <div style={{ display: "flex", justifyContent: "flex-start" }}>
-            <AdministrationDropdown loading={loading} maxLevel={maxLevel} />
+            <AdministrationDropdown
+              loading={loading}
+              maxLevel={maxLevel}
+              persist={true}
+            />
             <RemoveFiltersButton
               extra={(s) => {
                 s.filters = { trained: null, role: null, organisation: null };
