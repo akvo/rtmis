@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { ListItem } from '@rneui/themed';
 import PropTypes from 'prop-types';
 import { BaseLayout } from '../components';
-import { UIState, FormState } from '../store';
+import { UIState, FormState, UserState } from '../store';
 import { i18n } from '../lib';
 import { getCurrentTimestamp } from '../form/lib';
 import { SUBMISSION_TYPES } from '../lib/constants';
@@ -12,6 +12,8 @@ import { SUBMISSION_TYPES } from '../lib/constants';
 const ManageForm = ({ navigation, route }) => {
   const activeForm = FormState.useState((s) => s.form);
   const activeLang = UIState.useState((s) => s.lang);
+  const userCertifications = UserState.useState((s) => s.certifications);
+
   const trans = i18n.text(activeLang);
   const subTypesAvailable = useMemo(() => {
     try {
@@ -82,7 +84,8 @@ const ManageForm = ({ navigation, route }) => {
               <ListItem.Chevron />
             </ListItem>
           )}
-          {subTypesAvailable.includes(SUBMISSION_TYPES.certification) && (
+          {subTypesAvailable.includes(SUBMISSION_TYPES.certification) &&
+          userCertifications?.length ? (
             <ListItem key={6} onPress={() => goToUpdateForm('certification')} testID="goto-item-6">
               <Icon name="ribbon" color="grey" size={18} />
               <ListItem.Content>
@@ -90,7 +93,7 @@ const ManageForm = ({ navigation, route }) => {
               </ListItem.Content>
               <ListItem.Chevron />
             </ListItem>
-          )}
+          ) : null}
           <ListItem
             key={3}
             onPress={() =>
