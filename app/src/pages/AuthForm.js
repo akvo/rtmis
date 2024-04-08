@@ -45,6 +45,7 @@ const AuthForm = ({ navigation }) => {
       UserState.update((s) => {
         s.id = activeUser.id;
         s.name = activeUser.name;
+        s.certifications = activeUser?.certifications || []
       });
       return activeUser.id;
     }
@@ -55,10 +56,12 @@ const AuthForm = ({ navigation }) => {
         active: 1,
         token: data?.syncToken,
         password: data?.passcode,
+        certifications: data?.certifications
       });
       UserState.update((s) => {
         s.id = newUserId;
         s.name = data?.name;
+        s.certifications = data?.certifications || []
       });
       return newUserId;
     }

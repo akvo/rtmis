@@ -29,7 +29,7 @@ const Users = ({ navigation, route }) => {
     setLoading(false);
   }, []);
 
-  const handleSelectUser = async ({ id, name, password, token }) => {
+  const handleSelectUser = async ({ id, name, password, token, certifications }) => {
     const currUserQuery = query.update('users', { id: currUserID }, { active: 0 });
     await conn.tx(db, currUserQuery, [currUserID]);
 
@@ -46,6 +46,7 @@ const Users = ({ navigation, route }) => {
     UserState.update((s) => {
       s.id = id;
       s.name = name;
+      s.certifications = certifications || []
     });
     await loadUsers();
 

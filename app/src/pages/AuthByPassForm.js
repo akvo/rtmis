@@ -69,6 +69,7 @@ const AuthByPassForm = ({ navigation }) => {
               s.id = activeUser.id;
               s.name = activeUser.name;
               s.password = activeUser.password;
+              s.certifications = activeUser?.certifications || [];
             });
             goTo('Home');
           }
