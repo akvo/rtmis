@@ -142,7 +142,7 @@ class PendingDataTestCase(TestCase):
 
         # get the lowest level approver
         approval: Union[PendingDataApproval, None] = PendingDataApproval\
-            .objects.filter(level__level=MAX_LEVEL_IN_SOURCE_FILE)\
+            .objects.filter(level__level=MAX_LEVEL_IN_SOURCE_FILE - 1)\
             .first()
         t_child = RefreshToken.for_user(approval.user)
         header = {'HTTP_AUTHORIZATION': f'Bearer {t_child.access_token}'}

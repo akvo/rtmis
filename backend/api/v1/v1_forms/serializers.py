@@ -372,7 +372,10 @@ class FormDataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Forms
-        fields = ['id', 'name', 'question_group', 'approval_instructions']
+        fields = [
+            'id', 'name', 'question_group', 'approval_instructions',
+            'submission_types'
+        ]
 
 
 class FormApproverRequestSerializer(serializers.Serializer):

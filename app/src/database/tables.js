@@ -1,3 +1,4 @@
+// TODO: Add new certification column (JSON TEXT) into users table to save certification value
 const tables = [
   {
     name: 'users',
@@ -7,6 +8,7 @@ const tables = [
       password: 'TEXT',
       active: 'TINYINT',
       token: 'TEXT',
+      certifications: 'TEXT NULL',
       lastSyncedAt: 'DATETIME',
     },
   },
