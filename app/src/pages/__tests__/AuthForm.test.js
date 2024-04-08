@@ -78,9 +78,9 @@ describe('AuthFormPage', () => {
         },
       ],
       syncToken: 'Bearer eyjtoken',
-      certifications: [12345]
+      certifications: [12345],
     };
-    const mockUser = { id: 1, name: 'John Doe', token: 'Bearer eyjtoken', certifications: [12345] };
+    const mockUser = { id: 1, name: 'John Doe', token: 'Bearer eyjtoken', certifications: JSON.stringify([12345]) };
     api.post.mockImplementation(() => Promise.resolve({ data: mockAuthPostData }));
     crudUsers.getActiveUser.mockImplementation(() => Promise.resolve(mockUser));
     const { result: userStateRef } = renderHook(() => UserState.useState((s) => s));
@@ -111,10 +111,14 @@ describe('AuthFormPage', () => {
     );
 
     await waitFor(() => {
-      const { id: userIdState, name: userNameState, certifications: userCertifications } = userStateRef.current;
+      const {
+        id: userIdState,
+        name: userNameState,
+        certifications: userCertifications,
+      } = userStateRef.current;
       expect(userIdState).toEqual(mockUser.id);
       expect(userNameState).toEqual(mockUser.name);
-      expect(userCertifications).toEqual(mockUser.certifications)
+      expect(userCertifications).toEqual(JSON.parse(mockUser.certifications));
       expect(navigation.navigate).toHaveBeenCalledWith('Home', { newForms: true });
     });
   });

@@ -105,7 +105,9 @@ const App = () => {
           s.id = user.id;
           s.name = user.name;
           s.password = user.password;
-          s.certifications = user?.certifications || [];
+          s.certifications = user?.certifications
+            ? JSON.parse(user.certifications.replace(/''/g, "'"))
+            : [];
         });
         AuthState.update((s) => {
           s.token = user.token;

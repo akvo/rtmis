@@ -46,7 +46,7 @@ const Users = ({ navigation, route }) => {
     UserState.update((s) => {
       s.id = id;
       s.name = name;
-      s.certifications = certifications || []
+      s.certifications = certifications ? JSON.parse(certifications.replace(/''/g, "'")) : [];
     });
     await loadUsers();
 

@@ -26,7 +26,7 @@ describe('UserState', () => {
           version: '1.2.0',
         },
       ],
-      certifications: [12345]
+      certifications: [12345],
     };
     const userPreferences = {
       syncWifiOnly: true,
