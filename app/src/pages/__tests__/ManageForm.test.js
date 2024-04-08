@@ -4,6 +4,7 @@ import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { useNavigation } from '@react-navigation/native';
 import ManageFormPage from '../ManageForm';
 import { FormState, UserState } from '../../store';
+import { SUBMISSION_TYPES } from '../../lib/constants';
 
 jest.mock('@react-navigation/native');
 
@@ -32,7 +33,7 @@ describe('ManageFormPage', () => {
         id: 1,
         name: 'Health Facilities',
         newSubmission: true,
-        submission_type: 'registration',
+        submission_type: SUBMISSION_TYPES.registration,
       },
     };
     const { getByTestId } = render(
@@ -107,7 +108,7 @@ describe('ManageFormPage', () => {
         id: 1,
         name: 'Health Facilities',
         newSubmission: true,
-        submission_type: 'verification',
+        submission_type: SUBMISSION_TYPES.verification,
       },
     };
     const { getByTestId } = render(
@@ -143,7 +144,7 @@ describe('ManageFormPage', () => {
         id: 1,
         name: 'Health Facilities',
         newSubmission: true,
-        submission_type: 'certification',
+        submission_type: SUBMISSION_TYPES.certification,
       },
     };
     const { getByTestId } = render(
@@ -180,7 +181,7 @@ describe('ManageFormPage', () => {
         id: 1,
         name: 'Health Facilities',
         newSubmission: true,
-        submission_type: 'certification',
+        submission_type: SUBMISSION_TYPES.certification,
       },
     };
     const { getByTestId } = render(

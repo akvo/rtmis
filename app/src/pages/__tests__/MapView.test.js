@@ -9,6 +9,7 @@ import mockBackHandler from 'react-native/Libraries/Utilities/__mocks__/BackHand
 
 import MapView from '../MapView';
 import { FormState } from '../../store';
+import { SUBMISSION_TYPES } from '../../lib/constants';
 
 const loadHtml = require('map.html');
 
@@ -35,7 +36,7 @@ jest.mock('react-native/Libraries/Utilities/BackHandler', () => mockBackHandler)
 const mockSelectedForm = {
   id: 1,
   name: 'Health Facilities',
-  submission_type: 'registration',
+  submission_type: SUBMISSION_TYPES.registration,
 };
 
 describe('MapView', () => {
