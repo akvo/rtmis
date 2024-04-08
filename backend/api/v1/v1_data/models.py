@@ -82,7 +82,8 @@ class FormData(models.Model):
             "administration":
             self.administration.id if self.administration else None,
             "uuid": str(self.uuid),
-            "geolocation": self.geo
+            "geolocation": self.geo,
+            "submission_type": self.submission_type,
         }
         answers = {}
         for a in self.data_answer.order_by(
