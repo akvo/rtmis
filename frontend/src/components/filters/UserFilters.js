@@ -9,15 +9,7 @@ import RemoveFiltersButton from "./RemoveFiltersButton";
 
 const { Option } = Select;
 
-const UserFilters = ({
-  // query,
-  // setQuery,
-  fetchData,
-  pending,
-  setPending,
-  loading,
-  button,
-}) => {
+const UserFilters = ({ fetchData, pending, setPending, loading, button }) => {
   const { user: authUser, filters } = store.useState((state) => state);
   const { trained, role, organisation, query } = filters;
 

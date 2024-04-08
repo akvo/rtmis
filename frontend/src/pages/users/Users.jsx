@@ -16,7 +16,6 @@ import moment from "moment";
 const Users = () => {
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
-  // const [query, setQuery] = useState("");
   const [pending, setPending] = useState(false);
   const [deleteUser, setDeleteUser] = useState(null);
   const [deleting, setDeleting] = useState(false);
@@ -232,8 +231,6 @@ const Users = () => {
       <div className="table-section">
         <div className="table-wrapper">
           <UserFilters
-            // query={query}
-            // setQuery={setQuery}
             fetchData={fetchData}
             pending={pending}
             setPending={setPending}
