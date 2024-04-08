@@ -8,6 +8,7 @@ const defaultUIState = {
     trained: null,
     role: null,
     organisation: null,
+    query: null,
   },
   language: {
     active: "en",

@@ -16,7 +16,7 @@ import moment from "moment";
 const Users = () => {
   const [loading, setLoading] = useState(true);
   const [dataset, setDataset] = useState([]);
-  const [query, setQuery] = useState("");
+  // const [query, setQuery] = useState("");
   const [pending, setPending] = useState(false);
   const [deleteUser, setDeleteUser] = useState(null);
   const [deleting, setDeleting] = useState(false);
@@ -42,7 +42,7 @@ const Users = () => {
   const { administration, filters, isLoggedIn } = store.useState(
     (state) => state
   );
-  const { trained, role, organisation } = filters;
+  const { trained, role, organisation, query } = filters;
   const { notify } = useNotification();
 
   const selectedAdministration =
@@ -143,7 +143,16 @@ const Users = () => {
   };
 
   const fetchData = useCallback(
-    (query = null) => {
+    (
+      query = null,
+      trained = null,
+      role = null,
+      organisation = null,
+      pending = false,
+      currentPage = 1,
+      selectedAdministration = null,
+      isLoggedIn = false
+    ) => {
       if (isLoggedIn) {
         let url = `users?page=${currentPage}&pending=${
           pending ? "true" : "false"
@@ -181,22 +190,22 @@ const Users = () => {
           });
       }
     },
-    [
+    [notify, text.usersLoadFail]
+  );
+
+  useEffect(() => {
+    fetchData(
+      query,
       trained,
       role,
       organisation,
       pending,
       currentPage,
       selectedAdministration,
-      isLoggedIn,
-      notify,
-      text.usersLoadFail,
-    ]
-  );
-
-  useEffect(() => {
-    fetchData();
+      isLoggedIn
+    );
   }, [
+    query,
     trained,
     role,
     organisation,
@@ -223,8 +232,8 @@ const Users = () => {
       <div className="table-section">
         <div className="table-wrapper">
           <UserFilters
-            query={query}
-            setQuery={setQuery}
+            // query={query}
+            // setQuery={setQuery}
             fetchData={fetchData}
             pending={pending}
             setPending={setPending}

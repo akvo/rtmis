@@ -10,8 +10,8 @@ import RemoveFiltersButton from "./RemoveFiltersButton";
 const { Option } = Select;
 
 const UserFilters = ({
-  query,
-  setQuery,
+  // query,
+  // setQuery,
   fetchData,
   pending,
   setPending,
@@ -19,7 +19,7 @@ const UserFilters = ({
   button,
 }) => {
   const { user: authUser, filters } = store.useState((state) => state);
-  const { trained, role, organisation } = filters;
+  const { trained, role, organisation, query } = filters;
 
   const { trainedStatus } = config;
   // show role > logged in user if logged in user not super admin
@@ -44,7 +44,9 @@ const UserFilters = ({
             placeholder="Search..."
             value={query}
             onChange={(e) => {
-              setQuery(e.target.value);
+              store.update((s) => {
+                s.filters.query = e.target.value;
+              });
             }}
             onSearch={(e) => {
               fetchData(e);
