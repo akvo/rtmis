@@ -55,7 +55,7 @@ const tables = [
       submittedAt: 'DATETIME',
       syncedAt: 'DATETIME',
       json: 'TEXT',
-      submission_type: 'VARCHAR(191)',
+      submission_type: 'INTEGER DEFAULT "1" NOT NULL',
     },
   },
   {
@@ -67,6 +67,18 @@ const tables = [
       name: 'VARCHAR(255)',
       syncedAt: 'DATETIME',
       json: 'TEXT',
+    },
+  },
+  {
+    name: 'certifications',
+    fields: {
+      id: 'INTEGER PRIMARY KEY NOT NULL',
+      formId: 'INTEGER NOT NULL',
+      uuid: 'VARCHAR(191)',
+      name: 'VARCHAR(255)',
+      syncedAt: 'DATETIME',
+      json: 'TEXT',
+      isCertified: 'TINYINT',
     },
   },
   {
