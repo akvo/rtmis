@@ -9,6 +9,7 @@ const defaultUIState = {
     role: null,
     organisation: null,
     query: null,
+    attributeType: null,
   },
   language: {
     active: "en",

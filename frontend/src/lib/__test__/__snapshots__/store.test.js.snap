@@ -6,6 +6,7 @@ Object {
   "administrationLevel": null,
   "advancedFilters": Array [],
   "filters": Object {
+    "attributeType": null,
     "organisation": null,
     "query": null,
     "role": null,
