@@ -10,6 +10,7 @@ const defaultUIState = {
     organisation: null,
     query: null,
     attributeType: null,
+    entityType: [],
   },
   language: {
     active: "en",

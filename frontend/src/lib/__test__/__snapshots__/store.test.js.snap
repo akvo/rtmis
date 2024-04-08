@@ -7,6 +7,7 @@ Object {
   "advancedFilters": Array [],
   "filters": Object {
     "attributeType": null,
+    "entityType": Array [],
     "organisation": null,
     "query": null,
     "role": null,

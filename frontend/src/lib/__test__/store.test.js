@@ -13,6 +13,7 @@ describe("Store", () => {
         organisation: null,
         query: null,
         attributeType: null,
+        entityType: null,
       },
       language: {
         active: "en",
