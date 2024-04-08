@@ -25,15 +25,15 @@ const Organisations = () => {
   const { notify } = useNotification();
 
   const [loading, setLoading] = useState(true);
-  const [attributes, setAttributes] = useState(null);
-  const [search, setSearch] = useState(null);
   const [dataset, setDataset] = useState([]);
   const [deleteOrganisation, setDeleteOrganisation] = useState(null);
   const [deleting, setDeleting] = useState(false);
 
   const { organisationAttributes } = config;
-  const { language, isLoggedIn } = store.useState((s) => s);
+  const { language, isLoggedIn, filters } = store.useState((s) => s);
   const { active: activeLang } = language;
+
+  const { query: search, attributeType: attributes } = filters;
 
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -145,39 +145,42 @@ const Organisations = () => {
       });
   };
 
-  const fetchData = useCallback(() => {
-    if (isLoggedIn) {
-      let url = "organisations";
-      setLoading(true);
-      if (attributes) {
-        url += `?attributes=${attributes}`;
-      }
-      if (attributes && search) {
-        url += `&search=${search}`;
-      }
-      if (!attributes && search) {
-        url += `?search=${search}`;
-      }
-      api
-        .get(url)
-        .then((res) => {
-          setDataset(orderBy(res.data, ["id"], ["desc"]));
-          setLoading(false);
-        })
-        .catch((err) => {
-          notify({
-            type: "error",
-            message: text.organisationsLoadFail,
+  const fetchData = useCallback(
+    (search, attributes) => {
+      if (isLoggedIn) {
+        let url = "organisations";
+        setLoading(true);
+        if (attributes) {
+          url += `?attributes=${attributes}`;
+        }
+        if (attributes && search) {
+          url += `&search=${search}`;
+        }
+        if (!attributes && search) {
+          url += `?search=${search}`;
+        }
+        api
+          .get(url)
+          .then((res) => {
+            setDataset(orderBy(res.data, ["id"], ["desc"]));
+            setLoading(false);
+          })
+          .catch((err) => {
+            notify({
+              type: "error",
+              message: text.organisationsLoadFail,
+            });
+            setLoading(false);
+            console.error(err);
           });
-          setLoading(false);
-          console.error(err);
-        });
-    }
-  }, [isLoggedIn, notify, text.organisationsLoadFail, attributes, search]);
+      }
+    },
+    [isLoggedIn, notify, text.organisationsLoadFail]
+  );
 
   useEffect(() => {
-    fetchData();
-  }, [isLoggedIn, fetchData]);
+    fetchData(search, attributes);
+  }, [isLoggedIn, fetchData, search, attributes]);
 
   return (
     <div id="organisations">
@@ -202,19 +205,26 @@ const Organisations = () => {
                 <Search
                   placeholder={text.searchPlaceholder}
                   onChange={(e) => {
-                    setSearch(
-                      e.target.value?.length >= 2 ? e.target.value : null
-                    );
+                    store.update((s) => {
+                      s.filters.query = e.target.value;
+                    });
                   }}
+                  onSearch={(value) => fetchData(value, attributes)}
                   style={{ width: 225 }}
                   allowClear
+                  value={search}
                 />
                 <Select
                   placeholder="Attributes"
                   getPopupContainer={(trigger) => trigger.parentNode}
                   style={{ width: 225 }}
-                  onChange={setAttributes}
+                  onChange={(value) => {
+                    store.update((s) => {
+                      s.filters.attributeType = value;
+                    });
+                  }}
                   allowClear
+                  value={attributes}
                 >
                   {organisationAttributes?.map((o, oi) => (
                     <Option key={`org-${oi}`} value={o.id}>
