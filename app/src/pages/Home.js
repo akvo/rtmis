@@ -99,6 +99,12 @@ const Home = ({ navigation, route }) => {
   const syncUserForms = async () => {
     const { data: apiData } = await api.post('/auth', { code: passcode });
     api.setToken(apiData.syncToken);
+    /**
+     * Update certification assignment
+     */
+    UserState.update((s) => {
+      s.certifications = apiData.certifications;
+    });
 
     const myForms = await crudForms.getMyForms();
 
