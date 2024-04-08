@@ -326,8 +326,26 @@
           "fn": null
         },
         {
-          "id": 1699419994672,
+          "id": 1712229529,
           "order": 10,
+          "name": "total_children_under_5",
+          "label": "Total number of children under 5 who live permanently in this house",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "rule": null,
+          "fn": {
+            "fnColor": {},
+            "fnString": "#males_0_5# + #females_0_5#",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1699419994672,
+          "order": 11,
           "name": "males_6_18",
           "label": "How many males (6-18 years) live permanently in this house",
           "short_label": null,
@@ -344,7 +362,7 @@
         },
         {
           "id": 1699420051321,
-          "order": 11,
+          "order": 12,
           "name": "females_6_18",
           "label": "How many females (6-18 years) live permanently in this house",
           "short_label": null,
@@ -361,7 +379,7 @@
         },
         {
           "id": 1699420070055,
-          "order": 12,
+          "order": 13,
           "name": "males_19_59",
           "label": "How many males (19-59 years) live permanently in this house",
           "short_label": null,
@@ -378,7 +396,7 @@
         },
         {
           "id": 1699420103720,
-          "order": 13,
+          "order": 14,
           "name": "females_19_59",
           "label": "How many females (19-59 years) live permanently in this house",
           "short_label": null,
@@ -395,7 +413,7 @@
         },
         {
           "id": 1699420121397,
-          "order": 14,
+          "order": 15,
           "name": "males_60_plus",
           "label": "How many males (60 years and above) live permanently in this house",
           "short_label": null,
@@ -412,7 +430,7 @@
         },
         {
           "id": 1699420137191,
-          "order": 15,
+          "order": 16,
           "name": "females_60_plus",
           "label": "How many females (60 years and above) live permanently in this house",
           "short_label": null,
@@ -429,7 +447,7 @@
         },
         {
           "id": 1703265705460,
-          "order": 16,
+          "order": 17,
           "name": "total_males",
           "label": "Total number of males who live permanently in this house",
           "short_label": null,
@@ -447,7 +465,7 @@
         },
         {
           "id": 1703265879204,
-          "order": 17,
+          "order": 18,
           "name": "total_females",
           "label": "Total number of females who live permanently in this house",
           "short_label": null,
@@ -464,8 +482,44 @@
           }
         },
         {
-          "id": 1699420621840,
+          "id": 1712234331,
           "order": 19,
+          "name": "total_menstruating_women_or_girls",
+          "label": "Total number of menstruating girls or women who live permanently in this house",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "rule": null,
+          "fn": {
+            "fnColor": {},
+            "fnString": "#females_6_18# + #females_19_59#",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1712234349,
+          "order": 20,
+          "name": "total_household_size",
+          "label": "Total household size",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "rule": null,
+          "fn": {
+            "fnColor": {},
+            "fnString": "#total_females# + #total_males#",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1699420621840,
+          "order": 21,
           "name": "hh_in_any_atrisk_categories",
           "label": "Household: in any at-risk categories?",
           "short_label": null,
@@ -613,10 +667,10 @@
         },
         {
           "id": 1710829091,
-          "order": 20,
-          "name": "animals_kept_in_household_compund",
+          "order": 22,
+          "name": "animals_kept_in_household_compound",
           "label": "Do you keep animals in the household compound?",
-          "short_label": "Animals in houselhold compund",
+          "short_label": "Animals in houselhold compound",
           "type": "option",
           "tooltip": {
             "text": "Animals in the household compound: include poultry (chickens, turkeys, ducks, geese), goats, cattle, sheep, camels, pigs, donkeys, rabbits and any other livestock (kept for food or income-generating purposes) "
@@ -642,7 +696,7 @@
         },
         {
           "id": 1703073469466,
-          "order": 21,
+          "order": 23,
           "name": "Unique_hh_characteristics",
           "label": "Address or any unique household identifier",
           "short_label": null,
@@ -908,12 +962,8 @@
               ]
             },
             {
-              "id": 1703265705460,
-              "max": 1
-            },
-            {
-              "id": 1703265879204,
-              "max": 1
+              "id": 1712234349,
+              "min": 1
             }
           ],
           "options": [
@@ -982,12 +1032,8 @@
               ]
             },
             {
-              "id": 1703265705460,
-              "max": 2
-            },
-            {
-              "id": 1703265879204,
-              "max": 2
+              "id": 1712234349,
+              "min": 2
             }
           ],
           "options": [
@@ -1056,12 +1102,8 @@
               ]
             },
             {
-              "id": 1703265705460,
-              "max": 3
-            },
-            {
-              "id": 1703265879204,
-              "max": 3
+              "id": 1712234349,
+              "min": 3
             }
           ],
           "options": [
@@ -1130,12 +1172,8 @@
               ]
             },
             {
-              "id": 1703265705460,
-              "max": 4
-            },
-            {
-              "id": 1703265879204,
-              "max": 4
+              "id": 1712234349,
+              "min": 4
             }
           ],
           "options": [
@@ -1204,12 +1242,8 @@
               ]
             },
             {
-              "id": 1703265705460,
-              "max": 5
-            },
-            {
-              "id": 1703265879204,
-              "max": 5
+              "id": 1712234349,
+              "min": 5
             }
           ],
           "options": [
@@ -1278,12 +1312,8 @@
               ]
             },
             {
-              "id": 1703265705460,
-              "max": 6
-            },
-            {
-              "id": 1703265879204,
-              "max": 6
+              "id": 1712234349,
+              "min": 6
             }
           ],
           "options": [
@@ -1352,12 +1382,8 @@
               ]
             },
             {
-              "id": 1703265705460,
-              "max": 7
-            },
-            {
-              "id": 1703265879204,
-              "max": 7
+              "id": 1712234349,
+              "min": 7
             }
           ],
           "options": [
@@ -1426,12 +1452,8 @@
               ]
             },
             {
-              "id": 1703265705460,
-              "max": 8
-            },
-            {
-              "id": 1703265879204,
-              "max": 8
+              "id": 1712234349,
+              "min": 8
             }
           ],
           "options": [
@@ -1500,11 +1522,7 @@
               ]
             },
             {
-              "id": 1703265705460,
-              "max": 9
-            },
-            {
-              "id": 1703265879204,
+              "id": 1712234349,
               "min": 9
             }
           ],
@@ -1574,12 +1592,8 @@
               ]
             },
             {
-              "id": 1703265705460,
-              "max": 10
-            },
-            {
-              "id": 1703265879204,
-              "max": 10
+              "id": 1712234349,
+              "min": 10
             }
           ],
           "options": [
@@ -3322,7 +3336,13 @@
           "dependency": [
             {
               "id": 1699429162796,
-              "options": ["g1_handwashing_facility_by_toilet"]
+              "options": [
+                "g1_handwashing_facility_by_toilet",
+                "g1_handwashing_facility_in_kitchen",
+                "g1_portable_handwashing_facility_basin_jug_jerrycan_container",
+                "g1_two_handwashing_facilities",
+                "g1_more_than_two_handwashing_facilities"
+            ]
             }
           ],
           "fn": null
@@ -3950,11 +3970,7 @@
               ]
             },
             {
-              "id": 1699419861172,
-              "min": 1
-            },
-            {
-              "id": 1699419951523,
+              "id": 1712229529,
               "min": 1
             }
           ],
@@ -4023,6 +4039,10 @@
           ],
           "dependency": [
             {
+              "id": 1710829091,
+              "options": ["yes_animals_kept_in_household_compound"]
+            },
+            {
               "id": 1699429162796,
               "options": [
                 "g1_handwashing_facility_by_toilet",
@@ -4037,6 +4057,9 @@
           "pre": {
             "reg_or_update": {
               "new": ["g0_no_handwashing_facility"]
+            },
+            "animals_kept_in_household_compound": {
+              "new": ["g2_no_animals"]
             }
           }
         }
@@ -4238,13 +4261,9 @@
           ],
           "dependency": [
             {
-              "id": 1699419861172,
-              "min": 1
-            },
-            {
-              "id": 1699419951523,
-              "min": 1
-            }
+  "id": 1712229529,
+  "min": 1
+}
           ],
           "fn": null,
           "pre": {
@@ -4332,13 +4351,9 @@
           ],
           "dependency": [
             {
-              "id": 1699419861172,
-              "min": 1
-            },
-            {
-              "id": 1699419951523,
-              "min": 1
-            }
+  "id": 1712229529,
+  "min": 1
+}
           ],
           "fn": null,
           "pre": {
@@ -4373,6 +4388,33 @@
             }
           ],
           "dependency": null,
+          "fn": null
+        },
+        {
+          "id": 16994260598423,
+          "order": 5,
+          "name": "monitor_G3",
+          "label": "Would you also like to monitor G3 outcomes",
+          "short_label": null,
+          "type": "option",
+          "required": true,
+          "meta": false,
+          "options": [
+            {
+              "id": 16994260864133,
+              "order": 1,
+              "label": "Yes",
+              "value": "yes",
+              "color": ""
+            },
+            {
+              "id": 16994260864143,
+              "order": 2,
+              "label": "No",
+              "value": "no",
+              "color": ""
+            }
+          ],
           "fn": null
         }
       ]
@@ -5671,39 +5713,6 @@
               "no_animals_kept_in_household_compound": ["g2_no_animals"]
             }
           }
-        },
-        {
-          "id": 16994260598423,
-          "order": 8,
-          "name": "monitor_G3",
-          "label": "Would you also like to monitor G3 outcomes",
-          "short_label": null,
-          "type": "option",
-          "required": true,
-          "meta": false,
-          "dependency": [
-            {
-              "id": 16994260598422,
-              "options": ["yes"]
-            }
-          ],
-          "options": [
-            {
-              "id": 16994260864133,
-              "order": 1,
-              "label": "Yes",
-              "value": "yes",
-              "color": ""
-            },
-            {
-              "id": 16994260864143,
-              "order": 2,
-              "label": "No",
-              "value": "no",
-              "color": ""
-            }
-          ],
-          "fn": null
         }
       ]
     },
@@ -6022,13 +6031,9 @@
               "options": ["yes"]
             },
             {
-              "id": 1699419861172,
-              "min": 1
-            },
-            {
-              "id": 1699419951523,
-              "min": 1
-            }
+  "id": 1712229529,
+  "min": 1
+}
           ],
           "fn": null,
           "pre": {
@@ -6049,13 +6054,9 @@
               "options": ["yes"]
             },
             {
-              "id": 1699419861172,
-              "min": 1
-            },
-            {
-              "id": 1699419951523,
-              "min": 1
-            }
+  "id": 1712229529,
+  "min": 1
+}
           ],
           "type": "option",
           "tooltip": {
@@ -6106,11 +6107,7 @@
               "options": ["yes"]
             },
             {
-              "id": 1699420051321,
-              "min": 1
-            },
-            {
-              "id": 1699420103720,
+              "id": 1712234331,
               "min": 1
             }
           ],
@@ -6168,13 +6165,9 @@
               "options": ["yes"]
             },
             {
-              "id": 1699420051321,
-              "min": 1
-            },
-            {
-              "id": 1699420103720,
-              "min": 1
-            }
+  "id": 1712234331,
+  "min": 1
+}
           ],
           "type": "option",
           "tooltip": {
@@ -6231,13 +6224,9 @@
               "options": ["yes"]
             },
             {
-              "id": 1699420051321,
-              "min": 1
-            },
-            {
-              "id": 1699420103720,
-              "min": 1
-            }
+  "id": 1712234331,
+  "min": 1
+}
           ],
           "type": "option",
           "tooltip": {
@@ -6306,13 +6295,9 @@
               "options": ["yes"]
             },
             {
-              "id": 1699419861172,
-              "min": 1
-            },
-            {
-              "id": 1699419951523,
-              "min": 1
-            }
+  "id": 1712229529,
+  "min": 1
+}
           ],
           "tooltip": {
             "text": "<b>OBSERVE: vaccination records or certificates</b><br/><b>Fully immunized children:</b> all under-5 children in the household have received the relevant vaccinations"
@@ -6368,13 +6353,9 @@
               "options": ["yes"]
             },
             {
-              "id": 1699419861172,
-              "min": 1
-            },
-            {
-              "id": 1699419951523,
-              "min": 1
-            }
+  "id": 1712229529,
+  "min": 1
+}
           ],
           "type": "option",
           "tooltip": {
@@ -6432,13 +6413,9 @@
               "options": ["yes"]
             },
             {
-              "id": 1699419861172,
-              "min": 1
-            },
-            {
-              "id": 1699419951523,
-              "min": 1
-            }
+  "id": 1712229529,
+  "min": 1
+}
           ],
           "tooltip": {
             "text": "<b>INTERVIEW (to mothers of under 6 month old babies): how are you feeding your baby? [Options: Exclusive breastfeeding, breastfeeding and milk substitutes; milk substitutes only; other]</b><br/><b>INTERVIEW (to mothers of under 6 month old babies):</b> Has your baby been given anything other than breast milk since it was born<br/><b>Exclusive breastfeeding:</b> infants should receive only breast milk until 6 months old. No other food or water should be given to the infant during the first 6-month period, because of the risk that this food or water may be contaminated and cause illness.<br/><b>Exclusive breastfeeding for under 6-month children:</b> assess by interview, supported by observation of the foods available in the house to confirm the reported diet of the under-2 children"
@@ -6496,13 +6473,9 @@
               "options": ["yes"]
             },
             {
-              "id": 1699419861172,
-              "min": 1
-            },
-            {
-              "id": 1699419951523,
-              "min": 1
-            }
+  "id": 1712229529,
+  "min": 1
+}
           ],
           "type": "option",
           "tooltip": {
