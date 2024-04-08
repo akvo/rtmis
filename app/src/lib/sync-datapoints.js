@@ -1,16 +1,18 @@
-import { crudMonitoring } from '../database/crud';
+import { crudCertification, crudMonitoring } from '../database/crud';
 import { DatapointSyncState } from '../store';
 import api from './api';
 
-export const fetchDatapoints = async (pageNumber = 1) => {
+export const fetchDatapoints = async (isCertification = false, pageNumber = 1) => {
   try {
-    const { data: apiData } = await api.get(`/datapoint-list?page=${pageNumber}`);
+    const { data: apiData } = await api.get(
+      `/datapoint-list?certification=${isCertification}&page=${pageNumber}`,
+    );
     const { data, total_page: totalPage, current: page } = apiData;
     DatapointSyncState.update((s) => {
       s.progress = (page / totalPage) * 100;
     });
     if (page < totalPage) {
-      return data.concat(await fetchDatapoints(page + 1));
+      return data.concat(await fetchDatapoints(isCertification, page + 1));
     }
     return data;
   } catch (error) {
@@ -18,18 +20,28 @@ export const fetchDatapoints = async (pageNumber = 1) => {
   }
 };
 
-export const downloadDatapointsJson = async ({ formId, url, lastUpdated }) => {
+export const downloadDatapointsJson = async (
+  isCertification,
+  { formId, url, lastUpdated, submissionType },
+) => {
   try {
     const response = await api.get(url);
     if (response.status === 200) {
       const jsonData = response.data;
-      const res = await crudMonitoring.syncForm({
-        formId,
-        lastUpdated,
-        formJSON: jsonData,
-      });
-      // eslint-disable-next-line no-console
-      console.info('[SYNCED MONITORING]', res);
+      if (isCertification) {
+        await crudCertification.syncForm({
+          formId,
+          lastUpdated,
+          submissionType,
+          formJSON: jsonData,
+        });
+      } else {
+        await crudMonitoring.syncForm({
+          formId,
+          lastUpdated,
+          formJSON: jsonData,
+        });
+      }
     }
   } catch (error) {
     Promise.reject(error);
