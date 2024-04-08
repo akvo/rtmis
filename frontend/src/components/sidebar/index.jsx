@@ -169,6 +169,15 @@ const Sidebar = () => {
   };
 
   const handleMenuClick = ({ key }) => {
+    // reset global filter store when moving page on sidebar click
+    store.update((s) => {
+      s.filters = {
+        trained: null,
+        role: null,
+        organisation: null,
+        query: null,
+      };
+    });
     const url = findUrlByKey(usersMenuItem, key);
     navigate(url);
   };

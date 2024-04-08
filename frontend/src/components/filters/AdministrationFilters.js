@@ -4,7 +4,6 @@ import RemoveFiltersButton from "./RemoveFiltersButton";
 import AdministrationDropdown from "./AdministrationDropdown";
 import { store, uiText } from "../../lib";
 import { Link } from "react-router-dom";
-import debounce from "lodash.debounce";
 import {
   DownloadOutlined,
   PlusOutlined,
@@ -16,9 +15,11 @@ const { Search } = Input;
 
 const AdministrationFilters = ({
   loading,
+  onChange = () => {},
   onSearchChange = () => {},
   addLink = "/control-center/master-data/administration/add",
   maxLevel = null,
+  search = null,
 }) => {
   const authUser = store.useState((s) => s.user);
   const language = store.useState((s) => s.language);
@@ -27,8 +28,6 @@ const AdministrationFilters = ({
     return uiText[activeLang];
   }, [activeLang]);
 
-  const handleChange = debounce(onSearchChange, 300);
-
   return (
     <Fragment>
       <Row style={{ marginBottom: "16px" }}>
@@ -36,10 +35,11 @@ const AdministrationFilters = ({
           <Space>
             <Search
               placeholder={text.searchNameOrCode}
-              onChange={({ target }) => handleChange(target.value)}
+              onChange={({ target }) => onChange(target.value)}
               onSearch={(value) => onSearchChange(value)}
               style={{ width: 240 }}
               allowClear
+              value={search}
             />
           </Space>
         </Col>
@@ -71,7 +71,7 @@ const AdministrationFilters = ({
             <AdministrationDropdown
               loading={loading}
               maxLevel={maxLevel}
-              persist={true}
+              persist={search ? false : true}
             />
             <RemoveFiltersButton
               extra={(s) => {

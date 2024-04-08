@@ -17,10 +17,11 @@ const MasterData = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
-  const [search, setSearch] = useState("");
-  const { language, administration } = store.useState((s) => s);
+  const { language, administration, filters } = store.useState((s) => s);
   const { active: activeLang } = language;
   const parent = administration.slice(-1)?.[0]?.id;
+
+  const search = filters?.query || null;
 
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -140,8 +141,14 @@ const MasterData = () => {
         <div className="table-wrapper">
           <AdministrationFilters
             loading={loading}
-            onSearchChange={setSearch}
+            onChange={(value) =>
+              store.update((s) => {
+                s.filters.query = value;
+              })
+            }
+            onSearchChange={(value) => fetchData(currentPage, parent, value)}
             maxLevel={4}
+            search={search}
           />
           <Divider />
           <div
