@@ -41,10 +41,12 @@ const AddUser = ({ navigation }) => {
       active: 1,
       token: data?.syncToken,
       password: data?.passcode,
+      certifications: data?.certifications,
     });
     UserState.update((s) => {
       s.id = newUserId;
       s.name = data?.name;
+      s.certifications = data?.certifications;
     });
     return newUserId;
   };
