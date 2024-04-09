@@ -112,10 +112,19 @@ const UserFilters = ({ fetchData, pending, setPending, loading, button }) => {
       <Row>
         <Col span={20}>
           <Space>
-            <AdministrationDropdown loading={loading} maxLevel={4} />
+            <AdministrationDropdown
+              loading={loading}
+              maxLevel={4}
+              persist={true}
+            />
             <RemoveFiltersButton
               extra={(s) => {
-                s.filters = { trained: null, role: null, organisation: null };
+                s.filters = {
+                  trained: null,
+                  role: null,
+                  organisation: null,
+                  query: null,
+                };
               }}
             />
           </Space>
