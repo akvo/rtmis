@@ -3,10 +3,12 @@ import { View, Text } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import PropTypes from 'prop-types';
 
+import { useRoute } from '@react-navigation/native';
 import { FieldLabel } from '../support';
 import styles from '../styles';
-import { FormState } from '../../store';
+import { FormState, UserState } from '../../store';
 import { i18n, cascades } from '../../lib';
+import { SUBMISSION_TYPES } from '../../lib/constants';
 
 const TypeCascade = ({
   onChange,
@@ -31,6 +33,9 @@ const TypeCascade = ({
     cascade_type: cascadeType,
     parent_id: parentId,
   } = source || {};
+  const route = useRoute();
+  const certifications = UserState.useState((s) => s?.certifications);
+  const isCertification = value?.length && certifications.includes(value[0]);
 
   const groupBy = (array, property) => {
     const gd = array
@@ -81,6 +86,35 @@ const TypeCascade = ({
   };
 
   const initialDropdowns = useMemo(() => {
+    if (isCertification) {
+      const findAdm = dataSource.find((d) => d?.id === value[0]);
+      if (findAdm) {
+        const parentIDs = findAdm.path
+          .split('.')
+          .map((p) => parseInt(p, 10))
+          .filter((p) => p);
+        return parentIDs.map((p, px) => {
+          if (px === 0) {
+            return {
+              options: dataSource?.filter((ds) => ds?.id === p),
+              value: p,
+            };
+          }
+
+          if (px === parentIDs.length - 1) {
+            return {
+              options: dataSource?.filter((ds) => ds?.parent === p),
+              value: value[0],
+            };
+          }
+          return {
+            options: dataSource?.filter((ds) => ds?.parent === parentIDs[px - 1]),
+            value: p,
+          };
+        });
+      }
+      return [];
+    }
     const parentIDs =
       cascadeParent === 'administrator.sqlite' ? prevAdmAnswer || [] : parentId || [0];
     const filterDs = dataSource
@@ -135,7 +169,7 @@ const TypeCascade = ({
         value: answer,
       };
     });
-  }, [dataSource, cascadeParent, cascadeType, parentId, value, prevAdmAnswer]);
+  }, [dataSource, cascadeParent, cascadeType, parentId, value, prevAdmAnswer, isCertification]);
 
   const fetchCascade = useCallback(async () => {
     if (source && value?.length) {
@@ -224,7 +258,7 @@ const TypeCascade = ({
               value={item.value}
               style={[styles.dropdownField]}
               placeholder={trans.selectItem}
-              disable={disabled}
+              disable={route.params?.submission_type === SUBMISSION_TYPES.certification || disabled}
             />
           );
         })}
@@ -250,7 +284,7 @@ TypeCascade.propTypes = {
 
 TypeCascade.defaultProps = {
   value: null,
-  requiredSign: "*",
+  requiredSign: '*',
   disabled: false,
   tooltip: null,
 };

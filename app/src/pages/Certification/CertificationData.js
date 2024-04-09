@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { ActivityIndicator, FlatList, StyleSheet } from 'react-native';
-import { Button, ListItem } from '@rneui/themed';
+import { Button, Icon, ListItem } from '@rneui/themed';
 import PropTypes from 'prop-types';
 import { BaseLayout } from '../../components';
 import { FormState, UIState } from '../../store';
 import { helpers, i18n } from '../../lib';
-import { crudMonitoring } from '../../database/crud';
+import { crudCertification } from '../../database/crud';
 import { transformMonitoringData } from '../../form/lib';
 import { SUBMISSION_TYPES } from '../../lib/constants';
 
-const UpdateForm = ({ navigation, route }) => {
+const CertificationData = ({ navigation, route }) => {
   const params = route?.params || null;
   const [search, setSearch] = useState('');
   const [forms, setForms] = useState([]);
@@ -27,7 +27,7 @@ const UpdateForm = ({ navigation, route }) => {
     return helpers.flipObject(SUBMISSION_TYPES)[submissionType]?.toUpperCase();
   }, [route.params?.submission_type]);
 
-  const handleUpdateForm = (item) => {
+  const goToForm = (item) => {
     const { currentValues, prevAdmAnswer } = transformMonitoringData(
       selectedForm,
       JSON.parse(item.json.replace(/''/g, "'")),
@@ -39,7 +39,20 @@ const UpdateForm = ({ navigation, route }) => {
     navigation.navigate('FormPage', {
       ...route.params,
       newSubmission: true,
+      submission_type: SUBMISSION_TYPES.certification,
+      uuid: item?.uuid,
     });
+  };
+
+  const goToDetails = (item) => {
+    const { json: valuesJSON, name: dataPointName } = item || {};
+
+    FormState.update((s) => {
+      const valuesParsed = JSON.parse(valuesJSON);
+      s.currentValues = typeof valuesParsed === 'string' ? JSON.parse(valuesParsed) : valuesParsed;
+    });
+
+    navigation.navigate('FormDataDetails', { name: dataPointName });
   };
 
   const handleOnSearch = (keyword) => {
@@ -54,7 +67,7 @@ const UpdateForm = ({ navigation, route }) => {
   };
 
   const fetchTotal = useCallback(async () => {
-    const totalPage = await crudMonitoring.getTotal(formId, search);
+    const totalPage = await crudCertification.getTotal(formId, search);
     setTotal(totalPage);
   }, [formId, search]);
 
@@ -65,7 +78,7 @@ const UpdateForm = ({ navigation, route }) => {
   const fetchData = useCallback(async () => {
     if (isLoading) {
       setIsLoading(false);
-      const moreForms = await crudMonitoring.getFormsPaginated({
+      const moreForms = await crudCertification.getPagination({
         formId,
         search: search.trim(),
         limit: 10,
@@ -87,8 +100,9 @@ const UpdateForm = ({ navigation, route }) => {
     <ListItem
       bottomDivider
       containerStyle={styles.listItemContainer}
-      onPress={() => handleUpdateForm(item)}
+      onPress={() => (item.isCertified ? goToDetails(item) : goToForm(item))}
     >
+      <Icon name={item.isCertified ? 'checkmark-circle' : null} type="ionicon" color="green" />
       <ListItem.Content>
         <ListItem.Title>{item.name}</ListItem.Title>
       </ListItem.Content>
@@ -141,12 +155,12 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UpdateForm;
+export default CertificationData;
 
-UpdateForm.propTypes = {
+CertificationData.propTypes = {
   route: PropTypes.object,
 };
 
-UpdateForm.defaultProps = {
+CertificationData.defaultProps = {
   route: null,
 };
