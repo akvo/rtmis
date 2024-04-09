@@ -7063,7 +7063,7 @@
               "G2 Inadequate vector control": "#93D371",
               "G3 Good vector control": "#4088F4"
             },
-            "fnString": "#no_standing_water#.includes(\"g0\") && #treated_larval_breeding_sites#.includes(\"g0\") ? \"G1 Lack of vector control\" : #no_standing_water#.includes(\"g3\") && #treated_larval_breeding_sites#.includes(\"g3\") ? \"G3 Good vector control\" : \"G2 Inadequate vector control\"",
+            "fnString": "#good_vector_control#.includes(\"g0\") ? \"G1 Lack of vector control\" : #good_vector_control#.includes(\"g3\") ? \"G3 Good vector control\" : \"G2 Inadequate vector control\"",
             "multiline": false
           }
         },
