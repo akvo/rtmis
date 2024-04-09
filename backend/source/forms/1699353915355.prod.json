@@ -266,7 +266,7 @@
           "fn": null,
           "pre": {
             "reg_or_update": {
-              "new": ["other_gender"]
+              "new": ["male"]
             }
           }
         },
@@ -2160,7 +2160,7 @@
           "id": 1703066989526,
           "order": 3,
           "name": "photo_02_back_toilet",
-          "label": "TOILET PHOTO 02: inside view of toilet (showing floor, pan/drophole)",
+          "label": "TOILET PHOTO 02: inside view of toilet (showing floor, pan/hole)",
           "short_label": null,
           "type": "photo",
           "tooltip": null,
@@ -4261,9 +4261,9 @@
           ],
           "dependency": [
             {
-  "id": 1712229529,
-  "min": 1
-}
+              "id": 1712229529,
+              "min": 1
+            }
           ],
           "fn": null,
           "pre": {
@@ -4351,9 +4351,9 @@
           ],
           "dependency": [
             {
-  "id": 1712229529,
-  "min": 1
-}
+              "id": 1712229529,
+              "min": 1
+            }
           ],
           "fn": null,
           "pre": {
@@ -6031,9 +6031,9 @@
               "options": ["yes"]
             },
             {
-  "id": 1712229529,
-  "min": 1
-}
+              "id": 1712229529,
+              "min": 1
+            }
           ],
           "fn": null,
           "pre": {
@@ -6054,9 +6054,9 @@
               "options": ["yes"]
             },
             {
-  "id": 1712229529,
-  "min": 1
-}
+              "id": 1712229529,
+              "min": 1
+            }
           ],
           "type": "option",
           "tooltip": {
@@ -6165,9 +6165,9 @@
               "options": ["yes"]
             },
             {
-  "id": 1712234331,
-  "min": 1
-}
+              "id": 1712234331,
+              "min": 1
+            }
           ],
           "type": "option",
           "tooltip": {
@@ -6224,9 +6224,9 @@
               "options": ["yes"]
             },
             {
-  "id": 1712234331,
-  "min": 1
-}
+              "id": 1712234331,
+              "min": 1
+            }
           ],
           "type": "option",
           "tooltip": {
@@ -6295,9 +6295,9 @@
               "options": ["yes"]
             },
             {
-  "id": 1712229529,
-  "min": 1
-}
+              "id": 1712229529,
+              "min": 1
+            }
           ],
           "tooltip": {
             "text": "<b>OBSERVE: vaccination records or certificates</b><br/><b>Fully immunized children:</b> all under-5 children in the household have received the relevant vaccinations"
@@ -6353,9 +6353,9 @@
               "options": ["yes"]
             },
             {
-  "id": 1712229529,
-  "min": 1
-}
+              "id": 1712229529,
+              "min": 1
+            }
           ],
           "type": "option",
           "tooltip": {
@@ -6647,7 +6647,7 @@
           "id": 1702289546185,
           "order": 1,
           "name": "o_r_no_exposed_human_excreta",
-          "label": "G1-3 OUTCOME RESULT: NO EXPOSED HUMAN EXCRETA",
+          "label": "G1-3 Outcome Result: No exposed human excreta",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -6667,14 +6667,19 @@
           "id": 1702289725502,
           "order": 2,
           "name": "o_r_safe_management_of_child_excreta_and_diapers",
-          "label": "G1-4 OUTCOME RESULT: SAFE MANAGEMENT OF CHILD EXCRETA AND DIAPERS",
+          "label": "G1-4 Outcome Result: Safe Management of child excreta and diapers",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
           "required": true,
           "meta": false,
           "options": null,
-          "dependency": null,
+          "dependency": [
+            {
+              "id": 1712229529,
+              "min": 1
+            }
+          ],
           "fn": {
             "fnColor": {
               "G1 Safely managed child excreta and diapers": "#FDC74B",
@@ -6766,8 +6771,35 @@
           }
         },
         {
-          "id": 1702296406679,
+          "id": 1712643759,
           "order": 6,
+          "name": "o_r_safe_food_hygiene",
+          "label": "G2-3 Outcome result - Safe food hygiene (Household)",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [ 
+            {
+              "id": 16994260598422,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G0": "#FD3F31",
+              "G2": "#93D371",
+              "G1": "#FDC74B"
+            },
+            "fnString": "#o_r_clean_and_safely_stored_food#.includes(\"g0\") && #o_r_clean_and_safely_stored_kitchen_utensils#.includes(\"g0\") && #o_r_clean_and_safely_stored_milk_containers#.includes(\"g0\") ? \"G0\" : #o_r_clean_and_safely_stored_food#.includes(\"g2\") && #o_r_clean_and_safely_stored_milk_containers#.includes(\"g2\") && #o_r_clean_and_safely_stored_kitchen_utensils#.includes(\"g2\") ? \"G2\" : \"G1\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702296406679,
+          "order": 7,
           "name": "o_r_safe_management_of_drinking_water",
           "label": "G2-4.1 Outcome result - Safe management of drinking water",
           "short_label": null,
@@ -6794,7 +6826,7 @@
         },
         {
           "id": 1702296839468,
-          "order": 7,
+          "order": 8,
           "name": "o_r_safe_management_of_water_sources",
           "label": "G2-4.2 Outcome result - Safe management of water sources",
           "short_label": null,
@@ -6820,8 +6852,35 @@
           }
         },
         {
+          "id": 1712644066,
+          "order": 9,
+          "name": "o_r_safe_water_management",
+          "label": "G2-4 Outcome result - Safe water management (Household)",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598422,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G0": "#FD3F31",
+              "G2": "#93D371",
+              "G1": "#FDC74B"
+            },
+            "fnString": "#o_r_safe_management_of_drinking_water#.includes(\"g0\") && #o_r_safe_management_of_water_sources#.includes(\"g0\") ? \"G0\" : #o_r_safe_management_of_drinking_water#.includes(\"g2\") && #o_r_safe_management_of_water_sources#.includes(\"g2\") ? \"G2\" : \"G1\"",
+            "multiline": false
+          }
+        },
+        {
           "id": 1702297046194,
-          "order": 8,
+          "order": 10,
           "name": "o_r_no_visible_animal_wastes_in_house_or_compound",
           "label": "G2-5.1 Outcome result - No visible animal wastes in house or compound",
           "short_label": null,
@@ -6848,7 +6907,7 @@
         },
         {
           "id": 1702297533085,
-          "order": 9,
+          "order": 11,
           "name": "o_r_safe_management_of_animal_wastes_in_compound",
           "label": "G2-5.2 Outcome result - Safe management of animal wastes in compound",
           "short_label": null,
@@ -6875,7 +6934,7 @@
         },
         {
           "id": 1702297797962,
-          "order": 10,
+          "order": 12,
           "name": "o_r_safe_separation_of_animals_from_under5_children",
           "label": "G2-5.3 Outcome result - Safe separation of animals from under-5 children",
           "short_label": null,
@@ -6901,8 +6960,35 @@
           }
         },
         {
+          "id": 1712644167,
+          "order": 13,
+          "name": "o_r_safe_management_of_animals_wastes",
+          "label": "G2-5 Outcome result - Safe management of animals and animal wastes (Household)",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598422,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G0": "#FD3F31",
+              "G2": "#93D371",
+              "G1": "#FDC74B"
+            },
+            "fnString": "#o_r_no_visible_animal_wastes_in_house_or_compound#.includes(\"g0\") && #o_r_safe_separation_of_animals_from_under5_children#.includes(\"g0\") && #o_r_safe_management_of_animal_wastes_in_compound#.includes(\"g0\") ? \"G0\" : #o_r_no_visible_animal_wastes_in_house_or_compound#.includes(\"g2\") && #o_r_safe_separation_of_animals_from_under5_children#.includes(\"g2\") &&  #o_r_safe_management_of_animal_wastes_in_compound#.includes(\"g2\") ? \"G2\" : \"G1\"",
+            "multiline": false
+          }
+        },
+        {
           "id": 1702298080560,
-          "order": 11,
+          "order": 14,
           "name": "o_r_safe_management_of_liquid_wastes",
           "label": "G3-3.1 Outcome result - Safe management of liquid wastes",
           "short_label": null,
@@ -6929,7 +7015,7 @@
         },
         {
           "id": 1702298318702,
-          "order": 12,
+          "order": 15,
           "name": "o_r_safe_management_of_solid_wastes",
           "label": "G3-3.2 Outcome result - Safe management of solid wastes",
           "short_label": null,
@@ -6956,7 +7042,7 @@
         },
         {
           "id": 1702298602672,
-          "order": 13,
+          "order": 16,
           "name": "o_r_good_vector_control_in_compound",
           "label": "G3-3.3 Outcome result - Good vector control in compound",
           "short_label": null,
@@ -6982,8 +7068,35 @@
           }
         },
         {
+          "id": 1712644350,
+          "order": 17,
+          "name": "o_r_safe_waste_management",
+          "label": "G3-3 Outcome result - Safe waste management",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598423,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G1": "#FDC74B",
+              "G2": "#93D371",
+              "G3": "#4088F4"
+            },
+            "fnString": "#o_r_safe_management_of_liquid_wastes#.includes(\"g0\") && #o_r_safe_management_of_solid_wastes#.includes(\"g0\") && #o_r_good_vector_control_in_compound#.includes(\"g0\") ? \"G1\" : #o_r_safe_management_of_liquid_wastes#.includes(\"g3\") && #o_r_safe_management_of_solid_wastes#.includes(\"g3\") && #o_r_good_vector_control_in_compound#.includes(\"g3\") ? \"G3\" : \"G2\"",
+            "multiline": false
+          }
+        },
+        {
           "id": 1702298863458,
-          "order": 14,
+          "order": 16,
           "name": "o_r_clean_face_and_hands",
           "label": "G3-4.1 Outcome result - Clean face and hands",
           "short_label": null,
@@ -7010,7 +7123,7 @@
         },
         {
           "id": 1702301820095,
-          "order": 15,
+          "order": 17,
           "name": "o_r_good_menstrual_health",
           "label": "G3-4.2 Outcome result - Good menstrual health",
           "short_label": null,
@@ -7036,8 +7149,35 @@
           }
         },
         {
+          "id": 1712644557,
+          "order": 18,
+          "name": "o_r_good_personal_hygiene",
+          "label": "G3-4 Outcome result - Good personal hygiene",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598423,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G1": "#FDC74B",
+              "G2": "#93D371",
+              "G3": "#4088F4"
+            },
+            "fnString": "#o_r_clean_face_and_hands#.includes(\"g1\") && #o_r_good_menstrual_health#.includes(\"g1\") ? \"G1\" : #o_r_clean_face_and_hands#.includes(\"g3\") && #o_r_good_menstrual_health#.includes(\"g3\") ? \"G3\" : \"G2\"",
+            "multiline": false
+          }
+        },
+        {
           "id": 1702302041022,
-          "order": 16,
+          "order": 19,
           "name": "o_r_fully_immunized_children",
           "label": "G3-5.1 Outcome result - Fully immunized children",
           "short_label": null,
@@ -7050,6 +7190,10 @@
             {
               "id": 16994260598423,
               "options": ["yes"]
+            },
+            {
+              "id": 1712229529,
+              "min": 1
             }
           ],
           "fn": {
@@ -7077,6 +7221,10 @@
             {
               "id": 16994260598423,
               "options": ["yes"]
+            },
+            {
+              "id": 1712229529,
+              "min": 1
             }
           ],
           "fn": {
@@ -7104,6 +7252,10 @@
             {
               "id": 16994260598423,
               "options": ["yes"]
+            },
+            {
+              "id": 1712229529,
+              "min": 1
             }
           ],
           "fn": {
@@ -7131,6 +7283,10 @@
             {
               "id": 16994260598423,
               "options": ["yes"]
+            },
+            {
+              "id": 1712229529,
+              "min": 1
             }
           ],
           "fn": {
@@ -7144,8 +7300,39 @@
           }
         },
         {
-          "id": 1702299714872,
+          "id": 1712644710,
           "order": 20,
+          "name": "o_r_good_nutrition",
+          "label": "G3-5.4 Outcome result - Good Nutrition",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598423,
+              "options": ["yes"]
+            },
+            {
+              "id": 1712229529,
+              "min": 1
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G1": "#FDC74B",
+              "G2": "#93D371",
+              "G3": "#4088F4"
+            },
+            "fnString": "#o_r_fully_immunized_children#.includes(\"g1\") && #o_r_vitamin_a_supplements#.includes(\"g1\") && #o_r_exclusive_breastfeeding#.includes(\"g1\") && #o_r_nutritious_diet#.includes(\"g1\") ? \"G1\" : #o_r_fully_immunized_children#.includes(\"g3\") && #o_r_vitamin_a_supplements#.includes(\"g3\") && #o_r_exclusive_breastfeeding#.includes(\"g3\") && #o_r_nutritious_diet#.includes(\"g3\") ? \"G3\" : \"G2\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1702299714872,
+          "order": 21,
           "name": "o_r_malariasafe_homes",
           "label": "G3-E1 Outcome result - Malaria-endemic counties: Malaria-safe homes",
           "short_label": null,
@@ -7172,7 +7359,7 @@
         },
         {
           "id": 1702299918738,
-          "order": 21,
+          "order": 22,
           "name": "o_r_dewormed_homes",
           "label": "G3-E2 Outcome result - STH-endemic counties: Dewormed homes",
           "short_label": null,
@@ -7194,6 +7381,33 @@
               "G3 Dewormed home": "#4088F4"
             },
             "fnString": "#dewormed_home#.includes(\"g1\") ? \"G1 No deworming\" : #dewormed_home#.includes(\"g3\") ? \"G3 Dewormed home\" : \"G2 Inadequate deworming\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1712657830,
+          "order": 23,
+          "name": "o_r_endemic",
+          "label": "G3-E2 Outcome result - Endemic outcomes",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598423,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G1": "#FDC74B",
+              "G2": "#93D371",
+              "G3": "#4088F4"
+            },
+            "fnString": "#o_r_malariasafe_homes#.includes(\"g1\") && #o_r_dewormed_homes#.includes(\"g1\") ? \"G1 No deworming\" : #o_r_malariasafe_homes#.includes(\"g3\") && #o_r_dewormed_homes#.includes(\"g3\") ? \"G3\" : \"G2\"",
             "multiline": false
           }
         }
@@ -7252,7 +7466,7 @@
         },
         {
           "id": 1703263138794,
-          "order": 12,
+          "order": 3,
           "name": "o_r_handwashing_facility_with_water_and_soap",
           "label": "Outcome result - Hand-washing facility with water and soap",
           "short_label": null,
@@ -7271,7 +7485,7 @@
         },
         {
           "id": 1703263286187,
-          "order": 13,
+          "order": 4,
           "name": "o_r_permanent_hand_washing_station",
           "label": "Outcome result - Permanent hand washing station",
           "short_label": null,
@@ -7291,7 +7505,7 @@
         },
         {
           "id": 1703263344743,
-          "order": 14,
+          "order": 5,
           "name": "o_r_hand_washing_with_soap_at_critical_times",
           "label": "Outcome result - Hand washing with soap at critical times",
           "short_label": null,
@@ -7306,6 +7520,27 @@
               "G0 No or inadequate handwashing services": "#FD3F31"
             },
             "fnString": "#o_r_handwashing_with_soap_at_critical_times#",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1712658383,
+          "order": 6,
+          "name": "overall_other_outcome",
+          "label": "Outcome result - Other outcome",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "fn": {
+            "fnColor": {
+              "G1": "#FDC74B",
+              "G2": "#93D371",
+              "G3": "#4088F4"
+            },
+            "fnString": "#o_r_safe_food_hygiene#.includes(\"g1\") && #o_r_safe_water_management#.includes(\"g1\") && #o_r_safe_management_of_animals_wastes#.includes(\"g1\") && #o_r_safe_waste_management#.includes(\"g1\") && #o_r_good_personal_hygiene#.includes(\"g1\") && #o_r_good_nutrition#.includes(\"g1\") && #o_r_endemic#.includes(\"g1\") ? \"G1\"  : #o_r_safe_food_hygiene#.includes(\"g3\") && #o_r_safe_water_management#.includes(\"g3\") && #o_r_safe_management_of_animals_wastes#.includes(\"g3\") && #o_r_safe_waste_management#.includes(\"g3\") && #o_r_good_personal_hygiene#.includes(\"g3\") && #o_r_good_nutrition#.includes(\"g3\") && #o_r_endemic#.includes(\"g3\") ? \"G3\" : \"G2\"",
             "multiline": false
           }
         }
