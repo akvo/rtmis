@@ -8,7 +8,8 @@ import { FormNavigation, QuestionGroupList } from './support';
 import QuestionGroup from './components/QuestionGroup';
 import { transformForm, generateDataPointName } from './lib';
 import { FormState } from '../store';
-import { i18n } from '../lib';
+import { helpers, i18n } from '../lib';
+import { SUBMISSION_TYPES } from '../lib/constants';
 
 // TODO:: Allow other not supported yet
 // TODO:: Repeat group not supported yet
@@ -67,6 +68,7 @@ LoadingOverlay.propTypes = {
 const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
   const [activeGroup, setActiveGroup] = useState(0);
   const [showQuestionGroupList, setShowQuestionGroupList] = useState(false);
+  const [isDefaultFilled, setIsDefaultFilled] = useState(false);
   const currentValues = FormState.useState((s) => s.currentValues);
   const cascades = FormState.useState((s) => s.cascades);
   const activeLang = FormState.useState((s) => s.lang);
@@ -133,23 +135,33 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
   };
 
   const handleOnDefaultValue = useCallback(() => {
-    const defaultValues = activeQuestions
-      .filter((aq) => aq?.default_value)
-      .map((aq) => {
-        const key = Object.keys(route.params).find((k) => aq.default_value?.[k]);
-        const defaultValue = aq.default_value?.[key]?.[route.params?.[key]];
-        return {
-          [aq.id]: ['option', 'multiple_option'].includes(aq.type) ? [defaultValue] : defaultValue,
-        };
-      })
-      .reduce((prev, current) => ({ ...prev, ...current }), {});
-
-    if (Object.keys(defaultValues).length) {
-      FormState.update((s) => {
-        s.currentValues = { ...defaultValues, ...s.currentValues };
-      });
+    if (
+      !isDefaultFilled &&
+      [SUBMISSION_TYPES.registration, SUBMISSION_TYPES.monitoring].includes(
+        route.params?.submission_type,
+      )
+    ) {
+      setIsDefaultFilled(true);
+      const defaultValues = activeQuestions
+        .filter((aq) => aq?.default_value)
+        .map((aq) => {
+          const submissionType = route.params?.submission_type || SUBMISSION_TYPES.registration;
+          const subTypeName = helpers.flipObject(SUBMISSION_TYPES)[submissionType];
+          const defaultValue = aq?.default_value?.submission_type?.[subTypeName] || '';
+          return {
+            [aq.id]: ['option', 'multiple_option'].includes(aq.type)
+              ? [defaultValue]
+              : defaultValue,
+          };
+        })
+        .reduce((prev, current) => ({ ...prev, ...current }), {});
+      if (Object.keys(defaultValues).length) {
+        FormState.update((s) => {
+          s.currentValues = { ...s.currentValues, ...defaultValues };
+        });
+      }
     }
-  }, [activeQuestions, route.params]);
+  }, [activeQuestions, route.params, isDefaultFilled]);
 
   useEffect(() => {
     handleOnDefaultValue();

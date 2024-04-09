@@ -86,7 +86,10 @@ const generateFnBody = (fnMetadata, values) => {
 
   // all fn conditions meet, return generated fnBody
   if (!fnBody.filter((x) => !x).length) {
-    return fnBody.map(handeNumericValue).join('');
+    return fnBody
+      .map(handeNumericValue)
+      .join('')
+      .replace(/(\s)\.\w+\(/g, "$1''$&");
   }
 
   // return false if generated fnBody contains null align with fnBodyTemp
@@ -99,7 +102,8 @@ const generateFnBody = (fnMetadata, values) => {
   return fnBody
     .filter((x) => x)
     .map(handeNumericValue)
-    .join('');
+    .join('')
+    .replace(/(\s)\.\w+\(/g, "$1''$&");
 };
 
 const fixIncompleteMathOperation = (expression) => {

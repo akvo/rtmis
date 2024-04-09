@@ -426,6 +426,7 @@ def get_datapoint_download_list(request, version):
     assignment = cast(MobileAssignmentToken, request.auth).assignment
     forms = assignment.forms.values('id')
     is_certification = request.query_params.get("certification")
+    is_certification = str(is_certification) == 'true'
     if is_certification:
         administrations = assignment.certifications.values('id')
         forms = Forms.objects.filter(

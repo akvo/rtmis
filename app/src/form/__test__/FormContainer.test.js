@@ -4,6 +4,7 @@ import { Platform } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import FormContainer from '../FormContainer';
 import { FormState } from '../../store';
+import { SUBMISSION_TYPES } from '../../lib/constants';
 
 jest.useFakeTimers();
 jest.mock('expo-font');
@@ -15,7 +16,7 @@ jest.doMock('react-native/Libraries/Utilities/Platform.android.js', () => ({
 jest.mock('@react-navigation/native', () => ({
   ...jest.requireActual('@react-navigation/native'),
   useRoute: jest.fn().mockReturnValue({
-    params: { submission_type: 'registration' },
+    params: { submission_type: 1 },
   }),
 }));
 
@@ -474,7 +475,7 @@ describe('FormContainer component on submit', () => {
     };
 
     useRoute.mockReturnValue({
-      params: { submission_type: 'monitoring' },
+      params: { submission_type: SUBMISSION_TYPES.monitoring },
     });
 
     const handleOnSubmit = jest.fn();

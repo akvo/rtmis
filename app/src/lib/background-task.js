@@ -8,7 +8,6 @@ import notification from './notification';
 import crudJobs, { jobStatus, MAX_ATTEMPT } from '../database/crud/crud-jobs';
 import { UIState } from '../store';
 import {
-  SUBMISSION_TYPES,
   SYNC_FORM_SUBMISSION_TASK_NAME,
   SYNC_FORM_VERSION_TASK_NAME,
   SYNC_STATUS,
@@ -176,7 +175,7 @@ const syncFormSubmission = async (activeJob = {}) => {
         submitter: session.name,
         geo,
         answers: answerValues,
-        submission_type: SUBMISSION_TYPES?.[d.submission_type] || SUBMISSION_TYPES.registration,
+        submission_type: d.submission_type,
       };
       console.info('[syncFormSubmision] SyncData:', syncData);
       // sync data point
