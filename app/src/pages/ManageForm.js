@@ -79,7 +79,7 @@ const ManageForm = ({ navigation, route }) => {
               <ListItem.Chevron />
             </ListItem>
           )}
-          {subTypesAvailable.includes(SUBMISSION_TYPES.verification) && (
+          {/* {subTypesAvailable.includes(SUBMISSION_TYPES.verification) && (
             <ListItem
               key={5}
               onPress={() => goToUpdateForm(SUBMISSION_TYPES.verification)}
@@ -91,7 +91,7 @@ const ManageForm = ({ navigation, route }) => {
               </ListItem.Content>
               <ListItem.Chevron />
             </ListItem>
-          )}
+          )} */}
           {subTypesAvailable.includes(SUBMISSION_TYPES.certification) &&
           userCertifications?.length ? (
             <ListItem

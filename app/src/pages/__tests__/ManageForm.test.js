@@ -89,40 +89,40 @@ describe('ManageFormPage', () => {
     expect(mockNavigation.navigate).toHaveBeenCalledWith('FormData', mockParams.params);
   });
 
-  it('should navigate to UpdateForm (Verification) when its available', async () => {
-    act(() => {
-      FormState.update((s) => {
-        s.form = {
-          id: 1,
-          name: 'Example Form',
-          draft: 1,
-          submitted: 1,
-          json: '{ "submission_types": [1, 2, 3] }',
-        };
-      });
-    });
+  // it('should navigate to UpdateForm (Verification) when its available', async () => {
+  //   act(() => {
+  //     FormState.update((s) => {
+  //       s.form = {
+  //         id: 1,
+  //         name: 'Example Form',
+  //         draft: 1,
+  //         submitted: 1,
+  //         json: '{ "submission_types": [1, 2, 3] }',
+  //       };
+  //     });
+  //   });
 
-    const mockNavigation = useNavigation();
-    const mockParams = {
-      params: {
-        id: 1,
-        name: 'Health Facilities',
-        newSubmission: true,
-        submission_type: SUBMISSION_TYPES.verification,
-      },
-    };
-    const { getByTestId } = render(
-      <ManageFormPage navigation={mockNavigation} route={mockParams} />,
-    );
+  //   const mockNavigation = useNavigation();
+  //   const mockParams = {
+  //     params: {
+  //       id: 1,
+  //       name: 'Health Facilities',
+  //       newSubmission: true,
+  //       submission_type: SUBMISSION_TYPES.verification,
+  //     },
+  //   };
+  //   const { getByTestId } = render(
+  //     <ManageFormPage navigation={mockNavigation} route={mockParams} />,
+  //   );
 
-    const listItemEl = getByTestId('goto-item-5');
-    expect(listItemEl).toBeDefined();
-    fireEvent.press(listItemEl);
+  //   const listItemEl = getByTestId('goto-item-5');
+  //   expect(listItemEl).toBeDefined();
+  //   fireEvent.press(listItemEl);
 
-    await waitFor(() => {
-      expect(mockNavigation.navigate).toHaveBeenCalledWith('UpdateForm', mockParams.params);
-    });
-  });
+  //   await waitFor(() => {
+  //     expect(mockNavigation.navigate).toHaveBeenCalledWith('UpdateForm', mockParams.params);
+  //   });
+  // });
 
   it.failing('should not show Certification menu if requirement match', async () => {
     // UserState certification not defined
