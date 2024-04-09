@@ -8,6 +8,7 @@ import crudDataPoints from '../../database/crud/crud-datapoints';
 import { backgroundTask } from '../../lib';
 import { FormState, UIState } from '../../store';
 import api from '../../lib/api';
+import { SUBMISSION_TYPES } from '../../lib/constants';
 
 global.FormData = require('react-native/Libraries/Network/FormData');
 
@@ -194,7 +195,7 @@ describe('FormDataPage', () => {
         duration: 145,
         syncedAt: null,
         submitted: 0,
-        submission_type: 'registration',
+        submission_type: SUBMISSION_TYPES.registration
       },
     ];
     crudDataPoints.selectDataPointsByFormAndSubmitted.mockResolvedValue(mockData);
@@ -210,7 +211,7 @@ describe('FormDataPage', () => {
       ...mockRoute.params,
       dataPointId: 1,
       newSubmission: false,
-      submission_type: 'registration',
+      submission_type: SUBMISSION_TYPES.registration
     });
   });
 

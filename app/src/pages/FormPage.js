@@ -15,12 +15,12 @@ import PropTypes from 'prop-types';
 import FormContainer from '../form/FormContainer';
 import { SaveDialogMenu, SaveDropdownMenu } from '../form/support';
 import { BaseLayout } from '../components';
-import { crudDataPoints } from '../database/crud';
+import { crudCertification, crudDataPoints } from '../database/crud';
 import { UserState, UIState, FormState } from '../store';
 import { generateDataPointName, getDurationInMinutes } from '../form/lib';
 import { i18n } from '../lib';
 import crudJobs, { jobStatus } from '../database/crud/crud-jobs';
-import { SYNC_FORM_SUBMISSION_TASK_NAME } from '../lib/constants';
+import { SUBMISSION_TYPES, SYNC_FORM_SUBMISSION_TASK_NAME } from '../lib/constants';
 
 const FormPage = ({ navigation, route }) => {
   const selectedForm = FormState.useState((s) => s.form);
@@ -170,6 +170,13 @@ const FormPage = ({ navigation, route }) => {
         status: jobStatus.PENDING,
         info: `${currentFormId} | ${datapoitName}`,
       });
+
+      if (route.params.submission_type === SUBMISSION_TYPES.certification && route.params?.uuid) {
+        /**
+         * Update isCertified status when the submission_type is certification
+         */
+        await crudCertification.updateIsCertified(selectedForm?.formId, route.params.uuid);
+      }
 
       if (Platform.OS === 'android') {
         ToastAndroid.show(trans.successSubmitted, ToastAndroid.LONG);

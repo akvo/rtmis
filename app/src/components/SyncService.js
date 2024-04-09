@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { BuildParamsState, DatapointSyncState, UIState } from '../store';
+import { BuildParamsState, DatapointSyncState, UIState, UserState } from '../store';
 import { backgroundTask } from '../lib';
 import crudJobs, {
   jobStatus,
@@ -16,6 +16,7 @@ const SyncService = () => {
   const isOnline = UIState.useState((s) => s.online);
   const syncInterval = BuildParamsState.useState((s) => s.dataSyncInterval);
   const syncInSecond = parseInt(syncInterval, 10) * 1000;
+  const certifications = UserState.useState((s) => s.certifications);
 
   const onSync = useCallback(async () => {
     const pendingToSync = await crudDataPoints.selectSubmissionToSync();
@@ -113,13 +114,29 @@ const SyncService = () => {
       });
 
       try {
-        const allData = await fetchDatapoints();
-        const urls = allData.map(({ url, form_id: formId, last_updated: lastUpdated }) => ({
+        const monitoringRes = await fetchDatapoints();
+        let apiURLs = monitoringRes.map(({ url, form_id: formId, last_updated: lastUpdated }) => ({
           url,
           formId,
           lastUpdated,
         }));
-        await Promise.all(urls.map((u) => downloadDatapointsJson(u)));
+
+        if (certifications?.length) {
+          const certifyRes = await fetchDatapoints(true);
+          apiURLs = [
+            ...apiURLs,
+            ...certifyRes.map(({ url, form_id: formId, last_updated: lastUpdated }) => ({
+              url,
+              formId,
+              lastUpdated,
+              isCertification: true,
+            })),
+          ];
+        }
+
+        await Promise.all(
+          apiURLs.map(({ isCertification, ...u }) => downloadDatapointsJson(isCertification, u)),
+        );
         await crudJobs.deleteJob(activeJob.id);
 
         DatapointSyncState.update((s) => {
@@ -143,7 +160,7 @@ const SyncService = () => {
         s.inProgress = false;
       });
     }
-  }, []);
+  }, [certifications?.length]);
 
   useEffect(() => {
     const unsubsDataSync = DatapointSyncState.subscribe(

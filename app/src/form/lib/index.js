@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
-import { i18n } from '../../lib';
+import { helpers, i18n } from '../../lib';
+import { SUBMISSION_TYPES } from '../../lib/constants';
 
 const intersection = (array1, array2) => {
   const set1 = new Set(array1);
@@ -46,7 +47,7 @@ export const transformForm = (
   forms,
   currentValues,
   lang = 'en',
-  submissionType = 'registration',
+  submissionType = SUBMISSION_TYPES.registration,
 ) => {
   const nonEnglish = lang !== 'en';
   const currentForm = nonEnglish ? i18n.transform(lang, forms) : forms;
@@ -72,7 +73,8 @@ export const transformForm = (
       return q;
     });
   const filteredQuestions = questions.map((q) => {
-    const disabled = q?.disabled ? q.disabled?.submission_type?.includes(submissionType) : false;
+    const subTypeName = helpers.flipObject(SUBMISSION_TYPES)?.[submissionType];
+    const disabled = q?.disabled ? q.disabled?.submission_type?.includes(subTypeName) : false;
     return {
       ...q,
       disabled,
