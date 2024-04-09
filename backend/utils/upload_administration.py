@@ -100,13 +100,44 @@ def generate_administration_template(
     administrations = Administration.objects.filter(
         Q(path__contains=adm_id) | Q(pk=adm_id)
     ).all()
+    aggregate_type = AdministrationAttribute.Type.AGGREGATE
+    multiple_type = AdministrationAttribute.Type.MULTIPLE_OPTION
     for adx, adm in enumerate(administrations):
-        find_col = next((
-            lx for lx, lvl in enumerate(level_headers)
-            if str(adm.level_id) in lvl
-        ), -1)
-        if find_col >= 0:
-            worksheet.write(adx + 1, find_col, adm.name)
+        for cx, col in enumerate(columns):
+            if cx < len(level_headers) and f"{adm.level_id}" in col:
+                worksheet.write(adx + 1, cx, adm.name)
+            if cx >= len(level_headers):
+                attr_props = col.split("|")
+                attr_id = attr_props[0]
+                find_attr = adm.attributes.filter(
+                    attribute__id=int(attr_id)
+                ).first()
+                if find_attr:
+                    attr_value = find_attr.value
+                    if (
+                        find_attr.attribute.type == aggregate_type
+                    ):
+                        worksheet.write(
+                            adx + 1,
+                            cx,
+                            attr_value.get("value")[attr_props[2]]
+                        )
+                    if (
+                        find_attr.attribute.type == multiple_type
+                    ):
+                        worksheet.write(
+                            adx + 1,
+                            cx,
+                            "|".join(attr_value.get("value"))
+                        )
+                    if (
+                        find_attr.attribute.type in
+                        [
+                            AdministrationAttribute.Type.VALUE,
+                            AdministrationAttribute.Type.OPTION
+                        ]
+                    ):
+                        worksheet.write(adx + 1, cx, attr_value.get("value"))
         if adm.path:
             parent_ids = list(filter(
                 lambda path: path, adm.path.split(".")
