@@ -63,6 +63,14 @@ const certificationQuery = () => ({
     }
     return rows._array;
   },
+  updateIsCertified: async (formId, uuid) => {
+    try {
+      const updateQuery = query.update(TABLE_NAME, { formId, uuid }, { isCertified: 1 });
+      return await conn.tx(db, updateQuery, [formId, uuid]);
+    } catch {
+      return null;
+    }
+  },
 });
 
 const crudCertification = certificationQuery();

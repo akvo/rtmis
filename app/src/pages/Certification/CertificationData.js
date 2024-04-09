@@ -40,6 +40,7 @@ const CertificationData = ({ navigation, route }) => {
       ...route.params,
       newSubmission: true,
       submission_type: SUBMISSION_TYPES.certification,
+      uuid: item?.uuid,
     });
   };
 
