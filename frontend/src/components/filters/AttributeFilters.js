@@ -2,7 +2,6 @@ import { useMemo } from "react";
 import { Button, Col, Input, Row, Select, Space } from "antd";
 import { config, store, uiText } from "../../lib";
 import { Link } from "react-router-dom";
-import debounce from "lodash.debounce";
 import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
@@ -12,6 +11,9 @@ const AttributeFilters = ({
   handleAttributeFilter,
   handleAttributeClearFilter,
   bulkUploadButton = false,
+  onChange,
+  query = null,
+  selectedAttribute = null,
 }) => {
   const authUser = store.useState((s) => s.user);
   const language = store.useState((s) => s.language);
@@ -20,7 +22,6 @@ const AttributeFilters = ({
     return uiText[activeLang];
   }, [activeLang]);
 
-  const handleChange = debounce(onSearchChange, 300);
   const attributeTypes = config.attribute.allTypes;
 
   return (
@@ -29,10 +30,11 @@ const AttributeFilters = ({
         <Space>
           <Search
             placeholder={text.searchNameOrCode}
-            onChange={({ target }) => handleChange(target.value)}
+            onChange={({ target }) => onChange(target.value)}
             onSearch={(value) => onSearchChange(value)}
             style={{ width: 240 }}
             allowClear
+            value={query}
           />
           <Select
             placeholder={text.attrType}
@@ -40,6 +42,7 @@ const AttributeFilters = ({
             onChange={handleAttributeFilter}
             onClear={handleAttributeClearFilter}
             allowClear
+            value={selectedAttribute}
           />
         </Space>
       </Col>
