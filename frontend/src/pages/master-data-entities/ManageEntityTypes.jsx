@@ -10,9 +10,11 @@ const ManageEntityTypes = () => {
   const [dataset, setDataset] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [search, setSearch] = useState("");
-  const language = store.useState((s) => s.language);
+  const { language, filters } = store.useState((s) => s);
   const { active: activeLang } = language;
+
+  const { query: search } = filters;
+
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
@@ -67,26 +69,29 @@ const ManageEntityTypes = () => {
     setCurrentPage(e.current);
   };
 
-  const fetchData = useCallback(async () => {
-    try {
-      let url = `/entities?page=${currentPage}`;
-      if (search) {
-        url = url + `&search=${search}`;
+  const fetchData = useCallback(
+    async (search) => {
+      try {
+        let url = `/entities?page=${currentPage}`;
+        if (search) {
+          url = url + `&search=${search}`;
+        }
+        const { data: apiData } = await api.get(url);
+        const { total, current, data: _dataset } = apiData;
+        setDataset(_dataset);
+        setTotalCount(total);
+        setCurrentPage(current);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
       }
-      const { data: apiData } = await api.get(url);
-      const { total, current, data: _dataset } = apiData;
-      setDataset(_dataset);
-      setTotalCount(total);
-      setCurrentPage(current);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-    }
-  }, [currentPage, search]);
+    },
+    [currentPage]
+  );
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    fetchData(search);
+  }, [fetchData, search]);
 
   return (
     <div id="masterDataEntities">
@@ -103,7 +108,15 @@ const ManageEntityTypes = () => {
       </div>
       <div className="table-section">
         <div className="table-wrapper">
-          <EntityFilters onSearchChange={setSearch} />
+          <EntityFilters
+            onChange={(value) => {
+              store.update((s) => {
+                s.filters.query = value;
+              });
+            }}
+            onSearchChange={(value) => fetchData(value)}
+            search={search}
+          />
           <Divider />
           <div
             style={{ padding: 0, minHeight: "40vh" }}

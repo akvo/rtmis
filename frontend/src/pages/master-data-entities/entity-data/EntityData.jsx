@@ -14,12 +14,14 @@ const EntityData = () => {
   const [dataset, setDataset] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [search, setSearch] = useState("");
-  const [entityType, setEntityType] = useState();
-  const { language, administration } = store.useState((s) => s);
+  // const [search, setSearch] = useState("");
+  // const [entityType, setEntityType] = useState();
+  const { language, administration, filters } = store.useState((s) => s);
   const { active: activeLang } = language;
   const administrationFilter = administration?.slice(-1)?.[0]?.id;
   const navigate = useNavigate();
+
+  const { query: search, entityType } = filters;
 
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -98,32 +100,35 @@ const EntityData = () => {
     }
   };
 
-  const fetchData = useCallback(async () => {
-    try {
-      let url = `/entity-data?page=${currentPage}`;
-      if (administrationFilter && administrationFilter !== 1) {
-        url = url + `&administration=${administrationFilter}`;
+  const fetchData = useCallback(
+    async (search, administrationFilter, entityType) => {
+      try {
+        let url = `/entity-data?page=${currentPage}`;
+        if (administrationFilter && administrationFilter !== 1) {
+          url = url + `&administration=${administrationFilter}`;
+        }
+        if (entityType) {
+          url = url + `&entity=${entityType}`;
+        }
+        if (search) {
+          url = url + `&search=${search}`;
+        }
+        const { data: apiData } = await api.get(url);
+        const { total, current, data } = apiData;
+        setDataset(data);
+        setTotalCount(total);
+        setCurrentPage(current);
+        setLoading(false);
+      } catch {
+        setLoading(false);
       }
-      if (entityType) {
-        url = url + `&entity=${entityType}`;
-      }
-      if (search) {
-        url = url + `&search=${search}`;
-      }
-      const { data: apiData } = await api.get(url);
-      const { total, current, data } = apiData;
-      setDataset(data);
-      setTotalCount(total);
-      setCurrentPage(current);
-      setLoading(false);
-    } catch {
-      setLoading(false);
-    }
-  }, [currentPage, administrationFilter, entityType, search]);
+    },
+    [currentPage]
+  );
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    fetchData(search, administrationFilter, entityType);
+  }, [fetchData, administrationFilter, entityType, search]);
 
   return (
     <div id="masterDataEntities">
@@ -142,9 +147,22 @@ const EntityData = () => {
         <div className="table-wrapper">
           <EntityDataFilters
             loading={loading}
-            onSearchChange={setSearch}
-            onEntityTypeChange={setEntityType}
+            onChange={(value) => {
+              store.update((s) => {
+                s.filters.query = value;
+              });
+            }}
+            onSearchChange={(value) => {
+              fetchData(value, administrationFilter, entityType);
+            }}
+            onEntityTypeChange={(value) =>
+              store.update((s) => {
+                s.filters.entityType = value;
+              })
+            }
             onDownload={handleOnDownload}
+            search={search}
+            entityType={entityType}
           />
           <Divider />
           <div

@@ -168,7 +168,22 @@ const Sidebar = () => {
     }
   };
 
+  const handleResetGlobalFilterState = () => {
+    // reset global filter store when moving page on sidebar click
+    store.update((s) => {
+      s.filters = {
+        trained: null,
+        role: null,
+        organisation: null,
+        query: null,
+        attributeType: null,
+        entityType: [],
+      };
+    });
+  };
+
   const handleMenuClick = ({ key }) => {
+    handleResetGlobalFilterState();
     const url = findUrlByKey(usersMenuItem, key);
     navigate(url);
   };
