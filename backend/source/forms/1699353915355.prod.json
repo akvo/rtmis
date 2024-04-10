@@ -3142,10 +3142,10 @@
           "dependency": null,
           "fn": {
             "fnColor": {
-              "G1 Flyproof and clean toilet": "#FDC74B",
+              "G1 Use of flyproof and clean toilet": "#FDC74B",
               "G0 Toilet NOT flyproof and clean": "#FD3F31"
             },
-            "fnString": "#toilet_interface#.includes(\"g1\") && #containment_or_collection_system#.includes(\"g1\") && #flyproof_toilet#.includes(\"g1\") && #clean_toilet_pandrophole#.includes(\"g1\") && #clean_toilet_walls#.includes(\"g1\") ? \"G1 flyproof and clean toilet\" : \"G0 Toilet NOT flyproof and clean\"",
+            "fnString": "#toilet_interface#.includes(\"g1\") && #containment_or_collection_system#.includes(\"g1\") && #flyproof_toilet#.includes(\"g1\") && #clean_toilet_pandrophole#.includes(\"g1\") && #clean_toilet_walls#.includes(\"g1\") ? \"G1 Use of flyproof and clean toilet\" : \"G0 Toilet NOT flyproof and clean\"",
             "multiline": false
           }
         },
