@@ -13,22 +13,25 @@ class AdministrationAttributeTestCase(TestCase, ProfileTestHelperMixin):
     def setUp(self) -> None:
         super().setUp()
         call_command("administration_seeder", "--test")
-        self.user = self.create_user('test@akvo.org', self.ROLE_ADMIN)
+        self.user = self.create_user("test@akvo.org", self.ROLE_ADMIN)
         self.token = self.get_auth_token(self.user.email)
 
     def test_list(self):
-        AdministrationAttribute.objects.create(name='attribute #1')
+        AdministrationAttribute.objects.create(name="attribute #1")
         AdministrationAttribute.objects.create(
-                name='attribute #2',
-                type=AdministrationAttribute.Type.OPTION,
-                options=['opt #1', 'opt #2'])
+            name="attribute #2",
+            type=AdministrationAttribute.Type.OPTION,
+            options=["opt #1", "opt #2"],
+        )
 
         response = typing.cast(
-                HttpResponse,
-                self.client.get(
-                    '/api/v1/administration-attributes',
-                    content_type="application/json",
-                    HTTP_AUTHORIZATION=f'Bearer {self.token}'))
+            HttpResponse,
+            self.client.get(
+                "/api/v1/administration-attributes",
+                content_type="application/json",
+                HTTP_AUTHORIZATION=f"Bearer {self.token}",
+            ),
+        )
 
         self.assertEqual(response.status_code, 200)
         data = response.json()
@@ -36,175 +39,199 @@ class AdministrationAttributeTestCase(TestCase, ProfileTestHelperMixin):
 
     def test_create_value_attribute(self):
         payload = {
-            'name': 'test attribute',
-            'type': 'value',
+            "name": "test attribute",
+            "type": "value",
         }
         response = typing.cast(
-                HttpResponse,
-                self.client.post(
-                    '/api/v1/administration-attributes',
-                    payload,
-                    content_type="application/json",
-                    HTTP_AUTHORIZATION=f'Bearer {self.token}'))
+            HttpResponse,
+            self.client.post(
+                "/api/v1/administration-attributes",
+                payload,
+                content_type="application/json",
+                HTTP_AUTHORIZATION=f"Bearer {self.token}",
+            ),
+        )
         self.assertEqual(response.status_code, 201)
 
     def test_create_value_attribute_with_empty_options(self):
         payload = {
-            'name': 'test attribute',
-            'type': 'value',
-            'options': [],
+            "name": "test attribute",
+            "type": "value",
+            "options": [],
         }
         response = typing.cast(
-                HttpResponse,
-                self.client.post(
-                    '/api/v1/administration-attributes',
-                    payload,
-                    content_type="application/json",
-                    HTTP_AUTHORIZATION=f'Bearer {self.token}'))
+            HttpResponse,
+            self.client.post(
+                "/api/v1/administration-attributes",
+                payload,
+                content_type="application/json",
+                HTTP_AUTHORIZATION=f"Bearer {self.token}",
+            ),
+        )
         self.assertEqual(response.status_code, 201)
 
     def test_create_invalid_value_attribute(self):
         payload = {
-            'name': 'test attribute',
-            'type': 'value',
-            'options': ['invalid'],
+            "name": "test attribute",
+            "type": "value",
+            "options": ["invalid"],
         }
         response = typing.cast(
-                HttpResponse,
-                self.client.post(
-                    '/api/v1/administration-attributes',
-                    payload,
-                    content_type="application/json",
-                    HTTP_AUTHORIZATION=f'Bearer {self.token}'))
+            HttpResponse,
+            self.client.post(
+                "/api/v1/administration-attributes",
+                payload,
+                content_type="application/json",
+                HTTP_AUTHORIZATION=f"Bearer {self.token}",
+            ),
+        )
         self.assertEqual(response.status_code, 400)
 
     def test_create_option_attribute(self):
         payload = {
-            'name': 'option attribute',
-            'type': 'option',
-            'options': ['opt #1', 'opt #2'],
+            "name": "option attribute",
+            "type": "option",
+            "options": ["opt #1", "opt #2"],
         }
         response = typing.cast(
-                HttpResponse,
-                self.client.post(
-                    '/api/v1/administration-attributes',
-                    payload,
-                    content_type="application/json",
-                    HTTP_AUTHORIZATION=f'Bearer {self.token}'))
+            HttpResponse,
+            self.client.post(
+                "/api/v1/administration-attributes",
+                payload,
+                content_type="application/json",
+                HTTP_AUTHORIZATION=f"Bearer {self.token}",
+            ),
+        )
         self.assertEqual(response.status_code, 201)
 
     def test_create_invalid_option_attribute(self):
         payload = {
-            'name': 'option attribute',
-            'type': 'option',
-            'options': [],
+            "name": "option attribute",
+            "type": "option",
+            "options": [],
         }
         response = typing.cast(
-                HttpResponse,
-                self.client.post(
-                    '/api/v1/administration-attributes',
-                    payload,
-                    content_type="application/json",
-                    HTTP_AUTHORIZATION=f'Bearer {self.token}'))
+            HttpResponse,
+            self.client.post(
+                "/api/v1/administration-attributes",
+                payload,
+                content_type="application/json",
+                HTTP_AUTHORIZATION=f"Bearer {self.token}",
+            ),
+        )
         self.assertEqual(response.status_code, 400)
 
     def test_create_multiple_option_attribute(self):
         payload = {
-            'name': 'option attribute',
-            'type': 'multiple_option',
-            'options': ['opt #1', 'opt #2'],
+            "name": "option attribute",
+            "type": "multiple_option",
+            "options": ["opt #1", "opt #2"],
         }
         response = typing.cast(
-                HttpResponse,
-                self.client.post(
-                    '/api/v1/administration-attributes',
-                    payload,
-                    content_type="application/json",
-                    HTTP_AUTHORIZATION=f'Bearer {self.token}'))
+            HttpResponse,
+            self.client.post(
+                "/api/v1/administration-attributes",
+                payload,
+                content_type="application/json",
+                HTTP_AUTHORIZATION=f"Bearer {self.token}",
+            ),
+        )
         self.assertEqual(response.status_code, 201)
 
     def test_create_invalid_multiple_option_attribute(self):
         payload = {
-            'name': 'option attribute',
-            'type': 'multiple_option',
-            'options': [],
+            "name": "option attribute",
+            "type": "multiple_option",
+            "options": [],
         }
         response = typing.cast(
-                HttpResponse,
-                self.client.post(
-                    '/api/v1/administration-attributes',
-                    payload,
-                    content_type="application/json",
-                    HTTP_AUTHORIZATION=f'Bearer {self.token}'))
+            HttpResponse,
+            self.client.post(
+                "/api/v1/administration-attributes",
+                payload,
+                content_type="application/json",
+                HTTP_AUTHORIZATION=f"Bearer {self.token}",
+            ),
+        )
         self.assertEqual(response.status_code, 400)
 
     def test_create_aggregate_attribute(self):
         payload = {
-            'name': 'option attribute',
-            'type': 'aggregate',
-            'options': ['opt #1', 'opt #2'],
+            "name": "option attribute",
+            "type": "aggregate",
+            "options": ["opt #1", "opt #2"],
         }
         response = typing.cast(
-                HttpResponse,
-                self.client.post(
-                    '/api/v1/administration-attributes',
-                    payload,
-                    content_type="application/json",
-                    HTTP_AUTHORIZATION=f'Bearer {self.token}'))
+            HttpResponse,
+            self.client.post(
+                "/api/v1/administration-attributes",
+                payload,
+                content_type="application/json",
+                HTTP_AUTHORIZATION=f"Bearer {self.token}",
+            ),
+        )
         self.assertEqual(response.status_code, 201)
 
     def test_create_invalid_aggregate_attribute(self):
         payload = {
-            'name': 'option attribute',
-            'type': 'aggregate',
-            'options': [],
+            "name": "option attribute",
+            "type": "aggregate",
+            "options": [],
         }
         response = typing.cast(
-                HttpResponse,
-                self.client.post(
-                    '/api/v1/administration-attributes',
-                    payload,
-                    content_type="application/json",
-                    HTTP_AUTHORIZATION=f'Bearer {self.token}'))
+            HttpResponse,
+            self.client.post(
+                "/api/v1/administration-attributes",
+                payload,
+                content_type="application/json",
+                HTTP_AUTHORIZATION=f"Bearer {self.token}",
+            ),
+        )
         self.assertEqual(response.status_code, 400)
 
     def test_update(self):
         test_att = AdministrationAttribute.objects.create(
-                name='test',
-                type=AdministrationAttribute.Type.OPTION,
-                options=['opt #1'])
+            name="test",
+            type=AdministrationAttribute.Type.OPTION,
+            options=["opt #1"],
+        )
         payload = {
-            'name': 'renamed',
-            'type': 'aggregate',
-            'options': ['opt #2'],
+            "name": "renamed",
+            "type": "aggregate",
+            "options": ["opt #2"],
         }
 
         response = typing.cast(
-                HttpResponse,
-                self.client.put(
-                    f'/api/v1/administration-attributes/{test_att.id}',
-                    payload,
-                    content_type="application/json",
-                    HTTP_AUTHORIZATION=f'Bearer {self.token}'))
+            HttpResponse,
+            self.client.put(
+                f"/api/v1/administration-attributes/{test_att.id}",
+                payload,
+                content_type="application/json",
+                HTTP_AUTHORIZATION=f"Bearer {self.token}",
+            ),
+        )
 
         data = response.json()
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(data.get('name'), 'renamed')
-        self.assertEqual(data.get('type'), 'aggregate')
-        self.assertEqual(data.get('options'), ['opt #2'])
+        self.assertEqual(data.get("name"), "renamed")
+        self.assertEqual(data.get("type"), "aggregate")
+        self.assertEqual(data.get("options"), ["opt #2"])
 
     def test_delete(self):
-        test_att = AdministrationAttribute.objects.create(name='attribute #1')
+        test_att = AdministrationAttribute.objects.create(name="attribute #1")
         response = typing.cast(
-                HttpResponse,
-                self.client.delete(
-                    f'/api/v1/administration-attributes/{test_att.id}',
-                    content_type="application/json",
-                    HTTP_AUTHORIZATION=f'Bearer {self.token}'))
+            HttpResponse,
+            self.client.delete(
+                f"/api/v1/administration-attributes/{test_att.id}",
+                content_type="application/json",
+                HTTP_AUTHORIZATION=f"Bearer {self.token}",
+            ),
+        )
 
         self.assertEqual(response.status_code, 204)
         self.assertFalse(
-            AdministrationAttribute.objects.filter(
-                id=test_att.id
-            ).exists()
+            AdministrationAttribute.objects.filter(id=test_att.id).exists()
         )
+
+    def test_run_administration_attribute_seeder(self):
+        call_command("administration_attribute_seeder", "--test")
