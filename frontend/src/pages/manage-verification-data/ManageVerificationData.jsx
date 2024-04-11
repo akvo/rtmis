@@ -10,6 +10,7 @@ import {
 } from "../../components";
 import { generateAdvanceFilterURL } from "../../util/filter";
 import FormDropdown from "../../components/filters/FormDropdown";
+import VerificationDataDetail from "./VerificationDataDetail";
 
 const ManageVerificationData = () => {
   const [loading, setLoading] = useState(false);
@@ -23,7 +24,7 @@ const ManageVerificationData = () => {
     advancedFilters,
     administration,
     selectedForm,
-    // questionGroups,
+    questionGroups,
   } = store.useState((s) => s);
   const { active: activeLang } = language;
   const text = useMemo(() => {
@@ -171,12 +172,12 @@ const ManageVerificationData = () => {
                 }}
                 rowKey="id"
                 expandable={{
-                  expandedRowRender: (/*record*/) =>
-                    // <DataClaimDetail
-                    //   questionGroups={questionGroups}
-                    //   record={record}
-                    // />
-                    "",
+                  expandedRowRender: (record) => (
+                    <VerificationDataDetail
+                      questionGroups={questionGroups}
+                      record={record}
+                    />
+                  ),
                   expandIcon: ({ expanded, onExpand, record }) =>
                     expanded ? (
                       <DownCircleOutlined
