@@ -3056,7 +3056,7 @@
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
-          "required": true,
+          "required": false,
           "meta": false,
           "options": null,
           "dependency": null,
@@ -3077,7 +3077,7 @@
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
-          "required": true,
+          "required": false,
           "meta": false,
           "options": null,
           "fn": {
@@ -3097,7 +3097,7 @@
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
-          "required": true,
+          "required": false,
           "meta": false,
           "options": null,
           "dependency": null,
@@ -3118,7 +3118,7 @@
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
-          "required": true,
+          "required": false,
           "meta": false,
           "options": null,
           "dependency": null,
@@ -6432,9 +6432,9 @@
               "options": ["yes"]
             },
             {
-  "id": 1712229529,
-  "min": 1
-}
+              "id": 1712229529,
+              "min": 1
+            }
           ],
           "tooltip": {
             "text": "<b>INTERVIEW (to mothers of under 6 month old babies): how are you feeding your baby? [Options: Exclusive breastfeeding, breastfeeding and milk substitutes; milk substitutes only; other]</b><br/><b>INTERVIEW (to mothers of under 6 month old babies):</b> Has your baby been given anything other than breast milk since it was born<br/><b>Exclusive breastfeeding:</b> infants should receive only breast milk until 6 months old. No other food or water should be given to the infant during the first 6-month period, because of the risk that this food or water may be contaminated and cause illness.<br/><b>Exclusive breastfeeding for under 6-month children:</b> assess by interview, supported by observation of the foods available in the house to confirm the reported diet of the under-2 children"
@@ -6492,9 +6492,9 @@
               "options": ["yes"]
             },
             {
-  "id": 1712229529,
-  "min": 1
-}
+              "id": 1712229529,
+              "min": 1
+            }
           ],
           "type": "option",
           "tooltip": {
@@ -7094,7 +7094,7 @@
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
-          "required": true,
+          "required": false,
           "meta": false,
           "options": null,
           "dependency": [
@@ -7206,7 +7206,7 @@
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
-          "required": true,
+          "required": false,
           "meta": false,
           "options": null,
           "dependency": [
@@ -7237,7 +7237,7 @@
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
-          "required": true,
+          "required": false,
           "meta": false,
           "options": null,
           "dependency": [
@@ -7268,7 +7268,7 @@
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
-          "required": true,
+          "required": false,
           "meta": false,
           "options": null,
           "dependency": [
@@ -7299,7 +7299,7 @@
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
-          "required": true,
+          "required": false,
           "meta": false,
           "options": null,
           "dependency": [
@@ -7330,7 +7330,7 @@
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
-          "required": true,
+          "required": false,
           "meta": false,
           "options": null,
           "dependency": [
@@ -7361,7 +7361,7 @@
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
-          "required": true,
+          "required": false,
           "meta": false,
           "options": null,
           "dependency": [
@@ -7392,7 +7392,7 @@
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
-          "required": true,
+          "required": false,
           "meta": false,
           "options": null,
           "dependency": [
@@ -7423,7 +7423,7 @@
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
-          "required": true,
+          "required": false,
           "meta": false,
           "options": null,
           "dependency": [
@@ -7562,7 +7562,7 @@
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
-          "required": true,
+          "required": false,
           "meta": false,
           "options": null,
           "fn": {
