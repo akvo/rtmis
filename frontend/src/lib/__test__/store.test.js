@@ -11,6 +11,9 @@ describe("Store", () => {
         trained: null,
         role: null,
         organisation: null,
+        query: null,
+        attributeType: null,
+        entityType: null,
       },
       language: {
         active: "en",

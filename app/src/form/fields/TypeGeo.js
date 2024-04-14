@@ -92,10 +92,10 @@ const TypeGeo = ({ keyform, id, label, value, tooltip, required, requiredSign, d
                 {gpsAccuracy < 10
                   ? gpsAccuracy < 0
                     ? 'GPS is off'
-                    : 'High Precission'
+                    : 'High Precision'
                   : gpsAccuracy < gpsThreshold
-                  ? 'Moderate Precission'
-                  : 'Low Precission'}
+                  ? 'Moderate Precision'
+                  : 'Low Precision'}
               </Text>
             </Text>
           ) : null}

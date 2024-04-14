@@ -89,21 +89,23 @@ const generateFnBody = (fnMetadata, values) => {
     return fnBody
       .map(handeNumericValue)
       .join('')
-      .replace(/(\s)\.\w+\(/g, "$1''$&");
+      .replace(/(?:^|\s)\.includes\(['"][^'"]+['"]\)/g, "''$1")
+      .replace(/''\s*\./g, "''.");
   }
 
   // return false if generated fnBody contains null align with fnBodyTemp
   // or meet the total of condition inside fn string
-  if (fnBody.filter((x) => !x).length === fnBodyTemp.length) {
-    return false;
-  }
+  // if (fnBody.filter((x) => !x).length === fnBodyTemp.length) {
+  //   return false;
+  // }
 
   // remap fnBody if only one fnBody meet the requirements
   return fnBody
     .filter((x) => x)
     .map(handeNumericValue)
     .join('')
-    .replace(/(\s)\.\w+\(/g, "$1''$&");
+    .replace(/(?:^|\s)\.includes\(['"][^'"]+['"]\)/g, " ''$&")
+    .replace(/''\s*\./g, "''.");
 };
 
 const fixIncompleteMathOperation = (expression) => {
