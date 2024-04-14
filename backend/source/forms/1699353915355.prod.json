@@ -7496,65 +7496,6 @@
           }
         },
         {
-          "id": 1703263138794,
-          "order": 3,
-          "name": "o_r_handwashing_facility_with_water_and_soap",
-          "label": "Outcome result - Hand-washing facility with water and soap",
-          "short_label": null,
-          "type": "autofield",
-          "required": false,
-          "meta": false,
-          "displayOnly": false,
-          "fn": {
-            "fnColor": {
-              "G1 Handwashing facility with soap and water": "#FDC74B",
-              "G0 Inadequate or no handwashing facility": "#FD3F31"
-            },
-            "fnString": "#o_r_hwf_with_water_and_soap#",
-            "multiline": false
-          }
-        },
-        {
-          "id": 1703263286187,
-          "order": 4,
-          "name": "o_r_permanent_hand_washing_station",
-          "label": "Outcome result - Permanent hand washing station",
-          "short_label": null,
-          "type": "autofield",
-          "required": false,
-          "meta": false,
-          "displayOnly": false,
-          "fn": {
-            "fnColor": {
-              "G0 No or inadequate handwashing services": "#FD3F31",
-              "G3 Permanent handwashing services": "#4088F4",
-              "G1 Non-durable handwashing services": "#FDC74B"
-            },
-            "fnString": "#o_r_permanent_handwashing_station#",
-            "multiline": false
-          }
-        },
-        {
-          "id": 1703263344743,
-          "order": 5,
-          "name": "o_r_hand_washing_with_soap_at_critical_times",
-          "label": "Outcome result - Hand washing with soap at critical times",
-          "short_label": null,
-          "type": "autofield",
-          "required": false,
-          "meta": false,
-          "displayOnly": false,
-          "fn": {
-            "fnColor": {
-              "G1 Some critical handwashing times NOT mentioned": "#FDC74B",
-              "G2 Handwashing with soap at ALL critical times": "#93D371",
-              "G0 No or inadequate handwashing services": "#FD3F31"
-            },
-            "fnString": "#o_r_handwashing_with_soap_at_critical_times#",
-            "multiline": false
-          }
-        },
-        {
           "id": 1712658383,
           "order": 6,
           "name": "overall_other_outcome",
