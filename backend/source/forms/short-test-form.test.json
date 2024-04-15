@@ -14,7 +14,12 @@
       "I approve this data for submission"
     ]
   },
-  "submission_types": ["registration", "monitoring", "verification", "certification"],
+  "submission_types": [
+    "registration",
+    "monitoring",
+    "verification",
+    "certification"
+  ],
   "question_groups": [
     {
       "id": 16993539153821,
@@ -679,49 +684,57 @@
               "id": 16994237147191,
               "order": 1,
               "label": "G0 No toilet",
-              "value": "g0_no_toilet"
+              "value": "g0_no_toilet",
+              "color": "#db3b3b"
             },
             {
               "id": 16994237147201,
               "order": 2,
               "label": "G1 Dry latrine with drophole",
-              "value": "g1_dry_latrine_with_drophole"
+              "value": "g1_dry_latrine_with_drophole",
+              "color": "#38a15a"
             },
             {
               "id": 16994238623071,
               "order": 3,
               "label": "G1 VIP drophole with vent pipe",
-              "value": "g1_vip_drophole_with_vent_pipe"
+              "value": "g1_vip_drophole_with_vent_pipe",
+              "color": "#38a15a"
             },
             {
               "id": 16994238800831,
               "order": 4,
               "label": "G1 SATO pan",
-              "value": "g1_sato_pan"
+              "value": "g1_sato_pan",
+              "color": "#38a15a"
             },
             {
               "id": 16994238922001,
               "order": 5,
               "label": "G1 Flush or pour-flush pan with water seal",
-              "value": "g1_flush_or_pourflush_pan_with_water_seal"
+              "value": "g1_flush_or_pourflush_pan_with_water_seal",
+              "color": "#38a15a"
             },
             {
               "id": 16994239036001,
               "order": 6,
               "label": "G1 Dry toilet with urine-diverting drophole",
-              "value": "g1_dry_toilet_with_urinediverting_drophole"
+              "value": "g1_dry_toilet_with_urinediverting_drophole",
+              "color": "#38a15a"
             },
             {
               "id": 16994239160781,
               "order": 7,
               "label": "G1 Open pipe (no water seal)",
-              "value": "g1_open_pipe_no_water_seal"
+              "value": "g1_open_pipe_no_water_seal",
+              "color": "#38a15a"
             },
             {
               "id": 16994239188661,
               "order": 8,
               "label": "G1 Other toilet interface",
-              "value": "g1_other_toilet_interface"
+              "value": "g1_other_toilet_interface",
+              "color": "#38a15a"
             }
           ],
           "dependency": null,
