@@ -50,7 +50,13 @@
             }
           ],
           "dependency": null,
-          "fn": null
+          "fn": null,
+          "default_value": {
+            "submission_type": {
+              "monitoring": "update",
+              "registration": "new"
+            }
+          }
         },
         {
           "id": 1699354849382,
@@ -3250,7 +3256,7 @@
               "G1 Inadequate sanitation services": "#FDC74B",
               "G0 Sanitation services UNSAFELY managed": "#FD3F31"
             },
-            "fnString": "#safely_managed_onsite_containment#.includes(\"g3\") && #safely_managed_sanitation_services#.includes(\"g3\") ? \"G3 Use of safely managed sanitation services\" : #safely_managed_onsite_containment#.includes(\"g0\") && #safely_managed_sanitation_services#.includes(\"g0\") ? \"G0 Sanitation services UNSAFELY managed\" : \"G1 Inadequate sanitation services\"",
+            "fnString": "#safely_managed_onsite_containment#.includes(\"g3\") && #safely_managed_sanitation_services#.includes(\"g3\") ? \"G3 Use of safely managed sanitation services\" : ((#safely_managed_onsite_containment#.includes(\"g0\") && #safely_managed_sanitation_services#.includes(\"g0\")) ? \"G0 Sanitation services UNSAFELY managed\" : \"G1 Inadequate sanitation services\")",
             "multiline": false
           }
         }
@@ -7505,7 +7511,7 @@
           "tooltip": null,
           "required": false,
           "meta": false,
-          "options": null,
+          "displayOnly": false,
           "fn": {
             "fnColor": {
               "G1": "#FDC74B",
