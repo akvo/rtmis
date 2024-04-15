@@ -212,3 +212,18 @@ class MobileAssignmentApiSyncTest(TestCase, AssignmentTokenTestHelperMixin):
             **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
         )
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        # assign certifications
+        assignment = MobileAssignment.objects.get(pk=self.mobile_assignment.id)
+        assignment.certifications.set(self.administration_children)
+        assignment.save()
+
+        token = self.get_assignmen_token(self.passcode)
+        response = self.client.post(
+            "/api/v1/device/sync",
+            post_data,
+            follow=True,
+            content_type="application/json",
+            **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
