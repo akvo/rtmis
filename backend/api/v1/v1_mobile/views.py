@@ -169,12 +169,25 @@ def sync_pending_form_data(request, version):
     form = get_object_or_404(Forms, pk=request.data.get("formId"))
     assignment = cast(MobileAssignmentToken, request.auth).assignment
     user = assignment.user
+    # TODO : Get certifications administration list
+    certifications = assignment.certifications.count()
     administration = Access.objects.filter(user=user).first().administration
     if not request.data.get("answers"):
         return Response(
             {"message": "Answers is required."},
             status=status.HTTP_400_BAD_REQUEST,
         )
+    # Validate certifications submission
+    # TODO : Check for spesific administration certification assigment
+    if (
+        request.data.get("submission_type") == SubmissionTypes.certification
+        and not certifications
+    ):
+        return Response(
+            {"message": "Certifications not assigned."},
+            status=status.HTTP_403_FORBIDDEN,
+        )
+    # EOL Validate certifications submission
     answers = []
     qna = request.data.get("answers")
     adm_id = administration.id

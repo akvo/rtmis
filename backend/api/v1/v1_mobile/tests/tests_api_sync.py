@@ -193,6 +193,41 @@ class MobileAssignmentApiSyncTest(TestCase, AssignmentTokenTestHelperMixin):
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
+        # Submit certification return 403
+        post_data = {
+            "formId": self.form.id,
+            "name": "testing datapoint",
+            "duration": 3000,
+            "submittedAt": "2021-01-01T00:00:00.000Z",
+            "geo": [0, 0],
+            "submission_type": SubmissionTypes.certification,
+            "answers": answers,
+        }
+
+        response = self.client.post(
+            "/api/v1/device/sync",
+            post_data,
+            follow=True,
+            content_type="application/json",
+            **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        # assign certifications
+        assignment = MobileAssignment.objects.get(pk=self.mobile_assignment.id)
+        assignment.certifications.set(self.administration_children)
+        assignment.save()
+
+        token = self.get_assignmen_token(self.passcode)
+        response = self.client.post(
+            "/api/v1/device/sync",
+            post_data,
+            follow=True,
+            content_type="application/json",
+            **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
         # submit certification data
         post_data = {
             "formId": self.form.id,
