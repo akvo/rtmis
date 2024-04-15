@@ -63,6 +63,12 @@ if [[ "${seed_entities}" == 'y' || "${seed_entities}" == 'Y' ]]; then
     python manage.py entities_seeder
 fi
 
+echo "Seed Administration Attribute? [y/n]"
+read -r seed_administration_attribute
+if [[ "${seed_administration_attribute}" == 'y' || "${seed_administration_attribute}" == 'Y' ]]; then
+    python manage.py administration_attribute_seeder
+fi
+
 python manage.py generate_sqlite
 
 # python manage.py fake_approver_seeder
