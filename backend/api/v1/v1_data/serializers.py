@@ -1253,7 +1253,11 @@ class SubmitPendingFormSerializer(serializers.Serializer):
         )
 
         direct_to_data = is_super_admin or is_county_admin
-        if data.get("submission_type") == SubmissionTypes.certification:
+        direct_submission_types = [
+            SubmissionTypes.certification,
+            SubmissionTypes.verification,
+        ]
+        if data.get("submission_type") in direct_submission_types:
             direct_to_data = True
         # save to pending data
         if not direct_to_data:
