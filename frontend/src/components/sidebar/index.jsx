@@ -52,7 +52,7 @@ const Sidebar = () => {
       url: "/control-center/certification",
     },
     "data-claim": {
-      label: "Manage Data Claim",
+      label: "Manage Certification Data",
       url: "/control-center/data-claim",
     },
   };
