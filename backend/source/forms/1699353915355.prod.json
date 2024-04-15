@@ -47,8 +47,28 @@
               "order": 2,
               "label": "Update",
               "value": "update"
+            },
+            {
+              "id": 1699354358577,
+              "order": 3,
+              "value": "verification",
+              "label": "Verification"
+            },
+            {
+              "id": 1699354358578,
+              "order": 4,
+              "value": "certification",
+              "label": "Certification"
             }
           ],
+          "default_value": {
+            "submission_type": {
+              "monitoring": "update",
+              "registration": "new",
+              "verfication": "verification",
+              "certification": "certification"
+            }
+          },
           "dependency": null,
           "fn": null
         },
@@ -3342,7 +3362,7 @@
                 "g1_portable_handwashing_facility_basin_jug_jerrycan_container",
                 "g1_two_handwashing_facilities",
                 "g1_more_than_two_handwashing_facilities"
-            ]
+              ]
             }
           ],
           "fn": null
@@ -6413,9 +6433,9 @@
               "options": ["yes"]
             },
             {
-  "id": 1712229529,
-  "min": 1
-}
+              "id": 1712229529,
+              "min": 1
+            }
           ],
           "tooltip": {
             "text": "<b>INTERVIEW (to mothers of under 6 month old babies): how are you feeding your baby? [Options: Exclusive breastfeeding, breastfeeding and milk substitutes; milk substitutes only; other]</b><br/><b>INTERVIEW (to mothers of under 6 month old babies):</b> Has your baby been given anything other than breast milk since it was born<br/><b>Exclusive breastfeeding:</b> infants should receive only breast milk until 6 months old. No other food or water should be given to the infant during the first 6-month period, because of the risk that this food or water may be contaminated and cause illness.<br/><b>Exclusive breastfeeding for under 6-month children:</b> assess by interview, supported by observation of the foods available in the house to confirm the reported diet of the under-2 children"
@@ -6473,9 +6493,9 @@
               "options": ["yes"]
             },
             {
-  "id": 1712229529,
-  "min": 1
-}
+              "id": 1712229529,
+              "min": 1
+            }
           ],
           "type": "option",
           "tooltip": {
@@ -6781,7 +6801,7 @@
           "required": true,
           "meta": false,
           "options": null,
-          "dependency": [ 
+          "dependency": [
             {
               "id": 16994260598422,
               "options": ["yes"]
