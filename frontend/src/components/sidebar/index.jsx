@@ -55,6 +55,10 @@ const Sidebar = () => {
       label: "Manage Certification Data",
       url: "/control-center/data-claim",
     },
+    "verification-data": {
+      label: "Manage Verification Data",
+      url: "/control-center/verification-data",
+    },
   };
 
   const controlCenterToLabelMapping = {
@@ -70,7 +74,7 @@ const Sidebar = () => {
     "manage-data": {
       label: "Data",
       icon: TableOutlined,
-      childrenKeys: ["data", "data-claim"],
+      childrenKeys: ["data", "data-claim", "verification-data"],
     },
     "manage-master-data": {
       label: "Master Data",
