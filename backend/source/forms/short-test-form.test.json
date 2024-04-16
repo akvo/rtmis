@@ -54,6 +54,18 @@
               "order": 2,
               "label": "Update",
               "value": "update"
+            },
+            {
+              "id": 16993543585762,
+              "order": 3,
+              "label": "Verification",
+              "value": "verification"
+            },
+            {
+              "id": 16993543585763,
+              "order": 4,
+              "label": "Certification",
+              "value": "certification"
             }
           ],
           "dependency": null,
@@ -61,7 +73,9 @@
           "default_value": {
             "submission_type": {
               "monitoring": "update",
-              "registration": "new"
+              "registration": "new",
+              "verification": "verification",
+              "certification": "certification"
             }
           }
         },
