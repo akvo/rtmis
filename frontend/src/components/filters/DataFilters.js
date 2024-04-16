@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import "./style.scss";
-import { Row, Col, Space, Button } from "antd";
+import { Row, Col, Space, Button, Dropdown } from "antd";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import AdministrationDropdown from "./AdministrationDropdown";
 import FormDropdown from "./FormDropdown.js";
@@ -71,6 +71,16 @@ const DataFilters = ({ loading, showAdm = true, resetFilter = true }) => {
     navigate(`/control-center/form/${selectedForm}`);
   };
 
+  const downloadTypes = [
+    {
+      key: "all",
+      label: "All Data",
+      onClick: () => {
+        exportGenerate();
+      },
+    },
+  ];
+
   return (
     <>
       <Row style={{ marginBottom: "16px" }}>
@@ -88,14 +98,15 @@ const DataFilters = ({ loading, showAdm = true, resetFilter = true }) => {
               </Button>
             </Link>
             {pathname === "/control-center/data" && (
-              <Button
-                shape="round"
-                onClick={exportGenerate}
-                loading={exporting}
-                icon={<DownloadOutlined />}
-              >
-                {text.download}
-              </Button>
+              <Dropdown menu={{ items: downloadTypes }} placement="bottomRight">
+                <Button
+                  icon={<DownloadOutlined />}
+                  shape="round"
+                  loading={exporting}
+                >
+                  {text.download}
+                </Button>
+              </Dropdown>
             )}
             <Button
               shape="round"
