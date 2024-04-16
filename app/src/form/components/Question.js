@@ -137,7 +137,6 @@ const Question = memo(({ group, activeQuestions = [], index, dependantQuestions 
       if (!check.length && check.length !== q.dependency.length) {
         delete fieldValues[String(q?.id)];
       }
-      return;
     });
     // eol of check dependency answer
     FormState.update((s) => {
@@ -184,8 +183,10 @@ Question.propTypes = {
   group: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
   activeQuestions: PropTypes.array,
+  dependantQuestions: PropTypes.array,
 };
 
 Question.defaultProps = {
   activeQuestions: [],
+  dependantQuestions: [],
 };
