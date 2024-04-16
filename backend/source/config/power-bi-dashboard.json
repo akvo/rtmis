@@ -36,5 +36,43 @@
         }
       }
     ]
+  },
+  {
+    "form_id": 1709689683440,
+    "page": "bi",
+    "name": "Governance",
+    "path": "governance",
+    "content": [
+      {
+        "key": "title",
+        "text": "Governance"
+      },
+      {
+        "key": "embed",
+        "link": "https://app.powerbi.com/view?r=eyJrIjoiYTNiZjI0OGQtYzJlMC00OWQxLTk3ZmMtYjEwZDhhYWI4YzI4IiwidCI6ImIxNzBlMTE1LWRjM2QtNGU5Mi04NWJlLWU0YjMwMDljNWRjMiIsImMiOjl9",
+        "style": {
+          "marginTop": "24px"
+        }
+      }
+    ]
+  },
+  {
+    "form_id": 1710731783595,
+    "page": "bi",
+    "name": "Urban Sanitation",
+    "path": "urban-sanitation",
+    "content": [
+      {
+        "key": "title",
+        "text": "Urban Sanitation"
+      },
+      {
+        "key": "embed",
+        "link": "https://app.powerbi.com/view?r=eyJrIjoiMDhjNmQ1MjEtYTFiOC00ZWQ1LTg0N2MtODZlYTUwNDBlNTgyIiwidCI6ImIxNzBlMTE1LWRjM2QtNGU5Mi04NWJlLWU0YjMwMDljNWRjMiIsImMiOjl9",
+        "style": {
+          "marginTop": "24px"
+        }
+      }
+    ]
   }
 ]
