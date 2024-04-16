@@ -71,6 +71,7 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
   const [isDefaultFilled, setIsDefaultFilled] = useState(false);
   const currentValues = FormState.useState((s) => s.currentValues);
   const cascades = FormState.useState((s) => s.cascades);
+  const entityOptions = FormState.useState((s) => s.entityOptions);
   const activeLang = FormState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
   const formLoading = FormState.useState((s) => s.loading);
@@ -96,9 +97,21 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
   );
 
   const handleOnSubmitForm = () => {
+    const metaQIDs = forms?.question_group
+      ?.flatMap((qg) => qg?.question)
+      ?.filter((q) => ['cascade', 'geo'].includes(q?.type) || q?.meta)
+      ?.map((q) => `${q?.id}`);
+    const activeQIDs = activeQuestions.map((q) => `${q?.id}`);
     const validValues = Object.keys(currentValues)
-      .filter((qkey) => activeQuestions.map((q) => `${q.id}`).includes(qkey))
-      .reduce((prev, current) => ({ [current]: currentValues[current], ...prev }), {});
+      .filter((qkey) => activeQIDs.includes(qkey) || metaQIDs.includes(qkey))
+      .reduce((prev, current) => {
+        if (entityOptions?.[current] && currentValues[current]?.[0]) {
+          const entityName = currentValues[current][0];
+          const findEntity = entityOptions[current].find((e) => e?.name === entityName);
+          return { [current]: findEntity?.id, ...prev };
+        }
+        return { [current]: currentValues[current], ...prev };
+      }, {});
     const results = checkValuesBeforeCallback(validValues);
     if (onSubmit) {
       const { dpName, dpGeo } = generateDataPointName(forms, validValues, cascades);
