@@ -76,8 +76,6 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
   const formLoading = FormState.useState((s) => s.loading);
   const route = useRoute();
 
-  console.log('currentValues ====', currentValues, 'test');
-
   const dependantQuestions =
     forms?.question_group
       ?.flatMap((qg) => qg.question)

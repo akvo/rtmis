@@ -114,7 +114,6 @@ const Question = memo(({ group, activeQuestions = [], index, dependantQuestions 
         .map((d) => {
           if (d.id === id) {
             const val = fieldValues[String(d.id)];
-            console.log('CHECK', id, val, '======***', d);
             if (d?.options) {
               return intersection(d.options, val).length;
             }
