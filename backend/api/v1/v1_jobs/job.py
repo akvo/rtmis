@@ -5,12 +5,14 @@ from django_q.models import Task
 import pandas as pd
 from django.utils import timezone
 from django_q.tasks import async_task
+from django.db.models import Subquery, Max
 from api.v1.v1_jobs.administrations_bulk_upload import (
         seed_administration_data,
         validate_administrations_bulk_upload)
 
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_forms.models import Forms
+from api.v1.v1_forms.constants import SubmissionTypes
 from api.v1.v1_jobs.constants import JobStatus, JobTypes
 # from api.v1.v1_jobs.functions import HText
 from api.v1.v1_jobs.models import Jobs
@@ -28,12 +30,24 @@ from utils.custom_generator import generate_sqlite
 logger = logging.getLogger(__name__)
 
 
-def download(form: Forms, administration_ids):
+def download(form: Forms, administration_ids, download_type="all"):
     filter_data = {}
     if administration_ids:
         filter_data['administration_id__in'] = administration_ids
-    data = form.form_form_data.filter(**filter_data).order_by('-id')
-    return [d.to_data_frame for d in data]
+    if download_type == "recent":
+        filter_data['submission_type__in'] = [
+            SubmissionTypes.registration,
+            SubmissionTypes.monitoring
+        ]
+    data = form.form_form_data.filter(**filter_data)
+    if download_type == "recent":
+        latest_per_uuid = data.values('uuid').annotate(
+            latest_created=Max('created')
+        ).values('latest_created')
+        data = data.filter(
+            created__in=Subquery(latest_per_uuid)
+        )
+    return [d.to_data_frame for d in data.order_by('id')]
 
 
 def rearrange_columns(col_names: list):
@@ -73,7 +87,12 @@ def job_generate_download(job_id, **kwargs):
                 path__startswith=filter_path).values_list('name',
                                                           flat=True))
     form = Forms.objects.get(pk=job.info.get('form_id'))
-    data = download(form=form, administration_ids=administration_ids)
+    download_type = kwargs.get('download_type')
+    data = download(
+        form=form,
+        administration_ids=administration_ids,
+        download_type=download_type
+    )
     df = pd.DataFrame(data)
     col_names = rearrange_columns(list(df))
     df = df[col_names]

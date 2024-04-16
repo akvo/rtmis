@@ -18,12 +18,19 @@ class Command(BaseCommand):
                             nargs="?",
                             default=0,
                             type=int)
+        parser.add_argument("-t",
+                            "--type",
+                            nargs="?",
+                            default="all",
+                            type=str)
 
     def handle(self, *args, **options):
         administration = options.get('administration')
+        download_type = options.get('type')
         info = {
             "form_id": options.get('form')[0],
-            "administration": administration if administration > 0 else None
+            "administration": administration if administration > 0 else None,
+            "download_type": download_type if download_type else "all"
         }
         form = Forms.objects.get(pk=options.get('form')[0])
         form_name = form.name.replace(" ", "_").lower()

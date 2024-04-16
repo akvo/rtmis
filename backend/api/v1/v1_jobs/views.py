@@ -69,8 +69,9 @@ def download_generate(request, version):
     administration = serializer.validated_data.get('administration_id')
     result = call_command('job_download',
                           serializer.validated_data.get('form_id').id,
-                          request.user.id, '-a',
-                          administration.id if administration else 0)
+                          request.user.id,
+                          '-a', administration.id if administration else 0,
+                          '-t', serializer.validated_data.get('type'))
     job = Jobs.objects.get(pk=result)
     data = {
         'task_id': job.task_id,
