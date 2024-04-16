@@ -5,8 +5,9 @@ import PropTypes from 'prop-types';
 import QuestionField from './QuestionField';
 import styles from '../styles';
 import { FormState } from '../../store';
+import { intersection } from '../lib';
 
-const Question = memo(({ group, activeQuestions = [], index }) => {
+const Question = memo(({ group, activeQuestions = [], index, dependantQuestions = [] }) => {
   /**
    * Optimizing flatlist with memo
    * https://reactnative.dev/docs/optimizing-flatlist-configuration#use-memo
@@ -106,6 +107,40 @@ const Question = memo(({ group, activeQuestions = [], index }) => {
           delete fieldValues[q?.id];
         });
     }
+
+    // check dependency
+    dependantQuestions.forEach((q) => {
+      const check = q.dependency
+        .map((d) => {
+          if (d.id === id) {
+            const val = fieldValues[String(d.id)];
+            console.log('CHECK', id, val, '======***', d);
+            if (d?.options) {
+              return intersection(d.options, val).length;
+            }
+            if (d?.equal || d?.equal === 0) {
+              return d.equal === value;
+            }
+            if (d?.notEqual || d?.notEqual === 0) {
+              return d.notEqual !== value;
+            }
+            if (d?.min || d?.min === 0) {
+              return d.min <= value;
+            }
+            if (d?.max || d?.max === 0) {
+              return d.max <= value;
+            }
+            return true;
+          }
+          return true;
+        })
+        .filter((x) => x);
+      if (!check.length && check.length !== q.dependency.length) {
+        delete fieldValues[String(q?.id)];
+      }
+      return;
+    });
+    // eol of check dependency answer
     FormState.update((s) => {
       s.currentValues = fieldValues;
     });

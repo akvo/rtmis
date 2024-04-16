@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 import { helpers, i18n } from '../../lib';
 import { SUBMISSION_TYPES } from '../../lib/constants';
 
-const intersection = (array1, array2) => {
+export const intersection = (array1, array2) => {
   const set1 = new Set(array1);
   const result = [];
   // eslint-disable-next-line no-restricted-syntax
