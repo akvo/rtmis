@@ -37,6 +37,13 @@ class BulkUnitTestCase(TestCase):
         )
         self.assertEqual(list(columns).sort(), list(questions).sort())
 
+        # test if the download recent data is successful
+        download_response = download(
+            form_data.form,
+            [administration.id],
+            "recent")
+        self.assertTrue(download_response)
+
     def test_generate_definition_sheet(self):
         form = Forms.objects.first()
         writer = pd.ExcelWriter("test.xlsx", engine='xlsxwriter')
