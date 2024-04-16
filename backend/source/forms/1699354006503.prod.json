@@ -1680,6 +1680,117 @@
             "fnString": "#num_schools# + #num_healthcare_facilities# + #num_transport_stations# + #num_markets# + #num_public_toilet_buildings#+ #num_government_office_buildings# + #num_camps# + #num_worship_centres# + #num_burial_places# + #num_prisons# + #num_private_institutions# + #num_other_institutions#",
             "multiline": false
           }
+        },
+        {
+          "id": 169995172789124,
+          "order": 32,
+          "name": "claim",
+          "label": "Do you want to claim a grade for this community?",
+          "short_label": null,
+          "type": "option",
+          "required": true,
+          "meta": false,
+          "options": [
+            {
+              "id": 1699951727891241,
+              "order": 1,
+              "label": "No",
+              "value": "no",
+              "color": "red"
+            },
+            {
+              "id": 1699951727891242,
+              "order": 2,
+              "label": "G1",
+              "value": "g1",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1699951727891243,
+              "order": 3,
+              "label": "G2",
+              "value": "g2",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1699951727891244,
+              "order": 4,
+              "label": "G3",
+              "value": "g3",
+              "color": "#38A15A"
+            }
+          ],
+          "disabled": {
+            "submission_type": ["registration", "monitoring"]
+          }
+        },
+        {
+          "id": 169995172789125,
+          "order": 32,
+          "name": "verification",
+          "label": "Do you verify the claim?",
+          "short_label": null,
+          "type": "option",
+          "required": true,
+          "meta": false,
+          "options": [
+            {
+              "id": 1699951727891251,
+              "order": 1,
+              "label": "Yes",
+              "value": "yes",
+              "color": "green"
+            },
+            {
+              "id": 1699951727891252,
+              "order": 2,
+              "label": "No",
+              "value": "no",
+              "color": "red"
+            }
+          ],
+          "disabled": {
+            "submission_type": ["registration", "monitoring", "certification"]
+          },
+          "default_value": {
+            "submission_type": {
+              "verification": "yes"
+            }
+          }
+        },
+        {
+          "id": 169995172789126,
+          "order": 33,
+          "name": "certification",
+          "label": "Do you certify the community?",
+          "short_label": null,
+          "type": "option",
+          "required": true,
+          "meta": false,
+          "options": [
+            {
+              "id": 1699951727891261,
+              "order": 1,
+              "label": "Yes",
+              "value": "yes",
+              "color": "green"
+            },
+            {
+              "id": 1699951727891262,
+              "order": 2,
+              "label": "No",
+              "value": "no",
+              "color": "red"
+            }
+          ],
+          "disabled": {
+            "submission_type": ["registration", "monitoring", "verification"]
+          },
+          "default_value": {
+            "submission_type": {
+              "certification": "yes"
+            }
+          }
         }
       ]
     }
