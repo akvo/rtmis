@@ -12,10 +12,10 @@ const Card = ({ title, subTitles, submissionType }) => {
     ? subNames[submissionType]
     : subNames[SUBMISSION_TYPES.registration];
   const colors = {
-    [SUBMISSION_TYPES.registration]: '#16a34a',
-    [SUBMISSION_TYPES.monitoring]: '#ca8a04',
-    [SUBMISSION_TYPES.verification]: '#2563eb',
-    [SUBMISSION_TYPES.certification]: '#7c3aed',
+    [SUBMISSION_TYPES.registration]: '#2563eb',
+    [SUBMISSION_TYPES.monitoring]: '#0891b2',
+    [SUBMISSION_TYPES.verification]: '#ca8a04',
+    [SUBMISSION_TYPES.certification]: '#ea580c',
   };
   return (
     <RneCard>
