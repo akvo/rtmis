@@ -77,6 +77,12 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
   const formLoading = FormState.useState((s) => s.loading);
   const route = useRoute();
 
+  const dependantQuestions =
+    forms?.question_group
+      ?.flatMap((qg) => qg.question)
+      .filter((q) => q?.dependency && q?.dependency?.length)
+      ?.map((q) => ({ id: q.id, dependency: q.dependency })) || [];
+
   const formDefinition = transformForm(
     forms,
     currentValues,
@@ -185,6 +191,7 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
               index={activeGroup}
               group={currentGroup}
               activeQuestions={activeQuestions}
+              dependantQuestions={dependantQuestions}
             />
           ) : (
             <QuestionGroupList

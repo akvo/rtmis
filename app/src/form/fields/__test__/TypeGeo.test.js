@@ -271,7 +271,7 @@ describe('TypeGeo', () => {
     });
   });
 
-  it('should show `Low Precission` when accuracy exceeded the threshold', async () => {
+  it('should show `Low Precision` when accuracy exceeded the threshold', async () => {
     Location.requestForegroundPermissionsAsync.mockImplementation(() =>
       Promise.resolve({ status: 'granted' }),
     );
