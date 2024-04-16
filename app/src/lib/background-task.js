@@ -185,6 +185,7 @@ const syncFormSubmission = async (activeJob = {}) => {
         // update data point
         await crudDataPoints.updateDataPoint({
           ...d,
+          submissionType: d?.submission_type,
           syncedAt: new Date().toISOString(),
         });
         sendNotification = true;
