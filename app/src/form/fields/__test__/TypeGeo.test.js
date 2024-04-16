@@ -310,7 +310,7 @@ describe('TypeGeo', () => {
 
     await waitFor(() => {
       expect(Location.getCurrentPositionAsync).toHaveBeenCalledTimes(2);
-      expect(getByText('Low Precission')).toBeDefined();
+      expect(getByText('Low Precision')).toBeDefined();
       expect(values[1]).toEqual([]);
     });
   });

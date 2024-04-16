@@ -23,6 +23,7 @@ from utils.email_helper import send_email, EmailTypes
 from utils.export_form import generate_definition_sheet
 from utils.functions import update_date_time_format
 from utils.storage import upload
+from utils.custom_generator import generate_sqlite
 
 logger = logging.getLogger(__name__)
 
@@ -277,6 +278,7 @@ def handle_administrations_bulk_upload(filename, user_id, upload_time):
                    content_type='text/csv')
         return
     seed_administration_data(file_path)
+    generate_sqlite(Administration)
     send_email(context=email_context, type=EmailTypes.administration_upload)
 
 
