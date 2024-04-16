@@ -36,12 +36,12 @@ const DataFilters = ({ loading, showAdm = true, resetFilter = true }) => {
     return uiText[activeLang];
   }, [activeLang]);
 
-  const exportGenerate = () => {
+  const exportGenerate = ({ key }) => {
     setExporting(true);
     const adm_id = takeRight(administration, 1)[0]?.id;
     api
       .get(
-        `download/generate?form_id=${selectedForm}&administration_id=${adm_id}`
+        `download/generate?form_id=${selectedForm}&administration_id=${adm_id}&type=${key}`
       )
       .then(() => {
         notify({
@@ -75,8 +75,15 @@ const DataFilters = ({ loading, showAdm = true, resetFilter = true }) => {
     {
       key: "all",
       label: "All Data",
-      onClick: () => {
-        exportGenerate();
+      onClick: (param) => {
+        exportGenerate(param);
+      },
+    },
+    {
+      key: "recent",
+      label: "Recent Data",
+      onClick: (param) => {
+        exportGenerate(param);
       },
     },
   ];
