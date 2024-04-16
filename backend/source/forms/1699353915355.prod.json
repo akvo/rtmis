@@ -70,13 +70,7 @@
             }
           },
           "dependency": null,
-          "fn": null,
-          "default_value": {
-            "submission_type": {
-              "monitoring": "update",
-              "registration": "new"
-            }
-          }
+          "fn": null
         },
         {
           "id": 1699354849382,
