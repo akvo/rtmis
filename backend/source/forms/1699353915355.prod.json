@@ -47,8 +47,28 @@
               "order": 2,
               "label": "Update",
               "value": "update"
+            },
+            {
+              "id": 1699354358577,
+              "order": 3,
+              "value": "verification",
+              "label": "Verification"
+            },
+            {
+              "id": 1699354358578,
+              "order": 4,
+              "value": "certification",
+              "label": "Certification"
             }
           ],
+          "default_value": {
+            "submission_type": {
+              "monitoring": "update",
+              "registration": "new",
+              "verfication": "verification",
+              "certification": "certification"
+            }
+          },
           "dependency": null,
           "fn": null,
           "default_value": {
@@ -3351,7 +3371,7 @@
                 "g1_portable_handwashing_facility_basin_jug_jerrycan_container",
                 "g1_two_handwashing_facilities",
                 "g1_more_than_two_handwashing_facilities"
-            ]
+              ]
             }
           ],
           "fn": null
@@ -6806,7 +6826,7 @@
           "required": false,
           "meta": false,
           "options": null,
-          "dependency": [ 
+          "dependency": [
             {
               "id": 16994260598422,
               "options": ["yes"]

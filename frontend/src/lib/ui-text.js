@@ -730,6 +730,10 @@ const uiText = {
     ManageDataClaimText: (
       <Fragment>This is where you can view certification data</Fragment>
     ),
+    ManageVerificationDataTitle: "Manage Verification Data",
+    ManageVerificationDataText: (
+      <Fragment>This is where you can view verification data</Fragment>
+    ),
   },
 
   de: {},

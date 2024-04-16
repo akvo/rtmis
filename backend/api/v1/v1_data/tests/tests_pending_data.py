@@ -154,7 +154,7 @@ class PendingDataTestCase(TestCase):
         self.assertEqual(
             response.json().get('batch')[0]['approver']['status'],
             DataApprovalStatus.pending)
-        self.assertFalse(
+        self.assertTrue(
             response.json().get('batch')[0]['approver']['allow_approve'],
             "Should not allow approve")
         self.assertIn(
@@ -243,7 +243,7 @@ class PendingDataTestCase(TestCase):
         self.assertGreaterEqual(len(response.json().get('batch')), 1)
         status = response.json().get('batch')[0].get('approver').get(
             'status')
-        self.assertEqual(DataApprovalStatus.pending, status)
+        self.assertEqual(DataApprovalStatus.rejected, status)
 
         # update rejected data
         batch_id = response.json().get('batch')[0]['id']

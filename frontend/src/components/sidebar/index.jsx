@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Layout, Menu } from "antd";
 const { Sider } = Layout;
-import { store, config } from "../../lib";
+import { store, config, api } from "../../lib";
 import { useNavigate } from "react-router-dom";
 import {
   UserOutlined,
@@ -12,7 +12,7 @@ import {
 } from "@ant-design/icons";
 
 const Sidebar = () => {
-  const { user: authUser } = store.useState((s) => s);
+  const { user: authUser, administration } = store.useState((s) => s);
   const [selectedKey, setSelectedKey] = useState("");
   const [openKeys, setOpenKeys] = useState([]);
   const navigate = useNavigate();
@@ -55,6 +55,10 @@ const Sidebar = () => {
       label: "Manage Certification Data",
       url: "/control-center/data-claim",
     },
+    "verification-data": {
+      label: "Manage Verification Data",
+      url: "/control-center/verification-data",
+    },
   };
 
   const controlCenterToLabelMapping = {
@@ -70,7 +74,7 @@ const Sidebar = () => {
     "manage-data": {
       label: "Data",
       icon: TableOutlined,
-      childrenKeys: ["data", "data-claim"],
+      childrenKeys: ["data", "data-claim", "verification-data"],
     },
     "manage-master-data": {
       label: "Master Data",
@@ -168,7 +172,7 @@ const Sidebar = () => {
     }
   };
 
-  const handleResetGlobalFilterState = () => {
+  const handleResetGlobalFilterState = async () => {
     // reset global filter store when moving page on sidebar click
     store.update((s) => {
       s.filters = {
@@ -180,6 +184,18 @@ const Sidebar = () => {
         entityType: [],
       };
     });
+    if (authUser?.administration?.id && administration?.length > 1) {
+      try {
+        const { data: apiData } = await api.get(
+          `administration/${authUser.administration.id}`
+        );
+        store.update((s) => {
+          s.administration = [apiData];
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
   };
 
   const handleMenuClick = ({ key }) => {

@@ -41,9 +41,15 @@
               "id": 1701173553120,
               "order": 2,
               "label": "Update",
-              "value": "upda"
+              "value": "update"
             }
-          ]
+          ],
+          "default_value": {
+            "submission_type": {
+              "monitoring": "update",
+              "registration": "new"
+            }
+          }
         },
         {
           "id": 1701329787633,

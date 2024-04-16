@@ -46,9 +46,29 @@
               "id": 1699951061388,
               "order": 2,
               "label": "Update",
-              "value": "upda"
+              "value": "update"
+            },
+            {
+              "id": 1699951061389,
+              "order": 3,
+              "label": "Verification",
+              "value": "verification"
+            },
+            {
+              "id": 1699951061390,
+              "order": 4,
+              "label": "Certification",
+              "value": "certification"
             }
-          ]
+          ],
+          "default_value": {
+            "submission_type": {
+              "monitoring": "update",
+              "registration": "new",
+              "verfication": "verification",
+              "certification": "certification"
+            }
+          }
         },
         {
           "id": 1699951210638,
