@@ -4,7 +4,7 @@ from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_field
 from drf_spectacular.types import OpenApiTypes
 from api.v1.v1_forms.models import Forms
-from api.v1.v1_jobs.constants import JobTypes, JobStatus
+from api.v1.v1_jobs.constants import JobTypes, JobStatus, DataDownloadTypes
 from api.v1.v1_jobs.models import Jobs
 from api.v1.v1_profile.models import Administration, AdministrationAttribute
 from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField, \
@@ -15,6 +15,11 @@ class DownloadDataRequestSerializer(serializers.Serializer):
     form_id = CustomPrimaryKeyRelatedField(queryset=Forms.objects.none())
     administration_id = CustomPrimaryKeyRelatedField(
         queryset=Administration.objects.none(), required=False)
+    type = serializers.ChoiceField(
+        choices=[
+            DataDownloadTypes.FieldStr[d] for d in DataDownloadTypes.FieldStr
+        ]
+    )
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

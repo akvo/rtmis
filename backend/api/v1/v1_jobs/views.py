@@ -24,7 +24,7 @@ from rest_framework.response import Response
 from rest_framework.fields import ChoiceField
 
 from api.v1.v1_forms.models import Forms
-from api.v1.v1_jobs.constants import JobStatus, JobTypes
+from api.v1.v1_jobs.constants import JobStatus, JobTypes, DataDownloadTypes
 from api.v1.v1_jobs.models import Jobs
 from api.v1.v1_jobs.serializers import DownloadDataRequestSerializer, \
     DownloadListSerializer, UploadExcelSerializer
@@ -41,7 +41,12 @@ from utils.storage import download
     OpenApiParameter(name='form_id',
                      required=True,
                      type=OpenApiTypes.NUMBER,
-                     location=OpenApiParameter.QUERY)
+                     location=OpenApiParameter.QUERY),
+    OpenApiParameter(name='type',
+                     required=False,
+                     type=OpenApiTypes.STR,
+                     enum=DataDownloadTypes.FieldStr.values(),
+                     default=DataDownloadTypes.all),
 ],
                responses={
                    (200, 'application/json'):
@@ -64,8 +69,9 @@ def download_generate(request, version):
     administration = serializer.validated_data.get('administration_id')
     result = call_command('job_download',
                           serializer.validated_data.get('form_id').id,
-                          request.user.id, '-a',
-                          administration.id if administration else 0)
+                          request.user.id,
+                          '-a', administration.id if administration else 0,
+                          '-t', serializer.validated_data.get('type'))
     job = Jobs.objects.get(pk=result)
     data = {
         'task_id': job.task_id,

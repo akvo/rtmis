@@ -1,3 +1,13 @@
+class DataDownloadTypes:
+    all = "all"
+    recent = "recent"
+
+    FieldStr = {
+        all: 'all',
+        recent: 'recent',
+    }
+
+
 class JobTypes:
     send_email = 1
     validate_data = 2
