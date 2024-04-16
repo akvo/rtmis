@@ -135,12 +135,7 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
   };
 
   const handleOnDefaultValue = useCallback(() => {
-    if (
-      !isDefaultFilled &&
-      [SUBMISSION_TYPES.registration, SUBMISSION_TYPES.monitoring].includes(
-        route.params?.submission_type,
-      )
-    ) {
+    if (!isDefaultFilled) {
       setIsDefaultFilled(true);
       const defaultValues = activeQuestions
         .filter((aq) => aq?.default_value)
