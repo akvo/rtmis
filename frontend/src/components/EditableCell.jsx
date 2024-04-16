@@ -131,7 +131,7 @@ const EditableCell = ({
           ? record?.option?.find((o) => o.value === value[0])?.label || "-"
           : "-";
       default:
-        return value || "-";
+        return value || value === 0 ? value : "-";
     }
   };
 
