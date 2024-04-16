@@ -19,35 +19,36 @@ const Card = ({ title, subTitles, submissionType }) => {
   };
   return (
     <RneCard>
-      {title && <RneCard.Title style={{ textAlign: 'left' }}>{title}</RneCard.Title>}
-      {subTitles?.map((s, sx) => (
-        <Text key={sx}>{s}</Text>
-      ))}
       {submissionType && (
         <View
           style={{
-            alignSelf: 'flex-start',
+            position: 'absolute',
+            top: 0,
+            right: 0,
             paddingVertical: 4,
             paddingHorizontal: 12,
             backgroundColor: colors?.[submissionType] || colors[SUBMISSION_TYPES.registration],
-            borderRadius: 16,
-            marginTop: 8,
+            borderRadius: 5,
           }}
           testID="submission-type-tag"
         >
           <Text
             style={{
               fontSize: 12,
-              width: '50%',
               color: '#ffffff',
               letterSpacing: 1.2,
               fontWeight: '700',
+              textAlign: 'right',
             }}
           >
             {helpers.capitalizeFirstLetter(subTypeName)}
           </Text>
         </View>
       )}
+      {title && <RneCard.Title style={{ textAlign: 'left' }}>{title}</RneCard.Title>}
+      {subTitles?.map((s, sx) => (
+        <Text key={sx}>{s}</Text>
+      ))}
     </RneCard>
   );
 };
