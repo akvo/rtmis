@@ -9,4 +9,12 @@ describe('helpers tests', () => {
 
     expect(result).toEqual(expected);
   });
+
+  it('should change the text to capitalize the first letter', () => {
+    const input = 'registration';
+    const expected = 'Registration';
+    const result = helpers.capitalizeFirstLetter(input);
+
+    expect(result).toEqual(expected);
+  });
 });

@@ -6,8 +6,12 @@ const flipObject = (obj) =>
     return flipped;
   }, {});
 
+const capitalizeFirstLetter = (string) =>
+  string ? string.charAt(0).toUpperCase() + string.slice(1) : string;
+
 const helpers = {
   flipObject,
+  capitalizeFirstLetter,
 };
 
 export default helpers;
