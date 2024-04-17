@@ -189,11 +189,19 @@ const MonitoringDetail = () => {
        * Transform answers to Webform format
        */
       const initialValue = questions.map((q) => {
+        let value = Object.keys(cascadeValues).includes(`${q?.id}`)
+          ? cascadeValues[q.id]
+          : transformValue(q?.type, answers?.[q.id]);
+        // set default answer by default_value for new_or_monitoring question
+        if (
+          q?.name === "new_or_monitoring" &&
+          q?.default_value?.submission_type?.monitoring
+        ) {
+          value = q.default_value.submission_type.monitoring;
+        }
         return {
           question: q?.id,
-          value: Object.keys(cascadeValues).includes(`${q?.id}`)
-            ? cascadeValues[q.id]
-            : transformValue(q?.type, answers?.[q.id]),
+          value: value,
         };
       });
       store.update((s) => {

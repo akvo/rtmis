@@ -11,7 +11,7 @@ import "./style.scss";
 import { useParams, useNavigate } from "react-router-dom";
 import { Row, Col, Space, Progress, Result, Button, notification } from "antd";
 import { api, config, store, uiText } from "../../lib";
-import { takeRight, pick } from "lodash";
+import { takeRight, pick, isEmpty } from "lodash";
 import { PageLoader, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
 import moment from "moment";
@@ -22,7 +22,7 @@ const Forms = () => {
   const { formId } = useParams();
   const [loading, setLoading] = useState(true);
   const [preload, setPreload] = useState(true);
-  const [forms, setForms] = useState([]);
+  const [forms, setForms] = useState({});
   const [percentage, setPercentage] = useState(0);
   const [submit, setSubmit] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -166,6 +166,23 @@ const Forms = () => {
         const questionGroups = res.data.question_group.map((qg) => {
           const questions = qg.question.map((q) => {
             let qVal = { ...q };
+            // set initial value for new_or_monitoring question
+            if (
+              q?.name === "new_or_monitoring" &&
+              q?.default_value?.submission_type?.registration &&
+              !monitoring
+            ) {
+              store.update((s) => {
+                s.initialValue = [
+                  ...initialValue.filter((x) => x.question !== q.id),
+                  {
+                    question: q.id,
+                    value: q.default_value.submission_type.registration,
+                  },
+                ];
+              });
+            }
+            // eol set initial value for new_or_monitoring question
             if (q?.extra) {
               delete qVal.extra;
               qVal = {
@@ -190,9 +207,9 @@ const Forms = () => {
         setLoading(false);
       });
     }
-  }, [formId, loading]);
+  }, [formId, loading, initialValue, monitoring]);
 
-  const handleOnClearForm = useCallback(() => {
+  const handleOnClearForm = useCallback((preload, initialValue) => {
     if (
       preload &&
       initialValue.length === 0 &&
@@ -202,11 +219,11 @@ const Forms = () => {
       webformRef.current.resetFields();
       webformRef.current;
     }
-  }, [preload, initialValue]);
+  }, []);
 
   useEffect(() => {
-    handleOnClearForm();
-  }, [handleOnClearForm]);
+    handleOnClearForm(preload, initialValue);
+  }, [handleOnClearForm, preload, initialValue]);
 
   return (
     <div id="form">
@@ -226,7 +243,7 @@ const Forms = () => {
 
       <div className="table-section">
         <div className="table-wrapper">
-          {loading || !formId ? (
+          {loading || isEmpty(forms) ? (
             <PageLoader message={text.fetchingForm} />
           ) : (
             !showSuccess && (
@@ -244,7 +261,7 @@ const Forms = () => {
               />
             )
           )}
-          {(!loading || formId) && !showSuccess && (
+          {(!loading || !isEmpty(forms)) && !showSuccess && (
             <Progress className="progress-bar" percent={percentage} />
           )}
           {!loading && showSuccess && (
