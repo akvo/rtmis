@@ -734,6 +734,7 @@ const uiText = {
     ManageVerificationDataText: (
       <Fragment>This is where you can view verification data</Fragment>
     ),
+    backManageVerification: "Back to Manage Verification Data",
   },
 
   de: {},

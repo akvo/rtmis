@@ -137,7 +137,7 @@ const MonitoringDetail = () => {
   useEffect(() => {
     if (form && !updateRecord) {
       setLoading(true);
-      const url = `/form-data/${form}/?page=${currentPage}&parent=${parentId}`;
+      const url = `/form-data/${form}/?page=${currentPage}&parent=${parentId}&submission_type=${config.submissionType.monitoring}`;
       api
         .get(url)
         .then((res) => {

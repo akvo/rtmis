@@ -87,6 +87,7 @@ Object {
     "backBtn": "Back",
     "backHome": "Back to Homepage",
     "backManageData": "Back to Manage data",
+    "backManageVerification": "Back to Manage Verification Data",
     "backToCenterLabel": "Back to Control Center",
     "batchDatasets": "Batch Datasets",
     "batchHintDesc": "The operation of merging datasets cannot be undone, and will Create a new batch that will require approval from you admin",

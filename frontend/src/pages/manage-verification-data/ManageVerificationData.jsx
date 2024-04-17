@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import { Row, Col, Divider, Table, ConfigProvider, Empty, Space } from "antd";
-import { DownCircleOutlined, LeftCircleOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 import { api, config, store, uiText } from "../../lib";
 import {
   Breadcrumbs,
@@ -10,7 +10,6 @@ import {
 } from "../../components";
 import { generateAdvanceFilterURL } from "../../util/filter";
 import FormDropdown from "../../components/filters/FormDropdown";
-import VerificationDataDetail from "./VerificationDataDetail";
 
 const ManageVerificationData = () => {
   const [loading, setLoading] = useState(false);
@@ -18,14 +17,10 @@ const ManageVerificationData = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [updateRecord, setUpdateRecord] = useState(false);
+  const navigate = useNavigate();
 
-  const {
-    language,
-    advancedFilters,
-    administration,
-    selectedForm,
-    questionGroups,
-  } = store.useState((s) => s);
+  const { language, advancedFilters, administration, selectedForm } =
+    store.useState((s) => s);
   const { active: activeLang } = language;
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -69,7 +64,6 @@ const ManageVerificationData = () => {
       title: "Region",
       dataIndex: "administration",
     },
-    Table.EXPAND_COLUMN,
   ];
 
   const handleChange = (e) => {
@@ -171,28 +165,12 @@ const ManageVerificationData = () => {
                     `Results: ${range[0]} - ${range[1]} of ${total} data`,
                 }}
                 rowKey="id"
-                expandable={{
-                  expandedRowRender: (record) => (
-                    <VerificationDataDetail
-                      questionGroups={questionGroups}
-                      record={record}
-                    />
-                  ),
-                  expandIcon: ({ expanded, onExpand, record }) =>
-                    expanded ? (
-                      <DownCircleOutlined
-                        onClick={(e) => onExpand(record, e)}
-                        style={{ color: "#1651B6", fontSize: "19px" }}
-                      />
-                    ) : (
-                      <LeftCircleOutlined
-                        onClick={(e) => onExpand(record, e)}
-                        style={{ color: "#1651B6", fontSize: "19px" }}
-                      />
+                onRow={(record) => ({
+                  onClick: () =>
+                    navigate(
+                      `/control-center/verification-data/${selectedForm}/verification/${record.id}`
                     ),
-                }}
-                rowClassName="expandable-row row-normal sticky"
-                expandRowByClick
+                })}
               />
             </ConfigProvider>
           </div>
