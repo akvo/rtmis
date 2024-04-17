@@ -208,6 +208,25 @@ class FormCertificationAssignmentViewSet(ModelViewSet):
                 .order_by("-id")
                 .distinct()
             )
+
+        # Filter by administration_id if provided in the query parameters
+        adm_id = self.request.query_params.get("administration")
+        if adm_id:
+            filter_administration = Administration.objects.get(pk=adm_id)
+            if filter_administration.path:
+                filter_path = "{0}{1}.".format(
+                    filter_administration.path, filter_administration.id
+                )
+            else:
+                filter_path = f"{filter_administration.id}."
+            filter_descendants = list(
+                Administration.objects.filter(
+                    path__startswith=filter_path
+                ).values_list("id", flat=True)
+            )
+            filter_descendants.append(filter_administration.id)
+            queryset = queryset.filter(assignee__in=filter_descendants)
+
         return queryset
 
     def get_serializer_class(self):

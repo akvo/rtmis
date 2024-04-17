@@ -17,14 +17,20 @@ import { api, store, uiText } from "../../lib";
 import DetailCertify from "./DetailCertify";
 
 const CertificationAssignment = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [dataset, setDataset] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
   const navigate = useNavigate();
-  const { language } = store.useState((s) => s);
+  const { language, administration } = store.useState((s) => s);
   const { active: activeLang } = language;
+
+  const isAdministrationLoaded = administration.length;
+  const selectedAdministration =
+    administration.length > 0
+      ? administration[administration.length - 1]
+      : null;
 
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -94,24 +100,32 @@ const CertificationAssignment = () => {
     Table.EXPAND_COLUMN,
   ];
 
-  const fetchData = useCallback(async () => {
-    try {
-      const { data: apiData } = await api.get(
-        `/form/certification-assignment?page=${currentPage}`
-      );
-      const { total, current, data: assignments } = apiData || {};
-      setDataset(assignments);
-      setTotalCount(total);
-      setCurrentPage(current);
-      setLoading(false);
-    } catch {
-      setLoading(false);
-    }
-  }, [currentPage]);
+  const fetchData = useCallback(
+    async (selectedAdministration) => {
+      setLoading(true);
+      try {
+        let url = `/form/certification-assignment?page=${currentPage}`;
+        if (selectedAdministration) {
+          url += `&administration=${selectedAdministration.id}`;
+        }
+        const { data: apiData } = await api.get(url);
+        const { total, current, data: assignments } = apiData || {};
+        setDataset(assignments);
+        setTotalCount(total);
+        setCurrentPage(current);
+        setLoading(false);
+      } catch {
+        setLoading(false);
+      }
+    },
+    [currentPage]
+  );
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    if (isAdministrationLoaded) {
+      fetchData(selectedAdministration);
+    }
+  }, [fetchData, selectedAdministration, isAdministrationLoaded]);
 
   return (
     <div id="mobile-assignments">
@@ -132,7 +146,7 @@ const CertificationAssignment = () => {
           <Row>
             <Col flex={1}>
               <Space>
-                <AdministrationDropdown />
+                <AdministrationDropdown persist={true} />
                 <RemoveFiltersButton />
               </Space>
             </Col>

@@ -69,6 +69,53 @@ class FormCertificationAssignmentTestCase(TestCase):
             assignment_data["administrations"],
         )
 
+    def test_get_assigment_list(self):
+        # Create a sample assignment
+        FormCertificationAssignment.objects.create(
+            assignee=self.administration,
+        )
+        # get without filter
+        response = self.client.get(
+            "/api/v1/form/certification-assignment",
+            content_type="application/json",
+            **self.header,
+        )
+        self.assertEqual(response.status_code, 200)
+
+        data = response.json()
+        self.assertEqual(data["current"], 1)
+        self.assertEqual(data["total"], 1)
+        self.assertEqual(data["total_page"], 1)
+        self.assertEqual(len(data["data"]), 1)
+
+        # get with administration filter
+        response = self.client.get(
+            "/api/v1/form/certification-assignment?page=1&administration=1",
+            content_type="application/json",
+            **self.header,
+        )
+        self.assertEqual(response.status_code, 200)
+
+        data = response.json()
+        self.assertEqual(data["current"], 1)
+        self.assertEqual(data["total"], 1)
+        self.assertEqual(data["total_page"], 1)
+        self.assertEqual(len(data["data"]), 1)
+
+        # get with administration filter
+        response = self.client.get(
+            "/api/v1/form/certification-assignment?page=1&administration=3",
+            content_type="application/json",
+            **self.header,
+        )
+        self.assertEqual(response.status_code, 200)
+
+        data = response.json()
+        self.assertEqual(data["current"], 1)
+        self.assertEqual(data["total"], 0)
+        self.assertEqual(data["total_page"], 1)
+        self.assertEqual(len(data["data"]), 0)
+
     def test_update_assignment(self):
         # Create a sample assignment
         assignment = FormCertificationAssignment.objects.create(
