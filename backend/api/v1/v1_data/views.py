@@ -123,9 +123,18 @@ class FormDataAddListView(APIView):
 
         paginator = PageNumberPagination()
 
+        submission_type = request.GET.get(
+            "submission_type", SubmissionTypes.registration
+        )
         parent = serializer.validated_data.get('parent')
         if parent:
-            queryset = form.form_form_data.filter(uuid=parent.uuid).order_by(
+            queryset = form.form_form_data.filter(
+                uuid=parent.uuid,
+                submission_type__in=[
+                    submission_type,
+                    SubmissionTypes.registration
+                ]
+            ).order_by(
                 '-created'
             )
             instance = paginator.paginate_queryset(queryset, request)
@@ -141,18 +150,13 @@ class FormDataAddListView(APIView):
             }
             return Response(data, status=status.HTTP_200_OK)
 
-        submission_type = request.GET.get(
-            "submission_type", SubmissionTypes.registration
-        )
         filter_data = {}
-        filter_data["submission_type"] = submission_type
-        if submission_type in [
-            SubmissionTypes.registration, SubmissionTypes.monitoring
-        ]:
-            latest_ids_per_uuid = form.form_form_data.values('uuid').annotate(
-                latest_id=Max('id')
-            ).values_list('latest_id', flat=True)
-            filter_data["pk__in"] = latest_ids_per_uuid
+        latest_ids_per_uuid = form.form_form_data.filter(
+            submission_type=submission_type
+        ).values('uuid').annotate(
+            latest_id=Max('id')
+        ).values_list('latest_id', flat=True)
+        filter_data["pk__in"] = latest_ids_per_uuid
         if serializer.validated_data.get('administration'):
             filter_administration = serializer.validated_data.get(
                 'administration')

@@ -44,3 +44,4 @@ export { default as DownloadAdministrationData } from "./upload-administration-d
 export { default as CertificationAssignment } from "./certification-assignment/CertificationAssignment";
 export { default as ManageDataClaim } from "./manage-data-claim/ManageDataClaim";
 export { default as ManageVerificationData } from "./manage-verification-data/ManageVerificationData";
+export { default as VerificationDetail } from "./manage-verification-data/VerificationDetail";
