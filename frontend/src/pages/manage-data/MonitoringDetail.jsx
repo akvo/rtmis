@@ -120,45 +120,6 @@ const MonitoringDetail = () => {
     }
   };
 
-  // const getCascadeAnswerId = async (id, questonAPI, value) => {
-  //   const { initial, endpoint } = questonAPI;
-  //   if (initial) {
-  //     const cascadeID = value || initial;
-  //     const res = await fetch(
-  //       `${window.location.origin}${endpoint}/${cascadeID}`
-  //     );
-  //     const apiData = await res.json();
-  //     if (endpoint.includes("administration")) {
-  //       const parents = apiData?.path?.split(".");
-  //       const startLevel = authUser?.administration?.level;
-  //       return {
-  //         [id]: [...parents, apiData?.id]
-  //           .filter((a) => a !== "" && a !== "1")
-  //           .map((a) => parseInt(a, 10))
-  //           .slice(startLevel),
-  //       };
-  //     }
-  //     return { [id]: [apiData?.id] };
-  //   }
-  //   const res = await fetch(window.location.origin + endpoint);
-  //   const apiData = await res.json();
-  //   const findCascade = apiData?.find((d) => d?.name === value);
-  //   return {
-  //     [id]: findCascade ? [findCascade.id] : [],
-  //   };
-  // };
-
-  // const transformValue = (type, value) => {
-  //   if (type === "option" && Array.isArray(value) && value.length) {
-  //     return value[0];
-  //   }
-  //   if (type === "geo" && Array.isArray(value) && value.length === 2) {
-  //     const [lat, lng] = value;
-  //     return { lat, lng };
-  //   }
-  //   return typeof value === "undefined" ? "" : value;
-  // };
-
   const goToMonitoringForm = async () => {
     setLoadMonitoring(true);
     store.update((s) => {
@@ -171,69 +132,6 @@ const MonitoringDetail = () => {
       setLoadMonitoring(false);
       navigate(`/control-center/form/${selectedFormData?.form}`);
     }, 500);
-
-    // try {
-    //   const { data: apiData } = await api.get(
-    //     `form/web/${selectedFormData?.form}`
-    //   );
-    //   const questions = apiData?.question_group?.flatMap((qg) => qg?.question);
-    //   const res = await fetch(
-    //     `${window.location.origin}/datapoints/${selectedFormData?.uuid}.json`
-    //   );
-    //   const { answers } = await res.json();
-    //   /**
-    //    * Transform cascade answers
-    //    */
-    //   const cascadeAPIs = questions
-    //     ?.filter((q) => q?.type === "cascade" && q?.api?.endpoint)
-    //     ?.map((q) => getCascadeAnswerId(q.id, q.api, answers?.[q.id]));
-    //   const cascadeResponses = await Promise.allSettled(cascadeAPIs);
-    //   const cascadeValues = cascadeResponses
-    //     .filter(({ status }) => status === "fulfilled")
-    //     .map(({ value }) => value)
-    //     .reduce((prev, curr) => {
-    //       const [key, value] = Object.entries(curr)[0];
-    //       prev[key] = value;
-    //       return prev;
-    //     }, {});
-    //   /**
-    //    * Transform answers to Webform format
-    //    */
-    //   const initialValue = questions.map((q) => {
-    //     let value = Object.keys(cascadeValues).includes(`${q?.id}`)
-    //       ? cascadeValues[q.id]
-    //       : transformValue(q?.type, answers?.[q.id]);
-    //     // set default answer by default_value for new_or_monitoring question
-    //     if (
-    //       q?.name === "new_or_monitoring" &&
-    //       q?.default_value?.submission_type?.monitoring
-    //     ) {
-    //       value = q.default_value.submission_type.monitoring;
-    //     }
-    //     return {
-    //       question: q?.id,
-    //       value: value,
-    //     };
-    //   });
-    //   store.update((s) => {
-    //     s.initialValue = initialValue;
-    //     s.monitoring = selectedFormData;
-    //   });
-
-    //   setTimeout(() => {
-    //     /**
-    //      * Add a second delay to complete the initial value
-    //      */
-    //     setLoadMonitoring(false);
-    //     navigate(`/control-center/form/${selectedFormData?.form}`);
-    //   }, 1000);
-    // } catch (error) {
-    //   setLoadMonitoring(false);
-    //   Modal.error({
-    //     title: text.updateDataError,
-    //     content: String(error),
-    //   });
-    // }
   };
 
   useEffect(() => {
