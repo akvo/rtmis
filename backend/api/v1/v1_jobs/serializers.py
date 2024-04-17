@@ -37,6 +37,7 @@ class DownloadListSerializer(serializers.ModelSerializer):
         source='available', format="%B %d, %Y %I:%M %p")
     form = serializers.SerializerMethodField()
     attributes = serializers.SerializerMethodField()
+    download_type = serializers.SerializerMethodField()
 
     @extend_schema_field(CustomChoiceField(
         choices=[JobTypes.FieldStr[d] for d in JobTypes.FieldStr]))
@@ -85,10 +86,16 @@ class DownloadListSerializer(serializers.ModelSerializer):
             return attributes
         return instance.info.get("attributes")
 
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_download_type(self, instance):
+        return instance.info.get('download_type')
+
     class Meta:
         model = Jobs
-        fields = ['id', 'task_id', 'type', 'status', 'form',
-                  'category', 'administration', 'date', 'result', 'attributes']
+        fields = [
+            'id', 'task_id', 'type', 'status', 'form', 'category',
+            'administration', 'date', 'result', 'attributes', 'download_type'
+        ]
 
 
 class UploadExcelSerializer(serializers.Serializer):
