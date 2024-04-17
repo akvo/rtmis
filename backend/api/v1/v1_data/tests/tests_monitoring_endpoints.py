@@ -114,9 +114,10 @@ class MonitoringDataTestCase(TestCase):
         self.assertEqual(data.status_code, 200)
         data = data.json()
         self.assertEqual(data['total'], 1)
-
+        api_url = f"/api/v1/form-data/1/{self.form.id}"
+        api_url += f"?parent={monitoring.id}&submission_type=2"
         data_parent = self.client.get(
-            f"/api/v1/form-data/1/{self.form.id}?parent={monitoring.id}",
+            api_url,
             content_type='application/json',
             **{'HTTP_AUTHORIZATION': f'Bearer {self.token}'}
         )

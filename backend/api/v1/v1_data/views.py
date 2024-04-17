@@ -123,9 +123,18 @@ class FormDataAddListView(APIView):
 
         paginator = PageNumberPagination()
 
+        submission_type = request.GET.get(
+            "submission_type", SubmissionTypes.registration
+        )
         parent = serializer.validated_data.get('parent')
         if parent:
-            queryset = form.form_form_data.filter(uuid=parent.uuid).order_by(
+            queryset = form.form_form_data.filter(
+                uuid=parent.uuid,
+                submission_type__in=[
+                    submission_type,
+                    SubmissionTypes.registration
+                ]
+            ).order_by(
                 '-created'
             )
             instance = paginator.paginate_queryset(queryset, request)
@@ -141,9 +150,6 @@ class FormDataAddListView(APIView):
             }
             return Response(data, status=status.HTTP_200_OK)
 
-        submission_type = request.GET.get(
-            "submission_type", SubmissionTypes.registration
-        )
         filter_data = {}
         filter_data["submission_type"] = submission_type
         if submission_type in [
