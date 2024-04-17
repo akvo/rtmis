@@ -17,7 +17,7 @@ import { api, store, uiText } from "../../lib";
 import DetailCertify from "./DetailCertify";
 
 const CertificationAssignment = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [dataset, setDataset] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -102,6 +102,7 @@ const CertificationAssignment = () => {
 
   const fetchData = useCallback(
     async (selectedAdministration) => {
+      setLoading(true);
       try {
         let url = `/form/certification-assignment?page=${currentPage}`;
         if (selectedAdministration) {
