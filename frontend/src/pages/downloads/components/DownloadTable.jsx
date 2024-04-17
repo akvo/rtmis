@@ -154,6 +154,9 @@ const DownloadTable = ({ type = "download" }) => {
           <div>
             <strong>{row?.form || row?.category}</strong>
           </div>
+          {row?.download_type && (
+            <span className="download-filter download-type">{`${row.download_type} Data - `}</span>
+          )}
           {row?.administration ? (
             <div className="download-filter">{row?.administration}</div>
           ) : null}

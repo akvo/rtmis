@@ -9,6 +9,13 @@
     }
     .download-filter {
       font-size: 12px;
+      float: left;
+      margin-right: 4px;
+      &.download-type {
+        font-weight: bold;
+        color: green;
+        text-transform: capitalize;
+      }
     }
     .ant-layout {
       min-height: calc(100vh - 86px);
