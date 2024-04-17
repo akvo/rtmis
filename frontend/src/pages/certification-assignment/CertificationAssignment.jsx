@@ -23,7 +23,7 @@ const CertificationAssignment = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const navigate = useNavigate();
-  const { language, administration } = store.useState((s) => s);
+  const { language, administration, levels } = store.useState((s) => s);
   const { active: activeLang } = language;
 
   const isAdministrationLoaded = administration.length;
@@ -31,6 +31,7 @@ const CertificationAssignment = () => {
     administration.length > 0
       ? administration[administration.length - 1]
       : null;
+  const maxLevel = levels.find((l) => l?.name === "Sub-County");
 
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -146,7 +147,10 @@ const CertificationAssignment = () => {
           <Row>
             <Col flex={1}>
               <Space>
-                <AdministrationDropdown persist={true} />
+                <AdministrationDropdown
+                  persist={true}
+                  maxLevel={maxLevel?.id}
+                />
                 <RemoveFiltersButton />
               </Space>
             </Col>
