@@ -9,9 +9,18 @@ import { Webform } from "akvo-react-form";
 import "akvo-react-form/dist/index.css";
 import "./style.scss";
 import { useParams, useNavigate } from "react-router-dom";
-import { Row, Col, Space, Progress, Result, Button, notification } from "antd";
+import {
+  Row,
+  Col,
+  Space,
+  Progress,
+  Result,
+  Button,
+  notification,
+  Modal,
+} from "antd";
 import { api, config, store, uiText } from "../../lib";
-import { takeRight, pick } from "lodash";
+import { takeRight, pick, isEmpty } from "lodash";
 import { PageLoader, Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNotification } from "../../util/hooks";
 import moment from "moment";
@@ -22,7 +31,7 @@ const Forms = () => {
   const { formId } = useParams();
   const [loading, setLoading] = useState(true);
   const [preload, setPreload] = useState(true);
-  const [forms, setForms] = useState([]);
+  const [forms, setForms] = useState({});
   const [percentage, setPercentage] = useState(0);
   const [submit, setSubmit] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -57,7 +66,7 @@ const Forms = () => {
 
   const webformRef = useRef();
 
-  const onFinish = (values) => {
+  const onFinish = (values, refreshForm) => {
     setSubmit(true);
     const questions = forms.question_group
       .map((x) => x.question)
@@ -122,6 +131,18 @@ const Forms = () => {
     api
       .post(`form-pending-data/${formId}`, data)
       .then(() => {
+        if (monitoring?.uuid) {
+          /**
+           * reset initial value and monitoring
+           */
+          store.update((s) => {
+            s.initialValue = [];
+            s.monitoring = null;
+          });
+        }
+        if (refreshForm) {
+          refreshForm();
+        }
         setTimeout(() => {
           setShowSuccess(true);
         }, 3000);
@@ -132,15 +153,6 @@ const Forms = () => {
         });
       })
       .finally(() => {
-        if (monitoring?.uuid) {
-          /**
-           * reset initial value and monitoring
-           */
-          store.update((s) => {
-            s.initialValue = [];
-            s.monitoring = null;
-          });
-        }
         setTimeout(() => {
           setSubmit(false);
         }, 2000);
@@ -160,12 +172,128 @@ const Forms = () => {
     setPercentage(progress.toFixed(0));
   };
 
+  const getCascadeAnswerId = useCallback(
+    async (id, questonAPI, value) => {
+      const { initial, endpoint } = questonAPI;
+      if (initial) {
+        const cascadeID = value || initial;
+        const res = await fetch(
+          `${window.location.origin}${endpoint}/${cascadeID}`
+        );
+        const apiData = await res.json();
+        if (endpoint.includes("administration")) {
+          const parents = apiData?.path?.split(".");
+          const startLevel = authUser?.administration?.level;
+          return {
+            [id]: [...parents, apiData?.id]
+              .filter((a) => a !== "" && a !== "1")
+              .map((a) => parseInt(a, 10))
+              .slice(startLevel),
+          };
+        }
+        return { [id]: [apiData?.id] };
+      }
+      const res = await fetch(window.location.origin + endpoint);
+      const apiData = await res.json();
+      const findCascade = apiData?.find((d) => d?.name === value);
+      return {
+        [id]: findCascade ? [findCascade.id] : [],
+      };
+    },
+    [authUser?.administration?.level]
+  );
+
+  const transformValue = (type, value) => {
+    if (type === "option" && Array.isArray(value) && value.length) {
+      return value[0];
+    }
+    if (type === "geo" && Array.isArray(value) && value.length === 2) {
+      const [lat, lng] = value;
+      return { lat, lng };
+    }
+    return typeof value === "undefined" ? "" : value;
+  };
+
+  const fetchInitialMonitoringData = useCallback(
+    async (response) => {
+      try {
+        const { data: apiData } = response;
+        const questions = apiData?.question_group?.flatMap(
+          (qg) => qg?.question
+        );
+        const res = await fetch(
+          `${window.location.origin}/datapoints/${monitoring?.uuid}.json`
+        );
+        const { answers } = await res.json();
+        /**
+         * Transform cascade answers
+         */
+        const cascadeAPIs = questions
+          ?.filter((q) => q?.type === "cascade" && q?.api?.endpoint)
+          ?.map((q) => getCascadeAnswerId(q.id, q.api, answers?.[q.id]));
+        const cascadeResponses = await Promise.allSettled(cascadeAPIs);
+        const cascadeValues = cascadeResponses
+          .filter(({ status }) => status === "fulfilled")
+          .map(({ value }) => value)
+          .reduce((prev, curr) => {
+            const [key, value] = Object.entries(curr)[0];
+            prev[key] = value;
+            return prev;
+          }, {});
+        /**
+         * Transform answers to Webform format
+         */
+        const initialValue = questions.map((q) => {
+          let value = Object.keys(cascadeValues).includes(`${q?.id}`)
+            ? cascadeValues[q.id]
+            : transformValue(q?.type, answers?.[q.id]);
+          // set default answer by default_value for new_or_monitoring question
+          if (
+            q?.default_value &&
+            q?.default_value?.submission_type?.monitoring
+          ) {
+            value = q.default_value.submission_type.monitoring;
+          }
+          return {
+            question: q?.id,
+            value: value,
+          };
+        });
+        store.update((s) => {
+          s.initialValue = initialValue;
+        });
+      } catch (error) {
+        Modal.error({
+          title: text.updateDataError,
+          content: String(error),
+        });
+      }
+    },
+    [getCascadeAnswerId, monitoring?.uuid, text.updateDataError]
+  );
+
   useEffect(() => {
-    if (formId && loading) {
+    if (isEmpty(forms) && formId) {
       api.get(`/form/web/${formId}`).then((res) => {
         const questionGroups = res.data.question_group.map((qg) => {
           const questions = qg.question.map((q) => {
             let qVal = { ...q };
+            // set initial value for new_or_monitoring question
+            if (
+              q?.default_value &&
+              q?.default_value?.submission_type?.registration &&
+              !monitoring
+            ) {
+              store.update((s) => {
+                s.initialValue = [
+                  {
+                    question: q.id,
+                    value: q.default_value.submission_type.registration,
+                  },
+                ];
+              });
+            }
+            // eol set initial value for new_or_monitoring question
             if (q?.extra) {
               delete qVal.extra;
               qVal = {
@@ -187,12 +315,17 @@ const Forms = () => {
           };
         });
         setForms({ ...res.data, question_group: questionGroups });
+        // INITIAL VALUE FOR MONITORING
+        if (monitoring?.uuid) {
+          fetchInitialMonitoringData(res);
+        }
+        // EOL INITIAL VALUE FOR MONITORING
         setLoading(false);
       });
     }
-  }, [formId, loading]);
+  }, [formId, monitoring, forms, fetchInitialMonitoringData]);
 
-  const handleOnClearForm = useCallback(() => {
+  const handleOnClearForm = useCallback((preload, initialValue) => {
     if (
       preload &&
       initialValue.length === 0 &&
@@ -202,11 +335,11 @@ const Forms = () => {
       webformRef.current.resetFields();
       webformRef.current;
     }
-  }, [preload, initialValue]);
+  }, []);
 
   useEffect(() => {
-    handleOnClearForm();
-  }, [handleOnClearForm]);
+    handleOnClearForm(preload, initialValue);
+  }, [handleOnClearForm, preload, initialValue]);
 
   return (
     <div id="form">
@@ -226,7 +359,7 @@ const Forms = () => {
 
       <div className="table-section">
         <div className="table-wrapper">
-          {loading || !formId ? (
+          {loading || isEmpty(forms) ? (
             <PageLoader message={text.fetchingForm} />
           ) : (
             !showSuccess && (
@@ -244,7 +377,7 @@ const Forms = () => {
               />
             )
           )}
-          {(!loading || formId) && !showSuccess && (
+          {(!loading || !isEmpty(forms)) && !showSuccess && (
             <Progress className="progress-bar" percent={percentage} />
           )}
           {!loading && showSuccess && (
