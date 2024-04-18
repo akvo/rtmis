@@ -121,17 +121,19 @@ const MonitoringDetail = () => {
   };
 
   const goToMonitoringForm = async () => {
-    setLoadMonitoring(true);
-    store.update((s) => {
-      s.monitoring = selectedFormData;
-    });
-    setTimeout(() => {
-      /**
-       * Add a second delay to complete state update
-       */
-      setLoadMonitoring(false);
-      navigate(`/control-center/form/${selectedFormData?.form}`);
-    }, 500);
+    const { form, uuid } = selectedFormData;
+    navigate(`/control-center/form/${form}/${uuid}`);
+    // setLoadMonitoring(true);
+    // store.update((s) => {
+    //   s.monitoring = selectedFormData;
+    // });
+    // setTimeout(() => {
+    /**
+     * Add a second delay to complete state update
+     */
+    //   setLoadMonitoring(false);
+    //   navigate(`/control-center/form/${form}/${uuid}`);
+    // }, 500);
   };
 
   useEffect(() => {
