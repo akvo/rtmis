@@ -459,7 +459,7 @@
           "required": true,
           "meta": false,
           "tooltip": {
-            "text": "<b>OBSERVE: any evidence of surface outflows from containment systems (for example, visible outflows or leaks; increased vegetation growth around the pit; visible deposits from previous outflows),</b>\n <b>Surface outflows from containment: </b> EITHER continuous outflows of faecal sludge or wastewater from overflow pipes, holes or leaks; OR evidence of previous surface outflows (for example, increased vegetation growth around the containment system, or visible sludge deposits from overflows or leaks)."
+            "text": "<b>OBSERVE: any evidence of surface outflows from containment systems (for example, visible outflows or leaks; increased vegetation growth around the pit; visible deposits from previous outflows),</b><br/> <b>Surface outflows from containment: </b> EITHER continuous outflows of faecal sludge or wastewater from overflow pipes, holes or leaks; OR evidence of previous surface outflows (for example, increased vegetation growth around the containment system, or visible sludge deposits from overflows or leaks)."
           },
           "options": [
             {
@@ -500,7 +500,7 @@
           "required": true,
           "meta": false,
           "tooltip": {
-            "text": "<b>INTERVIEW: has the institutional toilet containment (pit, tank or other) ever been emptied?,</b>\n <b>INTERVIEW:</b> has the institutional toilet containment (pit, tank or other) ever filled up?,\n <b>INTERVIEW:</b> what happened when the institutional toilet containment (pit, tank or other) last filled up?"
+            "text": "<b>INTERVIEW: has the institutional toilet containment (pit, tank or other) ever been emptied?,</b><br/> <b>INTERVIEW:</b> has the institutional toilet containment (pit, tank or other) ever filled up?,<br/> <b>INTERVIEW:</b> what happened when the institutional toilet containment (pit, tank or other) last filled up?"
           },
           "options": [
             {
@@ -557,7 +557,7 @@
           "required": true,
           "meta": false,
           "tooltip": {
-            "text": "<b>INTERVIEW: the last time it was emptied, where were the contents of the toilet containment emptied to?,</b>\n<b> INTERVIEW: the last time it was emptied, who emptied the toilet containment?,</b>\n<b> INTERVIEW (if the containment system is a lined pit or tank, which has never been emptied):</b> what will happen when the toilet containment is full?,</b>\n<b> Licensed service provider:</b> paid emptier that is approved and regulated by local authority to empty and transport toilet wastes,</b>\n<b> Unlicensed service provider:</b> paid or unpaid emptier who is NOT approved by local authority to empty and transport toilet wastes (for example, family members, neighbours, friends, informal local emptiers)</b> \n<b>Off-site location:</b> site for the treatment, disposal or use of toilet wastes that is away from the household/community, whose location may or may not be known to the household.\n<b>Sewer connection to licensed and functional treatment site: </b>the Public Health Office should check whether the sewer network flows to a licensed and functional treatment or disposal site."
+            "text": "<b>INTERVIEW: the last time it was emptied, where were the contents of the toilet containment emptied to?,</b><br/><b> INTERVIEW: the last time it was emptied, who emptied the toilet containment?,</b><br/><b> INTERVIEW (if the containment system is a lined pit or tank, which has never been emptied):</b> what will happen when the toilet containment is full?,</b><br/><b> Licensed service provider:</b> paid emptier that is approved and regulated by local authority to empty and transport toilet wastes,</b><br/><b> Unlicensed service provider:</b> paid or unpaid emptier who is NOT approved by local authority to empty and transport toilet wastes (for example, family members, neighbours, friends, informal local emptiers)</b> <br/><b>Off-site location:</b> site for the treatment, disposal or use of toilet wastes that is away from the household/community, whose location may or may not be known to the household.<br/><b>Sewer connection to licensed and functional treatment site: </b>the Public Health Office should check whether the sewer network flows to a licensed and functional treatment or disposal site."
           },
           "options": [
             {
@@ -724,7 +724,7 @@
           "required": true,
           "meta": false,
           "tooltip": {
-            "text": "<b>OBSERVE: presence and location of handwashing facility</b>\n<br/><b>INTERVIEW:</b> is there only one handwashing facility, or are other facilities available?"
+            "text": "<b>OBSERVE: presence and location of handwashing facility</b><br/><br/><b>INTERVIEW:</b> is there only one handwashing facility, or are other facilities available?"
           },
           "options": [
             {
@@ -823,7 +823,7 @@
         },
         {
           "id": 1701334972999,
-          "order": 17,
+          "order": 19,
           "name": "water_available_institutional_HWF",
           "label": "Water available at institutional handwashing facility",
           "short_label": null,
@@ -831,7 +831,7 @@
           "required": true,
           "meta": false,
           "tooltip": {
-            "text": "<b>OBSERVE: is water available at the handwashing facility?</b>\n<b>OBSERVE:</b> where an empty water container is observed at the handwashing facility, visible wet ground (or wet materials) under the handwashing facility can be accepted as proof of the recent presence of water."
+            "text": "<b>OBSERVE:</b> is water available at all of the handwashing facilities?<br/><b>INTERVIEW:</b> is water always available for washing hands (even in dry season)?<br/><b>Evidence of washing:</b> where an empty water container is observed at the handwashing facility, visible wet ground (or wet materials) under the handwashing facility can be accepted as proof of the recent presence of water. <br/><b>Seasonal water availability:</b> where water is not available in the dry season (or at other times), the outcome should be marked as “Water NOT always available”"
           },
           "options": [
             {
@@ -871,7 +871,7 @@
         },
         {
           "id": 1701335557029,
-          "order": 18,
+          "order": 20,
           "name": "soap_available_institutional_HWF",
           "label": "Soap available at institutional HWF",
           "short_label": null,
@@ -879,33 +879,40 @@
           "required": true,
           "meta": false,
           "tooltip": {
-            "text": "<b>OBSERVE: is soap available at the handwashing facility?,</b>\n <b>INTERVIEW:</b> is soap or detergent available for washing hands? \n,<b> Soap:</b> solid, liquid or powder soap or detergent "
+            "text": "<b>OBSERVE: is soap available at the handwashing facility?,</b><br/> <b>INTERVIEW:</b> is soap or detergent available for washing hands? <br/>,<b> Soap:</b> solid, liquid or powder soap or detergent "
           },
           "options": [
             {
-              "id": 1701335571049,
+              "id": 1713444483,
               "order": 1,
+              "label": "No handwashing facility",
+              "value": "g0_no_hand_faci",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1701335571049,
+              "order": 2,
               "label": "G0 No soap or other cleanser available",
               "value": "g0_no_soap_othe_clea_avai",
               "color": "#DB3B3B"
             },
             {
               "id": 1701335571050,
-              "order": 2,
+              "order": 3,
               "label": "Ash, mud or sand available",
               "value": "g0_ash_mud_sand_avai",
               "color": "#DB3B3B"
             },
             {
               "id": 1701335595072,
-              "order": 3,
+              "order": 4,
               "label": "Soap available, NOT at handwashing facility",
               "value": "g0_soap_avai_not_at_hand_faci",
               "color": "#ffa57d"
             },
             {
               "id": 1701335713812,
-              "order": 4,
+              "order": 5,
               "label": "Solid, liquid or powder soap available",
               "value": "g1_soli_liqu_powd_soap_avai",
               "color": "#38A15A"
@@ -919,7 +926,7 @@
         },
         {
           "id": 1701358601048,
-          "order": 19,
+          "order": 21,
           "name": "institutional_HWF_type",
           "label": "Institutional handwashing facility type",
           "short_label": null,
@@ -927,7 +934,7 @@
           "required": true,
           "meta": false,
           "tooltip": {
-            "text": "<b>OBSERVE: is a permanent handwashing station available?</b>\n<b>Permanent handwashing station: </b>facility made from durable materials, with a piped water connection or adequate water storage, and located in a fixed place that is appropriate for handwashing at critical times\n<b>Market handwashing station:</b> manufactured handwashing station from durable materails (bought from market or market trader)\n<b>Portable basin:</b> open container that can be easily picked up and moved"
+            "text": "<b>OBSERVE: is a permanent handwashing station available?</b><br/><b>Permanent handwashing station: </b>facility made from durable materials, with a piped water connection or adequate water storage, and located in a fixed place that is appropriate for handwashing at critical times<br/><b>Market handwashing station:</b> manufactured handwashing station from durable materails (bought from market or market trader)<br/><b>Portable basin:</b> open container that can be easily picked up and moved"
           },
           "options": [
             {
@@ -996,7 +1003,7 @@
           "required": true,
           "meta": false,
           "tooltip": {
-            "text": "<b>OBSERVE: mechanism to collect water or trigger water flow</b> \n<b>Hands-free operation: </b>the handwashing station is operated by tap, or other hands-free mechanism that minimises contact with the water collection device and the water container"
+            "text": "<b>OBSERVE: mechanism to collect water or trigger water flow</b><br/><b>Hands-free operation: </b>the handwashing station is operated by tap, or other hands-free mechanism that minimises contact with the water collection device and the water container"
           },
           "options": [
             {
@@ -1043,7 +1050,7 @@
         },
         {
           "id": 1701359231461,
-          "order": 21,
+          "order": 22,
           "name": "adequate_drainage_washing_water",
           "label": "Adequate drainage of washing water",
           "short_label": null,
@@ -1051,26 +1058,33 @@
           "required": true,
           "meta": false,
           "tooltip": {
-            "text": "<b>OBSERVE: facility to collect washing water, and facility to drain and dispose of the washing water</b>\n<b>Collection of washing water: </b>container to collect dirty washing water (for example, a basin or other container)\n<b>Drainage and disposal of washing water:</b> drainage pipe or other facility to direct the washing water to an appropriate disposal point (for example, a soakpit or drain)"
+            "text": "<b>OBSERVE: facility to collect washing water, and facility to drain and dispose of the washing water</b><br/><b>Collection of washing water: </b>container to collect dirty washing water (for example, a basin or other container)<br/><b>Drainage and disposal of washing water:</b> drainage pipe or other facility to direct the washing water to an appropriate disposal point (for example, a soakpit or drain)"
           },
           "options": [
             {
-              "id": 1701359238005,
+              "id": 1713444894,
               "order": 1,
+              "label": "No handwashing facility",
+              "value": "g0_no_hand_faci",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1701359238005,
+              "order": 2,
               "label": "No collection or disposal of washing water",
               "value": "g0_no_coll_disp_wash_wate",
               "color": "#DB3B3B"
             },
             {
               "id": 1701359238006,
-              "order": 2,
+              "order": 3,
               "label": "Collection of washing water without drainage or disposal",
               "value": "g1_coll_wash_wate_with_drai_disp",
               "color": "#ffa57d"
             },
             {
               "id": 1701359351504,
-              "order": 3,
+              "order": 4,
               "label": "Safe collection and disposal of washing water",
               "value": "g3_safe_coll_disp_wash_wate",
               "color": "#38A15A"
@@ -1084,7 +1098,7 @@
         },
         {
           "id": 1701358131461,
-          "order": 22,
+          "order": 23,
           "name": "outcome_permanent_handwashing_stations_in_institution",
           "label": "Outcome result - Permanent handwashing stations in institution",
           "short_label": null,
