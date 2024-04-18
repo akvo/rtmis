@@ -45,12 +45,15 @@ const TypeOption = ({
       backgroundColor,
     };
   }, [value, color, option]);
+  const style = disabled
+    ? { ...styles.dropdownField, ...styles.dropdownFieldDisabled }
+    : styles.dropdownField;
 
   return (
     <View style={styles.optionContainer}>
       <FieldLabel keyform={keyform} name={label} tooltip={tooltip} requiredSign={requiredValue} />
       <Dropdown
-        style={styles.dropdownField}
+        style={style}
         selectedTextStyle={selectedStyle}
         data={option}
         search={showSearch}

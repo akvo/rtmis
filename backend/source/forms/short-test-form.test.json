@@ -91,15 +91,9 @@
           },
           "required": true,
           "meta": false,
-          "dependency": [
-            {
-              "id": 16993542207341,
-              "options": ["new"]
-            }
-          ],
           "fn": null,
           "disabled": {
-            "submission_type": ["monitoring"]
+            "submission_type": ["monitoring", "verification", "certification"]
           }
         },
         {
@@ -111,18 +105,12 @@
           "meta": false,
           "required": false,
           "type": "cascade",
-          "dependency": [
-            {
-              "id": 16993542207341,
-              "options": ["new"]
-            }
-          ],
           "extra": {
             "type": "entity",
             "name": "School"
           },
           "disabled": {
-            "submission_type": ["monitoring"]
+            "submission_type": ["monitoring", "verification", "certification"]
           }
         },
         {
@@ -134,18 +122,12 @@
           "meta": false,
           "required": false,
           "type": "cascade",
-          "dependency": [
-            {
-              "id": 16993542207341,
-              "options": ["new"]
-            }
-          ],
           "extra": {
             "type": "entity",
             "name": "Health Care Facilities"
           },
           "disabled": {
-            "submission_type": ["monitoring"]
+            "submission_type": ["monitoring", "verification", "certification"]
           }
         },
         {
@@ -159,15 +141,9 @@
           "required": true,
           "meta": true,
           "options": null,
-          "dependency": [
-            {
-              "id": 16993542207341,
-              "options": ["new"]
-            }
-          ],
           "fn": null,
           "disabled": {
-            "submission_type": ["monitoring"]
+            "submission_type": ["monitoring", "verification", "certification"]
           }
         },
         {
