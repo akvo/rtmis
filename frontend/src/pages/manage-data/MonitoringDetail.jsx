@@ -38,7 +38,6 @@ const MonitoringDetail = () => {
   const [deleting, setDeleting] = useState(false);
   const [editedRecord, setEditedRecord] = useState({});
   const [editable, setEditable] = useState(false);
-  const [loadMonitoring, setLoadMonitoring] = useState(false);
   const { form, parentId } = useParams();
   const navigate = useNavigate();
 
@@ -123,17 +122,6 @@ const MonitoringDetail = () => {
   const goToMonitoringForm = async () => {
     const { form, uuid } = selectedFormData;
     navigate(`/control-center/form/${form}/${uuid}`);
-    // setLoadMonitoring(true);
-    // store.update((s) => {
-    //   s.monitoring = selectedFormData;
-    // });
-    // setTimeout(() => {
-    /**
-     * Add a second delay to complete state update
-     */
-    //   setLoadMonitoring(false);
-    //   navigate(`/control-center/form/${form}/${uuid}`);
-    // }, 500);
   };
 
   useEffect(() => {
@@ -199,7 +187,6 @@ const MonitoringDetail = () => {
                 shape="round"
                 onClick={goToMonitoringForm}
                 icon={<FormOutlined />}
-                loading={loadMonitoring}
               >
                 {text.updateDataButton}
               </Button>

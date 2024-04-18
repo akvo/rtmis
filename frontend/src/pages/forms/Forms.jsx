@@ -137,7 +137,6 @@ const Forms = () => {
            */
           store.update((s) => {
             s.initialValue = [];
-            s.monitoring = null;
           });
         }
         if (refreshForm) {

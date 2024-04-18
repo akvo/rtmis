@@ -66,7 +66,6 @@ const DataFilters = ({ loading, showAdm = true, resetFilter = true }) => {
      */
     store.update((s) => {
       s.initialValue = [];
-      // s.monitoring = null;
     });
     navigate(`/control-center/form/${selectedForm}`);
   };
