@@ -3,12 +3,10 @@ import { View, Text } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import PropTypes from 'prop-types';
 
-import { useRoute } from '@react-navigation/native';
 import { FieldLabel } from '../support';
 import styles from '../styles';
 import { FormState, UserState } from '../../store';
 import { i18n, cascades } from '../../lib';
-import { SUBMISSION_TYPES } from '../../lib/constants';
 
 const TypeCascade = ({
   onChange,
@@ -33,7 +31,6 @@ const TypeCascade = ({
     cascade_type: cascadeType,
     parent_id: parentId,
   } = source || {};
-  const route = useRoute();
   const certifications = UserState.useState((s) => s?.certifications);
   const isCertification = value?.length && certifications.includes(value[0]);
 
@@ -244,6 +241,9 @@ const TypeCascade = ({
       <View style={styles.cascadeContainer}>
         {dropdownItems.map((item, index) => {
           const hasSearch = item?.options.length > 3;
+          const style = disabled
+            ? { ...styles.dropdownField, ...styles.dropdownFieldDisabled }
+            : styles.dropdownField;
           return (
             <Dropdown
               // eslint-disable-next-line react/no-array-index-key
@@ -256,9 +256,9 @@ const TypeCascade = ({
               searchPlaceholder={trans.searchPlaceholder}
               onChange={({ id: selectedID }) => handleOnChange(index, selectedID)}
               value={item.value}
-              style={[styles.dropdownField]}
+              style={style}
               placeholder={trans.selectItem}
-              disable={route.params?.submission_type === SUBMISSION_TYPES.certification || disabled}
+              disable={disabled}
             />
           );
         })}

@@ -63,7 +63,10 @@
           "required": false,
           "meta": false,
           "options": null,
-          "rule": null
+          "rule": null,
+          "disabled": {
+            "submission_type": ["monitoring"]
+          }
         },
         {
           "id": 1706105097574,

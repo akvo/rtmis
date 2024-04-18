@@ -23,12 +23,15 @@ const TypeMultipleOption = ({
   const activeLang = FormState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
   const requiredValue = required ? requiredSign : null;
+  const style = disabled
+    ? { ...styles.dropdownField, ...styles.dropdownFieldDisabled }
+    : styles.dropdownField;
 
   return (
     <View style={styles.multipleOptionContainer}>
       <FieldLabel keyform={keyform} name={label} tooltip={tooltip} requiredSign={requiredValue} />
       <MultiSelect
-        style={[styles.dropdownField]}
+        style={style}
         selectedStyle={styles.dropdownSelectedList}
         activeColor="#ddd"
         data={option}
@@ -78,7 +81,7 @@ TypeMultipleOption.propTypes = {
 
 TypeMultipleOption.defaultProps = {
   value: null,
-  requiredSign: "*",
+  requiredSign: '*',
   disabled: false,
   option: [],
   tooltip: null,
