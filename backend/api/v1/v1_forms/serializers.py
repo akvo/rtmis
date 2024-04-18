@@ -77,16 +77,17 @@ class ListQuestionSerializer(serializers.ModelSerializer):
         if instance.type == QuestionTypes.administration:
             user = self.context.get('user')
             administration = user.user_access.administration
+            # max depth for cascade question in national form
             max_level = instance.form.type == FormTypes.national
             extra_objects = {}
             if max_level:
                 extra_objects = {
-                    "query_params": "?max_level=2",
+                    "query_params": "?max_level=1",
                 }
             if user.user_access.role == UserRoleTypes.user:
                 if max_level:
                     extra_objects = {
-                        "query_params": "&max_level=2",
+                        "query_params": "&max_level=1",
                     }
                 return {
                     "endpoint": "/api/v1/administration",
