@@ -825,7 +825,7 @@
           "id": 1701334972999,
           "order": 17,
           "name": "water_available_institutional_HWF",
-          "label": "Water available at institutional HWF",
+          "label": "Water available at institutional handwashing facility",
           "short_label": null,
           "type": "option",
           "required": true,
@@ -835,22 +835,29 @@
           },
           "options": [
             {
-              "id": 1701334998750,
+              "id": 1713444243,
               "order": 1,
+              "label": "No handwashing facility",
+              "value": "g0_no_hand_faci",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1701334998750,
+              "order": 2,
               "label": "No water available",
               "value": "g0_no_wate_avai",
               "color": "#DB3B3B"
             },
             {
               "id": 1701334998751,
-              "order": 2,
+              "order": 3,
               "label": "Water available",
               "value": "g1_wate_avai",
               "color": "#38A15A"
             },
             {
               "id": 1701335022266,
-              "order": 3,
+              "order": 4,
               "label": "Water container empty (evidence of washing)",
               "value": "g1_wate_cont_empt_evid_wash",
               "color": "#38A15A"
