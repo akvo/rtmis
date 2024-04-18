@@ -456,14 +456,14 @@
             {
               "id": 16999524328041,
               "order": 1,
-              "label": "G0 High risk of groundwater contamination",
+              "label": "High risk of groundwater contamination",
               "value": "g0_high_risk_grou_cont",
               "color": "#DB3B3B"
             },
             {
               "id": 16999524328052,
               "order": 2,
-              "label": "G2 Low risk of groundwater contamination",
+              "label": "Low risk of groundwater contamination",
               "value": "g2_low_risk_grou_cont",
               "color": "#38A15A"
             }
@@ -489,7 +489,7 @@
           "id": 1699958188283,
           "order": 1,
           "name": "G1_households_own_toilet",
-          "label": "G1: Number of households who own a toilet",
+          "label": "Number of households who own a toilet",
           "short_label": null,
           "type": "number",
           "rule": {
@@ -507,7 +507,7 @@
           "id": 1699958382023,
           "order": 2,
           "name": "G2_durable_toilets_safe_containment",
-          "label": "G2: Number of households using durable toilets with safe containment",
+          "label": "Number of households using durable toilets with safe containment",
           "short_label": null,
           "type": "number",
           "rule": {
@@ -525,7 +525,7 @@
           "id": 1699958427807,
           "order": 3,
           "name": "G3_permanent_handwashing_stations",
-          "label": "G3: Number of households with permanent handwashing stations",
+          "label": "Number of households with permanent handwashing stations",
           "short_label": null,
           "type": "number",
           "rule": {
@@ -543,7 +543,7 @@
           "id": 1699958464968,
           "order": 4,
           "name": "G1_at-risk_households_own_toilet",
-          "label": "G1: Number of at-risk households who own a toilet",
+          "label": "Number of at-risk households who own a toilet",
           "short_label": null,
           "type": "number",
           "rule": {
@@ -561,7 +561,7 @@
           "id": 1699958555723,
           "order": 5,
           "name": "G2_at-risk_durable_toilets_safe_containment",
-          "label": "G2: Number of at-risk households using durable toilets with safe containment",
+          "label": "Number of at-risk households using durable toilets with safe containment",
           "short_label": null,
           "type": "number",
           "rule": {
@@ -579,7 +579,7 @@
           "id": 1699958568410,
           "order": 6,
           "name": "G3_at-risk_permanent_handwashing_stations",
-          "label": "G3: Number of at-risk households with permanent handwashing stations",
+          "label": "Number of at-risk households with permanent handwashing stations",
           "short_label": null,
           "type": "number",
           "rule": {
@@ -607,21 +607,21 @@
             {
               "id": 16999223328041,
               "order": 1,
-              "label": "G0 At-risk household monitoring: no disaggregated data available from community",
+              "label": "At-risk household monitoring: no disaggregated data available from community",
               "value": "g0_atri_hh_no_disa_data_avai_from_comm",
               "color": "#DB3B3B"
             },
             {
               "id": 16999524328042,
               "order": 2,
-              "label": "G0 At-risk household monitoring not reliable: More than 5% difference in monitoring data",
+              "label": "At-risk household monitoring not reliable: More than 5% difference in monitoring data",
               "value": "g0_atri_hh_not_reli_more_than_5_diff_data",
               "color": "#DB3B3B"
             },
             {
               "id": 16999524328852,
               "order": 3,
-              "label": "G1/G2/G3 At-risk household monitoring system functional: Less than 5% difference in monitoring data",
+              "label": "At-risk household monitoring system functional: Less than 5% difference in monitoring data",
               "value": "g1g2_atri_hh_syst_func_less_than_5_diff_data",
               "color": "#38A15A"
             }
@@ -648,14 +648,14 @@
             {
               "id": 1699958682490,
               "order": 1,
-              "label": "G0 Action plan for G2: not available, not approved or not in use",
+              "label": "Action plan for G2: not available, not approved or not in use",
               "value": "g0_acti_plan_for_g2_not_avai_not_appr_not_use",
               "color": "#DB3B3B"
             },
             {
               "id": 1699958682491,
               "order": 2,
-              "label": "G1 Action plan for G2: available and in use",
+              "label": "Action plan for G2: available and in use",
               "value": "g1_acti_plan_for_g2_avai_use",
               "color": "#38A15A"
             }
@@ -683,14 +683,14 @@
             {
               "id": 1699958837025,
               "order": 1,
-              "label": "G0 Action plan for G3: not available, not approved or not in use",
+              "label": "Action plan for G3: not available, not approved or not in use",
               "value": "g0_acti_plan_for_g3_not_avai_not_appr_not_use",
               "color": "#DB3B3B"
             },
             {
               "id": 1699958837026,
               "order": 2,
-              "label": "G1 Action plan for G3: available and in use",
+              "label": "Action plan for G3: available and in use",
               "value": "g1_acti_plan_for_g3_avai_use",
               "color": "#38A15A"
             }
@@ -729,14 +729,14 @@
             {
               "id": 1699959708165,
               "order": 1,
-              "label": "G0 Child or adult excreta observed in communal areas",
+              "label": "Child or adult excreta observed in communal areas",
               "value": "g0_chil_adul_excr_obse_comm_area",
               "color": "#DB3B3B"
             },
             {
               "id": 1699959708166,
               "order": 2,
-              "label": "G1 No visible OD or human excreta (child or adult) in communal areas",
+              "label": "No visible OD or human excreta (child or adult) in communal areas",
               "value": "g1_no_visi_od_huma_excr_chil_adul_comm_area",
               "color": "#38A15A"
             }
@@ -784,42 +784,42 @@
             {
               "id": 1699959793320,
               "order": 1,
-              "label": "G0 Used diapers visible in communal areas",
+              "label": "Used diapers visible in communal areas",
               "value": "g0_used_diap_visi_comm_area",
               "color": "#DB3B3B"
             },
             {
               "id": 1699959793321,
               "order": 2,
-              "label": "G0 Used diapers unsafely disposed or unsafely washed",
+              "label": "Used diapers unsafely disposed or unsafely washed",
               "value": "g0_used_diap_unsa_disp_unsa_wash",
               "color": "#DB3B3B"
             },
             {
               "id": 1699959809374,
               "order": 3,
-              "label": "G1 Washable cloths safely emptied and safely washed",
+              "label": "Washable cloths safely emptied and safely washed",
               "value": "g1_wash_clot_safe_empt_safe_wash",
               "color": "#38A15A"
             },
             {
               "id": 1699959816980,
               "order": 4,
-              "label": "G1 Disposable diapers put into covered waste pits",
+              "label": "Disposable diapers put into covered waste pits",
               "value": "g1_disp_diap_put_into_cove_wast_pits",
               "color": "#38A15A"
             },
             {
               "id": 1699959825380,
               "order": 5,
-              "label": "G1 Disposable diapers buried",
+              "label": "Disposable diapers buried",
               "value": "g1_disp_diap_buri",
               "color": "#38A15A"
             },
             {
               "id": 1699959832147,
               "order": 6,
-              "label": "G1 Disposable diapers collected for disposal at communal site",
+              "label": "Disposable diapers collected for disposal at communal site",
               "value": "g1_disp_diap_coll_for_disp_at_comm_site",
               "color": "#38A15A"
             }
@@ -867,21 +867,21 @@
             {
               "id": 1699959885703,
               "order": 1,
-              "label": "G0 Visible dirt or contamination",
+              "label": "Visible dirt or contamination",
               "value": "g0_visi_dirt_cont",
               "color": "#DB3B3B"
             },
             {
               "id": 1699959885704,
               "order": 2,
-              "label": "G1 Not adequately clean",
+              "label": "Not adequately clean",
               "value": "g1_not_adeq_clea",
               "color": "#ffa57d"
             },
             {
               "id": 1699959904493,
               "order": 3,
-              "label": "G2 Clean communal water points",
+              "label": "Clean communal water points",
               "value": "g2_clea_comm_wate_poin",
               "color": "#38A15A"
             }
@@ -909,21 +909,21 @@
             {
               "id": 1699960039749,
               "order": 1,
-              "label": "G0 No protection of water points",
+              "label": "No protection of water points",
               "value": "g0_no_prot_wate_poin",
               "color": "#DB3B3B"
             },
             {
               "id": 1699960039750,
               "order": 2,
-              "label": "G1 Inadequate protection of water points",
+              "label": "Inadequate protection of water points",
               "value": "g1_inad_prot_wate_poin",
               "color": "#ffa57d"
             },
             {
               "id": 1699960068576,
               "order": 3,
-              "label": "G2 Well protected communal water points",
+              "label": "Well protected communal water points",
               "value": "g2_well_prot_comm_wate_poin",
               "color": "#38A15A"
             }
@@ -951,21 +951,21 @@
             {
               "id": 1699960149726,
               "order": 1,
-              "label": "G0 Standing water visible around water point",
+              "label": "Standing water visible around water point",
               "value": "g0_stan_wate_visi_arou_wate_poin",
               "color": "#DB3B3B"
             },
             {
               "id": 1699960149727,
               "order": 2,
-              "label": "G1 Inadequately drained water points",
+              "label": "Inadequately drained water points",
               "value": "g1_inad_drai_wate_poin",
               "color": "#ffa57d"
             },
             {
               "id": 1699960194331,
               "order": 3,
-              "label": "G2 Well drained communal water points",
+              "label": "Well drained communal water points",
               "value": "g2_well_drai_comm_wate_poin",
               "color": "#38A15A"
             }
@@ -1014,28 +1014,28 @@
             {
               "id": 1699960314911,
               "order": 1,
-              "label": "G0 Unsafe disposal: to open pit, open space, open drain or water body in communal areas",
+              "label": "Unsafe disposal: to open pit, open space, open drain or water body in communal areas",
               "value": "g0_unsa_disp_to_open_pit_open_spac_open_drai_wate_body_comm_area",
               "color": "#DB3B3B"
             },
             {
               "id": 1699960314912,
               "order": 2,
-              "label": "G0 Unsafe treatment or disposal: sewer connection to open discharge in communal area",
+              "label": "Unsafe treatment or disposal: sewer connection to open discharge in communal area",
               "value": "g0_unsa_trea_disp_sewe_conn_to_open_disc_comm_area",
               "color": "#DB3B3B"
             },
             {
               "id": 1699960335049,
               "order": 3,
-              "label": "G3 Safely managed: emptied to covered pit or trench in communal area",
+              "label": "Safely managed: emptied to covered pit or trench in communal area",
               "value": "g3_safe_mana_empt_to_cove_pit_tren_comm_area",
               "color": "#38A15A"
             },
             {
               "id": 1699960344606,
               "order": 4,
-              "label": "G3 Safely managed: communal disposal of faecal sludge is safely managed",
+              "label": "Safely managed: communal disposal of faecal sludge is safely managed",
               "value": "g3_safe_mana_comm_disp_faec_slud_safe_mana",
               "color": "#38A15A"
             }
@@ -1086,28 +1086,28 @@
             {
               "id": 1699960368823,
               "order": 1,
-              "label": "G0 Significant erosion in communal areas",
+              "label": "Significant erosion in communal areas",
               "value": "g0_sign_eros_comm_area",
               "color": "#DB3B3B"
             },
             {
               "id": 1699960368824,
               "order": 2,
-              "label": "G1 Some visible erosion in communal areas",
+              "label": "Some visible erosion in communal areas",
               "value": "g1_some_visi_eros_comm_area",
               "color": "#ffa57d"
             },
             {
               "id": 1699960393600,
               "order": 3,
-              "label": "G3 Adequate stormwater drainage in communal areas",
+              "label": "Adequate stormwater drainage in communal areas",
               "value": "g3_adeq_stor_drai_comm_area",
               "color": "#38A15A"
             },
             {
               "id": 1699960400486,
               "order": 4,
-              "label": "G3 No signs of stormwater erosion",
+              "label": "No signs of stormwater erosion",
               "value": "g3_no_sign_stor_eros",
               "color": "#38A15A"
             }
@@ -1156,21 +1156,21 @@
             {
               "id": 1699960447922,
               "order": 1,
-              "label": "G0 Significant visible solid wastes in communal areas",
+              "label": "Significant visible solid wastes in communal areas",
               "value": "g0_sign_visi_soli_wast_comm_area",
               "color": "#DB3B3B"
             },
             {
               "id": 1699960447923,
               "order": 2,
-              "label": "G1 Some solid wastes visible in communal areas",
+              "label": "Some solid wastes visible in communal areas",
               "value": "g1_some_soli_wast_visi_comm_area",
               "color": "#ffa57d"
             },
             {
               "id": 1699960457906,
               "order": 3,
-              "label": "G3 Clean compound with no visible solid wastes in communal areas",
+              "label": "Clean compound with no visible solid wastes in communal areas",
               "value": "g3_clea_comp_with_no_visi_soli_wast_comm_area",
               "color": "#38A15A"
             }
@@ -1219,21 +1219,21 @@
             {
               "id": 1699960496310,
               "order": 1,
-              "label": "G0 Significant standing water in communal areas",
+              "label": "Significant standing water in communal areas",
               "value": "g0_sign_stan_wate_comm_area",
               "color": "#DB3B3B"
             },
             {
               "id": 1699960524045,
               "order": 3,
-              "label": "G3 No visible standing water in communal areas",
+              "label": "No visible standing water in communal areas",
               "value": "g3_no_visi_stan_wate_comm_area",
               "color": "#ffa57d"
             },
             {
               "id": 1699960496311,
               "order": 2,
-              "label": "G1 Some standing water in communal areas",
+              "label": "Some standing water in communal areas",
               "value": "g1_some_stan_wate_comm_area",
               "color": "#38A15A"
             }
@@ -1261,28 +1261,28 @@
             {
               "id": 1699960550615,
               "order": 1,
-              "label": "G0 No treatment or management in communal areas",
+              "label": "No treatment or management in communal areas",
               "value": "g0_no_trea_mana_comm_area",
               "color": "#DB3B3B"
             },
             {
               "id": 1699960550616,
               "order": 2,
-              "label": "G1 Inadequate treatment or management in communal areas",
+              "label": "Inadequate treatment or management in communal areas",
               "value": "g1_inad_trea_mana_comm_area",
               "color": "#ffa57d"
             },
             {
               "id": 1699960576151,
               "order": 3,
-              "label": "G3 Treated or managed larval breeding sites in communal areas",
+              "label": "Treated or managed larval breeding sites in communal areas",
               "value": "g3_trea_mana_larv_bree_site_comm_area",
               "color": "#38A15A"
             },
             {
               "id": 1699960583286,
               "order": 4,
-              "label": "G3 No visible standing water in communal areas",
+              "label": "No visible standing water in communal areas",
               "value": "g3_no_visi_stan_wate_comm_area",
               "color": "#38A15A"
             }
