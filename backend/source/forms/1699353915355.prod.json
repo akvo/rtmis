@@ -84,13 +84,10 @@
           },
           "required": true,
           "meta": false,
-          "dependency": [
-            {
-              "id": 1699354220734,
-              "options": ["new"]
-            }
-          ],
-          "fn": null
+          "fn": null,
+          "disabled": {
+            "submission_type": ["monitoring", "verification", "certification"]
+          }
         },
         {
           "id": 1702914753957,
@@ -103,13 +100,10 @@
           "required": true,
           "meta": true,
           "options": null,
-          "dependency": [
-            {
-              "id": 1699354220734,
-              "options": ["new"]
-            }
-          ],
-          "fn": null
+          "fn": null,
+          "disabled": {
+            "submission_type": ["monitoring", "verification", "certification"]
+          }
         },
         {
           "id": 1702914803732,

@@ -19,5 +19,9 @@ QuestionGroup.propTypes = {
   index: PropTypes.number.isRequired,
   group: PropTypes.object.isRequired,
   activeQuestions: PropTypes.array.isRequired,
-  dependantQuestions: PropTypes.array.isRequired,
+  dependantQuestions: PropTypes.array,
+};
+
+QuestionGroup.defaultProps = {
+  dependantQuestions: [],
 };

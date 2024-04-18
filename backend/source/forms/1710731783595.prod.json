@@ -25,6 +25,9 @@
           "meta": false,
           "tooltip": {
             "text": "This question contains a list of possible locations, starting with government area or district, down to the village."
+          },
+          "disabled": {
+            "submission_type": ["monitoring"]
           }
         },
         {

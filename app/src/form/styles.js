@@ -59,6 +59,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderBottomWidth: 0.5,
   },
+  inputFieldDisabled: {
+    backgroundColor: '#e5e7eb',
+    opacity: 0.5,
+  },
   radioFieldContainer: {
     backgroundColor: 'transparent',
     paddingVertical: 5,
@@ -97,6 +101,10 @@ const styles = StyleSheet.create({
     borderColor: 'grey',
     borderWidth: 0.5,
     borderRadius: 5,
+  },
+  dropdownFieldDisabled: {
+    backgroundColor: '#e5e7eb',
+    opacity: 0.5,
   },
   dropdownSelectedList: {
     marginLeft: 10,

@@ -28,7 +28,7 @@ import moment from "moment";
 const Forms = () => {
   const navigate = useNavigate();
   const { user: authUser } = store.useState((s) => s);
-  const { formId } = useParams();
+  const { formId, uuid } = useParams();
   const [loading, setLoading] = useState(true);
   const [preload, setPreload] = useState(true);
   const [forms, setForms] = useState({});
@@ -36,7 +36,7 @@ const Forms = () => {
   const [submit, setSubmit] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const { notify } = useNotification();
-  const { language, initialValue, monitoring } = store.useState((s) => s);
+  const { language, initialValue } = store.useState((s) => s);
   const { active: activeLang } = language;
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -114,8 +114,8 @@ const Forms = () => {
       geo: geo || null,
       submission_type: config.submissionType.registration,
     };
-    if (monitoring?.uuid) {
-      dataPayload["uuid"] = monitoring.uuid;
+    if (uuid) {
+      dataPayload["uuid"] = uuid;
     }
     const data = {
       data: dataPayload,
@@ -131,13 +131,12 @@ const Forms = () => {
     api
       .post(`form-pending-data/${formId}`, data)
       .then(() => {
-        if (monitoring?.uuid) {
+        if (uuid) {
           /**
-           * reset initial value and monitoring
+           * reset initial value
            */
           store.update((s) => {
             s.initialValue = [];
-            s.monitoring = null;
           });
         }
         if (refreshForm) {
@@ -222,7 +221,7 @@ const Forms = () => {
           (qg) => qg?.question
         );
         const res = await fetch(
-          `${window.location.origin}/datapoints/${monitoring?.uuid}.json`
+          `${window.location.origin}/datapoints/${uuid}.json`
         );
         const { answers } = await res.json();
         /**
@@ -269,12 +268,13 @@ const Forms = () => {
         });
       }
     },
-    [getCascadeAnswerId, monitoring?.uuid, text.updateDataError]
+    [getCascadeAnswerId, uuid, text.updateDataError]
   );
 
   useEffect(() => {
     if (isEmpty(forms) && formId) {
       api.get(`/form/web/${formId}`).then((res) => {
+        let defaultValues = [];
         const questionGroups = res.data.question_group.map((qg) => {
           const questions = qg.question.map((q) => {
             let qVal = { ...q };
@@ -282,18 +282,43 @@ const Forms = () => {
             if (
               q?.default_value &&
               q?.default_value?.submission_type?.registration &&
-              !monitoring
+              !uuid
             ) {
-              store.update((s) => {
-                s.initialValue = [
-                  {
-                    question: q.id,
-                    value: q.default_value.submission_type.registration,
-                  },
-                ];
-              });
+              defaultValues = [
+                ...defaultValues,
+                {
+                  question: q.id,
+                  value: q.default_value.submission_type.registration,
+                },
+              ];
             }
             // eol set initial value for new_or_monitoring question
+
+            // set disabled new_or_monitoring question
+            if (
+              q?.default_value &&
+              !isEmpty(q?.default_value?.submission_type)
+            ) {
+              qVal = {
+                ...qVal,
+                disabled: true,
+              };
+            }
+            // eol set disabled new_or_monitoring question
+
+            // support disabled question by submission type
+            if (
+              q?.disabled?.submission_type &&
+              q?.disabled?.submission_type?.length
+            ) {
+              const submissionType = uuid ? "monitoring" : "registration";
+              qVal = {
+                ...qVal,
+                disabled: q.disabled.submission_type.includes(submissionType),
+              };
+            }
+            // EOL support disabled question by submission type
+
             if (q?.extra) {
               delete qVal.extra;
               qVal = {
@@ -315,15 +340,23 @@ const Forms = () => {
           };
         });
         setForms({ ...res.data, question_group: questionGroups });
+        // INITIAL VALUE FOR NEW DATA
+        if (defaultValues.length) {
+          setTimeout(() => {
+            store.update((s) => {
+              s.initialValue = defaultValues;
+            });
+          }, 1000);
+        }
         // INITIAL VALUE FOR MONITORING
-        if (monitoring?.uuid) {
+        if (uuid) {
           fetchInitialMonitoringData(res);
         }
         // EOL INITIAL VALUE FOR MONITORING
         setLoading(false);
       });
     }
-  }, [formId, monitoring, forms, fetchInitialMonitoringData]);
+  }, [formId, uuid, forms, fetchInitialMonitoringData]);
 
   const handleOnClearForm = useCallback((preload, initialValue) => {
     if (

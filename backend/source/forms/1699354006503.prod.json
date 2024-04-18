@@ -82,12 +82,9 @@
           },
           "required": true,
           "meta": true,
-          "dependency": [
-            {
-              "id": 1699354006535,
-              "options": ["new"]
-            }
-          ]
+          "disabled": {
+            "submission_type": ["monitoring", "verification", "certification"]
+          }
         },
         {
           "id": 1699951425330,
@@ -102,12 +99,9 @@
           "required": true,
           "meta": true,
           "options": null,
-          "dependency": [
-            {
-              "id": 1699354006535,
-              "options": ["new"]
-            }
-          ]
+          "disabled": {
+            "submission_type": ["monitoring", "verification", "certification"]
+          }
         }
       ]
     },
