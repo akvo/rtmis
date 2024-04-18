@@ -189,6 +189,10 @@ class ListAdministrationSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(ListAdministrationChildrenSerializer(many=True))
     def get_children(self, instance: Administration):
+        max_level = self.context.get('max_level')
+        if max_level:
+            if int(max_level) <= instance.level.level:
+                return []
         filter = self.context.get('filter')
         if filter:
             filtered_administration = Administration.objects.filter(
