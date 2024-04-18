@@ -66,3 +66,44 @@ class AdministrationSeederTestCase(TestCase):
                 }],
                 "children_level_name": "County",
             }, response.json())
+
+        # Test max_level
+        response = self.client.get('/api/v1/administration/1?max_level=0',
+                                   follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            {
+                "id": 1,
+                "path": None,
+                "level": 0,
+                "level_name": "National",
+                "name": "Indonesia",
+                "full_name": "Indonesia",
+                "parent": None,
+                "children": [],
+                "children_level_name": "County",
+            }, response.json())
+
+        # tests filter
+        response = self.client.get('/api/v1/administration/1?filter=2',
+                                   follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            {
+                "id": 1,
+                "path": None,
+                "level": 0,
+                "level_name": "National",
+                "name": "Indonesia",
+                "full_name": "Indonesia",
+                "parent": None,
+                "children": [{
+                    "id": 2,
+                    "level": 2,
+                    "name": "Jakarta",
+                    "full_name": "Indonesia|Jakarta",
+                    "parent": 1,
+                    "path": "1."
+                }],
+                "children_level_name": "County",
+            }, response.json())

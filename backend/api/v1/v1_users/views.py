@@ -246,16 +246,22 @@ def set_user_password(request, version):
                    OpenApiParameter(name='filter',
                                     required=False,
                                     type=OpenApiTypes.NUMBER,
-                                    location=OpenApiParameter.QUERY)
+                                    location=OpenApiParameter.QUERY),
+                   OpenApiParameter(name='max_level',
+                                    required=False,
+                                    type=OpenApiTypes.NUMBER,
+                                    location=OpenApiParameter.QUERY),
                ],
                summary='Get list of administration')
 @api_view(['GET'])
 def list_administration(request, version, administration_id):
     instance = get_object_or_404(Administration, pk=administration_id)
     filter = request.GET.get('filter')
+    max_level = request.GET.get('max_level')
     return Response(ListAdministrationSerializer(instance=instance,
                                                  context={
-                                                     'filter': filter
+                                                     'filter': filter,
+                                                     'max_level': max_level
                                                  }).data,
                     status=status.HTTP_200_OK)
 

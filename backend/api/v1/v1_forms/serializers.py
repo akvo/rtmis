@@ -70,23 +70,37 @@ class ListQuestionSerializer(serializers.ModelSerializer):
                           fields={
                               'endpoint': serializers.CharField(),
                               'list': serializers.CharField(),
-                              'id': serializers.IntegerField(),
+                              'initial': serializers.CharField(),
+                              'query_params': serializers.CharField(),
                           }))
     def get_api(self, instance: Questions):
         if instance.type == QuestionTypes.administration:
             user = self.context.get('user')
             administration = user.user_access.administration
+            max_level = instance.form.type == FormTypes.national
+            extra_objects = {}
+            if max_level:
+                extra_objects = {
+                    "query_params": "?max_level=2",
+                }
             if user.user_access.role == UserRoleTypes.user:
+                if max_level:
+                    extra_objects = {
+                        "query_params": "&max_level=2",
+                    }
                 return {
                     "endpoint": "/api/v1/administration",
                     "list": "children",
                     "initial": "{0}?filter={1}".format(
                         administration.parent_id,
-                        administration.id)}
+                        administration.id),
+                    **extra_objects
+                }
             return {
                 "endpoint": "/api/v1/administration",
                 "list": "children",
                 "initial": administration.id,
+                **extra_objects
             }
         if instance.type == QuestionTypes.cascade:
             return instance.api
@@ -153,11 +167,15 @@ class ListQuestionSerializer(serializers.ModelSerializer):
         inline_serializer('QuestionSourceFormat',
                           fields={
                             'file': serializers.CharField(),
-                            'parent': serializers.IntegerField(),
+                            'parent': serializers.ListField(
+                                child=serializers.IntegerField()),
+                            'max_level': serializers.IntegerField(),
                           }))
     def get_source(self, instance: Questions):
         user = self.context.get('user')
         assignment = self.context.get('mobile_assignment')
+        max_level = instance.form.type == FormTypes.national
+        extra_objects = {}
         if instance.type == QuestionTypes.cascade:
             if instance.extra:
                 cascade_type = instance.extra.get("type")
@@ -176,11 +194,16 @@ class ListQuestionSerializer(serializers.ModelSerializer):
                 "parent_id": [0]
             }
         if instance.type == QuestionTypes.administration:
+            if max_level:
+                extra_objects = {
+                    "max_level": 1,
+                }
             return {
                 "file": "administrator.sqlite",
                 "parent_id": [
                     a.id for a in assignment.administrations.all()
-                ] if assignment else [user.user_access.administration.id]
+                ] if assignment else [user.user_access.administration.id],
+                **extra_objects
             }
         return None
 
