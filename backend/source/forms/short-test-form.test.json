@@ -93,7 +93,7 @@
           "meta": false,
           "fn": null,
           "disabled": {
-            "submission_type": ["monitoring", "verification","certification"]
+            "submission_type": ["monitoring", "verification", "certification"]
           }
         },
         {

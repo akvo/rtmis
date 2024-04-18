@@ -63,12 +63,9 @@
           },
           "required": true,
           "meta": true,
-          "dependency": [
-            {
-              "id": 1701172125598,
-              "options": ["new"]
-            }
-          ]
+          "disabled": {
+            "submission_type": ["monitoring"]
+          }
         },
         {
           "id": 1701173656314,
@@ -83,12 +80,9 @@
           "required": true,
           "meta": true,
           "options": null,
-          "dependency": [
-            {
-              "id": 1701172125598,
-              "options": ["new"]
-            }
-          ]
+          "disabled": {
+            "submission_type": ["monitoring"]
+          }
         },
         {
           "id": 1701174317250,
