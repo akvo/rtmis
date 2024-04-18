@@ -76,6 +76,12 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
   const formLoading = FormState.useState((s) => s.loading);
   const route = useRoute();
 
+  const dependantQuestions =
+    forms?.question_group
+      ?.flatMap((qg) => qg.question)
+      .filter((q) => q?.dependency && q?.dependency?.length)
+      ?.map((q) => ({ id: q.id, dependency: q.dependency })) || [];
+
   const formDefinition = transformForm(
     forms,
     currentValues,
@@ -135,7 +141,12 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
   };
 
   const handleOnDefaultValue = useCallback(() => {
-    if (!isDefaultFilled) {
+    if (
+      !isDefaultFilled &&
+      [SUBMISSION_TYPES.registration, SUBMISSION_TYPES.monitoring].includes(
+        route.params?.submission_type,
+      )
+    ) {
       setIsDefaultFilled(true);
       const defaultValues = activeQuestions
         .filter((aq) => aq?.default_value)
@@ -172,6 +183,7 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
               index={activeGroup}
               group={currentGroup}
               activeQuestions={activeQuestions}
+              dependantQuestions={dependantQuestions}
             />
           ) : (
             <QuestionGroupList
