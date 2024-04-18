@@ -172,7 +172,9 @@
           "label": "Institution ID",
           "short_label": null,
           "type": "text",
-          "tooltip": null,
+          "tooltip": {
+            "text": "ID/Name: enter the name of the institution (for example, name of school or name of health facility) with, where available, an ID code. If no code is available, just enter the name"
+          },
           "required": true,
           "meta": true,
           "options": null,
