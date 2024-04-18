@@ -249,7 +249,7 @@ const Forms = () => {
             : transformValue(q?.type, answers?.[q.id]);
           // set default answer by default_value for new_or_monitoring question
           if (
-            q?.name === "new_or_monitoring" &&
+            q?.default_value &&
             q?.default_value?.submission_type?.monitoring
           ) {
             value = q.default_value.submission_type.monitoring;
@@ -280,7 +280,7 @@ const Forms = () => {
             let qVal = { ...q };
             // set initial value for new_or_monitoring question
             if (
-              q?.name === "new_or_monitoring" &&
+              q?.default_value &&
               q?.default_value?.submission_type?.registration &&
               !monitoring
             ) {
