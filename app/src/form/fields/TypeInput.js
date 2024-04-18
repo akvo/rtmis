@@ -83,11 +83,15 @@ const TypeInput = ({
   disabled,
 }) => {
   const requiredValue = required ? requiredSign : null;
+  const inputContainerStyle =
+    metaUUID || disabled
+      ? { ...styles.inputFieldContainer, ...styles.inputFieldDisabled }
+      : styles.inputFieldContainer;
   return (
     <View>
       <FieldLabel keyform={keyform} name={label} tooltip={tooltip} requiredSign={requiredValue} />
       <Input
-        inputContainerStyle={styles.inputFieldContainer}
+        inputContainerStyle={inputContainerStyle}
         onChangeText={(val) => {
           if (onChange) {
             onChange(id, val);

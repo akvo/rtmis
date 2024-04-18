@@ -28,7 +28,7 @@ const TypeMultipleOption = ({
     <View style={styles.multipleOptionContainer}>
       <FieldLabel keyform={keyform} name={label} tooltip={tooltip} requiredSign={requiredValue} />
       <MultiSelect
-        style={[styles.dropdownField]}
+        style={disabled ? styles.dropdownFieldDisabled : styles.dropdownField}
         selectedStyle={styles.dropdownSelectedList}
         activeColor="#ddd"
         data={option}
@@ -78,7 +78,7 @@ TypeMultipleOption.propTypes = {
 
 TypeMultipleOption.defaultProps = {
   value: null,
-  requiredSign: "*",
+  requiredSign: '*',
   disabled: false,
   option: [],
   tooltip: null,

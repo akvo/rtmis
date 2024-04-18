@@ -50,7 +50,7 @@ const TypeOption = ({
     <View style={styles.optionContainer}>
       <FieldLabel keyform={keyform} name={label} tooltip={tooltip} requiredSign={requiredValue} />
       <Dropdown
-        style={styles.dropdownField}
+        style={disabled ? styles.dropdownFieldDisabled : styles.dropdownField}
         selectedTextStyle={selectedStyle}
         data={option}
         search={showSearch}

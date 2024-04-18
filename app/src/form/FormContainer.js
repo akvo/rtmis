@@ -141,23 +141,21 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
   };
 
   const handleOnDefaultValue = useCallback(() => {
-    if (
-      !isDefaultFilled &&
-      [SUBMISSION_TYPES.registration, SUBMISSION_TYPES.monitoring].includes(
-        route.params?.submission_type,
-      )
-    ) {
+    if (!isDefaultFilled) {
       setIsDefaultFilled(true);
       const defaultValues = activeQuestions
         .filter((aq) => aq?.default_value)
         .map((aq) => {
           const submissionType = route.params?.submission_type || SUBMISSION_TYPES.registration;
           const subTypeName = helpers.flipObject(SUBMISSION_TYPES)[submissionType];
-          const defaultValue = aq?.default_value?.submission_type?.[subTypeName] || '';
+          const defaultValue = aq?.default_value?.submission_type?.[subTypeName];
+          if (['option', 'multiple_option'].includes(aq.type)) {
+            return {
+              [aq.id]: defaultValue ? [defaultValue] : [],
+            };
+          }
           return {
-            [aq.id]: ['option', 'multiple_option'].includes(aq.type)
-              ? [defaultValue]
-              : defaultValue,
+            [aq.id]: defaultValue || Number(defaultValue) === 0 ? defaultValue : '',
           };
         })
         .reduce((prev, current) => ({ ...prev, ...current }), {});
