@@ -19,32 +19,9 @@
           "label": "County",
           "name": "County",
           "order": 1,
-          "type": "option",
-          "required": false,
-          "meta": true,
-          "options": [
-            {
-              "order": 1,
-              "label": "Kitui",
-              "value": "Kitui",
-              "color": null,
-              "id": 1709689698836
-            },
-            {
-              "order": 2,
-              "label": "Turkana",
-              "value": "Turkana",
-              "color": null,
-              "id": 1709689698907
-            },
-            {
-              "order": 3,
-              "label": "Homa Bay",
-              "value": "Homa Bay",
-              "color": null,
-              "id": 1709689751685
-            }
-          ]
+          "type": "administration",
+          "required": true,
+          "meta": true
         }
       ]
     },
