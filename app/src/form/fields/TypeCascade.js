@@ -246,6 +246,9 @@ const TypeCascade = ({
           const hasSearch = item?.options.length > 3;
           const isDisabled =
             route.params?.submission_type === SUBMISSION_TYPES.certification || disabled;
+          const style = isDisabled
+            ? { ...styles.dropdownField, ...styles.dropdownFieldDisabled }
+            : styles.dropdownField;
           return (
             <Dropdown
               // eslint-disable-next-line react/no-array-index-key
@@ -258,7 +261,7 @@ const TypeCascade = ({
               searchPlaceholder={trans.searchPlaceholder}
               onChange={({ id: selectedID }) => handleOnChange(index, selectedID)}
               value={item.value}
-              style={isDisabled ? styles.dropdownFieldDisabled : styles.dropdownField}
+              style={style}
               placeholder={trans.selectItem}
               disable={disabled}
             />

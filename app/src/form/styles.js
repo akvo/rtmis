@@ -103,12 +103,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   dropdownFieldDisabled: {
-    marginHorizontal: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 2,
-    borderColor: 'grey',
-    borderWidth: 0.5,
-    borderRadius: 5,
     backgroundColor: '#e5e7eb',
     opacity: 0.5,
   },
