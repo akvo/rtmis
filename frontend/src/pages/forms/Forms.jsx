@@ -311,12 +311,10 @@ const Forms = () => {
               q?.disabled?.submission_type &&
               q?.disabled?.submission_type?.length
             ) {
-              const disabled = uuid
-                ? q.disabled.submission_type.includes("monitoring")
-                : false;
+              const submissionType = uuid ? "monitoring" : "registration";
               qVal = {
                 ...qVal,
-                disabled: disabled,
+                disabled: q.disabled.submission_type.includes(submissionType),
               };
             }
             // EOL support disabled question by submission type
