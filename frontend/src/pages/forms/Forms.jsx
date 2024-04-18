@@ -275,6 +275,7 @@ const Forms = () => {
   useEffect(() => {
     if (isEmpty(forms) && formId) {
       api.get(`/form/web/${formId}`).then((res) => {
+        let defaultValues = [];
         const questionGroups = res.data.question_group.map((qg) => {
           const questions = qg.question.map((q) => {
             let qVal = { ...q };
@@ -284,16 +285,43 @@ const Forms = () => {
               q?.default_value?.submission_type?.registration &&
               !monitoring
             ) {
-              store.update((s) => {
-                s.initialValue = [
-                  {
-                    question: q.id,
-                    value: q.default_value.submission_type.registration,
-                  },
-                ];
-              });
+              defaultValues = [
+                ...defaultValues,
+                {
+                  question: q.id,
+                  value: q.default_value.submission_type.registration,
+                },
+              ];
             }
             // eol set initial value for new_or_monitoring question
+
+            // set disabled new_or_monitoring question
+            if (
+              q?.default_value &&
+              !isEmpty(q?.default_value?.submission_type)
+            ) {
+              qVal = {
+                ...qVal,
+                disabled: true,
+              };
+            }
+            // eol set disabled new_or_monitoring question
+
+            // support disabled question by submission type
+            if (
+              q?.disabled?.submission_type &&
+              q?.disabled?.submission_type?.length
+            ) {
+              const disabled = monitoring
+                ? q.disabled.submission_type.includes("monitoring")
+                : false;
+              qVal = {
+                ...qVal,
+                disabled: disabled,
+              };
+            }
+            // EOL support disabled question by submission type
+
             if (q?.extra) {
               delete qVal.extra;
               qVal = {
@@ -315,6 +343,14 @@ const Forms = () => {
           };
         });
         setForms({ ...res.data, question_group: questionGroups });
+        // INITIAL VALUE FOR NEW DATA
+        if (defaultValues.length) {
+          setTimeout(() => {
+            store.update((s) => {
+              s.initialValue = defaultValues;
+            });
+          }, 1000);
+        }
         // INITIAL VALUE FOR MONITORING
         if (monitoring?.uuid) {
           fetchInitialMonitoringData(res);
