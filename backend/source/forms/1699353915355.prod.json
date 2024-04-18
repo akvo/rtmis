@@ -3186,10 +3186,9 @@
           "fn": {
             "fnColor": {
               "G1 Some household members do not use their own toilet": "#FDC74B",
-              "G2 All household members use own toilet at all times": "#93D371",
               "G0 All household members defecate in the open": "#FD3F31"
             },
-            "fnString": "#all_hh_members_use_toilet#.includes(\"g2\") ? \"G2 All household members use own toilet at all times\" : #all_hh_members_use_toilet#.includes(\"g0\") ? \"G0 All household members defecate in the open\" : \"G1 Some household members do not use their own toilet\"",
+            "fnString": "#all_hh_members_use_toilet#.includes(\"g0\") ? \"G0 All household members defecate in the open\" : \"G1 Some household members do not use their own toilet\"",
             "multiline": false
           }
         },
