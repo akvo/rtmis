@@ -15,7 +15,7 @@ const UserTab = ({ tabBarExtraContent }) => {
       onChange={(key) => navigate(key)}
       tabBarExtraContent={tabBarExtraContent}
     >
-      <TabPane tab="Manage Data" key="/data/manage">
+      <TabPane tab="Manage Routine Data" key="/data/manage">
         &nbsp;
       </TabPane>
       <TabPane tab="Downloaded Data" key="/data/export">
