@@ -834,7 +834,7 @@
           "id": 1706093811090,
           "order": 4,
           "name": "durable_toilet_pits",
-          "label": "Durable school toilet pits",
+          "label": "School toilet: durable pits",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -844,23 +844,30 @@
           "meta": false,
           "options": [
             {
-              "id": 1706093835280,
+              "id": 1713501259,
               "order": 1,
-              "label": "G0 All toilet pits are NOT durable",
+              "label": "No Toilet",
+              "value": "g0_no_toilet",
+              "color": "#db3b3b"
+            },
+            {
+              "id": 1706093835280,
+              "order": 2,
+              "label": "All toilet pits are NOT durable",
               "value": "g0_all_toil_pits_are_not_dura",
               "color": "#db3b3b"
             },
             {
               "id": 1706093835281,
-              "order": 2,
-              "label": "G1 Some toilet pits are NOT durable",
+              "order": 3,
+              "label": "Some toilet pits are NOT durable",
               "value": "g1_some_toil_pits_are_not_dura",
               "color": "#ffa57d"
             },
             {
               "id": 1706094848944,
-              "order": 3,
-              "label": "G3 All functional toilet pits are durable",
+              "order": 4,
+              "label": "All functional toilet pits are durable",
               "value": "g3_all_func_toil_pits_are_dura",
               "color": "#38a15a"
             }
