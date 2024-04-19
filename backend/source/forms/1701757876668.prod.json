@@ -1082,7 +1082,7 @@
         },
         {
           "id": 1706098410203,
-          "order": 17,
+          "order": 14,
           "name": "school_toilet_privacy",
           "label": "School toilet privacy",
           "short_label": null,
@@ -1094,22 +1094,29 @@
           "meta": false,
           "options": [
             {
-              "id": 1706098481531,
+              "id": 1713502373,
               "order": 1,
+              "label": "No toilet",
+              "value": "no_toil",
+              "color": "#db3b3b"
+            },
+            {
+              "id": 1706098481531,
+              "order": 2,
               "label": "All school toilets provide INADEQUATE privacy",
               "value": "all_scho_toil_prov_inad_priv",
               "color": "#DB3B3B"
             },
             {
               "id": 1706098481532,
-              "order": 2,
+              "order": 3,
               "label": "Some school toilets provide INADEQUATE privacy",
               "value": "some_scho_toil_prov_inad_priv",
               "color": "#ffa57d"
             },
             {
               "id": 1706098538553,
-              "order": 3,
+              "order": 4,
               "label": "All functional school toilets provide good privacy",
               "value": "all_func_scho_toil_prov_good_priv",
               "color": "#38A15A"
@@ -1121,7 +1128,7 @@
         },
         {
           "id": 1706098604926,
-          "order": 18,
+          "order": 15,
           "name": "school_toilet_availability",
           "label": "School toilet availability",
           "short_label": null,
@@ -1133,22 +1140,29 @@
           "meta": false,
           "options": [
             {
-              "id": 1706098612974,
+              "id": 1713502417,
               "order": 1,
+              "label": "No toilet",
+              "value": "no_toil",
+              "color": "#db3b3b"
+            },
+            {
+              "id": 1706098612974,
+              "order": 2,
               "label": "All school toilets UNAVAILABLE to students",
               "value": "all_scho_toil_unav_to_stud",
               "color": "#DB3B3B"
             },
             {
               "id": 1706098612975,
-              "order": 2,
+              "order": 3,
               "label": "Some school toilets UNAVAILABLE to students",
               "value": "some_scho_toil_unav_to_stud",
               "color": "#ffa57d"
             },
             {
               "id": 1706098674353,
-              "order": 3,
+              "order": 4,
               "label": "All functional school toilets available to students",
               "value": "all_func_scho_toil_avai_to_stud",
               "color": "#38A15A"
@@ -1160,7 +1174,7 @@
         },
         {
           "id": 1706098728743,
-          "order": 19,
+          "order": 16,
           "name": "clean_school_toilets",
           "label": "Clean school toilets",
           "short_label": null,
@@ -1172,25 +1186,32 @@
           "meta": false,
           "options": [
             {
-              "id": 1706098853515,
-              "order": 3,
-              "label": "All functional school toilets are clean",
-              "value": "all_func_scho_toil_are_clea",
-              "color": "#38A15A"
+              "id": 1713502512,
+              "order": 1,
+              "label": "No toilet",
+              "value": "no_toil",
+              "color": "#db3b3b"
             },
             {
               "id": 1706098756813,
-              "order": 1,
+              "order": 2,
               "label": "School toilets NOT clean",
               "value": "scho_toil_not_clea",
               "color": "#DB3B3B"
             },
             {
               "id": 1706098756814,
-              "order": 2,
+              "order": 3,
               "label": "School toilets somewhat clean",
               "value": "scho_toil_some_clea",
               "color": "#ffa57d"
+            },
+            {
+              "id": 1706098853515,
+              "order": 4,
+              "label": "All functional school toilets are clean",
+              "value": "all_func_scho_toil_are_clea",
+              "color": "#38A15A"
             }
           ],
           "dependency": null,
@@ -1199,7 +1220,7 @@
         },
         {
           "id": 1706098964064,
-          "order": 20,
+          "order": 17,
           "name": "no_exposed_excreta_around_school_toilets",
           "label": "No exposed human excreta around school toilets",
           "short_label": null,
@@ -1215,14 +1236,14 @@
               "order": 1,
               "label": "Human excreta observed",
               "value": "huma_excr_obse",
-              "color": "#38A15A"
+              "color": "#DB3B3B"
             },
             {
               "id": 1706098995829,
               "order": 2,
               "label": "No visible OD or human excreta",
               "value": "no_visi_od_huma_excr",
-              "color": "#DB3B3B"
+              "color": "#38A15A"
             }
           ],
           "dependency": null,
@@ -1231,13 +1252,13 @@
         },
         {
           "id": 1706099198431,
-          "order": 21,
+          "order": 18,
           "name": "safely_managed_toilet_containment_wastewater",
-          "label": "Safely managed toilet containment: wastewater contained",
+          "label": "Safely managed: wastewater contained in pit (or tank)",
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: any evidence of surface outflows from containment systems (for example, visible outflows or leaks; increased vegetation growth around the pit; visible deposits from previous outflows)</b></br>\n<b>Surface outflows from containment: </b>EITHER continuous outflows of faecal sludge or wastewater from overflow pipes, holes or leaks; OR evidence of previous surface outflows (for example, increased vegetation growth around the containment system, or visible sludge deposits from overflows or leaks).\n\n"
+            "text": "<b>OBSERVE:</b> any evidence of surface outflows from pits or tanks<br/><b>Surface outflows from pits or tanks:</b> EITHER continuous outflows of faecal sludge or wastewater from overflow pipes, holes or leaks; OR evidence of previous surface outflows (for example, increased vegetation growth around the pits, or visible sludge deposits from overflows or leaks)"
           },
           "required": false,
           "meta": false,
@@ -1263,9 +1284,9 @@
         },
         {
           "id": 1706099341937,
-          "order": 22,
+          "order": 19,
           "name": "safely_managed_toilet_containment_faecal_sludge",
-          "label": "Safely managed toilet containment: faecal sludge contained",
+          "label": "Safely managed: excreta contained in pit (or tank)",
           "short_label": null,
           "type": "option",
           "tooltip": {
