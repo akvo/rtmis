@@ -1,4 +1,3 @@
-// TODO: Add new certification column (JSON TEXT) into users table to save certification value
 const tables = [
   {
     name: 'users',
@@ -56,6 +55,7 @@ const tables = [
       syncedAt: 'DATETIME',
       json: 'TEXT',
       submission_type: 'INTEGER DEFAULT "1" NOT NULL',
+      uuid: 'VARCHAR(191)',
     },
   },
   {

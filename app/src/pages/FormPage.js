@@ -151,6 +151,7 @@ const FormPage = ({ navigation, route }) => {
         duration: surveyDuration,
         json: answers,
         submissionType: route.params.submission_type,
+        uuid: route.params?.uuid,
       };
       const dbCall = isNewSubmission
         ? crudDataPoints.saveDataPoint
@@ -168,7 +169,7 @@ const FormPage = ({ navigation, route }) => {
         user: userId,
         type: SYNC_FORM_SUBMISSION_TASK_NAME,
         status: jobStatus.PENDING,
-        info: `${currentFormId} | ${datapoitName}`,
+        info: route.params?.uuid,
       });
 
       if (route.params.submission_type === SUBMISSION_TYPES.certification && route.params?.uuid) {
