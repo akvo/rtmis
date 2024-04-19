@@ -1715,7 +1715,7 @@
             }
           ],
           "disabled": {
-            "submission_type": ["registration", "monitoring"]
+            "submission_type": ["certification", "verification"]
           }
         },
         {
