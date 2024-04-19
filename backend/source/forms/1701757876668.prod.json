@@ -234,7 +234,7 @@
       "questions": [
         {
           "id": 1701757876670,
-          "order": 2,
+          "order": 1,
           "name": "school_location",
           "label": "What is the location of the school?",
           "short_label": null,
@@ -247,7 +247,7 @@
         },
         {
           "id": 1713505867,
-          "order": 1,
+          "order": 2,
           "name": "school",
           "label": "School Cascade",
           "short_label": "School",
