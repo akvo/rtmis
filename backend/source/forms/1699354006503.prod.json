@@ -1195,11 +1195,11 @@
           "options": null,
           "fn": {
             "fnColor": {
-              "G1 Liquid wastes UNSAFELY managed in communal areas": "#FDC74B",
-              "G2 Inadequate management of liquid wastes in communal areas": "#93D371",
-              "G3 Safe management of liquid wastes in communal areas": "#4088F4"
+              "G1 Solid wastes UNSAFELY managed in communal areas": "#FDC74B",
+              "G2 Inadequate management of solid wastes in communal areas": "#93D371",
+              "G3 Safe management of solid wastes in communal areas": "#4088F4"
             },
-            "fnString": "(#no_visible_solid_wastes_communal_areas#.includes(\"g0\")) ? \"G1 Liquid wastes UNSAFELY managed in communal areas\" : (#no_visible_solid_wastes_communal_areas#.includes(\"g3\") ? \"G3 Safe management of liquid wastes in communal areas\" : \"G2 Inadequate management of liquid wastes in communal areas\")",
+            "fnString": "(#no_visible_solid_wastes_communal_areas#.includes(\"g0\")) ? \"G1 Solid wastes UNSAFELY managed in communal areas\" : (#no_visible_solid_wastes_communal_areas#.includes(\"g3\") ? \"G3 Safe management of solid wastes in communal areas\" : \"G2 Inadequate management of solid wastes in communal areas\")",
             "multiline": false
           }
         },
@@ -1690,7 +1690,7 @@
               "order": 1,
               "label": "No",
               "value": "no",
-              "color": "red"
+              "color": "#DB3B3B"
             },
             {
               "id": 1699951727891242,
