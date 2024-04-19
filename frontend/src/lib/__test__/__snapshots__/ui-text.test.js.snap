@@ -86,7 +86,7 @@ Object {
     "attrTypeRequired": "Attribute type is required",
     "backBtn": "Back",
     "backHome": "Back to Homepage",
-    "backManageData": "Back to Manage data",
+    "backManageData": "Back to Manage Routine Data",
     "backManageVerification": "Back to Manage Verification Data",
     "backToCenterLabel": "Back to Control Center",
     "batchDatasets": "Batch Datasets",
@@ -240,7 +240,7 @@ Object {
     "fileUploadSuccess": "File uploaded successfully",
     "finish": "Finish",
     "finishSubmissionBatchBtn": "Finish and Go to Batch",
-    "finishSubmissionBtn": "Finish and Go to Manage Data",
+    "finishSubmissionBtn": "Finish and Go to Manage Routine Data",
     "footerAboutDescription": "All the data contained in the RUSH platform is aggregated from both primary and secondary data sources from the 47 counties in Kenya. The data is updated on a monthly basis.",
     "footerAboutTitle": "About Data",
     "footerContactAddress": "Afya House, Cathedral Road, P.O. Box:30016–00100, Nairobi, Kenya",
@@ -357,7 +357,7 @@ Object {
       </ul>
     </React.Fragment>,
     "manageAttributes": "Manage Attributes",
-    "manageDataButton": "Manage Data",
+    "manageDataButton": "Manage Routine Data",
     "manageDataText": <React.Fragment>
       This is where you :
       <ul>
@@ -372,7 +372,7 @@ Object {
         </li>
       </ul>
     </React.Fragment>,
-    "manageDataTitle": "Manage Data",
+    "manageDataTitle": "Manage Routine Data",
     "manageDataValidationSetup": "Validation Tree",
     "manageEntities": "Manage Entities",
     "manageEntitiesText": <React.Fragment>
