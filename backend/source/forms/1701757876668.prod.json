@@ -1030,7 +1030,7 @@
               "30 or less boy students to each functional boys' or shared toilet": "#93D371",
               "More than 30 boy students to each functional boys' or shared toilet": "#FDC74B"
             },
-            "fnString": "#status_boys_only_toilets# > 0 && #num_functional_shared_toilet# > 0 ? ( #num_boys_enrolled# / ( #status_boys_only_toilets# + #num_functional_shared_toilet# )) > 30 ? \"More than 30 boy students to each functional boys' or shared toilet\": \"30 or less boy students to each functional boys' or shared toilet\":  \"No Toilet\"",
+            "fnString": "#num_boys_only_functional_toilets# > 0 && #num_functional_shared_toilet# > 0 ? ( #num_boys_enrolled# / ( #num_boys_only_functional_toilets# + #num_functional_shared_toilet# )) > 30 ? \"More than 30 boy students to each functional boys' or shared toilet\": \"30 or less boy students to each functional boys' or shared toilet\":  \"No Toilet\"",
             "multiline": false
           }
         },
