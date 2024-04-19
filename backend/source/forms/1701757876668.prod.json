@@ -234,7 +234,7 @@
       "questions": [
         {
           "id": 1701757876670,
-          "order": 1,
+          "order": 2,
           "name": "school_location",
           "label": "What is the location of the school?",
           "short_label": null,
@@ -244,6 +244,23 @@
           },
           "required": false,
           "meta": true
+        },
+        {
+          "id": 1713505867,
+          "order": 1,
+          "name": "school",
+          "label": "School Cascade",
+          "short_label": "School",
+          "meta": false,
+          "required": false,
+          "type": "cascade",
+          "extra": {
+            "type": "entity",
+            "name": "School"
+          },
+          "disabled": {
+            "submission_type": ["monitoring", "verification", "certification"]
+          }
         }
       ]
     },
