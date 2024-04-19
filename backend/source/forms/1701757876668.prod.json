@@ -54,7 +54,7 @@
         },
         {
           "id": 1706105071390,
-          "order": 2,
+          "order": 3,
           "name": "school_geolocation",
           "label": "Geolocation of school",
           "short_label": null,
@@ -70,7 +70,7 @@
         },
         {
           "id": 1706105097574,
-          "order": 3,
+          "order": 4,
           "name": "school_respondent_role",
           "label": "School respondent: role/position",
           "short_label": null,
@@ -81,6 +81,18 @@
           "required": false,
           "meta": false,
           "options": [
+            {
+              "id": 1706105104939,
+              "order": 1,
+              "label": "Chief Principal",
+              "value": "chie_prin"
+            },
+            {
+              "id": 1706105104940,
+              "order": 2,
+              "label": "Senior Principal",
+              "value": "seni_prin"
+            },
             {
               "id": 1706105143946,
               "order": 3,
@@ -115,26 +127,35 @@
               "id": 1706105191930,
               "order": 8,
               "label": "Other-specify",
-              "value": "othe"
-            },
-            {
-              "id": 1706105104939,
-              "order": 1,
-              "label": "Chief Principal",
-              "value": "chie_prin"
-            },
-            {
-              "id": 1706105104940,
-              "order": 2,
-              "label": "Senior Principal",
-              "value": "seni_prin"
+              "value": "other"
             }
           ],
           "rule": null
         },
         {
+          "id": 1713498651,
+          "order": 5,
+          "name": "school_respondent_role_other",
+          "label": "Other (Please specify)",
+          "short_label": null,
+          "type": "text",
+          "tooltip": null,
+          "required": false,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 1706105097574,
+              "options": ["other"]
+            }
+          ],
+          "rule": {
+            "min": 0
+          }
+        },
+        {
           "id": 1706105362976,
-          "order": 4,
+          "order": 6,
           "name": "total_students_enrolled",
           "label": "Total number of students enrolled in school",
           "short_label": null,
@@ -151,7 +172,7 @@
         },
         {
           "id": 1706105426912,
-          "order": 5,
+          "order": 7,
           "name": "num_boys_enrolled",
           "label": "Number of boys (male students) enrolled in school",
           "short_label": null,
@@ -168,7 +189,7 @@
         },
         {
           "id": 1706105453740,
-          "order": 6,
+          "order": 8,
           "name": "num_girls_enrolled",
           "label": "Number of girls (female students) enrolled in school",
           "short_label": null,
@@ -185,7 +206,7 @@
         },
         {
           "id": 1706105556610,
-          "order": 7,
+          "order": 9,
           "name": "num_students_disability",
           "label": "Number of students with disability enrolled in school",
           "short_label": null,
@@ -322,8 +343,29 @@
           "rule": null
         },
         {
-          "id": 1706087689694,
+          "id": 1713500026,
           "order": 2,
+          "name": "main_drinking_water_source_other",
+          "label": "Other (Please specify)",
+          "short_label": null,
+          "type": "text",
+          "tooltip": null,
+          "required": false,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 1706087451989,
+              "options": ["othe_impr_spec"]
+            }
+          ],
+          "rule": {
+            "min": 0
+          }
+        },
+        {
+          "id": 1706087689694,
+          "order": 3,
           "name": "num_water_points",
           "label": "Number of water points",
           "short_label": null,
@@ -340,7 +382,7 @@
         },
         {
           "id": 1706089053651,
-          "order": 3,
+          "order": 4,
           "name": "drinking_water_availability_current",
           "label": "Drinking water availability: current",
           "short_label": null,
@@ -372,7 +414,7 @@
         },
         {
           "id": 1706089220816,
-          "order": 4,
+          "order": 5,
           "name": "drinking_water_availability_school_year",
           "label": "Drinking water availability: throughout school year",
           "short_label": null,
@@ -411,7 +453,7 @@
         },
         {
           "id": 1706090780592,
-          "order": 5,
+          "order": 6,
           "name": "drinking_water_treatment",
           "label": "Drinking water treatment",
           "short_label": null,
@@ -476,7 +518,7 @@
         },
         {
           "id": 1706091513597,
-          "order": 6,
+          "order": 7,
           "name": "water_accessibility_students_lim_mobility_vision",
           "label": "Drinking water accessibility: students with limited mobility or vision",
           "short_label": null,
@@ -506,7 +548,7 @@
         },
         {
           "id": 1706091729540,
-          "order": 7,
+          "order": 8,
           "name": "water_accessibility_smallest_students",
           "label": "Drinking water accessibility: smallest students",
           "short_label": null,
@@ -549,7 +591,7 @@
           "id": 1706087820880,
           "order": 1,
           "name": "school_toilet_interface_type",
-          "label": "School toilet interface type",
+          "label": "Main type of school toilet: interface",
           "short_label": null,
           "type": "option",
           "tooltip": {
