@@ -30,7 +30,7 @@ const Sidebar = () => {
       label: "Manage Mobile Users",
       url: "/control-center/mobile-assignment",
     },
-    data: { label: "Manage Data", url: "/control-center/data" },
+    data: { label: "Manage Routine Data", url: "/control-center/data" },
     "master-data": [
       {
         label: "Administrative List",
