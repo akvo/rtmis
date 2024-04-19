@@ -679,7 +679,7 @@
           "id": 1706092607055,
           "order": 2,
           "name": "school_toilet_containment_collection_system",
-          "label": "School toilet containment or collection system",
+          "label": "Main type of school toilet: pit, tank or connection",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -733,15 +733,15 @@
             {
               "id": 1706092820533,
               "order": 7,
-              "label": "Double latrine pit",
-              "value": "doub_latr_pit",
+              "label": "Multi-latrine pit",
+              "value": "multi_latr_pit",
               "color": "#38a15a"
             },
             {
               "id": 1706092841424,
               "order": 8,
-              "label": "Double toilet vault (above ground)",
-              "value": "doub_toil_vaul_abov_grou",
+              "label": "Multi toilet vault (above ground)",
+              "value": "multi_toil_vaul_abov_grou",
               "color": "#38a15a"
             },
             {
@@ -761,22 +761,22 @@
             {
               "id": 1706092867217,
               "order": 11,
-              "label": "Piped sewer connection",
-              "value": "pipe_sewe_conn",
-              "color": "#38a15a"
-            },
-            {
-              "id": 1706092876714,
-              "order": 12,
-              "label": "Other pit or tank",
-              "value": "othe_pit_tank",
+              "label": "Connection to sewer network",
+              "value": "sewer_connection",
               "color": "#38a15a"
             },
             {
               "id": 1706092887417,
-              "order": 13,
+              "order": 12,
               "label": "Flush to don't know",
               "value": "flus_to_dont_know",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706092876714,
+              "order": 13,
+              "label": "Other pit or tank",
+              "value": "othe_pit_tank",
               "color": "#38a15a"
             }
           ],
@@ -788,7 +788,7 @@
           "id": 1706093073073,
           "order": 3,
           "name": "durable_toilet_slabs",
-          "label": "Durable school toilet slabs",
+          "label": "School toilet: durable slabs",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -799,24 +799,31 @@
           "options": [
             {
               "id": 1706093623092,
-              "order": 3,
-              "label": "G3 All functional school toilets have durable toilet slabs",
-              "value": "g3_all_func_scho_toil_have_dura_toil_slab",
-              "color": "#38A15A"
+              "order": 1,
+              "label": "No Toilet",
+              "value": "g0_no_toilet",
+              "color": "#db3b3b"
             },
             {
               "id": 1706093572396,
-              "order": 1,
-              "label": "G0 All school toilet slabs are NOT durable",
+              "order": 2,
+              "label": "All school toilet slabs are NOT durable",
               "value": "g0_all_scho_toil_slab_are_not_dura",
               "color": "#db3b3b"
             },
             {
               "id": 1706093572397,
-              "order": 2,
-              "label": "G1 Some school toilet slabs are NOT durable",
+              "order": 3,
+              "label": "Some school toilet slabs are NOT durable",
               "value": "g1_some_scho_toil_slab_are_not_dura",
               "color": "#ffa57d"
+            },
+            {
+              "id": 1706093623092,
+              "order": 4,
+              "label": "All functional school toilets have durable toilet slabs",
+              "value": "g3_all_func_scho_toil_have_dura_toil_slab",
+              "color": "#38A15A"
             }
           ],
           "dependency": null,
