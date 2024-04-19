@@ -595,7 +595,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: main type of toilet interface</b></br>\n<b>Toilet interface:</b> part of the toilet through which the excreta pass into the containment system</br>\n<b>Examples: </b>1. Drophole, 2. Pour-flush pan, 3. SATO pan."
+            "text": "<b>Main type:</b> the most common type of school toilet should be selected <b>Toilet interface examples:</b> 1. Dry latrine with hole in floor 2. Pour-flush pan 3. SATO pan."
           },
           "required": false,
           "meta": false,
@@ -608,52 +608,66 @@
               "color": "#db3b3b"
             },
             {
-              "id": 1706092427776,
+              "id": 1713500619,
+              "order": 2,
+              "label": "Open pits (Uncovered or large openings)",
+              "value": "open_pits",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706092381120,
               "order": 3,
-              "label": "VIP drophole with vent pipe",
+              "label": "Hole in floor (Dry latrine)",
+              "value": "dry_latr_with_drop",
+              "color": "#38a15a"
+            },
+            {
+              "id": 1706092427776,
+              "order": 4,
+              "label": "Hole in floor (VIP latrine with vent pipe)",
               "value": "vip_drop_with_vent_pipe",
               "color": "#38a15a"
             },
             {
               "id": 1706092437043,
-              "order": 4,
+              "order": 5,
               "label": "SATO pan",
               "value": "sato_pan",
               "color": "#38a15a"
             },
             {
               "id": 1706092447511,
-              "order": 5,
+              "order": 6,
               "label": "Flush or pour-flush pan with water seal",
               "value": "flus_pour_pan_with_wate_seal",
               "color": "#38a15a"
             },
             {
               "id": 1706092458462,
-              "order": 6,
+              "order": 7,
               "label": "Dry toilet with urine-diverting drophole",
               "value": "dry_toil_with_urin_drop",
               "color": "#38a15a"
             },
             {
               "id": 1706092476699,
-              "order": 7,
-              "label": "Open pipe (no water seal)",
+              "order": 8,
+              "label": "Open pipe to pit (no water seal)",
               "value": "open_pipe_no_wate_seal",
               "color": "#38a15a"
             },
             {
               "id": 1706092486092,
-              "order": 8,
-              "label": "Other toilet interface",
-              "value": "othe_toil_inte",
+              "order": 9,
+              "label": "Other toilet hygienic interface",
+              "value": "othe_hygienic_toil_inte",
               "color": "#38a15a"
             },
             {
-              "id": 1706092381120,
-              "order": 2,
-              "label": "Dry latrine with drophole",
-              "value": "dry_latr_with_drop",
+              "id": 1713500551,
+              "order": 10,
+              "label": "Other toilet unhygienic interface",
+              "value": "othe_unhygienic_toil_inte",
               "color": "#38a15a"
             }
           ],
