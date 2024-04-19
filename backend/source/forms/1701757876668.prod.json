@@ -1290,65 +1290,79 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW: has the school toilet containment (pit, tank or other) ever been emptied?<b></br>\n<b>INTERVIEW:<b> has the school toilet containment (pit, tank or other) ever filled up?</br>\n<b>INTERVIEW: <b>what happened when the school toilet containment (pit, tank or other) last filled up?</br>\n<b>INTERVIEW (if the containment system is a lined pit or tank, which has never been emptied): <b>what will happen when the toilet containment is full?</br>\n<b>Examples:<b> 1. Never emptied: covered a full toilet pit and dug a new pit; 2. Emptied: emptied the full pit and continued to use it; 3. Connected a second pit and disconnected the full pit. 4. Emptied faecal sludge from septic tank then continued to use."
+            "text": "<b>INTERVIEW:</b> have the school toilet pits or tanks ever been emptied? <b>INTERVIEW:</b> have the school toilet pits or tanks ever filled up? <b>INTERVIEW:</b> what happened the last time the school toilet pits or tanks filled up?"
           },
           "required": false,
           "meta": false,
           "options": [
             {
-              "id": 1706099349831,
+              "id": 1713503008,
               "order": 1,
-              "label": "Unsafely contained: emptied to open pit or open space",
+              "label": "No toilet",
+              "value": "no_toil",
+              "color": "#db3b3b"
+            },
+            {
+              "id": 1706099349831,
+              "order": 2,
+              "label": "Emptied to open pit or open space",
               "value": "unsa_cont_empt_to_open_pit_open_spac",
               "color": "#DB3B3B"
             },
             {
               "id": 1706099349832,
-              "order": 2,
-              "label": "Unsafely contained: emptied to UNLICENSED or UNKNOWN location",
+              "order": 3,
+              "label": "Emptied to UNLICENSED or UNKNOWN location",
               "value": "unsa_cont_empt_to_unli_unkn_loc",
               "color": "#DB3B3B"
             },
             {
               "id": 1706099476948,
-              "order": 3,
-              "label": "Unsafely contained: faecal sludge stored for less than 2 years before emptying and use of stored waste",
+              "order": 4,
+              "label": "Stored for less than 2 years before use of stored waste",
               "value": "unsa_cont_faec_slud_stor_for_less_than_2_year_befo_empt_use_stor_wast",
               "color": "#ffa57d"
             },
             {
               "id": 1706099485808,
-              "order": 4,
-              "label": "Safely contained: never emptied, not yet full (no intention to empty)",
+              "order": 5,
+              "label": "Never emptied (no intention to empty)",
               "value": "safe_cont_neve_empt_not_yet_full_no_inte_to_empt",
               "color": "#38A15A"
             },
             {
               "id": 1706099494174,
-              "order": 5,
-              "label": "Safely contained: never emptied, previous pit or tank replaced when full",
+              "order": 6,
+              "label": "Never emptied, previous pit or tank replaced when full",
               "value": "safe_cont_neve_empt_prev_pit_tank_repl_when_full",
               "color": "#38A15A"
             },
             {
               "id": 1706099503705,
-              "order": 6,
-              "label": "Safely contained: stored for MORE than 2 years before use of stored waste",
+              "order": 7,
+              "label": "Stored for MORE than 2 years before use of stored waste",
               "value": "safe_cont_stor_for_more_than_2_year_befo_use_stor_wast",
               "color": "#38A15A"
             },
             {
               "id": 1706099513378,
-              "order": 7,
-              "label": "Safely contained: emptied to nearby covered pit",
+              "order": 8,
+              "label": "Emptied to nearby covered pit (buried within community)",
               "value": "safe_cont_empt_to_near_cove_pit",
               "color": "#38A15A"
             },
             {
               "id": 1706099523892,
-              "order": 8,
-              "label": "Safely contained: emptied by licensed service provider",
+              "order": 9,
+              "label": "Emptied by licensed service provider",
               "value": "safe_cont_empt_by_lice_serv_prov",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1713503286,
+              "order": 10,
+              "label": "Connection to sewer network",
+              "value": "sewer_connection",
               "color": "#38A15A"
             }
           ],
@@ -1358,7 +1372,7 @@
         },
         {
           "id": 1706099849459,
-          "order": 23,
+          "order": 20,
           "name": "school_toilet_accessibility_students_lim_mobility_vision",
           "label": "School toilet accessibility: students with limited mobility or vision",
           "short_label": null,
@@ -1390,7 +1404,7 @@
         },
         {
           "id": 1706099987137,
-          "order": 24,
+          "order": 21,
           "name": "school_toilet_accessibility_smallest_students",
           "label": "School toilet accessibility: smallest students",
           "short_label": null,
@@ -1511,7 +1525,7 @@
           "short_label": null,
           "type": "number",
           "tooltip": {
-            "text": "<b>OBSERVE: how many school handwashing facilities are available?<b></br>\n<b>Available:</b> handwashing facility that enables students to wash their hands using running water, such as a basin with tap, water tank with tap, bucket with tap, tippy tap, or other similar device. NB a shared bucket or basin used for dipping hands is NOT considered an effective handwashing facility.\n"
+            "text": "<b>OBSERVE:</b> how many school handwashing facilities are available? <b>Available:</b> functional handwashing facility that enables students to wash their hands using running water, such as a basin with tap, water tank with tap, <br/>bucket with tap, tippy tap, or other similar device. <br/><b>NB</b> a shared bucket or basin used for dipping hands is NOT considered an acceptable handwashing facility."
           },
           "required": false,
           "meta": false,
@@ -1534,25 +1548,32 @@
           "meta": false,
           "options": [
             {
-              "id": 1706100601262,
-              "order": 3,
-              "label": "All handwashing facilities have water available",
-              "value": "all_hand_faci_have_wate_avai",
-              "color": "#38A15A"
+              "id": 1713503768,
+              "order": 1,
+              "label": "No handwashing facilities",
+              "value": "no_hand_faci",
+              "color": "#DB3B3B"
             },
             {
               "id": 1706100466391,
-              "order": 1,
+              "order": 2,
               "label": "No water available",
               "value": "no_wate_avai",
               "color": "#DB3B3B"
             },
             {
               "id": 1706100466392,
-              "order": 2,
-              "label": "Some handwashing facilities have water available",
+              "order": 3,
+              "label": "Water NOT available at some handwashing facilities",
               "value": "some_hand_faci_have_wate_avai",
               "color": "#ffa57d"
+            },
+            {
+              "id": 1706100601262,
+              "order": 4,
+              "label": "All handwashing facilities have water available",
+              "value": "all_hand_faci_have_wate_avai",
+              "color": "#38A15A"
             }
           ],
           "rule": null
@@ -1571,29 +1592,36 @@
           "meta": false,
           "options": [
             {
-              "id": 1706100703282,
+              "id": 1713503818,
               "order": 1,
+              "label": "No handwashing facilities",
+              "value": "no_hand_faci",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706100703282,
+              "order": 2,
               "label": "No soap or other cleanser available",
               "value": "no_soap_othe_clea_avai",
               "color": "#DB3B3B"
             },
             {
               "id": 1706100703283,
-              "order": 2,
+              "order": 3,
               "label": "Ash, mud or sand available",
               "value": "ash_mud_sand_avai",
               "color": "#DB3B3B"
             },
             {
               "id": 1706100789483,
-              "order": 3,
+              "order": 4,
               "label": "Some handwashing facilities have soap available",
               "value": "some_hand_faci_have_soap_avai",
               "color": "#ffa57d"
             },
             {
               "id": 1706100797426,
-              "order": 4,
+              "order": 5,
               "label": "All handwashing facilities have soap available",
               "value": "all_hand_faci_have_soap_avai",
               "color": "#38A15A"
@@ -1609,46 +1637,11 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: what is the main type of school handwashing station available?</b></br>\n<b>Permanent handwashing station: </b>facility made from durable materials, with a piped water connection or adequate water storage, and located in a fixed place that is appropriate for handwashing at critical times</br>\n<b>Market handwashing station: </b>manufactured handwashing station from durable materials (bought from market or market trader)</br>\n<b>Portable basin: </b>open container that can be easily picked up and moved"
+            "text": "<b>OBSERVE:</b> what is the main type of school handwashing station available?<br/><b>Permanent handwashing station:</b> facility made from durable materials, with a piped water connection or adequate water storage, and located in a fixed place that is appropriate for handwashing by students<br/><b>Temporary handwashing facility:</b> tippy tap or other facility made from non-durable materials<br/> <b>Portable basin:</b> open container that can be picked up and moved"
           },
           "required": false,
           "meta": false,
           "options": [
-            {
-              "id": 1706101117048,
-              "order": 3,
-              "label": "Portable basins or other open containers",
-              "value": "port_basi_othe_open_cont",
-              "color": "#ffa57d"
-            },
-            {
-              "id": 1706101128322,
-              "order": 4,
-              "label": "Other temporary handwashing facilities",
-              "value": "othe_temp_hand_faci",
-              "color": "#ffa57d"
-            },
-            {
-              "id": 1706101136375,
-              "order": 5,
-              "label": "Piped water taps with basins",
-              "value": "pipe_wate_taps_with_basi",
-              "color": "#38A15A"
-            },
-            {
-              "id": 1706101150144,
-              "order": 6,
-              "label": "Market handwashing stations with adequate water storage",
-              "value": "mark_hand_stat_with_adeq_wate_stor",
-              "color": "#38A15A"
-            },
-            {
-              "id": 1706101154034,
-              "order": 7,
-              "label": "Other permanent handwashing stations",
-              "value": "othe_perm_hand_stat",
-              "color": "#38A15A"
-            },
             {
               "id": 1706100885982,
               "order": 1,
@@ -1662,6 +1655,41 @@
               "label": "Jerrycans or other closed containers",
               "value": "jerr_othe_clos_cont",
               "color": "#ffa57d"
+            },
+            {
+              "id": 1706101117048,
+              "order": 3,
+              "label": "Portable basins or other open containers",
+              "value": "port_basi_othe_open_cont",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1706101128322,
+              "order": 4,
+              "label": "Temporary handwashing facilities (tippy tap)",
+              "value": "othe_temp_hand_faci",
+              "color": "#ffa57d"
+            },
+            {
+              "id": 1706101136375,
+              "order": 5,
+              "label": "Piped water taps with basins",
+              "value": "pipe_wate_taps_with_basi",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1706101150144,
+              "order": 6,
+              "label": "Permanent handwashing stations with adequate water storage",
+              "value": "perm_hand_stat_with_adeq_wate_stor",
+              "color": "#38A15A"
+            },
+            {
+              "id": 1706101154034,
+              "order": 7,
+              "label": "Other permanent handwashing stations",
+              "value": "othe_perm_hand_stat",
+              "color": "#38A15A"
             }
           ],
           "rule": null
@@ -1670,7 +1698,7 @@
           "id": 1706101237257,
           "order": 6,
           "name": "hands_free_operation_school_handwashing_facility",
-          "label": "Hands-free operation of school handwashing facility",
+          "label": "Hands-free use of school handwashing facility",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1680,38 +1708,45 @@
           "meta": false,
           "options": [
             {
-              "id": 1706101246585,
+              "id": 1713504144,
               "order": 1,
-              "label": "Hands enter water containers (during collection and use)",
+              "label": "No handwashing facilities",
+              "value": "no_hand_faci",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706101246585,
+              "order": 2,
+              "label": "Hands contaminate stored water",
               "value": "hand_ente_wate_cont_duri_coll_use",
               "color": "#DB3B3B"
             },
             {
               "id": 1706101246586,
-              "order": 2,
-              "label": "Water collected by hand (using ladle, cup, other)",
+              "order": 3,
+              "label": "Water collected using tool (ladle, cup, other)",
               "value": "wate_coll_by_hand_usin_ladl_cup_othe",
               "color": "#ffa57d"
             },
             {
               "id": 1706101307417,
-              "order": 3,
+              "order": 4,
               "label": "Closed water storage containers with taps",
               "value": "clos_wate_stor_cont_with_taps",
               "color": "#38A15A"
             },
             {
               "id": 1706101333792,
-              "order": 4,
-              "label": "Piped water taps",
+              "order": 5,
+              "label": "Piped water supply with taps",
               "value": "pipe_wate_taps",
               "color": "#38A15A"
             },
             {
               "id": 1706101423272,
-              "order": 5,
-              "label": "Other hands-free operation",
-              "value": "othe_hand_oper",
+              "order": 6,
+              "label": "Other hands-free use",
+              "value": "othe_hand_free_user",
               "color": "#38A15A"
             }
           ],
@@ -1721,18 +1756,25 @@
           "id": 1706101674846,
           "order": 7,
           "name": "adequate_drainage_washing_water",
-          "label": "Adequate drainage of washing water",
+          "label": "Drainage of washing water",
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: facilities to collect washing water, and facilities to drain and dispose of the washing water</br>\nCollection of washing water: containers to collect dirty washing water (for example, a basin or other container)</br>\nDrainage and disposal of washing water: drainage pipes or other facilities to direct the washing water to appropriate disposal points (for example, soakpits or drains)</br>\n"
+            "text": "<b>OBSERVE:</b> facilities to collect washing water, and facilities to drain and dispose of the washing water</br>\n<b>Collection of washing water:</b> containers to collect dirty washing water (for example, a basin or other container)</br>\n<b>Drainage and disposal of washing water:</b> drainage pipes or other facilities to direct the washing water to appropriate disposal points (for example, soakpits or drains)</br>\n"
           },
           "required": false,
           "meta": false,
           "options": [
             {
-              "id": 1706101797467,
+              "id": 1713504360,
               "order": 1,
+              "label": "No handwashing facilities",
+              "value": "no_hand_faci",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706101797467,
+              "order": 2,
               "value": "no_coll_disp_wash_wate",
               "label": "No collection or disposal of washing water",
               "color": "#DB3B3B"
@@ -1741,14 +1783,14 @@
               "id": 1706101797468,
               "order": 2,
               "value": "coll_wash_wate_with_drai_disp",
-              "label": "Collection of washing water without drainage or disposal",
+              "label": "Collection of washing water without good drainage or disposal",
               "color": "#ffa57d"
             },
             {
               "id": 1706101809265,
               "order": 3,
               "value": "adeq_coll_disp_wash_wate",
-              "label": "Adequate collection and disposal of washing water",
+              "label": "Safe collection and disposal of washing water",
               "color": "#38A15A"
             }
           ],
@@ -1875,22 +1917,29 @@
           "meta": false,
           "options": [
             {
-              "id": 1706102451013,
+              "id": 1713504526,
               "order": 1,
+              "label": "No bathing areas",
+              "value": "no_bath_area",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706102451013,
+              "order": 2,
               "label": "Water and soap are NOT available in bathing areas",
               "value": "wate_soap_are_not_avai_bath_area",
               "color": "#DB3B3B"
             },
             {
               "id": 1706102451014,
-              "order": 2,
+              "order": 3,
               "label": "Some bathing areas have water and soap available",
               "value": "some_bath_area_have_wate_soap_avai",
               "color": "#ffa57d"
             },
             {
               "id": 1706102469442,
-              "order": 3,
+              "order": 4,
               "label": "All bathing areas have both water and soap available",
               "value": "all_bath_area_have_both_wate_soap_avai",
               "color": "#38A15A"
@@ -1911,22 +1960,29 @@
           "meta": false,
           "options": [
             {
-              "id": 1706102565079,
+              "id": 1713504577,
               "order": 1,
+              "label": "No bathing areas",
+              "value": "no_bath_area",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706102565079,
+              "order": 2,
               "label": "All bathing areas are NOT clean",
               "value": "all_bath_area_are_not_clea",
               "color": "#DB3B3B"
             },
             {
               "id": 1706102565080,
-              "order": 2,
+              "order": 3,
               "label": "Some bathing areas are NOT clean",
               "value": "some_bath_area_are_not_clea",
               "color": "#ffa57d"
             },
             {
               "id": 1706102643291,
-              "order": 3,
+              "order": 4,
               "label": "Clean bathing areas for menstrual hygiene",
               "value": "clea_bath_area_for_mens_hygi",
               "color": "#38A15A"
@@ -2019,36 +2075,43 @@
           "meta": false,
           "options": [
             {
-              "id": 1706102981228,
+              "id": 1713504702,
               "order": 1,
+              "label": "No disposal facilities",
+              "value": "no_disposal_facilities",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1706102981228,
+              "order": 2,
               "label": "Emptied to open pits, open space, open water bodies, open drains",
               "value": "empt_to_open_pits_open_spac_open_wate_bodi_open_drai",
               "color": "#DB3B3B"
             },
             {
               "id": 1706102981229,
-              "order": 2,
+              "order": 3,
               "label": "Collected by UNLICENSED service providers",
               "value": "coll_by_unli_serv_prov",
               "color": "#ffa57d"
             },
             {
               "id": 1706103015821,
-              "order": 3,
+              "order": 4,
               "label": "Emptied to covered pit",
               "value": "empt_to_cove_pit",
               "color": "#38A15A"
             },
             {
               "id": 1706103023645,
-              "order": 4,
+              "order": 5,
               "label": "Burned on premises",
               "value": "burn_on_prem",
               "color": "#38A15A"
             },
             {
               "id": 1706103032094,
-              "order": 5,
+              "order": 6,
               "label": "Collected by municpal waste system/licensed service providers",
               "value": "coll_by_muni_wast_syst_serv_prov",
               "color": "#38A15A"
