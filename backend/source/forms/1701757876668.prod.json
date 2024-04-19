@@ -877,40 +877,18 @@
           "fn": null
         },
         {
-          "id": 1706094951022,
+          "id": 1706193332941,
           "order": 5,
-          "name": "status_girls_only_toilet",
-          "label": "Status of girls only school toilet",
+          "name": "num_girls_only_functional_toilet",
+          "label": "Number of functional girls-only school toilets",
           "short_label": null,
-          "type": "option",
+          "type": "number",
           "tooltip": {
-            "text": "<b>OBSERVE: count the number of girls-only school toilets</b></br>\n<b>OBSERVE: assess whether the girls-only school toilets are functiona</b>l</br>\n<b>Functional:</b> toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required)\n"
+            "text": "<b>OBSERVE:</b> count the number of FUNCTIONAL girls-only toilets. <b>Functional:</b> toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required)."
           },
           "required": false,
           "meta": false,
-          "options": [
-            {
-              "id": 1706176374454,
-              "order": 1,
-              "label": "All girls-only school toilets are NON-functional (specify number of non-functional toilets)",
-              "value": "all_girl_scho_toil_are_nonf_spec_numb_nonf_toil",
-              "color": "#DB3B3B"
-            },
-            {
-              "id": 1706176374455,
-              "order": 2,
-              "label": "Some girls-only school toilets are non-functional (specify number of functional toilets + number of non-functional toilets)",
-              "value": "some_girl_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil",
-              "color": "#ffa57d"
-            },
-            {
-              "id": 1706176394660,
-              "order": 3,
-              "label": "All girls-only school toilets are functional (specify number of functional toilets)",
-              "value": "all_girl_scho_toil_are_func_spec_numb_func_toil",
-              "color": "#38A15A"
-            }
-          ],
+          "options": null,
           "dependency": null,
           "rule": null,
           "fn": null
@@ -919,109 +897,16 @@
           "id": 1706193081516,
           "order": 6,
           "name": "num_girls_only_non_functional_toilet",
-          "label": "Number of girls only non functional toilet",
+          "label": "Number of NON-functional girls-only school toilets",
           "short_label": null,
           "type": "number",
-          "tooltip": null,
-          "required": false,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 1706094951022,
-              "options": [
-                "all_girl_scho_toil_are_nonf_spec_numb_nonf_toil",
-                "some_girl_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil"
-              ]
-            }
-          ],
-          "rule": {
-            "min": 0
-          },
-          "fn": null
-        },
-        {
-          "id": 1706193332941,
-          "order": 7,
-          "name": "num_girls_only_functional_toilet",
-          "label": "Number of girls only functional toilet",
-          "short_label": null,
-          "type": "number",
-          "tooltip": null,
-          "required": false,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 1706094951022,
-              "options": [
-                "some_girl_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil",
-                "all_girl_scho_toil_are_func_spec_numb_func_toil"
-              ]
-            }
-          ],
-          "rule": null,
-          "fn": null
-        },
-        {
-          "id": 1706096632535,
-          "order": 8,
-          "name": "status_boys_only_toilets",
-          "label": "Status of boys only school toilets",
-          "short_label": null,
-          "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: count the number of boys-only school toilets</b></br>\n<b>OBSERVE:</b> assess whether the boys-only school toilets are functional</br>\n<b>Functional: </b>toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required)"
+            "text": "<b>OBSERVE:</b> count the number of NON-FUNCTIONAL girls-only toilets. <b>Functional:</b> toilet is broken, toilet hole is blocked, and water is not available for flushing (where required)."
           },
           "required": false,
           "meta": false,
-          "options": [
-            {
-              "id": 1706096715736,
-              "order": 1,
-              "label": "All boys-only school toilets are NON-functional (specify number of non-functional toilets)",
-              "value": "all_boys_scho_toil_are_nonf_spec_numb_nonf_toil",
-              "color": "#DB3B3B"
-            },
-            {
-              "id": 1706096715737,
-              "order": 2,
-              "label": "Some boys-only school toilets are non-functional (specify number of functional toilets + number of non-functional toilets)",
-              "value": "some_boys_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil",
-              "color": "#ffa57d"
-            },
-            {
-              "id": 1706096751745,
-              "order": 3,
-              "label": "All boys-only school toilets are functional (specify number of functional toilets)",
-              "value": "all_boys_scho_toil_are_func_spec_numb_func_toil",
-              "color": "#38A15A"
-            }
-          ],
-          "dependency": null,
-          "rule": null,
-          "fn": null
-        },
-        {
-          "id": 1706194800313,
-          "order": 9,
-          "name": "num_boys_only_non_functional_toilet",
-          "label": "Number of boys only non functional toilet",
-          "short_label": null,
-          "type": "number",
-          "tooltip": null,
-          "required": false,
-          "meta": false,
           "options": null,
-          "dependency": [
-            {
-              "id": 1706096632535,
-              "options": [
-                "all_boys_scho_toil_are_nonf_spec_numb_nonf_toil",
-                "some_boys_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil"
-              ]
-            }
-          ],
+          "dependency": null,
           "rule": {
             "min": 0
           },
@@ -1029,87 +914,56 @@
         },
         {
           "id": 1706194881288,
-          "order": 10,
+          "order": 7,
           "name": "num_boys_only_functional_toilets",
-          "label": "Number of boys only functional toilets",
+          "label": "Number of functional boys-only school toilets",
           "short_label": null,
           "type": "number",
-          "tooltip": null,
+          "tooltip": {
+            "text": "<b>OBSERVE:</b> count the number of FUNCTIONAL boys-only toilets. <b>Functional:</b> toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required)."
+          },
           "required": false,
           "meta": false,
           "options": null,
-          "dependency": [
-            {
-              "id": 1706096632535,
-              "options": [
-                "some_boys_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil",
-                "all_boys_scho_toil_are_func_spec_numb_func_toil"
-              ]
-            }
-          ],
+          "dependency": null,
           "rule": {
             "min": 0
           },
           "fn": null
         },
         {
-          "id": 1706097041101,
-          "order": 11,
-          "name": "status_shared_toilets",
-          "label": "Status of  shared only school toilets",
+          "id": 1706194800313,
+          "order": 8,
+          "name": "num_boys_only_non_functional_toilet",
+          "label": "Number of NON-functional boys-only school toilets",
           "short_label": null,
-          "type": "option",
+          "type": "number",
           "tooltip": {
-            "text": "<b>OBSERVE: count the number of shared school toilets</b></br>\n<b>OBSERVE: assess whether the shared school toilets are functional  </b></br>\n<b>Functional:</b> toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required)</br>"
+            "text": "<b>OBSERVE:</b> count the number of NON-FUNCTIONAL boys-only toilets. <b>Functional:</b> toilet is broken, toilet hole is blocked, and water is not available for flushing (where required)."
           },
           "required": false,
           "meta": false,
-          "options": [
-            {
-              "id": 1706176203960,
-              "order": 1,
-              "label": "All shared school toilets are NON-functional (specify number of non-functional toilets)",
-              "value": "all_shar_scho_toil_are_nonf_spec_numb_nonf_toil",
-              "color": "#DB3B3B"
-            },
-            {
-              "id": 1706176203961,
-              "order": 2,
-              "label": "Some shared school toilets are non-functional (specify number of functional toilets + number of non-functional toilets)",
-              "value": "some_shar_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil",
-              "color": "#ffa57d"
-            },
-            {
-              "id": 1706176241747,
-              "order": 3,
-              "label": "All shared school toilets are functional (specify number of functional toilets)",
-              "value": "all_shar_scho_toil_are_func_spec_numb_func_toil",
-              "color": "#38A15A"
-            }
-          ],
+          "options": null,
           "dependency": null,
-          "rule": null
+          "rule": {
+            "min": 0
+          },
+          "fn": null
         },
         {
           "id": 1706195744398,
-          "order": 12,
+          "order": 9,
           "name": "num_functional_shared_toilet",
-          "label": "Number of functional shared toilet",
+          "label": "Number of functional SHARED toilet",
           "short_label": null,
           "type": "number",
-          "tooltip": null,
+          "tooltip": {
+            "text": "<b>OBSERVE:</b> count the number of FUNCTIONAL shared toilets. <b>Functional:</b> toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required)."
+          },
           "required": false,
           "meta": false,
           "options": null,
-          "dependency": [
-            {
-              "id": 1706097041101,
-              "options": [
-                "some_shar_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil",
-                "all_shar_scho_toil_are_func_spec_numb_func_toil"
-              ]
-            }
-          ],
+          "dependency": null,
           "rule": {
             "min": 0
           },
@@ -1117,24 +971,18 @@
         },
         {
           "id": 1706196044965,
-          "order": 13,
+          "order": 10,
           "name": "num_non_functional_shared_toilet",
-          "label": "Number of non functional shared toilet",
+          "label": "Number of NON-functional SHARED toilet",
           "short_label": null,
           "type": "number",
-          "tooltip": null,
+          "tooltip": {
+            "text": "<b>OBSERVE:</b> count the number of NON-FUNCTIONAL shared toilets. <b>Functional:</b> toilet is broken, toilet hole is blocked, and water is not available for flushing (where required)."
+          },
           "required": false,
           "meta": false,
           "options": null,
-          "dependency": [
-            {
-              "id": 1706097041101,
-              "options": [
-                "all_shar_scho_toil_are_nonf_spec_numb_nonf_toil",
-                "some_shar_scho_toil_are_nonf_spec_numb_func_toil_numb_nonf_toil"
-              ]
-            }
-          ],
+          "dependency": null,
           "rule": null,
           "fn": null
         },
@@ -1146,7 +994,7 @@
           "short_label": null,
           "type": "autofield",
           "tooltip": {
-            "text": "total number of girls (female students) enrolled in school divided by total number of functional girls-only toilets (segregated)</br>\n<b>Functional:</b> toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required)"
+            "text": "<b>Girl student-toilet ratio:</b> total number of girls (female students) enrolled in the school divided by the total number of functional girls-only toilets (segregated)."
           },
           "required": false,
           "meta": false,
@@ -1170,7 +1018,7 @@
           "short_label": null,
           "type": "autofield",
           "tooltip": {
-            "text": "total number of boys (male students) enrolled in school divided by total number of functional toilets (available to boys-only plus shared toilets available to all students)</br>\n<b>Functional: </b> toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required)\n"
+            "text": "<b>Boy student-toilet ratio:</b> total number of boys (male students) enrolled in the school divided by the total number of functional toilets (available to boys only plus shared toilets available to all students)."
           },
           "required": false,
           "meta": false,
