@@ -177,6 +177,13 @@ const syncFormSubmission = async (activeJob = {}) => {
         answers: answerValues,
         submission_type: d.submission_type,
       };
+      const uuidv4Regex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+      if (uuidv4Regex.test(d?.uuid)) {
+        syncData.uuid = d.uuid;
+      }
+      if (!syncData?.uuid && uuidv4Regex.test(activeJob?.info)) {
+        syncData.uuid = activeJob.info;
+      }
       console.info('[syncFormSubmision] SyncData:', syncData);
       // sync data point
       const res = await api.post('/sync', syncData);
