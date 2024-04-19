@@ -988,7 +988,7 @@
         },
         {
           "id": 1706174688758,
-          "order": 14,
+          "order": 11,
           "name": "girl_student_toilet_ratio",
           "label": "Girl student-toilet ratio",
           "short_label": null,
@@ -1012,7 +1012,7 @@
         },
         {
           "id": 1706174952630,
-          "order": 15,
+          "order": 12,
           "name": "boy_student_toilet_ratio",
           "label": "Boy student-toilet ratio",
           "short_label": null,
@@ -1036,7 +1036,7 @@
         },
         {
           "id": 1706098008845,
-          "order": 16,
+          "order": 13,
           "name": "flyproof_school_toilets",
           "label": "Flyproof school toilets",
           "short_label": null,
@@ -1048,22 +1048,29 @@
           "meta": false,
           "options": [
             {
-              "id": 1706098098135,
+              "id": 1713502279,
               "order": 1,
+              "label": "No toilet",
+              "value": "no_toil",
+              "color": "#db3b3b"
+            },
+            {
+              "id": 1706098098135,
+              "order": 2,
               "label": "All school toilets are NOT flyproof",
               "value": "all_scho_toil_are_not_flyp",
               "color": "#DB3B3B"
             },
             {
               "id": 1706098098136,
-              "order": 2,
+              "order": 3,
               "label": "Some school toilets are NOT flyproof",
               "value": "some_scho_toil_are_not_flyp",
               "color": "#ffa57d"
             },
             {
               "id": 1706098118682,
-              "order": 3,
+              "order": 4,
               "label": "All functional school toilets are flyproof",
               "value": "all_func_scho_toil_are_flyp",
               "color": "#38A15A"
