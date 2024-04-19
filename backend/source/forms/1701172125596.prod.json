@@ -152,16 +152,22 @@
               "order": 9
             },
             {
+              "id": 1699960938134,
+              "order": 10,
+              "label": "Private institutions",
+              "value": "priv_inst"
+            },
+            {
               "id": 1701329482356,
               "label": "Prisons",
               "value": "pris",
-              "order": 1
+              "order": 11
             },
             {
-              "id": 1701329458773,
-              "label": "Private institutions (hotels, guesthouses, restaurants, offices, factories, centres of learning, nursing homes)",
-              "value": "priv_inst_hote_gues_rest_offi_fact_cent_lear_nurs_home",
-              "order": 1
+              "id": 169996093813499,
+              "order": 12,
+              "label": "Other Institutions",
+              "value": "othe_inst"
             }
           ]
         },
