@@ -199,15 +199,18 @@ def sync_pending_form_data(request, version):
         adm_id = qna[adm_key]
     for q in list(qna):
         answers.append({"question": q, "value": qna[q]})
+    payload = {
+        "administration": adm_id,
+        "name": request.data.get("name"),
+        "geo": request.data.get("geo"),
+        "submitter": assignment.name,
+        "duration": request.data.get("duration"),
+        "submission_type": request.data.get("submission_type"),
+    }
+    if request.data.get("uuid"):
+        payload["uuid"] = request.data["uuid"]
     data = {
-        "data": {
-            "administration": adm_id,
-            "name": request.data.get("name"),
-            "geo": request.data.get("geo"),
-            "submitter": assignment.name,
-            "duration": request.data.get("duration"),
-            "submission_type": request.data.get("submission_type"),
-        },
+        "data": payload,
         "answer": answers,
     }
     serializer = SubmitPendingFormSerializer(
