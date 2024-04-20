@@ -132,7 +132,9 @@ def get_administration(path: str, level: int, name: str):
 
 
 def seed_data(form, fake_geo, level_names, repeat, test):
-    counties = Administration.objects.filter(parent=1).all()
+    counties = Administration.objects.filter(
+        level__name="County"
+    ).distinct("name").all()
     county_paths = [
         f"{c.path}{c.pk}"
         for c in counties
