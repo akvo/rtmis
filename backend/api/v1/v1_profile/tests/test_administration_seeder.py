@@ -43,28 +43,31 @@ class AdministrationSeederTestCase(TestCase):
         self.assertEqual(
             {
                 "id": 1,
-                "path": None,
-                "level": 0,
-                "level_name": "National",
-                "name": "Indonesia",
                 "full_name": "Indonesia",
+                "path": None,
                 "parent": None,
-                "children": [{
-                    "id": 2,
-                    "level": 2,
-                    "name": "Jakarta",
-                    "full_name": "Indonesia|Jakarta",
-                    "parent": 1,
-                    "path": "1."
-                }, {
-                    "id": 10,
-                    "level": 2,
-                    "name": "Yogyakarta",
-                    "full_name": "Indonesia|Yogyakarta",
-                    "parent": 1,
-                    "path": "1."
-                }],
-                "children_level_name": "County",
+                "name": "Indonesia",
+                "level_name": "National",
+                "level": 0,
+                "children": [
+                    {
+                        "id": 2,
+                        "parent": 1,
+                        "path": "1.",
+                        "level": 2,
+                        "name": "Jakarta",
+                        "full_name": "Indonesia|Jakarta"
+                    },
+                    {
+                        "id": 6,
+                        "parent": 1,
+                        "path": "1.",
+                        "level": 2,
+                        "name": "Yogyakarta",
+                        "full_name": "Indonesia|Yogyakarta"
+                    }
+                ],
+                "children_level_name": "County"
             }, response.json())
 
         # Test max_level

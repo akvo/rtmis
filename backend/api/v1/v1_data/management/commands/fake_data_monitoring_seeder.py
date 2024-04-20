@@ -100,7 +100,7 @@ def seed_data(form, user, administrations, repeat, approved):
         )
         batch_items = [i['instance'] for i in items]
         batch.batch_pending_data_batch.add(*batch_items)
-        path = "{0}{1}".format(
+        path = '{0}{1}'.format(
             user.user_access.administration.path,
             user.user_access.administration_id
         )

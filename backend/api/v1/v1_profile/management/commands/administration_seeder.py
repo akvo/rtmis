@@ -50,7 +50,12 @@ def seed_levels():
         level.save()
 
 
-def seed_administration_test():
+def seed_administration_test(county: list = []):
+    if len(county) == 0:
+        county = [
+            ["Jakarta", "East Jakarta", "Kramat Jati", "Cawang"],
+            ["Yogyakarta", "Sleman", "Seturan", "Cepit Baru"],
+        ]
     seed_levels()
     level = Levels.objects.filter(level=0).first()
     administration = Administration(id=1,
@@ -58,34 +63,35 @@ def seed_administration_test():
                                     parent=None,
                                     level=level)
     administration.save()
-    for index, name in enumerate(
-            ["Jakarta", "East Jakarta", "Kramat Jati", "Cawang"]):
-        id = index + 2
-        level = Levels.objects.filter(level=index + 1).first()
-        path = '{0}.'.format(administration.id)
-        if index:
-            path = '{0}{1}.'.format(administration.path, administration.id)
-        administration = Administration(id=id,
-                                        name=name,
-                                        parent=administration,
-                                        level=level,
-                                        path=path)
-        administration.save()
-
-    administration = Administration.objects.get(id=1)
-    for index, name in enumerate(
-            ["Yogyakarta", "Sleman", "Seturan", "Cepit Baru"]):
-        id = index + 10
-        level = Levels.objects.filter(level=index + 1).first()
-        path = '{0}.'.format(administration.id)
-        if index:
-            path = '{0}{1}.'.format(administration.path, administration.id)
-        administration = Administration(id=id,
-                                        name=name,
-                                        parent=administration,
-                                        level=level,
-                                        path=path)
-        administration.save()
+    for sx, subcounties in enumerate(county):
+        last_adm = Administration.objects.order_by('-id').first()
+        id = last_adm.id + 1 if last_adm else sx * 10
+        county_name = subcounties[0]
+        county_level = Levels.objects.filter(name="County").first()
+        county = Administration.objects.filter(name=county_name).first()
+        if not county:
+            county = Administration(
+                id=id,
+                name=county_name,
+                parent=administration,
+                level=county_level,
+                path=f"{administration.id}."
+            )
+            county.save()
+        adm = county
+        for index, name in enumerate(subcounties[1:]):
+            last_adm = Administration.objects.order_by('-id').first()
+            child_id = last_adm.id + 1 if last_adm else id * 3
+            level = Levels.objects.filter(level=index + 2).first()
+            path = '{0}{1}.'.format(adm.path, adm.id)
+            adm = Administration(
+                id=child_id,
+                name=name,
+                parent=adm,
+                level=level,
+                path=path
+            )
+            adm.save()
 
 
 def get_path(df, parent, current=[]):

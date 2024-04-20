@@ -55,6 +55,7 @@ from api.v1.v1_categories.functions import (
     get_jmp_config_by_form
 )
 from api.v1.v1_categories.models import DataCategory
+from api.v1.v1_mobile.models import MobileAssignment
 
 from rtmis.settings import REST_FRAMEWORK
 from utils.custom_permissions import IsSuperAdmin, IsAdmin, IsApprover, \
@@ -126,6 +127,34 @@ class FormDataAddListView(APIView):
         submission_type = request.GET.get(
             "submission_type", SubmissionTypes.registration
         )
+        if int(submission_type) == SubmissionTypes.certification:
+            user_path = (
+                '{0}{1}'.format(
+                    request.user.user_access.administration.path,
+                    request.user.user_access.administration.id
+                )
+            )
+            user_assignee = MobileAssignment.objects.filter(
+                administrations__path__contains=user_path
+            ).values('user_id')
+            queryset = form.form_form_data.filter(
+                submission_type=submission_type,
+                created_by__in=user_assignee
+            ).order_by(
+                '-created'
+            )
+            instance = paginator.paginate_queryset(queryset, request)
+            data = {
+                "current": int(request.GET.get('page', '1')),
+                "total": queryset.count(),
+                "total_page": ceil(queryset.count() / page_size),
+                "data": ListFormDataSerializer(
+                    instance=instance, context={
+                        'questions': serializer.validated_data.get(
+                            'questions')},
+                    many=True).data,
+            }
+            return Response(data, status=status.HTTP_200_OK)
         parent = serializer.validated_data.get('parent')
         if parent:
             queryset = form.form_form_data.filter(
