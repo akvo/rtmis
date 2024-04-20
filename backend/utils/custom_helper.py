@@ -14,24 +14,24 @@ def generate_random_number(length):
     return "".join(random.choice(numbers) for i in range(length))
 
 
-class CustomPasscode():
+class CustomPasscode:
     def __init__(self):
         pass
 
     def encode(self, passcode):
-        passcode_bytes = passcode.encode('utf-8')
+        passcode_bytes = passcode.encode("utf-8")
         encoded_passcode = base64.urlsafe_b64encode(passcode_bytes)
-        return encoded_passcode.decode('utf-8')
+        return encoded_passcode.decode("utf-8")
 
     def decode(self, encoded_passcode):
         passcode_bytes = base64.urlsafe_b64decode(
-            encoded_passcode.encode('utf-8')
+            encoded_passcode.encode("utf-8")
         )
-        return passcode_bytes.decode('utf-8')
+        return passcode_bytes.decode("utf-8")
 
 
 def clean_array_param(param: str, func: Callable) -> List[int]:
-    array = [func(p) for p in param.split(',')]
+    array = [func(p) for p in param.split(",")]
     return [it for it in array if it]
 
 

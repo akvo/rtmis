@@ -4,7 +4,7 @@ from django.db.utils import ProgrammingError
 
 def reset_table_sequence(table: str):
     query = f"SELECT setval('{table}_id_seq', (SELECT MAX(id) FROM {table}))"
-    cursor = connections['default'].cursor()
+    cursor = connections["default"].cursor()
     try:
         cursor.execute(query)
         row = cursor.fetchone()
