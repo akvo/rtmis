@@ -276,7 +276,7 @@ class ListFormDataSerializer(serializers.ModelSerializer):
     updated_by = serializers.SerializerMethodField()
     created = serializers.SerializerMethodField()
     updated = serializers.SerializerMethodField()
-    administration = serializers.ReadOnlyField(source="administration.name")
+    administration = serializers.SerializerMethodField()
     pending_data = serializers.SerializerMethodField()
 
     @extend_schema_field(OpenApiTypes.STR)
@@ -319,6 +319,9 @@ class ListFormDataSerializer(serializers.ModelSerializer):
                 "created_by": pending_data.created_by.get_full_name(),
             }
         return None
+
+    def get_administration(self, instance: FormData):
+        return " - ".join(instance.administration.full_name.split("-")[1:])
 
     class Meta:
         model = FormData
@@ -1049,7 +1052,7 @@ class CreateBatchSerializer(serializers.Serializer):
     def create(self, validated_data):
         form_id = validated_data.get("data")[0].form_id
         user: SystemUser = validated_data.get("user")
-        path = "{0}{1}".format(
+        path = '{0}{1}'.format(
             user.user_access.administration.path,
             user.user_access.administration_id,
         )
