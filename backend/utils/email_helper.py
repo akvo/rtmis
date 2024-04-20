@@ -150,36 +150,32 @@ def email_context(context: dict, type: str):
             }
         )
     if type == EmailTypes.data_approval:
-        context.update(
-            {
-                "subject": "Data Upload Approved",
-                "body": """Your Data Upload has been approved by Administrator""",
-                "image": f"{WEBDOMAIN}/email-icons/check-circle.png",
-                "success_text": "Filename Approved",
-                "explore_button": True,
-            }
-        )
+        context.update({
+            "subject": "Data Upload Approved",
+            "body": "Your Data Upload has been approved by Administrator",
+            "image": f"{WEBDOMAIN}/email-icons/check-circle.png",
+            "success_text": "Filename Approved",
+            "explore_button": True,
+        })
     if type == EmailTypes.data_rejection:
-        context.update(
-            {
-                "subject": "Data Upload Rejected",
-                "body": """Your Data Upload has been rejected by
-                    Your admin""",
-                "image": f"{WEBDOMAIN}/email-icons/close-circle.png",
-                "failed_text": "Filename Rejected",
-                "feedback": [
-                    "Donec dictum neque ac cursus sollicitudin.",
-                    "Vivamus sodales quam at felis scelerisque, ut tincidunt quam \
-                    vestibulum.",
-                    "Nullam sed magna a ligula ultrices rhoncus nec in sapien.",
-                    "Quisque tincidunt diam in ligula ornare condimentum.",
-                    "Vivamus sodales quam at felis scelerisque, ut tincidunt quam \
-                    vestibulum.",
-                    "Nullam sed magna a ligula ultrices rhoncus nec in sapien.",
-                ],
-                "explore_button": True,
-            }
-        )
+        context.update({
+            "subject": "Data Upload Rejected",
+            "body": """Your Data Upload has been rejected by
+                Your admin""",
+            "image": f"{WEBDOMAIN}/email-icons/close-circle.png",
+            "failed_text": "Filename Rejected",
+            "feedback": [
+                "Donec dictum neque ac cursus sollicitudin.",
+                "Vivamus sodales quam at felis scelerisque, ut tincidunt quam \
+                vestibulum.",
+                "Nullam sed magna a ligula ultrices rhoncus nec in sapien.",
+                "Quisque tincidunt diam in ligula ornare condimentum.",
+                "Vivamus sodales quam at felis scelerisque, ut tincidunt quam \
+                vestibulum.",
+                "Nullam sed magna a ligula ultrices rhoncus nec in sapien.",
+            ],
+            "explore_button": True,
+        })
     if type == EmailTypes.batch_approval:
         context.update(
             {
