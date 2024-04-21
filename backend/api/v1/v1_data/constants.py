@@ -4,7 +4,7 @@ class DataApprovalStatus:
     rejected = 3
 
     FieldStr = {
-        pending: 'Pending',
-        approved: 'Approved',
-        rejected: 'Rejected',
+        pending: "Pending",
+        approved: "Approved",
+        rejected: "Rejected",
     }

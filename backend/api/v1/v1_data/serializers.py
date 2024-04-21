@@ -52,9 +52,9 @@ class SubmitFormDataSerializer(serializers.ModelSerializer):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.fields.get("administration").queryset = (
-            Administration.objects.all()
-        )
+        self.fields.get(
+            "administration"
+        ).queryset = Administration.objects.all()
 
     class Meta:
         model = FormData
@@ -261,9 +261,9 @@ class ListFormDataRequestSerializer(serializers.Serializer):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.fields.get("administration").queryset = (
-            Administration.objects.all()
-        )
+        self.fields.get(
+            "administration"
+        ).queryset = Administration.objects.all()
         self.fields.get("questions").child.queryset = Questions.objects.all()
         form_id = self.context.get("form_id")
         self.fields.get("parent").queryset = FormData.objects.filter(
@@ -454,9 +454,9 @@ class ListChartAdministrationRequestSerializer(serializers.Serializer):
             type=QuestionTypes.option
         )
         self.fields.get("question").queryset = queryset
-        self.fields.get("administration").queryset = (
-            Administration.objects.all()
-        )
+        self.fields.get(
+            "administration"
+        ).queryset = Administration.objects.all()
 
 
 class ListOptionsChartCriteriaSerializer(serializers.Serializer):
@@ -483,9 +483,9 @@ class ListPendingFormDataRequestSerializer(serializers.Serializer):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.fields.get("administration").queryset = (
-            Administration.objects.all()
-        )
+        self.fields.get(
+            "administration"
+        ).queryset = Administration.objects.all()
 
 
 class ListPendingDataAnswerSerializer(serializers.ModelSerializer):
@@ -708,10 +708,10 @@ class ApprovePendingDataRequestSerializer(serializers.Serializer):
         super().__init__(**kwargs)
         user: SystemUser = self.context.get("user")
         if user:
-            self.fields.get("batch").queryset = (
-                PendingDataBatch.objects.filter(
-                    batch_approval__user=user, approved=False
-                )
+            self.fields.get(
+                "batch"
+            ).queryset = PendingDataBatch.objects.filter(
+                batch_approval__user=user, approved=False
             )
 
     def create(self, validated_data):
@@ -879,8 +879,8 @@ class ListBatchSerializer(serializers.ModelSerializer):
             first_pos = path.rfind("/")
             last_pos = len(path)
             return {
-                "name": path[first_pos + 1:last_pos],
-                "file": instance.file
+                "name": path[first_pos + 1: last_pos],
+                "file": instance.file,
             }
         return None
 
@@ -1052,7 +1052,7 @@ class CreateBatchSerializer(serializers.Serializer):
     def create(self, validated_data):
         form_id = validated_data.get("data")[0].form_id
         user: SystemUser = validated_data.get("user")
-        path = '{0}{1}'.format(
+        path = "{0}{1}".format(
             user.user_access.administration.path,
             user.user_access.administration_id,
         )
@@ -1121,9 +1121,9 @@ class SubmitPendingFormDataSerializer(serializers.ModelSerializer):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.fields.get("administration").queryset = (
-            Administration.objects.all()
-        )
+        self.fields.get(
+            "administration"
+        ).queryset = Administration.objects.all()
 
     class Meta:
         model = PendingFormData
