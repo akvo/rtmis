@@ -3,14 +3,16 @@ from faker import Faker
 from api.v1.v1_data.models import FormData
 from api.v1.v1_forms.constants import FormTypes, SubmissionTypes
 from api.v1.v1_forms.models import (
-    Forms, FormCertificationAssignment, UserForms
+    Forms,
+    FormCertificationAssignment,
+    UserForms,
 )
 from api.v1.v1_profile.models import Administration
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_data.functions import refresh_materialized_data
 from api.v1.v1_data.management.commands.fake_data_seeder import (
-    add_fake_answers
+    add_fake_answers,
 )
 from api.v1.v1_mobile.models import MobileAssignment
 
@@ -51,10 +53,7 @@ def create_certification(assignee, certification, form):
             parent=entry_user.user_access.administration
         ).order_by("?")[:2]
 
-        mobile_assignment = get_mobile_user(
-            user=entry_user,
-            form=form
-        )
+        mobile_assignment = get_mobile_user(user=entry_user, form=form)
         mobile_assignment.administrations.set(administration_children)
         mobile_assignment.certifications.set(certification)
 
@@ -64,12 +63,7 @@ def create_certification(assignee, certification, form):
 class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument(
-            "-r",
-            "--repeat",
-            nargs="?",
-            const=10,
-            default=10,
-            type=int
+            "-r", "--repeat", nargs="?", const=10, default=10, type=int
         )
         parser.add_argument(
             "-t", "--test", nargs="?", const=False, default=False, type=bool
@@ -108,11 +102,11 @@ class Command(BaseCommand):
                 existing_assignment = create_certification(
                     assignee=user_assignee.user_access.administration,
                     certification=certification,
-                    form=form
+                    form=form,
                 )
-            assignee_path = '{0}{1}'.format(
+            assignee_path = "{0}{1}".format(
                 existing_assignment.assignee.path,
-                existing_assignment.assignee.id
+                existing_assignment.assignee.id,
             )
             assignee_children = Administration.objects.filter(
                 path__startswith=assignee_path
@@ -131,14 +125,13 @@ class Command(BaseCommand):
                 ).first()
 
                 mobile_assignment = get_mobile_user(
-                    user=created_by,
-                    form=dp.form
+                    user=created_by, form=dp.form
                 )
                 mobile_assignment.administrations.set(assignee_children)
                 mobile_assignment.certifications.add(
                     *list(
                         existing_assignment.administrations.values_list(
-                            'id', flat=True
+                            "id", flat=True
                         )
                     )
                 )

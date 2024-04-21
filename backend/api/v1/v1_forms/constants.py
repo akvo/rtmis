@@ -11,16 +11,16 @@ class QuestionTypes:
     autofield = 10
 
     FieldStr = {
-        geo: 'Geo',
-        administration: 'Administration',
-        text: 'Text',
-        number: 'Number',
-        option: 'Option',
-        multiple_option: 'Multiple_Option',
-        cascade: 'Cascade',
-        photo: 'Photo',
-        date: 'Date',
-        autofield: 'Autofield',
+        geo: "Geo",
+        administration: "Administration",
+        text: "Text",
+        number: "Number",
+        option: "Option",
+        multiple_option: "Multiple_Option",
+        cascade: "Cascade",
+        photo: "Photo",
+        date: "Date",
+        autofield: "Autofield",
     }
 
 
@@ -29,8 +29,8 @@ class FormTypes:
     national = 2
 
     FieldStr = {
-        county: 'County',
-        national: 'National',
+        county: "County",
+        national: "National",
     }
 
 
@@ -41,10 +41,10 @@ class SubmissionTypes:
     certification = 4
 
     FieldStr = {
-        registration: 'Registration',
-        monitoring: 'Monitoring',
-        verification: 'Verification',
-        certification: 'Certification',
+        registration: "Registration",
+        monitoring: "Monitoring",
+        verification: "Verification",
+        certification: "Certification",
     }
 
 
@@ -56,9 +56,9 @@ class AttributeTypes:
     advanced_filter = 5
 
     FieldStr = {
-        chart: 'chart',
-        aggregate: 'aggregate',
-        table: 'table',
-        jmp: 'jmp',
-        advanced_filter: 'advanced_filter',
+        chart: "chart",
+        aggregate: "aggregate",
+        table: "table",
+        jmp: "jmp",
+        advanced_filter: "advanced_filter",
     }

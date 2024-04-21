@@ -2,8 +2,11 @@ from django.core.management import BaseCommand
 from api.v1.v1_forms.models import Questions, QuestionOptions
 from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_data.models import (
-    FormData, Answers, PendingAnswers,
-    AnswerHistory, PendingAnswerHistory
+    FormData,
+    Answers,
+    PendingAnswers,
+    AnswerHistory,
+    PendingAnswerHistory,
 )
 
 
@@ -21,20 +24,17 @@ def set_answer_data(answers, option_labels, option_dict, model_name):
 
 
 class Command(BaseCommand):
-
     def handle(self, *args, **options):
         questions = Questions.objects.filter(
             type__in=[QuestionTypes.option, QuestionTypes.multiple_option]
-        ).values('id')
+        ).values("id")
         for q in questions:
-            options = QuestionOptions.objects.filter(
-                question=q["id"]
-            ).values("label", "value")
+            options = QuestionOptions.objects.filter(question=q["id"]).values(
+                "label", "value"
+            )
             option_labels = [o["label"] for o in options]
             option_dict = {o["label"]: o["value"] for o in options}
-            answers = Answers.objects.filter(
-                question=q["id"]
-            ).all()
+            answers = Answers.objects.filter(question=q["id"]).all()
             answer_history = AnswerHistory.objects.filter(
                 question=q["id"]
             ).all()
@@ -44,17 +44,18 @@ class Command(BaseCommand):
             pending_answer_history = PendingAnswerHistory.objects.filter(
                 question=q["id"]
             ).all()
+            set_answer_data(answers, option_labels, option_dict, "Answers")
             set_answer_data(
-                answers, option_labels, option_dict,
-                "Answers")
+                answer_history, option_labels, option_dict, "AnswerHistory"
+            )
             set_answer_data(
-                answer_history, option_labels, option_dict,
-                "AnswerHistory")
+                pending_answers, option_labels, option_dict, "PendingAnswers"
+            )
             set_answer_data(
-                pending_answers, option_labels, option_dict,
-                "PendingAnswers")
-            set_answer_data(
-                pending_answer_history, option_labels, option_dict,
-                "PendingAnswerHistory")
+                pending_answer_history,
+                option_labels,
+                option_dict,
+                "PendingAnswerHistory",
+            )
         for data in FormData.objects.all():
             data.save_to_file

@@ -22,7 +22,7 @@ class MobileAssignment(models.Model):
     name = models.CharField(max_length=255, null=True, blank=True)
     passcode = models.CharField(max_length=256)
     user = models.ForeignKey(
-        SystemUser, on_delete=models.CASCADE, related_name='mobile_assignments'
+        SystemUser, on_delete=models.CASCADE, related_name="mobile_assignments"
     )
     token = models.CharField(max_length=500)  # TODO: Unnecessary, remove?
     created_at = models.DateTimeField(auto_now_add=True)
@@ -31,8 +31,7 @@ class MobileAssignment(models.Model):
     forms = models.ManyToManyField(Forms)
     administrations = models.ManyToManyField(Administration)
     certifications = models.ManyToManyField(
-        Administration,
-        related_name='certifications'
+        Administration, related_name="certifications"
     )
 
     def set_passcode(self, passcode):
@@ -44,12 +43,12 @@ class MobileAssignment(models.Model):
     objects = MobileAssignmentManager()
 
     def __str__(self):
-        return f'{self.token}'
+        return f"{self.token}"
 
     class Meta:
-        db_table = 'mobile_assignments'
-        verbose_name = 'Mobile Assignment'
-        verbose_name_plural = 'Mobile Assignments'
+        db_table = "mobile_assignments"
+        verbose_name = "Mobile Assignment"
+        verbose_name_plural = "Mobile Assignments"
 
 
 class MobileApk(models.Model):
@@ -58,9 +57,9 @@ class MobileApk(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.version}'
+        return f"{self.version}"
 
     class Meta:
-        db_table = 'mobile_apks'
-        verbose_name = 'Mobile Apk'
-        verbose_name_plural = 'Mobile Apks'
+        db_table = "mobile_apks"
+        verbose_name = "Mobile Apk"
+        verbose_name_plural = "Mobile Apks"
