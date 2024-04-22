@@ -3,11 +3,13 @@ import { ActivityIndicator, FlatList, StyleSheet } from 'react-native';
 import { Button, Icon, ListItem } from '@rneui/themed';
 import PropTypes from 'prop-types';
 import { BaseLayout } from '../../components';
-import { FormState, UIState } from '../../store';
-import { helpers, i18n } from '../../lib';
+import { FormState, UIState, UserState } from '../../store';
+import { helpers, i18n, cascades } from '../../lib';
 import { crudCertification } from '../../database/crud';
 import { transformMonitoringData } from '../../form/lib';
 import { SUBMISSION_TYPES } from '../../lib/constants';
+
+const ADM_SQLITE_FILE = 'administrator.sqlite';
 
 const CertificationData = ({ navigation, route }) => {
   const params = route?.params || null;
@@ -26,6 +28,81 @@ const CertificationData = ({ navigation, route }) => {
     const submissionType = route.params?.submission_type || SUBMISSION_TYPES.registration;
     return helpers.flipObject(SUBMISSION_TYPES)[submissionType]?.toUpperCase();
   }, [route.params?.submission_type]);
+
+  const certificationAdms = UserState.useState((s) => s.certifications);
+  const [admPaths, setAdmPaths] = useState([]);
+
+  const fetchAdministrator = useCallback(async () => {
+    certificationAdms.forEach(async (admId) => {
+      const { rows } = await cascades.loadDataSource(
+        {
+          file: ADM_SQLITE_FILE,
+        },
+        admId,
+      );
+      const { length: rowLength, _array: rowItems } = rows;
+      const csValue = rowLength ? rowItems[0] : null;
+      if (!csValue) {
+        return;
+      }
+      setAdmPaths((prev) => [...new Set([...prev, `${csValue.path}${admId}`])]);
+    });
+  }, [certificationAdms]);
+
+  useEffect(() => {
+    if (certificationAdms?.length) {
+      fetchAdministrator();
+    }
+  }, [fetchAdministrator, certificationAdms]);
+
+  const admTree = useMemo(() => {
+    // build administrations level
+    const buildTree = (nodes, level = 0) => {
+      const uniqueIds = [...new Set(nodes.map((node) => node[level]))];
+      if (uniqueIds.length === 1 && level < nodes.length - 1) {
+        const nextLevel = level + 1;
+        return buildTree(nodes, nextLevel);
+      }
+      const result = uniqueIds.map((id) => {
+        const children = nodes.filter((node) => node[level] === id);
+        const nextLevel = level + 1;
+        if (nextLevel < nodes[0].length) {
+          return {
+            id: Number(id),
+            level,
+            children: children.length ? buildTree(children, nextLevel) : [],
+          };
+        }
+        return {
+          id: Number(id),
+          level,
+        };
+      });
+      return result;
+    };
+    // eol build administrations level
+    if (!admPaths.length) {
+      return [];
+    }
+    if (admPaths.length === 1) {
+      return admPaths.map((path) => {
+        const splitted = path.split('.');
+        const level = splitted.length - 1;
+        const admId = splitted[level];
+        return {
+          id: Number(admId),
+          level,
+          children: [],
+        };
+      });
+    }
+    const temp = admPaths.map((path) => {
+      const splitted = path.split('.');
+      return splitted.map((x) => Number(x));
+    });
+    return buildTree(temp);
+  }, [admPaths]);
+  console.log(JSON.stringify(admTree), 'IDS');
 
   const goToForm = (item) => {
     const { currentValues, prevAdmAnswer } = transformMonitoringData(
