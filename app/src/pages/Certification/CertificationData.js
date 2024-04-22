@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet } from 'react-native';
+import { ActivityIndicator, FlatList, StyleSheet, View, Dimensions } from 'react-native';
+import { Dropdown } from 'react-native-element-dropdown';
 import { Button, Icon, ListItem } from '@rneui/themed';
 import PropTypes from 'prop-types';
 import { BaseLayout } from '../../components';
@@ -12,6 +13,35 @@ import { SUBMISSION_TYPES } from '../../lib/constants';
 const ADM_SQLITE_FILE = {
   file: 'administrator.sqlite',
 };
+
+const calculateDepth = (arr) => {
+  if (!Array.isArray(arr) || !arr.every((item) => typeof item === 'object')) {
+    return 1;
+  }
+  const childDepths = arr.map((item) => calculateDepth(Object.values(item)));
+  const maxChildDepth = Math.max(...childDepths);
+  return maxChildDepth + 1;
+};
+
+const RenderDropdown = ({ key, options = [], screenWidth, disabled = false, onChange, value }) => (
+  <View key={key}>
+    <Dropdown
+      style={{ ...styles.dropdownChild, width: screenWidth }}
+      data={options.map((x) => ({ label: x.name, value: x.id }))}
+      maxHeight={300}
+      labelField="label"
+      valueField="value"
+      value={value}
+      onChange={({ value: optValue }) => {
+        if (onChange) {
+          onChange(optValue);
+        }
+      }}
+      placeholder="Placeholder"
+      disable={disabled}
+    />
+  </View>
+);
 
 const CertificationData = ({ navigation, route }) => {
   const params = route?.params || null;
@@ -34,6 +64,12 @@ const CertificationData = ({ navigation, route }) => {
   const certificationAdms = UserState.useState((s) => s.certifications);
   const [admPaths, setAdmPaths] = useState([]);
   const [admTrees, setAdmTrees] = useState([]);
+  const [admDepth, setAdmDepth] = useState(0);
+  const [selectedAdm, setSelectedAdm] = useState([]);
+
+  const screenWidth = admDepth
+    ? Dimensions.get('screen').width / (admDepth + 1)
+    : Dimensions.get('screen').width;
 
   const fetchAdministrator = useCallback(async () => {
     certificationAdms.forEach(async (admId) => {
@@ -88,15 +124,19 @@ const CertificationData = ({ navigation, route }) => {
   // eol build administrations level
 
   useEffect(() => {
-    if (admPaths.length) {
+    if (admPaths.length === certificationAdms.length) {
       const temp = admPaths.map((path) => {
         const splitted = path.split('.');
         return splitted.map((x) => Number(x));
       });
-      buildTree(temp).then((res) => setAdmTrees(res));
+      buildTree(temp).then((res) => {
+        setAdmTrees(res);
+        setAdmDepth(calculateDepth(res));
+      });
     }
-  }, [admPaths, buildTree]);
-  console.log(JSON.stringify(admTrees), 'XXX');
+  }, [certificationAdms, admPaths, buildTree]);
+
+  console.log('XXX', selectedAdm);
 
   const goToForm = (item) => {
     const { currentValues, prevAdmAnswer } = transformMonitoringData(
@@ -180,6 +220,35 @@ const CertificationData = ({ navigation, route }) => {
     </ListItem>
   );
 
+  const renderDropdownChilds = (max) => {
+    const res = [];
+    for (let a = 0; a < max; a += 1) {
+      let options = [];
+      if (selectedAdm.length) {
+        options = selectedAdm?.[a]?.children || [];
+      }
+      res.push(
+        <RenderDropdown
+          key={a}
+          options={options}
+          screenWidth={screenWidth}
+          // disabled={selectedAdm.length}
+          onChange={(value) =>
+            setSelectedAdm((prev) => {
+              let pre = prev;
+              if (prev.length - 1 === admDepth) {
+                pre = prev.slice(0, a + 1);
+              }
+              return [...pre, options.find((x) => x.id === value)];
+            })
+          }
+          value={selectedAdm?.[a + 1]?.id || ''}
+        />,
+      );
+    }
+    return res;
+  };
+
   return (
     <BaseLayout
       title={total ? `${route?.params?.name} (${total})` : route?.params?.name}
@@ -192,6 +261,22 @@ const CertificationData = ({ navigation, route }) => {
         action: handleOnSearch,
       }}
     >
+      {
+        // administration filter
+        admTrees.length && (
+          <View style={styles.dropdownContainer}>
+            <RenderDropdown
+              key="parent"
+              options={admTrees}
+              screenWidth={screenWidth}
+              onChange={(value) => setSelectedAdm([admTrees.find((x) => x.id === value)])}
+              value={selectedAdm?.[0]?.id || ''}
+            />
+            {renderDropdownChilds(admDepth)}
+          </View>
+        )
+        // eol administration filter
+      }
       <FlatList
         data={forms}
         renderItem={renderItem}
@@ -224,6 +309,17 @@ const styles = StyleSheet.create({
   syncButton: {
     backgroundColor: 'transparent',
   },
+  dropdownContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+  },
+  dropdownChild: {
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    borderColor: 'grey',
+    borderWidth: 0.5,
+  },
 });
 
 export default CertificationData;
@@ -234,4 +330,22 @@ CertificationData.propTypes = {
 
 CertificationData.defaultProps = {
   route: null,
+};
+
+RenderDropdown.propTypes = {
+  key: PropTypes.string,
+  options: PropTypes.object,
+  screenWidth: PropTypes.number,
+  disabled: PropTypes.bool,
+  value: PropTypes.number,
+  onChange: PropTypes.func,
+};
+
+RenderDropdown.defaultProps = {
+  key: null,
+  options: [],
+  screenWidth: null,
+  disabled: false,
+  value: null,
+  onChange: null,
 };
