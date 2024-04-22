@@ -5,7 +5,7 @@ const db = conn.init;
 const TABLE_NAME = 'certifications';
 
 const certificationQuery = () => ({
-  syncForm: async ({ formId, formJSON }) => {
+  syncForm: async ({ formId, administrationdId, formJSON }) => {
     const findQuery = query.read(TABLE_NAME, { uuid: formJSON.uuid });
     const { rows } = await conn.tx(db, findQuery, [formJSON.uuid]);
 
@@ -14,6 +14,7 @@ const certificationQuery = () => ({
     let params = [];
     let queryText = query.insert(TABLE_NAME, {
       formId,
+      administrationdId,
       uuid: formJSON.uuid,
       name: formJSON?.datapoint_name || null,
       json: formJSON?.answers ? JSON.stringify(formJSON.answers).replace(/'/g, "''") : null,

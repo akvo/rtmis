@@ -4,7 +4,7 @@ import buildJson from './build.json';
 
 const defaultBuildParams = {
   ...buildJson,
-  serverURL: SERVER_URL,
+  serverURL: 'http://192.168.116.145:3000/api/v1/device',
 };
 
 export default defaultBuildParams;
