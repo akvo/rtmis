@@ -213,7 +213,6 @@ class ListQuestionSerializer(serializers.ModelSerializer):
                         "file": "entity_data.sqlite",
                         "cascade_type": entity_id,
                         "cascade_parent": "administrator.sqlite",
-                        "endpoint": f"/api/v1/entity-data/{entity_id}/list/",
                     }
             return {"file": "organisation.sqlite", "parent_id": [0]}
         if instance.type == QuestionTypes.administration:
