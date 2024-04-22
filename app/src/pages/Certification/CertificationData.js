@@ -9,7 +9,9 @@ import { crudCertification } from '../../database/crud';
 import { transformMonitoringData } from '../../form/lib';
 import { SUBMISSION_TYPES } from '../../lib/constants';
 
-const ADM_SQLITE_FILE = 'administrator.sqlite';
+const ADM_SQLITE_FILE = {
+  file: 'administrator.sqlite',
+};
 
 const CertificationData = ({ navigation, route }) => {
   const params = route?.params || null;
@@ -31,15 +33,11 @@ const CertificationData = ({ navigation, route }) => {
 
   const certificationAdms = UserState.useState((s) => s.certifications);
   const [admPaths, setAdmPaths] = useState([]);
+  const [admTrees, setAdmTrees] = useState([]);
 
   const fetchAdministrator = useCallback(async () => {
     certificationAdms.forEach(async (admId) => {
-      const { rows } = await cascades.loadDataSource(
-        {
-          file: ADM_SQLITE_FILE,
-        },
-        admId,
-      );
+      const { rows } = await cascades.loadDataSource(ADM_SQLITE_FILE, admId);
       const { length: rowLength, _array: rowItems } = rows;
       const csValue = rowLength ? rowItems[0] : null;
       if (!csValue) {
@@ -55,54 +53,50 @@ const CertificationData = ({ navigation, route }) => {
     }
   }, [fetchAdministrator, certificationAdms]);
 
-  const admTree = useMemo(() => {
-    // build administrations level
-    const buildTree = (nodes, level = 0) => {
-      const uniqueIds = [...new Set(nodes.map((node) => node[level]))];
-      if (uniqueIds.length === 1 && level < nodes.length - 1) {
+  // build administrations level
+  const buildTree = useCallback(async (nodes, level = 1) => {
+    const uniqueIds = [...new Set(nodes.map((node) => node[level - 1]))];
+    if (uniqueIds.length === 1 && level < nodes.length) {
+      const nextLevel = level + 1;
+      return buildTree(nodes, nextLevel);
+    }
+    return Promise.all(
+      uniqueIds.map(async (id) => {
+        const children = nodes.filter((node) => node[level - 1] === id);
+        const { rows } = await cascades.loadDataSource(ADM_SQLITE_FILE, id);
+        const { length: rowLength, _array: rowItems } = rows;
+        const csValue = rowLength ? rowItems[0] : null;
+        const name = csValue ? csValue.name : 'NA';
         const nextLevel = level + 1;
-        return buildTree(nodes, nextLevel);
-      }
-      const result = uniqueIds.map((id) => {
-        const children = nodes.filter((node) => node[level] === id);
-        const nextLevel = level + 1;
-        if (nextLevel < nodes[0].length) {
+        if (nextLevel <= nodes[0].length) {
           return {
             id: Number(id),
+            name,
             level,
-            children: children.length ? buildTree(children, nextLevel) : [],
+            children: children.length ? await buildTree(children, nextLevel) : [],
           };
         }
         return {
           id: Number(id),
-          level,
-        };
-      });
-      return result;
-    };
-    // eol build administrations level
-    if (!admPaths.length) {
-      return [];
-    }
-    if (admPaths.length === 1) {
-      return admPaths.map((path) => {
-        const splitted = path.split('.');
-        const level = splitted.length - 1;
-        const admId = splitted[level];
-        return {
-          id: Number(admId),
+          name,
           level,
           children: [],
         };
+      }),
+    );
+  }, []);
+  // eol build administrations level
+
+  useEffect(() => {
+    if (admPaths.length) {
+      const temp = admPaths.map((path) => {
+        const splitted = path.split('.');
+        return splitted.map((x) => Number(x));
       });
+      buildTree(temp).then((res) => setAdmTrees(res));
     }
-    const temp = admPaths.map((path) => {
-      const splitted = path.split('.');
-      return splitted.map((x) => Number(x));
-    });
-    return buildTree(temp);
-  }, [admPaths]);
-  console.log(JSON.stringify(admTree), 'IDS');
+  }, [admPaths, buildTree]);
+  console.log(JSON.stringify(admTrees), 'XXX');
 
   const goToForm = (item) => {
     const { currentValues, prevAdmAnswer } = transformMonitoringData(
