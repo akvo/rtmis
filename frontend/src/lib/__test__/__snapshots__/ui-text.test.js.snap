@@ -7,6 +7,9 @@ Object {
     "AdministrationDataDownload": "Administration Data Download",
     "AdministrationDataUpload": "Administration Data Upload",
     "AdministrationDownloadPageHint": "Uncheck Prefilled if you only want an upload template",
+    "EntitiesDataDownload": "Entities Data Download",
+    "EntitiesDataUpload": "Entities Data Upload",
+    "EntitiesDownloadPageHint": "Uncheck Prefilled if you only want an upload template",
     "ManageDataClaimText": <React.Fragment>
       This is where you can view certification data
     </React.Fragment>,
@@ -153,6 +156,22 @@ Object {
       </ul>
     </React.Fragment>,
     "dataDownloadTitle": "Data Download",
+    "dataEntitiesDownloadText": <React.Fragment>
+      This is where you :
+      <ul>
+        <li>
+          Download administration data
+        </li>
+      </ul>
+    </React.Fragment>,
+    "dataEntitiesUploadText": <React.Fragment>
+      This is where you :
+      <ul>
+        <li>
+          Bulk upload entities data
+        </li>
+      </ul>
+    </React.Fragment>,
     "dataExportFail": "Data download failed",
     "dataExportSuccess": "Data downloaded successfully",
     "dataUploadButton": "Data Upload",
@@ -195,6 +214,7 @@ Object {
     "editOrganisation": "Edit Organization",
     "editUser": "Edit User",
     "endOfListLabel": "End of List",
+    "entitiesUploadSuccessTitle": "Entities Data has been Successfully Uploaded",
     "entityDataTitle": "Entity Data",
     "entityIsRequired": "Entity is required",
     "entityLabel": "Entity",
@@ -613,6 +633,7 @@ Object {
     "successUpdatedEntity": "Entity updated",
     "successUpdatedOrg": "Organisation updated",
     "templateDownloadAdministrationHint": "If you do not already have a template, please ",
+    "templateDownloadEntityHint": "If you do not already have an entity template, please ",
     "templateDownloadHint": "If you do not already have a template, please download",
     "templateFetchFail": "Could not fetch template",
     "tourApprovals": "Placeat impedit iure quaerat neque sit quasi",
