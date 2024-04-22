@@ -68,10 +68,10 @@ const Forms = () => {
 
   const webformRef = useRef();
 
-  const getEntityByName = async (id, entityName, endpoint) => {
+  const getEntityByName = async ({ id, value, apiURL }) => {
     try {
-      const { data: apiData } = await axios.get(endpoint);
-      const findData = apiData?.find((d) => d?.name === entityName);
+      const { data: apiData } = await axios.get(apiURL);
+      const findData = apiData?.find((d) => d?.name === value);
       return { id, value: findData?.id };
     } catch {
       return null;
@@ -83,29 +83,26 @@ const Forms = () => {
     const questions = forms.question_group
       .map((x) => x.question)
       .flatMap((x) => x);
-    const entityNames = questions
+    const entityNamesEndpoints = questions
       ?.filter(
         (q) =>
           q?.type === "cascade" &&
           q?.extra?.type === "entity" &&
-          values?.[q?.id] === "string"
+          typeof values?.[q?.id] === "string"
       )
       ?.map((q) => {
         const pq = questions.find((subq) => subq?.id === q?.extra?.parentId);
-        const pid = values?.[pq];
-        if (pid) {
-          return getEntityByName(
-            q?.id,
-            values?.[q?.id],
-            `${q?.api?.endpoint}${pid}`
-          );
-        }
-        return null;
-      })
-      ?.filter((q) => q);
-
+        const pv = values?.[pq?.id];
+        const pid = Array.isArray(pv) ? pv.slice(-1)?.[0] : pv;
+        return {
+          id: q?.id,
+          value: values?.[q?.id],
+          apiURL: `${q?.api?.endpoint}${pid}`,
+        };
+      });
+    const entityNames = entityNamesEndpoints?.map((e) => getEntityByName(e));
     const resEntities = await Promise.allSettled(entityNames);
-    resEntities.forEach((entity) => {
+    resEntities.forEach(({ value: entity }) => {
       if (entity?.value && values?.[entity?.id]) {
         values[entity.id] = entity.value;
       }
@@ -170,7 +167,10 @@ const Forms = () => {
       data: dataPayload,
       answer: answers.map((x) => pick(x, ["question", "value"])),
     };
-    if (uuid && ["Super Admin"].includes(authUser?.role?.value)) {
+    if (
+      uuid &&
+      ["Super Admin", "County Admin"].includes(authUser?.role?.value)
+    ) {
       /**
        * Save uuid to localStorage to prevent redirection to the same page after submitted data
        */
@@ -432,7 +432,29 @@ const Forms = () => {
       window.localStorage.removeItem("submitted");
       navigate("/control-center/data");
     }
-  }, [formId, uuid, forms, navigate, fetchInitialMonitoringData]);
+    if (
+      typeof webformRef?.current === "undefined" &&
+      uuid &&
+      initialValue?.length &&
+      !loading
+    ) {
+      setPreload(true);
+      setLoading(true);
+    }
+
+    if (
+      webformRef?.current &&
+      typeof webformRef?.current?.getFieldsValue()?.[0] === "undefined" &&
+      uuid &&
+      initialValue?.length
+    ) {
+      setTimeout(() => {
+        initialValue.forEach((v) => {
+          webformRef.current.setFieldsValue({ [v?.question]: v?.value });
+        });
+      }, 1000);
+    }
+  }, [formId, uuid, forms, loading, navigate, fetchInitialMonitoringData]);
 
   const handleOnClearForm = useCallback((preload, initialValue) => {
     if (
