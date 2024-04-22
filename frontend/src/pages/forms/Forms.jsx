@@ -170,7 +170,7 @@ const Forms = () => {
       data: dataPayload,
       answer: answers.map((x) => pick(x, ["question", "value"])),
     };
-    if (uuid) {
+    if (uuid && ["Super Admin"].includes(authUser?.role?.value)) {
       /**
        * Save uuid to localStorage to prevent redirection to the same page after submitted data
        */
