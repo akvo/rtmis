@@ -4,7 +4,11 @@ from django.core.management import call_command
 from django.test import TestCase
 from django.test.utils import override_settings
 from rest_framework.response import Response
-from api.v1.v1_profile.models import AdministrationAttribute, Levels
+from api.v1.v1_profile.models import (
+    AdministrationAttribute,
+    Levels,
+    Administration,
+)
 
 from api.v1.v1_profile.tests.mixins import ProfileTestHelperMixin
 
@@ -31,6 +35,7 @@ class AdministrationBulkUploadTemplateExportTestCase(
             type=AdministrationAttribute.Type.AGGREGATE,
             options=["opt #1", "opt #2"],
         )
+        self.adm = Administration.objects.filter(path__isnull=False)
 
     def test_export_template(self):
         response = cast(
@@ -75,3 +80,18 @@ class AdministrationBulkUploadTemplateExportTestCase(
         expected = levels + attributes
         actual = [val for val in list(df)]
         self.assertEqual(expected, actual)
+
+    def test_with_attribute_and_administration(self):
+        q = f"?attributes={self.attribute1.id},{self.attribute2.id}"
+        if self.adm:
+            q += f"&administration={self.adm[0].id}"
+        response = cast(
+            Response,
+            self.client.get(
+                ("/api/v1/export/administrations-template" + q),
+                content_type="application/json",
+                HTTP_AUTHORIZATION=f"Bearer {self.token}",
+            ),
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["Content-Type"], self.XLSX_MIME)
