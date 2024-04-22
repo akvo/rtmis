@@ -20,6 +20,7 @@ import {
   notification,
   Modal,
 } from "antd";
+import axios from "axios";
 import { api, config, store, uiText } from "../../lib";
 import { takeRight, pick, isEmpty } from "lodash";
 import { PageLoader, Breadcrumbs, DescriptionPanel } from "../../components";
@@ -67,11 +68,49 @@ const Forms = () => {
 
   const webformRef = useRef();
 
-  const onFinish = (values, refreshForm) => {
+  const getEntityByName = async (id, entityName, endpoint) => {
+    try {
+      const { data: apiData } = await axios.get(endpoint);
+      const findData = apiData?.find((d) => d?.name === entityName);
+      return { id, value: findData?.id };
+    } catch {
+      return null;
+    }
+  };
+
+  const onFinish = async (values, refreshForm) => {
     setSubmit(true);
     const questions = forms.question_group
       .map((x) => x.question)
       .flatMap((x) => x);
+    const entityNames = questions
+      ?.filter(
+        (q) =>
+          q?.type === "cascade" &&
+          q?.extra?.type === "entity" &&
+          values?.[q?.id] === "string"
+      )
+      ?.map((q) => {
+        const pq = questions.find((subq) => subq?.id === q?.extra?.pid);
+        const pid = values?.[pq];
+        if (pid) {
+          return getEntityByName(
+            q?.id,
+            values?.[q?.id],
+            `${q?.api?.endpoint}${pid}`
+          );
+        }
+        return null;
+      })
+      ?.filter((q) => q);
+
+    const resEntities = await Promise.allSettled(entityNames);
+    resEntities.forEach((entity) => {
+      if (entity?.value && values?.[entity?.id]) {
+        values[entity.id] = entity.value;
+      }
+    });
+
     const answers = Object.keys(values)
       .filter((v) => !isNaN(v))
       .map((v) => {
@@ -90,7 +129,10 @@ const Forms = () => {
           }
           return {
             question: parseInt(v),
-            type: question.type,
+            type:
+              question?.source?.file === "administrator.sqlite"
+                ? "administration"
+                : question.type,
             value: val,
             meta: question.meta,
           };
@@ -107,11 +149,13 @@ const Forms = () => {
       .join(" - ");
     const geo = answers.find((x) => x.type === "geo" && x.meta)?.value;
     const administration = answers.find(
-      (x) => x.type === "cascade" && x.meta
+      (x) => (x.type === "cascade" && x.meta) || x.type === "administration"
     )?.value;
     const dataPayload = {
       administration: administration
-        ? takeRight(administration)[0]
+        ? Array.isArray(administration)
+          ? takeRight(administration)[0]
+          : administration
         : authUser.administration.id,
       name: names.length
         ? names
@@ -126,6 +170,12 @@ const Forms = () => {
       data: dataPayload,
       answer: answers.map((x) => pick(x, ["question", "value"])),
     };
+    if (uuid) {
+      /**
+       * Save uuid to localStorage to prevent redirection to the same page after submitted data
+       */
+      window?.localStorage?.setItem("submitted", uuid);
+    }
     api
       .post(`form-pending-data/${formId}`, data)
       .then(() => {
@@ -375,7 +425,14 @@ const Forms = () => {
         setLoading(false);
       });
     }
-  }, [formId, uuid, forms, fetchInitialMonitoringData]);
+    if (uuid && window?.localStorage?.getItem("submitted")) {
+      /**
+       * Redirect to the list when localStorage already has submitted item
+       */
+      window.localStorage.removeItem("submitted");
+      navigate("/control-center/data");
+    }
+  }, [formId, uuid, forms, navigate, fetchInitialMonitoringData]);
 
   const handleOnClearForm = useCallback((preload, initialValue) => {
     if (
