@@ -92,9 +92,17 @@ def generate_administration_template(
     )
     for col_num, value in enumerate(data.columns.values):
         worksheet.write(0, col_num, value, header_format)
+    # get administrations with path
+    filter_administration = Administration.objects.get(pk=adm_id)
+    filter_path = f"{filter_administration.id}."
+    if filter_administration.path:
+        filter_path = "{0}{1}.".format(
+            filter_administration.path, filter_administration.id
+        )
     administrations = Administration.objects.filter(
-        Q(path__contains=adm_id) | Q(pk=adm_id)
+        Q(path__startswith=filter_path) | Q(pk=adm_id)
     ).all()
+    # EOL get administrations with path
     aggregate_type = AdministrationAttribute.Type.AGGREGATE
     multiple_type = AdministrationAttribute.Type.MULTIPLE_OPTION
     for adx, adm in enumerate(administrations):
