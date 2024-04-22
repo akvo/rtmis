@@ -267,7 +267,10 @@ def upload_excel(request, form_id, version):
     request=UploadExcelSerializer,
     responses={
         (200, "application/json"): inline_serializer(
-            "UploadExcel", fields={"task_id": serializers.CharField()}
+            "UploadExcel", fields={
+                "task_id": serializers.CharField(),
+                "filename": serializers.CharField()
+            }
         )
     },
 )
@@ -297,7 +300,59 @@ def upload_bulk_administrators(request, version):
         timezone.now(),
         task_name="administrator_bulk_upload",
         hook=(
-            "api.v1.v1_jobs.job." "handle_administrations_bulk_upload_failure"
+            "api.v1.v1_jobs.job." "handle_master_data_bulk_upload_failure"
         ),
     )
-    return Response({"task_id": task_id}, status=status.HTTP_200_OK)
+    return Response({
+        "task_id": task_id,
+        "filename": filename,
+    }, status=status.HTTP_200_OK)
+
+
+@extend_schema(
+    tags=["Job"],
+    summary="Bulk Upload Entities",
+    request=UploadExcelSerializer,
+    responses={
+        (200, "application/json"): inline_serializer(
+            "UploadExcel",
+            fields={
+                "task_id": serializers.CharField(),
+                "filename": serializers.CharField(),
+            }
+        )
+    },
+)
+@api_view(["POST"])
+@parser_classes([MultiPartParser])
+@permission_classes([IsAuthenticated])
+def upload_bulk_entities(request, version):
+    serializer = UploadExcelSerializer(data=request.data)
+    if not serializer.is_valid():
+        return Response(
+            {"message": validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    fs = FileSystemStorage()
+    file = fs.save(
+        f"./tmp/{serializer.validated_data.get('file').name}",
+        serializer.validated_data.get("file"),
+    )
+    file_path = fs.path(file)
+    uuid = "_".join(str(uuid4()).split("-")[:-1])
+    filename = f"entities-bulk-upload-{request.user.id}-{uuid}.xlsx"
+    storage.upload(file=file_path, filename=filename, folder="upload")
+    task_id = async_task(
+        "api.v1.v1_jobs.job.handle_entities_bulk_upload",
+        filename,
+        request.user.id,
+        timezone.now(),
+        task_name="entities_bulk_upload",
+        hook=(
+            "api.v1.v1_jobs.job." "handle_master_data_bulk_upload_failure"
+        ),
+    )
+    return Response({
+        "task_id": task_id,
+        "filename": filename,
+    }, status=status.HTTP_200_OK)
