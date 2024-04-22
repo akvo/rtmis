@@ -454,7 +454,15 @@ const Forms = () => {
         });
       }, 1000);
     }
-  }, [formId, uuid, forms, loading, navigate, fetchInitialMonitoringData]);
+  }, [
+    formId,
+    uuid,
+    forms,
+    loading,
+    initialValue,
+    navigate,
+    fetchInitialMonitoringData,
+  ]);
 
   const handleOnClearForm = useCallback((preload, initialValue) => {
     if (
