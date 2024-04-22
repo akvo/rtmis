@@ -228,6 +228,26 @@ const uiText = {
         </ul>
       </Fragment>
     ),
+    EntitiesDataUpload: "Entities Data Upload",
+    dataEntitiesUploadText: (
+      <Fragment>
+        This is where you :
+        <ul>
+          <li>Bulk upload entities data</li>
+        </ul>
+      </Fragment>
+    ),
+    EntitiesDataDownload: "Entities Data Download",
+    EntitiesDownloadPageHint:
+      "Uncheck Prefilled if you only want an upload template",
+    dataEntitiesDownloadText: (
+      <Fragment>
+        This is where you :
+        <ul>
+          <li>Download administration data</li>
+        </ul>
+      </Fragment>
+    ),
     manageUserTitle: "User Management",
     manageUserButton: "Manage Users",
     manageUserText: (
@@ -394,6 +414,7 @@ const uiText = {
     formSuccessTitle: "Thank you for the submission",
     administrationUploadSuccessTitle:
       "Administration Data has been Successfully Uploaded",
+    entitiesUploadSuccessTitle: "Entities Data has been Successfully Uploaded",
     formSuccessSubTitle:
       "Do note that this data has NOT been sent for approval. If you are ready to send the submissions for approval, please create a batch and send to the approver",
     formSuccessSubTitleForAdmin:
@@ -459,6 +480,8 @@ const uiText = {
       "If you do not already have a template, please download",
     templateDownloadAdministrationHint:
       "If you do not already have a template, please ",
+    templateDownloadEntityHint:
+      "If you do not already have an entity template, please ",
     downloadHere: "download here",
     uploading: "Uploading..",
     dropFile: "Drop your file here",

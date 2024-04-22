@@ -4,7 +4,11 @@ import { Button, Col, Input, Row, Select, Space } from "antd";
 import RemoveFiltersButton from "./RemoveFiltersButton";
 import AdministrationDropdown from "./AdministrationDropdown";
 import { api, store, uiText } from "../../lib";
-import { DownloadOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  DownloadOutlined,
+  PlusOutlined,
+  UploadOutlined,
+} from "@ant-design/icons";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -116,6 +120,11 @@ const EntityDataFilters = ({
             >
               {text.download}
             </Button>
+            <Link to="/control-center/master-data/entities/upload">
+              <Button icon={<UploadOutlined />} shape="round">
+                {text.bulkUploadButton}
+              </Button>
+            </Link>
             <Link to="/control-center/master-data/entities/add">
               <Button type="primary" icon={<PlusOutlined />} shape="round">
                 {text.addEntityData}
