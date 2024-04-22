@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { Webform } from "akvo-react-form";
 import "akvo-react-form/dist/index.css";
+import { v4 as uuidv4 } from "uuid";
 import "./style.scss";
 import { useParams, useNavigate } from "react-router-dom";
 import {
@@ -83,6 +84,10 @@ const Forms = () => {
               : question.type === "geo"
               ? [val.lat, val.lng]
               : val;
+
+          if (question.type === "cascade" && !question?.extra) {
+            val = takeRight(val)?.[0] || null;
+          }
           return {
             question: parseInt(v),
             type: question.type,
@@ -119,14 +124,7 @@ const Forms = () => {
     }
     const data = {
       data: dataPayload,
-      answer: answers
-        .map((x) => {
-          if (x.type === "cascade") {
-            return { ...x, value: takeRight(x.value)?.[0] || null };
-          }
-          return x;
-        })
-        .map((x) => pick(x, ["question", "value"])),
+      answer: answers.map((x) => pick(x, ["question", "value"])),
     };
     api
       .post(`form-pending-data/${formId}`, data)
@@ -228,7 +226,12 @@ const Forms = () => {
          * Transform cascade answers
          */
         const cascadeAPIs = questions
-          ?.filter((q) => q?.type === "cascade" && q?.api?.endpoint)
+          ?.filter(
+            (q) =>
+              q?.type === "cascade" &&
+              q?.extra?.type !== "entity" &&
+              q?.api?.endpoint
+          )
           ?.map((q) => getCascadeAnswerId(q.id, q.api, answers?.[q.id]));
         const cascadeResponses = await Promise.allSettled(cascadeAPIs);
         const cascadeValues = cascadeResponses
@@ -292,6 +295,15 @@ const Forms = () => {
                 },
               ];
             }
+            if (!uuid && q?.meta_uuid) {
+              defaultValues = [
+                ...defaultValues,
+                {
+                  question: q.id,
+                  value: uuidv4(),
+                },
+              ];
+            }
             // eol set initial value for new_or_monitoring question
 
             // set disabled new_or_monitoring question
@@ -329,6 +341,13 @@ const Forms = () => {
                 qVal = {
                   ...qVal,
                   allowOtherText: "Enter any OTHER value",
+                };
+              }
+              if (qVal?.type === "entity") {
+                qVal = {
+                  ...qVal,
+                  type: "cascade",
+                  extra: q?.extra,
                 };
               }
             }
