@@ -83,22 +83,21 @@ def send_feedback(request, version):
 
 @extend_schema(
     responses={200: ListEntityDataSerializer},
-    tags=['Entities'],
-    summary='Get list of entity data by entity type & administration'
+    tags=["Entities"],
+    summary="Get list of entity data by entity type & administration",
 )
-@api_view(['GET'])
+@api_view(["GET"])
 def list_entity_data(request, version, entity_id, administration_id):
     instance = EntityData.objects.filter(
-        entity__id=entity_id,
-        administration__id=administration_id
+        entity__id=entity_id, administration__id=administration_id
     ).all()
     return Response(
         ListEntityDataSerializer(instance=instance, many=True).data,
-        status=status.HTTP_200_OK
+        status=status.HTTP_200_OK,
     )
 
 
-@extend_schema(tags=['Administration'])
+@extend_schema(tags=["Administration"])
 class AdministrationViewSet(ModelViewSet):
     serializer_class = AdministrationSerializer
     permission_classes = [IsAuthenticated]

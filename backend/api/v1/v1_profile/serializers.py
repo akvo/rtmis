@@ -361,4 +361,4 @@ class DownloadEntityDataRequestSerializer(serializers.Serializer):
 class ListEntityDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = EntityData
-        fields = ['id', 'code', 'name']
+        fields = ["id", "code", "name"]
