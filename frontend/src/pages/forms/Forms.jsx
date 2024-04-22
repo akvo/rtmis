@@ -91,7 +91,7 @@ const Forms = () => {
           values?.[q?.id] === "string"
       )
       ?.map((q) => {
-        const pq = questions.find((subq) => subq?.id === q?.extra?.pid);
+        const pq = questions.find((subq) => subq?.id === q?.extra?.parentId);
         const pid = values?.[pq];
         if (pid) {
           return getEntityByName(
