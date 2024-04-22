@@ -6,6 +6,7 @@ from api.v1.v1_jobs.views import (
     download_file,
     download_list,
     upload_bulk_administrators,
+    upload_bulk_entities,
     upload_excel,
 )
 
@@ -24,5 +25,8 @@ urlpatterns = [
     re_path(
         r"^(?P<version>(v1))/upload/bulk-administrations",
         upload_bulk_administrators,
+    ),
+    re_path(
+        r"^(?P<version>(v1))/upload/bulk-entities", upload_bulk_entities
     ),
 ]
