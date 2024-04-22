@@ -16,6 +16,7 @@ class MobileDataPointDownloadListSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     form_id = serializers.IntegerField()
     name = serializers.CharField()
+    administration_id = serializers.IntegerField()
     url = serializers.SerializerMethodField()
     last_updated = serializers.SerializerMethodField()
 
@@ -28,7 +29,14 @@ class MobileDataPointDownloadListSerializer(serializers.Serializer):
         return obj["updated"] if obj["updated"] else obj["created"]
 
     class Meta:
-        fields = ["id", "form_id", "name", "url", "last_updated"]
+        fields = [
+            "id",
+            "form_id",
+            "name",
+            "administration_id",
+            "url",
+            "last_updated",
+        ]
 
 
 class MobileFormSerializer(serializers.ModelSerializer):
