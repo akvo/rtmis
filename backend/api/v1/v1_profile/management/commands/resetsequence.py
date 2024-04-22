@@ -4,7 +4,6 @@ from django.db import DEFAULT_DB_ALIAS, connections, transaction
 
 
 class Command(AppCommand):
-
     def add_arguments(self, parser):
         super().add_arguments(parser)
         parser.add_argument("--database", default=DEFAULT_DB_ALIAS)

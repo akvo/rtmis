@@ -5,10 +5,10 @@ class UserRoleTypes:
     user = 4
 
     FieldStr = {
-        super_admin: 'Super Admin',
-        admin: 'County Admin',
-        approver: 'Data Approver',
-        user: 'Data Entry Supervisor',
+        super_admin: "Super Admin",
+        admin: "County Admin",
+        approver: "Data Approver",
+        user: "Data Entry Supervisor",
     }
 
 
@@ -40,7 +40,7 @@ class UserDesignationTypes:
         it: "IT",
         sa: "System Admin",
         tr: "Teacher",
-        chv: "CHV (Community Health Volunteer)"
+        chv: "CHV (Community Health Volunteer)",
     }
 
 
@@ -49,6 +49,6 @@ class OrganisationTypes:
     partnership = 2
 
     FieldStr = {
-        member: 'member',
-        partnership: 'partnership',
+        member: "member",
+        partnership: "partnership",
     }

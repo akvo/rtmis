@@ -7,14 +7,18 @@ from api.v1.v1_forms.models import Forms
 from api.v1.v1_jobs.constants import JobTypes, JobStatus, DataDownloadTypes
 from api.v1.v1_jobs.models import Jobs
 from api.v1.v1_profile.models import Administration, AdministrationAttribute
-from utils.custom_serializer_fields import CustomPrimaryKeyRelatedField, \
-    CustomFileField, CustomChoiceField
+from utils.custom_serializer_fields import (
+    CustomPrimaryKeyRelatedField,
+    CustomFileField,
+    CustomChoiceField,
+)
 
 
 class DownloadDataRequestSerializer(serializers.Serializer):
     form_id = CustomPrimaryKeyRelatedField(queryset=Forms.objects.none())
     administration_id = CustomPrimaryKeyRelatedField(
-        queryset=Administration.objects.none(), required=False)
+        queryset=Administration.objects.none(), required=False
+    )
     type = serializers.ChoiceField(
         choices=[
             DataDownloadTypes.FieldStr[d] for d in DataDownloadTypes.FieldStr
@@ -23,9 +27,10 @@ class DownloadDataRequestSerializer(serializers.Serializer):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.fields.get('form_id').queryset = Forms.objects.all()
+        self.fields.get("form_id").queryset = Forms.objects.all()
         self.fields.get(
-            'administration_id').queryset = Administration.objects.all()
+            "administration_id"
+        ).queryset = Administration.objects.all()
 
 
 class DownloadListSerializer(serializers.ModelSerializer):
@@ -34,43 +39,54 @@ class DownloadListSerializer(serializers.ModelSerializer):
     status = serializers.SerializerMethodField()
     administration = serializers.SerializerMethodField()
     date = serializers.DateTimeField(
-        source='available', format="%B %d, %Y %I:%M %p")
+        source="available", format="%B %d, %Y %I:%M %p"
+    )
     form = serializers.SerializerMethodField()
     attributes = serializers.SerializerMethodField()
     download_type = serializers.SerializerMethodField()
 
-    @extend_schema_field(CustomChoiceField(
-        choices=[JobTypes.FieldStr[d] for d in JobTypes.FieldStr]))
+    @extend_schema_field(
+        CustomChoiceField(
+            choices=[JobTypes.FieldStr[d] for d in JobTypes.FieldStr]
+        )
+    )
     def get_category(self, instance):
         job_type = JobTypes.FieldStr.get(instance.type)
-        if job_type == 'download_administration':
-            return 'Administration List'
-        if job_type == 'download_entities':
-            return 'Entities'
-        return 'Form Data'
+        if job_type == "download_administration":
+            return "Administration List"
+        if job_type == "download_entities":
+            return "Entities"
+        return "Form Data"
 
-    @extend_schema_field(CustomChoiceField(
-        choices=[JobStatus.FieldStr[d] for d in JobStatus.FieldStr]))
+    @extend_schema_field(
+        CustomChoiceField(
+            choices=[JobStatus.FieldStr[d] for d in JobStatus.FieldStr]
+        )
+    )
     def get_status(self, instance):
         return JobStatus.FieldStr.get(instance.status)
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_administration(self, instance):
-        admin_id = instance.info.get('administration') or instance.info.get(
-            'adm_id')
+        admin_id = instance.info.get("administration") or instance.info.get(
+            "adm_id"
+        )
         if admin_id:
             return Administration.objects.get(pk=admin_id).full_name
         return None
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_form(self, instance):
-        form_id = instance.info.get('form_id')
+        form_id = instance.info.get("form_id")
         if form_id:
             return Forms.objects.get(pk=form_id).name
         return None
 
-    @extend_schema_field(CustomChoiceField(
-        choices=[JobTypes.FieldStr[d] for d in JobTypes.FieldStr]))
+    @extend_schema_field(
+        CustomChoiceField(
+            choices=[JobTypes.FieldStr[d] for d in JobTypes.FieldStr]
+        )
+    )
     def get_type(self, instance):
         return JobTypes.FieldStr.get(instance.type)
 
@@ -88,16 +104,25 @@ class DownloadListSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_download_type(self, instance):
-        return instance.info.get('download_type')
+        return instance.info.get("download_type")
 
     class Meta:
         model = Jobs
         fields = [
-            'id', 'task_id', 'type', 'status', 'form', 'category',
-            'administration', 'date', 'result', 'attributes', 'download_type'
+            "id",
+            "task_id",
+            "type",
+            "status",
+            "form",
+            "category",
+            "administration",
+            "date",
+            "result",
+            "attributes",
+            "download_type",
         ]
 
 
 class UploadExcelSerializer(serializers.Serializer):
-    file = CustomFileField(validators=[FileExtensionValidator(['xlsx'])])
+    file = CustomFileField(validators=[FileExtensionValidator(["xlsx"])])
     is_update = serializers.BooleanField(default=False)

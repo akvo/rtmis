@@ -465,8 +465,8 @@ def get_datapoint_download_list(request, version):
             form_id__in=forms,
             submission_type__in=[
                 SubmissionTypes.registration,
-                SubmissionTypes.monitoring
-            ]
+                SubmissionTypes.monitoring,
+            ],
         )
         .values("uuid")
         .annotate(latest_id=Max("id"))

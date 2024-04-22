@@ -13,8 +13,11 @@ def update_date_time_format(date):
 
 
 def get_answer_value(answer: Answers):
-    if answer.question.type in [QuestionTypes.geo, QuestionTypes.option,
-                                QuestionTypes.multiple_option]:
+    if answer.question.type in [
+        QuestionTypes.geo,
+        QuestionTypes.option,
+        QuestionTypes.multiple_option,
+    ]:
         return answer.options
     elif answer.question.type == QuestionTypes.number:
         return answer.value
@@ -28,9 +31,11 @@ def get_answer_history(answer_history: AnswerHistory):
     value = None
     created = update_date_time_format(answer_history.created)
     created_by = answer_history.created_by.get_full_name()
-    if answer_history.question.type in [QuestionTypes.geo,
-                                        QuestionTypes.option,
-                                        QuestionTypes.multiple_option]:
+    if answer_history.question.type in [
+        QuestionTypes.geo,
+        QuestionTypes.option,
+        QuestionTypes.multiple_option,
+    ]:
         value = answer_history.options
     elif answer_history.question.type == QuestionTypes.number:
         value = answer_history.value
