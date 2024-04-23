@@ -1720,7 +1720,7 @@
         },
         {
           "id": 169995172789125,
-          "order": 32,
+          "order": 33,
           "name": "verification",
           "label": "Do you verify the claim?",
           "short_label": null,
@@ -1749,7 +1749,7 @@
         },
         {
           "id": 169995172789126,
-          "order": 33,
+          "order": 34,
           "name": "certification",
           "label": "Do you certify the community?",
           "short_label": null,
