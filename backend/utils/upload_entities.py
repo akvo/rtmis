@@ -7,6 +7,7 @@ from api.v1.v1_profile.models import (
     Entity,
     EntityData
 )
+import openpyxl
 from utils.storage import upload
 
 
@@ -66,32 +67,45 @@ def generate_list_of_entities(
 def validate_entity_data(filename: str):
     errors = []
     last_level = Levels.objects.all().order_by("level").last()
-    for entity in Entity.objects.all():
+    xl = pd.ExcelFile(filename)
+    wb = openpyxl.load_workbook(filename)
+    for sheet in xl.sheet_names:
+        check_sheet = wb[sheet]
+        # skip empty sheets
+        if all(cell.value is None for row
+               in check_sheet.iter_rows() for cell in row):
+            continue
+        entity = Entity.objects.filter(name=sheet).first()
+        if not entity:
+            continue
         df = pd.read_excel(filename, sheet_name=entity.name)
         # remove rows with empty Name
         df = df.dropna(subset=["Name"])
         # remove exact duplicate rows
         df = df.drop_duplicates()
         for index, row in df.iterrows():
-            path = ""
             adm_names = []
             failed = False
             administration = None
+            higher_level = None
             for level in Levels.objects.all().order_by("level"):
-                if row[level.name] is not None:
+                if row[level.name] != row[level.name]:
+                    previous_level = Levels.objects.filter(
+                        level=level.level - 1
+                    ).first()
+                    if not higher_level:
+                        higher_level = previous_level
+                else:
                     row_value = row[level.name]
                     adm_names += [row_value]
                     administration = Administration.objects.filter(
-                        name=row_value, level=level
+                        parent=administration,
+                        name=row_value,
+                        level=level
                     ).first()
                     if not administration:
                         failed = True
                         continue
-                    if administration.path:
-                        if path and not administration.path.startswith(path):
-                            failed = True
-                    if administration and not failed:
-                        path += f"{administration.id}."
             if failed:
                 adm_names = " - ".join(adm_names)
                 errors.append({
@@ -123,10 +137,16 @@ def validate_entity_data(filename: str):
 
 def validate_entity_file(filename: str):
     xl = pd.ExcelFile(filename)
+    wb = openpyxl.load_workbook(filename)
     sheet_names = xl.sheet_names
     errors = []
     # check if the sheet names are correct
     for sheet in sheet_names:
+        check_sheet = wb[sheet]
+        # skip empty sheets
+        if all(cell.value is None for row
+               in check_sheet.iter_rows() for cell in row):
+            continue
         entity = Entity.objects.filter(name=sheet).first()
         if not entity:
             errors.append({
