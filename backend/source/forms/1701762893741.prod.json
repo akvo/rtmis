@@ -272,7 +272,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE & INTERVIEW: what is the main source of water supply for the facility?\nMain source: if there is more than one water source, select the one used most frequently for drinking water"
+            "text": "<b>OBSERVE & INTERVIEW:</b> what is the main source of water supply for the facility?<br/><b>Main source:</b> if there is more than one water source, select the one used most frequently for drinking water"
           },
           "required": false,
           "meta": false,
@@ -364,7 +364,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE & INTERVIEW: is water from the main water source currently available at the facility?\nCurrently available: drinking water is available at the time of the interview, either from the main source directly or stored water originally from the main source"
+            "text": "<b>OBSERVE & INTERVIEW:</b> is water from the main water source currently available at the facility?<br/><b>Currently available:</b> drinking water is available at the time of the interview, either from the main source directly or stored water originally from the main source"
           },
           "required": false,
           "meta": false,
@@ -393,7 +393,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE & INTERVIEW: is water available in sufficient quantity for all facility uses?\nSufficient quantity: water is available for handwashing, drinking, personal hygiene, medical activities, sterilization, decontamination, cleaning and laundry"
+            "text": "<b>OBSERVE & INTERVIEW:</b> is water available in sufficient quantity for all facility uses?<br/><b>Sufficient quantity:</b> water is available for handwashing, drinking, personal hygiene, medical activities, sterilization, decontamination, cleaning and laundry"
           },
           "required": false,
           "meta": false,
@@ -429,7 +429,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: count the number of toilets for inpatients\nOBSERVE: assess whether the inpatient toilets are usable (available, functional, and private). \nAvailable: toilet doors are unlocked or a key is available at all times; Functional: toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required); Private: there are closable doors that lock from the inside and no large gaps in the toilet enclosure. If any of the three criteria are not met, the toilet is not counted as usable"
+            "text": "<b>OBSERVE:</b> count the number of toilets for inpatients<br/><b>OBSERVE:</b> assess whether the inpatient toilets are usable (available, functional, and private). <br/><b>Available:</b> toilet doors are unlocked or a key is available at all times; <b>Functional:</b> toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required); Private: there are closable doors that lock from the inside and no large gaps in the toilet enclosure. If any of the three criteria are not met, the toilet is not counted as usable"
           },
           "required": false,
           "meta": false,
@@ -513,7 +513,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: count the number of toilets for outpatients\nOBSERVE: assess whether the outpatient toilets are usable (available, functional, and private)\nAvailable: toilet doors are unlocked or a key is available at all times; Functional: toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required); Private: there are closable doors that lock from the inside and no large gaps in the toilet enclosure"
+            "text": "<b>OBSERVE:</b> count the number of toilets for outpatients<br/><b>OBSERVE:</b> assess whether the outpatient toilets are usable (available, functional, and private)<br/><b>Available:</b> toilet doors are unlocked or a key is available at all times; <b>Functional:</b> toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required); <b>Private:</b> there are closable doors that lock from the inside and no large gaps in the toilet enclosure"
           },
           "required": false,
           "meta": false,
@@ -637,7 +637,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: What type of toilets are used by patients at the facility?\nToilet type: select the main type of toilet used\nPit latrine without slab: a dry toilet that does not have a squatting slab, platform or seat; or an open pit (or pit with large openings) where excreta are collected.\nPit latrine with slab: a dry toilet that collects excreta in a pit in the ground covered with a squatting slab or platform that is constructed from materials that are durable and easy to clean (e.g. concrete, bricks, stone, fibreglass, ceramic, metal, wooden planks or durable plastic)"
+            "text": "<b>OBSERVE:</b> What type of toilets are used by patients at the facility?<br/><b>Toilet type:</b> select the main type of toilet used<br/><b>Pit latrine without slab:</b> a dry toilet that does not have a squatting slab, platform or seat; or an open pit (or pit with large openings) where excreta are collected.<br/><b>Pit latrine with slab:</b> a dry toilet that collects excreta in a pit in the ground covered with a squatting slab or platform that is constructed from materials that are durable and easy to clean (e.g. concrete, bricks, stone, fibreglass, ceramic, metal, wooden planks or durable plastic)"
           },
           "required": false,
           "meta": false,
@@ -722,7 +722,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: are separate toilets provided for use by facility staff?"
+            "text": "<b>OBSERVE:</b> are separate toilets provided for use by facility staff?"
           },
           "required": false,
           "meta": false,
@@ -758,7 +758,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: are sex-separated or gender-neutral toilets available?\nSex-separated toilets: rooms with multiple toilet stalls, or a private room with a single toilet, that are dedicated for use by either women or men\nGender-neutral toilet: a private room with a single toilet that allows women and men to use the toilet separately."
+            "text": "<b>OBSERVE:</b> are sex-separated or gender-neutral toilets available?<br/><b>Sex-separated toilets:</b> rooms with multiple toilet stalls, or a private room with a single toilet, that are dedicated for use by either women or men<br/><b>Gender-neutral toilet:</b> a private room with a single toilet that allows women and men to use the toilet separately."
           },
           "required": false,
           "meta": false,
@@ -794,7 +794,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: is a toilet available with menstrual hygiene facilities?\nMenstrual hygiene facilities: including water and soap available in a private space for washing, and a disposal bin for disposal of used menstrual hygiene products"
+            "text": "<b>OBSERVE:</b> is a toilet available with menstrual hygiene facilities?<br/<b>Menstrual hygiene facilities:</b> including water and soap available in a private space for washing, and a disposal bin for disposal of used menstrual hygiene products"
           },
           "required": false,
           "meta": false,
@@ -830,7 +830,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: is a toilet accessible for people with reduced mobility?\nAccessible for people with reduced mobility: can be accessed without stairs or steps; handrails provided for support; door is at least 80cm wide; and door handle and toilet seat are within reach of people using wheelchairs, crutches or walking sticks"
+            "text": "<b>OBSERVE:</b> is a toilet accessible for people with reduced mobility?<br/><b>Accessible for people with reduced mobility:</b> can be accessed without stairs or steps; handrails provided for support; door is at least 80cm wide; and door handle and toilet seat are within reach of people using wheelchairs, crutches or walking sticks"
           },
           "required": false,
           "meta": false,
@@ -866,7 +866,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: is there a functional hand hygiene facility at all points of care?\nFunctional hand hygiene facility: any device that enables staff, patients and visitors to clean their hands effectively, including a basin/pan with soap and water, or alcohol-based hand rub (ABHR).\nPoints of care: any location in the health care facility where care or treatment is delivered (e.g. consultation or exam room)."
+            "text": "<b>OBSERVE:</b> is there a functional hand hygiene facility at all points of care?<br/><b>Functional hand hygiene facility:</b> any device that enables staff, patients and visitors to clean their hands effectively, including a basin/pan with soap and water, or alcohol-based hand rub (ABHR).<br/><b>Points of care:</b> any location in the health care facility where care or treatment is delivered (e.g. consultation or exam room)."
           },
           "required": false,
           "meta": false,
@@ -902,7 +902,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: do all facility toilets have a functional hand hygiene facility within 5m?\nFunctional hand hygiene facility for toilets: must be working, must include soap and water (NOT ABHR, as ABHR does not remove faecal matter), and must be within 5m of the toilet"
+            "text": "<b>OBSERVE:</b> do all facility toilets have a functional hand hygiene facility within 5m?<br/><b>Functional hand hygiene facility for toilets:</b> must be working, must include soap and water (NOT ABHR, as ABHR does not remove faecal matter), and must be within 5m of the toilet"
           },
           "required": false,
           "meta": false,
@@ -938,7 +938,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: are audit records (of hand hygiene materials) available dated less than three months ago?\nRegular audit: audits are undertaken every three months\nAvailability of hand hygiene materials: all hand hygiene facilities in the ward have hand rub, soap, single-use towels and other hand hygiene resources available"
+            "text": "<b>OBSERVE:</b> are audit records (of hand hygiene materials) available dated less than three months ago?<br/><b>Regular audit:</b> audits are undertaken every three months<br/><b>Availability of hand hygiene materials:</b> all hand hygiene facilities in the ward have hand rub, soap, single-use towels and other hand hygiene resources available"
           },
           "required": false,
           "meta": false,
@@ -974,7 +974,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: are separate, functional waste collection containers available in close proximity to waste generation points for non-infectious (general) waste, infectious waste and sharps waste?\nSeparate functional waste collection containers: \"3-bin\" system with at least three containers that are leak-proof, covered with a lid, and clearly labelled (by colour/label or symbol). Bins should not be more than three-quarters full."
+            "text": "<b>OBSERVE:</b> are separate, functional waste collection containers available in close proximity to waste generation points for non-infectious (general) waste, infectious waste and sharps waste?<br/><b>Separate functional waste collection containers:</b> \"3-bin\" system with at least three containers that are leak-proof, covered with a lid, and clearly labelled (by colour/label or symbol). Bins should not be more than three-quarters full."
           },
           "required": false,
           "meta": false,
@@ -1010,7 +1010,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: is there a functional disposal site for non-infectious waste?\nFunctional disposal site: operational burial pit, fenced waste dump or municipal pickup point\nInadequate disposal site: Open dumping, open burning, no waste collection or segregation"
+            "text": "<b>INTERVIEW:</b> is there a functional disposal site for non-infectious waste?<br/><b>Functional disposal site:</b> operational burial pit, fenced waste dump or municipal pickup point<br/><b>Inadequate disposal site:</b> Open dumping, open burning, no waste collection or segregation"
           },
           "required": false,
           "meta": false,
@@ -1046,7 +1046,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "INTERVIEW: is there a functional disposal site for infectious waste and sharps waste?\nFunctional disposal site: operational incinerator or autoclave on-site, or licensed waste management service for off-site disposal\nInadequate disposal site: Open dumping, open burning, added to general waste (without treatment)"
+            "text": "<b>INTERVIEW:</b> is there a functional disposal site for infectious waste and sharps waste?<br/><b>Functional disposal site:</b> operational incinerator or autoclave on-site, or licensed waste management service for off-site disposal<br/><b>Inadequate disposal site:</b> Open dumping, open burning, added to general waste (without treatment)"
           },
           "required": false,
           "meta": false,
@@ -1082,7 +1082,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: are appropriate materials available for cleaning?\nAppropriate cleaning materials: detergent, mops, buckets etc"
+            "text": "<b>OBSERVE:</b> are appropriate materials available for cleaning?<br/><b>Appropriate cleaning materials:</b> detergent, mops, buckets etc"
           },
           "required": false,
           "meta": false,
@@ -1118,7 +1118,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: is a record of cleaning activities (by day) available in the facility?\nDaily cleaning record: details of cleaning activities undertaken on each day, signed by cleaners and counter-signed by supervisors"
+            "text": "<b>OBSERVE:</b> is a record of cleaning activities (by day) available in the facility?<br/><b>Daily cleaning record:</b> details of cleaning activities undertaken on each day, signed by cleaners and counter-signed by supervisors"
           },
           "required": false,
           "meta": false,
@@ -1154,7 +1154,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "OBSERVE: do the cleaning roster and cleaning records confirm that toilets are cleaned twice a day?\nCleaning roster: schedule specifying responsibility for cleaning tasks, frequency of cleaning, and step-by-step protocol for specific cleaning tasks\nDaily cleaning record: details of cleaning activities undertaken on each day, signed by cleaners and counter-signed by supervisors"
+            "text": "<b>OBSERVE:</b> do the cleaning roster and cleaning records confirm that toilets are cleaned twice a day?<br/><b>Cleaning roster:</b> schedule specifying responsibility for cleaning tasks, frequency of cleaning, and step-by-step protocol for specific cleaning tasks</br><b>Daily cleaning record:</b> details of cleaning activities undertaken on each day, signed by cleaners and counter-signed by supervisors"
           },
           "required": false,
           "meta": false,
