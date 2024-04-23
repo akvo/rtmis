@@ -1745,6 +1745,11 @@
           ],
           "disabled": {
             "submission_type": ["registration", "monitoring", "certification"]
+          },
+          "default_value": {
+            "registration": null,
+            "monitoring": null,
+            "certification": null
           }
         },
         {
@@ -1774,6 +1779,11 @@
           ],
           "disabled": {
             "submission_type": ["registration", "monitoring", "verification"]
+          },
+          "default_value": {
+            "registration": null,
+            "monitoring": null,
+            "verification": null
           }
         }
       ]
