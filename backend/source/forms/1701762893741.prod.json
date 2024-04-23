@@ -561,7 +561,7 @@
               "Outpatient: Less than 2 USABLE outpatient toilets": "#DB3B3B",
               "Outpatient: 2 or more USABLE outpatient toilets": "#38A15A"
             },
-            "fnString": "#total_usable_outpatient_toilets# > 2 ? \"Outpatient: 2 or more USABLE outpatient toilets\" : \"Outpatient: Less than 2 USABLE outpatient toilets\"",
+            "fnString": "#total_usable_outpatient_toilets# > 1 ? \"Outpatient: 2 or more USABLE outpatient toilets\" : \"Outpatient: Less than 2 USABLE outpatient toilets\"",
             "multiline": false
           }
         },
@@ -702,22 +702,22 @@
             {
               "id": 1701774512898,
               "order": 1,
-              "label": "No records, or toilets cleaned less than once per day",
-              "value": "no_reco_toil_clea_less_than_once_per_day",
+              "label": "No sex-separated toilets are available, or no privacy, or toilets unimproved",
+              "value": "no_sex_separated_toilets_available_no_privacy",
               "color": "#DB3B3B"
             },
             {
               "id": 1701774512899,
               "order": 2,
-              "label": "Toilets cleaned less than twice a day",
-              "value": "toil_clea_less_than_twic_a_day",
+              "label": "Sex-separated toilets exist but not clearly marked",
+              "value": "sex_separated_toilets_exist_but_not_clearly_marked",
               "color": "#ffa57d"
             },
             {
               "id": 1701774540650,
               "order": 3,
-              "label": "Yes, all toilets cleaned at least twice a day",
-              "value": "yes_all_toil_clea_at_leas_twic_a_day",
+              "label": "Yes, sex-separated rooms for toilets with privacy",
+              "value": "yes_sex_separated_rooms_with_privacy",
               "color": "#38A15A"
             }
           ]
