@@ -1745,11 +1745,6 @@
           ],
           "disabled": {
             "submission_type": ["registration", "monitoring", "certification"]
-          },
-          "default_value": {
-            "submission_type": {
-              "verification": "yes"
-            }
           }
         },
         {
@@ -1779,11 +1774,6 @@
           ],
           "disabled": {
             "submission_type": ["registration", "monitoring", "verification"]
-          },
-          "default_value": {
-            "submission_type": {
-              "certification": "yes"
-            }
           }
         }
       ]
