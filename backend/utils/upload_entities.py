@@ -84,7 +84,6 @@ def validate_entity_data(filename: str):
         # remove exact duplicate rows
         df = df.drop_duplicates()
         for index, row in df.iterrows():
-            path = ""
             adm_names = []
             failed = False
             administration = None
@@ -100,16 +99,13 @@ def validate_entity_data(filename: str):
                     row_value = row[level.name]
                     adm_names += [row_value]
                     administration = Administration.objects.filter(
-                        name=row_value, level=level
+                        parent=administration,
+                        name=row_value,
+                        level=level
                     ).first()
                     if not administration:
                         failed = True
                         continue
-                    if administration.path:
-                        if path and not administration.path.startswith(path):
-                            failed = True
-                    if administration and not failed:
-                        path += f"{administration.id}."
             if failed:
                 adm_names = " - ".join(adm_names)
                 errors.append({
