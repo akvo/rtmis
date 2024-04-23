@@ -192,72 +192,8 @@
       ]
     },
     {
-      "id": 1701773180227,
-      "order": 3,
-      "name": "interview_update_hcf_information",
-      "label": "INTERVIEW: UPDATE HCF INFORMATION",
-      "description": null,
-      "repeatable": false,
-      "translations": null,
-      "questions": [
-        {
-          "id": 1701773180228,
-          "order": 1,
-          "name": "change_in_patients_attending_HCF",
-          "label": "Change in number of patients attending the HCF?",
-          "short_label": null,
-          "type": "option",
-          "required": false,
-          "meta": false,
-          "options": [
-            {
-              "id": 1701773225595,
-              "order": 1,
-              "label": "Yes",
-              "value": "yes"
-            },
-            {
-              "id": 1701773225596,
-              "order": 2,
-              "label": "No",
-              "value": "no"
-            }
-          ],
-          "tooltip": null
-        },
-        {
-          "id": 1701773239332,
-          "order": 2,
-          "name": "update_total_beds_inpatients_HCF",
-          "label": "Update: total number of beds/inpatients in HCF",
-          "short_label": null,
-          "type": "number",
-          "required": false,
-          "meta": false,
-          "options": null,
-          "tooltip": {
-            "text": "INTERVIEW: what is the total number of beds/inpatients in this health care facility?"
-          }
-        },
-        {
-          "id": 1701773283024,
-          "order": 3,
-          "name": "update_max_outpatients_HCF",
-          "label": "Update: maximum number of outpatients in HCF",
-          "short_label": null,
-          "type": "number",
-          "required": false,
-          "meta": false,
-          "options": null,
-          "tooltip": {
-            "text": "INTERVIEW: what is the maximum number of outpatients in this health care facility?"
-          }
-        }
-      ]
-    },
-    {
       "id": 1701773373078,
-      "order": 4,
+      "order": 3,
       "name": "interview_healthcare_facility_wash_outcomes",
       "label": "INTERVIEW: HCF WASH OUTCOMES",
       "description": null,
