@@ -7,6 +7,7 @@ from api.v1.v1_profile.models import (
     Entity,
     EntityData
 )
+import openpyxl
 from utils.storage import upload
 
 
@@ -67,7 +68,13 @@ def validate_entity_data(filename: str):
     errors = []
     last_level = Levels.objects.all().order_by("level").last()
     xl = pd.ExcelFile(filename)
+    wb = openpyxl.load_workbook(filename)
     for sheet in xl.sheet_names:
+        check_sheet = wb[sheet]
+        # skip empty sheets
+        if all(cell.value is None for row
+               in check_sheet.iter_rows() for cell in row):
+            continue
         entity = Entity.objects.filter(name=sheet).first()
         if not entity:
             continue
@@ -134,10 +141,16 @@ def validate_entity_data(filename: str):
 
 def validate_entity_file(filename: str):
     xl = pd.ExcelFile(filename)
+    wb = openpyxl.load_workbook(filename)
     sheet_names = xl.sheet_names
     errors = []
     # check if the sheet names are correct
     for sheet in sheet_names:
+        check_sheet = wb[sheet]
+        # skip empty sheets
+        if all(cell.value is None for row
+               in check_sheet.iter_rows() for cell in row):
+            continue
         entity = Entity.objects.filter(name=sheet).first()
         if not entity:
             errors.append({
