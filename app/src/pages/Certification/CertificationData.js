@@ -33,24 +33,29 @@ const RenderDropdown = ({
   onChange,
   value,
   placeholder,
-}) => (
-  <Dropdown
-    key={key}
-    style={{ ...styles.dropdownChild, width: screenWidth }}
-    data={options.map((x) => ({ label: x.name, value: x.id }))}
-    maxHeight={300}
-    labelField="label"
-    valueField="value"
-    value={value}
-    onChange={({ value: optValue }) => {
-      if (onChange) {
-        onChange(optValue);
-      }
-    }}
-    placeholder={`Select ${placeholder}`}
-    disable={disabled}
-  />
-);
+}) => {
+  const ddStyle = disabled
+    ? { ...styles.dropdownField, ...styles.dropdownFieldDisabled }
+    : styles.dropdownField;
+  return (
+    <Dropdown
+      key={key}
+      style={{ ...ddStyle, width: screenWidth }}
+      data={options.map((x) => ({ label: x.name, value: x.id }))}
+      maxHeight={300}
+      labelField="label"
+      valueField="value"
+      value={value}
+      onChange={({ value: optValue }) => {
+        if (onChange) {
+          onChange(optValue);
+        }
+      }}
+      placeholder={`Select ${placeholder}`}
+      disable={disabled}
+    />
+  );
+};
 
 const CertificationData = ({ navigation, route }) => {
   const params = route?.params || null;
@@ -238,7 +243,7 @@ const CertificationData = ({ navigation, route }) => {
     </ListItem>
   );
 
-  const renderDropdownChilds = (max) => {
+  const renderDropdownFields = (max) => {
     const res = [];
     for (let a = 0; a < max; a += 1) {
       let options = [];
@@ -292,7 +297,7 @@ const CertificationData = ({ navigation, route }) => {
               value={selectedAdm?.[0]?.id || null}
               placeholder={admTrees?.[0]?.level ? dropdownLevels[admTrees[0].level - 1] : ''}
             />
-            {renderDropdownChilds(admDepth)}
+            {renderDropdownFields(admDepth)}
           </View>
         )
         // eol administration filter
@@ -335,12 +340,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'grey',
     paddingVertical: 1,
   },
-  dropdownChild: {
+  dropdownField: {
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderColor: 'grey',
     borderWidth: 1,
     backgroundColor: '#fff',
+  },
+  dropdownFieldDisabled: {
+    backgroundColor: '#e5e7eb',
+    opacity: 0.95,
   },
 });
 
