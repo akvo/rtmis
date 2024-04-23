@@ -7,9 +7,13 @@ from django.utils import timezone
 from django_q.tasks import async_task
 from django.db.models import Subquery, Max
 from api.v1.v1_jobs.administrations_bulk_upload import (
-        seed_administration_data,
-        validate_administrations_bulk_upload)
-
+    seed_administration_data,
+    validate_administrations_bulk_upload,
+)
+from utils.upload_entities import (
+    validate_entity_file,
+    validate_entity_data,
+)
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_forms.constants import SubmissionTypes
@@ -18,7 +22,10 @@ from api.v1.v1_jobs.constants import JobStatus, JobTypes
 from api.v1.v1_jobs.models import Jobs
 from api.v1.v1_jobs.seed_data import seed_excel_data
 from api.v1.v1_jobs.validate_upload import validate
-from api.v1.v1_profile.models import Administration
+from api.v1.v1_profile.models import (
+    Administration,
+    EntityData
+)
 from api.v1.v1_users.models import SystemUser
 from utils import storage
 from utils.email_helper import send_email, EmailTypes
@@ -301,7 +308,7 @@ def handle_administrations_bulk_upload(filename, user_id, upload_time):
     send_email(context=email_context, type=EmailTypes.administration_upload)
 
 
-def handle_administrations_bulk_upload_failure(task: Task):
+def handle_master_data_bulk_upload_failure(task: Task):
     if task.success:
         return
     logger.error({
@@ -314,3 +321,49 @@ def handle_administrations_bulk_upload_failure(task: Task):
         'kwargs': task.kwargs,
         'body': task.result,
     })
+
+
+def handle_entities_error_upload(
+        errors: list,
+        email_context: dict,
+        user: SystemUser,
+        upload_time: timezone.datetime
+):
+    logger.error(errors)
+    error_file = (
+        "./tmp/entity-error-"
+        f"{upload_time.strftime('%Y%m%d%H%M%S')}-{user.id}.csv"
+    )
+    error_list = pd.DataFrame(errors)
+    error_list.to_csv(error_file, index=False)
+    send_email(
+        context=email_context,
+        type=EmailTypes.upload_error,
+        path=error_file,
+        content_type='text/csv'
+    )
+
+
+def handle_entities_bulk_upload(filename, user_id, upload_time):
+    user = SystemUser.objects.get(id=user_id)
+    storage.download(f"upload/{filename}")
+    file_path = f"./tmp/{filename}"
+    errors = validate_entity_file(file_path)
+    email_context = {
+        'send_to': [user.email],
+        'listing': [{
+            'name': 'Upload Date',
+            'value': upload_time.strftime('%m-%d-%Y, %H:%M:%S'),
+        }, {
+            'name': 'Questionnaire',
+            'value': 'Entity List',
+        }]
+    }
+    if len(errors):
+        handle_entities_error_upload(errors, email_context, user, upload_time)
+        return
+    errors = validate_entity_data(file_path)
+    if len(errors):
+        handle_entities_error_upload(errors, email_context, user, upload_time)
+        return
+    generate_sqlite(EntityData)

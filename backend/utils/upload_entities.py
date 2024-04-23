@@ -1,7 +1,12 @@
 import os
 import pandas as pd
 from typing import List
-from api.v1.v1_profile.models import Administration, Levels, Entity, EntityData
+from api.v1.v1_profile.models import (
+    Administration,
+    Levels,
+    Entity,
+    EntityData
+)
 from utils.storage import upload
 
 
@@ -56,3 +61,97 @@ def generate_list_of_entities(
     writer.save()
     url = upload(file=file_path, folder="download_entities")
     return url
+
+
+def validate_entity_data(filename: str):
+    errors = []
+    last_level = Levels.objects.all().order_by("level").last()
+    for entity in Entity.objects.all():
+        df = pd.read_excel(filename, sheet_name=entity.name)
+        # remove rows with empty Name
+        df = df.dropna(subset=["Name"])
+        # remove exact duplicate rows
+        df = df.drop_duplicates()
+        for index, row in df.iterrows():
+            path = ""
+            adm_names = []
+            failed = False
+            administration = None
+            for level in Levels.objects.all().order_by("level"):
+                if row[level.name] is not None:
+                    row_value = row[level.name]
+                    adm_names += [row_value]
+                    administration = Administration.objects.filter(
+                        name=row_value, level=level
+                    ).first()
+                    if not administration:
+                        failed = True
+                        continue
+                    if administration.path:
+                        if path and not administration.path.startswith(path):
+                            failed = True
+                    if administration and not failed:
+                        path += f"{administration.id}."
+            if failed:
+                adm_names = " - ".join(adm_names)
+                errors.append({
+                    "sheet": entity.name,
+                    "row": index + 2,
+                    "message": f"Invalid Administration for {adm_names}",
+                })
+            else:
+                if level == last_level:
+                    # skip if the entity data already exists
+                    entity_name = row["Name"]
+                    entity_data = EntityData.objects.filter(
+                        name=entity_name,
+                        entity=entity,
+                        administration=administration,
+                    ).first()
+                    if not entity_data:
+                        code = row["Code"] if "Code" in df.columns else None
+                        if code != code:
+                            code = None
+                        EntityData.objects.create(
+                            name=entity_name,
+                            code=code,
+                            entity=entity,
+                            administration=administration,
+                        )
+    return errors
+
+
+def validate_entity_file(filename: str):
+    xl = pd.ExcelFile(filename)
+    sheet_names = xl.sheet_names
+    errors = []
+    # check if the sheet names are correct
+    for sheet in sheet_names:
+        entity = Entity.objects.filter(name=sheet).first()
+        if not entity:
+            errors.append({
+                "sheet": sheet,
+                "row": 1,
+                "message": f"Entity of {sheet} not found",
+            })
+        else:
+            # check if the columns are correct
+            df = pd.read_excel(filename, sheet_name=sheet)
+            required_columns = Levels.objects.all().values_list(
+                "name", flat=True
+            )
+            required_columns = list(required_columns) + ["Name", "Code"]
+            for column in df.columns:
+                if column not in required_columns:
+                    errors.append({
+                        "sheet": sheet,
+                        "row": 1,
+                        "message": f"Level {column} not found",
+                    })
+            if "Name" not in df.columns:
+                errors.append({
+                    "sheet": sheet,
+                    "row": 1,
+                    "message": "Name column not found",
+                })
+    return errors
