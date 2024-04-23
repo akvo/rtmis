@@ -17,12 +17,17 @@ const ADM_SQLITE_FILE = {
 const dropdownLevels = ['National', 'County', 'Sub-County', 'Ward', 'Village'];
 
 const calculateDepth = (arr) => {
-  if (!Array.isArray(arr) || !arr.every((item) => typeof item === 'object')) {
+  if (!Array.isArray(arr) || arr.length === 0) {
     return 1;
   }
-  const childDepths = arr.map((item) => calculateDepth(Object.values(item)));
-  const maxChildDepth = Math.max(...childDepths);
-  return maxChildDepth + 1;
+  const childDepths = arr.map((item) => {
+    if (Array.isArray(item.children) && item.children.length > 0) {
+      // Recursively calculate the depth of the children array
+      return 1 + calculateDepth(item.children);
+    }
+    return 1;
+  });
+  return Math.max(...childDepths);
 };
 
 const RenderDropdown = ({
@@ -83,7 +88,7 @@ const CertificationData = ({ navigation, route }) => {
   const [filterByAdm, setFilterByAdm] = useState(null);
 
   const screenWidth = admDepth
-    ? Dimensions.get('screen').width / (admDepth + 1)
+    ? Dimensions.get('screen').width / admDepth
     : Dimensions.get('screen').width;
 
   const fetchAdministrator = useCallback(async () => {
@@ -107,7 +112,7 @@ const CertificationData = ({ navigation, route }) => {
   // build administrations level
   const buildTree = useCallback(async (nodes, level = 1) => {
     const uniqueIds = [...new Set(nodes.map((node) => node[level - 1]))];
-    if (uniqueIds.length === 1 && level < nodes.length) {
+    if (uniqueIds.length === 1 && level <= 2) {
       const nextLevel = level + 1;
       return buildTree(nodes, nextLevel);
     }
@@ -220,8 +225,8 @@ const CertificationData = ({ navigation, route }) => {
   }, [certificationAdms, admPaths, buildTree, fetchData]);
 
   useEffect(() => {
-    if (selectedAdm.length - 1 === admDepth) {
-      const selected = selectedAdm?.[admDepth]?.id || null;
+    if (selectedAdm.length === admDepth) {
+      const selected = selectedAdm?.[selectedAdm.length - 1]?.id || null;
       if (selected) {
         setFilterByAdm(selected);
         setPage(0);
@@ -297,7 +302,7 @@ const CertificationData = ({ navigation, route }) => {
               value={selectedAdm?.[0]?.id || null}
               placeholder={admTrees?.[0]?.level ? dropdownLevels[admTrees[0].level - 1] : ''}
             />
-            {renderDropdownFields(admDepth)}
+            {admDepth > 1 && renderDropdownFields(admDepth)}
           </View>
         )
         // eol administration filter
