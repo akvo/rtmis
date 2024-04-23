@@ -29,6 +29,7 @@ from api.v1.v1_profile.serializers import (
     EntitySerializer,
     DownloadAdministrationRequestSerializer,
     DownloadEntityDataRequestSerializer,
+    ListEntityDataSerializer,
 )
 from api.v1.v1_profile.job import create_download_job
 from api.v1.v1_users.models import SystemUser
@@ -76,6 +77,22 @@ def send_feedback(request, version):
     send_email(context=data, type=EmailTypes.feedback)
     return Response(
         {"message": "Feedback was sent successfully."},
+        status=status.HTTP_200_OK,
+    )
+
+
+@extend_schema(
+    responses={200: ListEntityDataSerializer},
+    tags=["Entities"],
+    summary="Get list of entity data by entity type & administration",
+)
+@api_view(["GET"])
+def list_entity_data(request, version, entity_id, administration_id):
+    instance = EntityData.objects.filter(
+        entity__id=entity_id, administration__id=administration_id
+    ).all()
+    return Response(
+        ListEntityDataSerializer(instance=instance, many=True).data,
         status=status.HTTP_200_OK,
     )
 
