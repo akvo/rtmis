@@ -11,9 +11,9 @@
   "question_groups": [
     {
       "id": 1701770366285,
-      "order": 2,
+      "order": 1,
       "name": "hcf_location",
-      "label": "HCF: Location",
+      "label": "HCF: LOCATION",
       "description": null,
       "repeatable": false,
       "translations": null,
@@ -52,11 +52,11 @@
           "id": 1701770366286,
           "order": 1,
           "name": "HCF_location",
-          "label": "What is the location of the hcf?",
+          "label": "What is the location of the Healthcare Facility?",
           "short_label": null,
           "type": "administration",
           "tooltip": {
-            "text": "This question contains a list of possible school locations, starting with government area or district, down to the community."
+            "text": "This question contains a list of possible HCF locations, starting with government are or district, down to community and specific HCF."
           },
           "required": false,
           "meta": false,
@@ -68,7 +68,7 @@
           "id": 1701770462034,
           "order": 2,
           "name": "HCF_geolocation",
-          "label": "Geolocation of the household",
+          "label": "Geolocation of the Healthcare Facility",
           "short_label": null,
           "type": "geo",
           "tooltip": {
@@ -85,9 +85,9 @@
     },
     {
       "id": 1701772767993,
-      "order": 3,
+      "order": 2,
       "name": "interview_hcf_data_first_time",
-      "label": "INTERVIEW: HCF data (first time)",
+      "label": "INTERVIEW: HCF DATA",
       "description": null,
       "repeatable": false,
       "translations": null,
@@ -152,6 +152,12 @@
               "order": 8,
               "label": "Director",
               "value": "dire"
+            },
+            {
+              "id": 1713858612,
+              "order": 9,
+              "label": "Other",
+              "value": "other"
             }
           ]
         },
@@ -187,9 +193,9 @@
     },
     {
       "id": 1701773180227,
-      "order": 4,
+      "order": 3,
       "name": "interview_update_hcf_information",
-      "label": "INTERVIEW: Update HCF information",
+      "label": "INTERVIEW: UPDATE HCF INFORMATION",
       "description": null,
       "repeatable": false,
       "translations": null,
@@ -251,9 +257,9 @@
     },
     {
       "id": 1701773373078,
-      "order": 5,
+      "order": 4,
       "name": "interview_healthcare_facility_wash_outcomes",
-      "label": "INTERVIEW: HEALTHCARE FACILITY WASH OUTCOMES",
+      "label": "INTERVIEW: HCF WASH OUTCOMES",
       "description": null,
       "repeatable": false,
       "translations": null,
