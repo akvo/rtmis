@@ -24,23 +24,22 @@ const calculateDepth = (arr) => {
 };
 
 const RenderDropdown = ({ key, options = [], screenWidth, disabled = false, onChange, value }) => (
-  <View>
-    <Dropdown
-      style={{ ...styles.dropdownChild, width: screenWidth }}
-      data={options.map((x) => ({ label: x.name, value: x.id }))}
-      maxHeight={300}
-      labelField="label"
-      valueField="value"
-      value={value}
-      onChange={({ value: optValue }) => {
-        if (onChange) {
-          onChange(optValue);
-        }
-      }}
-      placeholder="Placeholder"
-      disable={disabled}
-    />
-  </View>
+  <Dropdown
+    key={key}
+    style={{ ...styles.dropdownChild, width: screenWidth }}
+    data={options.map((x) => ({ label: x.name, value: x.id }))}
+    maxHeight={300}
+    labelField="label"
+    valueField="value"
+    value={value}
+    onChange={({ value: optValue }) => {
+      if (onChange) {
+        onChange(optValue);
+      }
+    }}
+    placeholder="Placeholder"
+    disable={disabled}
+  />
 );
 
 const CertificationData = ({ navigation, route }) => {
@@ -174,19 +173,19 @@ const CertificationData = ({ navigation, route }) => {
 
   const fetchData = useCallback(async () => {
     if (isLoading) {
+      setIsLoading(false);
       const moreForms = await crudCertification.getPagination({
         formId,
         search: search.trim(),
         limit: 10,
         offset: page,
-        administrationdId: filterByAdm,
+        administrationId: filterByAdm,
       });
       if (search || filterByAdm) {
         setForms(moreForms);
       } else {
         setForms(forms.concat(moreForms));
       }
-      setIsLoading(false);
     }
   }, [isLoading, forms, formId, page, search, filterByAdm]);
 
@@ -238,6 +237,7 @@ const CertificationData = ({ navigation, route }) => {
       }
       res.push(
         <RenderDropdown
+          key={`dd-child-${a}`}
           options={options}
           screenWidth={screenWidth}
           disabled={!selectedAdm?.[a]}
@@ -274,6 +274,7 @@ const CertificationData = ({ navigation, route }) => {
         admTrees.length && (
           <View style={styles.dropdownContainer}>
             <RenderDropdown
+              key="dd-parent"
               options={admTrees}
               screenWidth={screenWidth}
               onChange={(value) => setSelectedAdm([admTrees.find((x) => x.id === value)])}
