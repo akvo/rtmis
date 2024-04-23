@@ -21,6 +21,7 @@ class EntityTestBulkUploadCase(TestCase, ProfileTestHelperMixin):
         call_command("entities_seeder", "--test")
         self.token = self.get_auth_token(self.user.email)
         self.test_file = "api/v1/v1_profile/tests/fixtures/entities-test.xlsx"
+        self.test_file_2 = "api/v1/v1_profile/tests/fixtures/entities-test-2.xlsx"
 
     def test_bulk_upload_entities_core(self):
         # validate the entity file
@@ -52,6 +53,32 @@ class EntityTestBulkUploadCase(TestCase, ProfileTestHelperMixin):
         self.assertEqual(error_list, error_prediction)
         successful_upload = EntityData.objects.count() - total_entities_before
         self.assertEqual(successful_upload, 5)
+
+        # second file
+        error_list = validate_entity_file(self.test_file_2)
+        self.assertEqual(error_list, [])
+
+        # validate the entity data
+        EntityData.objects.all().delete()
+        total_entities_before = EntityData.objects.count()
+        error_list = validate_entity_data(self.test_file_2)
+        successful_upload = EntityData.objects.count() - total_entities_before
+        self.assertEqual(successful_upload, 2)
+        all_entities = EntityData.objects.all()
+        successful_predictions = [{
+            "name": "Cepit Basic School",
+            "administration": "Cepit Baru"
+        }, {
+            "name": "Seturan Basic School",
+            "administration": "Seturan"
+        }]
+        self.assertEqual([
+            {
+                "name": entity.name,
+                "administration": entity.administration.name
+            }
+            for entity in all_entities
+        ], successful_predictions)
 
     def test_bulk_upload_url(self):
         response = self.client.post(

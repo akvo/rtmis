@@ -66,7 +66,11 @@ def generate_list_of_entities(
 def validate_entity_data(filename: str):
     errors = []
     last_level = Levels.objects.all().order_by("level").last()
-    for entity in Entity.objects.all():
+    xl = pd.ExcelFile(filename)
+    for sheet in xl.sheet_names:
+        entity = Entity.objects.filter(name=sheet).first()
+        if not entity:
+            continue
         df = pd.read_excel(filename, sheet_name=entity.name)
         # remove rows with empty Name
         df = df.dropna(subset=["Name"])
@@ -77,8 +81,15 @@ def validate_entity_data(filename: str):
             adm_names = []
             failed = False
             administration = None
+            higher_level = None
             for level in Levels.objects.all().order_by("level"):
-                if row[level.name] is not None:
+                if row[level.name] != row[level.name]:
+                    previous_level = Levels.objects.filter(
+                        level=level.level - 1
+                    ).first()
+                    if not higher_level:
+                        higher_level = previous_level
+                else:
                     row_value = row[level.name]
                     adm_names += [row_value]
                     administration = Administration.objects.filter(
