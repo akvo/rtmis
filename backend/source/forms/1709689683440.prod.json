@@ -73,28 +73,28 @@
             {
               "order": 1,
               "label": "1. Minimum requirements for toilets (e.g. planning or building regulations)",
-              "value": "min_req_toilets",
+              "value": "minimum_requirements_toilets",
               "color": null,
               "id": 1709689765463
             },
             {
               "order": 2,
               "label": "2. Minimum requirements for containment and on-site treatment",
-              "value": "min_req_containment_treatment",
+              "value": "minimum_requirements_containment_and_onsite_treatment",
               "color": null,
               "id": 1709689702875
             },
             {
               "order": 3,
               "label": "3. Minimum requirements for emptying and conveyance (sewer networks)",
-              "value": "min_req_emptying_conveyance",
+              "value": "minimum_requirements_emptying_conveyance_sewer_networks",
               "color": null,
               "id": 1709689702896
             },
             {
               "order": 4,
               "label": "4. Minimum requirements for emptying and conveyance (licensing of service providers)",
-              "value": "min_req_licensing_service_providers",
+              "value": "minimum_requirements_emptying_conveyance_licensing_service_providers",
               "color": null,
               "id": 1709689702915
             },
@@ -654,35 +654,35 @@
             {
               "order": 1,
               "label": "1. Very low",
-              "value": "1",
+              "value": "1_very_low",
               "color": null,
               "id": 1709689766927
             },
             {
               "order": 2,
               "label": "2. Low",
-              "value": "2",
+              "value": "2_low",
               "color": null,
               "id": 1709689717537
             },
             {
               "order": 3,
               "label": "3. Middle",
-              "value": "3",
+              "value": "3_middle",
               "color": null,
               "id": 1709689766934
             },
             {
               "order": 4,
               "label": "4. High",
-              "value": "4",
+              "value": "4_high",
               "color": null,
               "id": 1709689717583
             },
             {
               "order": 5,
               "label": "5. Very high",
-              "value": "5",
+              "value": "5_very_high",
               "color": null,
               "id": 1709689717604
             }

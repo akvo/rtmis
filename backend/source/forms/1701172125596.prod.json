@@ -100,74 +100,74 @@
             {
               "id": 1701329110965,
               "label": "School",
-              "value": "scho",
+              "value": "school",
               "order": 1
             },
             {
               "id": 1701329110966,
               "label": "Healthcare facility",
-              "value": "heal_faci",
+              "value": "healthcare_facility",
               "order": 2
             },
             {
               "id": 1701329303118,
               "label": "Transport station (bus, train, airport, fuel, other)",
-              "value": "tran_stat_bus_trai_airp_fuel_othe",
+              "value": "transport_station_bus_train_airport_fuel_other",
               "order": 3
             },
             {
               "id": 1701329305950,
               "label": "Market",
-              "value": "mark",
+              "value": "market",
               "order": 4
             },
             {
               "id": 1701329319689,
               "label": "Public toilet",
-              "value": "publ_toil",
+              "value": "publ_toilet",
               "order": 5
             },
             {
               "id": 1701329383706,
               "label": "Government office/building",
-              "value": "gove_offi",
+              "value": "government_office",
               "order": 6
             },
             {
               "id": 1701329397384,
               "label": "Camps (fishing, mining, farming)",
-              "value": "camp_fish_mini_farm",
+              "value": "camp_fishing_mining_farming",
               "order": 7
             },
             {
               "id": 1701329400222,
               "label": "Worship centres (churches, cathedrals, mosques, temples, other)",
-              "value": "wors_cent_chur_cath_mosq_temp_othe",
+              "value": "worship_centres_churches_cathedrals_mosques_temples_other",
               "order": 8
             },
             {
               "id": 1701329407235,
               "label": "Burial place",
-              "value": "buri_plac",
+              "value": "burial_place",
               "order": 9
             },
             {
               "id": 1699960938134,
               "order": 10,
               "label": "Private institutions",
-              "value": "priv_inst"
+              "value": "private_institutions"
             },
             {
               "id": 1701329482356,
               "label": "Prisons",
-              "value": "pris",
+              "value": "prisons",
               "order": 11
             },
             {
               "id": 169996093813499,
               "order": 12,
               "label": "Other Institutions",
-              "value": "othe_inst"
+              "value": "other_institutions"
             }
           ]
         },
@@ -228,28 +228,28 @@
             {
               "id": 1701331266939,
               "order": 1,
-              "label": "ll institution toilets  are NON-functional",
-              "value": "g0_all_inst_toil_are_nonf",
+              "label": "All institution toilets  are NON-functional",
+              "value": "g0_all_institutions_toilets_are_nonfunctional",
               "color": "#DB3B3B"
             },
             {
               "id": 1701331266940,
               "order": 2,
-              "label": "Some institution toilets  are non-functional ",
-              "value": "g1_some_inst_toil_are_nonf",
+              "label": "Some institution toilets are non-functional ",
+              "value": "g1_some_institution_toilets_are_nonfunctional",
               "color": "#ffa57d"
             },
             {
               "id": 1701331278390,
               "order": 3,
               "label": "All toilets in the institution are functional",
-              "value": "g3_all_toil_inst_are_func",
+              "value": "g3_all_toilets_institution_are_functional",
               "color": "#38A15A"
             }
           ],
           "pre": {
             "new_institution_monitoring_update": {
-              "new": ["g0_all_inst_toil_are_nonf"]
+              "new": ["g0_all_institutions_toilets_are_nonfunctional"]
             }
           }
         },
@@ -308,27 +308,27 @@
               "id": 1701331313074,
               "order": 1,
               "label": "All institution toilets are NOT flyproof",
-              "value": "g0_all_inst_toil_are_not_flyp",
+              "value": "g0_all_institution_toilets_are_not_flyproof",
               "color": "#DB3B3B"
             },
             {
               "id": 1701331313076,
               "order": 2,
               "label": "Some institution toilets  are NOT flyproof",
-              "value": "g1_some_inst_toil_are_not_flyp",
+              "value": "g1_some_institution_toilets_are_not_flyproof",
               "color": "#ffa57d"
             },
             {
               "id": 1701331313075,
               "order": 3,
               "label": "All functional toilets are flyproof",
-              "value": "g3_all_func_toil_are_flyp",
+              "value": "g3_all_functional_toilets_are_flyproof",
               "color": "#38A15A"
             }
           ],
           "pre": {
             "new_institution_monitoring_update": {
-              "new": ["g0_all_inst_toil_are_not_flyp"]
+              "new": ["g0_all_institution_toilets_are_not_flyproof"]
             }
           }
         },
@@ -349,27 +349,27 @@
               "id": 17013313130741,
               "order": 1,
               "label": "All institution toilets are NOT clean",
-              "value": "g0_all_inst_toil_are_not_clea",
+              "value": "g0_all_institution_toilets_are_not_clean",
               "color": "#DB3B3B"
             },
             {
               "id": 17013313130761,
               "order": 2,
               "label": "Some institution toilets  are NOT clean",
-              "value": "g1_some_inst_toil_are_not_clea",
+              "value": "g1_some_institution_toilets_are_not_clean",
               "color": "#ffa57d"
             },
             {
               "id": 17013313130751,
               "order": 3,
               "label": "All functional toilets are clean",
-              "value": "g3_all_func_toil_are_clea",
+              "value": "g3_all_functional_toilets_are_clean",
               "color": "#38A15A"
             }
           ],
           "pre": {
             "new_institution_monitoring_update": {
-              "new": ["g0_all_inst_toil_are_not_clea"]
+              "new": ["g0_all_institution_toilets_are_not_clean"]
             }
           }
         },
@@ -390,27 +390,27 @@
               "id": 17013313130749,
               "order": 1,
               "label": "All institution toilet slabs are NOT durable",
-              "value": "g0_all_inst_toil_slab_are_not_dura",
+              "value": "g0_all_institution_toil_slabs_are_not_durable",
               "color": "#DB3B3B"
             },
             {
               "id": 17013313130769,
               "order": 2,
               "label": "Some institution toilet slabs are NOT durable",
-              "value": "g1_some_inst_toil_slab_are_not_dura",
+              "value": "g1_some_institution_toil_slabs_are_not_durable",
               "color": "#ffa57d"
             },
             {
               "id": 17013313130759,
               "order": 3,
               "label": "All institution functional toilet slabs are durable",
-              "value": "g3_all_inst_func_toil_slab_are_dura",
+              "value": "g3_all_institution_functional_toil_slabs_are_durable",
               "color": "#38A15A"
             }
           ],
           "pre": {
             "new_institution_monitoring_update": {
-              "new": ["g0_all_inst_toil_slab_are_not_dura"]
+              "new": ["g0_all_institution_toil_slabs_are_not_durable"]
             }
           }
         },
@@ -472,27 +472,27 @@
               "id": 1701332463584,
               "order": 1,
               "label": "Visible surface outflows from containment",
-              "value": "g0_visi_surf_outf_from_cont",
+              "value": "g0_visible_surface_outflows_from_containment",
               "color": "#DB3B3B"
             },
             {
               "id": 1701332463585,
               "order": 2,
               "label": "Evidence of previous surface outflows from containment",
-              "value": "g1_evid_prev_surf_outf_from_cont",
+              "value": "g1_evidence_previous_surface_outflows_from_containment",
               "color": "#ffa57d"
             },
             {
               "id": 1701332482749,
               "order": 3,
               "label": "Safely managed containment in all institutions: no surface outflows",
-              "value": "g3_safe_mana_cont_all_inst_no_surf_outf",
+              "value": "g3_safe_managed_containment_all_institutions_no_surface_outflows",
               "color": "#38A15A"
             }
           ],
           "pre": {
             "new_institution_monitoring_update": {
-              "new": ["g0_visi_surf_outf_from_cont"]
+              "new": ["g0_visible_surface_outflows_from_containment"]
             }
           }
         },
@@ -513,42 +513,42 @@
               "id": 1701332582354,
               "order": 1,
               "label": "No toilets, or no containment/collection systems",
-              "value": "g0_no_toil_no_cont_syst",
+              "value": "g0_no_toilet_no_containment_system",
               "color": "#DB3B3B"
             },
             {
               "id": 1701332582355,
               "order": 2,
               "label": "Unsafe containment: open containers",
-              "value": "g0_unsa_cont_open_cont",
+              "value": "g0_unsafe_containment_open_containers",
               "color": "#DB3B3B"
             },
             {
               "id": 1701332605264,
               "order": 3,
               "label": "Risk of unsafe services: never emptied (intention to empty when full)",
-              "value": "g1_risk_unsa_serv_neve_empt_inte_to_empt_when_full",
+              "value": "g1_risk_unsafe_services_never_emptied_intention_to_emptied_when_full",
               "color": "#ffa57d"
             },
             {
               "id": 1701332605265,
-              "order": 3,
+              "order": 4,
               "label": "Never emptied, not yet full (first toilets: no intention to empty)",
-              "value": "g3_neve_empt_not_yet_full_firs_toil_no_inte_to_empt",
+              "value": "g3_never_emptied_not_yet_full_first_toilets_no_intention_to_empty",
               "color": "#38A15A"
             },
             {
               "id": 1701332605266,
-              "order": 3,
+              "order": 5,
               "label": "Never emptied, previous pits or tanks replaced when full",
-              "value": "g3_neve_empt_prev_pits_tank_repl_when_full",
+              "value": "g3_never_emptied_previous_pits_tank_replaced_when_full",
               "color": "#38A15A"
             },
             {
               "id": 1701332605267,
-              "order": 3,
+              "order": 6,
               "label": "G3 Safely managed: sewer connection to LICENSED and FUNCTIONAL treatment site",
-              "value": "g3_safe_mana_sewe_conn_to_lice_func_trea_site",
+              "value": "g3_safely_managed_sewer_connection_to_licenced_functional_treatment_site",
               "color": "#38A15A"
             }
           ]
@@ -570,98 +570,98 @@
               "id": 1701334491522,
               "order": 1,
               "label": "G0 Unsafe disposal: to open pit, open space, open drain or water body (within 500m)",
-              "value": "g0_unsa_disp_to_open_pit_open_spac_open_drai_wate_body_with_500m",
+              "value": "g0_unsafe_disposal_to_open_pit_open_space_open_draim_water_body_within_500m",
               "color": "#DB3B3B"
             },
             {
               "id": 1701334492574,
               "order": 2,
               "label": "G0 Unsafe disposal: to open space, open drain or water body (MORE than 500m)",
-              "value": "g0_unsa_disp_to_open_spac_open_drai_wate_body_more_than_500m",
+              "value": "g0_unsafe_disposal_to_open_space_open_drain_water_body_more_than_500m",
               "color": "#DB3B3B"
             },
             {
               "id": 1701334493522,
               "order": 3,
               "label": "G0 Unsafe treatment or disposal: emptied by UNLICENSED service provider to off-site location",
-              "value": "g0_unsa_trea_disp_empt_by_unli_serv_prov_to_offs_loc",
+              "value": "g0_unsafe_treatment_disposal_emptied_by_unlicenced_service_provider_to_offsite_locaction",
               "color": "#DB3B3B"
             },
             {
               "id": 1701334494489,
               "order": 4,
               "label": "G0 Unsafe treatment or disposal: closed container removed by UNLICENSED service provider to off-site location",
-              "value": "g0_unsa_trea_disp_clos_cont_remo_by_unli_serv_prov_to_offs_loc",
+              "value": "g0_unsafe_treatment_disposal_closed_container_removed_by_unlicenced_service_provider_to_offsite_location",
               "color": "#DB3B3B"
             },
             {
               "id": 1701334496165,
               "order": 5,
               "label": "Unsafe treatment or disposal: sewer connection to open discharge",
-              "value": "g0_unsa_trea_disp_sewe_conn_to_open_disc",
+              "value": "g0_unsafe_treatment_disposal_sewer_connection_to_open_discharge",
               "color": "#DB3B3B"
             },
             {
               "id": 1701332496165,
               "order": 6,
               "label": "Unsafe services: other unsafely managed services",
-              "value": "g0_unsa_serv_othe_unsa_mana_serv",
+              "value": "g0_unsafe_services_other_unsafely_managed_services",
               "color": "#DB3B3B"
             },
             {
               "id": 1701334548218,
               "order": 7,
               "label": "Unsafe storage: stored for less than 2 years before use of stored waste",
-              "value": "g1_unsa_stor_stor_for_less_than_2_year_befo_use_stor_wast",
+              "value": "g1_unsafe_storage_stored_for_less_than_2_years_before_use_stored_waste",
               "color": "#ffa57d"
             },
             {
               "id": 1701334550089,
               "order": 8,
               "label": "Unsafe treatment or disposal: sewer connection to UNLICENSED or NON-FUNCTIONAL treatment site",
-              "value": "g1_unsa_trea_disp_sewe_conn_to_unli_nonf_trea_site",
+              "value": "g1_unsafe_treatment_disposal_sewer_connection_to_unlicenced_nonfunctional_treatment_site",
               "color": "#ffa57d"
             },
             {
               "id": 1701334551055,
               "order": 9,
               "label": "Safely managed: emptied to covered pit",
-              "value": "g3_safe_mana_empt_to_cove_pit",
+              "value": "g3_safely_managed_emptied_to_cover_pit",
               "color": "#38A15A"
             },
             {
               "id": 1701334586422,
               "order": 10,
               "label": "Safely managed: stored for MORE than 2 years before use of stored waste",
-              "value": "g3_safe_mana_stor_for_more_than_2_year_befo_use_stor_wast",
+              "value": "g3_safely_managed_stored_for_more_than_2_years_before_use_stored_waste",
               "color": "#38A15A"
             },
             {
               "id": 1701334595239,
               "order": 11,
               "label": "Safely managed: emptied by LICENSED service provider to off-site location",
-              "value": "g3_safe_mana_empt_by_lice_serv_prov_to_offs_loc",
+              "value": "g3_safely_managed_emptied_by_licenced_service_provider_to_offsite_location",
               "color": "#38A15A"
             },
             {
               "id": 1701334626772,
               "order": 13,
               "label": "Safely managed: closed container removed by LICENSED service provider to off-site location",
-              "value": "g3_safe_mana_clos_cont_remo_by_lice_serv_prov_to_offs_loc",
+              "value": "g3_safely_managed_closed_container_removed_by_licenced_service_provider_to_offsite_location",
               "color": "#38A15A"
             },
             {
               "id": 1701334641373,
               "order": 14,
               "label": "Safely managed: other safely managed services",
-              "value": "g3_safe_mana_othe_safe_mana_serv",
+              "value": "g3_safely_managed_other_safely_managed_services",
               "color": "#38A15A"
             }
           ],
           "pre": {
             "new_institution_monitoring_update": {
               "new": [
-                "g0_unsa_disp_to_open_pit_open_spac_open_drai_wate_body_with_500m"
+                "g0_unsafe_disposal_to_open_pit_open_space_open_draim_water_body_within_500m"
               ]
             }
           }
@@ -681,14 +681,14 @@
               "id": 17022829147079,
               "order": 1,
               "label": "G0 High risk of groundwater contamination",
-              "value": "g0_high_risk_grou_cont",
+              "value": "g0_high_risk_groundwater_contamination",
               "color": "#DB3B3B"
             },
             {
               "id": 17022829147089,
               "order": 2,
               "label": "G2 Low risk of groundwater contamination",
-              "value": "g2_low_risk_grou_cont",
+              "value": "g2_low_risk_groundwater_contamination",
               "color": "#38A15A"
             }
           ],
@@ -737,42 +737,42 @@
               "id": 1701334867481,
               "order": 1,
               "label": "No handwashing facility",
-              "value": "g0_no_hand_faci",
+              "value": "g0_no_handwashing_facility",
               "color": "#DB3B3B"
             },
             {
               "id": 1701334867482,
               "order": 2,
               "label": "Handwashing facility by toilet",
-              "value": "g1_hand_faci_by_toil",
+              "value": "g1_handwashing_facility_by_toilet",
               "color": "#38A15A"
             },
             {
               "id": 1701334902650,
               "order": 3,
               "label": "Handwashing facility in kitchen",
-              "value": "g1_hand_faci_kitc",
+              "value": "g1_handwashing_facility_kitchen",
               "color": "#38A15A"
             },
             {
               "id": 1701334913417,
               "order": 4,
               "label": "Portable handwashing facility (basin, jug, jerrycan, container)",
-              "value": "g1_port_hand_faci_basi_jug_jerr_cont",
+              "value": "g1_portable_handwashing_facility_basin_jug_jerrycan_container",
               "color": "#38A15A"
             },
             {
               "id": 1701334921833,
               "order": 5,
               "label": "Two handwashing facilities",
-              "value": "g1_two_hand_faci",
+              "value": "g1_two_handwashing_facilities",
               "color": "#38A15A"
             },
             {
               "id": 1701334930550,
               "order": 6,
               "label": "More than two handwashing facilities",
-              "value": "g1_more_than_two_hand_faci",
+              "value": "g1_more_than_two_handwashing_facilities",
               "color": "#38A15A"
             },
             {
@@ -785,7 +785,7 @@
           ],
           "pre": {
             "new_institution_monitoring_update": {
-              "new": ["g0_no_hand_faci"]
+              "new": ["g0_no_handwashing_facility"]
             }
           }
         },
@@ -844,34 +844,34 @@
               "id": 1713444243,
               "order": 1,
               "label": "No handwashing facility",
-              "value": "g0_no_hand_faci",
+              "value": "g0_no_handwashing_facility",
               "color": "#DB3B3B"
             },
             {
               "id": 1701334998750,
               "order": 2,
               "label": "No water available",
-              "value": "g0_no_wate_avai",
+              "value": "g0_no_water_available",
               "color": "#DB3B3B"
             },
             {
               "id": 1701334998751,
               "order": 3,
               "label": "Water available",
-              "value": "g1_wate_avai",
+              "value": "g1_water_available",
               "color": "#38A15A"
             },
             {
               "id": 1701335022266,
               "order": 4,
               "label": "Water container empty (evidence of washing)",
-              "value": "g1_wate_cont_empt_evid_wash",
+              "value": "g1_water_container_empty_evidence_washing",
               "color": "#38A15A"
             }
           ],
           "pre": {
             "new_institution_monitoring_update": {
-              "new": ["g0_no_wate_avai"]
+              "new": ["g0_no_water_available"]
             }
           }
         },
@@ -892,41 +892,41 @@
               "id": 1713444483,
               "order": 1,
               "label": "No handwashing facility",
-              "value": "g0_no_hand_faci",
+              "value": "g0_no_handwashing_facility",
               "color": "#DB3B3B"
             },
             {
               "id": 1701335571049,
               "order": 2,
               "label": "G0 No soap or other cleanser available",
-              "value": "g0_no_soap_othe_clea_avai",
+              "value": "g0_no_soap_other_cleanser_available",
               "color": "#DB3B3B"
             },
             {
               "id": 1701335571050,
               "order": 3,
               "label": "Ash, mud or sand available",
-              "value": "g0_ash_mud_sand_avai",
+              "value": "g0_ash_mud_sand_available",
               "color": "#DB3B3B"
             },
             {
               "id": 1701335595072,
               "order": 4,
               "label": "Soap available, NOT at handwashing facility",
-              "value": "g0_soap_avai_not_at_hand_faci",
+              "value": "g0_soap_available_not_at_handwashing_facility",
               "color": "#ffa57d"
             },
             {
               "id": 1701335713812,
               "order": 5,
               "label": "Solid, liquid or powder soap available",
-              "value": "g1_soli_liqu_powd_soap_avai",
+              "value": "g1_solid_liquid_powder_soap_available",
               "color": "#38A15A"
             }
           ],
           "pre": {
             "new_institution_monitoring_update": {
-              "new": ["g0_no_soap_othe_clea_avai"]
+              "new": ["g0_no_soap_other_cleanser_available"]
             }
           }
         },
@@ -947,55 +947,55 @@
               "id": 1701358615411,
               "order": 1,
               "label": "No handwashing facility",
-              "value": "g0_no_hand_faci",
+              "value": "g0_no_handwashing_facility",
               "color": "#DB3B3B"
             },
             {
               "id": 1701358615412,
               "order": 2,
               "label": "Jerrycan or other closed container",
-              "value": "g1_jerr_othe_clos_cont",
+              "value": "g1_jerrycan_other_closed_container",
               "color": "#ffa57d"
             },
             {
               "id": 1701358722331,
               "order": 3,
               "label": "Portable basin or other open container",
-              "value": "g1_port_basi_othe_open_cont",
+              "value": "g1_portable_basin_other_open_container",
               "color": "#ffa57d"
             },
             {
               "id": 1701358730369,
               "order": 4,
               "label": "Other temporary handwashing facility",
-              "value": "g1_othe_temp_hand_faci",
+              "value": "g1_other_temporary_handwashing_facility",
               "color": "#ffa57d"
             },
             {
               "id": 1701358760052,
               "order": 7,
               "label": "Other permanent handwashing station",
-              "value": "g3_othe_perm_hand_stat",
+              "value": "g3_other_permanent_handwashing_station",
               "color": "#38A15A"
             },
             {
               "id": 1701358738247,
               "order": 5,
               "label": "Piped water tap with basin",
-              "value": "g3_pipe_wate_tap_with_basi",
+              "value": "g3_piped_water_tap_with_basin",
               "color": "#38A15A"
             },
             {
               "id": 1701358750298,
               "order": 6,
               "label": "G3 Market handwashing station with adequate water storage",
-              "value": "g3_mark_hand_stat_with_adeq_wate_stor",
+              "value": "g3_market_handwashing_station_with_adequate_water_storage",
               "color": "#38A15A"
             }
           ],
           "pre": {
             "new_institution_monitoring_update": {
-              "new": ["g0_no_hand_faci"]
+              "new": ["g0_no_handwashing_facility"]
             }
           }
         },
@@ -1016,41 +1016,41 @@
               "id": 1701359132626,
               "order": 1,
               "label": "Hands enter the water container (during collection and use)",
-              "value": "g0_hand_ente_wate_cont_duri_coll_use",
+              "value": "g0_hands_enter_water_container_during_collection_use",
               "color": "#DB3B3B"
             },
             {
               "id": 1701359132627,
               "order": 2,
               "label": "Water collected by hand (using ladle, cup, other)",
-              "value": "g1_wate_coll_by_hand_usin_ladl_cup_othe",
+              "value": "g1_water_collected_by_hand_using_ladle_cup_other",
               "color": "#ffa57d"
             },
             {
               "id": 1701359173371,
               "order": 3,
               "label": "Closed water storage container with tap",
-              "value": "g3_clos_wate_stor_cont_with_tap",
+              "value": "g3_closed_water_storage_container_with_tap",
               "color": "#38A15A"
             },
             {
               "id": 1701359182211,
               "order": 4,
               "label": "Piped water tap",
-              "value": "g3_pipe_wate_tap",
+              "value": "g3_piped_water_tap",
               "color": "#38A15A"
             },
             {
               "id": 1701359190662,
               "order": 5,
               "label": "Other hands-free operation",
-              "value": "g3_othe_hand_oper",
+              "value": "g3_other_handsfree_operation",
               "color": "#38A15A"
             }
           ],
           "pre": {
             "new_institution_monitoring_update": {
-              "new": ["g0_hand_ente_wate_cont_duri_coll_use"]
+              "new": ["g0_hands_enter_water_container_during_collection_use"]
             }
           }
         },
@@ -1071,34 +1071,34 @@
               "id": 1713444894,
               "order": 1,
               "label": "No handwashing facility",
-              "value": "g0_no_hand_faci",
+              "value": "g0_no_handwashing_facility",
               "color": "#DB3B3B"
             },
             {
               "id": 1701359238005,
               "order": 2,
               "label": "No collection or disposal of washing water",
-              "value": "g0_no_coll_disp_wash_wate",
+              "value": "g0_no_collection_disposal_washing_water",
               "color": "#DB3B3B"
             },
             {
               "id": 1701359238006,
               "order": 3,
               "label": "Collection of washing water without drainage or disposal",
-              "value": "g1_coll_wash_wate_with_drai_disp",
+              "value": "g1_collection_washing_water_without_drainage_disposal",
               "color": "#ffa57d"
             },
             {
               "id": 1701359351504,
               "order": 4,
               "label": "Safe collection and disposal of washing water",
-              "value": "g3_safe_coll_disp_wash_wate",
+              "value": "g3_safe_collection_disposal_washing_water",
               "color": "#38A15A"
             }
           ],
           "pre": {
             "new_institution_monitoring_update": {
-              "new": ["g0_no_coll_disp_wash_wate"]
+              "new": ["g0_no_collection_disposal_washing_water"]
             }
           }
         },
