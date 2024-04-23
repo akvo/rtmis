@@ -3,7 +3,7 @@ import { conn, query } from '..';
 const db = conn.init;
 
 const monitoringQuery = () => ({
-  syncForm: async ({ formId, administrationdId, lastUpdated, formJSON }) => {
+  syncForm: async ({ formId, administrationId, lastUpdated, formJSON }) => {
     const findQuery = query.read('monitoring', { uuid: formJSON.uuid });
     const { rows } = await conn.tx(db, findQuery, [formJSON.uuid]);
     if (rows.length) {
@@ -12,7 +12,7 @@ const monitoringQuery = () => ({
         'monitoring',
         { id: monitoringID },
         {
-          administrationdId,
+          administrationId,
           json: formJSON ? JSON.stringify(formJSON.answers).replace(/'/g, "''") : null,
         },
       );
@@ -21,9 +21,9 @@ const monitoringQuery = () => ({
     }
     const insertQuery = query.insert('monitoring', {
       formId,
-      administrationdId,
       uuid: formJSON.uuid,
       name: formJSON?.datapoint_name || null,
+      administrationId,
       json: formJSON ? JSON.stringify(formJSON.answers).replace(/'/g, "''") : null,
       syncedAt: lastUpdated, // store last updated instead of unnecessary current time
     });
