@@ -162,14 +162,32 @@
           ]
         },
         {
-          "id": 1701772988782,
+          "id": 1713498651,
           "order": 2,
+          "name": "respondent_role_other",
+          "label": "Other (Please specify)",
+          "short_label": null,
+          "type": "text",
+          "tooltip": null,
+          "required": false,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 1701772767994,
+              "options": ["other"]
+            }
+          ]
+        },
+        {
+          "id": 1701772988782,
+          "order": 3,
           "name": "total_beds_inpatients_HCF",
           "label": "Total number of beds/inpatients in HCF",
           "short_label": null,
           "type": "number",
           "tooltip": {
-            "text": "INTERVIEW: what is the total number of beds/inpatients in this healthcare facility?"
+            "text": "<b>INTERVIEW:</b> what is the total number of beds/inpatients in this healthcare facility?"
           },
           "required": false,
           "meta": false,
@@ -177,13 +195,13 @@
         },
         {
           "id": 1701773124035,
-          "order": 3,
+          "order": 4,
           "name": "max_outpatients_HCF",
           "label": "Maximum number of outpatients in HCF",
           "short_label": null,
           "type": "number",
           "tooltip": {
-            "text": "INTERVIEW: what is the maximum number of outpatients in this healthcare facility?"
+            "text": "<b>INTERVIEW:</b> what is the maximum number of outpatients in this healthcare facility?"
           },
           "required": false,
           "meta": false,
@@ -293,8 +311,26 @@
           ]
         },
         {
-          "id": 1701774004571,
+          "id": 1713863532,
           "order": 2,
+          "name": "main_water_supply_facility_other",
+          "label": "Other (Please specify)",
+          "short_label": null,
+          "type": "text",
+          "tooltip": null,
+          "required": false,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 1701773373079,
+              "options": ["othe_impr_spec"]
+            }
+          ]
+        },
+        {
+          "id": 1701774004571,
+          "order": 3,
           "name": "water_supply_availability",
           "label": "Water supply availability",
           "short_label": null,
@@ -323,7 +359,7 @@
         },
         {
           "id": 1701774054865,
-          "order": 3,
+          "order": 4,
           "name": "water_supply_quantity",
           "label": "Water supply quantity",
           "short_label": null,
@@ -359,7 +395,7 @@
         },
         {
           "id": 1701774110056,
-          "order": 4,
+          "order": 5,
           "name": "num_toilets_inpatients",
           "label": "Number of toilets for inpatients",
           "short_label": null,
@@ -395,7 +431,7 @@
         },
         {
           "id": 168885172789111,
-          "order": 5,
+          "order": 6,
           "name": "total_usable_inpatient_toilets",
           "label": "Total number of usable inpatient toilets",
           "short_label": null,
@@ -419,7 +455,7 @@
         },
         {
           "id": 168885127879111,
-          "order": 6,
+          "order": 7,
           "name": "total_not_usable_inpatient_toilets",
           "label": "Total number of not usable toilets inpatient toilets",
           "short_label": null,
@@ -443,7 +479,7 @@
         },
         {
           "id": 1701774221650,
-          "order": 7,
+          "order": 8,
           "name": "num_toilets_outpatients",
           "label": "Number of toilets for outpatients",
           "short_label": null,
@@ -479,7 +515,7 @@
         },
         {
           "id": 168885172789333,
-          "order": 8,
+          "order": 9,
           "name": "total_usable_outpatient_toilets",
           "label": "Total number of usable outpatient toilets",
           "short_label": null,
@@ -503,7 +539,7 @@
         },
         {
           "id": 168885127879441,
-          "order": 9,
+          "order": 10,
           "name": "total_not_usable_outpatient_toilets",
           "label": "Total number of not usable outpatient toilets",
           "short_label": null,
@@ -527,7 +563,7 @@
         },
         {
           "id": 1702312769667,
-          "order": 10,
+          "order": 11,
           "name": "inpatient_toilet_ratio",
           "label": "Inpatient-toilet ratio",
           "short_label": null,
@@ -547,7 +583,7 @@
         },
         {
           "id": 1702312767767,
-          "order": 11,
+          "order": 12,
           "name": "usable_outpatient_toilets",
           "label": "Number of usable outpatient toilets",
           "short_label": null,
@@ -567,7 +603,7 @@
         },
         {
           "id": 1701774299250,
-          "order": 12,
+          "order": 13,
           "name": "facility_toilet_type",
           "label": "Type of facility toilet",
           "short_label": null,
@@ -651,8 +687,26 @@
           ]
         },
         {
+          "id": 1713863930,
+          "order": 14,
+          "name": "facility_toilet_type_other",
+          "label": "Other (Please specify)",
+          "short_label": null,
+          "type": "text",
+          "tooltip": null,
+          "required": false,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 1701774299250,
+              "options": ["othe_impr_toil_spec"]
+            }
+          ]
+        },
+        {
           "id": 1701774431012,
-          "order": 13,
+          "order": 15,
           "name": "dedicated_toilets_facility_staff",
           "label": "Dedicated toilets for facility staff",
           "short_label": null,
@@ -688,7 +742,7 @@
         },
         {
           "id": 1701774484635,
-          "order": 14,
+          "order": 16,
           "name": "sex_separated_room_toilets",
           "label": "Toilets in sex-separated rooms",
           "short_label": null,
@@ -724,7 +778,7 @@
         },
         {
           "id": 1701774586397,
-          "order": 15,
+          "order": 17,
           "name": "toilets_menstrual_hygiene_facilities",
           "label": "Toilets with menstrual hygiene facilities",
           "short_label": null,
@@ -760,7 +814,7 @@
         },
         {
           "id": 1701774631031,
-          "order": 16,
+          "order": 18,
           "name": "toilets_accessible_reduced_mobility",
           "label": "Toilets accessible for people with reduced mobility",
           "short_label": null,
@@ -796,7 +850,7 @@
         },
         {
           "id": 1701775062688,
-          "order": 17,
+          "order": 19,
           "name": "handwashing_facilities_points_of_care",
           "label": "Availability of handwashing facilities at points of care",
           "short_label": null,
@@ -832,7 +886,7 @@
         },
         {
           "id": 1701775201634,
-          "order": 18,
+          "order": 20,
           "name": "handwashing_facilities_facility_toilets",
           "label": "Availability of handwashing facilities at facility toilets",
           "short_label": null,
@@ -868,7 +922,7 @@
         },
         {
           "id": 1701775273809,
-          "order": 19,
+          "order": 21,
           "name": "audit_hand_hygiene_materials",
           "label": "Regular audit of availability of hand hygiene materials",
           "short_label": null,
@@ -904,7 +958,7 @@
         },
         {
           "id": 1701775490261,
-          "order": 20,
+          "order": 22,
           "name": "waste_segregation",
           "label": "Segregation of waste",
           "short_label": null,
@@ -940,7 +994,7 @@
         },
         {
           "id": 1701775575661,
-          "order": 21,
+          "order": 23,
           "name": "non_infectious_waste_management",
           "label": "Management of non-infectious/general waste",
           "short_label": null,
@@ -976,7 +1030,7 @@
         },
         {
           "id": 1701775635195,
-          "order": 22,
+          "order": 24,
           "name": "infectious_waste_management",
           "label": "Management of infectious waste and sharps",
           "short_label": null,
@@ -1012,7 +1066,7 @@
         },
         {
           "id": 1701775723946,
-          "order": 23,
+          "order": 25,
           "name": "cleaning_materials",
           "label": "Materials for cleaning",
           "short_label": null,
@@ -1048,7 +1102,7 @@
         },
         {
           "id": 1701775784630,
-          "order": 24,
+          "order": 26,
           "name": "cleaning_records",
           "label": "Cleaning records",
           "short_label": null,
@@ -1084,7 +1138,7 @@
         },
         {
           "id": 1701775883414,
-          "order": 25,
+          "order": 27,
           "name": "toilet_cleaning_frequency",
           "label": "Toilet cleaning frequency",
           "short_label": null,
