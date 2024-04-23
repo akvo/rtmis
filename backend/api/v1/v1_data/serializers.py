@@ -1308,6 +1308,9 @@ class SubmitPendingFormSerializer(serializers.Serializer):
                     if "organisation" in ep:
                         val = Organisation.objects.filter(pk=id).first()
                         val = val.name
+                    if "entity-data" in ep:
+                        val = EntityData.objects.filter(pk=id).first()
+                        val = val.name
                     else:
                         ep = ep.split("?")[0]
                         ep = f"{ep}?id={id}"
