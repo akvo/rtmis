@@ -20,8 +20,9 @@ class EntityTestBulkUploadCase(TestCase, ProfileTestHelperMixin):
         self.user = self.create_user("test@akvo.org", self.ROLE_ADMIN)
         call_command("entities_seeder", "--test")
         self.token = self.get_auth_token(self.user.email)
-        self.test_file = "api/v1/v1_profile/tests/fixtures/entities-test.xlsx"
-        self.test_file_2 = "api/v1/v1_profile/tests/fixtures/entities-test-2.xlsx"
+        test_folder = "api/v1/v1_profile/tests/fixtures"
+        self.test_file = f"{test_folder}/entities-test.xlsx"
+        self.test_file_2 = f"{test_folder}/entities-test-2.xlsx"
 
     def test_bulk_upload_entities_core(self):
         # validate the entity file
