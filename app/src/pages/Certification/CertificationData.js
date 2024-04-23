@@ -14,6 +14,8 @@ const ADM_SQLITE_FILE = {
   file: 'administrator.sqlite',
 };
 
+const dropdownLevels = ['National', 'County', 'Sub-County', 'Ward', 'Village'];
+
 const calculateDepth = (arr) => {
   if (!Array.isArray(arr) || !arr.every((item) => typeof item === 'object')) {
     return 1;
@@ -23,7 +25,15 @@ const calculateDepth = (arr) => {
   return maxChildDepth + 1;
 };
 
-const RenderDropdown = ({ key, options = [], screenWidth, disabled = false, onChange, value }) => (
+const RenderDropdown = ({
+  key,
+  options = [],
+  screenWidth,
+  disabled = false,
+  onChange,
+  value,
+  placeholder,
+}) => (
   <Dropdown
     key={key}
     style={{ ...styles.dropdownChild, width: screenWidth }}
@@ -37,7 +47,7 @@ const RenderDropdown = ({ key, options = [], screenWidth, disabled = false, onCh
         onChange(optValue);
       }
     }}
-    placeholder="Placeholder"
+    placeholder={`Select ${placeholder}`}
     disable={disabled}
   />
 );
@@ -251,6 +261,7 @@ const CertificationData = ({ navigation, route }) => {
             })
           }
           value={selectedAdm?.[a + 1]?.id || null}
+          placeholder={admTrees?.[0]?.level ? dropdownLevels[admTrees[0].level + a] : ''}
         />,
       );
     }
@@ -279,6 +290,7 @@ const CertificationData = ({ navigation, route }) => {
               screenWidth={screenWidth}
               onChange={(value) => setSelectedAdm([admTrees.find((x) => x.id === value)])}
               value={selectedAdm?.[0]?.id || null}
+              placeholder={admTrees?.[0]?.level ? dropdownLevels[admTrees[0].level - 1] : ''}
             />
             {renderDropdownChilds(admDepth)}
           </View>
@@ -320,13 +332,15 @@ const styles = StyleSheet.create({
   dropdownContainer: {
     display: 'flex',
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    backgroundColor: 'grey',
+    paddingVertical: 1,
   },
   dropdownChild: {
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderColor: 'grey',
-    borderWidth: 0.5,
+    borderWidth: 1,
+    backgroundColor: '#fff',
   },
 });
 
@@ -347,6 +361,7 @@ RenderDropdown.propTypes = {
   disabled: PropTypes.bool,
   value: PropTypes.number,
   onChange: PropTypes.func,
+  placeholder: PropTypes.string,
 };
 
 RenderDropdown.defaultProps = {
@@ -356,4 +371,5 @@ RenderDropdown.defaultProps = {
   disabled: false,
   value: null,
   onChange: null,
+  placeholder: null,
 };
