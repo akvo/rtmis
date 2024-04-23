@@ -91,7 +91,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
                 extra_objects = {
                     "query_params": "?max_level=1",
                 }
-            if user.user_access.role == UserRoleTypes.user:
+            if user.user_access.role is not UserRoleTypes.super_admin:
                 if max_level:
                     extra_objects = {
                         "query_params": "&max_level=1",
