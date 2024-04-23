@@ -24,7 +24,7 @@ const calculateDepth = (arr) => {
 };
 
 const RenderDropdown = ({ key, options = [], screenWidth, disabled = false, onChange, value }) => (
-  <View key={key}>
+  <View>
     <Dropdown
       style={{ ...styles.dropdownChild, width: screenWidth }}
       data={options.map((x) => ({ label: x.name, value: x.id }))}
@@ -66,6 +66,7 @@ const CertificationData = ({ navigation, route }) => {
   const [admTrees, setAdmTrees] = useState([]);
   const [admDepth, setAdmDepth] = useState(0);
   const [selectedAdm, setSelectedAdm] = useState([]);
+  const [filterByAdm, setFilterByAdm] = useState(null);
 
   const screenWidth = admDepth
     ? Dimensions.get('screen').width / (admDepth + 1)
@@ -123,21 +124,6 @@ const CertificationData = ({ navigation, route }) => {
   }, []);
   // eol build administrations level
 
-  useEffect(() => {
-    if (admPaths.length === certificationAdms.length) {
-      const temp = admPaths.map((path) => {
-        const splitted = path.split('.');
-        return splitted.map((x) => Number(x));
-      });
-      buildTree(temp).then((res) => {
-        setAdmTrees(res);
-        setAdmDepth(calculateDepth(res));
-      });
-    }
-  }, [certificationAdms, admPaths, buildTree]);
-
-  console.log('XXX', selectedAdm);
-
   const goToForm = (item) => {
     const { currentValues, prevAdmAnswer } = transformMonitoringData(
       selectedForm,
@@ -188,24 +174,47 @@ const CertificationData = ({ navigation, route }) => {
 
   const fetchData = useCallback(async () => {
     if (isLoading) {
-      setIsLoading(false);
       const moreForms = await crudCertification.getPagination({
         formId,
         search: search.trim(),
         limit: 10,
         offset: page,
+        administrationdId: filterByAdm,
       });
-      if (search) {
+      if (search || filterByAdm) {
         setForms(moreForms);
       } else {
         setForms(forms.concat(moreForms));
       }
+      setIsLoading(false);
     }
-  }, [isLoading, forms, formId, page, search]);
+  }, [isLoading, forms, formId, page, search, filterByAdm]);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    // load administration and fetch data
+    if (admPaths.length === certificationAdms.length) {
+      const temp = admPaths.map((path) => {
+        const splitted = path.split('.');
+        return splitted.map((x) => Number(x));
+      });
+      buildTree(temp).then((res) => {
+        setAdmTrees(res);
+        setAdmDepth(calculateDepth(res));
+        fetchData();
+      });
+    }
+  }, [certificationAdms, admPaths, buildTree, fetchData]);
+
+  useEffect(() => {
+    if (selectedAdm.length - 1 === admDepth) {
+      const selected = selectedAdm?.[admDepth]?.id || null;
+      if (selected) {
+        setFilterByAdm(selected);
+        setPage(0);
+        setIsLoading(true);
+      }
+    }
+  }, [selectedAdm, admDepth]);
 
   const renderItem = ({ item }) => (
     <ListItem
@@ -229,10 +238,9 @@ const CertificationData = ({ navigation, route }) => {
       }
       res.push(
         <RenderDropdown
-          key={a}
           options={options}
           screenWidth={screenWidth}
-          // disabled={selectedAdm.length}
+          disabled={!selectedAdm?.[a]}
           onChange={(value) =>
             setSelectedAdm((prev) => {
               let pre = prev;
@@ -242,7 +250,7 @@ const CertificationData = ({ navigation, route }) => {
               return [...pre, options.find((x) => x.id === value)];
             })
           }
-          value={selectedAdm?.[a + 1]?.id || ''}
+          value={selectedAdm?.[a + 1]?.id || null}
         />,
       );
     }
@@ -266,11 +274,10 @@ const CertificationData = ({ navigation, route }) => {
         admTrees.length && (
           <View style={styles.dropdownContainer}>
             <RenderDropdown
-              key="parent"
               options={admTrees}
               screenWidth={screenWidth}
               onChange={(value) => setSelectedAdm([admTrees.find((x) => x.id === value)])}
-              value={selectedAdm?.[0]?.id || ''}
+              value={selectedAdm?.[0]?.id || null}
             />
             {renderDropdownChilds(admDepth)}
           </View>
@@ -334,7 +341,7 @@ CertificationData.defaultProps = {
 
 RenderDropdown.propTypes = {
   key: PropTypes.string,
-  options: PropTypes.object,
+  options: PropTypes.array,
   screenWidth: PropTypes.number,
   disabled: PropTypes.bool,
   value: PropTypes.number,
