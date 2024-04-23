@@ -16,6 +16,22 @@ const ADM_SQLITE_FILE = {
 
 const dropdownLevels = ['National', 'County', 'Sub-County', 'Ward', 'Village'];
 
+const findFirstDifferentIndex = (arrays) => {
+  // Iterate over the arrays
+  for (let i = 0; i < arrays[0].length; i += 1) {
+    const firstValue = arrays[0][i];
+    // Compare each value in the current index position across arrays
+    for (let j = 1; j < arrays.length; j += 1) {
+      if (arrays[j][i] !== firstValue) {
+        // If a different value is found, return the index
+        return i;
+      }
+    }
+  }
+  // If no difference found, return -1
+  return -1;
+};
+
 const calculateDepth = (arr) => {
   if (!Array.isArray(arr) || arr.length === 0) {
     return 1;
@@ -110,11 +126,11 @@ const CertificationData = ({ navigation, route }) => {
   }, [fetchAdministrator, certificationAdms]);
 
   // build administrations level
-  const buildTree = useCallback(async (nodes, level = 1) => {
+  const buildTree = useCallback(async (nodes, firstDiffIndex, level = 1) => {
     const uniqueIds = [...new Set(nodes.map((node) => node[level - 1]))];
-    if (uniqueIds.length === 1 && level <= 2) {
+    if (uniqueIds.length === 1 && level <= firstDiffIndex) {
       const nextLevel = level + 1;
-      return buildTree(nodes, nextLevel);
+      return buildTree(nodes, firstDiffIndex, nextLevel);
     }
     return Promise.all(
       uniqueIds.map(async (id) => {
@@ -129,7 +145,7 @@ const CertificationData = ({ navigation, route }) => {
             id: Number(id),
             name,
             level,
-            children: children.length ? await buildTree(children, nextLevel) : [],
+            children: children.length ? await buildTree(children, firstDiffIndex, nextLevel) : [],
           };
         }
         return {
@@ -216,11 +232,16 @@ const CertificationData = ({ navigation, route }) => {
         const splitted = path.split('.');
         return splitted.map((x) => Number(x));
       });
-      buildTree(temp).then((res) => {
-        setAdmTrees(res);
-        setAdmDepth(calculateDepth(res));
+      const firstDiffIndex = findFirstDifferentIndex(temp);
+      if (firstDiffIndex > 0) {
+        buildTree(temp, firstDiffIndex).then((res) => {
+          setAdmTrees(res);
+          setAdmDepth(calculateDepth(res));
+          fetchData();
+        });
+      } else {
         fetchData();
-      });
+      }
     }
   }, [certificationAdms, admPaths, buildTree, fetchData]);
 
