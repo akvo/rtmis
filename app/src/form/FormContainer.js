@@ -18,7 +18,7 @@ const checkValuesBeforeCallback = ({ values, hiddenQIds = [] }) =>
   Object.keys(values)
     .map((key) => {
       // remove value where question is hidden
-      if (hiddenQIds.includes(parseInt(key))) {
+      if (hiddenQIds.includes(Number(key))) {
         return false;
       }
       // EOL remove value where question is hidden
@@ -116,7 +116,6 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
       .filter((qkey) => activeQuestions.map((q) => `${q.id}`).includes(qkey))
       .reduce((prev, current) => ({ [current]: currentValues[current], ...prev }), {});
     const results = checkValuesBeforeCallback({ values: validValues, hiddenQIds });
-    console.log(results);
     if (onSubmit) {
       const { dpName, dpGeo } = generateDataPointName(forms, validValues, cascades);
       onSubmit({ name: dpName, geo: dpGeo, answers: results });
