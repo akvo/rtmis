@@ -80,7 +80,7 @@ const DataFilters = ({ loading, showAdm = true, resetFilter = true }) => {
     },
     {
       key: "recent",
-      label: "Recent Data",
+      label: "Latest Data",
       onClick: (param) => {
         exportGenerate(param);
       },
