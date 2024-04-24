@@ -1,0 +1,158 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rtmis
+spec:
+  schedule: "* 0 * * *"
+  startingDeadlineSeconds: 600 # it is ok to start the job 10 minutes late
+  concurrencyPolicy: Allow
+  failedJobsHistoryLimit: 10
+  successfulJobsHistoryLimit: 10
+  jobTemplate:
+    metadata:
+      labels:
+        cronjob: rtmis
+    spec:
+      backoffLimit: 6 # default
+      activeDeadlineSeconds: 600 # Fail job if it takes more than 10 mins
+      template:
+        metadata:
+          labels:
+            cronjob: rtmis
+        spec:
+          containers:
+            - name: cloud-sql-proxy
+              resources:
+                requests:
+                  cpu: "100m"
+                  memory: "256Mi"
+                limits:
+                  cpu: "1000m"
+                  memory: "768Mi"
+              # https://cloud.google.com/sql/docs/mysql/connect-kubernetes-engine#run_the_as_a_sidecar
+              # It is recommended to use the latest version of the Cloud SQL proxy
+              # Make sure to update on a regular schedule!
+              image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.11.0
+              args:
+                - "--credentials-file=/secrets/cloudsql/credentials.json"
+                - "$(GOOGLE_PROJECT):$(GOOGLE_SQL_COMPUTE_ZONE):$(GOOGLE_SQL_DB_INSTANCE)"
+
+                # When --quitquitquit is set, the admin server adds an endpoint at /quitquitquit. The admin server exits gracefully when it receives a POST request at /quitquitquit.
+                # This will be useful for the app to request the cloud-proxy-sql exit for job execution.
+                - "--quitquitquit"
+                - "--debug-logs"
+              securityContext:
+                # The default Cloud SQL proxy image runs as the
+                # "nonroot" user and group (uid: 65532) by default.
+                runAsNonRoot: true
+              # https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+              env:
+                - name: GOOGLE_SQL_COMPUTE_ZONE
+                  valueFrom:
+                    configMapKeyRef:
+                      name: rtmis
+                      key: google-sql-compute-zone
+                - name: GOOGLE_SQL_DB_INSTANCE
+                  valueFrom:
+                    configMapKeyRef:
+                      name: rtmis
+                      key: google-sql-db-instance
+                - name: GOOGLE_PROJECT
+                  valueFrom:
+                    configMapKeyRef:
+                      name: rtmis
+                      key: google-project
+              volumeMounts:
+                - name: rtmis-secrets
+                  mountPath: "/secrets/cloudsql/credentials.json"
+                  subPath: rtmis-service-account.json
+                  readOnly: true
+            - name: backend
+              image: eu.gcr.io/akvo-lumen/rtmis/backend:${CI_COMMIT}
+              command:
+              - /bin/bash
+              - -c
+              - /app/job.sh;
+              env:
+                - name: DB_SCHEMA
+                  valueFrom:
+                    secretKeyRef:
+                      name: rtmis
+                      key: db-schema
+                - name: DB_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: rtmis
+                      key: db-user
+                - name: DB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: rtmis
+                      key: db-password
+                - name: DB_HOST
+                  valueFrom:
+                    secretKeyRef:
+                      name: rtmis
+                      key: db-host
+                - name: DJANGO_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: rtmis
+                      key: django-secret
+                - name: MAILJET_APIKEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: rtmis
+                      key: mailjet-apikey
+                - name: MAILJET_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: rtmis
+                      key: mailjet-secret
+                - name: EMAIL_FROM
+                  valueFrom:
+                    secretKeyRef:
+                      name: rtmis
+                      key: email-from
+                - name: WEBDOMAIN
+                  valueFrom:
+                    secretKeyRef:
+                      name: rtmis
+                      key: webdomain
+                - name: PROD
+                  value: "TRUE"
+                - name: GOOGLE_APPLICATION_CREDENTIALS
+                  value: /secrets/credentials.json
+                - name: STORAGE_PATH
+                  valueFrom:
+                    secretKeyRef:
+                      name: rtmis
+                      key: storage-path
+                - name: APK_UPLOAD_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: rtmis
+                      key: apk-upload-secret
+              volumeMounts:
+                - name: rtmis-secrets
+                  mountPath: /secrets/credentials.json
+                  subPath: rtmis-service-account.json
+                  readOnly: true
+                - name: nfs-pvc
+                  mountPath: "/app/storage"
+              resources:
+                requests:
+                  cpu: "100m"
+                  memory: "256Mi"
+                limits:
+                  cpu: "1000m"
+                  memory: "1024Mi"
+          volumes:
+            - name: rtmis-secrets
+              secret:
+                secretName: rtmis
+            - name: nfs-pvc
+              persistentVolumeClaim:
+                claimName: rtmis
+          restartPolicy: Never
