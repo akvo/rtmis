@@ -94,17 +94,22 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
     route.params.submission_type,
   );
   const activeQuestions = formDefinition?.question_group?.flatMap((qg) => qg?.question);
-  const hiddenQIds = forms?.question_group
-    ?.flatMap((qg) => qg?.question)
-    .map((q) => {
-      const subTypeName = helpers.flipObject(SUBMISSION_TYPES)?.[route.params.submission_type];
-      const hidden = q?.hidden ? q.hidden?.submission_type?.includes(subTypeName) : false;
-      if (hidden) {
-        return q.id;
-      }
-      return false;
-    })
-    .filter((x) => x);
+
+  const hiddenQIds = useMemo(
+    () =>
+      forms?.question_group
+        ?.flatMap((qg) => qg?.question)
+        .map((q) => {
+          const subTypeName = helpers.flipObject(SUBMISSION_TYPES)?.[route.params.submission_type];
+          const hidden = q?.hidden ? q.hidden?.submission_type?.includes(subTypeName) : false;
+          if (hidden) {
+            return q.id;
+          }
+          return false;
+        })
+        .filter((x) => x),
+    [forms, route.params.submission_type],
+  );
 
   const currentGroup = useMemo(
     () => formDefinition?.question_group?.[activeGroup] || {},
