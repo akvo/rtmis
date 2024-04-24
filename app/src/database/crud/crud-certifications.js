@@ -1,15 +1,12 @@
 import { conn, query } from '..';
-import { SUBMISSION_TYPES } from '../../lib/constants';
 
 const db = conn.init;
 const TABLE_NAME = 'certifications';
 
 const certificationQuery = () => ({
-  syncForm: async ({ formId, administrationId, formJSON }) => {
+  syncForm: async ({ formId, administrationId, formJSON, isCertified }) => {
     const findQuery = query.read(TABLE_NAME, { uuid: formJSON.uuid });
     const { rows } = await conn.tx(db, findQuery, [formJSON.uuid]);
-
-    const isCertified = parseInt(formJSON?.submission_type, 10) === SUBMISSION_TYPES.certification;
 
     let params = [];
     let queryText = query.insert(TABLE_NAME, {
