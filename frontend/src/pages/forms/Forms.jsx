@@ -167,7 +167,9 @@ const Forms = () => {
         ? names
         : `${authUser.administration.name} - ${moment().format("MMM YYYY")}`,
       geo: geo || null,
-      submission_type: config.submissionType.registration,
+      submission_type: uuid
+        ? config.submissionType.monitoring
+        : config.submissionType.registration,
     };
     if (uuid) {
       dataPayload["uuid"] = uuid;
