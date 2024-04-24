@@ -98,12 +98,11 @@ def map_column_model(columns, model: Type[Model]):
 
 def validate_administrations_bulk_upload(io_file):
     excel_file = pd.ExcelFile(io_file)
-    sheet_names = ['data']
-    if sheet_names != excel_file.sheet_names:
+    if "data" not in excel_file.sheet_names:
         return [{
             "error": ExcelError.sheet,
             "error_message": ValidationText.template_validation.value,
-            "sheets": ",".join(sheet_names)
+            "sheets": ",".join(excel_file.sheet_names)
         }]
     df = pd.read_excel(io_file, sheet_name='data')
     if df.shape[0] == 0:
