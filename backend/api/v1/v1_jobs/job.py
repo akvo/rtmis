@@ -37,11 +37,18 @@ from utils.custom_generator import generate_sqlite
 logger = logging.getLogger(__name__)
 
 
-def download(form: Forms, administration_ids, download_type="all"):
+def download(
+    form: Forms,
+    administration_ids,
+    download_type="all",
+    submission_type=None
+):
     filter_data = {}
     if administration_ids:
         filter_data['administration_id__in'] = administration_ids
-    if download_type == "recent":
+    if submission_type:
+        filter_data['submission_type'] = submission_type
+    else:
         filter_data['submission_type__in'] = [
             SubmissionTypes.registration,
             SubmissionTypes.monitoring
@@ -95,10 +102,12 @@ def job_generate_download(job_id, **kwargs):
                                                           flat=True))
     form = Forms.objects.get(pk=job.info.get('form_id'))
     download_type = kwargs.get('download_type')
+    submission_type = kwargs.get('submission_type')
     data = download(
         form=form,
         administration_ids=administration_ids,
-        download_type=download_type
+        download_type=download_type,
+        submission_type=submission_type,
     )
     df = pd.DataFrame(data)
     col_names = rearrange_columns(list(df))
