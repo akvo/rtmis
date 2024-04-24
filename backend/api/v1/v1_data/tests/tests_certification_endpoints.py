@@ -8,6 +8,7 @@ from api.v1.v1_forms.models import Forms, UserForms, SubmissionTypes
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_profile.tests.mixins import ProfileTestHelperMixin
 from api.v1.v1_profile.management.commands import administration_seeder
+from api.v1.v1_data.models import FormData
 
 
 @override_settings(USE_TZ=False)
@@ -44,11 +45,11 @@ class CertificationEndpointsTestCase(TestCase, ProfileTestHelperMixin):
             .values_list("id", flat=True)
         )
         # Create certification assignment by admin
-        admin_user = self.create_user(
+        self.admin_user = self.create_user(
             email="admin@akvo.org",
             role_level=self.ROLE_ADMIN
         )
-        t = RefreshToken.for_user(admin_user)
+        t = RefreshToken.for_user(self.admin_user)
         self.header = {"HTTP_AUTHORIZATION": f"Bearer {t.access_token}"}
         # Define assignment data
         assignment_data = {
@@ -111,3 +112,18 @@ class CertificationEndpointsTestCase(TestCase, ProfileTestHelperMixin):
         self.assertEqual(data.status_code, 200)
         data = data.json()
         self.assertEqual(data["total"], 0)
+
+    def test_open_certification_by_admin(self):
+        st = SubmissionTypes.certification
+        t = RefreshToken.for_user(self.admin_user)
+        data = self.client.get(
+            f"/api/v1/form-data/{self.form.id}?submission_type={st}",
+            content_type='application/json',
+            **{'HTTP_AUTHORIZATION': f'Bearer {t.access_token}'}
+        )
+        self.assertEqual(data.status_code, 200)
+        data = data.json()
+        total = FormData.objects.filter(
+            submission_type=SubmissionTypes.certification
+        ).count()
+        self.assertEqual(data['total'], total)

@@ -175,6 +175,12 @@ class FormDataAddListView(APIView):
         submission_type = request.GET.get(
             "submission_type", SubmissionTypes.registration
         )
+        latest_ids_per_uuid = (
+            form.form_form_data.filter(submission_type=submission_type)
+            .values("uuid")
+            .annotate(latest_id=Max("id"))
+            .values_list("latest_id", flat=True)
+        )
         if int(submission_type) == SubmissionTypes.certification:
             user_path = "{0}{1}".format(
                 request.user.user_access.administration.path,
@@ -186,6 +192,11 @@ class FormDataAddListView(APIView):
             queryset = form.form_form_data.filter(
                 submission_type=submission_type, created_by__in=user_assignee
             ).order_by("-created")
+            if request.user.user_access.role == UserRoleTypes.super_admin:
+                queryset = form.form_form_data.filter(
+                    submission_type=submission_type
+                ).order_by("-created")
+
             instance = paginator.paginate_queryset(queryset, request)
             data = {
                 "current": int(request.GET.get("page", "1")),
@@ -208,7 +219,17 @@ class FormDataAddListView(APIView):
                     submission_type,
                     SubmissionTypes.registration,
                 ],
-            ).order_by("-created")
+            )
+            if int(submission_type) == SubmissionTypes.verification:
+                queryset = form.form_form_data.filter(
+                    uuid=parent.uuid,
+                    submission_type=SubmissionTypes.registration,
+                )
+                # filter by latest ids to prevent multi verification data
+                queryset |= form.form_form_data.filter(
+                    pk=latest_ids_per_uuid[0]
+                )
+            queryset = queryset.order_by("-created")
             instance = paginator.paginate_queryset(queryset, request)
             data = {
                 "current": int(request.GET.get("page", "1")),
@@ -225,12 +246,6 @@ class FormDataAddListView(APIView):
             return Response(data, status=status.HTTP_200_OK)
 
         filter_data = {}
-        latest_ids_per_uuid = (
-            form.form_form_data.filter(submission_type=submission_type)
-            .values("uuid")
-            .annotate(latest_id=Max("id"))
-            .values_list("latest_id", flat=True)
-        )
         filter_data["pk__in"] = latest_ids_per_uuid
         if serializer.validated_data.get("administration"):
             filter_administration = serializer.validated_data.get(

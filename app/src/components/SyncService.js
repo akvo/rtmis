@@ -115,22 +115,40 @@ const SyncService = () => {
 
       try {
         const monitoringRes = await fetchDatapoints();
-        let apiURLs = monitoringRes.map(({ url, form_id: formId, last_updated: lastUpdated }) => ({
-          url,
-          formId,
-          lastUpdated,
-        }));
+        let apiURLs = monitoringRes.map(
+          ({
+            url,
+            form_id: formId,
+            administration_id: administrationId,
+            last_updated: lastUpdated,
+          }) => ({
+            url,
+            formId,
+            administrationId,
+            lastUpdated,
+          }),
+        );
 
         if (certifications?.length) {
           const certifyRes = await fetchDatapoints(true);
           apiURLs = [
             ...apiURLs,
-            ...certifyRes.map(({ url, form_id: formId, last_updated: lastUpdated }) => ({
-              url,
-              formId,
-              lastUpdated,
-              isCertification: true,
-            })),
+            ...certifyRes.map(
+              ({
+                url,
+                form_id: formId,
+                administration_id: administrationId,
+                last_updated: lastUpdated,
+                is_certified: isCertified,
+              }) => ({
+                url,
+                formId,
+                administrationId,
+                lastUpdated,
+                isCertification: true,
+                isCertified,
+              }),
+            ),
           ];
         }
 
