@@ -2,9 +2,9 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: rtmis
+  name: rtmis-jobs
 spec:
-  schedule: "* 0 * * *"
+  schedule: "0 23 * * *"
   startingDeadlineSeconds: 600 # it is ok to start the job 10 minutes late
   concurrencyPolicy: Allow
   failedJobsHistoryLimit: 10
@@ -12,14 +12,14 @@ spec:
   jobTemplate:
     metadata:
       labels:
-        cronjob: rtmis
+        cronjob: rtmis-jobs
     spec:
       backoffLimit: 6 # default
       activeDeadlineSeconds: 600 # Fail job if it takes more than 10 mins
       template:
         metadata:
           labels:
-            cronjob: rtmis
+            cronjob: rtmis-jobs
         spec:
           containers:
             - name: cloud-sql-proxy
