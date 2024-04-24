@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
-import { Row, Col, Divider, Table, ConfigProvider, Empty, Space } from "antd";
+import { Row, Col, Divider, Table, ConfigProvider, Empty } from "antd";
 import { DownCircleOutlined, LeftCircleOutlined } from "@ant-design/icons";
 import { api, config, store, uiText } from "../../lib";
 import {
   Breadcrumbs,
   DescriptionPanel,
-  AdministrationDropdown,
+  DataClaimFilters,
 } from "../../components";
 import { generateAdvanceFilterURL } from "../../util/filter";
-import FormDropdown from "../../components/filters/FormDropdown";
 import DataClaimDetail from "./DataClaimDetail";
 
 const ManageDataClaim = () => {
@@ -132,17 +131,7 @@ const ManageDataClaim = () => {
 
       <div className="table-section">
         <div className="table-wrapper">
-          <Row>
-            <Col>
-              <Space>
-                <FormDropdown
-                  loading={loading}
-                  submissionTypes={[config.submissionType.certification]}
-                />
-                <AdministrationDropdown loading={loading} />
-              </Space>
-            </Col>
-          </Row>
+          <DataClaimFilters />
           <Divider />
           <div
             style={{ padding: 0, minHeight: "40vh" }}

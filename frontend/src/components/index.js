@@ -31,3 +31,4 @@ export { default as InputAttributes } from "./InputAttributes";
 export { default as EntityFilters } from "./filters/EntityFilters";
 export { default as EntityDataFilters } from "./filters/EntityDataFilters";
 export { default as AttributeFilters } from "./filters/AttributeFilters";
+export { default as DataClaimFilters } from "./filters/DataClaimFilters";
