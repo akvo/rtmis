@@ -38,11 +38,15 @@ const certificationQuery = () => ({
     const res = await conn.tx(db, queryText, params);
     return res;
   },
-  getTotal: async (formId, search) => {
-    const querySQL = search.length
-      ? `SELECT COUNT(*) AS count FROM ${TABLE_NAME} where formId = ? AND name LIKE ? COLLATE NOCASE`
+  getTotal: async (formId, search, administrationId) => {
+    let querySQL = search.length
+      ? `SELECT COUNT(*) AS count FROM ${TABLE_NAME} where formId = ? AND name LIKE ? COLLATE NOCASE `
       : `SELECT COUNT(*) AS count FROM ${TABLE_NAME} where formId = ? `;
     const params = search.length ? [formId, `%${search}%`] : [formId];
+    if (administrationId) {
+      querySQL += ' AND administrationId = ? ';
+      params.push(administrationId);
+    }
     const { rows } = await conn.tx(db, querySQL, params);
     return rows._array?.[0]?.count;
   },

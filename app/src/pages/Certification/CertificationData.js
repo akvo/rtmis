@@ -47,7 +47,7 @@ const calculateDepth = (arr) => {
 };
 
 const RenderDropdown = ({
-  key,
+  indexKey,
   options = [],
   screenWidth,
   disabled = false,
@@ -60,7 +60,7 @@ const RenderDropdown = ({
     : styles.dropdownField;
   return (
     <Dropdown
-      key={key}
+      key={indexKey}
       style={{ ...ddStyle, width: screenWidth }}
       data={options.map((x) => ({ label: x.name, value: x.id }))}
       maxHeight={300}
@@ -199,9 +199,9 @@ const CertificationData = ({ navigation, route }) => {
   };
 
   const fetchTotal = useCallback(async () => {
-    const totalPage = await crudCertification.getTotal(formId, search);
+    const totalPage = await crudCertification.getTotal(formId, search, filterByAdm);
     setTotal(totalPage);
-  }, [formId, search]);
+  }, [formId, search, filterByAdm]);
 
   useEffect(() => {
     fetchTotal();
@@ -280,7 +280,7 @@ const CertificationData = ({ navigation, route }) => {
       }
       res.push(
         <RenderDropdown
-          key={`dd-child-${a}`}
+          indexKey={`dd-child-${a}`}
           options={options}
           screenWidth={screenWidth}
           disabled={!selectedAdm?.[a]}
@@ -318,7 +318,7 @@ const CertificationData = ({ navigation, route }) => {
         admTrees.length && (
           <View style={styles.dropdownContainer}>
             <RenderDropdown
-              key="dd-parent"
+              indexKey="dd-parent"
               options={admTrees}
               screenWidth={screenWidth}
               onChange={(value) => setSelectedAdm([admTrees.find((x) => x.id === value)])}
@@ -392,7 +392,7 @@ CertificationData.defaultProps = {
 };
 
 RenderDropdown.propTypes = {
-  key: PropTypes.string,
+  indexKey: PropTypes.string,
   options: PropTypes.array,
   screenWidth: PropTypes.number,
   disabled: PropTypes.bool,
@@ -402,7 +402,7 @@ RenderDropdown.propTypes = {
 };
 
 RenderDropdown.defaultProps = {
-  key: null,
+  indexKey: null,
   options: [],
   screenWidth: null,
   disabled: false,
