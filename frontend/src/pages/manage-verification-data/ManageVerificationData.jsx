@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
-import { Row, Col, Divider, Table, ConfigProvider, Empty, Space } from "antd";
+import { Row, Col, Divider, Table, ConfigProvider, Empty } from "antd";
 import { useNavigate } from "react-router-dom";
 import { api, config, store, uiText } from "../../lib";
 import {
   Breadcrumbs,
   DescriptionPanel,
-  AdministrationDropdown,
+  DataClaimFilters,
 } from "../../components";
 import { generateAdvanceFilterURL } from "../../util/filter";
-import FormDropdown from "../../components/filters/FormDropdown";
 
 const ManageVerificationData = () => {
   const [loading, setLoading] = useState(false);
@@ -126,17 +125,9 @@ const ManageVerificationData = () => {
 
       <div className="table-section">
         <div className="table-wrapper">
-          <Row>
-            <Col>
-              <Space>
-                <FormDropdown
-                  loading={loading}
-                  submissionTypes={[config.submissionType.verification]}
-                />
-                <AdministrationDropdown loading={loading} persist={true} />
-              </Space>
-            </Col>
-          </Row>
+          <DataClaimFilters
+            submissionType={config.submissionType.verification}
+          />
           <Divider />
           <div
             style={{ padding: 0, minHeight: "40vh" }}
