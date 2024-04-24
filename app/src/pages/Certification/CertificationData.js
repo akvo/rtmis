@@ -217,7 +217,7 @@ const CertificationData = ({ navigation, route }) => {
         offset: page,
         administrationId: filterByAdm,
       });
-      if (search || filterByAdm) {
+      if (search) {
         setForms(moreForms);
       } else {
         setForms(forms.concat(moreForms));
@@ -246,10 +246,12 @@ const CertificationData = ({ navigation, route }) => {
   }, [certificationAdms, admPaths, buildTree, fetchData]);
 
   useEffect(() => {
+    // handle filter by administration
     if (selectedAdm.length === admDepth) {
       const selected = selectedAdm?.[selectedAdm.length - 1]?.id || null;
       if (selected) {
         setFilterByAdm(selected);
+        setForms([]);
         setPage(0);
         setIsLoading(true);
       }
