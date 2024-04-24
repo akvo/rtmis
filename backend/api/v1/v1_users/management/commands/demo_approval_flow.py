@@ -52,10 +52,17 @@ def create_approver(form, administration, organisation):
 
 
 class Command(BaseCommand):
+    def add_arguments(self, parser):
+        parser.add_argument(
+            "-t", "--test", nargs="?", const=False, default=False, type=bool
+        )
+
     def handle(self, *args, **options):
+        test = options.get("test")
         form = Forms.objects.filter(
             type=FormTypes.county).order_by('?').first()
-        print(f"\nForm Name: {form.name}\n\n")
+        if not test:
+            print(f"\nForm Name: {form.name}\n\n")
         last_level = Levels.objects.order_by('-level')[1:2].first()
         organisation = Organisation.objects.first()
         administration = Administration.objects.filter(
@@ -63,7 +70,8 @@ class Command(BaseCommand):
         ancestors = administration.ancestors
         # union the current administration also
         ancestors |= Administration.objects.filter(id=administration.id)
-        print("Approvers:")
+        if not test:
+            print("Approvers:")
         for ancestor in ancestors.filter(level__level__gte=1,
                                          level__level__lte=last_level.level):
             # check if approval assignment for the path is not available
@@ -77,17 +85,27 @@ class Command(BaseCommand):
                 )
                 last_name = "Admin" if ancestor.level.level == 1 \
                     else "Approver"
-                print("Level: {} ({})".format(ancestor.level.level,
-                                              ancestor.level.name))
-                print(f"- Administration Name: {ancestor.name}")
-                print("- Approver: {} ({})".format(assignment.user.email,
-                                                   last_name))
+                if not test:
+                    print("Level: {} ({})".format(
+                        ancestor.level.level,
+                        ancestor.level.name
+                    ))
+                    print(f"- Administration Name: {ancestor.name}")
+                    print("- Approver: {} ({})".format(
+                        assignment.user.email,
+                        last_name
+                    ))
             else:
-                print("Level: {} ({})".format(ancestor.level.level,
-                                              ancestor.level.name))
-                print(f"- Administration Name: {ancestor.name}")
-                print("- Approver: {} ({})".format(assignment.user.email,
-                                                   assignment.user.last_name))
+                if not test:
+                    print("Level: {} ({})".format(
+                        ancestor.level.level,
+                        ancestor.level.name
+                    ))
+                    print(f"- Administration Name: {ancestor.name}")
+                    print("- Approver: {} ({})".format(
+                        assignment.user.email,
+                        assignment.user.last_name
+                    ))
         # create user
         email = ("{}{}@user.com").format(
             re.sub('[^A-Za-z0-9]+', '', administration.name.lower()),
@@ -106,12 +124,13 @@ class Command(BaseCommand):
                                   role=UserRoleTypes.user,
                                   administration=ancestor)
         UserForms.objects.get_or_create(form=form, user=submitter)
-        print("\nSubmitter:")
-        print(f"- Administration: {administration.full_name}")
-        print("- Email: {}\n".format(submitter.email))
+        if not test:
+            print("\nSubmitter:")
+            print(f"- Administration: {administration.full_name}")
+            print("- Email: {}\n".format(submitter.email))
 
-        # Create mobile user
-        print("\nMobile assignment:")
+            # Create mobile user
+            print("\nMobile assignment:")
         mobile_assignment = MobileAssignment.objects.create_assignment(
             user=submitter,
             name=fake.user_name()
@@ -124,10 +143,11 @@ class Command(BaseCommand):
             *administration_children
         )
         mobile_assignment.forms.add(form)
-        print("- Username: {}\n".format(mobile_assignment.name))
-        print("- Administrations: {}\n".format(", ".join(
-            [
-                a["name"]
-                for a in mobile_assignment.administrations.values('name')
-            ]
-        )))
+        if not test:
+            print("- Username: {}\n".format(mobile_assignment.name))
+            print("- Administrations: {}\n".format(", ".join(
+                [
+                    a["name"]
+                    for a in mobile_assignment.administrations.values('name')
+                ]
+            )))
