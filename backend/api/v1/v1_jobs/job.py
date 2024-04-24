@@ -29,7 +29,10 @@ from api.v1.v1_profile.models import (
 from api.v1.v1_users.models import SystemUser
 from utils import storage
 from utils.email_helper import send_email, EmailTypes
-from utils.export_form import generate_definition_sheet
+from utils.export_form import (
+    generate_definition_sheet,
+    rearrange_definition_columns
+)
 from utils.functions import update_date_time_format
 from utils.storage import upload
 from utils.custom_generator import generate_sqlite
@@ -62,17 +65,6 @@ def download(
             created__in=Subquery(latest_per_uuid)
         )
     return [d.to_data_frame for d in data.order_by('id')]
-
-
-def rearrange_columns(col_names: list):
-    meta_columns = ["id", "created_at", "created_by", "updated_at",
-                    "updated_by", "datapoint_name", "administration",
-                    "geolocation"]
-    col_question = list(filter(lambda x: x not in meta_columns, col_names))
-    if len(col_question) == len(col_names):
-        return col_question
-    col_names = meta_columns + col_question
-    return col_names
 
 
 def job_generate_download(job_id, **kwargs):
@@ -110,7 +102,7 @@ def job_generate_download(job_id, **kwargs):
         submission_type=submission_type,
     )
     df = pd.DataFrame(data)
-    col_names = rearrange_columns(list(df))
+    col_names = rearrange_definition_columns(list(df))
     df = df[col_names]
     writer = pd.ExcelWriter(file_path, engine='xlsxwriter')
     df.to_excel(writer, sheet_name='data', index=False)

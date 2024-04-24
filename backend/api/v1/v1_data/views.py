@@ -1285,7 +1285,7 @@ class BatchCommentView(APIView):
 @permission_classes([IsAuthenticated])
 def export_form_data(request, version, form_id):
     form = get_object_or_404(Forms, pk=form_id)
-    filepath = generate_excel(form=form, user=SystemUser.objects.first())
+    filepath = generate_excel(form=form)
     filename = filepath.split("/")[-1].replace(" ", "-")
     zip_file = open(filepath, "rb")
     response = HttpResponse(
