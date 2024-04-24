@@ -14,9 +14,14 @@ import { SUBMISSION_TYPES } from '../lib/constants';
 // TODO:: Allow other not supported yet
 // TODO:: Repeat group not supported yet
 
-const checkValuesBeforeCallback = (values) =>
+const checkValuesBeforeCallback = ({ values, hiddenQIds = [] }) =>
   Object.keys(values)
     .map((key) => {
+      // remove value where question is hidden
+      if (hiddenQIds.includes(Number(key))) {
+        return false;
+      }
+      // EOL remove value where question is hidden
       let value = values[key];
       if (typeof value === 'string') {
         value = value.trim();
@@ -90,6 +95,22 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
   );
   const activeQuestions = formDefinition?.question_group?.flatMap((qg) => qg?.question);
 
+  const hiddenQIds = useMemo(
+    () =>
+      forms?.question_group
+        ?.flatMap((qg) => qg?.question)
+        .map((q) => {
+          const subTypeName = helpers.flipObject(SUBMISSION_TYPES)?.[route.params.submission_type];
+          const hidden = q?.hidden ? q.hidden?.submission_type?.includes(subTypeName) : false;
+          if (hidden) {
+            return q.id;
+          }
+          return false;
+        })
+        .filter((x) => x),
+    [forms, route.params.submission_type],
+  );
+
   const currentGroup = useMemo(
     () => formDefinition?.question_group?.[activeGroup] || {},
     [formDefinition, activeGroup],
@@ -99,7 +120,7 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
     const validValues = Object.keys(currentValues)
       .filter((qkey) => activeQuestions.map((q) => `${q.id}`).includes(qkey))
       .reduce((prev, current) => ({ [current]: currentValues[current], ...prev }), {});
-    const results = checkValuesBeforeCallback(validValues);
+    const results = checkValuesBeforeCallback({ values: validValues, hiddenQIds });
     if (onSubmit) {
       const { dpName, dpGeo } = generateDataPointName(forms, validValues, cascades);
       onSubmit({ name: dpName, geo: dpGeo, answers: results });

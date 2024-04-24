@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { Webform } from "akvo-react-form";
 import "akvo-react-form/dist/index.css";
+import { v4 as uuidv4 } from "uuid";
 import "./style.scss";
 import { useParams, useNavigate } from "react-router-dom";
 import {
@@ -19,6 +20,7 @@ import {
   notification,
   Modal,
 } from "antd";
+import axios from "axios";
 import { api, config, store, uiText } from "../../lib";
 import { takeRight, pick, isEmpty } from "lodash";
 import { PageLoader, Breadcrumbs, DescriptionPanel } from "../../components";
@@ -38,6 +40,8 @@ const Forms = () => {
   const { notify } = useNotification();
   const { language, initialValue } = store.useState((s) => s);
   const { active: activeLang } = language;
+  const [hiddenQIds, setHiddenQIds] = useState([]);
+
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
@@ -66,15 +70,57 @@ const Forms = () => {
 
   const webformRef = useRef();
 
-  const onFinish = (values, refreshForm) => {
+  const getEntityByName = async ({ id, value, apiURL }) => {
+    try {
+      const { data: apiData } = await axios.get(apiURL);
+      const findData = apiData?.find((d) => d?.name === value);
+      return { id, value: findData?.id };
+    } catch {
+      return null;
+    }
+  };
+
+  const onFinish = async (values, refreshForm) => {
     setSubmit(true);
     const questions = forms.question_group
       .map((x) => x.question)
       .flatMap((x) => x);
+    const entityNamesEndpoints = questions
+      ?.filter(
+        (q) =>
+          q?.type === "cascade" &&
+          q?.extra?.type === "entity" &&
+          typeof values?.[q?.id] === "string"
+      )
+      ?.map((q) => {
+        const pq = questions.find((subq) => subq?.id === q?.extra?.parentId);
+        const pv = values?.[pq?.id];
+        const pid = Array.isArray(pv) ? pv.slice(-1)?.[0] : pv;
+        return {
+          id: q?.id,
+          value: values?.[q?.id],
+          apiURL: `${q?.api?.endpoint}${pid}`,
+        };
+      });
+    const entityNames = entityNamesEndpoints?.map((e) => getEntityByName(e));
+    const resEntities = await Promise.allSettled(entityNames);
+    resEntities.forEach(({ value: entity }) => {
+      if (entity?.value && values?.[entity?.id]) {
+        values[entity.id] = entity.value;
+      }
+    });
+
     const answers = Object.keys(values)
       .filter((v) => !isNaN(v))
       .map((v) => {
-        const question = questions.find((q) => q.id === parseInt(v));
+        const qid = parseInt(v);
+        // remove hidden question from final payload
+        if (hiddenQIds.includes(qid)) {
+          return false;
+        }
+        // EOL remove hidden question from final payload
+
+        const question = questions.find((q) => q.id === qid);
         let val = values[v];
         if (val || val === 0) {
           val =
@@ -83,9 +129,16 @@ const Forms = () => {
               : question.type === "geo"
               ? [val.lat, val.lng]
               : val;
+
+          if (question.type === "cascade" && !question?.extra) {
+            val = takeRight(val)?.[0] || null;
+          }
           return {
-            question: parseInt(v),
-            type: question.type,
+            question: qid,
+            type:
+              question?.source?.file === "administrator.sqlite"
+                ? "administration"
+                : question.type,
             value: val,
             meta: question.meta,
           };
@@ -102,32 +155,38 @@ const Forms = () => {
       .join(" - ");
     const geo = answers.find((x) => x.type === "geo" && x.meta)?.value;
     const administration = answers.find(
-      (x) => x.type === "cascade" && x.meta
+      (x) => (x.type === "cascade" && x.meta) || x.type === "administration"
     )?.value;
     const dataPayload = {
       administration: administration
-        ? takeRight(administration)[0]
+        ? Array.isArray(administration)
+          ? takeRight(administration)[0]
+          : administration
         : authUser.administration.id,
       name: names.length
         ? names
         : `${authUser.administration.name} - ${moment().format("MMM YYYY")}`,
       geo: geo || null,
-      submission_type: config.submissionType.registration,
+      submission_type: uuid
+        ? config.submissionType.monitoring
+        : config.submissionType.registration,
     };
     if (uuid) {
       dataPayload["uuid"] = uuid;
     }
     const data = {
       data: dataPayload,
-      answer: answers
-        .map((x) => {
-          if (x.type === "cascade") {
-            return { ...x, value: takeRight(x.value)?.[0] || null };
-          }
-          return x;
-        })
-        .map((x) => pick(x, ["question", "value"])),
+      answer: answers.map((x) => pick(x, ["question", "value"])),
     };
+    if (
+      uuid &&
+      ["Super Admin", "County Admin"].includes(authUser?.role?.value)
+    ) {
+      /**
+       * Save uuid to localStorage to prevent redirection to the same page after submitted data
+       */
+      window?.localStorage?.setItem("submitted", uuid);
+    }
     api
       .post(`form-pending-data/${formId}`, data)
       .then(() => {
@@ -142,6 +201,7 @@ const Forms = () => {
         if (refreshForm) {
           refreshForm();
         }
+        setHiddenQIds([]);
         setTimeout(() => {
           setShowSuccess(true);
         }, 3000);
@@ -228,7 +288,12 @@ const Forms = () => {
          * Transform cascade answers
          */
         const cascadeAPIs = questions
-          ?.filter((q) => q?.type === "cascade" && q?.api?.endpoint)
+          ?.filter(
+            (q) =>
+              q?.type === "cascade" &&
+              q?.extra?.type !== "entity" &&
+              q?.api?.endpoint
+          )
           ?.map((q) => getCascadeAnswerId(q.id, q.api, answers?.[q.id]));
         const cascadeResponses = await Promise.allSettled(cascadeAPIs);
         const cascadeValues = cascadeResponses
@@ -242,22 +307,37 @@ const Forms = () => {
         /**
          * Transform answers to Webform format
          */
-        const initialValue = questions.map((q) => {
-          let value = Object.keys(cascadeValues).includes(`${q?.id}`)
-            ? cascadeValues[q.id]
-            : transformValue(q?.type, answers?.[q.id]);
-          // set default answer by default_value for new_or_monitoring question
-          if (
-            q?.default_value &&
-            q?.default_value?.submission_type?.monitoring
-          ) {
-            value = q.default_value.submission_type.monitoring;
-          }
-          return {
-            question: q?.id,
-            value: value,
-          };
-        });
+        const submissionType = uuid ? "monitoring" : "registration";
+        const initialValue = questions
+          .map((q) => {
+            let value = Object.keys(cascadeValues).includes(`${q?.id}`)
+              ? cascadeValues[q.id]
+              : transformValue(q?.type, answers?.[q.id]);
+            // set default answer by default_value for new_or_monitoring question
+            if (
+              q?.default_value &&
+              q?.default_value?.submission_type?.monitoring
+            ) {
+              value = q.default_value.submission_type.monitoring;
+            }
+            // EOL set default answer by default_value for new_or_monitoring question
+
+            // remove hidden question init value
+            if (
+              q?.hidden?.submission_type &&
+              !isEmpty(q?.hidden?.submission_type) &&
+              q.hidden.submission_type.includes(submissionType)
+            ) {
+              return false;
+            }
+            // EOL remove hidden question init value
+
+            return {
+              question: q?.id,
+              value: value,
+            };
+          })
+          .filter((x) => x);
         store.update((s) => {
           s.initialValue = initialValue;
         });
@@ -275,65 +355,100 @@ const Forms = () => {
     if (isEmpty(forms) && formId) {
       api.get(`/form/web/${formId}`).then((res) => {
         let defaultValues = [];
+        const submissionType = uuid ? "monitoring" : "registration";
         const questionGroups = res.data.question_group.map((qg) => {
-          const questions = qg.question.map((q) => {
-            let qVal = { ...q };
-            // set initial value for new_or_monitoring question
-            if (
-              q?.default_value &&
-              q?.default_value?.submission_type?.registration &&
-              !uuid
-            ) {
-              defaultValues = [
-                ...defaultValues,
-                {
-                  question: q.id,
-                  value: q.default_value.submission_type.registration,
-                },
-              ];
-            }
-            // eol set initial value for new_or_monitoring question
+          const questions = qg.question
+            .map((q) => {
+              let qVal = { ...q };
+              // set initial value for new_or_monitoring question
+              if (
+                q?.default_value &&
+                q?.default_value?.submission_type?.registration &&
+                !uuid
+              ) {
+                defaultValues = [
+                  ...defaultValues,
+                  {
+                    question: q.id,
+                    value: q.default_value.submission_type.registration,
+                  },
+                ];
+              }
+              if (!uuid && q?.meta_uuid) {
+                defaultValues = [
+                  ...defaultValues,
+                  {
+                    question: q.id,
+                    value: uuidv4(),
+                  },
+                ];
+              }
+              // eol set initial value for new_or_monitoring question
 
-            // set disabled new_or_monitoring question
-            if (
-              q?.default_value &&
-              !isEmpty(q?.default_value?.submission_type)
-            ) {
-              qVal = {
-                ...qVal,
-                disabled: true,
-              };
-            }
-            // eol set disabled new_or_monitoring question
-
-            // support disabled question by submission type
-            if (
-              q?.disabled?.submission_type &&
-              q?.disabled?.submission_type?.length
-            ) {
-              const submissionType = uuid ? "monitoring" : "registration";
-              qVal = {
-                ...qVal,
-                disabled: q.disabled.submission_type.includes(submissionType),
-              };
-            }
-            // EOL support disabled question by submission type
-
-            if (q?.extra) {
-              delete qVal.extra;
-              qVal = {
-                ...qVal,
-                ...q.extra,
-              };
-              if (q.extra?.allowOther) {
+              // set disabled new_or_monitoring question
+              if (
+                q?.default_value &&
+                !isEmpty(q?.default_value?.submission_type)
+              ) {
                 qVal = {
                   ...qVal,
-                  allowOtherText: "Enter any OTHER value",
+                  disabled: true,
                 };
               }
-            }
-            return qVal;
-          });
+              // eol set disabled new_or_monitoring question
+
+              // support disabled question by submission type
+              if (
+                q?.disabled?.submission_type &&
+                !isEmpty(q?.disabled?.submission_type)
+              ) {
+                qVal = {
+                  ...qVal,
+                  disabled: q.disabled.submission_type.includes(submissionType),
+                };
+              }
+              // EOL support disabled question by submission type
+
+              // support hidden question by submission type
+              if (
+                q?.hidden?.submission_type &&
+                !isEmpty(q?.hidden?.submission_type)
+              ) {
+                const hidden =
+                  q.hidden.submission_type.includes(submissionType);
+                if (hidden) {
+                  setHiddenQIds((prev) => [...new Set([...prev, q.id])]);
+                }
+                qVal = {
+                  ...qVal,
+                  hidden: hidden,
+                };
+              }
+              // EOL support hidden question by submission type
+
+              if (q?.extra) {
+                delete qVal.extra;
+                qVal = {
+                  ...qVal,
+                  ...q.extra,
+                };
+                if (q.extra?.allowOther) {
+                  qVal = {
+                    ...qVal,
+                    allowOtherText: "Enter any OTHER value",
+                  };
+                }
+                if (qVal?.type === "entity") {
+                  qVal = {
+                    ...qVal,
+                    type: "cascade",
+                    extra: q?.extra,
+                  };
+                }
+              }
+              return qVal;
+            })
+            .filter((x) => !x?.hidden); // filter out hidden questions
           return {
             ...qg,
             question: questions,
@@ -356,7 +471,44 @@ const Forms = () => {
         setLoading(false);
       });
     }
-  }, [formId, uuid, forms, fetchInitialMonitoringData]);
+    if (uuid && window?.localStorage?.getItem("submitted")) {
+      /**
+       * Redirect to the list when localStorage already has submitted item
+       */
+      window.localStorage.removeItem("submitted");
+      navigate("/control-center/data");
+    }
+    if (
+      typeof webformRef?.current === "undefined" &&
+      uuid &&
+      initialValue?.length &&
+      !loading
+    ) {
+      setPreload(true);
+      setLoading(true);
+    }
+
+    if (
+      webformRef?.current &&
+      typeof webformRef?.current?.getFieldsValue()?.[0] === "undefined" &&
+      uuid &&
+      initialValue?.length
+    ) {
+      setTimeout(() => {
+        initialValue.forEach((v) => {
+          webformRef.current.setFieldsValue({ [v?.question]: v?.value });
+        });
+      }, 1000);
+    }
+  }, [
+    formId,
+    uuid,
+    forms,
+    loading,
+    initialValue,
+    navigate,
+    fetchInitialMonitoringData,
+  ]);
 
   const handleOnClearForm = useCallback((preload, initialValue) => {
     if (
