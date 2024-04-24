@@ -40,6 +40,8 @@ const Forms = () => {
   const { notify } = useNotification();
   const { language, initialValue } = store.useState((s) => s);
   const { active: activeLang } = language;
+  const [hiddenQIds, setHiddenQIds] = useState([]);
+
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
@@ -111,7 +113,14 @@ const Forms = () => {
     const answers = Object.keys(values)
       .filter((v) => !isNaN(v))
       .map((v) => {
-        const question = questions.find((q) => q.id === parseInt(v));
+        const qid = parseInt(v);
+        // remove hidden question from final payload
+        if (hiddenQIds.includes(qid)) {
+          return false;
+        }
+        // EOL remove hidden question from final payload
+
+        const question = questions.find((q) => q.id === qid);
         let val = values[v];
         if (val || val === 0) {
           val =
@@ -125,7 +134,7 @@ const Forms = () => {
             val = takeRight(val)?.[0] || null;
           }
           return {
-            question: parseInt(v),
+            question: qid,
             type:
               question?.source?.file === "administrator.sqlite"
                 ? "administration"
@@ -190,6 +199,7 @@ const Forms = () => {
         if (refreshForm) {
           refreshForm();
         }
+        setHiddenQIds([]);
         setTimeout(() => {
           setShowSuccess(true);
         }, 3000);
@@ -295,22 +305,37 @@ const Forms = () => {
         /**
          * Transform answers to Webform format
          */
-        const initialValue = questions.map((q) => {
-          let value = Object.keys(cascadeValues).includes(`${q?.id}`)
-            ? cascadeValues[q.id]
-            : transformValue(q?.type, answers?.[q.id]);
-          // set default answer by default_value for new_or_monitoring question
-          if (
-            q?.default_value &&
-            q?.default_value?.submission_type?.monitoring
-          ) {
-            value = q.default_value.submission_type.monitoring;
-          }
-          return {
-            question: q?.id,
-            value: value,
-          };
-        });
+        const submissionType = uuid ? "monitoring" : "registration";
+        const initialValue = questions
+          .map((q) => {
+            let value = Object.keys(cascadeValues).includes(`${q?.id}`)
+              ? cascadeValues[q.id]
+              : transformValue(q?.type, answers?.[q.id]);
+            // set default answer by default_value for new_or_monitoring question
+            if (
+              q?.default_value &&
+              q?.default_value?.submission_type?.monitoring
+            ) {
+              value = q.default_value.submission_type.monitoring;
+            }
+            // EOL set default answer by default_value for new_or_monitoring question
+
+            // remove hidden question init value
+            if (
+              q?.hidden?.submission_type &&
+              !isEmpty(q?.hidden?.submission_type) &&
+              q.hidden.submission_type.includes(submissionType)
+            ) {
+              return false;
+            }
+            // EOL remove hidden question init value
+
+            return {
+              question: q?.id,
+              value: value,
+            };
+          })
+          .filter((x) => x);
         store.update((s) => {
           s.initialValue = initialValue;
         });
@@ -328,81 +353,100 @@ const Forms = () => {
     if (isEmpty(forms) && formId) {
       api.get(`/form/web/${formId}`).then((res) => {
         let defaultValues = [];
+        const submissionType = uuid ? "monitoring" : "registration";
         const questionGroups = res.data.question_group.map((qg) => {
-          const questions = qg.question.map((q) => {
-            let qVal = { ...q };
-            // set initial value for new_or_monitoring question
-            if (
-              q?.default_value &&
-              q?.default_value?.submission_type?.registration &&
-              !uuid
-            ) {
-              defaultValues = [
-                ...defaultValues,
-                {
-                  question: q.id,
-                  value: q.default_value.submission_type.registration,
-                },
-              ];
-            }
-            if (!uuid && q?.meta_uuid) {
-              defaultValues = [
-                ...defaultValues,
-                {
-                  question: q.id,
-                  value: uuidv4(),
-                },
-              ];
-            }
-            // eol set initial value for new_or_monitoring question
+          const questions = qg.question
+            .map((q) => {
+              let qVal = { ...q };
+              // set initial value for new_or_monitoring question
+              if (
+                q?.default_value &&
+                q?.default_value?.submission_type?.registration &&
+                !uuid
+              ) {
+                defaultValues = [
+                  ...defaultValues,
+                  {
+                    question: q.id,
+                    value: q.default_value.submission_type.registration,
+                  },
+                ];
+              }
+              if (!uuid && q?.meta_uuid) {
+                defaultValues = [
+                  ...defaultValues,
+                  {
+                    question: q.id,
+                    value: uuidv4(),
+                  },
+                ];
+              }
+              // eol set initial value for new_or_monitoring question
 
-            // set disabled new_or_monitoring question
-            if (
-              q?.default_value &&
-              !isEmpty(q?.default_value?.submission_type)
-            ) {
-              qVal = {
-                ...qVal,
-                disabled: true,
-              };
-            }
-            // eol set disabled new_or_monitoring question
-
-            // support disabled question by submission type
-            if (
-              q?.disabled?.submission_type &&
-              q?.disabled?.submission_type?.length
-            ) {
-              const submissionType = uuid ? "monitoring" : "registration";
-              qVal = {
-                ...qVal,
-                disabled: q.disabled.submission_type.includes(submissionType),
-              };
-            }
-            // EOL support disabled question by submission type
-
-            if (q?.extra) {
-              delete qVal.extra;
-              qVal = {
-                ...qVal,
-                ...q.extra,
-              };
-              if (q.extra?.allowOther) {
+              // set disabled new_or_monitoring question
+              if (
+                q?.default_value &&
+                !isEmpty(q?.default_value?.submission_type)
+              ) {
                 qVal = {
                   ...qVal,
-                  allowOtherText: "Enter any OTHER value",
+                  disabled: true,
                 };
               }
-              if (qVal?.type === "entity") {
+              // eol set disabled new_or_monitoring question
+
+              // support disabled question by submission type
+              if (
+                q?.disabled?.submission_type &&
+                !isEmpty(q?.disabled?.submission_type)
+              ) {
                 qVal = {
                   ...qVal,
-                  type: "cascade",
-                  extra: q?.extra,
+                  disabled: q.disabled.submission_type.includes(submissionType),
                 };
               }
-            }
-            return qVal;
-          });
+              // EOL support disabled question by submission type
+
+              // support hidden question by submission type
+              if (
+                q?.hidden?.submission_type &&
+                !isEmpty(q?.hidden?.submission_type)
+              ) {
+                const hidden =
+                  q.hidden.submission_type.includes(submissionType);
+                if (hidden) {
+                  setHiddenQIds((prev) => [...new Set([...prev, q.id])]);
+                }
+                qVal = {
+                  ...qVal,
+                  hidden: hidden,
+                };
+              }
+              // EOL support hidden question by submission type
+
+              if (q?.extra) {
+                delete qVal.extra;
+                qVal = {
+                  ...qVal,
+                  ...q.extra,
+                };
+                if (q.extra?.allowOther) {
+                  qVal = {
+                    ...qVal,
+                    allowOtherText: "Enter any OTHER value",
+                  };
+                }
+                if (qVal?.type === "entity") {
+                  qVal = {
+                    ...qVal,
+                    type: "cascade",
+                    extra: q?.extra,
+                  };
+                }
+              }
+              return qVal;
+            })
+            .filter((x) => !x?.hidden); // filter out hidden questions
           return {
             ...qg,
             question: questions,
