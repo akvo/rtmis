@@ -5,7 +5,7 @@ const db = conn.init;
 const TABLE_NAME = 'certifications';
 
 const certificationQuery = () => ({
-  syncForm: async ({ formId, formJSON }) => {
+  syncForm: async ({ formId, administrationId, formJSON }) => {
     const findQuery = query.read(TABLE_NAME, { uuid: formJSON.uuid });
     const { rows } = await conn.tx(db, findQuery, [formJSON.uuid]);
 
@@ -16,6 +16,7 @@ const certificationQuery = () => ({
       formId,
       uuid: formJSON.uuid,
       name: formJSON?.datapoint_name || null,
+      administrationId,
       json: formJSON?.answers ? JSON.stringify(formJSON.answers).replace(/'/g, "''") : null,
       syncedAt: new Date().toISOString(),
       isCertified,
@@ -37,15 +38,25 @@ const certificationQuery = () => ({
     const res = await conn.tx(db, queryText, params);
     return res;
   },
-  getTotal: async (formId, search) => {
-    const querySQL = search.length
-      ? `SELECT COUNT(*) AS count FROM ${TABLE_NAME} where formId = ? AND name LIKE ? COLLATE NOCASE`
+  getTotal: async (formId, search, administrationId) => {
+    let querySQL = search.length
+      ? `SELECT COUNT(*) AS count FROM ${TABLE_NAME} where formId = ? AND name LIKE ? COLLATE NOCASE `
       : `SELECT COUNT(*) AS count FROM ${TABLE_NAME} where formId = ? `;
     const params = search.length ? [formId, `%${search}%`] : [formId];
+    if (administrationId) {
+      querySQL += ' AND administrationId = ? ';
+      params.push(administrationId);
+    }
     const { rows } = await conn.tx(db, querySQL, params);
     return rows._array?.[0]?.count;
   },
-  getPagination: async ({ formId, search = '', limit = 10, offset = 0 }) => {
+  getPagination: async ({
+    formId,
+    search = '',
+    limit = 10,
+    offset = 0,
+    administrationId = null,
+  }) => {
     let sqlQuery = `SELECT * FROM ${TABLE_NAME} WHERE formId = $1`;
     const queryParams = [formId];
 
@@ -54,7 +65,12 @@ const certificationQuery = () => ({
       queryParams.push(`%${search}%`);
     }
 
-    sqlQuery += ' ORDER BY syncedAt DESC LIMIT $3 OFFSET $4';
+    if (administrationId) {
+      sqlQuery += ' AND administrationId = $3';
+      queryParams.push(administrationId);
+    }
+
+    sqlQuery += ' ORDER BY syncedAt DESC LIMIT $4 OFFSET $5';
     queryParams.push(limit, offset * limit);
     const { rows } = await conn.tx(db, sqlQuery, queryParams);
 
