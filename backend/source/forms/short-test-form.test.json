@@ -1104,6 +1104,35 @@
             "fnString": "#o_r_flyproof_toilet_type#",
             "multiline": false
           }
+        },
+        {
+          "id": 169995172789999,
+          "order": 3,
+          "name": "certification",
+          "label": "Do you certify the community?",
+          "short_label": null,
+          "type": "option",
+          "required": true,
+          "meta": false,
+          "options": [
+            {
+              "id": 1699951727899991,
+              "order": 1,
+              "label": "Yes",
+              "value": "yes",
+              "color": "green"
+            },
+            {
+              "id": 1699951727899992,
+              "order": 2,
+              "label": "No",
+              "value": "no",
+              "color": "red"
+            }
+          ],
+          "hidden": {
+            "submission_type": ["registration", "monitoring", "verification"]
+          }
         }
       ]
     }

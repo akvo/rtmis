@@ -152,6 +152,7 @@ const SyncService = () => {
           ];
         }
 
+        // console.log(apiURLs?.[0]?.url, 'is ip address same');
         await Promise.all(
           apiURLs.map(({ isCertification, ...u }) => downloadDatapointsJson(isCertification, u)),
         );

@@ -72,14 +72,19 @@ export const transformForm = (
       }
       return q;
     });
-  const filteredQuestions = questions.map((q) => {
-    const subTypeName = helpers.flipObject(SUBMISSION_TYPES)?.[submissionType];
-    const disabled = q?.disabled ? q.disabled?.submission_type?.includes(subTypeName) : false;
-    return {
-      ...q,
-      disabled,
-    };
-  });
+  const filteredQuestions = questions
+    .map((q) => {
+      const subTypeName = helpers.flipObject(SUBMISSION_TYPES)?.[submissionType];
+      const disabled = q?.disabled ? q.disabled?.submission_type?.includes(subTypeName) : false;
+      // handle hidden question
+      const hidden = q?.hidden ? q.hidden?.submission_type?.includes(subTypeName) : false;
+      return {
+        ...q,
+        disabled,
+        hidden,
+      };
+    })
+    .filter((q) => !q?.hidden); // remove hidden question from question lists
 
   const transformed = filteredQuestions.map((x) => {
     let requiredSignTemp = x?.requiredSign || null;

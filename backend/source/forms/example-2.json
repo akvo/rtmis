@@ -148,7 +148,9 @@
           "type": "text",
           "meta": true,
           "required": true,
-          "hidden": true
+          "hidden": {
+            "submission_type": ["registration"]
+          }
         },
         {
           "id": 209,
