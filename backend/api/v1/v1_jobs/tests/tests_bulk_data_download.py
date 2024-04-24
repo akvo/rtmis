@@ -13,7 +13,7 @@ class BulkUnitTestCase(TestCase):
     def setUp(self):
         call_command("form_seeder", "--test")
         call_command("administration_seeder", "--test")
-        call_command("demo_approval_flow")
+        call_command("demo_approval_flow", "--test", True)
         user = {"email": "admin@rush.com", "password": "Test105*"}
         user = self.client.post('/api/v1/login',
                                 user,
