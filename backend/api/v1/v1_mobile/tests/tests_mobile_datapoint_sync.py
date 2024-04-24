@@ -114,6 +114,7 @@ class MobileDataPointDownloadListTestCase(TestCase):
                 "administration_id",
                 "url",
                 "last_updated",
+                "is_certified",
             ],
         )
 

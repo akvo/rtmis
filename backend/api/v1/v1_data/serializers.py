@@ -1357,7 +1357,8 @@ class SubmitPendingFormSerializer(serializers.Serializer):
             if data.get("uuid"):
                 obj_data.uuid = data["uuid"]
             obj_data.save()
-            obj_data.save_to_file
+            if obj_data.submission_type not in direct_submission_types:
+                obj_data.save_to_file
 
         async_task("api.v1.v1_data.functions.refresh_materialized_data")
 

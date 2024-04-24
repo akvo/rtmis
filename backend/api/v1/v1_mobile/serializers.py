@@ -2,13 +2,14 @@ from typing import Any, Dict
 from rtmis.settings import WEBDOMAIN
 from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_field
-from api.v1.v1_forms.models import Forms
+from api.v1.v1_forms.models import Forms, SubmissionTypes
 from drf_spectacular.types import OpenApiTypes
 from api.v1.v1_mobile.authentication import MobileAssignmentToken
 from api.v1.v1_profile.models import Administration, Entity
 from api.v1.v1_profile.serializers import RelatedAdministrationField
 from utils.custom_serializer_fields import CustomCharField
 from api.v1.v1_mobile.models import MobileAssignment, MobileApk
+from api.v1.v1_data.models import FormData
 from utils.custom_helper import CustomPasscode, generate_random_string
 
 
@@ -19,6 +20,7 @@ class MobileDataPointDownloadListSerializer(serializers.Serializer):
     administration_id = serializers.IntegerField()
     url = serializers.SerializerMethodField()
     last_updated = serializers.SerializerMethodField()
+    is_certified = serializers.SerializerMethodField()
 
     @extend_schema_field(OpenApiTypes.URI)
     def get_url(self, obj):
@@ -27,6 +29,14 @@ class MobileDataPointDownloadListSerializer(serializers.Serializer):
     @extend_schema_field(OpenApiTypes.DATETIME)
     def get_last_updated(self, obj):
         return obj["updated"] if obj["updated"] else obj["created"]
+
+    @extend_schema_field(OpenApiTypes.BOOL)
+    def get_is_certified(self, obj):
+        certification = FormData.objects.filter(
+            uuid=obj["uuid"],
+            submission_type=SubmissionTypes.certification
+        ).first()
+        return True if certification else False
 
     class Meta:
         fields = [
