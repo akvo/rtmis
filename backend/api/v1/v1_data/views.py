@@ -181,6 +181,26 @@ class FormDataAddListView(APIView):
             .annotate(latest_id=Max("id"))
             .values_list("latest_id", flat=True)
         )
+        filter_data = {}
+        if serializer.validated_data.get("administration"):
+            filter_administration = serializer.validated_data.get(
+                "administration"
+            )
+            if filter_administration.path:
+                filter_path = "{0}{1}.".format(
+                    filter_administration.path, filter_administration.id
+                )
+            else:
+                filter_path = f"{filter_administration.id}."
+            filter_descendants = list(
+                Administration.objects.filter(
+                    path__startswith=filter_path
+                ).values_list("id", flat=True)
+            )
+            filter_descendants.append(filter_administration.id)
+
+            filter_data["administration_id__in"] = filter_descendants
+
         if int(submission_type) == SubmissionTypes.certification:
             user_path = "{0}{1}".format(
                 request.user.user_access.administration.path,
@@ -191,11 +211,12 @@ class FormDataAddListView(APIView):
             ).values("user_id")
             queryset = form.form_form_data.filter(
                 submission_type=submission_type, created_by__in=user_assignee
-            ).order_by("-created")
+            )
             if request.user.user_access.role == UserRoleTypes.super_admin:
                 queryset = form.form_form_data.filter(
                     submission_type=submission_type
-                ).order_by("-created")
+                )
+            queryset = queryset.filter(**filter_data).order_by("-created")
 
             instance = paginator.paginate_queryset(queryset, request)
             data = {
@@ -245,26 +266,7 @@ class FormDataAddListView(APIView):
             }
             return Response(data, status=status.HTTP_200_OK)
 
-        filter_data = {}
         filter_data["pk__in"] = latest_ids_per_uuid
-        if serializer.validated_data.get("administration"):
-            filter_administration = serializer.validated_data.get(
-                "administration"
-            )
-            if filter_administration.path:
-                filter_path = "{0}{1}.".format(
-                    filter_administration.path, filter_administration.id
-                )
-            else:
-                filter_path = f"{filter_administration.id}."
-            filter_descendants = list(
-                Administration.objects.filter(
-                    path__startswith=filter_path
-                ).values_list("id", flat=True)
-            )
-            filter_descendants.append(filter_administration.id)
-
-            filter_data["administration_id__in"] = filter_descendants
         # Advance filter
         data_ids = None
         if request.GET.getlist("options"):
