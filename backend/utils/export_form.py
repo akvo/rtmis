@@ -4,7 +4,11 @@ import pathlib
 import pandas as pd
 
 from api.v1.v1_forms.models import Forms, Questions
-from api.v1.v1_users.models import SystemUser
+
+
+meta_columns = ["id", "created_at", "created_by", "updated_at",
+                "updated_by", "datapoint_name", "administration",
+                "geolocation", "submission_type"]
 
 
 def get_definition(form: Forms):
@@ -88,6 +92,7 @@ def generate_definition_sheet(form: Forms, writer: pd.ExcelWriter):
         "dependency",
     ]
     df_questions = df[question_columns]
+    df_questions = df_questions.drop_duplicates()
     df_questions.to_excel(writer, sheet_name="questions", index=False)
     df_options = df[["name", "option", "option_label"]]
     df_options = df_options.dropna(subset=["option"])
@@ -102,15 +107,27 @@ def generate_definition_sheet(form: Forms, writer: pd.ExcelWriter):
     df_options.to_excel(writer, sheet_name="options", index=False)
 
 
-def generate_excel(form: Forms, user: SystemUser):
+def rearrange_definition_columns(col_names: list):
+    col_question = list(filter(lambda x: x not in meta_columns, col_names))
+    if len(col_question) == len(col_names):
+        return col_question
+    col_names = meta_columns + col_question
+    return col_names
+
+
+def generate_excel(form: Forms):
     questions = questions = (
         Questions.objects.filter(form=form)
         .order_by("question_group__order", "order")
         .all()
     )
     data = pd.DataFrame(
-        columns=["{0}|{1}".format(q.id, q.name) for q in questions], index=[0]
+        columns=[q.name for q in questions] + meta_columns,
+        index=[0]
     )
+    cols = list(data)
+    col_names = rearrange_definition_columns(cols)
+    data = data[col_names]
     form_name = form.name
     filename = f"{form.id}-{form_name}"
     directory = "tmp"
