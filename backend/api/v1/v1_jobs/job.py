@@ -273,6 +273,30 @@ def handle_administrations_bulk_upload(filename, user_id, upload_time):
     storage.download(f"upload/{filename}")
     file_path = f"./tmp/{filename}"
     errors = validate_administrations_bulk_upload(file_path)
+    xlsx = pd.ExcelFile(file_path)
+    if 'data' not in xlsx.sheet_names:
+        logger.error(f"Sheet 'data' not found in {filename}")
+        send_email(
+            context={
+                'send_to': [user.email],
+                'listing': [
+                    {
+                        'name': 'Upload Date',
+                        'value': upload_time.strftime('%m-%d-%Y, %H:%M:%S'),
+                    },
+                    {
+                        'name': 'Questionnaire',
+                        'value': 'Administrative List',
+                    },
+                    {
+                        'name': 'Error',
+                        'value': 'Sheet "data" not found',
+                    },
+                ]
+            },
+            type=EmailTypes.upload_error
+        )
+        return
     df = pd.read_excel(file_path, sheet_name='data')
     email_context = {
         'send_to': [user.email],
