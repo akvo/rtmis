@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import "./style.scss";
-import { Row, Col, Space, Button, Dropdown } from "antd";
+import { Row, Col, Space, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import AdministrationDropdown from "./AdministrationDropdown.js";
 import FormDropdown from "./FormDropdown.js";
@@ -26,12 +26,12 @@ const DataClaimFilters = ({
     return uiText[activeLang];
   }, [activeLang]);
 
-  const exportGenerate = ({ key }) => {
+  const exportGenerate = () => {
     setExporting(true);
     const adm_id = takeRight(administration, 1)[0]?.id;
     api
       .get(
-        `download/generate?form_id=${selectedForm}&administration_id=${adm_id}&type=${key}&submission_type=${submissionType}`
+        `download/generate?form_id=${selectedForm}&administration_id=${adm_id}&type=all&submission_type=${submissionType}`
       )
       .then(() => {
         notify({
@@ -50,23 +50,6 @@ const DataClaimFilters = ({
       });
   };
 
-  const downloadTypes = [
-    {
-      key: "all",
-      label: "All Data",
-      onClick: (param) => {
-        exportGenerate(param);
-      },
-    },
-    {
-      key: "recent",
-      label: "Latest Data",
-      onClick: (param) => {
-        exportGenerate(param);
-      },
-    },
-  ];
-
   return (
     <Row>
       <Col flex={1}>
@@ -76,11 +59,14 @@ const DataClaimFilters = ({
         </Space>
       </Col>
       <Col>
-        <Dropdown menu={{ items: downloadTypes }} placement="bottomRight">
-          <Button icon={<DownloadOutlined />} shape="round" loading={exporting}>
-            {text.download}
-          </Button>
-        </Dropdown>
+        <Button
+          icon={<DownloadOutlined />}
+          shape="round"
+          loading={exporting}
+          onClick={exportGenerate}
+        >
+          {text.download}
+        </Button>
       </Col>
     </Row>
   );
