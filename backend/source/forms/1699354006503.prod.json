@@ -1744,7 +1744,10 @@
             }
           ],
           "disabled": {
-            "submission_type": ["registration", "monitoring", "certification"]
+            "submission_type": ["certification"]
+          },
+          "hidden": {
+            "submission_type": ["registration", "monitoring"]
           }
         },
         {
@@ -1772,7 +1775,7 @@
               "color": "red"
             }
           ],
-          "disabled": {
+          "hidden": {
             "submission_type": ["registration", "monitoring", "verification"]
           }
         }
