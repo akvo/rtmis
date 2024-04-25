@@ -14,8 +14,8 @@ spec:
       labels:
         cronjob: rtmis-jobs
     spec:
-      backoffLimit: 6 # default
-      activeDeadlineSeconds: 600 # Fail job if it takes more than 10 mins
+      backoffLimit: 3 # default
+      activeDeadlineSeconds: 1800 # Fail job if it takes more than 30 mins
       template:
         metadata:
           labels:
@@ -71,9 +71,9 @@ spec:
             - name: backend
               image: eu.gcr.io/akvo-lumen/rtmis/backend:${CI_COMMIT}
               command:
-              - /bin/bash
-              - -c
-              - /app/job.sh;
+                - /bin/bash
+                - -c
+                - /app/job.sh;
               env:
                 - name: DB_SCHEMA
                   valueFrom:
