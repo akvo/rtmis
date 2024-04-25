@@ -1133,6 +1133,33 @@
           "hidden": {
             "submission_type": ["registration", "monitoring", "verification"]
           }
+        },
+        {
+          "id": 17029148103535,
+          "order": 4,
+          "name": "free_required_text",
+          "label": "Free Required Text in last question group",
+          "short_label": "Text Req",
+          "type": "text",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": null,
+          "meta_uuid": false
+        },
+        {
+          "id": 16994198103536,
+          "order": 5,
+          "name": "free_required_number",
+          "label": "Free Required Number in last question group",
+          "short_label": "Number Req",
+          "type": "number",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "fn": null
         }
       ]
     }
