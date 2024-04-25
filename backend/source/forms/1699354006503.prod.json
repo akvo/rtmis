@@ -65,7 +65,7 @@
             "submission_type": {
               "monitoring": "update",
               "registration": "new",
-              "verfication": "verification",
+              "verification": "verification",
               "certification": "certification"
             }
           }

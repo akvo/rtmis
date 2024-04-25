@@ -65,7 +65,7 @@
             "submission_type": {
               "monitoring": "update",
               "registration": "new",
-              "verfication": "verification",
+              "verification": "verification",
               "certification": "certification"
             }
           },
@@ -7384,7 +7384,11 @@
             },
             {
               "id": 1699435455818,
-              "options": ["g1_no_protection_no_bed_nets_and_no_insect_screen","g2_inadequate_protection_some_beds_without_nets_or_some_openings_unprotected","g3_malariasafe_home"]
+              "options": [
+                "g1_no_protection_no_bed_nets_and_no_insect_screen",
+                "g2_inadequate_protection_some_beds_without_nets_or_some_openings_unprotected",
+                "g3_malariasafe_home"
+              ]
             }
           ],
           "fn": {
@@ -7415,7 +7419,11 @@
             },
             {
               "id": 1699435526190,
-              "options": ["g1_no_deworming_no_children_or_adults_treated","g2_inadequate_deworming_some_children_or_adults_not_treated","g3_dewormed_home_all_treated_in_last_12_months"]
+              "options": [
+                "g1_no_deworming_no_children_or_adults_treated",
+                "g2_inadequate_deworming_some_children_or_adults_not_treated",
+                "g3_dewormed_home_all_treated_in_last_12_months"
+              ]
             }
           ],
           "fn": {
