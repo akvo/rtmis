@@ -1,4 +1,8 @@
 # Create your views here.
+import pandas as pd
+import os
+import pathlib
+
 from math import ceil
 from collections import defaultdict
 from datetime import datetime, date
@@ -1276,7 +1280,16 @@ class BatchCommentView(APIView):
 @permission_classes([IsAuthenticated])
 def export_form_data(request, version, form_id):
     form = get_object_or_404(Forms, pk=form_id)
-    filepath = blank_data_template(form=form)
+    form_name = form.name
+    filename = f"{form.id}-{form_name}"
+    directory = "tmp"
+    pathlib.Path(directory).mkdir(parents=True, exist_ok=True)
+    filepath = f"./{directory}/{filename}.xlsx"
+    if os.path.exists(filepath):
+        os.remove(filepath)
+    writer = pd.ExcelWriter(filepath, engine="xlsxwriter")
+    blank_data_template(form=form, writer=writer)
+    writer.save()
     filename = filepath.split("/")[-1].replace(" ", "-")
     zip_file = open(filepath, "rb")
     response = HttpResponse(

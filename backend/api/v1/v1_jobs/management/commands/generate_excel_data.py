@@ -3,16 +3,8 @@ import pandas as pd
 from django.core.management.base import BaseCommand
 
 from api.v1.v1_forms.models import Forms, SubmissionTypes
-from api.v1.v1_jobs.job import (
-    download_data,
-    generate_definition_sheet,
-)
+from api.v1.v1_jobs.job import generate_data_sheet
 from utils.storage import upload
-from utils.export_form import (
-    blank_data_template,
-    meta_columns,
-    get_question_names,
-)
 
 CRONJOB_RESULT_DIR = "cronjob_results"
 submission_types_obj = {
@@ -52,29 +44,17 @@ class Command(BaseCommand):
             print("Please provide form id")
             exit()
         form = Forms.objects.get(pk=form_id)
-        question_names = get_question_names(form=form)
         form_name = form.name.replace(" ", "_").lower()
-
-        data = download_data(
+        process_file = f"process-{form_name}.xlsx"
+        writer = pd.ExcelWriter(process_file, engine="xlsxwriter")
+        generate_data_sheet(
+            writer=writer,
             form=form,
             administration_ids=None,
             submission_type=submission_type,
             download_type=download_type
         )
-        process_file = f"process-{form_name}.xlsx"
-        if len(data):
-            df = pd.DataFrame(data)
-            for question_name in question_names:
-                if question_name not in df:
-                    df[question_name] = None
-            # Reorder columns
-            df = df[meta_columns + question_names]
-            writer = pd.ExcelWriter(process_file, engine='xlsxwriter')
-            df.to_excel(writer, sheet_name='data', index=False)
-            generate_definition_sheet(form=form, writer=writer)
-            writer.save()
-        else:
-            process_file = blank_data_template(form=form)
+        writer.save()
 
         out_file = "-".join(list(filter(lambda x: x, [
             form_name,

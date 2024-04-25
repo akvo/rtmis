@@ -1,6 +1,3 @@
-import os
-import pathlib
-
 import pandas as pd
 
 from api.v1.v1_forms.models import Forms, Questions
@@ -127,7 +124,7 @@ def rearrange_definition_columns(col_names: list):
     return col_names
 
 
-def blank_data_template(form: Forms):
+def blank_data_template(form: Forms, writer: pd.ExcelWriter):
     questions = questions = (
         Questions.objects.filter(form=form)
         .order_by("question_group__order", "order")
@@ -140,14 +137,6 @@ def blank_data_template(form: Forms):
     cols = list(data)
     col_names = rearrange_definition_columns(cols)
     data = data[col_names]
-    form_name = form.name
-    filename = f"{form.id}-{form_name}"
-    directory = "tmp"
-    pathlib.Path(directory).mkdir(parents=True, exist_ok=True)
-    filepath = f"./{directory}/{filename}.xlsx"
-    if os.path.exists(filepath):
-        os.remove(filepath)
-    writer = pd.ExcelWriter(filepath, engine="xlsxwriter")
     data.to_excel(
         writer, sheet_name="data", startrow=1, header=False, index=False
     )
@@ -159,5 +148,3 @@ def blank_data_template(form: Forms):
     for col_num, value in enumerate(data.columns.values):
         worksheet.write(0, col_num, value, header_format)
     generate_definition_sheet(form=form, writer=writer)
-    writer.save()
-    return filepath
