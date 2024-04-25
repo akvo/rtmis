@@ -9,7 +9,7 @@ from api.v1.v1_jobs.job import (
 )
 from utils.storage import upload
 from utils.export_form import (
-    generate_excel,
+    blank_data_template,
     meta_columns,
     get_question_names,
 )
@@ -74,7 +74,7 @@ class Command(BaseCommand):
             generate_definition_sheet(form=form, writer=writer)
             writer.save()
         else:
-            process_file = generate_excel(form=form)
+            process_file = blank_data_template(form=form)
 
         out_file = "-".join(list(filter(lambda x: x, [
             form_name,

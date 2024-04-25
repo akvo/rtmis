@@ -96,7 +96,7 @@ from utils.custom_permissions import (
 )
 from utils.custom_serializer_fields import validate_serializers_message
 from utils.default_serializers import DefaultResponseSerializer
-from utils.export_form import generate_excel
+from utils.export_form import blank_data_template
 
 period_length = 60 * 15
 
@@ -1276,7 +1276,7 @@ class BatchCommentView(APIView):
 @permission_classes([IsAuthenticated])
 def export_form_data(request, version, form_id):
     form = get_object_or_404(Forms, pk=form_id)
-    filepath = generate_excel(form=form)
+    filepath = blank_data_template(form=form)
     filename = filepath.split("/")[-1].replace(" ", "-")
     zip_file = open(filepath, "rb")
     response = HttpResponse(

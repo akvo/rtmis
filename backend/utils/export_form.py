@@ -127,7 +127,7 @@ def rearrange_definition_columns(col_names: list):
     return col_names
 
 
-def generate_excel(form: Forms):
+def blank_data_template(form: Forms):
     questions = questions = (
         Questions.objects.filter(form=form)
         .order_by("question_group__order", "order")
