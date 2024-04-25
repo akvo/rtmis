@@ -71,9 +71,10 @@ class Command(BaseCommand):
 
         out_file = "-".join(list(filter(lambda x: x, [
             form_name,
-            options.get("submission"),
-            download_type,
+            options.get("submission") or "routine",
+            "recent" if options.get("latest") else None,
         ])))
+
         out_file = f"{out_file}.xlsx"
 
         url = upload(
