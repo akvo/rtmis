@@ -1131,7 +1131,7 @@
             }
           ],
           "hidden": {
-            "submission_type": ["registration", "monitoring", "verification"]
+            "submission_type": ["registration", "monitoring"]
           }
         },
         {
