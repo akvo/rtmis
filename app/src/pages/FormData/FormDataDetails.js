@@ -56,7 +56,11 @@ const SubtitleContent = ({ index, answers, type, id, source, option }) => {
         })
         ?.join(', ');
     default:
-      return <Text testID={`text-answer-${index}`}>{answers?.[id] || '-'}</Text>;
+      return (
+        <Text testID={`text-answer-${index}`}>
+          {answers?.[id] || answers?.[id] === 0 ? answers[id] : '-'}
+        </Text>
+      );
   }
 };
 
