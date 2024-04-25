@@ -30,7 +30,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from api.v1.v1_forms.models import FormApprovalAssignment
 from api.v1.v1_data.models import PendingDataApproval
-from api.v1.v1_profile.constants import UserRoleTypes
+from api.v1.v1_profile.constants import UserRoleTypes, OrganisationTypes
 from api.v1.v1_profile.models import Access, Administration, Levels
 from api.v1.v1_users.models import (
     SystemUser,
@@ -52,6 +52,7 @@ from api.v1.v1_users.serializers import (
     ForgotPasswordSerializer,
     OrganisationListSerializer,
     AddEditOrganisationSerializer,
+    OrganisationAttributeChildrenSerializer,
 )
 
 from api.v1.v1_users.functions import (
@@ -834,3 +835,47 @@ class OrganisationEditDeleteView(APIView):
             {"message": "Organisation updated successfully"},
             status=status.HTTP_200_OK,
         )
+
+
+@extend_schema(
+    responses={200: OrganisationAttributeChildrenSerializer},
+    parameters=[
+        OpenApiParameter(
+            name="attribute",
+            required=True,
+            enum=OrganisationTypes.FieldStr.keys(),
+            type=OpenApiTypes.NUMBER,
+            location=OpenApiParameter.QUERY,
+        ),
+        OpenApiParameter(
+            name="selected_id",
+            required=False,
+            location=OpenApiParameter.PATH,
+            type=OpenApiTypes.NUMBER,
+            description="ID of the selected organization (optional)"
+        )
+    ],
+    tags=["Organisation"],
+    summary="Get list of organisations for webform options",
+)
+@api_view(["GET"])
+def list_organisation_options(request, version, selected_id=None):
+    attribute = request.GET.get("attribute")
+    if selected_id:
+        return Response(
+            {
+                "type_id": attribute,
+                "name": selected_id,
+                "children": []
+            },
+            status=status.HTTP_200_OK,
+        )
+    instance = None
+    if attribute:
+        instance = OrganisationAttribute.objects.filter(
+            type=attribute
+        ).first()
+    return Response(
+        OrganisationAttributeChildrenSerializer(instance=instance).data,
+        status=status.HTTP_200_OK,
+    )

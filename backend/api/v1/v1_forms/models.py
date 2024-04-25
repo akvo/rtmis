@@ -135,7 +135,7 @@ class Questions(models.Model):
     tooltip = models.JSONField(default=None, null=True)
     fn = models.JSONField(default=None, null=True)
     pre = models.JSONField(default=None, null=True)
-    hidden = models.BooleanField(default=False, null=True)
+    hidden = models.JSONField(default=None, null=True)
     display_only = models.BooleanField(default=False, null=True)
     default_value = models.JSONField(default=None, null=True)
     meta_uuid = models.BooleanField(default=False, null=True)

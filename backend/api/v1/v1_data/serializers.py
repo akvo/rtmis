@@ -195,7 +195,10 @@ class SubmitFormSerializer(serializers.Serializer):
                 if "organisation" in ep:
                     val = Organisation.objects.filter(pk=id).first()
                     val = val.name
-                else:
+                if "entity-data" in ep:
+                    val = EntityData.objects.filter(pk=id).first()
+                    val = val.name
+                if "entity-data" not in ep and "organisation" not in ep:
                     ep = ep.split("?")[0]
                     ep = f"{ep}?id={id}"
                     val = requests.get(ep).json()
@@ -1308,7 +1311,10 @@ class SubmitPendingFormSerializer(serializers.Serializer):
                     if "organisation" in ep:
                         val = Organisation.objects.filter(pk=id).first()
                         val = val.name
-                    else:
+                    if "entity-data" in ep:
+                        val = EntityData.objects.filter(pk=id).first()
+                        val = val.name
+                    if "entity-data" not in ep and "organisation" not in ep:
                         ep = ep.split("?")[0]
                         ep = f"{ep}?id={id}"
                         val = requests.get(ep).json()
@@ -1351,7 +1357,8 @@ class SubmitPendingFormSerializer(serializers.Serializer):
             if data.get("uuid"):
                 obj_data.uuid = data["uuid"]
             obj_data.save()
-            obj_data.save_to_file
+            if obj_data.submission_type not in direct_submission_types:
+                obj_data.save_to_file
 
         async_task("api.v1.v1_data.functions.refresh_materialized_data")
 

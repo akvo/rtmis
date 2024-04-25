@@ -254,9 +254,13 @@
           "meta": false,
           "required": false,
           "type": "cascade",
+          "api": {
+            "endpoint": "/api/v1/entity-data/1/list/"
+          },
           "extra": {
             "type": "entity",
-            "name": "School"
+            "name": "School",
+            "parentId": 1701757876670
           },
           "disabled": {
             "submission_type": ["monitoring", "verification", "certification"]

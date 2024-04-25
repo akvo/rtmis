@@ -28,7 +28,7 @@ class PendingDataTestCase(TestCase):
                                          admin_payload,
                                          content_type='application/json')
         self.token = user_response.json().get('token')
-        call_command('demo_approval_flow')
+        call_command('demo_approval_flow', "--test")
 
     def tests_pending_data(self):
         call_command('fake_pending_data_seeder', '-r', 1, '-t', True, '-b', 1)

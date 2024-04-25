@@ -13,9 +13,11 @@ from api.v1.v1_users.views import (
     UserEditDeleteView,
     forgot_password,
     list_organisations,
+    list_organisation_options,
     add_organisation,
     OrganisationEditDeleteView,
 )
+from api.v1.v1_profile.views import list_entity_data
 
 urlpatterns = [
     re_path(r"^(?P<version>(v1))/levels", list_levels),
@@ -39,8 +41,19 @@ urlpatterns = [
     ),
     re_path(r"^(?P<version>(v1))/organisations", list_organisations),
     re_path(
+        r"^(?P<version>(v1))/organisation/options/(?P<selected_id>[0-9]+)?",
+        list_organisation_options
+    ),
+    re_path(
         r"^(?P<version>(v1))/organisation/(?P<organisation_id>[0-9]+)",
         OrganisationEditDeleteView.as_view(),
     ),
     re_path(r"^(?P<version>(v1))/organisation", add_organisation),
+    re_path(
+        (
+            r"^(?P<version>(v1))/entity-data/"
+            r"(?P<entity_id>[0-9]+)/list/(?P<administration_id>[0-9]+)"
+        ),
+        list_entity_data,
+    ),
 ]

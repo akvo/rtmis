@@ -15,6 +15,12 @@
         font-weight: bold;
         color: green;
         text-transform: capitalize;
+        &.certification {
+          color: #ea580c;
+        }
+        &.verification {
+          color: #ca8a04;
+        }
       }
     }
     .ant-layout {

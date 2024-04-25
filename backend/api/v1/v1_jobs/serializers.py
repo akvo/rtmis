@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 from drf_spectacular.utils import extend_schema_field
 from drf_spectacular.types import OpenApiTypes
-from api.v1.v1_forms.models import Forms
+from api.v1.v1_forms.models import Forms, SubmissionTypes
 from api.v1.v1_jobs.constants import JobTypes, JobStatus, DataDownloadTypes
 from api.v1.v1_jobs.models import Jobs
 from api.v1.v1_profile.models import Administration, AdministrationAttribute
@@ -23,6 +23,9 @@ class DownloadDataRequestSerializer(serializers.Serializer):
         choices=[
             DataDownloadTypes.FieldStr[d] for d in DataDownloadTypes.FieldStr
         ]
+    )
+    submission_type = CustomChoiceField(
+        choices=SubmissionTypes.FieldStr, required=False
     )
 
     def __init__(self, **kwargs):

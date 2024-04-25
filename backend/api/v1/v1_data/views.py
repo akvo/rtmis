@@ -175,6 +175,32 @@ class FormDataAddListView(APIView):
         submission_type = request.GET.get(
             "submission_type", SubmissionTypes.registration
         )
+        latest_ids_per_uuid = (
+            form.form_form_data.filter(submission_type=submission_type)
+            .values("uuid")
+            .annotate(latest_id=Max("id"))
+            .values_list("latest_id", flat=True)
+        )
+        filter_data = {}
+        if serializer.validated_data.get("administration"):
+            filter_administration = serializer.validated_data.get(
+                "administration"
+            )
+            if filter_administration.path:
+                filter_path = "{0}{1}.".format(
+                    filter_administration.path, filter_administration.id
+                )
+            else:
+                filter_path = f"{filter_administration.id}."
+            filter_descendants = list(
+                Administration.objects.filter(
+                    path__startswith=filter_path
+                ).values_list("id", flat=True)
+            )
+            filter_descendants.append(filter_administration.id)
+
+            filter_data["administration_id__in"] = filter_descendants
+
         if int(submission_type) == SubmissionTypes.certification:
             user_path = "{0}{1}".format(
                 request.user.user_access.administration.path,
@@ -185,7 +211,13 @@ class FormDataAddListView(APIView):
             ).values("user_id")
             queryset = form.form_form_data.filter(
                 submission_type=submission_type, created_by__in=user_assignee
-            ).order_by("-created")
+            )
+            if request.user.user_access.role == UserRoleTypes.super_admin:
+                queryset = form.form_form_data.filter(
+                    submission_type=submission_type
+                )
+            queryset = queryset.filter(**filter_data).order_by("-created")
+
             instance = paginator.paginate_queryset(queryset, request)
             data = {
                 "current": int(request.GET.get("page", "1")),
@@ -208,7 +240,17 @@ class FormDataAddListView(APIView):
                     submission_type,
                     SubmissionTypes.registration,
                 ],
-            ).order_by("-created")
+            )
+            if int(submission_type) == SubmissionTypes.verification:
+                queryset = form.form_form_data.filter(
+                    uuid=parent.uuid,
+                    submission_type=SubmissionTypes.registration,
+                )
+                # filter by latest ids to prevent multi verification data
+                queryset |= form.form_form_data.filter(
+                    pk=latest_ids_per_uuid[0]
+                )
+            queryset = queryset.order_by("-created")
             instance = paginator.paginate_queryset(queryset, request)
             data = {
                 "current": int(request.GET.get("page", "1")),
@@ -224,32 +266,7 @@ class FormDataAddListView(APIView):
             }
             return Response(data, status=status.HTTP_200_OK)
 
-        filter_data = {}
-        latest_ids_per_uuid = (
-            form.form_form_data.filter(submission_type=submission_type)
-            .values("uuid")
-            .annotate(latest_id=Max("id"))
-            .values_list("latest_id", flat=True)
-        )
         filter_data["pk__in"] = latest_ids_per_uuid
-        if serializer.validated_data.get("administration"):
-            filter_administration = serializer.validated_data.get(
-                "administration"
-            )
-            if filter_administration.path:
-                filter_path = "{0}{1}.".format(
-                    filter_administration.path, filter_administration.id
-                )
-            else:
-                filter_path = f"{filter_administration.id}."
-            filter_descendants = list(
-                Administration.objects.filter(
-                    path__startswith=filter_path
-                ).values_list("id", flat=True)
-            )
-            filter_descendants.append(filter_administration.id)
-
-            filter_data["administration_id__in"] = filter_descendants
         # Advance filter
         data_ids = None
         if request.GET.getlist("options"):
@@ -1268,7 +1285,7 @@ class BatchCommentView(APIView):
 @permission_classes([IsAuthenticated])
 def export_form_data(request, version, form_id):
     form = get_object_or_404(Forms, pk=form_id)
-    filepath = generate_excel(form=form, user=SystemUser.objects.first())
+    filepath = generate_excel(form=form)
     filename = filepath.split("/")[-1].replace(" ", "-")
     zip_file = open(filepath, "rb")
     response = HttpResponse(

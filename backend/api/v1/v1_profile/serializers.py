@@ -356,3 +356,9 @@ class DownloadEntityDataRequestSerializer(serializers.Serializer):
                 int(entity_id) for entity_id in entity_ids.split(",")
             ]
         return representation
+
+
+class ListEntityDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EntityData
+        fields = ["id", "code", "name"]

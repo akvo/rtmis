@@ -921,6 +921,12 @@ const config = {
     verification: 3,
     certification: 4,
   },
+  submissionTypeColor: {
+    registration: "#2563eb",
+    monitoring: "#0891b2",
+    verification: "#ca8a04",
+    certification: "#ea580c",
+  },
 };
 
 export default config;

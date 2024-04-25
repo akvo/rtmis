@@ -65,7 +65,7 @@
             "submission_type": {
               "monitoring": "update",
               "registration": "new",
-              "verfication": "verification",
+              "verification": "verification",
               "certification": "certification"
             }
           }
@@ -217,7 +217,9 @@
           "required": true,
           "type": "cascade",
           "api": {
-            "endpoint": "/api/v1/organisations?attributes=2"
+            "endpoint": "/api/v1/organisation/options/",
+            "list": "children",
+            "query_params": "?attribute=2"
           }
         },
         {
@@ -1665,9 +1667,6 @@
           "displayOnly": false,
           "required": false,
           "meta": false,
-          "rule": {
-            "min": 1
-          },
           "options": null,
           "fn": {
             "fnColor": {},
@@ -1744,12 +1743,10 @@
             }
           ],
           "disabled": {
-            "submission_type": ["registration", "monitoring", "certification"]
+            "submission_type": ["certification"]
           },
-          "default_value": {
-            "registration": null,
-            "monitoring": null,
-            "certification": null
+          "hidden": {
+            "submission_type": ["registration", "monitoring"]
           }
         },
         {
@@ -1777,13 +1774,8 @@
               "color": "red"
             }
           ],
-          "disabled": {
+          "hidden": {
             "submission_type": ["registration", "monitoring", "verification"]
-          },
-          "default_value": {
-            "registration": null,
-            "monitoring": null,
-            "verification": null
           }
         }
       ]

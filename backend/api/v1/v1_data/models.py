@@ -78,6 +78,8 @@ class FormData(models.Model):
             "updated_at": self.updated.strftime("%B %d, %Y %I:%M %p")
             if self.updated
             else None,
+            "submission_type":
+            SubmissionTypes().FieldStr[self.submission_type],
         }
         for a in self.data_answer.order_by(
             "question__question_group_id", "question__order"

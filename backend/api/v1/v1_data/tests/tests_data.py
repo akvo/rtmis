@@ -215,7 +215,7 @@ class DataTestCase(TestCase):
                                          content_type='application/json')
         token = user_response.json().get('token')
         call_command("form_seeder", "--test")
-        call_command("demo_approval_flow")
+        call_command("demo_approval_flow", "--test", True)
         call_command("fake_data_seeder", "-r", 1, "-t", True)
         call_command(
             "fake_data_monitoring_seeder",

@@ -22,7 +22,6 @@ class FormApprovalTestCase(TestCase):
         token = user.get("token")
         self.header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
         self.org = Organisation.objects.order_by('?').first()
-        # call_command("demo_approval_flow")
         self.form = Forms.objects.filter(type=1).first()
 
     def test_add_approval(self):
