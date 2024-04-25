@@ -138,7 +138,6 @@ class FormSeederTestCase(TestCase):
                             "submission_type": [
                                 "registration",
                                 "monitoring",
-                                "verification",
                             ]
                         },
                         q["hidden"],
