@@ -198,7 +198,7 @@ class SubmitFormSerializer(serializers.Serializer):
                 if "entity-data" in ep:
                     val = EntityData.objects.filter(pk=id).first()
                     val = val.name
-                else:
+                if "entity-data" not in ep and "organisation" not in ep:
                     ep = ep.split("?")[0]
                     ep = f"{ep}?id={id}"
                     val = requests.get(ep).json()
@@ -1314,7 +1314,7 @@ class SubmitPendingFormSerializer(serializers.Serializer):
                     if "entity-data" in ep:
                         val = EntityData.objects.filter(pk=id).first()
                         val = val.name
-                    else:
+                    if "entity-data" not in ep and "organisation" not in ep:
                         ep = ep.split("?")[0]
                         ep = f"{ep}?id={id}"
                         val = requests.get(ep).json()

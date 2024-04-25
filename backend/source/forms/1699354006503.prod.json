@@ -217,7 +217,9 @@
           "required": true,
           "type": "cascade",
           "api": {
-            "endpoint": "/api/v1/organisations?attributes=2"
+            "endpoint": "/api/v1/organisation/options/",
+            "list": "children",
+            "query_params": "?attribute=2"
           }
         },
         {
@@ -1665,9 +1667,6 @@
           "displayOnly": false,
           "required": false,
           "meta": false,
-          "rule": {
-            "min": 1
-          },
           "options": null,
           "fn": {
             "fnColor": {},
