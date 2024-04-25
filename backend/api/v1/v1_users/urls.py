@@ -13,6 +13,7 @@ from api.v1.v1_users.views import (
     UserEditDeleteView,
     forgot_password,
     list_organisations,
+    list_organisation_options,
     add_organisation,
     OrganisationEditDeleteView,
 )
@@ -39,6 +40,10 @@ urlpatterns = [
         r"^(?P<version>(v1))/invitation/(?P<invitation_id>.*)$", verify_invite
     ),
     re_path(r"^(?P<version>(v1))/organisations", list_organisations),
+    re_path(
+        r"^(?P<version>(v1))/organisation/options/(?P<selected_id>[0-9]+)?",
+        list_organisation_options
+    ),
     re_path(
         r"^(?P<version>(v1))/organisation/(?P<organisation_id>[0-9]+)",
         OrganisationEditDeleteView.as_view(),
