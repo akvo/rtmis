@@ -241,15 +241,6 @@ class FormDataAddListView(APIView):
                     SubmissionTypes.registration,
                 ],
             )
-            if int(submission_type) == SubmissionTypes.verification:
-                queryset = form.form_form_data.filter(
-                    uuid=parent.uuid,
-                    submission_type=SubmissionTypes.registration,
-                )
-                # filter by latest ids to prevent multi verification data
-                queryset |= form.form_form_data.filter(
-                    pk=latest_ids_per_uuid[0]
-                )
             queryset = queryset.order_by("-created")
             instance = paginator.paginate_queryset(queryset, request)
             data = {
