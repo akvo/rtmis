@@ -4,7 +4,7 @@ from django.core.management.base import BaseCommand
 
 from api.v1.v1_forms.models import Forms, SubmissionTypes
 from api.v1.v1_jobs.job import (
-    download,
+    download_data,
     generate_definition_sheet,
 )
 from utils.storage import upload
@@ -55,7 +55,7 @@ class Command(BaseCommand):
         question_names = get_question_names(form=form)
         form_name = form.name.replace(" ", "_").lower()
 
-        data = download(
+        data = download_data(
             form=form,
             administration_ids=None,
             submission_type=submission_type,

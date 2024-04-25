@@ -40,7 +40,7 @@ from utils.custom_generator import generate_sqlite
 logger = logging.getLogger(__name__)
 
 
-def download(
+def download_data(
     form: Forms,
     administration_ids,
     download_type="all",
@@ -95,7 +95,7 @@ def job_generate_data_download(job_id, **kwargs):
     form = Forms.objects.get(pk=job.info.get('form_id'))
     download_type = kwargs.get('download_type')
     submission_type = kwargs.get('submission_type')
-    data = download(
+    data = download_data(
         form=form,
         administration_ids=administration_ids,
         download_type=download_type,
