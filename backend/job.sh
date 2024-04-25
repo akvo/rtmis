@@ -12,7 +12,7 @@ for file in "$dir"/*.prod.json; do
     ./manage.py generate_excel_data "$form_id"
     ./manage.py generate_excel_data "$form_id" --submission="verification"
     ./manage.py generate_excel_data "$form_id" --submission="certification"
-    sleep 2
+    sleep 5
 done
 echo "FINISHED"
 
@@ -25,6 +25,7 @@ echo "<html>" >"$output_html"
 echo "<head><title>File List</title></head>" >>"$output_html"
 echo "<body>" >>"$output_html"
 echo "<h1>List of Files</h1>" >>"$output_html"
+echo "<h2>Last updated: $(date)</h2>" >>"$output_html"
 echo "<ul>" >>"$output_html"
 for file in "$cron_dir"/*.xlsx; do
     filename=$(basename "$file")
