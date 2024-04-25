@@ -67,7 +67,7 @@ def download(
     return [d.to_data_frame for d in data.order_by('id')]
 
 
-def job_generate_download(job_id, **kwargs):
+def job_generate_data_download(job_id, **kwargs):
     job = Jobs.objects.get(pk=job_id)
     file_path = './tmp/{0}'.format(job.result)
     if os.path.exists(file_path):
@@ -145,7 +145,7 @@ def job_generate_download(job_id, **kwargs):
     return url
 
 
-def job_generate_download_result(task):
+def job_generate_data_download_result(task):
     job = Jobs.objects.get(task_id=task.id)
     job.attempt = job.attempt + 1
     if task.success:
