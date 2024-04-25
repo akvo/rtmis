@@ -44,7 +44,7 @@ def generate_template(
     writer.save()
 
 
-def generate_excel(
+def generate_administration_excel(
     user: SystemUser,
     attributes: List[int] = [],
 ):
