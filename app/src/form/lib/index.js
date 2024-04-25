@@ -257,7 +257,14 @@ export const getDurationInMinutes = (startTime) => {
 const transformValue = (question, value, prefilled = []) => {
   const findPrefilled = prefilled.find((p) => p?.id === question?.id);
   const defaultEmpty = ['multiple_option', 'option'].includes(question?.type) ? [] : '';
-  const answer = value || findPrefilled?.answer || defaultEmpty;
+  let answer = defaultEmpty;
+  if (value || value === 0) {
+    answer = value;
+  }
+  if (findPrefilled?.answer) {
+    answer = findPrefilled.answer;
+  }
+
   if (question?.type === 'cascade') {
     return [answer];
   }
