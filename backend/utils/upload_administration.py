@@ -44,7 +44,7 @@ def generate_template(
     writer.save()
 
 
-def generate_excel(
+def generate_administration_excel(
     user: SystemUser,
     attributes: List[int] = [],
 ):
@@ -62,12 +62,12 @@ def generate_excel(
 
 
 def generate_administration_template(
-    job_result: str,
+    file_path: str,
     attributes: List[int] = [],
     level: int = None,
     adm_id: int = None,
 ):
-    file_path = "./tmp/{0}".format(job_result.replace("/", "_"))
+    file_path = "./tmp/{0}".format(file_path.replace("/", "_"))
     if os.path.exists(file_path):
         os.remove(file_path)
     level_headers = [

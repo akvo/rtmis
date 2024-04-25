@@ -3,13 +3,8 @@ import pandas as pd
 from django.core.management.base import BaseCommand
 
 from api.v1.v1_forms.models import Forms, SubmissionTypes
-from api.v1.v1_jobs.job import (
-    download,
-    rearrange_definition_columns,
-    generate_definition_sheet,
-)
+from api.v1.v1_jobs.job import generate_data_sheet
 from utils.storage import upload
-from utils.export_form import generate_excel
 
 CRONJOB_RESULT_DIR = "cronjob_results"
 submission_types_obj = {
@@ -50,24 +45,16 @@ class Command(BaseCommand):
             exit()
         form = Forms.objects.get(pk=form_id)
         form_name = form.name.replace(" ", "_").lower()
-
-        data = download(
+        process_file = f"process-{form_name}.xlsx"
+        writer = pd.ExcelWriter(process_file, engine="xlsxwriter")
+        generate_data_sheet(
+            writer=writer,
             form=form,
             administration_ids=None,
             submission_type=submission_type,
             download_type=download_type
         )
-        process_file = f"process-{form_name}.xlsx"
-        if len(data):
-            df = pd.DataFrame(data)
-            col_names = rearrange_definition_columns(list(df))
-            df = df[col_names]
-            writer = pd.ExcelWriter(process_file, engine='xlsxwriter')
-            df.to_excel(writer, sheet_name='data', index=False)
-            generate_definition_sheet(form=form, writer=writer)
-            writer.save()
-        else:
-            process_file = generate_excel(form=form)
+        writer.save()
 
         out_file = "-".join(list(filter(lambda x: x, [
             form_name,

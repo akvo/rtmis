@@ -3,7 +3,9 @@ from django.test import TestCase
 from django.test.utils import override_settings
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_jobs.models import Jobs
-from api.v1.v1_jobs.job import job_generate_download
+from api.v1.v1_jobs.job import (
+    job_generate_data_download,
+)
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.constants import UserRoleTypes
 
@@ -36,8 +38,10 @@ class JobDownloadUnitTestCase(TestCase):
             "-t",
             "all",
         )
-        job = Jobs.objects.get(pk=result)
         self.assertTrue(result)
+
+        job = Jobs.objects.get(pk=result)
         self.assertEqual(job.info.get("download_type"), "all")
-        url = job_generate_download(job_id=job.id, **job.info)
+
+        url = job_generate_data_download(job_id=job.id, **job.info)
         self.assertTrue("download-test_form" in url)
