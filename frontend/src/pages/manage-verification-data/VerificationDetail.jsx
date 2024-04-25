@@ -114,6 +114,16 @@ const VerificationDetail = () => {
     }
   }, [form, currentPage, updateRecord, parentId]);
 
+  useEffect(() => {
+    if (form && window?.forms?.length && questionGroups.length === 0) {
+      store.update((s) => {
+        s.questionGroups = window.forms.find(
+          (f) => `${f?.id}` === form
+        )?.content?.question_group;
+      });
+    }
+  }, [questionGroups, form]);
+
   return (
     <div id="manageData">
       <div className="description-container">
