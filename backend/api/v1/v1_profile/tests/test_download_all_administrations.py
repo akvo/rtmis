@@ -1,7 +1,5 @@
 from io import StringIO
 
-import uuid
-from django.utils import timezone
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.core.management import call_command
