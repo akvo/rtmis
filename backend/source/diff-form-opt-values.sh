@@ -10,7 +10,7 @@ for file in "$dir"/*.prod.json; do
         continue
     fi
     csv_file="${output_dir}/${issue_number}-$(basename "${file}" .prod.json).csv"
-    echo "current, previous" >"${csv_file}"
+    echo "current, next" >"${csv_file}"
     git diff --word-diff develop..HEAD -- "${file}" \
 			| grep "value" | sed 's/"value"\:\ //g' \
 			| sed s/\",/\"/g | sed 's/^ *//g' \
