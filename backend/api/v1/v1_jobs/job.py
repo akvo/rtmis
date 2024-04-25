@@ -31,7 +31,9 @@ from utils import storage
 from utils.email_helper import send_email, EmailTypes
 from utils.export_form import (
     generate_definition_sheet,
-    rearrange_definition_columns
+    get_question_names,
+    blank_data_template,
+    meta_columns,
 )
 from utils.functions import update_date_time_format
 from utils.storage import upload
@@ -40,7 +42,7 @@ from utils.custom_generator import generate_sqlite
 logger = logging.getLogger(__name__)
 
 
-def download(
+def download_data(
     form: Forms,
     administration_ids,
     download_type="all",
@@ -67,7 +69,34 @@ def download(
     return [d.to_data_frame for d in data.order_by('id')]
 
 
-def job_generate_download(job_id, **kwargs):
+def generate_data_sheet(
+    writer: pd.ExcelWriter,
+    form: Forms,
+    administration_ids=None,
+    submission_type: SubmissionTypes = None,
+    download_type: str = "all",
+) -> None:
+    question_names = get_question_names(form=form)
+    data = download_data(
+        form=form,
+        administration_ids=None,
+        submission_type=submission_type,
+        download_type=download_type
+    )
+    if len(data):
+        df = pd.DataFrame(data)
+        for question_name in question_names:
+            if question_name not in df:
+                df[question_name] = None
+        # Reorder columns
+        df = df[meta_columns + question_names]
+        df.to_excel(writer, sheet_name='data', index=False)
+        generate_definition_sheet(form=form, writer=writer)
+    else:
+        blank_data_template(form=form, writer=writer)
+
+
+def job_generate_data_download(job_id, **kwargs):
     job = Jobs.objects.get(pk=job_id)
     file_path = './tmp/{0}'.format(job.result)
     if os.path.exists(file_path):
@@ -95,18 +124,16 @@ def job_generate_download(job_id, **kwargs):
     form = Forms.objects.get(pk=job.info.get('form_id'))
     download_type = kwargs.get('download_type')
     submission_type = kwargs.get('submission_type')
-    data = download(
+    writer = pd.ExcelWriter(file_path, engine='xlsxwriter')
+
+    generate_data_sheet(
+        writer=writer,
         form=form,
         administration_ids=administration_ids,
-        download_type=download_type,
         submission_type=submission_type,
+        download_type=download_type,
     )
-    df = pd.DataFrame(data)
-    col_names = rearrange_definition_columns(list(df))
-    df = df[col_names]
-    writer = pd.ExcelWriter(file_path, engine='xlsxwriter')
-    df.to_excel(writer, sheet_name='data', index=False)
-    generate_definition_sheet(form=form, writer=writer)
+
     context = [{
         "context": "Form Name",
         "value": form.name
@@ -145,7 +172,7 @@ def job_generate_download(job_id, **kwargs):
     return url
 
 
-def job_generate_download_result(task):
+def job_generate_data_download_result(task):
     job = Jobs.objects.get(task_id=task.id)
     job.attempt = job.attempt + 1
     if task.success:

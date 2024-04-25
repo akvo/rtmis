@@ -39,6 +39,7 @@ const UpdateForm = ({ navigation, route }) => {
     navigation.navigate('FormPage', {
       ...route.params,
       newSubmission: true,
+      uuid: item?.uuid,
     });
   };
 

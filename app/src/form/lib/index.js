@@ -170,7 +170,8 @@ export const validateDependency = (dependency, value) => {
 };
 
 export const generateValidationSchemaFieldLevel = async (currentValue, field) => {
-  const { label, type, required, rule, hidden } = field;
+  const { label, type, required, rule } = field;
+  const requiredError = `${label} is required.`;
   let yupType;
   switch (type) {
     case 'number':
@@ -192,9 +193,15 @@ export const generateValidationSchemaFieldLevel = async (currentValue, field) =>
       break;
     case 'option':
       yupType = Yup.array();
+      if (required) {
+        yupType = Yup.array().min(1, requiredError);
+      }
       break;
     case 'multiple_option':
       yupType = Yup.array();
+      if (required) {
+        yupType = Yup.array().min(1, requiredError);
+      }
       break;
     case 'cascade':
       yupType = Yup.array();
@@ -206,8 +213,7 @@ export const generateValidationSchemaFieldLevel = async (currentValue, field) =>
       yupType = Yup.string();
       break;
   }
-  if (required && !hidden) {
-    const requiredError = `${label} is required.`;
+  if (required) {
     yupType = yupType.required(requiredError);
   }
   try {

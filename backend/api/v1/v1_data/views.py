@@ -1,4 +1,8 @@
 # Create your views here.
+import pandas as pd
+import os
+import pathlib
+
 from math import ceil
 from collections import defaultdict
 from datetime import datetime, date
@@ -96,7 +100,7 @@ from utils.custom_permissions import (
 )
 from utils.custom_serializer_fields import validate_serializers_message
 from utils.default_serializers import DefaultResponseSerializer
-from utils.export_form import generate_excel
+from utils.export_form import blank_data_template
 
 period_length = 60 * 15
 
@@ -241,15 +245,6 @@ class FormDataAddListView(APIView):
                     SubmissionTypes.registration,
                 ],
             )
-            if int(submission_type) == SubmissionTypes.verification:
-                queryset = form.form_form_data.filter(
-                    uuid=parent.uuid,
-                    submission_type=SubmissionTypes.registration,
-                )
-                # filter by latest ids to prevent multi verification data
-                queryset |= form.form_form_data.filter(
-                    pk=latest_ids_per_uuid[0]
-                )
             queryset = queryset.order_by("-created")
             instance = paginator.paginate_queryset(queryset, request)
             data = {
@@ -1285,7 +1280,16 @@ class BatchCommentView(APIView):
 @permission_classes([IsAuthenticated])
 def export_form_data(request, version, form_id):
     form = get_object_or_404(Forms, pk=form_id)
-    filepath = generate_excel(form=form)
+    form_name = form.name
+    filename = f"{form.id}-{form_name}"
+    directory = "tmp"
+    pathlib.Path(directory).mkdir(parents=True, exist_ok=True)
+    filepath = f"./{directory}/{filename}.xlsx"
+    if os.path.exists(filepath):
+        os.remove(filepath)
+    writer = pd.ExcelWriter(filepath, engine="xlsxwriter")
+    blank_data_template(form=form, writer=writer)
+    writer.save()
     filename = filepath.split("/")[-1].replace(" ", "-")
     zip_file = open(filepath, "rb")
     response = HttpResponse(

@@ -34,7 +34,7 @@ from api.v1.v1_profile.serializers import (
 from api.v1.v1_profile.job import create_download_job
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_jobs.constants import JobTypes
-from utils.upload_administration import generate_excel
+from utils.upload_administration import generate_administration_excel
 from utils.custom_helper import clean_array_param, maybe_int
 from utils.default_serializers import DefaultResponseSerializer
 from utils.custom_pagination import Pagination
@@ -277,7 +277,9 @@ def export_administrations_template(request: Request, version):
     attributes = clean_array_param(
         request.query_params.get("attributes", ""), maybe_int
     )
-    filepath = generate_excel(cast(SystemUser, request.user), attributes)
+    filepath = generate_administration_excel(
+        cast(SystemUser, request.user), attributes
+    )
     filename = filepath.split("/")[-1].replace(" ", "-")
     with open(filepath, "rb") as template_file:
         response = HttpResponse(

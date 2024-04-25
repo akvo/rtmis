@@ -39,7 +39,6 @@ from api.v1.v1_jobs.serializers import (
 )
 from utils import storage
 from utils.custom_serializer_fields import validate_serializers_message
-from utils.storage import download
 
 
 @extend_schema(
@@ -158,7 +157,7 @@ def download_file(request, version, file_name):
     job = get_object_or_404(Jobs, result=file_name)
     type = request.GET.get("type") if request.GET.get("type") else "download"
     url = f"{type}/{job.result}"
-    filepath = download(url)
+    filepath = storage.download(url)
     filename = job.result
     zip_file = open(filepath, "rb")
     response = HttpResponse(

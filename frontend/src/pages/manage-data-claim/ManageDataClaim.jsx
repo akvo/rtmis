@@ -17,6 +17,8 @@ const ManageDataClaim = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [updateRecord, setUpdateRecord] = useState(false);
+  const [preload, setPreload] = useState(true);
+  const [isAdmFilter, setIsAdmFilter] = useState(false);
 
   const {
     language,
@@ -45,6 +47,7 @@ const ManageDataClaim = () => {
     administration.length > 0
       ? administration[administration.length - 1]
       : null;
+  const [currentAdm, setCurrentAdm] = useState(selectedAdministration?.id);
 
   const columns = [
     {
@@ -76,6 +79,19 @@ const ManageDataClaim = () => {
   };
 
   useEffect(() => {
+    if (selectedAdministration?.id && preload && !currentAdm) {
+      setPreload(false);
+      setCurrentAdm(selectedAdministration.id);
+    }
+    if (!preload && !isAdmFilter && selectedAdministration?.id !== currentAdm) {
+      setIsAdmFilter(true);
+    }
+    if (currentAdm === selectedAdministration?.id && isAdmFilter) {
+      setIsAdmFilter(false);
+    }
+  }, [currentAdm, preload, selectedAdministration, isAdmFilter]);
+
+  useEffect(() => {
     setCurrentPage(1);
   }, [selectedAdministration]);
 
@@ -83,7 +99,7 @@ const ManageDataClaim = () => {
     if (selectedForm && isAdministrationLoaded && !updateRecord) {
       setLoading(true);
       let url = `/form-data/${selectedForm}/?submission_type=${config.submissionType.certification}&page=${currentPage}`;
-      if (selectedAdministration?.id) {
+      if (selectedAdministration?.id && isAdmFilter) {
         url += `&administration=${selectedAdministration.id}`;
       }
       if (advancedFilters && advancedFilters.length) {
@@ -113,6 +129,7 @@ const ManageDataClaim = () => {
     isAdministrationLoaded,
     updateRecord,
     advancedFilters,
+    isAdmFilter,
   ]);
 
   return (
