@@ -31,7 +31,7 @@ class JobGenerateExcelDataCommand(TestCase):
             form.id,
         )
         form_name = form.name.replace(" ", "_").lower()
-        result_file = f"{CRONJOB_RESULT_DIR}/{form_name}-all.xlsx"
+        result_file = f"{CRONJOB_RESULT_DIR}/{form_name}-routine.xlsx"
         self.assertTrue(storage.check(result_file))
         storage.delete(result_file)
 
@@ -42,7 +42,7 @@ class JobGenerateExcelDataCommand(TestCase):
             True
         )
 
-        result_file = f"{CRONJOB_RESULT_DIR}/{form_name}-recent.xlsx"
+        result_file = f"{CRONJOB_RESULT_DIR}/{form_name}-routine-recent.xlsx"
         self.assertTrue(storage.check(result_file))
         storage.delete(result_file)
 
@@ -58,7 +58,7 @@ class JobGenerateExcelDataCommand(TestCase):
                 submission_type
             )
             form_name = form.name.replace(" ", "_").lower()
-            result_file = "{0}/{1}-{2}-all.xlsx".format(
+            result_file = "{0}/{1}-{2}.xlsx".format(
                 CRONJOB_RESULT_DIR,
                 form_name,
                 submission_type
