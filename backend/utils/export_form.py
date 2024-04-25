@@ -11,6 +11,18 @@ meta_columns = ["id", "created_at", "created_by", "updated_at",
                 "geolocation", "submission_type"]
 
 
+def get_question_names(form: Forms):
+    questions = []
+    question_groups = form.form_question_group.all().order_by("order")
+    for q in question_groups:
+        questions.extend(
+            q.question_group_question.all().order_by(
+                "order").values_list(
+                    "name", flat=True)
+        )
+    return questions
+
+
 def get_definition(form: Forms):
     questions = (
         Questions.objects.filter(form=form)
