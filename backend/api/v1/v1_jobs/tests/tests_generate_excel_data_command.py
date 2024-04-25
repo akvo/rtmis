@@ -1,3 +1,4 @@
+import pandas as pd
 from django.core.management import call_command
 from django.test import TestCase
 from django.test.utils import override_settings
@@ -44,6 +45,11 @@ class JobGenerateExcelDataCommand(TestCase):
 
         result_file = f"{CRONJOB_RESULT_DIR}/{form_name}-routine-recent.xlsx"
         self.assertTrue(storage.check(result_file))
+
+        download_file = storage.download(result_file)
+        df = pd.read_excel(download_file)
+        self.assertTrue(df.shape[0])
+
         storage.delete(result_file)
 
     def test_download_data_by_submission_type(self):
