@@ -41,6 +41,27 @@ class OrganisationAttributeSerializer(serializers.ModelSerializer):
         fields = ['type_id', 'name']
 
 
+class OrganisationAttributeChildrenSerializer(serializers.ModelSerializer):
+    type_id = serializers.ReadOnlyField(source='type')
+    name = serializers.SerializerMethodField()
+    children = serializers.SerializerMethodField()
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_name(self, instance: OrganisationAttribute):
+        return OrganisationTypes.FieldStr.get(instance.type)
+
+    @extend_schema_field(OrganisationSerializer(many=True))
+    def get_children(self, instance: OrganisationAttribute):
+        orgs = Organisation.objects.filter(
+            organisation_organisation_attribute__type=instance.type
+        ).all()
+        return OrganisationSerializer(instance=orgs, many=True).data
+
+    class Meta:
+        model = OrganisationAttribute
+        fields = ['type_id', 'name', 'children']
+
+
 class OrganisationListSerializer(serializers.ModelSerializer):
     attributes = serializers.SerializerMethodField()
     users = serializers.SerializerMethodField()
