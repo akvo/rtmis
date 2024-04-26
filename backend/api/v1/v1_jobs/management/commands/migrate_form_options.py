@@ -2,8 +2,7 @@ import os
 import pandas as pd
 
 from django.core.management import BaseCommand
-from django.utils import timezone
-from django_q.tasks import async_task
+from django.db.models import Max
 
 from api.v1.v1_forms.constants import SubmissionTypes, QuestionTypes
 from api.v1.v1_data.models import (
@@ -11,10 +10,12 @@ from api.v1.v1_data.models import (
     PendingAnswers,
     AnswerHistory,
     PendingAnswerHistory,
+    FormData,
 )
 
 
 FILE_DIR = "./source/value_changes"
+submission_types = [SubmissionTypes.registration, SubmissionTypes.monitoring]
 
 
 def list_files_with_prefix(prefix):
@@ -25,13 +26,13 @@ def list_files_with_prefix(prefix):
 
 
 def update_answers(
-    datapoint_ids: list,
     df,
     form_id: int,
     model,
     base_column: str,
     update_column: str,
 ):
+    datapoint_ids = []
     for answer in model.objects.filter(
         question__form_id=form_id,
         question__type__in=[
@@ -51,22 +52,39 @@ def update_answers(
         new_options = matches[update_column].to_list()
         if not new_options:
             continue
-        print(new_options, answer.options)
-        # answer.options = new_options
-        # answer.save()
+        answer.options = new_options
+        answer.save()
         try:
-            datapoint_ids.append(answer.data)
+            datapoint_ids.append(answer.data.id)
         except AttributeError:
-            datapoint_ids.append(answer.pending_data)
-    return datapoint_ids
+            datapoint_ids.append(answer.pending_data.id)
+    return list(set(datapoint_ids))
+
+
+def update_json_file(datapoint_ids: list, model, form_id: int):
+    latest_form_data = (
+        model.objects.filter(
+            pk__in=datapoint_ids,
+            form=form_id,
+            submission_type__in=submission_types,
+        )
+        .values("uuid")
+        .annotate(latest_updated=Max("updated"))
+        .values("uuid", "latest_updated")
+    )
+    # fetch the latest form data for each UUID
+    data = model.objects.filter(
+        pk__in=latest_form_data.values_list("id", flat=True)
+    )
+    # generate file for each data
+    for d in data:
+        d.save_to_file
 
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("issue_number", nargs="?", type=int)
-        parser.add_argument(
-            "-r", "--reverse", nargs="?", default=False, type=bool
-        )
+        parser.add_argument("-r", "--reverse", action="store_true")
 
     def handle(self, *args, **options):
         issue_number = options.get("issue_number")
@@ -88,31 +106,24 @@ class Command(BaseCommand):
             parts = file.split("-")[1].split(".")
             form_id = int(parts[0])
 
-            datapoint_ids = []
-
             # update answers
-            update_answers(
-                datapoint_ids=datapoint_ids,
+            datapoint_ids = update_answers(
                 df=df,
                 form_id=form_id,
                 model=Answers,
                 base_column=base_column,
                 update_column=update_column,
             )
-
-            # update answers history
-            update_answers(
-                datapoint_ids=datapoint_ids,
-                df=df,
-                form_id=form_id,
-                model=AnswerHistory,
-                base_column=base_column,
-                update_column=update_column,
-            )
+            if datapoint_ids:
+                # handle form data
+                update_json_file(
+                    datapoint_ids=datapoint_ids,
+                    model=FormData,
+                    form_id=form_id,
+                )
 
             # update pending answers
             update_answers(
-                datapoint_ids=datapoint_ids,
                 df=df,
                 form_id=form_id,
                 model=PendingAnswers,
@@ -120,16 +131,22 @@ class Command(BaseCommand):
                 update_column=update_column,
             )
 
+            # update answers history
+            update_answers(
+                df=df,
+                form_id=form_id,
+                model=AnswerHistory,
+                base_column=base_column,
+                update_column=update_column,
+            )
             # update pending answers history
             update_answers(
-                datapoint_ids=datapoint_ids,
                 df=df,
                 form_id=form_id,
                 model=PendingAnswerHistory,
                 base_column=base_column,
                 update_column=update_column,
             )
-
-            # handle datapoint
-            if not datapoint_ids:
-                return
+            print(f"[MIGRATION DONE]: {file}")
+        # EOL iterating
+        print("=== ALL MIGRATION DONE ===")
