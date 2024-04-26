@@ -20,6 +20,7 @@ const AdministrationDropdown = ({
   selectedAdministrations = [],
   certify = null,
   excluded = [],
+  submissionType = null,
   ...props
 }) => {
   const { user, administration, levels } = store.useState((state) => state);
@@ -38,9 +39,11 @@ const AdministrationDropdown = ({
   const fetchUserAdmin = useCallback(async () => {
     if (user && !persist) {
       try {
-        const { data: apiData } = await api.get(
-          `administration/${user.administration.id}`
-        );
+        let apiURL = `administration/${user.administration.id}`;
+        if (submissionType) {
+          apiURL += `?submission_type=${submissionType}`;
+        }
+        const { data: apiData } = await api.get(apiURL);
         store.update((s) => {
           s.administration = [apiData];
         });
@@ -48,7 +51,7 @@ const AdministrationDropdown = ({
         console.error(error);
       }
     }
-  }, [user, persist]);
+  }, [user, persist, submissionType]);
 
   useEffect(() => {
     fetchUserAdmin();

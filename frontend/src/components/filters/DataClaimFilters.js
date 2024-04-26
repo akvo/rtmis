@@ -55,7 +55,10 @@ const DataClaimFilters = ({
       <Col flex={1}>
         <Space>
           <FormDropdown loading={loading} submissionTypes={[submissionType]} />
-          <AdministrationDropdown loading={loading || loadingForm} />
+          <AdministrationDropdown
+            loading={loading || loadingForm}
+            submissionType={submissionType}
+          />
         </Space>
       </Col>
       <Col>
