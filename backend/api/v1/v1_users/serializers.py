@@ -15,7 +15,6 @@ from api.v1.v1_users.models import SystemUser, \
         Organisation, OrganisationAttribute
 from api.v1.v1_mobile.models import MobileAssignment
 from api.v1.v1_forms.models import FormCertificationAssignment
-from api.v1.v1_data.models import SubmissionTypes
 from utils.custom_serializer_fields import CustomEmailField, CustomCharField, \
     CustomPrimaryKeyRelatedField, CustomChoiceField, CustomBooleanField, \
     CustomMultipleChoiceField
