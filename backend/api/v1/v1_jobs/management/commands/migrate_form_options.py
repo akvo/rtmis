@@ -39,25 +39,22 @@ def update_answers(
             QuestionTypes.option,
             QuestionTypes.multiple_option,
         ],
-    ):
+    ).all():
         # search into df by answer options
-        matches = df[
-            df.apply(
-                lambda row: any(
-                    value in row[base_column] for value in answer.options
-                ),
-                axis=1,
-            )
-        ]
-        new_options = matches[update_column].to_list()
+        new_options = []
+        for opt in answer.options:
+            match = df[df[base_column] == opt]
+            if match.empty:
+                continue
+            new_options.append(match[update_column].to_list()[0])
         if not new_options:
             continue
         answer.options = new_options
         answer.save()
         try:
-            datapoint_ids.append(answer.data.id)
+            datapoint_ids.append(answer.data_id)
         except AttributeError:
-            datapoint_ids.append(answer.pending_data.id)
+            datapoint_ids.append(answer.pending_data_id)
     return list(set(datapoint_ids))
 
 
@@ -71,11 +68,9 @@ def update_json_file(datapoint_ids: list, model, form_id: int):
         .values("uuid")
         .annotate(latest_updated=Max("updated"))
         .values("uuid", "latest_updated")
-    )
+    ).values_list("id", flat=True)
     # fetch the latest form data for each UUID
-    data = model.objects.filter(
-        pk__in=latest_form_data.values_list("id", flat=True)
-    )
+    data = model.objects.filter(pk__in=latest_form_data).all()
     # generate file for each data
     for d in data:
         d.save_to_file
@@ -88,6 +83,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         issue_number = options.get("issue_number")
+        if not issue_number:
+            print("Please provide issue number")
+            return
+
         reverse = options.get("reverse")
 
         # determine base/update column
