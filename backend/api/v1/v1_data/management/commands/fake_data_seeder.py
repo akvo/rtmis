@@ -226,26 +226,23 @@ def seed_data(form, fake_geo, level_names, repeat, test):
                     data.save()
                     add_fake_answers(data, form.type)
         else:
-            administration = (
-                Administration.objects.filter(
+            administration = Administration.objects.filter(
                     path__startswith=adm_path, level=last_level
+                ).order_by("?").all()
+            for adm in administration:
+                created_by = get_created_by(
+                    administration=adm, form=form
                 )
-                .order_by("?")
-                .first()
-            )
-            created_by = get_created_by(
-                administration=administration, form=form
-            )
-            test_data = FormData.objects.create(
-                name=fake.pystr_format(),
-                geo=geo_value,
-                form=form,
-                administration=administration,
-                created_by=created_by,
-            )
-            test_data.save_to_file
-            test_data.save()
-            add_fake_answers(test_data, form.type)
+                test_data = FormData.objects.create(
+                    name=fake.pystr_format(),
+                    geo=geo_value,
+                    form=form,
+                    administration=adm,
+                    created_by=created_by,
+                )
+                test_data.save_to_file
+                test_data.save()
+                add_fake_answers(test_data, form.type)
 
 
 class Command(BaseCommand):

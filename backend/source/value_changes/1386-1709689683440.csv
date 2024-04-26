@@ -1,0 +1,10 @@
+current, next
+"min_req_toilets","minimum_requirements_toilets"
+"min_req_containment_treatment","minimum_requirements_containment_and_onsite_treatment"
+"min_req_emptying_conveyance","minimum_requirements_emptying_conveyance_sewer_networks"
+"min_req_licensing_service_providers","minimum_requirements_emptying_conveyance_licensing_service_providers"
+"1","1_very_low"
+"2","2_low"
+"3","3_middle"
+"4","4_high"
+"5","5_very_high"

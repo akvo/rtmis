@@ -142,7 +142,7 @@ class Questions(models.Model):
     disabled = models.JSONField(default=None, null=True)
 
     def __str__(self):
-        return self.text
+        return f"[TYPE: {self.type}] {self.label}"
 
     def to_definition(self):
         options = self.options.values("label", "value")
