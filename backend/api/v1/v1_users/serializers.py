@@ -15,6 +15,7 @@ from api.v1.v1_users.models import SystemUser, \
         Organisation, OrganisationAttribute
 from api.v1.v1_mobile.models import MobileAssignment
 from api.v1.v1_forms.models import FormCertificationAssignment
+from api.v1.v1_data.models import SubmissionTypes
 from utils.custom_serializer_fields import CustomEmailField, CustomCharField, \
     CustomPrimaryKeyRelatedField, CustomChoiceField, CustomBooleanField, \
     CustomMultipleChoiceField
@@ -211,6 +212,7 @@ class ListAdministrationSerializer(serializers.ModelSerializer):
     @extend_schema_field(ListAdministrationChildrenSerializer(many=True))
     def get_children(self, instance: Administration):
         max_level = self.context.get('max_level')
+        filter_children = self.context.get('filter_children')
         if max_level:
             if int(max_level) <= instance.level.level:
                 return []
@@ -220,8 +222,15 @@ class ListAdministrationSerializer(serializers.ModelSerializer):
                 id=filter).all()
             return ListAdministrationChildrenSerializer(
                 filtered_administration, many=True).data
+        children = instance.parent_administration.all()
+        if len(filter_children):
+            children = instance.parent_administration.filter(
+                pk__in=filter_children
+            )
         return ListAdministrationChildrenSerializer(
-            instance=instance.parent_administration.all(), many=True).data
+            instance=children,
+            many=True
+        ).data
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_children_level_name(self, instance: Administration):
