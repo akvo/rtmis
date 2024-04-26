@@ -120,7 +120,7 @@ class MigrateFormOptionsCommand(TestCase):
             json_filename = f"datapoints/{uuid}.json"
             self.assertTrue(storage.check(json_filename))
 
-    def test_remove_all_value_change_test_file(self):
+    def tearDown(self):
         filepath = f"{FILE_DIR}/{self.filename}"
         os.remove(filepath)
         self.assertFalse(os.path.exists(filepath))
