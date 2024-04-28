@@ -17,7 +17,6 @@ const ManageDataClaim = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [updateRecord, setUpdateRecord] = useState(false);
-  const [preload, setPreload] = useState(true);
   const [isAdmFilter, setIsAdmFilter] = useState(false);
 
   const {
@@ -26,6 +25,7 @@ const ManageDataClaim = () => {
     administration,
     selectedForm,
     questionGroups,
+    user,
   } = store.useState((s) => s);
   const { active: activeLang } = language;
   const text = useMemo(() => {
@@ -47,7 +47,6 @@ const ManageDataClaim = () => {
     administration.length > 0
       ? administration[administration.length - 1]
       : null;
-  const [currentAdm, setCurrentAdm] = useState(selectedAdministration?.id);
 
   const columns = [
     {
@@ -79,17 +78,25 @@ const ManageDataClaim = () => {
   };
 
   useEffect(() => {
-    if (selectedAdministration?.id && preload && !currentAdm) {
-      setPreload(false);
-      setCurrentAdm(selectedAdministration.id);
-    }
-    if (!preload && !isAdmFilter && selectedAdministration?.id !== currentAdm) {
+    if (
+      selectedAdministration?.id &&
+      selectedAdministration?.id !== user?.administration?.id &&
+      !isAdmFilter
+    ) {
       setIsAdmFilter(true);
     }
-    if (currentAdm === selectedAdministration?.id && isAdmFilter) {
+    if (
+      isAdmFilter &&
+      selectedAdministration?.id === user?.administration?.id
+    ) {
       setIsAdmFilter(false);
     }
-  }, [currentAdm, preload, selectedAdministration, isAdmFilter]);
+  }, [
+    isAdmFilter,
+    administration,
+    selectedAdministration?.id,
+    user?.administration?.id,
+  ]);
 
   useEffect(() => {
     setCurrentPage(1);

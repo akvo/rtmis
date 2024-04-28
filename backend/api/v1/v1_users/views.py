@@ -28,8 +28,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from api.v1.v1_forms.models import FormApprovalAssignment
-from api.v1.v1_data.models import PendingDataApproval
+from api.v1.v1_forms.models import (
+    FormApprovalAssignment, FormCertificationAssignment
+)
+from api.v1.v1_data.models import PendingDataApproval, SubmissionTypes
 from api.v1.v1_profile.constants import UserRoleTypes, OrganisationTypes
 from api.v1.v1_profile.models import Access, Administration, Levels
 from api.v1.v1_users.models import (
@@ -304,6 +306,13 @@ def set_user_password(request, version):
             type=OpenApiTypes.NUMBER,
             location=OpenApiParameter.QUERY,
         ),
+        OpenApiParameter(
+            name="submission_type",
+            required=False,
+            enum=SubmissionTypes.FieldStr.keys(),
+            type=OpenApiTypes.NUMBER,
+            location=OpenApiParameter.QUERY,
+        ),
     ],
     summary="Get list of administration",
 )
@@ -312,10 +321,49 @@ def list_administration(request, version, administration_id):
     instance = get_object_or_404(Administration, pk=administration_id)
     filter = request.GET.get("filter")
     max_level = request.GET.get("max_level")
+    submission_type = request.GET.get("submission_type")
+    last_level = Levels.objects.order_by('-level').first()
+    filter_children = []
+    if (
+        submission_type and
+        int(submission_type) == SubmissionTypes.certification and
+        instance.level.id != last_level.id
+    ):
+        allowed_path = instance.path
+        ward_level = Levels.objects.order_by('-level')[1:2].first()
+        if instance.level.id == ward_level.id:
+            allowed_path = instance.parent.path
+        if not instance.path:
+            allowed_path = f"{instance.id}."
+        assignments = FormCertificationAssignment.objects.filter(
+            assignee__path__startswith=allowed_path
+        ).all()
+        paths = [
+            f"{adm.path}{adm.id}"
+            for assign in assignments
+            for adm in assign.administrations.all()
+        ]
+        parents = list(set([
+            p.split(".")[0:instance.level.id][-1]
+            for p in paths
+        ]))
+        if len(parents):
+            instance = Administration.objects.get(pk=int(parents[0]))
+            if len(parents) > 1:
+                instance = instance.parent
+        filter_children = list(set([
+            p.split(".")[0:instance.level.id+1][-1]
+            for p in paths
+        ]))
+        filter_children = [int(c) for c in filter_children]
     return Response(
         ListAdministrationSerializer(
             instance=instance,
-            context={"filter": filter, "max_level": max_level},
+            context={
+                "filter": filter,
+                "max_level": max_level,
+                "filter_children": filter_children,
+            },
         ).data,
         status=status.HTTP_200_OK,
     )
