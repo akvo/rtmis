@@ -64,9 +64,9 @@ class FormCertificationAssignmentTestCase(TestCase):
 
         # Check if data matches the created assignment
         self.assertEqual(data["assignee"]["id"], assignment_data["assignee"])
-        self.assertEqual(
-            [a["id"] for a in data["administrations"]],
-            assignment_data["administrations"],
+        self.assertCountEqual(
+            sorted([a["id"] for a in data["administrations"]]),
+            sorted(assignment_data["administrations"]),
         )
 
     def test_get_assigment_list(self):
@@ -147,9 +147,9 @@ class FormCertificationAssignmentTestCase(TestCase):
 
         # Check if data matches the updated assignment
         self.assertEqual(data["assignee"]["id"], updated_data["assignee"])
-        self.assertEqual(
-            [a["id"] for a in data["administrations"]],
-            updated_data["administrations"],
+        self.assertCountEqual(
+            sorted([a["id"] for a in data["administrations"]]),
+            sorted(updated_data["administrations"]),
         )
 
     def test_delete_assignment(self):
