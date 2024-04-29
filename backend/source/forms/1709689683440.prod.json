@@ -576,18 +576,23 @@
           "name": "funding_gap_sanitation_hygiene",
           "order": 6,
           "questionGroupId": 1709698674762,
-          "type": "number",
+          "type": "autofield",
           "required": true,
           "meta": false,
           "rule": {
             "min": 0,
             "allowDecimal": true
           },
+          "fn": {
+            "fnColor": {},
+            "fnString": "#budget_required_sanitation_hygiene-#budget_allocation_sanitation_hygiene",
+            "multiline": false
+          },
           "options": []
         },
         {
           "id": 1719698891681,
-          "label": "Percentage of required",
+          "label": "Percentage annual funding gap for sanitation and hygiene (%)",
           "name": "funding_gap_percentage",
           "order": 7,
           "questionGroupId": 1709698674762,
@@ -622,6 +627,9 @@
           "type": "number",
           "required": true,
           "meta": false,
+          "tooltip": {
+            "text": "G0 communities: communities who have not achieved the G1 ODF outcomes"
+          },
           "rule": {
             "allowDecimal": true
           },
@@ -636,6 +644,9 @@
           "type": "number",
           "required": true,
           "meta": false,
+          "tooltip": {
+            "text": "Supported by implementation partners: a government department or development partner is supporting implementation to achieve G1 outcomes"
+          },
           "rule": {
             "allowDecimal": true
           },
@@ -667,6 +678,9 @@
           "type": "number",
           "required": true,
           "meta": false,
+          "tooltip": {
+            "text": "G1 communities: communities certified as G1 communities who have not achieved the G2 Safe & Sustainable outcomes"
+          },
           "rule": {
             "allowDecimal": true
           },
@@ -681,6 +695,9 @@
           "type": "number",
           "required": false,
           "meta": false,
+          "tooltip": {
+            "text": "Supported by implementation partners: a government department or development partner is supporting implementation to achieve G2 outcomes"
+          },
           "rule": {
             "allowDecimal": true
           },
@@ -712,6 +729,9 @@
           "type": "number",
           "required": true,
           "meta": false,
+          "tooltip": {
+            "text": "G2 communities: communities certified as G2 communities who have not achieved the G3 Clean & Healthy outcomes"
+          },
           "rule": {
             "allowDecimal": true
           },
@@ -726,6 +746,9 @@
           "type": "number",
           "required": true,
           "meta": false,
+          "tooltip": {
+            "text": "Supported by implementation partners: a government department or development partner is supporting implementation to achieve G3 outcomes"
+          },
           "rule": {
             "allowDecimal": true
           },
@@ -769,7 +792,7 @@
           "required": true,
           "meta": false,
           "tooltip": {
-            "text": "Where 1 is very low and 5 is very high"
+            "text": "Participation: involvement of individuals and communities in processes to plan, implement and monitor sanitation and hygiene services"
           },
           "options": [
             {
@@ -819,7 +842,7 @@
           "required": true,
           "meta": false,
           "tooltip": {
-            "text": "Where 1 is very low and 5 is very high"
+            "text": "Participation: involvement of women in processes to plan, implement and monitor sanitation and hygiene services"
           },
           "options": [
             {
@@ -868,7 +891,9 @@
           "type": "option",
           "required": true,
           "meta": false,
-          "tooltip": null,
+          "tooltip": {
+            "text": "Sufficient government budget and resources: adequate to support participation of users and communities in the planning, implementation and monitoring of sanitation and hygiene services"
+          },
           "options": [
             {
               "order": 1,
@@ -920,6 +945,9 @@
           "type": "option",
           "required": true,
           "meta": false,
+          "tooltip": {
+            "text": "Monitoring data: information on progress and status of sanitation and hygiene services"
+          },
           "options": [
             {
               "order": 1,
@@ -952,6 +980,49 @@
           ]
         },
         {
+          "id": 1714379034,
+          "label": "Monitoring data for sanitation & hygiene: disaggregated data on challenging contexts",
+          "name": "monitoring_data_sanitation_hygiene_disaggregated_data",
+          "order": 2,
+          "questionGroupId": 1709699651611,
+          "type": "option",
+          "required": true,
+          "meta": false,
+          "tooltip": {
+            "text": "Challenging contexts: people who live in remote or hard to reach areas, slums or informal settlements, internally displaced persons and residents of refugee camps, affected by emergencies/disasters/conflicts, and other challenging settings"
+          },
+          "options": [
+            {
+              "order": 1,
+              "label": "Data not available",
+              "value": "data_not_available",
+              "color": "#d0021b",
+              "id": 1714379047
+            },
+            {
+              "order": 2,
+              "label": "Data not used",
+              "value": "data_not_used",
+              "color": "#f5a623",
+              "id": 1714379062
+            },
+            {
+              "order": 3,
+              "label": "Data used for minority",
+              "value": "data_used_for_minority",
+              "color": "#7ed321",
+              "id": 1714379073
+            },
+            {
+              "order": 4,
+              "label": "Data used for majority",
+              "value": "data_used_for_majority",
+              "color": "#417505",
+              "id": 1714379083
+            }
+          ]
+        },
+        {
           "id": 1709699787978,
           "label": "Monitoring data for sanitation & hygiene: disaggregated data available on challenging contexts",
           "name": "monitoring_data_disaggregated_challenging_contexts",
@@ -960,6 +1031,9 @@
           "type": "option",
           "required": true,
           "meta": false,
+          "tooltip": {
+            "text": "Vulnerable and marginalised groups: people living in poverty, women and girls, people living with disabilities, elderly populations, indigenous populations, populations affected by climate change, and other at-risk populations"
+          },
           "options": [
             {
               "order": 1,
