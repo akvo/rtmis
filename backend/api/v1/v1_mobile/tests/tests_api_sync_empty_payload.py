@@ -63,14 +63,12 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         pending_data = PendingFormData.objects.filter(
-            submission_type=st,
-            uuid=uuid
+            submission_type=st, uuid=uuid
         ).first()
         self.assertTrue(pending_data.id)
 
         a_101 = PendingAnswers.objects.filter(
-            question_id=101,
-            pending_data_id=pending_data.id
+            question_id=101, pending_data_id=pending_data.id
         ).first()
         self.assertFalse(a_101)
 
@@ -107,14 +105,12 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         pending_data = PendingFormData.objects.filter(
-            submission_type=st,
-            uuid=uuid
+            submission_type=st, uuid=uuid
         ).first()
         self.assertTrue(pending_data.id)
 
         a_109 = PendingAnswers.objects.filter(
-            question_id=109,
-            pending_data_id=pending_data.id
+            question_id=109, pending_data_id=pending_data.id
         ).first()
         self.assertFalse(a_109)
 
@@ -152,14 +148,12 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         pending_data = PendingFormData.objects.filter(
-            submission_type=st,
-            uuid=uuid
+            submission_type=st, uuid=uuid
         ).first()
         self.assertTrue(pending_data.id)
 
         a_109 = PendingAnswers.objects.filter(
-            question_id=109,
-            pending_data_id=pending_data.id
+            question_id=109, pending_data_id=pending_data.id
         ).first()
         self.assertTrue(a_109)
         self.assertEqual(a_109.value, 0)
@@ -196,14 +190,12 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         pending_data = PendingFormData.objects.filter(
-            submission_type=st,
-            uuid=uuid
+            submission_type=st, uuid=uuid
         ).first()
         self.assertTrue(pending_data.id)
 
         a_102 = PendingAnswers.objects.filter(
-            question_id=102,
-            pending_data_id=pending_data.id
+            question_id=102, pending_data_id=pending_data.id
         ).first()
         self.assertFalse(a_102)
 
@@ -240,13 +232,11 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         pending_data = PendingFormData.objects.filter(
-            submission_type=st,
-            uuid=uuid
+            submission_type=st, uuid=uuid
         ).first()
         self.assertTrue(pending_data.id)
         a_106 = PendingAnswers.objects.filter(
-            question_id=106,
-            pending_data_id=pending_data.id
+            question_id=106, pending_data_id=pending_data.id
         ).first()
         self.assertFalse(a_106)
 
@@ -283,13 +273,11 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         pending_data = PendingFormData.objects.filter(
-            submission_type=st,
-            uuid=uuid
+            submission_type=st, uuid=uuid
         ).first()
         self.assertTrue(pending_data.id)
         a_105 = PendingAnswers.objects.filter(
-            question_id=105,
-            pending_data_id=pending_data.id
+            question_id=105, pending_data_id=pending_data.id
         ).first()
         self.assertFalse(a_105)
 
@@ -316,7 +304,7 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
                 108: "2024-04-29",
                 109: 0.6,
                 110: uuid,
-                111: "12"
+                111: "12",
             },
         }
         response = self.client.post(
@@ -328,13 +316,11 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         pending_data = PendingFormData.objects.filter(
-            submission_type=st,
-            uuid=uuid
+            submission_type=st, uuid=uuid
         ).first()
         self.assertTrue(pending_data.id)
         a_112 = PendingAnswers.objects.filter(
-            question_id=112,
-            pending_data_id=pending_data.id
+            question_id=112, pending_data_id=pending_data.id
         ).first()
         self.assertFalse(a_112)
 
@@ -372,13 +358,11 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         pending_data = PendingFormData.objects.filter(
-            submission_type=st,
-            uuid=uuid
+            submission_type=st, uuid=uuid
         ).first()
         self.assertTrue(pending_data.id)
         a_111 = PendingAnswers.objects.filter(
-            question_id=111,
-            pending_data_id=pending_data.id
+            question_id=111, pending_data_id=pending_data.id
         ).first()
         self.assertFalse(a_111)
 
@@ -414,13 +398,141 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         pending_data = PendingFormData.objects.filter(
-            submission_type=st,
-            pending_data_answer__name="John non uuid"
+            submission_type=st, pending_data_answer__name="John non uuid"
         ).first()
         self.assertTrue(pending_data.id)
         self.assertTrue(pending_data.uuid)
         a_110 = PendingAnswers.objects.filter(
-            question_id=110,
-            pending_data_id=pending_data.id
+            question_id=110, pending_data_id=pending_data.id
         ).first()
         self.assertFalse(a_110)
+
+    def test_empty_required_photo_type_of_question(self):
+        mobile_adm = self.mobile_user.administrations.first()
+        uuid = "92b9ecb2-c400-4b76-bcba-0a70a6942bb6"
+        st = SubmissionTypes.registration
+        payload = {
+            "formId": self.form.id,
+            "name": "datapoint #1",
+            "duration": 1,
+            "submittedAt": "2024-04-29T02:38:13.807Z",
+            "submitter": self.mobile_user.name,
+            "geo": [6.2088, 106.8456],
+            "submission_type": st,
+            "answers": {
+                101: "John Doe",
+                102: ["male"],
+                103: 62723817,
+                104: mobile_adm.id,
+                105: [6.2088, 106.8456],
+                106: ["wife__husband__partner"],
+                108: "2024-04-29",
+                109: 7.6,
+                110: uuid,
+            },
+        }
+        response = self.client.post(
+            "/api/v1/device/sync",
+            payload,
+            follow=True,
+            content_type="application/json",
+            **{"HTTP_AUTHORIZATION": f"Bearer {self.token}"},
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        pending_data = PendingFormData.objects.filter(
+            submission_type=st, uuid=uuid
+        ).first()
+        self.assertTrue(pending_data.id)
+        a_107 = PendingAnswers.objects.filter(
+            question_id=107, pending_data_id=pending_data.id
+        ).first()
+        self.assertFalse(a_107)
+
+    def test_empty_required_date_type_of_question(self):
+        mobile_adm = self.mobile_user.administrations.first()
+        uuid = "93b9ecb2-c400-4b76-bcba-0a10a6942bb6"
+        st = SubmissionTypes.registration
+        payload = {
+            "formId": self.form.id,
+            "name": "datapoint #1",
+            "duration": 1,
+            "submittedAt": "2024-04-29T02:38:13.807Z",
+            "submitter": self.mobile_user.name,
+            "geo": [6.2088, 106.8456],
+            "submission_type": st,
+            "answers": {
+                101: "Jane Doe",
+                102: ["female"],
+                103: 62723817,
+                104: mobile_adm.id,
+                105: [6.2088, 106.8456],
+                106: ["wife__husband__partner"],
+                107: "photo-123.jpeg",
+                109: 7.6,
+                110: uuid,
+            },
+        }
+        response = self.client.post(
+            "/api/v1/device/sync",
+            payload,
+            follow=True,
+            content_type="application/json",
+            **{"HTTP_AUTHORIZATION": f"Bearer {self.token}"},
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        pending_data = PendingFormData.objects.filter(
+            submission_type=st, uuid=uuid
+        ).first()
+        self.assertTrue(pending_data.id)
+        a_108 = PendingAnswers.objects.filter(
+            question_id=108, pending_data_id=pending_data.id
+        ).first()
+        self.assertFalse(a_108)
+
+    def test_valid_pending_answers_for_all_questions(self):
+        mobile_adm = self.mobile_user.administrations.first()
+        uuid = "94b9ecb2-c400-4b76-bcba-0a20a6942bb6"
+        st = SubmissionTypes.registration
+        payload = {
+            "formId": self.form.id,
+            "name": "datapoint #1",
+            "duration": 1,
+            "submittedAt": "2024-04-29T02:38:13.807Z",
+            "submitter": self.mobile_user.name,
+            "geo": [6.2088, 106.8456],
+            "submission_type": st,
+            "answers": {
+                101: "Jane Doe",
+                102: ["female"],
+                103: 62723817,
+                104: mobile_adm.id,
+                105: [6.2088, 106.8456],
+                106: ["wife__husband__partner"],
+                107: "photo-123.jpeg",
+                108: "2024-04-29",
+                109: 5.1,
+                110: uuid,
+                111: "10.2",
+            },
+        }
+        response = self.client.post(
+            "/api/v1/device/sync",
+            payload,
+            follow=True,
+            content_type="application/json",
+            **{"HTTP_AUTHORIZATION": f"Bearer {self.token}"},
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        pending_data = PendingFormData.objects.filter(
+            submission_type=st, uuid=uuid
+        ).first()
+        self.assertTrue(pending_data.id)
+        self.assertEqual(pending_data.pending_data_answer.count(), 11)
+
+        total_null_answers = PendingAnswers.objects.filter(
+            pending_data=pending_data,
+            name__isnull=True,
+            value__isnull=True,
+            options__isnull=True,
+        ).count()
+        self.assertEqual(total_null_answers, 0)
