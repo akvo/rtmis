@@ -146,6 +146,51 @@
           "type": "text",
           "required": true,
           "meta_uuid": true
+        },
+        {
+          "id": 111,
+          "order": null,
+          "name": "multiple_of_two",
+          "label": "Multiple of 2",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": false,
+          "meta": false,
+          "options": null,
+          "fn": {
+            "fnString": "#decimal * 2",
+            "multiline": false
+          }
+        },
+        {
+          "id": 112,
+          "order": 34,
+          "name": "verification",
+          "label": "Do you verify the claim?",
+          "short_label": null,
+          "type": "option",
+          "required": true,
+          "meta": false,
+          "options": [
+            {
+              "id": 1121,
+              "order": 1,
+              "label": "Yes",
+              "value": "yes",
+              "color": "green"
+            },
+            {
+              "id": 1122,
+              "order": 2,
+              "label": "No",
+              "value": "no",
+              "color": "red"
+            }
+          ],
+          "hidden": {
+            "submission_type": ["registration", "monitoring", "certification"]
+          }
         }
       ]
     }
