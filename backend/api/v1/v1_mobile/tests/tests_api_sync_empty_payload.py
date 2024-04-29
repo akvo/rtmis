@@ -71,6 +71,13 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
             question_id=101, pending_data_id=pending_data.id
         ).first()
         self.assertFalse(a_101)
+        total_null_answers = PendingAnswers.objects.filter(
+            pending_data=pending_data,
+            name__isnull=True,
+            value__isnull=True,
+            options__isnull=True,
+        ).count()
+        self.assertEqual(total_null_answers, 0)
 
     def test_empty_required_number_type_of_question(self):
         mobile_adm = self.mobile_user.administrations.first()
@@ -113,6 +120,13 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
             question_id=109, pending_data_id=pending_data.id
         ).first()
         self.assertFalse(a_109)
+        total_null_answers = PendingAnswers.objects.filter(
+            pending_data=pending_data,
+            name__isnull=True,
+            value__isnull=True,
+            options__isnull=True,
+        ).count()
+        self.assertEqual(total_null_answers, 0)
 
     def test_allowed_zero_required_number_type_of_question(self):
         mobile_adm = self.mobile_user.administrations.first()
@@ -157,6 +171,13 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
         ).first()
         self.assertTrue(a_109)
         self.assertEqual(a_109.value, 0)
+        total_null_answers = PendingAnswers.objects.filter(
+            pending_data=pending_data,
+            name__isnull=True,
+            value__isnull=True,
+            options__isnull=True,
+        ).count()
+        self.assertEqual(total_null_answers, 0)
 
     def test_empty_required_option_type_of_question(self):
         mobile_adm = self.mobile_user.administrations.first()
@@ -198,6 +219,13 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
             question_id=102, pending_data_id=pending_data.id
         ).first()
         self.assertFalse(a_102)
+        total_null_answers = PendingAnswers.objects.filter(
+            pending_data=pending_data,
+            name__isnull=True,
+            value__isnull=True,
+            options__isnull=True,
+        ).count()
+        self.assertEqual(total_null_answers, 0)
 
     def test_empty_required_multiple_options_type_of_question(self):
         mobile_adm = self.mobile_user.administrations.first()
@@ -239,6 +267,13 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
             question_id=106, pending_data_id=pending_data.id
         ).first()
         self.assertFalse(a_106)
+        total_null_answers = PendingAnswers.objects.filter(
+            pending_data=pending_data,
+            name__isnull=True,
+            value__isnull=True,
+            options__isnull=True,
+        ).count()
+        self.assertEqual(total_null_answers, 0)
 
     def test_empty_required_geo_type_of_question(self):
         mobile_adm = self.mobile_user.administrations.first()
@@ -280,6 +315,13 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
             question_id=105, pending_data_id=pending_data.id
         ).first()
         self.assertFalse(a_105)
+        total_null_answers = PendingAnswers.objects.filter(
+            pending_data=pending_data,
+            name__isnull=True,
+            value__isnull=True,
+            options__isnull=True,
+        ).count()
+        self.assertEqual(total_null_answers, 0)
 
     def test_empty_required_hidden_from_registration_type(self):
         mobile_adm = self.mobile_user.administrations.first()
@@ -323,6 +365,13 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
             question_id=112, pending_data_id=pending_data.id
         ).first()
         self.assertFalse(a_112)
+        total_null_answers = PendingAnswers.objects.filter(
+            pending_data=pending_data,
+            name__isnull=True,
+            value__isnull=True,
+            options__isnull=True,
+        ).count()
+        self.assertEqual(total_null_answers, 0)
 
     def test_empty_non_required_autofield_type_of_question(self):
         mobile_adm = self.mobile_user.administrations.first()
@@ -365,6 +414,13 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
             question_id=111, pending_data_id=pending_data.id
         ).first()
         self.assertFalse(a_111)
+        total_null_answers = PendingAnswers.objects.filter(
+            pending_data=pending_data,
+            name__isnull=True,
+            value__isnull=True,
+            options__isnull=True,
+        ).count()
+        self.assertEqual(total_null_answers, 0)
 
     def test_empty_required_meta_uuid_type_of_question(self):
         mobile_adm = self.mobile_user.administrations.first()
@@ -406,6 +462,13 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
             question_id=110, pending_data_id=pending_data.id
         ).first()
         self.assertFalse(a_110)
+        total_null_answers = PendingAnswers.objects.filter(
+            pending_data=pending_data,
+            name__isnull=True,
+            value__isnull=True,
+            options__isnull=True,
+        ).count()
+        self.assertEqual(total_null_answers, 0)
 
     def test_empty_required_photo_type_of_question(self):
         mobile_adm = self.mobile_user.administrations.first()
@@ -447,6 +510,13 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
             question_id=107, pending_data_id=pending_data.id
         ).first()
         self.assertFalse(a_107)
+        total_null_answers = PendingAnswers.objects.filter(
+            pending_data=pending_data,
+            name__isnull=True,
+            value__isnull=True,
+            options__isnull=True,
+        ).count()
+        self.assertEqual(total_null_answers, 0)
 
     def test_empty_required_date_type_of_question(self):
         mobile_adm = self.mobile_user.administrations.first()
@@ -488,6 +558,13 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
             question_id=108, pending_data_id=pending_data.id
         ).first()
         self.assertFalse(a_108)
+        total_null_answers = PendingAnswers.objects.filter(
+            pending_data=pending_data,
+            name__isnull=True,
+            value__isnull=True,
+            options__isnull=True,
+        ).count()
+        self.assertEqual(total_null_answers, 0)
 
     def test_valid_pending_answers_for_all_questions(self):
         mobile_adm = self.mobile_user.administrations.first()
@@ -529,10 +606,47 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
         self.assertTrue(pending_data.id)
         self.assertEqual(pending_data.pending_data_answer.count(), 11)
 
-        total_null_answers = PendingAnswers.objects.filter(
-            pending_data=pending_data,
-            name__isnull=True,
-            value__isnull=True,
-            options__isnull=True,
-        ).count()
-        self.assertEqual(total_null_answers, 0)
+        a_101 = pending_data.pending_data_answer.filter(
+            question_id=101
+        ).first()
+        a_102 = pending_data.pending_data_answer.filter(
+            question_id=102
+        ).first()
+        a_103 = pending_data.pending_data_answer.filter(
+            question_id=103
+        ).first()
+        a_104 = pending_data.pending_data_answer.filter(
+            question_id=104
+        ).first()
+        a_105 = pending_data.pending_data_answer.filter(
+            question_id=105
+        ).first()
+        a_106 = pending_data.pending_data_answer.filter(
+            question_id=106
+        ).first()
+        a_107 = pending_data.pending_data_answer.filter(
+            question_id=107
+        ).first()
+        a_108 = pending_data.pending_data_answer.filter(
+            question_id=108
+        ).first()
+        a_109 = pending_data.pending_data_answer.filter(
+            question_id=109
+        ).first()
+        a_110 = pending_data.pending_data_answer.filter(
+            question_id=110
+        ).first()
+        a_111 = pending_data.pending_data_answer.filter(
+            question_id=111
+        ).first()
+        self.assertEqual(a_101.name, "Jane Doe")
+        self.assertEqual(a_102.options, ["female"])
+        self.assertEqual(a_103.value, 62723817)
+        self.assertEqual(a_104.value, mobile_adm.id)
+        self.assertEqual(a_105.options, [6.2088, 106.8456])
+        self.assertEqual(a_106.options, ["wife__husband__partner"])
+        self.assertEqual(a_107.name, "photo-123.jpeg")
+        self.assertEqual(a_108.name, "2024-04-29")
+        self.assertEqual(a_109.value, 5.1)
+        self.assertEqual(a_110.name, uuid)
+        self.assertEqual(a_111.name, "10.2")
