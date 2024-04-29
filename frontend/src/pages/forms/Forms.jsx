@@ -80,7 +80,7 @@ const Forms = () => {
     }
   };
 
-  const onFinish = async (values, refreshForm) => {
+  const onFinish = async ({ datapoint, ...values }, refreshForm) => {
     setSubmit(true);
     const questions = forms.question_group
       .map((x) => x.question)
@@ -163,9 +163,10 @@ const Forms = () => {
           ? takeRight(administration)[0]
           : administration
         : authUser.administration.id,
-      name: names.length
-        ? names
-        : `${authUser.administration.name} - ${moment().format("MMM YYYY")}`,
+      name:
+        datapoint?.name || names?.length
+          ? names
+          : `${authUser.administration.name} - ${moment().format("MMM YYYY")}`,
       geo: geo || null,
       submission_type: uuid
         ? config.submissionType.monitoring

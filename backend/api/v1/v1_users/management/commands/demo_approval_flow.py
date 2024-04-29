@@ -133,7 +133,8 @@ class Command(BaseCommand):
             print("\nMobile assignment:")
         mobile_assignment = MobileAssignment.objects.create_assignment(
             user=submitter,
-            name=fake.user_name()
+            name=fake.user_name(),
+            passcode="secr3tc0de"
         )
         administration_children = Administration.objects.filter(
             parent=submitter.user_access.administration,
