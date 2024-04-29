@@ -13,11 +13,11 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
         call_command("form_seeder", "--test")
         call_command("demo_approval_flow", "--test", True)
 
-        ward_level = Levels.objects.order_by('-level')[1:2].first()
+        ward_level = Levels.objects.order_by("-level")[1:2].first()
         self.form = Forms.objects.get(pk=1)
         user = SystemUser.objects.filter(
             user_access__administration__level=ward_level,
-            mobile_assignments__forms=self.form
+            mobile_assignments__forms=self.form,
         ).first()
         self.mobile_user = user.mobile_assignments.first()
 
@@ -50,7 +50,7 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
                 108: "2024-04-29",
                 109: 0.6,
                 110: "72b9ecb2-c400-4b76-bcba-0a70a6942bb6",
-            }
+            },
         }
         response = self.client.post(
             "/api/v1/device/sync",
@@ -64,6 +64,75 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
         self.assertIn("101", data["message"])
         self.assertIn("value may not be null.", data["message"])
         self.assertIn("106", data["message"])
+
+    def test_empty_required_geo_payload(self):
+        mobile_adm = self.mobile_user.administrations.first()
+        payload = {
+            "formId": self.form.id,
+            "name": "datapoint #1",
+            "duration": 1,
+            "submittedAt": "2024-04-29T02:38:13.807Z",
+            "submitter": self.mobile_user.name,
+            "geo": [6.2088, 106.8456],
+            "submission_type": SubmissionTypes.registration,
+            "answers": {
+                101: "Example name",
+                102: ["male"],
+                103: 62723817,
+                104: mobile_adm.id,
+                105: [],
+                106: ["children"],
+                107: "photo.jpeg",
+                108: "2024-04-29",
+                109: 0.6,
+                110: "72b9ecb2-c400-4b76-bcba-0a70a6942bb6",
+            },
+        }
+        response = self.client.post(
+            "/api/v1/device/sync",
+            payload,
+            follow=True,
+            content_type="application/json",
+            **{"HTTP_AUTHORIZATION": f"Bearer {self.token}"},
+        )
+        data = response.json()
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual("Value is required for Question:105", data["message"])
+
+    def test_empty_required_hidden_payload(self):
+        mobile_adm = self.mobile_user.administrations.first()
+        payload = {
+            "formId": self.form.id,
+            "name": "datapoint #1",
+            "duration": 1,
+            "submittedAt": "2024-04-29T02:38:13.807Z",
+            "submitter": self.mobile_user.name,
+            "geo": [6.2088, 106.8456],
+            "submission_type": SubmissionTypes.verification,
+            "answers": {
+                101: "Example name",
+                102: ["male"],
+                103: 62723817,
+                104: mobile_adm.id,
+                105: [6.2088, 106.8456],
+                106: ["children"],
+                107: "photo.jpeg",
+                108: "2024-04-29",
+                109: 0.6,
+                110: "72b9ecb2-c400-4b76-bcba-0a70a6942bb6",
+                112: []
+            },
+        }
+        response = self.client.post(
+            "/api/v1/device/sync",
+            payload,
+            follow=True,
+            content_type="application/json",
+            **{"HTTP_AUTHORIZATION": f"Bearer {self.token}"},
+        )
+        data = response.json()
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual("Value is required for Question:112", data["message"])
 
     def test_empty_non_required_autofield_payload(self):
         mobile_adm = self.mobile_user.administrations.first()
@@ -86,8 +155,8 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
                 108: "2024-04-29",
                 109: 0.6,
                 110: "72b9ecb2-c400-4b76-bcba-0a70a6942bb6",
-                111: ""
-            }
+                111: "",
+            },
         }
         response = self.client.post(
             "/api/v1/device/sync",
