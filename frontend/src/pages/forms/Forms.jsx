@@ -146,7 +146,13 @@ const Forms = () => {
         return false;
       })
       .filter((x) => x);
-
+    const names = answers
+      .filter((x) => !["geo", "cascade"].includes(x.type) && x.meta)
+      .map((x) => {
+        return x.value;
+      })
+      .flatMap((x) => x)
+      .join(" - ");
     const geo = answers.find((x) => x.type === "geo" && x.meta)?.value;
     const administration = answers.find(
       (x) => (x.type === "cascade" && x.meta) || x.type === "administration"
@@ -157,9 +163,10 @@ const Forms = () => {
           ? takeRight(administration)[0]
           : administration
         : authUser.administration.id,
-      name: datapoint?.name
-        ? datapoint?.name
-        : `${authUser.administration.name} - ${moment().format("MMM YYYY")}`,
+      name:
+        datapoint?.name || names?.length
+          ? names
+          : `${authUser.administration.name} - ${moment().format("MMM YYYY")}`,
       geo: geo || null,
       submission_type: uuid
         ? config.submissionType.monitoring
