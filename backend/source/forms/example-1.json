@@ -146,6 +146,22 @@
           "type": "text",
           "required": true,
           "meta_uuid": true
+        },
+        {
+          "id": 111,
+          "order": null,
+          "name": "multiple_of_two",
+          "label": "Multiple of 2",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": false,
+          "meta": false,
+          "options": null,
+          "fn": {
+            "fnString": "#decimal * 2",
+            "multiline": false
+          }
         }
       ]
     }
