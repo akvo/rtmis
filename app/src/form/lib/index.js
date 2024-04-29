@@ -192,13 +192,13 @@ export const generateValidationSchemaFieldLevel = async (currentValue, field) =>
       yupType = Yup.date();
       break;
     case 'option':
-      yupType = Yup.array();
+      yupType = Yup.array().nullable();
       if (required) {
         yupType = Yup.array().min(1, requiredError);
       }
       break;
     case 'multiple_option':
-      yupType = Yup.array();
+      yupType = Yup.array().nullable();
       if (required) {
         yupType = Yup.array().min(1, requiredError);
       }
@@ -239,12 +239,17 @@ export const generateDataPointName = (forms, currentValues, cascades = {}) => {
           return { id: q.id, type: q.type, value };
         })
     : [];
-
+  const geoQuestion = forms?.question_group
+    ?.flatMap((qg) => qg?.question)
+    ?.find((q) => q?.type === 'geo');
   const dpName = dataPointNameValues
     .filter((d) => d.type !== 'geo' && (d.value || d.value === 0))
     .map((x) => x.value)
     .join(' - ');
-  const [lat, lng] = dataPointNameValues.find((d) => d.type === 'geo')?.value || [];
+  const [lat, lng] =
+    dataPointNameValues.find((d) => d.type === 'geo')?.value ||
+    currentValues?.[geoQuestion?.id] ||
+    [];
   const dpGeo = lat && lng ? `${lat}|${lng}` : null;
   return { dpName, dpGeo };
 };
