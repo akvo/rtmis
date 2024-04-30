@@ -238,12 +238,12 @@ class FormDataAddListView(APIView):
             return Response(data, status=status.HTTP_200_OK)
         parent = serializer.validated_data.get("parent")
         if parent:
+            submission_types = [submission_type]
+            if int(submission_type) == SubmissionTypes.monitoring:
+                submission_types.append(SubmissionTypes.registration)
             queryset = form.form_form_data.filter(
                 uuid=parent.uuid,
-                submission_type__in=[
-                    submission_type,
-                    SubmissionTypes.registration,
-                ],
+                submission_type__in=submission_types,
             )
             queryset = queryset.order_by("-created")
             instance = paginator.paginate_queryset(queryset, request)
