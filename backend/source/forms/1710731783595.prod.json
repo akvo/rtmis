@@ -621,18 +621,7 @@
             "max": 100
           },
           "options": []
-        }
-      ]
-    },
-    {
-      "id": 1710731783630,
-      "order": 2,
-      "name": "summary_of_onsite_services",
-      "label": "URBAN SANITATION: SUMMARY of on-site services",
-      "description": null,
-      "repeatable": false,
-      "translations": null,
-      "questions": [
+        },
         {
           "id": 1710733274092,
           "label": "Percentage of population using individual toilets with off-site services",
