@@ -34,7 +34,10 @@ from api.v1.v1_profile.serializers import (
 from api.v1.v1_profile.job import create_download_job
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_jobs.constants import JobTypes
-from utils.upload_administration import generate_administration_excel
+from utils.upload_administration import (
+    generate_administration_excel,
+    generate_entities_data_excel,
+)
 from utils.custom_helper import clean_array_param, maybe_int
 from utils.default_serializers import DefaultResponseSerializer
 from utils.custom_pagination import Pagination
@@ -384,3 +387,100 @@ def export_entity_data(request: Request, version):
         "file_url": file_url,
     }
     return Response(data, status=status.HTTP_200_OK)
+
+
+@extend_schema(
+    tags=["File"],
+    summary="Export template for Entities data bulk upload",
+    parameters=[
+        OpenApiParameter(
+            name="entity_ids",
+            required=True,
+            type={"entity_ids": "array", "items": {"type": "number"}},
+            location=OpenApiParameter.QUERY,
+            explode=False,
+        ),
+    ],
+)
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def export_entities_data_template(request: Request, version):
+    serializer = DownloadEntityDataRequestSerializer(data=request.GET)
+    if not serializer.is_valid():
+        return Response(
+            {"message": validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    entity_ids = clean_array_param(
+        request.query_params.get("entity_ids", ""), maybe_int
+    )
+    filepath = generate_entities_data_excel(
+        cast(SystemUser, request.user), entity_ids
+    )
+    filename = filepath.split("/")[-1].replace(" ", "-")
+    with open(filepath, "rb") as template_file:
+        response = HttpResponse(
+            FileWrapper(template_file),
+            content_type=(
+                "application/vnd.openxmlformats-officedocument"
+                ".spreadsheetml.sheet"
+            ),
+        )
+        response["Content-Disposition"] = f'attachment; filename="{filename}"'
+        return response
+
+
+@extend_schema(
+    tags=["File"],
+    summary="Export entity data with prefilled administrative list",
+    parameters=[
+        OpenApiParameter(
+            name="entity_ids",
+            required=False,
+            type={"entity_ids": "array", "items": {"type": "number"}},
+            location=OpenApiParameter.QUERY,
+            explode=False,
+        ),
+        OpenApiParameter(
+            name="adm_id",
+            required=False,
+            type=OpenApiTypes.NUMBER,
+            location=OpenApiParameter.QUERY,
+        ),
+    ],
+)
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def export_pre_entities_data_template(request: Request, version):
+    serializer = DownloadEntityDataRequestSerializer(data=request.GET)
+    if not serializer.is_valid():
+        return Response(
+            {"message": validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    entity_ids = clean_array_param(
+        request.query_params.get("entity_ids", ""), maybe_int
+    )
+    adm_id = request.query_params.get("adm_id")
+    administration = None
+    if adm_id:
+        administration = Administration.objects.get(pk=adm_id)
+    TESTING = os.environ.get("TESTING")
+    filepath = generate_entities_data_excel(
+        cast(SystemUser, request.user),
+        entity_ids=entity_ids,
+        administration=administration,
+        prefilled=True,
+        testing=TESTING
+    )
+    filename = filepath.split("/")[-1].replace(" ", "-")
+    with open(filepath, "rb") as template_file:
+        response = HttpResponse(
+            FileWrapper(template_file),
+            content_type=(
+                "application/vnd.openxmlformats-officedocument"
+                ".spreadsheetml.sheet"
+            ),
+        )
+        response["Content-Disposition"] = f'attachment; filename="{filename}"'
+        return response
