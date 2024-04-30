@@ -160,7 +160,7 @@ Object {
       This is where you :
       <ul>
         <li>
-          Download administration data
+          Download entities data
         </li>
       </ul>
     </React.Fragment>,
