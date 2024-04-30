@@ -83,6 +83,11 @@ def validate_entity_data(filename: str):
         df = df.dropna(subset=["Name"])
         # remove exact duplicate rows
         df = df.drop_duplicates()
+        if df.shape[0] == 0:
+            errors.append({
+                "sheet": entity.name,
+                "message": "Empty data",
+            })
         for index, row in df.iterrows():
             adm_names = []
             failed = False

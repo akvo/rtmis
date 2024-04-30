@@ -169,7 +169,7 @@ const UploadEntitiesData = () => {
                     <img src="/assets/data-download.svg" />
                     <p>
                       {text.templateDownloadEntityHint}
-                      <Link to="/control-center/master-data/entities">
+                      <Link to="/control-center/master-data/entities/download">
                         {text.downloadHere}
                       </Link>
                     </p>
