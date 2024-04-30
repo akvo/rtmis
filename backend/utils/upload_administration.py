@@ -9,10 +9,12 @@ from api.v1.v1_profile.models import (
     Levels,
     AdministrationAttribute,
     Administration,
+    Entity,
 )
 
 from api.v1.v1_users.models import SystemUser
 from utils.storage import upload
+from rtmis.settings import STORAGE_PATH
 
 
 def generate_template(
@@ -162,3 +164,110 @@ def generate_aggregate_attribute_headers(
     return [
         f"{attribute.id}|{attribute.name}|{opt}" for opt in attribute.options
     ]
+
+
+def fill_administration_data(
+    writer: pd.ExcelWriter,
+    sheet_name: str,
+    administration: Administration = None,
+    testing: bool = False,
+):
+    filename = "kenya-administration.csv"
+    if testing:
+        filename = "kenya-administration_test.csv"
+    source_file = "{0}/master_data/{1}".format(
+        STORAGE_PATH,
+        filename
+    )
+
+    # Read the CSV file into a DataFrame
+    df = pd.read_csv(source_file)
+
+    if administration:
+        level_name = administration.level.name.lower()
+        column_name = f"{level_name}_id"
+        if column_name in df.columns:
+            df = df[df[column_name] == administration.id]
+
+    # Convert the filtered DataFrame to a list of dictionaries
+    administrations = df.to_dict("records")
+
+    worksheet = writer.sheets[sheet_name]
+    level_names = list(Levels.objects.order_by("level").values_list(
+        "name", flat=True
+    ))
+    national = Administration.objects.filter(
+        level__level=0
+    ).first()
+    for adx, adm in enumerate(administrations):
+        if national:
+            worksheet.write(adx + 1, 2, national.name)
+        for lx, level in enumerate(level_names):
+            value = ""
+            if level.lower() in adm:
+                value = adm[level.lower()]
+            if value == value:
+                worksheet.write(adx + 1, lx + 2, value)
+
+
+def generate_entities_template(
+    filepath: str,
+    entity_ids: List[int] = [],
+    administration: Administration = None,
+    prefilled: bool = False,
+    testing: bool = False,
+):
+    level_names = Levels.objects.order_by("level").values_list(
+        "name", flat=True
+    )
+    static_columns = ["Name", "Code"]
+    columns = static_columns + list(level_names)
+
+    df = pd.DataFrame(columns=columns, index=[0])
+    entities = Entity.objects.all()
+    if len(entity_ids):
+        entities = Entity.objects.filter(pk__in=entity_ids).all()
+    with pd.ExcelWriter(filepath, engine="xlsxwriter") as writer:
+        for entity in entities:
+            sheet_name = entity.name
+            df.to_excel(writer, sheet_name=sheet_name, index=False)
+            workbook = writer.book
+            worksheet = writer.sheets[sheet_name]
+            header_format = workbook.add_format(
+                {"bold": True, "text_wrap": True, "valign": "top", "border": 1}
+            )
+            for col_num, value in enumerate(df.columns.values):
+                worksheet.write(0, col_num, value, header_format)
+            if prefilled:
+                fill_administration_data(
+                    writer=writer,
+                    sheet_name=sheet_name,
+                    administration=administration,
+                    testing=testing,
+                )
+
+
+def generate_entities_data_excel(
+    user: SystemUser,
+    entity_ids: List[int] = [],
+    administration: Administration = None,
+    prefilled: bool = False,
+    testing: bool = False,
+):
+    directory = "tmp/entities-data-template"
+    os.makedirs(directory, exist_ok=True)
+    filename = (
+        f"{timezone.now().strftime('%Y%m%d%H%M%S')}-{user.pk}-"
+        "entities-data-template.xlsx"
+    )
+    filepath = f"./{directory}/{filename}"
+    if os.path.exists(filepath):
+        os.remove(filepath)
+    generate_entities_template(
+        filepath=filepath,
+        entity_ids=entity_ids,
+        administration=administration,
+        prefilled=prefilled,
+        testing=testing,
+    )
+    return filepath
