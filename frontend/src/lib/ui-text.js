@@ -244,7 +244,7 @@ const uiText = {
       <Fragment>
         This is where you :
         <ul>
-          <li>Download administration data</li>
+          <li>Download entities data</li>
         </ul>
       </Fragment>
     ),

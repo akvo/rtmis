@@ -48,6 +48,7 @@ import {
   ManageDataClaim,
   ManageVerificationData,
   VerificationDetail,
+  DownloadEntitiesData,
   // Visualisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
@@ -186,6 +187,12 @@ const RouteList = () => {
         <Route
           path="master-data/entities/upload"
           element={<Private element={UploadEntitiesData} alias="master-data" />}
+        />
+        <Route
+          path="master-data/entities/download"
+          element={
+            <Private element={DownloadEntitiesData} alias="master-data" />
+          }
         />
         <Route
           path="master-data/entities/:id"

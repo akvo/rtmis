@@ -9,6 +9,8 @@ from api.v1.v1_profile.views import (
     export_prefilled_administrations_template,
     send_feedback,
     export_entity_data,
+    export_entities_data_template,
+    export_pre_entities_data_template,
 )
 
 urlpatterns = [
@@ -19,6 +21,14 @@ urlpatterns = [
     re_path(
         r"^(?P<version>(v1))/export/prefilled-administrations-template",
         export_prefilled_administrations_template,
+    ),
+    re_path(
+        r"^(?P<version>(v1))/export/entity-data-template",
+        export_entities_data_template
+    ),
+    re_path(
+        r"^(?P<version>(v1))/export/prefilled-entity-data-template",
+        export_pre_entities_data_template
     ),
     re_path(r"^(?P<version>(v1))/export/entity-data", export_entity_data),
     re_path(
