@@ -265,7 +265,7 @@
         },
         {
           "id": 1710734407728,
-          "label": "Percentage (number/total)",
+          "label": "Percentage of households using individual pit latrines with slab (number/total)",
           "name": "num_total_individual_pit_slab",
           "order": 15,
           "questionGroupId": 1710731783596,
@@ -299,7 +299,7 @@
         },
         {
           "id": 1710734467413,
-          "label": "Percentage (number/total)",
+          "label": "Percentage of households using individual pit latrines with TWO pits (number/total)",
           "name": "num_total_individual_two_pits",
           "order": 17,
           "questionGroupId": 1710731783596,
@@ -333,7 +333,7 @@
         },
         {
           "id": 1710734506096,
-          "label": "Percentage (number/total)",
+          "label": "Percentage of households using individual VIP latrines (number/total)",
           "name": "num_total_vip_latrines",
           "order": 19,
           "questionGroupId": 1710731783596,
@@ -367,7 +367,7 @@
         },
         {
           "id": 1710734566230,
-          "label": "Percentage (number/total)",
+          "label": "Percentage of households using SHARED pit latrines with SATO pans (number/total)",
           "name": "num_total_sato_pans",
           "order": 21,
           "questionGroupId": 1710731783596,
@@ -401,7 +401,7 @@
         },
         {
           "id": 1710734600409,
-          "label": "Percentage (number/total)",
+          "label": "Percentage of households using SHARED double vault toilets (number/total)",
           "name": "num_total_double_vault",
           "order": 23,
           "questionGroupId": 1710731783596,
@@ -435,7 +435,7 @@
         },
         {
           "id": 1710734696796,
-          "label": "Percentage (number/total)",
+          "label": "Percentage of households using individual container-based toilets (number/total)",
           "name": "num_total_container_based",
           "order": 25,
           "questionGroupId": 1710731783596,
@@ -470,7 +470,7 @@
         },
         {
           "id": 1710734763588,
-          "label": "Percentage (number/total)",
+          "label": "Percentage of households using individual toilets with open containers (number/total)",
           "name": "num_total_open_containers",
           "order": 27,
           "questionGroupId": 1710731783596,
@@ -504,7 +504,7 @@
         },
         {
           "id": 1710734816892,
-          "label": "Percentage (number/total)",
+          "label": "Percentage of households using SHARED container-based toilets (number/total)",
           "name": "num_total_shared_container_based",
           "order": 29,
           "questionGroupId": 1710731783596,
@@ -539,7 +539,7 @@
         },
         {
           "id": 1710734854542,
-          "label": "Percentage (number/total)",
+          "label": "Percentage of households using SHARED toilets with open containers (number/total)",
           "name": "num_total_shared_open_containers",
           "order": 31,
           "questionGroupId": 1710731783596,
@@ -573,7 +573,7 @@
         },
         {
           "id": 1710735007726,
-          "label": "Percentage (number/total)",
+          "label": "Percentage of households using individual toilets WITHOUT containment (number/total)",
           "name": "num_total_without_containment",
           "order": 33,
           "questionGroupId": 1710731783596,
@@ -607,7 +607,7 @@
         },
         {
           "id": 1710735048022,
-          "label": "Percentage (number/total)",
+          "label": "Percentage of households using SHARED toilets WITHOUT containment (number/total)",
           "name": "num_total_shared_without_containment",
           "order": 35,
           "questionGroupId": 1710731783596,
@@ -621,23 +621,12 @@
             "max": 100
           },
           "options": []
-        }
-      ]
-    },
-    {
-      "id": 1710731783630,
-      "order": 2,
-      "name": "summary_of_onsite_services",
-      "label": "URBAN SANITATION: SUMMARY of on-site services",
-      "description": null,
-      "repeatable": false,
-      "translations": null,
-      "questions": [
+        },
         {
           "id": 1710733274092,
           "label": "Percentage of population using individual toilets with off-site services",
           "name": "percentage_population_toilets_off_site",
-          "order": 1,
+          "order": 36,
           "questionGroupId": 1710733274091,
           "type": "number",
           "required": true,
@@ -656,7 +645,7 @@
           "id": 1710735159567,
           "label": "Percentage of population using individual toilets with on-site containment",
           "name": "percentage_population_toilets_on_site",
-          "order": 2,
+          "order": 37,
           "questionGroupId": 1710733274091,
           "type": "number",
           "required": true,
@@ -675,7 +664,7 @@
           "id": 1710735181783,
           "label": "Percentage of population using individual toilets WITHOUT containment",
           "name": "percentage_population_toilets_no",
-          "order": 3,
+          "order": 38,
           "questionGroupId": 1710733274091,
           "type": "number",
           "required": true,
@@ -694,7 +683,7 @@
           "id": 1710735207611,
           "label": "Percentage of population using SHARED toilets with off-site services",
           "name": "percentage_population_toilets_off_shared",
-          "order": 4,
+          "order": 39,
           "questionGroupId": 1710733274091,
           "type": "number",
           "required": true,
@@ -713,7 +702,7 @@
           "id": 1710735260128,
           "label": "Percentage of population using SHARED toilets with on-site containment",
           "name": "percentage_population_toilets_on_shared",
-          "order": 5,
+          "order": 40,
           "questionGroupId": 1710733274091,
           "type": "number",
           "required": true,
@@ -732,7 +721,7 @@
           "id": 1710735291844,
           "label": "Percentage of population using SHARED toilets WITHOUT containment",
           "name": "percentage_population_toilets_no_shared",
-          "order": 6,
+          "order": 41,
           "questionGroupId": 1710733274091,
           "type": "number",
           "required": true,
@@ -751,7 +740,7 @@
     },
     {
       "id": 1710731783636,
-      "order": 3,
+      "order": 2,
       "name": "safely_managed_sanisation_services",
       "label": "URBAN SANITATION: Safely managed sanitation services",
       "description": null,
