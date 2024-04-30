@@ -46,3 +46,4 @@ export { default as CertificationAssignment } from "./certification-assignment/C
 export { default as ManageDataClaim } from "./manage-data-claim/ManageDataClaim";
 export { default as ManageVerificationData } from "./manage-verification-data/ManageVerificationData";
 export { default as VerificationDetail } from "./manage-verification-data/VerificationDetail";
+export { default as DownloadEntitiesData } from "./upload-administration-data/DownloadEntitiesData";

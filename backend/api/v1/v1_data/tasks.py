@@ -12,7 +12,7 @@ def seed_approved_data(data):
     parent_data = FormData.objects.filter(
         form=data.form,
         uuid=data.uuid,
-        parent=None,
+        parent__isnull=True,
     ).first()
     if data.data:
         form_data: FormData = data.data
