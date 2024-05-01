@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
 import { Row, Col, Divider, Table, ConfigProvider, Empty } from "antd";
-import { DownCircleOutlined, LeftCircleOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 import { api, config, store, uiText } from "../../lib";
 import {
   Breadcrumbs,
@@ -9,7 +9,6 @@ import {
   DataClaimFilters,
 } from "../../components";
 import { generateAdvanceFilterURL } from "../../util/filter";
-import DataClaimDetail from "./DataClaimDetail";
 
 const ManageDataClaim = () => {
   const [loading, setLoading] = useState(false);
@@ -18,15 +17,10 @@ const ManageDataClaim = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [updateRecord, setUpdateRecord] = useState(false);
   const [isAdmFilter, setIsAdmFilter] = useState(false);
+  const navigate = useNavigate();
 
-  const {
-    language,
-    advancedFilters,
-    administration,
-    selectedForm,
-    questionGroups,
-    user,
-  } = store.useState((s) => s);
+  const { language, advancedFilters, administration, selectedForm, user } =
+    store.useState((s) => s);
   const { active: activeLang } = language;
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -70,7 +64,6 @@ const ManageDataClaim = () => {
       title: "Region",
       dataIndex: "administration",
     },
-    Table.EXPAND_COLUMN,
   ];
 
   const handleChange = (e) => {
@@ -184,28 +177,12 @@ const ManageDataClaim = () => {
                     `Results: ${range[0]} - ${range[1]} of ${total} data`,
                 }}
                 rowKey="id"
-                expandable={{
-                  expandedRowRender: (record) => (
-                    <DataClaimDetail
-                      questionGroups={questionGroups}
-                      record={record}
-                    />
-                  ),
-                  expandIcon: ({ expanded, onExpand, record }) =>
-                    expanded ? (
-                      <DownCircleOutlined
-                        onClick={(e) => onExpand(record, e)}
-                        style={{ color: "#1651B6", fontSize: "19px" }}
-                      />
-                    ) : (
-                      <LeftCircleOutlined
-                        onClick={(e) => onExpand(record, e)}
-                        style={{ color: "#1651B6", fontSize: "19px" }}
-                      />
+                onRow={(record) => ({
+                  onClick: () =>
+                    navigate(
+                      `/control-center/data-claim/${selectedForm}/certification/${record.id}`
                     ),
-                }}
-                rowClassName="expandable-row row-normal sticky"
-                expandRowByClick
+                })}
               />
             </ConfigProvider>
           </div>

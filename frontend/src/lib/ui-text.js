@@ -750,12 +750,21 @@ const uiText = {
     selectCertification: "Select certification",
     certificationList: "Certification list",
     ManageDataClaimTitle: "Manage Certification Data",
+    DataClaimDetailTitle: "Certification Detail",
     ManageDataClaimText: (
       <Fragment>This is where you can view certification data</Fragment>
     ),
+    DataClaimDetailText: (
+      <Fragment>This is where you can view certification detail</Fragment>
+    ),
+    backManageDataClaim: "Back to Manage Certification Data",
     ManageVerificationDataTitle: "Manage Verification Data",
+    VerificationDetailTitle: "Verification Detail",
     ManageVerificationDataText: (
       <Fragment>This is where you can view verification data</Fragment>
+    ),
+    VerificationDetailText: (
+      <Fragment>This is where you can view verification detail</Fragment>
     ),
     backManageVerification: "Back to Manage Verification Data",
   },

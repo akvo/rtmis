@@ -19,11 +19,11 @@ import {
 import { useParams, useNavigate } from "react-router-dom";
 import { api, config, store, uiText } from "../../lib";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
-import VerificationDataDetail from "./VerificationDataDetail";
+import DataClaimDetail from "./DataClaimDetail";
 
 const { Title } = Typography;
 
-const VerificationDetail = () => {
+const DataClaimDetailList = () => {
   const [loading, setLoading] = useState(false);
   const [dataset, setDataset] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
@@ -45,11 +45,11 @@ const VerificationDetail = () => {
       link: "/control-center",
     },
     {
-      title: text.ManageVerificationDataTitle,
-      link: "/control-center/data",
+      title: text.ManageDataClaimTitle,
+      link: "/control-center/data-claim",
     },
     {
-      title: text.VerificationDetailTitle,
+      title: text.DataClaimDetailTitle,
     },
   ];
 
@@ -97,7 +97,7 @@ const VerificationDetail = () => {
   useEffect(() => {
     if (form && !updateRecord) {
       setLoading(true);
-      const url = `/form-data/${form}/?page=${currentPage}&parent=${parentId}&submission_type=${config.submissionType.verification}`;
+      const url = `/form-data/${form}/?page=${currentPage}&parent=${parentId}&submission_type=${config.submissionType.certification}`;
       api
         .get(url)
         .then((res) => {
@@ -131,8 +131,8 @@ const VerificationDetail = () => {
           <Col>
             <Breadcrumbs pagePath={pagePath} />
             <DescriptionPanel
-              description={text.VerificationDetailText}
-              title={text.VerificationDetailTitle}
+              description={text.DataClaimDetailText}
+              title={text.DataClaimDetailTitle}
             />
           </Col>
         </Row>
@@ -144,10 +144,10 @@ const VerificationDetail = () => {
             <Col span={6}>
               <Button
                 shape="round"
-                onClick={() => navigate("/control-center/verification-data")}
+                onClick={() => navigate("/control-center/data-claim")}
                 icon={<ArrowLeftOutlined />}
               >
-                {text.backManageVerification}
+                {text.backManageDataClaim}
               </Button>
             </Col>
           </Row>
@@ -176,7 +176,7 @@ const VerificationDetail = () => {
                 rowKey="id"
                 expandable={{
                   expandedRowRender: (record) => (
-                    <VerificationDataDetail
+                    <DataClaimDetail
                       questionGroups={questionGroups}
                       record={record}
                     />
@@ -194,7 +194,7 @@ const VerificationDetail = () => {
                       />
                     ),
                 }}
-                rowClassName="row-normal sticky expandable-row"
+                rowClassName="expandable-row row-normal sticky"
                 expandRowByClick
               />
             </ConfigProvider>
@@ -205,4 +205,4 @@ const VerificationDetail = () => {
   );
 };
 
-export default React.memo(VerificationDetail);
+export default React.memo(DataClaimDetailList);

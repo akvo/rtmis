@@ -47,3 +47,4 @@ export { default as ManageDataClaim } from "./manage-data-claim/ManageDataClaim"
 export { default as ManageVerificationData } from "./manage-verification-data/ManageVerificationData";
 export { default as VerificationDetail } from "./manage-verification-data/VerificationDetail";
 export { default as DownloadEntitiesData } from "./upload-administration-data/DownloadEntitiesData";
+export { default as DataClaimDetailList } from "./manage-data-claim/DataClaimDetailList";

@@ -49,6 +49,7 @@ import {
   ManageVerificationData,
   VerificationDetail,
   DownloadEntitiesData,
+  DataClaimDetailList,
   // Visualisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
@@ -209,6 +210,10 @@ const RouteList = () => {
         <Route
           path="data-claim"
           element={<Private element={ManageDataClaim} alias="data" />}
+        />
+        <Route
+          path="data-claim/:form/certification/:parentId"
+          element={<Private element={DataClaimDetailList} alias="data" />}
         />
         <Route
           path="verification-data"
