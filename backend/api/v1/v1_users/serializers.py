@@ -218,14 +218,14 @@ class ListAdministrationSerializer(serializers.ModelSerializer):
         filter = self.context.get('filter')
         if filter:
             filtered_administration = Administration.objects.filter(
-                id=filter).all()
+                id=filter).all().order_by('name')
             return ListAdministrationChildrenSerializer(
                 filtered_administration, many=True).data
-        children = instance.parent_administration.all()
+        children = instance.parent_administration.all().order_by('name')
         if len(filter_children):
             children = instance.parent_administration.filter(
                 pk__in=filter_children
-            )
+            ).all().order_by('name')
         return ListAdministrationChildrenSerializer(
             instance=children,
             many=True
