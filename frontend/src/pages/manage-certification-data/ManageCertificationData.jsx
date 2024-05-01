@@ -148,7 +148,7 @@ const ManageCertificationData = () => {
 
       <div className="table-section">
         <div className="table-wrapper">
-          <CertificationDataFilters />
+          <CertificationDataFilters hideAdministrationDropdown={true} />
           <Divider />
           <div
             style={{ padding: 0, minHeight: "40vh" }}
