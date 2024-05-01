@@ -11,17 +11,23 @@ from api.v1.v1_users.models import SystemUser
 
 
 def seed_administration_test():
-    level = Levels(name="country", level=1)
+    level = Levels(name="national", level=0)
     level.save()
     administration = Administration(id=1,
                                     name="Indonesia",
                                     parent=None,
-                                    level=level)
+                                    level=level,
+                                    path=None
+                                    )
     administration.save()
+    level = Levels(name="province", level=1)
+    level.save()
     administration = Administration(id=2,
                                     name="Jakarta",
                                     parent=administration,
-                                    level=level)
+                                    level=level,
+                                    path="1."
+                                    )
     administration.save()
 
 
@@ -367,7 +373,7 @@ class FormDataUpdateTestCase(TestCase):
             "data": {
                 "name": "Testing Data National From Type",
                 "administration": 2,
-                "geo": [6.2088, 106.8456]
+                "geo": [6.2088, 106.8456],
             },
             "answer": [{
                 "question": 201,

@@ -99,9 +99,6 @@ const ManageCertificationData = () => {
     if (selectedForm && isAdministrationLoaded && !updateRecord) {
       setLoading(true);
       let url = `/form-data/${selectedForm}/?submission_type=${config.submissionType.certification}&page=${currentPage}`;
-      if (selectedAdministration?.id && isAdmFilter) {
-        url += `&administration=${selectedAdministration.id}`;
-      }
       if (advancedFilters && advancedFilters.length) {
         url = generateAdvanceFilterURL(advancedFilters, url);
       }
@@ -124,12 +121,10 @@ const ManageCertificationData = () => {
     }
   }, [
     selectedForm,
-    selectedAdministration,
     currentPage,
     isAdministrationLoaded,
     updateRecord,
     advancedFilters,
-    isAdmFilter,
   ]);
 
   return (
@@ -148,7 +143,7 @@ const ManageCertificationData = () => {
 
       <div className="table-section">
         <div className="table-wrapper">
-          <CertificationDataFilters />
+          <CertificationDataFilters hideAdministrationDropdown={true} />
           <Divider />
           <div
             style={{ padding: 0, minHeight: "40vh" }}

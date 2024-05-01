@@ -12,6 +12,7 @@ import { DownloadOutlined } from "@ant-design/icons";
 const CertificationDataFilters = ({
   loading,
   submissionType = config.submissionType.certification,
+  hideAdministrationDropdown = false,
 }) => {
   const { selectedForm, loadingForm, administration } = store.useState(
     (s) => s
@@ -55,10 +56,12 @@ const CertificationDataFilters = ({
       <Col flex={1}>
         <Space>
           <FormDropdown loading={loading} submissionTypes={[submissionType]} />
-          <AdministrationDropdown
-            loading={loading || loadingForm}
-            submissionType={submissionType}
-          />
+          {!hideAdministrationDropdown && (
+            <AdministrationDropdown
+              loading={loading || loadingForm}
+              submissionType={submissionType}
+            />
+          )}
         </Space>
       </Col>
       <Col>
