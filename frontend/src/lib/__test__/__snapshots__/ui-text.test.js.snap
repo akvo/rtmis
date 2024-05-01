@@ -7,17 +7,17 @@ Object {
     "AdministrationDataDownload": "Administration Data Download",
     "AdministrationDataUpload": "Administration Data Upload",
     "AdministrationDownloadPageHint": "Uncheck Prefilled if you only want an upload template",
-    "DataClaimDetailText": <React.Fragment>
+    "CertificationDetailText": <React.Fragment>
       This is where you can view certification detail
     </React.Fragment>,
-    "DataClaimDetailTitle": "Certification Detail",
+    "CertificationDetailTitle": "Certification Detail",
     "EntitiesDataDownload": "Entities Data Download",
     "EntitiesDataUpload": "Entities Data Upload",
     "EntitiesDownloadPageHint": "Uncheck Prefilled if you only want an upload template",
-    "ManageDataClaimText": <React.Fragment>
+    "ManageCertificationDataText": <React.Fragment>
       This is where you can view certification data
     </React.Fragment>,
-    "ManageDataClaimTitle": "Manage Certification Data",
+    "ManageCertificationDataTitle": "Manage Certification Data",
     "ManageVerificationDataText": <React.Fragment>
       This is where you can view verification data
     </React.Fragment>,
@@ -97,8 +97,8 @@ Object {
     "attrTypeRequired": "Attribute type is required",
     "backBtn": "Back",
     "backHome": "Back to Homepage",
+    "backManageCertificationData": "Back to Manage Certification Data",
     "backManageData": "Back to Manage Routine Data",
-    "backManageDataClaim": "Back to Manage Certification Data",
     "backManageVerification": "Back to Manage Verification Data",
     "backToCenterLabel": "Back to Control Center",
     "batchDatasets": "Batch Datasets",

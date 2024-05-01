@@ -45,11 +45,11 @@ import {
   MonitoringDetail,
   Downloads,
   CertificationAssignment,
-  ManageDataClaim,
+  ManageCertificationData,
   ManageVerificationData,
   VerificationDetail,
   DownloadEntitiesData,
-  DataClaimDetailList,
+  CertificationDetail,
   // Visualisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
@@ -208,12 +208,12 @@ const RouteList = () => {
           element={<Private element={Submissions} alias="data" />}
         />
         <Route
-          path="data-claim"
-          element={<Private element={ManageDataClaim} alias="data" />}
+          path="certification-data"
+          element={<Private element={ManageCertificationData} alias="data" />}
         />
         <Route
-          path="data-claim/:form/certification/:parentId"
-          element={<Private element={DataClaimDetailList} alias="data" />}
+          path="certification-data/:form/certification/:parentId"
+          element={<Private element={CertificationDetail} alias="data" />}
         />
         <Route
           path="verification-data"

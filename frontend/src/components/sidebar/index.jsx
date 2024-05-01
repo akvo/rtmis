@@ -51,9 +51,9 @@ const Sidebar = () => {
       label: "Certification Assignment'",
       url: "/control-center/certification",
     },
-    "data-claim": {
+    "certification-data": {
       label: "Manage Certification Data",
-      url: "/control-center/data-claim",
+      url: "/control-center/certification-data",
     },
     "verification-data": {
       label: "Manage Verification Data",
@@ -74,7 +74,7 @@ const Sidebar = () => {
     "manage-data": {
       label: "Data",
       icon: TableOutlined,
-      childrenKeys: ["data", "data-claim", "verification-data"],
+      childrenKeys: ["data", "certification-data", "verification-data"],
     },
     "manage-master-data": {
       label: "Master Data",

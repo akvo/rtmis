@@ -6,11 +6,11 @@ import { api, config, store, uiText } from "../../lib";
 import {
   Breadcrumbs,
   DescriptionPanel,
-  DataClaimFilters,
+  CertificationDataFilters,
 } from "../../components";
 import { generateAdvanceFilterURL } from "../../util/filter";
 
-const ManageDataClaim = () => {
+const ManageCertificationData = () => {
   const [loading, setLoading] = useState(false);
   const [dataset, setDataset] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
@@ -32,7 +32,7 @@ const ManageDataClaim = () => {
       link: "/control-center",
     },
     {
-      title: text.ManageDataClaimTitle,
+      title: text.ManageCertificationDataTitle,
     },
   ];
 
@@ -133,14 +133,14 @@ const ManageDataClaim = () => {
   ]);
 
   return (
-    <div id="manage-data-claim">
+    <div id="manage-certification-data">
       <div className="description-container">
         <Row justify="space-between">
           <Col>
             <Breadcrumbs pagePath={pagePath} />
             <DescriptionPanel
-              description={text.ManageDataClaimText}
-              title={text.ManageDataClaimTitle}
+              description={text.ManageCertificationDataText}
+              title={text.ManageCertificationDataTitle}
             />
           </Col>
         </Row>
@@ -148,7 +148,7 @@ const ManageDataClaim = () => {
 
       <div className="table-section">
         <div className="table-wrapper">
-          <DataClaimFilters />
+          <CertificationDataFilters />
           <Divider />
           <div
             style={{ padding: 0, minHeight: "40vh" }}
@@ -180,7 +180,7 @@ const ManageDataClaim = () => {
                 onRow={(record) => ({
                   onClick: () =>
                     navigate(
-                      `/control-center/data-claim/${selectedForm}/certification/${record.id}`
+                      `/control-center/certification-data/${selectedForm}/certification/${record.id}`
                     ),
                 })}
               />
@@ -192,4 +192,4 @@ const ManageDataClaim = () => {
   );
 };
 
-export default React.memo(ManageDataClaim);
+export default React.memo(ManageCertificationData);

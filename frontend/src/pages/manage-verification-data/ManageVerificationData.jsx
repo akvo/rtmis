@@ -6,7 +6,7 @@ import { api, config, store, uiText } from "../../lib";
 import {
   Breadcrumbs,
   DescriptionPanel,
-  DataClaimFilters,
+  CertificationDataFilters,
 } from "../../components";
 import { generateAdvanceFilterURL } from "../../util/filter";
 
@@ -125,7 +125,7 @@ const ManageVerificationData = () => {
 
       <div className="table-section">
         <div className="table-wrapper">
-          <DataClaimFilters
+          <CertificationDataFilters
             submissionType={config.submissionType.verification}
           />
           <Divider />

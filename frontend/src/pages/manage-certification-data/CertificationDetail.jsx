@@ -19,11 +19,11 @@ import {
 import { useParams, useNavigate } from "react-router-dom";
 import { api, config, store, uiText } from "../../lib";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
-import DataClaimDetail from "./DataClaimDetail";
+import CertificationDataDetail from "./CertificationDataDetail";
 
 const { Title } = Typography;
 
-const DataClaimDetailList = () => {
+const CertificationDetail = () => {
   const [loading, setLoading] = useState(false);
   const [dataset, setDataset] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
@@ -45,11 +45,11 @@ const DataClaimDetailList = () => {
       link: "/control-center",
     },
     {
-      title: text.ManageDataClaimTitle,
-      link: "/control-center/data-claim",
+      title: text.ManageCertificationDataTitle,
+      link: "/control-center/certification-data",
     },
     {
-      title: text.DataClaimDetailTitle,
+      title: text.CertificationDetailTitle,
     },
   ];
 
@@ -131,8 +131,8 @@ const DataClaimDetailList = () => {
           <Col>
             <Breadcrumbs pagePath={pagePath} />
             <DescriptionPanel
-              description={text.DataClaimDetailText}
-              title={text.DataClaimDetailTitle}
+              description={text.CertificationDetailText}
+              title={text.CertificationDetailTitle}
             />
           </Col>
         </Row>
@@ -144,10 +144,10 @@ const DataClaimDetailList = () => {
             <Col span={6}>
               <Button
                 shape="round"
-                onClick={() => navigate("/control-center/data-claim")}
+                onClick={() => navigate("/control-center/certification-data")}
                 icon={<ArrowLeftOutlined />}
               >
-                {text.backManageDataClaim}
+                {text.backManageCertificationData}
               </Button>
             </Col>
           </Row>
@@ -176,7 +176,7 @@ const DataClaimDetailList = () => {
                 rowKey="id"
                 expandable={{
                   expandedRowRender: (record) => (
-                    <DataClaimDetail
+                    <CertificationDataDetail
                       questionGroups={questionGroups}
                       record={record}
                     />
@@ -205,4 +205,4 @@ const DataClaimDetailList = () => {
   );
 };
 
-export default React.memo(DataClaimDetailList);
+export default React.memo(CertificationDetail);
