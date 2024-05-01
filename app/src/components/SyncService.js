@@ -139,14 +139,12 @@ const SyncService = () => {
                 form_id: formId,
                 administration_id: administrationId,
                 last_updated: lastUpdated,
-                is_certified: isCertified,
               }) => ({
                 url,
                 formId,
                 administrationId,
                 lastUpdated,
                 isCertification: true,
-                isCertified,
               }),
             ),
           ];
