@@ -145,7 +145,7 @@ class Command(BaseCommand):
         )
         mobile_assignment.forms.add(form)
         if not test:
-            print("- Username: {}\n".format(mobile_assignment.name))
+            print("- Username: {}".format(mobile_assignment.name))
             print("- Administrations: {}\n".format(", ".join(
                 [
                     a["name"]
