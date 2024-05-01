@@ -196,14 +196,6 @@ class FormDataAddListView(APIView):
                 )
             else:
                 filter_path = f"{filter_administration.id}."
-            filter_descendants = list(
-                Administration.objects.filter(
-                    path__startswith=filter_path
-                ).values_list("id", flat=True)
-            )
-            filter_descendants.append(filter_administration.id)
-
-            filter_data["administration_id__in"] = filter_descendants
 
         if int(submission_type) == SubmissionTypes.certification:
             user_path = "{0}{1}".format(
@@ -220,6 +212,14 @@ class FormDataAddListView(APIView):
                 queryset = form.form_form_data.filter(
                     submission_type=submission_type
                 )
+        else:
+            filter_descendants = list(
+                Administration.objects.filter(
+                    path__startswith=filter_path
+                ).values_list("id", flat=True)
+            )
+            filter_descendants.append(filter_administration.id)
+            filter_data["administration_id__in"] = filter_descendants
 
         parent = serializer.validated_data.get("parent")
         if parent:
