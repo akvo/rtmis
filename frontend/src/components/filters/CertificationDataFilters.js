@@ -9,7 +9,7 @@ import { api, config, store, uiText } from "../../lib/index.js";
 import { takeRight } from "lodash";
 import { DownloadOutlined } from "@ant-design/icons";
 
-const DataClaimFilters = ({
+const CertificationDataFilters = ({
   loading,
   submissionType = config.submissionType.certification,
 }) => {
@@ -75,4 +75,4 @@ const DataClaimFilters = ({
   );
 };
 
-export default React.memo(DataClaimFilters);
+export default React.memo(CertificationDataFilters);

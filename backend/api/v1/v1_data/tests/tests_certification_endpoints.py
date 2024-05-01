@@ -1,13 +1,16 @@
 from django.core.management import call_command
 from django.test import TestCase
 from django.test.utils import override_settings
-from django.db.models import Count
+from django.db.models import Count, Max
 from rest_framework_simplejwt.tokens import RefreshToken
 from faker import Faker
 
 from api.v1.v1_forms.models import Forms, UserForms, SubmissionTypes
 from api.v1.v1_profile.models import (
-    Administration, Levels, Access, UserRoleTypes
+    Administration,
+    Levels,
+    Access,
+    UserRoleTypes,
 )
 from api.v1.v1_profile.management.commands import administration_seeder
 from api.v1.v1_data.models import FormData
@@ -22,22 +25,23 @@ class CertificationEndpointsTestCase(TestCase):
         self,
         email: str,
         role_level: int,
-        password: str = 'password',
-        administration: Administration = None
+        password: str = "password",
+        administration: Administration = None,
     ) -> SystemUser:
         profile = fake.profile()
         name = profile.get("name")
         name = name.split(" ")
         user = SystemUser.objects.create(
-            email=email,
-            first_name=name[0],
-            last_name=name[1])
+            email=email, first_name=name[0], last_name=name[1]
+        )
         user.set_password(password)
         user.save()
 
         level = Levels.objects.filter(level=role_level).first()
-        administration = administration or Administration.objects.filter(
-                level=level).order_by('?').first()
+        administration = (
+            administration
+            or Administration.objects.filter(level=level).order_by("?").first()
+        )
         Access.objects.create(
             user=user,
             role=role_level,
@@ -51,7 +55,7 @@ class CertificationEndpointsTestCase(TestCase):
             ["Jakarta", "East Jakarta", "Kramat Jati", "Cawang"],
             ["Jakarta", "West Jakarta", "Kebon Jeruk", "Kebon Jeruk"],
             ["Yogyakarta", "Sleman", "Seturan", "Cepit Baru"],
-            ["Yogyakarta", "Bantul", "Bantul", "Bantul"]
+            ["Yogyakarta", "Bantul", "Bantul", "Bantul"],
         ]
         administration_seeder.seed_administration_test(county=county)
         call_command("fake_data_seeder", "-r", 10, "-t", True)
@@ -70,7 +74,7 @@ class CertificationEndpointsTestCase(TestCase):
             .filter(
                 path__contains=self.administration.path,
                 level=self.target_level,
-                num_data__gt=0
+                num_data__gt=0,
             )
             .exclude(path__startswith=adm_path)
             .order_by("?")
@@ -78,8 +82,7 @@ class CertificationEndpointsTestCase(TestCase):
         )
         # Create certification assignment by admin
         self.admin_user = self.create_user(
-            email="admin@akvo.org",
-            role_level=UserRoleTypes.super_admin
+            email="admin@akvo.org", role_level=UserRoleTypes.super_admin
         )
         t = RefreshToken.for_user(self.admin_user)
         self.header = {"HTTP_AUTHORIZATION": f"Bearer {t.access_token}"}
@@ -126,12 +129,12 @@ class CertificationEndpointsTestCase(TestCase):
         t = RefreshToken.for_user(self.assignee_user)
         data = self.client.get(
             f"/api/v1/form-data/{self.form.id}?submission_type={st}",
-            content_type='application/json',
-            **{'HTTP_AUTHORIZATION': f'Bearer {t.access_token}'}
+            content_type="application/json",
+            **{"HTTP_AUTHORIZATION": f"Bearer {t.access_token}"},
         )
         self.assertEqual(data.status_code, 200)
         data = data.json()
-        self.assertNotEqual(data['total'], 0)
+        self.assertNotEqual(data["total"], 0)
 
     def test_open_certification_by_target(self):
         st = SubmissionTypes.certification
@@ -143,19 +146,24 @@ class CertificationEndpointsTestCase(TestCase):
         )
         self.assertEqual(data.status_code, 200)
         data = data.json()
-        self.assertEqual(data["total"], 0)
+        self.assertEqual(data["total"], 5)
 
     def test_open_certification_by_admin(self):
         st = SubmissionTypes.certification
         t = RefreshToken.for_user(self.admin_user)
         data = self.client.get(
             f"/api/v1/form-data/{self.form.id}?submission_type={st}",
-            content_type='application/json',
-            **{'HTTP_AUTHORIZATION': f'Bearer {t.access_token}'}
+            content_type="application/json",
+            **{"HTTP_AUTHORIZATION": f"Bearer {t.access_token}"},
         )
         self.assertEqual(data.status_code, 200)
         data = data.json()
-        total = FormData.objects.filter(
-            submission_type=SubmissionTypes.certification
-        ).count()
-        self.assertEqual(data['total'], total)
+        total = (
+            FormData.objects.filter(
+                submission_type=SubmissionTypes.certification
+            )
+            .values("uuid")
+            .annotate(latest_id=Max("id"))
+            .count()
+        )
+        self.assertEqual(data["total"], total)

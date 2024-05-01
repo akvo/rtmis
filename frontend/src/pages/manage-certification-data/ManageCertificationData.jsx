@@ -10,15 +10,16 @@ import {
 } from "../../components";
 import { generateAdvanceFilterURL } from "../../util/filter";
 
-const ManageVerificationData = () => {
+const ManageCertificationData = () => {
   const [loading, setLoading] = useState(false);
   const [dataset, setDataset] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [updateRecord, setUpdateRecord] = useState(false);
+  const [isAdmFilter, setIsAdmFilter] = useState(false);
   const navigate = useNavigate();
 
-  const { language, advancedFilters, administration, selectedForm } =
+  const { language, advancedFilters, administration, selectedForm, user } =
     store.useState((s) => s);
   const { active: activeLang } = language;
   const text = useMemo(() => {
@@ -31,7 +32,7 @@ const ManageVerificationData = () => {
       link: "/control-center",
     },
     {
-      title: text.ManageVerificationDataTitle,
+      title: text.ManageCertificationDataTitle,
     },
   ];
 
@@ -70,14 +71,35 @@ const ManageVerificationData = () => {
   };
 
   useEffect(() => {
+    if (
+      selectedAdministration?.id &&
+      selectedAdministration?.id !== user?.administration?.id &&
+      !isAdmFilter
+    ) {
+      setIsAdmFilter(true);
+    }
+    if (
+      isAdmFilter &&
+      selectedAdministration?.id === user?.administration?.id
+    ) {
+      setIsAdmFilter(false);
+    }
+  }, [
+    isAdmFilter,
+    administration,
+    selectedAdministration?.id,
+    user?.administration?.id,
+  ]);
+
+  useEffect(() => {
     setCurrentPage(1);
   }, [selectedAdministration]);
 
   useEffect(() => {
     if (selectedForm && isAdministrationLoaded && !updateRecord) {
       setLoading(true);
-      let url = `/form-data/${selectedForm}/?submission_type=${config.submissionType.verification}&page=${currentPage}`;
-      if (selectedAdministration?.id) {
+      let url = `/form-data/${selectedForm}/?submission_type=${config.submissionType.certification}&page=${currentPage}`;
+      if (selectedAdministration?.id && isAdmFilter) {
         url += `&administration=${selectedAdministration.id}`;
       }
       if (advancedFilters && advancedFilters.length) {
@@ -107,17 +129,18 @@ const ManageVerificationData = () => {
     isAdministrationLoaded,
     updateRecord,
     advancedFilters,
+    isAdmFilter,
   ]);
 
   return (
-    <div id="manage-verification-data">
+    <div id="manage-certification-data">
       <div className="description-container">
         <Row justify="space-between">
           <Col>
             <Breadcrumbs pagePath={pagePath} />
             <DescriptionPanel
-              description={text.ManageVerificationDataText}
-              title={text.ManageVerificationDataTitle}
+              description={text.ManageCertificationDataText}
+              title={text.ManageCertificationDataTitle}
             />
           </Col>
         </Row>
@@ -125,9 +148,7 @@ const ManageVerificationData = () => {
 
       <div className="table-section">
         <div className="table-wrapper">
-          <CertificationDataFilters
-            submissionType={config.submissionType.verification}
-          />
+          <CertificationDataFilters />
           <Divider />
           <div
             style={{ padding: 0, minHeight: "40vh" }}
@@ -159,7 +180,7 @@ const ManageVerificationData = () => {
                 onRow={(record) => ({
                   onClick: () =>
                     navigate(
-                      `/control-center/verification-data/${selectedForm}/verification/${record.id}`
+                      `/control-center/certification-data/${selectedForm}/certification/${record.id}`
                     ),
                 })}
               />
@@ -171,4 +192,4 @@ const ManageVerificationData = () => {
   );
 };
 
-export default React.memo(ManageVerificationData);
+export default React.memo(ManageCertificationData);

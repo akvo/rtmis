@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { ActivityIndicator, FlatList, StyleSheet, View, Dimensions } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
-import { Button, Icon, ListItem } from '@rneui/themed';
+import { Button, ListItem } from '@rneui/themed';
 import PropTypes from 'prop-types';
 import { BaseLayout } from '../../components';
 import { FormState, UIState, UserState } from '../../store';
@@ -176,17 +176,6 @@ const CertificationData = ({ navigation, route }) => {
     });
   };
 
-  const goToDetails = (item) => {
-    const { json: valuesJSON, name: dataPointName } = item || {};
-
-    FormState.update((s) => {
-      const valuesParsed = JSON.parse(valuesJSON);
-      s.currentValues = typeof valuesParsed === 'string' ? JSON.parse(valuesParsed) : valuesParsed;
-    });
-
-    navigation.navigate('FormDataDetails', { name: dataPointName });
-  };
-
   const handleOnSearch = (keyword) => {
     if (keyword?.trim()?.length === 0) {
       setForms([]);
@@ -262,9 +251,8 @@ const CertificationData = ({ navigation, route }) => {
     <ListItem
       bottomDivider
       containerStyle={styles.listItemContainer}
-      onPress={() => (item.isCertified ? goToDetails(item) : goToForm(item))}
+      onPress={() => goToForm(item)}
     >
-      <Icon name={item.isCertified ? 'checkmark-circle' : null} type="ionicon" color="green" />
       <ListItem.Content>
         <ListItem.Title>{item.name}</ListItem.Title>
       </ListItem.Content>
