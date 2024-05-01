@@ -22,7 +22,7 @@ export const fetchDatapoints = async (isCertification = false, pageNumber = 1) =
 
 export const downloadDatapointsJson = async (
   isCertification,
-  { formId, administrationId, url, lastUpdated, submissionType, isCertified },
+  { formId, administrationId, url, lastUpdated, submissionType },
 ) => {
   try {
     const response = await api.get(url);
@@ -35,7 +35,6 @@ export const downloadDatapointsJson = async (
           lastUpdated,
           submissionType,
           formJSON: jsonData,
-          isCertified,
         });
       } else {
         await crudMonitoring.syncForm({

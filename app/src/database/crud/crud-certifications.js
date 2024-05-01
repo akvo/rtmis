@@ -4,7 +4,7 @@ const db = conn.init;
 const TABLE_NAME = 'certifications';
 
 const certificationQuery = () => ({
-  syncForm: async ({ formId, administrationId, formJSON, isCertified }) => {
+  syncForm: async ({ formId, administrationId, formJSON }) => {
     const findQuery = query.read(TABLE_NAME, { uuid: formJSON.uuid });
     const { rows } = await conn.tx(db, findQuery, [formJSON.uuid]);
 
@@ -16,7 +16,6 @@ const certificationQuery = () => ({
       administrationId,
       json: formJSON?.answers ? JSON.stringify(formJSON.answers).replace(/'/g, "''") : null,
       syncedAt: new Date().toISOString(),
-      isCertified,
     });
 
     if (rows.length) {
@@ -27,7 +26,6 @@ const certificationQuery = () => ({
           json: formJSON?.answers
             ? JSON.stringify(formJSON.answers).replace(/'/g, "''")
             : rows._array[0].json,
-          isCertified,
         },
       );
       params = [rows._array[0].id];
