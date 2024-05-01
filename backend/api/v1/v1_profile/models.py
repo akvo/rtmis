@@ -71,7 +71,6 @@ class Administration(models.Model):
 
     class Meta:
         db_table = "administrator"
-        ordering = ["level__level", "name"]
 
 
 @receiver(pre_save, sender=Administration)
