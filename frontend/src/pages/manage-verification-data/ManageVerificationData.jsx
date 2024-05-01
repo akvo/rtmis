@@ -155,6 +155,7 @@ const ManageVerificationData = () => {
                   showTotal: (total, range) =>
                     `Results: ${range[0]} - ${range[1]} of ${total} data`,
                 }}
+                rowClassName="row-normal sticky"
                 rowKey="id"
                 onRow={(record) => ({
                   onClick: () =>
