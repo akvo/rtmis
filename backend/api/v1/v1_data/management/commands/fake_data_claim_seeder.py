@@ -79,9 +79,12 @@ class Command(BaseCommand):
         for form in certification_forms:
             if not test:
                 print(f"Seeding - {form.name}")
-            existing_certification_uuids = FormData.objects.filter(
+            existing_certifications = FormData.objects.filter(
                 form=form, submission_type=SubmissionTypes.certification
-            ).values("uuid")
+            )
+            existing_certification_uuids = existing_certifications.values(
+                "uuid"
+            )
 
             existing_assignment = FormCertificationAssignment.objects.order_by(
                 "?"
@@ -143,6 +146,21 @@ class Command(BaseCommand):
                     administration=dp.administration,
                     created_by=created_by,
                     submission_type=SubmissionTypes.certification,
+                )
+                data.save_to_file
+                data.save()
+                add_fake_answers(data, form.type)
+
+            # multiple certification (add second certificatio data)
+            for dp in existing_certifications.all():
+                data = FormData.objects.create(
+                    name=f"{dp.name} - SECOND",
+                    geo=dp.geo,
+                    form=dp.form,
+                    administration=dp.administration,
+                    created_by=dp.created_by,
+                    submission_type=SubmissionTypes.certification,
+                    uuid=dp.uuid,
                 )
                 data.save_to_file
                 data.save()

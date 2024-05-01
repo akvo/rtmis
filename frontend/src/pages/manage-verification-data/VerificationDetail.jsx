@@ -45,11 +45,11 @@ const VerificationDetail = () => {
       link: "/control-center",
     },
     {
-      title: text.manageDataTitle,
+      title: text.ManageVerificationDataTitle,
       link: "/control-center/data",
     },
     {
-      title: text.monitoringDataTitle,
+      title: text.VerificationDetailTitle,
     },
   ];
 
@@ -131,8 +131,8 @@ const VerificationDetail = () => {
           <Col>
             <Breadcrumbs pagePath={pagePath} />
             <DescriptionPanel
-              description={text.monitoringDataDescription}
-              title={text.monitoringDataTitle}
+              description={text.VerificationDetailText}
+              title={text.VerificationDetailTitle}
             />
           </Col>
         </Row>

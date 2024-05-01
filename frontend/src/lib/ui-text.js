@@ -749,13 +749,22 @@ const uiText = {
     selectSubCounty: "Select Sub-county",
     selectCertification: "Select certification",
     certificationList: "Certification list",
-    ManageDataClaimTitle: "Manage Certification Data",
-    ManageDataClaimText: (
+    ManageCertificationDataTitle: "Manage Certification Data",
+    CertificationDetailTitle: "Certification Detail",
+    ManageCertificationDataText: (
       <Fragment>This is where you can view certification data</Fragment>
     ),
+    CertificationDetailText: (
+      <Fragment>This is where you can view certification detail</Fragment>
+    ),
+    backManageCertificationData: "Back to Manage Certification Data",
     ManageVerificationDataTitle: "Manage Verification Data",
+    VerificationDetailTitle: "Verification Detail",
     ManageVerificationDataText: (
       <Fragment>This is where you can view verification data</Fragment>
+    ),
+    VerificationDetailText: (
+      <Fragment>This is where you can view verification detail</Fragment>
     ),
     backManageVerification: "Back to Manage Verification Data",
   },

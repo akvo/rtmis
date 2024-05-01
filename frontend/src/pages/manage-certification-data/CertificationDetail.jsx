@@ -1,33 +1,40 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./style.scss";
-import { Row, Col, Divider, Table, ConfigProvider, Empty } from "antd";
-import { DownCircleOutlined, LeftCircleOutlined } from "@ant-design/icons";
-import { api, config, store, uiText } from "../../lib";
 import {
-  Breadcrumbs,
-  DescriptionPanel,
-  DataClaimFilters,
-} from "../../components";
-import { generateAdvanceFilterURL } from "../../util/filter";
-import DataClaimDetail from "./DataClaimDetail";
+  Row,
+  Col,
+  Divider,
+  Table,
+  Typography,
+  ConfigProvider,
+  Empty,
+  Button,
+  Tag,
+} from "antd";
+import {
+  LeftCircleOutlined,
+  DownCircleOutlined,
+  ArrowLeftOutlined,
+} from "@ant-design/icons";
+import { useParams, useNavigate } from "react-router-dom";
+import { api, config, store, uiText } from "../../lib";
+import { Breadcrumbs, DescriptionPanel } from "../../components";
+import CertificationDataDetail from "./CertificationDataDetail";
 
-const ManageDataClaim = () => {
+const { Title } = Typography;
+
+const CertificationDetail = () => {
   const [loading, setLoading] = useState(false);
   const [dataset, setDataset] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [updateRecord, setUpdateRecord] = useState(false);
-  const [isAdmFilter, setIsAdmFilter] = useState(false);
+  const { form, parentId } = useParams();
+  const navigate = useNavigate();
 
-  const {
-    language,
-    advancedFilters,
-    administration,
-    selectedForm,
-    questionGroups,
-    user,
-  } = store.useState((s) => s);
+  const language = store.useState((s) => s.language);
   const { active: activeLang } = language;
+
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
@@ -38,15 +45,15 @@ const ManageDataClaim = () => {
       link: "/control-center",
     },
     {
-      title: text.ManageDataClaimTitle,
+      title: text.ManageCertificationDataTitle,
+      link: "/control-center/certification-data",
+    },
+    {
+      title: text.CertificationDetailTitle,
     },
   ];
 
-  const isAdministrationLoaded = administration.length;
-  const selectedAdministration =
-    administration.length > 0
-      ? administration[administration.length - 1]
-      : null;
+  const questionGroups = store.useState((state) => state.questionGroups);
 
   const columns = [
     {
@@ -58,17 +65,27 @@ const ManageDataClaim = () => {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      filtered: true,
-      onFilter: (value, filters) =>
-        filters.name.toLowerCase().includes(value.toLowerCase()),
+    },
+    {
+      title: "Type",
+      dataIndex: "submission_type",
+      key: "submission_type",
+      render: (cell) => {
+        const indexType = Object.values(config?.submissionType).findIndex(
+          (st) => st === cell
+        );
+        const subTypeName =
+          Object.keys(config.submissionType)?.[indexType] || "registration";
+        return (
+          <Tag color={config.submissionTypeColor?.[subTypeName]}>
+            {subTypeName}
+          </Tag>
+        );
+      },
     },
     {
       title: "User",
       dataIndex: "created_by",
-    },
-    {
-      title: "Region",
-      dataIndex: "administration",
     },
     Table.EXPAND_COLUMN,
   ];
@@ -78,48 +95,14 @@ const ManageDataClaim = () => {
   };
 
   useEffect(() => {
-    if (
-      selectedAdministration?.id &&
-      selectedAdministration?.id !== user?.administration?.id &&
-      !isAdmFilter
-    ) {
-      setIsAdmFilter(true);
-    }
-    if (
-      isAdmFilter &&
-      selectedAdministration?.id === user?.administration?.id
-    ) {
-      setIsAdmFilter(false);
-    }
-  }, [
-    isAdmFilter,
-    administration,
-    selectedAdministration?.id,
-    user?.administration?.id,
-  ]);
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedAdministration]);
-
-  useEffect(() => {
-    if (selectedForm && isAdministrationLoaded && !updateRecord) {
+    if (form && !updateRecord) {
       setLoading(true);
-      let url = `/form-data/${selectedForm}/?submission_type=${config.submissionType.certification}&page=${currentPage}`;
-      if (selectedAdministration?.id && isAdmFilter) {
-        url += `&administration=${selectedAdministration.id}`;
-      }
-      if (advancedFilters && advancedFilters.length) {
-        url = generateAdvanceFilterURL(advancedFilters, url);
-      }
+      const url = `/form-data/${form}/?page=${currentPage}&parent=${parentId}&submission_type=${config.submissionType.certification}`;
       api
         .get(url)
         .then((res) => {
           setDataset(res.data.data);
           setTotalCount(res.data.total);
-          if (res.data.total < currentPage) {
-            setCurrentPage(1);
-          }
           setUpdateRecord(null);
           setLoading(false);
         })
@@ -129,25 +112,27 @@ const ManageDataClaim = () => {
           setLoading(false);
         });
     }
-  }, [
-    selectedForm,
-    selectedAdministration,
-    currentPage,
-    isAdministrationLoaded,
-    updateRecord,
-    advancedFilters,
-    isAdmFilter,
-  ]);
+  }, [form, currentPage, updateRecord, parentId]);
+
+  useEffect(() => {
+    if (form && window?.forms?.length && questionGroups.length === 0) {
+      store.update((s) => {
+        s.questionGroups = window.forms.find(
+          (f) => `${f?.id}` === form
+        )?.content?.question_group;
+      });
+    }
+  }, [questionGroups, form]);
 
   return (
-    <div id="manage-data-claim">
+    <div id="manageData">
       <div className="description-container">
         <Row justify="space-between">
           <Col>
             <Breadcrumbs pagePath={pagePath} />
             <DescriptionPanel
-              description={text.ManageDataClaimText}
-              title={text.ManageDataClaimTitle}
+              description={text.CertificationDetailText}
+              title={text.CertificationDetailTitle}
             />
           </Col>
         </Row>
@@ -155,20 +140,25 @@ const ManageDataClaim = () => {
 
       <div className="table-section">
         <div className="table-wrapper">
-          <DataClaimFilters />
+          <Row justify={"space-between"} align={"middle"}>
+            <Col span={6}>
+              <Button
+                shape="round"
+                onClick={() => navigate("/control-center/certification-data")}
+                icon={<ArrowLeftOutlined />}
+              >
+                {text.backManageCertificationData}
+              </Button>
+            </Col>
+          </Row>
           <Divider />
+          <Title>{dataset?.[0]?.name}</Title>
           <div
-            style={{ padding: 0, minHeight: "40vh" }}
+            style={{ padding: "16px 0 0", minHeight: "40vh" }}
             bodystyle={{ padding: 0 }}
           >
             <ConfigProvider
-              renderEmpty={() => (
-                <Empty
-                  description={
-                    selectedForm ? text.noFormText : text.noFormSelectedText
-                  }
-                />
-              )}
+              renderEmpty={() => <Empty description={text.noFormText} />}
             >
               <Table
                 columns={columns}
@@ -186,7 +176,7 @@ const ManageDataClaim = () => {
                 rowKey="id"
                 expandable={{
                   expandedRowRender: (record) => (
-                    <DataClaimDetail
+                    <CertificationDataDetail
                       questionGroups={questionGroups}
                       record={record}
                     />
@@ -215,4 +205,4 @@ const ManageDataClaim = () => {
   );
 };
 
-export default React.memo(ManageDataClaim);
+export default React.memo(CertificationDetail);
