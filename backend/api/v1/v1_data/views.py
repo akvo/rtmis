@@ -221,23 +221,6 @@ class FormDataAddListView(APIView):
                     submission_type=submission_type
                 )
 
-            # queryset = queryset.filter(**filter_data).order_by("-created")
-            # instance = paginator.paginate_queryset(queryset, request)
-            # data = {
-            #     "current": int(request.GET.get("page", "1")),
-            #     "total": queryset.count(),
-            #     "total_page": ceil(queryset.count() / page_size),
-            #     "data": ListFormDataSerializer(
-            #         instance=instance,
-            #         context={
-            #             "questions":
-            # serializer.validated_data.get("questions")
-            #         },
-            #         many=True,
-            #     ).data,
-            # }
-            # return Response(data, status=status.HTTP_200_OK)
-
         parent = serializer.validated_data.get("parent")
         if parent:
             submission_types = [submission_type]
