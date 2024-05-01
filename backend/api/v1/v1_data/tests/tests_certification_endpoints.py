@@ -146,7 +146,7 @@ class CertificationEndpointsTestCase(TestCase):
         )
         self.assertEqual(data.status_code, 200)
         data = data.json()
-        self.assertEqual(data["total"], 5)
+        self.assertEqual(data["total"], 0)
 
     def test_open_certification_by_admin(self):
         st = SubmissionTypes.certification

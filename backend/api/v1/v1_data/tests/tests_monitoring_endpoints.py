@@ -22,7 +22,7 @@ class MonitoringDataTestCase(TestCase):
             last_name='testing',
         )
         self.administration = Administration.objects.filter(
-            parent__isnull=True
+            level__level=1
         ).first()
         role = UserRoleTypes.admin
         self.user_access = Access.objects.create(
@@ -30,11 +30,15 @@ class MonitoringDataTestCase(TestCase):
         )
         self.uuid = '1234567890'
         self.form = Forms.objects.filter(type=FormTypes.county).first()
+        self.adm_data = Administration.objects.filter(
+            level__level=2,
+            path__startswith=self.administration.path
+        ).first()
         self.data = FormData.objects.create(
             parent=None,
             uuid=self.uuid,
             form=self.form,
-            administration=self.administration,
+            administration=self.adm_data,
             created_by=self.user,
         )
         add_fake_answers(self.data, FormTypes.county)
@@ -51,7 +55,7 @@ class MonitoringDataTestCase(TestCase):
 
     def test_parent_data(self):
         data = self.client.get(
-            f"/api/v1/form-data/1/{self.form.id}",
+            f"/api/v1/form-data/{self.form.id}",
             content_type='application/json',
             **{'HTTP_AUTHORIZATION': f'Bearer {self.token}'}
         )
@@ -76,7 +80,7 @@ class MonitoringDataTestCase(TestCase):
         self.assertEqual(edit.status_code, 200)
 
         data = self.client.get(
-            f"/api/v1/form-data/1/{self.form.id}",
+            f"/api/v1/form-data/1/{self.form.id}?submission_type=1",
             content_type='application/json',
             **{'HTTP_AUTHORIZATION': f'Bearer {self.token}'}
         )
@@ -132,7 +136,7 @@ class MonitoringDataTestCase(TestCase):
             monitoring = FormData.objects.create(
                 uuid=self.uuid,
                 form=self.form,
-                administration=self.administration,
+                administration=self.adm_data,
                 created_by=self.user,
             )
             add_fake_answers(monitoring, form_type=FormTypes.county)
