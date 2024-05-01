@@ -7,6 +7,10 @@ Object {
     "AdministrationDataDownload": "Administration Data Download",
     "AdministrationDataUpload": "Administration Data Upload",
     "AdministrationDownloadPageHint": "Uncheck Prefilled if you only want an upload template",
+    "DataClaimDetailText": <React.Fragment>
+      This is where you can view certification detail
+    </React.Fragment>,
+    "DataClaimDetailTitle": "Certification Detail",
     "EntitiesDataDownload": "Entities Data Download",
     "EntitiesDataUpload": "Entities Data Upload",
     "EntitiesDownloadPageHint": "Uncheck Prefilled if you only want an upload template",
@@ -18,6 +22,10 @@ Object {
       This is where you can view verification data
     </React.Fragment>,
     "ManageVerificationDataTitle": "Manage Verification Data",
+    "VerificationDetailText": <React.Fragment>
+      This is where you can view verification detail
+    </React.Fragment>,
+    "VerificationDetailTitle": "Verification Detail",
     "aboutRush": "About RUSH",
     "aboutText": "The Kenya Rural Urban Sanitation and Hygiene (RUSH) platform is a real-time monitoring and information system owned by the Ministry of Health. The platform aggregates quantitative and qualitative data from county and national levels and facilitates data analysis, report generation and visualizations.",
     "accountDisclaimer": "The user is accountable for his/her account and in case there are any changes (Transfers, retirement, any kind of leave, resignation etc) this should be communicated to the County Administrator or National Super Admin who might be able to assign the roles to the new officer.",
@@ -90,6 +98,7 @@ Object {
     "backBtn": "Back",
     "backHome": "Back to Homepage",
     "backManageData": "Back to Manage Routine Data",
+    "backManageDataClaim": "Back to Manage Certification Data",
     "backManageVerification": "Back to Manage Verification Data",
     "backToCenterLabel": "Back to Control Center",
     "batchDatasets": "Batch Datasets",
