@@ -106,7 +106,7 @@ period_length = 60 * 15
 
 
 class FormDataAddListView(APIView):
-    permission_classes = [PublicGet]
+    permission_classes = [IsAuthenticated]
 
     @extend_schema(
         responses={
@@ -241,13 +241,12 @@ class FormDataAddListView(APIView):
             if int(submission_type) != SubmissionTypes.certification:
                 filter_data["administration__path__startswith"] = user_path
 
-            if (
-                int(submission_type) == SubmissionTypes.certification and
-                access.role not in [
-                    UserRoleTypes.super_admin,
-                    UserRoleTypes.admin
-                ]
-            ):
+            if int(
+                submission_type
+            ) == SubmissionTypes.certification and access.role not in [
+                UserRoleTypes.super_admin,
+                UserRoleTypes.admin,
+            ]:
                 user_assignee = MobileAssignment.objects.filter(
                     administrations__path__startswith=user_path
                 ).values("user_id")
