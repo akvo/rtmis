@@ -234,10 +234,7 @@ class FormDataAddListView(APIView):
             filter_data["administration_id__in"] = filter_descendants
         else:
             access = request.user.user_access
-            user_path = "{0}{1}".format(
-                access.administration.path or "",
-                access.administration.id,
-            )
+            user_path = access.administration.path or "1."
             if int(submission_type) != SubmissionTypes.certification:
                 filter_data["administration__path__startswith"] = user_path
 
