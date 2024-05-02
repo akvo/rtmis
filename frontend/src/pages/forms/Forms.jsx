@@ -579,7 +579,17 @@ const Forms = () => {
                 <Button
                   type="primary"
                   key="back-button"
-                  onClick={() => setShowSuccess(false)}
+                  onClick={() => {
+                    if (
+                      typeof webformRef?.current?.resetFields === "function"
+                    ) {
+                      webformRef.current.resetFields();
+                    }
+                    setTimeout(() => {
+                      setForms({});
+                      setShowSuccess(false);
+                    }, 500);
+                  }}
                 >
                   {text.newSubmissionBtn}
                 </Button>,
