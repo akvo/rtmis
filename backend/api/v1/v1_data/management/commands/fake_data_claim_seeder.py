@@ -63,7 +63,7 @@ def create_certification(assignee, certification, form):
 class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument(
-            "-r", "--repeat", nargs="?", const=10, default=10, type=int
+            "-r", "--repeat", nargs="?", const=3, default=3, type=int
         )
         parser.add_argument(
             "-t", "--test", nargs="?", const=False, default=False, type=bool
@@ -90,11 +90,18 @@ class Command(BaseCommand):
                     .order_by("?")
                     .first()
                 )
-                certification = FormData.objects.exclude(
-                    administration=user_assignee.user_access.administration
+                county_path = user_assignee.user_access.administration.path
+                assignee_path = "{0}{1}".format(
+                    county_path,
+                    user_assignee.user_access.administration.id
+                )
+                certification = FormData.objects.filter(
+                    administration__path__startswith=county_path
+                ).exclude(
+                    administration__path__startswith=assignee_path
                 ).values_list("administration", flat=True)
                 assignee = user_assignee.user_access.administration
-                certification = list(certification)
+                certification = list(certification)[:4]
                 certification_assignment = create_certification(
                     assignee=assignee,
                     certification=certification,
@@ -103,7 +110,7 @@ class Command(BaseCommand):
             adm_ids = certification_assignment.administrations.values("id")
             datapoints = FormData.objects.filter(
                 administration__in=adm_ids
-            )
+            ).all()
             ap = "{0}{1}".format(
                 certification_assignment.assignee.path,
                 certification_assignment.assignee.id,
@@ -115,6 +122,7 @@ class Command(BaseCommand):
                 ).first()
                 for i in range(repeat):
                     data = FormData.objects.create(
+                        uuid=dp.uuid,
                         name=f"{dp.name} - certification {i+1}",
                         geo=dp.geo,
                         form=form,

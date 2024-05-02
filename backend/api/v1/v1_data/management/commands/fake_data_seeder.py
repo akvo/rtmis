@@ -227,7 +227,7 @@ def seed_county_data(
 class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument(
-            "-r", "--repeat", nargs="?", const=20, default=3, type=int
+            "-r", "--repeat", nargs="?", const=5, default=5, type=int
         )
         parser.add_argument(
             "-t", "--test", nargs="?", const=False, default=False, type=bool
