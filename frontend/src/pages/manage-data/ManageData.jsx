@@ -139,6 +139,18 @@ const ManageData = () => {
     fetchData();
   }, [fetchData]);
 
+  useEffect(() => {
+    const unsubscribe = store.subscribe(
+      (s) => s.selectedForm,
+      () => {
+        setUpdateRecord(true);
+      }
+    );
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   return (
     <div id="manageData">
       <div className="description-container">
