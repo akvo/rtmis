@@ -39,14 +39,11 @@ const AdministrationDropdown = ({
   const fetchUserAdmin = useCallback(async () => {
     if (user && !persist) {
       try {
-        const initial =
+        const initID =
           submissionType === config.submissionType.certification
             ? 1
             : user.administration.id;
-        // if (submissionType) {
-        //   apiURL += `?submission_type=${submissionType}`;
-        // }
-        const { data: apiData } = await api.get(`administration/${initial}`);
+        const { data: apiData } = await api.get(`administration/${initID}`);
         store.update((s) => {
           s.administration = [apiData];
         });
