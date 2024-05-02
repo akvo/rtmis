@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import "./style.scss";
 import { Row, Col, Divider, Table, ConfigProvider, Empty } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -13,10 +13,13 @@ const ManageData = () => {
   const [query, setQuery] = useState("");
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [updateRecord, setUpdateRecord] = useState(false);
+  const [updateRecord, setUpdateRecord] = useState(true);
+  const [activeFilter, setActiveFilter] = useState(null);
   const navigate = useNavigate();
 
-  const { administration, selectedForm } = store.useState((state) => state);
+  const { administration, selectedForm, user } = store.useState(
+    (state) => state
+  );
   const { language, advancedFilters } = store.useState((s) => s);
   const { active: activeLang } = language;
   const text = useMemo(() => {
@@ -40,11 +43,16 @@ const ManageData = () => {
     navigate(`/control-center/data/${selectedForm}/monitoring/${record.id}`);
   };
 
-  const isAdministrationLoaded = administration.length;
-  const selectedAdministration =
-    administration.length > 0
-      ? administration[administration.length - 1]
-      : null;
+  const selectedAdministration = useMemo(() => {
+    return administration?.[administration.length - 1];
+  }, [administration]);
+
+  const isAdministrationLoaded = useMemo(() => {
+    return (
+      selectedAdministration?.id === user?.administration?.id ||
+      administration?.length > 1
+    );
+  }, [selectedAdministration, administration, user?.administration?.id]);
 
   const columns = [
     {
@@ -72,15 +80,28 @@ const ManageData = () => {
   ];
 
   const handleChange = (e) => {
+    setUpdateRecord(true);
     setCurrentPage(e.current);
   };
 
   useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedAdministration]);
+    if (isAdministrationLoaded && activeFilter !== selectedAdministration?.id) {
+      setActiveFilter(selectedAdministration.id);
+      if (!updateRecord) {
+        setCurrentPage(1);
+        setUpdateRecord(true);
+      }
+    }
+  }, [
+    activeFilter,
+    selectedAdministration,
+    isAdministrationLoaded,
+    updateRecord,
+  ]);
 
-  useEffect(() => {
-    if (selectedForm && isAdministrationLoaded && !updateRecord) {
+  const fetchData = useCallback(() => {
+    if (selectedForm && isAdministrationLoaded && updateRecord) {
+      setUpdateRecord(false);
       setLoading(true);
       let url = `/form-data/${selectedForm}/?submission_type=${config.submissionType.registration}&page=${currentPage}`;
       if (selectedAdministration?.id) {
@@ -97,7 +118,6 @@ const ManageData = () => {
           if (res.data.total < currentPage) {
             setCurrentPage(1);
           }
-          setUpdateRecord(null);
           setLoading(false);
         })
         .catch(() => {
@@ -111,9 +131,13 @@ const ManageData = () => {
     selectedAdministration,
     currentPage,
     isAdministrationLoaded,
-    updateRecord,
     advancedFilters,
+    updateRecord,
   ]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   return (
     <div id="manageData">

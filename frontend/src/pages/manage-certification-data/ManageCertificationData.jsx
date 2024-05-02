@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import "./style.scss";
 import { Row, Col, Divider, Table, ConfigProvider, Empty } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -15,8 +15,9 @@ const ManageCertificationData = () => {
   const [dataset, setDataset] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [updateRecord, setUpdateRecord] = useState(false);
+  const [updateRecord, setUpdateRecord] = useState(true);
   const [preload, setPreload] = useState(true);
+  const [activeFilter, setActiveFilter] = useState(null);
   const navigate = useNavigate();
 
   const { language, advancedFilters, administration, selectedForm } =
@@ -67,15 +68,45 @@ const ManageCertificationData = () => {
   ];
 
   const handleChange = (e) => {
+    setUpdateRecord(true);
     setCurrentPage(e.current);
   };
 
   useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedAdministration]);
+    if (
+      !preload &&
+      !updateRecord &&
+      !activeFilter &&
+      selectedAdministration?.id &&
+      administration.length > 1
+    ) {
+      setActiveFilter(selectedAdministration?.id);
+      setUpdateRecord(true);
+    }
+    if (
+      activeFilter &&
+      isAdministrationLoaded &&
+      !preload &&
+      activeFilter !== selectedAdministration?.id
+    ) {
+      setActiveFilter(selectedAdministration.id);
+      if (!updateRecord) {
+        setCurrentPage(1);
+        setUpdateRecord(true);
+      }
+    }
+  }, [
+    activeFilter,
+    selectedAdministration,
+    isAdministrationLoaded,
+    updateRecord,
+    preload,
+    administration,
+  ]);
 
-  useEffect(() => {
-    if (selectedForm && isAdministrationLoaded && !updateRecord) {
+  const fetchData = useCallback(() => {
+    if (selectedForm && isAdministrationLoaded && updateRecord) {
+      setUpdateRecord(false);
       setLoading(true);
       let url = `/form-data/${selectedForm}/?submission_type=${config.submissionType.certification}&page=${currentPage}`;
       if (!preload && selectedAdministration?.id) {
@@ -92,7 +123,6 @@ const ManageCertificationData = () => {
           if (res.data.total < currentPage) {
             setCurrentPage(1);
           }
-          setUpdateRecord(null);
           setLoading(false);
           if (preload) {
             setPreload(false);
@@ -113,6 +143,10 @@ const ManageCertificationData = () => {
     selectedAdministration,
     preload,
   ]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   return (
     <div id="manage-certification-data">
