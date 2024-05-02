@@ -64,7 +64,11 @@ class Command(BaseCommand):
             last_level = Levels.objects.order_by('-level')[1:2].first()
             administrations = Administration.objects.filter(
                 level=last_level
-            ).all()
+            )
+            if test:
+                administrations = administrations.all()
+            else:
+                administrations = administrations.order_by('?')[:2]
             for administration in administrations:
                 ancestors = administration.ancestors.filter(
                     level__level__gt=0
@@ -129,7 +133,8 @@ class Command(BaseCommand):
                     user=submitter,
                     name=fake.user_name(),
                 )
-                mobile_adms = administration.parent_administration.all()
+                mobile_adms = administration.parent_administration\
+                    .order_by('?')[:2]
                 mobile_assignment.administrations.add(
                     *mobile_adms
                 )
