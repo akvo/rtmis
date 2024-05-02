@@ -16,10 +16,10 @@ const ManageCertificationData = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [updateRecord, setUpdateRecord] = useState(false);
-  const [isAdmFilter, setIsAdmFilter] = useState(false);
+  const [preload, setPreload] = useState(true);
   const navigate = useNavigate();
 
-  const { language, advancedFilters, administration, selectedForm, user } =
+  const { language, advancedFilters, administration, selectedForm } =
     store.useState((s) => s);
   const { active: activeLang } = language;
   const text = useMemo(() => {
@@ -71,27 +71,6 @@ const ManageCertificationData = () => {
   };
 
   useEffect(() => {
-    if (
-      selectedAdministration?.id &&
-      selectedAdministration?.id !== user?.administration?.id &&
-      !isAdmFilter
-    ) {
-      setIsAdmFilter(true);
-    }
-    if (
-      isAdmFilter &&
-      selectedAdministration?.id === user?.administration?.id
-    ) {
-      setIsAdmFilter(false);
-    }
-  }, [
-    isAdmFilter,
-    administration,
-    selectedAdministration?.id,
-    user?.administration?.id,
-  ]);
-
-  useEffect(() => {
     setCurrentPage(1);
   }, [selectedAdministration]);
 
@@ -99,6 +78,9 @@ const ManageCertificationData = () => {
     if (selectedForm && isAdministrationLoaded && !updateRecord) {
       setLoading(true);
       let url = `/form-data/${selectedForm}/?submission_type=${config.submissionType.certification}&page=${currentPage}`;
+      if (!preload && selectedAdministration?.id) {
+        url += `&administration=${selectedAdministration.id}`;
+      }
       if (advancedFilters && advancedFilters.length) {
         url = generateAdvanceFilterURL(advancedFilters, url);
       }
@@ -112,6 +94,9 @@ const ManageCertificationData = () => {
           }
           setUpdateRecord(null);
           setLoading(false);
+          if (preload) {
+            setPreload(false);
+          }
         })
         .catch(() => {
           setDataset([]);
@@ -125,6 +110,8 @@ const ManageCertificationData = () => {
     isAdministrationLoaded,
     updateRecord,
     advancedFilters,
+    selectedAdministration,
+    preload,
   ]);
 
   return (
@@ -143,7 +130,7 @@ const ManageCertificationData = () => {
 
       <div className="table-section">
         <div className="table-wrapper">
-          <CertificationDataFilters hideAdministrationDropdown={true} />
+          <CertificationDataFilters />
           <Divider />
           <div
             style={{ padding: 0, minHeight: "40vh" }}
