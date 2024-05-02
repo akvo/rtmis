@@ -28,7 +28,6 @@ class MigrateFormOptionsCommand(TestCase):
             "/api/v1/login", user, content_type="application/json"
         )
         call_command("fake_data_seeder", "-r", 2, "--test", True)
-        call_command("fake_data_seeder", "-r", 2, "--test", True)
         call_command("fake_data_claim_seeder", "-r", 2, "-t", True)
 
         # get answer which has options answer

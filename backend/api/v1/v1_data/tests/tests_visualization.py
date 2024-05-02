@@ -13,24 +13,28 @@ class DataVisualisationTestCase(TestCase):
 
     def setUp(self):
         super().setUp()
-        call_command("generate_views", "-f",
-                     "./source/config/category-example.json")
+        call_command(
+            "generate_views", "-f",
+            "./source/config/category-example.json"
+        )
+        call_command("administration_seeder", "--test")
+        call_command("form_seeder", "--test")
+
+        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
+        user_response = self.client.post("/api/v1/login",
+                                         user_payload,
+                                         content_type="application/json")
+        self.token = user_response.json().get("token")
+
+        call_command("demo_approval_flow", "--test", True)
+        call_command("fake_data_seeder", "-r", 2, "-t", True)
 
     def tearDown(self):
         super().tearDown()
         call_command("generate_views")
 
     def test_maps_data(self):
-        call_command("administration_seeder", "--test")
-        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
-        user_response = self.client.post("/api/v1/login",
-                                         user_payload,
-                                         content_type="application/json")
-        token = user_response.json().get("token")
-
-        call_command("form_seeder", "--test")
-        call_command("fake_data_seeder", "-r", 2, "-t", True)
-        header = {"HTTP_AUTHORIZATION": f"Bearer {token}"}
+        header = {"HTTP_AUTHORIZATION": f"Bearer {self.token}"}
 
         form = Forms.objects.first()
         questions = Questions.objects.filter(form=form)
@@ -89,16 +93,7 @@ class DataVisualisationTestCase(TestCase):
         self.assertEqual(data.status_code, 200)
 
     def test_chart_data(self):
-        call_command("administration_seeder", "--test")
-        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
-        user_response = self.client.post("/api/v1/login",
-                                         user_payload,
-                                         content_type="application/json")
-        token = user_response.json().get("token")
-
-        call_command("form_seeder", "--test")
-        call_command("fake_data_seeder", "-r", 2, "-t", True)
-        header = {"HTTP_AUTHORIZATION": f"Bearer {token}"}
+        header = {"HTTP_AUTHORIZATION": f"Bearer {self.token}"}
 
         form = Forms.objects.first()
         question = Questions.objects.filter(form=form,

@@ -19,7 +19,6 @@ class BulkUnitTestCase(TestCase):
                                 user,
                                 content_type='application/json')
         call_command("fake_data_seeder", "-r", 2, "--test", True)
-        call_command("fake_data_seeder", "-r", 2, "--test", True)
         call_command("fake_data_claim_seeder", "-r", 2, "-t", True)
 
     def test_data_download_list_of_columns(self):
@@ -85,5 +84,4 @@ class BulkUnitTestCase(TestCase):
             download_type="all",
             submission_type=SubmissionTypes.verification
         )
-        print("download_response", download_response)
         self.assertEqual(download_response, [])
