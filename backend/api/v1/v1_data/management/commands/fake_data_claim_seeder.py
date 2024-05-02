@@ -79,17 +79,9 @@ class Command(BaseCommand):
         for form in certification_forms:
             if not test:
                 print(f"Seeding - {form.name}")
-            existing_certifications = FormData.objects.filter(
-                form=form, submission_type=SubmissionTypes.certification
-            )
-            existing_certification_uuids = existing_certifications.values(
-                "uuid"
-            )
-
-            existing_assignment = FormCertificationAssignment.objects.order_by(
-                "?"
-            ).first()
-            if not existing_assignment:
+            certification_assignment = FormCertificationAssignment.objects \
+                .order_by("?").first()
+            if not certification_assignment:
                 user_assignee = (
                     SystemUser.objects.filter(
                         user_access__administration__level__name="Sub-County",
@@ -101,69 +93,36 @@ class Command(BaseCommand):
                 certification = FormData.objects.exclude(
                     administration=user_assignee.user_access.administration
                 ).values_list("administration", flat=True)
+                assignee = user_assignee.user_access.administration
                 certification = list(certification)
-                existing_assignment = create_certification(
-                    assignee=user_assignee.user_access.administration,
+                certification_assignment = create_certification(
+                    assignee=assignee,
                     certification=certification,
                     form=form,
                 )
-            assignee_path = "{0}{1}".format(
-                existing_assignment.assignee.path,
-                existing_assignment.assignee.id,
+            adm_ids = certification_assignment.administrations.values("id")
+            datapoints = FormData.objects.filter(
+                administration__in=adm_ids
             )
-            assignee_children = Administration.objects.filter(
-                path__startswith=assignee_path
-            ).all()
-
-            queryset = FormData.objects.filter(
-                form=form, submission_type=SubmissionTypes.registration
-            ).exclude(uuid__in=existing_certification_uuids)
-
-            target_adms = existing_assignment.administrations.values("id")
-            queryset = queryset.filter(administration_id__in=target_adms)
-            datapoints = queryset.order_by("-id")[:repeat]
+            ap = "{0}{1}".format(
+                certification_assignment.assignee.path,
+                certification_assignment.assignee.id,
+            )
             for dp in datapoints:
                 created_by = SystemUser.objects.filter(
-                    user_access__administration__path__startswith=assignee_path
+                    user_access__administration__path__startswith=ap,
+                    user_access__role=UserRoleTypes.user
                 ).first()
-
-                mobile_assignment = get_mobile_user(
-                    user=created_by, form=dp.form
-                )
-                mobile_assignment.administrations.set(assignee_children)
-                mobile_assignment.certifications.add(
-                    *list(
-                        existing_assignment.administrations.values_list(
-                            "id", flat=True
-                        )
+                for i in range(repeat):
+                    data = FormData.objects.create(
+                        name=f"{dp.name} - certification {i+1}",
+                        geo=dp.geo,
+                        form=form,
+                        administration=dp.administration,
+                        created_by=created_by,
+                        submission_type=SubmissionTypes.certification,
                     )
-                )
-
-                data = FormData.objects.create(
-                    name=f"{dp.name} - certification",
-                    geo=dp.geo,
-                    form=form,
-                    administration=dp.administration,
-                    created_by=created_by,
-                    submission_type=SubmissionTypes.certification,
-                )
-                data.save_to_file
-                data.save()
-                add_fake_answers(data, form.type)
-
-            # multiple certification (add second certificatio data)
-            for dp in existing_certifications.all():
-                data = FormData.objects.create(
-                    name=f"{dp.name} - SECOND",
-                    geo=dp.geo,
-                    form=dp.form,
-                    administration=dp.administration,
-                    created_by=dp.created_by,
-                    submission_type=SubmissionTypes.certification,
-                    uuid=dp.uuid,
-                )
-                data.save_to_file
-                data.save()
-                add_fake_answers(data, form.type)
-
+                    data.save()
+                    data.save_to_file
+                    add_fake_answers(data, form.type)
             refresh_materialized_data()
