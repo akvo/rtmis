@@ -55,7 +55,7 @@ const AdministrationDropdown = ({
 
   useEffect(() => {
     fetchUserAdmin();
-  }, [fetchUserAdmin, persist]);
+  }, [fetchUserAdmin]);
 
   useEffect(() => {
     const multiadministration = administration?.find(
