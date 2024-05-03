@@ -2041,7 +2041,7 @@ def get_certification_data(request, version, form_id):
                 .intersection(user_decendants)
 
     if access.role == UserRoleTypes.super_admin and len(filter_decendants):
-        filter_data[filter_adm_key] = filter_decendants
+        filter_data["administration_id__in"] = filter_decendants
 
     queryset = form.form_form_data \
         .filter(**filter_data) \
