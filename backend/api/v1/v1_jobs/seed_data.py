@@ -204,15 +204,31 @@ def seed_excel_data(job: Jobs):
         df = df.rename(columns={"id": "data_id"})
     if "data_id" not in list(df):
         df["data_id"] = np.nan
-    df = df[list(filter(lambda x: "|" in x, list(df))) + ["data_id"]]
+    non_questions = [
+        "created_at",
+        "created_by",
+        "updated_at",
+        "updated_by",
+        "datapoint_name",
+        "administration",
+        "geolocation",
+        "submission_type",
+    ]
+    df = df[list(filter(lambda x: x not in non_questions, list(df)))]
     questions = {}
     columns = {}
     for q in list(df):
-        if q != "data_id":
-            id = q.split("|")[0]
-            columns.update({q: id})
-            question = Questions.objects.get(pk=id)
-            questions.update({id: question})
+        question = Questions.objects.filter(
+            name=q
+        ).first()
+        if question:
+            columns.update({
+                q: question.id
+            })
+            id = question.id
+            questions.update({
+                id: question
+            })
     df = df.rename(columns=columns)
     datapoints = df.to_dict("records")
     form_id = job.info.get("form")
