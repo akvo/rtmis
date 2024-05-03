@@ -381,10 +381,6 @@ class Answers(models.Model):
             QuestionTypes.cascade,
         ]:
             answer = self.name
-        elif q.type == QuestionTypes.administration:
-            answer = Administration.objects.filter(pk=self.value).first()
-            if answer:
-                answer = answer.administration_column
         else:
             answer = self.value
         return {q.id: answer}
