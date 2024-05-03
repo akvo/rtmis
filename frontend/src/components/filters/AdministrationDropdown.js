@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./style.scss";
 import { Select, Space, Checkbox, Row, Col } from "antd";
 import PropTypes from "prop-types";
-import { store, api, config } from "../../lib";
+import { store, api } from "../../lib";
 import { useCallback } from "react";
 
 const AdministrationDropdown = ({
@@ -20,7 +20,6 @@ const AdministrationDropdown = ({
   selectedAdministrations = [],
   certify = null,
   excluded = [],
-  submissionType = null,
   ...props
 }) => {
   const { user, administration, levels } = store.useState((state) => state);
@@ -39,11 +38,9 @@ const AdministrationDropdown = ({
   const fetchUserAdmin = useCallback(async () => {
     if (user && !persist) {
       try {
-        const initID =
-          submissionType === config.submissionType.certification
-            ? 1
-            : user.administration.id;
-        const { data: apiData } = await api.get(`administration/${initID}`);
+        const { data: apiData } = await api.get(
+          `administration/${user.administration.id}`
+        );
         store.update((s) => {
           s.administration = [apiData];
         });
@@ -51,7 +48,7 @@ const AdministrationDropdown = ({
         console.error(error);
       }
     }
-  }, [user, persist, submissionType]);
+  }, [user, persist]);
 
   useEffect(() => {
     fetchUserAdmin();

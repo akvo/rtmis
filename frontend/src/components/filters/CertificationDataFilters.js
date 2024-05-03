@@ -61,7 +61,6 @@ const CertificationDataFilters = ({
           <FormDropdown loading={loading} submissionTypes={[submissionType]} />
           <AdministrationDropdown
             loading={loading || loadingForm}
-            submissionType={submissionType}
             maxLevel={maxLevel?.id}
           />
         </Space>
