@@ -13,7 +13,7 @@ from django.utils import timezone
 # from functools import reduce
 
 from django.contrib.postgres.aggregates import StringAgg
-from django.db.models import Count, TextField, F, Sum, Avg, Max
+from django.db.models import Count, TextField, F, Sum, Avg, Max, Q
 from django.db.models.functions import Cast, Coalesce
 from django.http import HttpResponse
 from django_q.tasks import async_task
@@ -79,7 +79,9 @@ from api.v1.v1_data.functions import (
     transform_glass_answer,
 )
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes, SubmissionTypes
-from api.v1.v1_forms.models import Forms, Questions
+from api.v1.v1_forms.models import (
+    Forms, Questions, FormCertificationAssignment
+)
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.constants import UserRoleTypes
@@ -179,10 +181,11 @@ class FormDataAddListView(APIView):
         submission_type = request.GET.get(
             "submission_type", SubmissionTypes.registration
         )
+        submission_type = int(submission_type)
         parent = serializer.validated_data.get("parent")
         if parent:
             submission_types = [submission_type]
-            if int(submission_type) == SubmissionTypes.monitoring:
+            if submission_type == SubmissionTypes.monitoring:
                 submission_types.append(SubmissionTypes.registration)
             queryset = form.form_form_data.filter(
                 uuid=parent.uuid,
@@ -215,6 +218,20 @@ class FormDataAddListView(APIView):
         filter_data["pk__in"] = latest_ids_per_uuid
         filter_data["submission_type"] = submission_type
 
+        access = request.user.user_access
+        subcounty_id = access.administration.id
+        if access.administration.level.level > 2:
+            pieces = access.administration.path.split(".")
+            subcounty_id = int(pieces[2:3][0])
+
+        valid_certification = FormCertificationAssignment.objects.filter(
+            Q(assignee__pk=subcounty_id) |
+            Q(assignee__path__startswith="{0}{1}".format(
+                access.administration.path,
+                access.administration.id
+            ))
+        ).first()
+
         if serializer.validated_data.get("administration"):
             filter_administration = serializer.validated_data.get(
                 "administration"
@@ -233,17 +250,17 @@ class FormDataAddListView(APIView):
             filter_descendants.append(filter_administration.id)
             filter_data["administration_id__in"] = filter_descendants
         else:
-            access = request.user.user_access
             user_path = access.administration.path or "1."
-            if int(submission_type) != SubmissionTypes.certification:
+            if submission_type != SubmissionTypes.certification:
                 filter_data["administration__path__startswith"] = user_path
 
-            if int(
-                submission_type
-            ) == SubmissionTypes.certification and access.role not in [
-                UserRoleTypes.super_admin,
-                UserRoleTypes.admin,
-            ]:
+            if (
+                submission_type == SubmissionTypes.certification and
+                access.role not in [
+                    UserRoleTypes.super_admin,
+                    UserRoleTypes.admin,
+                ]
+            ):
                 user_assignee = MobileAssignment.objects.filter(
                     administrations__path__startswith=user_path
                 ).values("user_id")
@@ -258,6 +275,13 @@ class FormDataAddListView(APIView):
                 options=request.GET.getlist("options"),
             )
             filter_data["pk__in"] = data_ids
+        if (
+            submission_type == SubmissionTypes.certification and
+            access.role != UserRoleTypes.super_admin and
+            not valid_certification
+        ):
+            filter_data["pk__in"] = []
+
         queryset = form.form_form_data.filter(**filter_data).order_by(
             "-created"
         )

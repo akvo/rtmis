@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import "./style.scss";
 import { Row, Col, Divider, Table, ConfigProvider, Empty } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -15,10 +15,11 @@ const ManageVerificationData = () => {
   const [dataset, setDataset] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [updateRecord, setUpdateRecord] = useState(false);
+  const [updateRecord, setUpdateRecord] = useState(true);
+  const [activeFilter, setActiveFilter] = useState(null);
   const navigate = useNavigate();
 
-  const { language, advancedFilters, administration, selectedForm } =
+  const { language, advancedFilters, administration, selectedForm, user } =
     store.useState((s) => s);
   const { active: activeLang } = language;
   const text = useMemo(() => {
@@ -35,11 +36,16 @@ const ManageVerificationData = () => {
     },
   ];
 
-  const isAdministrationLoaded = administration.length;
-  const selectedAdministration =
-    administration.length > 0
-      ? administration[administration.length - 1]
-      : null;
+  const selectedAdministration = useMemo(() => {
+    return administration?.[administration.length - 1];
+  }, [administration]);
+
+  const isAdministrationLoaded = useMemo(() => {
+    return (
+      selectedAdministration?.id === user?.administration?.id ||
+      administration?.length > 1
+    );
+  }, [selectedAdministration, administration, user?.administration?.id]);
 
   const columns = [
     {
@@ -66,15 +72,28 @@ const ManageVerificationData = () => {
   ];
 
   const handleChange = (e) => {
+    setUpdateRecord(true);
     setCurrentPage(e.current);
   };
 
   useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedAdministration]);
+    if (isAdministrationLoaded && activeFilter !== selectedAdministration?.id) {
+      setActiveFilter(selectedAdministration.id);
+      if (!updateRecord) {
+        setCurrentPage(1);
+        setUpdateRecord(true);
+      }
+    }
+  }, [
+    activeFilter,
+    selectedAdministration,
+    isAdministrationLoaded,
+    updateRecord,
+  ]);
 
-  useEffect(() => {
-    if (selectedForm && isAdministrationLoaded && !updateRecord) {
+  const fetchData = useCallback(() => {
+    if (selectedForm && isAdministrationLoaded && updateRecord) {
+      setUpdateRecord(false);
       setLoading(true);
       let url = `/form-data/${selectedForm}/?submission_type=${config.submissionType.verification}&page=${currentPage}`;
       if (selectedAdministration?.id) {
@@ -91,7 +110,6 @@ const ManageVerificationData = () => {
           if (res.data.total < currentPage) {
             setCurrentPage(1);
           }
-          setUpdateRecord(null);
           setLoading(false);
         })
         .catch(() => {
@@ -108,6 +126,22 @@ const ManageVerificationData = () => {
     updateRecord,
     advancedFilters,
   ]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  useEffect(() => {
+    const unsubscribe = store.subscribe(
+      (s) => s.selectedForm,
+      () => {
+        setUpdateRecord(true);
+      }
+    );
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   return (
     <div id="manage-verification-data">

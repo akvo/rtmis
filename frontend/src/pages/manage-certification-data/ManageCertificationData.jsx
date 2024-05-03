@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import "./style.scss";
 import { Row, Col, Divider, Table, ConfigProvider, Empty } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -15,11 +15,12 @@ const ManageCertificationData = () => {
   const [dataset, setDataset] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [updateRecord, setUpdateRecord] = useState(false);
-  const [isAdmFilter, setIsAdmFilter] = useState(false);
+  const [updateRecord, setUpdateRecord] = useState(true);
+  const [preload, setPreload] = useState(true);
+  const [activeFilter, setActiveFilter] = useState(null);
   const navigate = useNavigate();
 
-  const { language, advancedFilters, administration, selectedForm, user } =
+  const { language, advancedFilters, administration, selectedForm, forms } =
     store.useState((s) => s);
   const { active: activeLang } = language;
   const text = useMemo(() => {
@@ -66,39 +67,65 @@ const ManageCertificationData = () => {
     },
   ];
 
+  const certificationForms = useMemo(() => {
+    const form_items = window.forms || forms;
+    return form_items
+      .filter((f) =>
+        f.content.submission_types.includes(config.submissionType.certification)
+      )
+      .map((f) => f?.id);
+  }, [forms]);
+
   const handleChange = (e) => {
+    setUpdateRecord(true);
     setCurrentPage(e.current);
   };
 
   useEffect(() => {
     if (
+      !preload &&
+      !updateRecord &&
+      !activeFilter &&
       selectedAdministration?.id &&
-      selectedAdministration?.id !== user?.administration?.id &&
-      !isAdmFilter
+      administration.length > 1
     ) {
-      setIsAdmFilter(true);
+      setActiveFilter(selectedAdministration?.id);
+      setUpdateRecord(true);
     }
     if (
-      isAdmFilter &&
-      selectedAdministration?.id === user?.administration?.id
+      activeFilter &&
+      isAdministrationLoaded &&
+      !preload &&
+      activeFilter !== selectedAdministration?.id
     ) {
-      setIsAdmFilter(false);
+      setActiveFilter(selectedAdministration.id);
+      if (!updateRecord) {
+        setCurrentPage(1);
+        setUpdateRecord(true);
+      }
     }
   }, [
-    isAdmFilter,
+    activeFilter,
+    selectedAdministration,
+    isAdministrationLoaded,
+    updateRecord,
+    preload,
     administration,
-    selectedAdministration?.id,
-    user?.administration?.id,
   ]);
 
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedAdministration]);
-
-  useEffect(() => {
-    if (selectedForm && isAdministrationLoaded && !updateRecord) {
+  const fetchData = useCallback(() => {
+    if (
+      selectedForm &&
+      certificationForms.includes(selectedForm) &&
+      isAdministrationLoaded &&
+      updateRecord
+    ) {
+      setUpdateRecord(false);
       setLoading(true);
       let url = `/form-data/${selectedForm}/?submission_type=${config.submissionType.certification}&page=${currentPage}`;
+      if (!preload && selectedAdministration?.id) {
+        url += `&administration=${selectedAdministration.id}`;
+      }
       if (advancedFilters && advancedFilters.length) {
         url = generateAdvanceFilterURL(advancedFilters, url);
       }
@@ -110,8 +137,10 @@ const ManageCertificationData = () => {
           if (res.data.total < currentPage) {
             setCurrentPage(1);
           }
-          setUpdateRecord(null);
           setLoading(false);
+          if (preload) {
+            setPreload(false);
+          }
         })
         .catch(() => {
           setDataset([]);
@@ -120,12 +149,31 @@ const ManageCertificationData = () => {
         });
     }
   }, [
+    certificationForms,
     selectedForm,
     currentPage,
     isAdministrationLoaded,
     updateRecord,
     advancedFilters,
+    selectedAdministration,
+    preload,
   ]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  useEffect(() => {
+    const unsubscribe = store.subscribe(
+      (s) => s.selectedForm,
+      () => {
+        setUpdateRecord(true);
+      }
+    );
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   return (
     <div id="manage-certification-data">
@@ -143,7 +191,7 @@ const ManageCertificationData = () => {
 
       <div className="table-section">
         <div className="table-wrapper">
-          <CertificationDataFilters hideAdministrationDropdown={true} />
+          <CertificationDataFilters />
           <Divider />
           <div
             style={{ padding: 0, minHeight: "40vh" }}
