@@ -1965,12 +1965,6 @@ def get_decendants(administration: Administration):
             type=OpenApiTypes.NUMBER,
             location=OpenApiParameter.QUERY,
         ),
-        OpenApiParameter(
-            name="parent",
-            required=False,
-            type=OpenApiTypes.NUMBER,
-            location=OpenApiParameter.QUERY,
-        ),
     ],
     summary="To get list of certification data",
 )
@@ -1989,28 +1983,6 @@ def get_certification_data(request, version, form_id):
 
     page_size = REST_FRAMEWORK.get("PAGE_SIZE")
     paginator = PageNumberPagination()
-
-    parent = serializer.validated_data.get("parent")
-    if parent:
-        queryset = form.form_form_data.filter(
-            uuid=parent.uuid,
-            submission_type=SubmissionTypes.certification,
-        )
-        queryset = queryset.order_by("-created")
-        instance = paginator.paginate_queryset(queryset, request)
-        data = {
-            "current": int(request.GET.get("page", "1")),
-            "total": queryset.count(),
-            "total_page": ceil(queryset.count() / page_size),
-            "data": ListFormDataSerializer(
-                instance=instance,
-                context={
-                    "questions": serializer.validated_data.get("questions")
-                },
-                many=True,
-            ).data,
-        }
-        return Response(data, status=status.HTTP_200_OK)
 
     latest_ids_per_uuid = (
         form.form_form_data.filter(

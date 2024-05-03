@@ -97,7 +97,7 @@ const CertificationDetail = () => {
   useEffect(() => {
     if (form && !updateRecord) {
       setLoading(true);
-      const url = `/certifications/${form}/?page=${currentPage}&parent=${parentId}`;
+      const url = `/form-data/${form}/?page=${currentPage}&parent=${parentId}&submission_type=${config.submissionType.certification}`;
       api
         .get(url)
         .then((res) => {
