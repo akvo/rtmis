@@ -122,7 +122,7 @@ const ManageCertificationData = () => {
     ) {
       setUpdateRecord(false);
       setLoading(true);
-      let url = `/form-data/${selectedForm}/?submission_type=${config.submissionType.certification}&page=${currentPage}`;
+      let url = `/certifications/${selectedForm}/?page=${currentPage}`;
       if (!preload && selectedAdministration?.id) {
         url += `&administration=${selectedAdministration.id}`;
       }
