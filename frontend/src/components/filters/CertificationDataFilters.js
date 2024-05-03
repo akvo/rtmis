@@ -21,6 +21,7 @@ const CertificationDataFilters = ({
   const [exporting, setExporting] = useState(false);
   const language = store.useState((s) => s.language);
   const { active: activeLang } = language;
+  const levels = store.useState((s) => s.levels);
 
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -49,7 +50,10 @@ const CertificationDataFilters = ({
         setExporting(false);
       });
   };
-
+  const maxLevel =
+    submissionType === config.submissionType.certification
+      ? levels.slice(-2)?.[0]
+      : levels.slice(-1)?.[0];
   return (
     <Row>
       <Col flex={1}>
@@ -58,6 +62,7 @@ const CertificationDataFilters = ({
           <AdministrationDropdown
             loading={loading || loadingForm}
             submissionType={submissionType}
+            maxLevel={maxLevel?.id}
           />
         </Space>
       </Col>
