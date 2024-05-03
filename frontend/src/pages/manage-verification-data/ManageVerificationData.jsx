@@ -131,6 +131,18 @@ const ManageVerificationData = () => {
     fetchData();
   }, [fetchData]);
 
+  useEffect(() => {
+    const unsubscribe = store.subscribe(
+      (s) => s.selectedForm,
+      () => {
+        setUpdateRecord(true);
+      }
+    );
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   return (
     <div id="manage-verification-data">
       <div className="description-container">

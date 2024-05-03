@@ -63,23 +63,28 @@ class FormData(models.Model):
         data = {
             "id": self.id,
             "datapoint_name": self.name,
-            "administration": administration.administration_column
-            if administration
-            else None,
+            "administration": (
+                administration.administration_column
+                if administration
+                else None
+            ),
             "uuid": self.uuid,
-            "geolocation": f"{self.geo[0]}, {self.geo[1]}"
-            if self.geo
-            else None,
+            "geolocation": (
+                f"{self.geo[0]}, {self.geo[1]}" if self.geo else None
+            ),
             "created_by": self.created_by.get_full_name(),
-            "updated_by": self.updated_by.get_full_name()
-            if self.updated_by
-            else None,
+            "updated_by": (
+                self.updated_by.get_full_name() if self.updated_by else None
+            ),
             "created_at": self.created.strftime("%B %d, %Y %I:%M %p"),
-            "updated_at": self.updated.strftime("%B %d, %Y %I:%M %p")
-            if self.updated
-            else None,
-            "submission_type":
-            SubmissionTypes().FieldStr[self.submission_type],
+            "updated_at": (
+                self.updated.strftime("%B %d, %Y %I:%M %p")
+                if self.updated
+                else None
+            ),
+            "submission_type": SubmissionTypes().FieldStr[
+                self.submission_type
+            ],
         }
         for a in self.data_answer.order_by(
             "question__question_group_id", "question__order"
@@ -92,9 +97,9 @@ class FormData(models.Model):
         data = {
             "id": self.id,
             "datapoint_name": self.name,
-            "administration": self.administration.id
-            if self.administration
-            else None,
+            "administration": (
+                self.administration.id if self.administration else None
+            ),
             "uuid": str(self.uuid),
             "geolocation": self.geo,
             "submission_type": self.submission_type,
@@ -348,6 +353,7 @@ class Answers(models.Model):
             QuestionTypes.photo,
             QuestionTypes.date,
             QuestionTypes.autofield,
+            QuestionTypes.cascade,
         ]:
             answer = self.name
         elif q.type == QuestionTypes.administration:
@@ -371,9 +377,14 @@ class Answers(models.Model):
             QuestionTypes.text,
             QuestionTypes.photo,
             QuestionTypes.date,
+            QuestionTypes.autofield,
             QuestionTypes.cascade,
         ]:
             answer = self.name
+        elif q.type == QuestionTypes.administration:
+            answer = Administration.objects.filter(pk=self.value).first()
+            if answer:
+                answer = answer.administration_column
         else:
             answer = self.value
         return {q.id: answer}

@@ -141,7 +141,7 @@
         {
           "id": 17029147539571,
           "order": 5,
-          "name": "geolocation",
+          "name": "hh_geolocation",
           "label": "Geolocation of the household",
           "short_label": "Geolocation",
           "type": "geo",

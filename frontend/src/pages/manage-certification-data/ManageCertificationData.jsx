@@ -20,7 +20,7 @@ const ManageCertificationData = () => {
   const [activeFilter, setActiveFilter] = useState(null);
   const navigate = useNavigate();
 
-  const { language, advancedFilters, administration, selectedForm } =
+  const { language, advancedFilters, administration, selectedForm, forms } =
     store.useState((s) => s);
   const { active: activeLang } = language;
   const text = useMemo(() => {
@@ -67,6 +67,15 @@ const ManageCertificationData = () => {
     },
   ];
 
+  const certificationForms = useMemo(() => {
+    const form_items = window.forms || forms;
+    return form_items
+      .filter((f) =>
+        f.content.submission_types.includes(config.submissionType.certification)
+      )
+      .map((f) => f?.id);
+  }, [forms]);
+
   const handleChange = (e) => {
     setUpdateRecord(true);
     setCurrentPage(e.current);
@@ -105,7 +114,12 @@ const ManageCertificationData = () => {
   ]);
 
   const fetchData = useCallback(() => {
-    if (selectedForm && isAdministrationLoaded && updateRecord) {
+    if (
+      selectedForm &&
+      certificationForms.includes(selectedForm) &&
+      isAdministrationLoaded &&
+      updateRecord
+    ) {
       setUpdateRecord(false);
       setLoading(true);
       let url = `/form-data/${selectedForm}/?submission_type=${config.submissionType.certification}&page=${currentPage}`;
@@ -135,6 +149,7 @@ const ManageCertificationData = () => {
         });
     }
   }, [
+    certificationForms,
     selectedForm,
     currentPage,
     isAdministrationLoaded,
@@ -147,6 +162,18 @@ const ManageCertificationData = () => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  useEffect(() => {
+    const unsubscribe = store.subscribe(
+      (s) => s.selectedForm,
+      () => {
+        setUpdateRecord(true);
+      }
+    );
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   return (
     <div id="manage-certification-data">
