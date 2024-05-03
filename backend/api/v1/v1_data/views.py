@@ -13,7 +13,7 @@ from django.utils import timezone
 # from functools import reduce
 
 from django.contrib.postgres.aggregates import StringAgg
-from django.db.models import Count, TextField, F, Sum, Avg, Max, Q
+from django.db.models import Count, TextField, F, Sum, Avg, Max
 from django.db.models.functions import Cast, Coalesce
 from django.http import HttpResponse
 from django_q.tasks import async_task
@@ -79,9 +79,7 @@ from api.v1.v1_data.functions import (
     transform_glass_answer,
 )
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes, SubmissionTypes
-from api.v1.v1_forms.models import (
-    Forms, Questions, FormCertificationAssignment
-)
+from api.v1.v1_forms.models import Forms, Questions
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.constants import UserRoleTypes
@@ -90,7 +88,6 @@ from api.v1.v1_categories.functions import (
     get_jmp_config_by_form,
 )
 from api.v1.v1_categories.models import DataCategory
-from api.v1.v1_mobile.models import MobileAssignment
 
 from rtmis.settings import REST_FRAMEWORK
 from utils.custom_permissions import (
@@ -219,18 +216,6 @@ class FormDataAddListView(APIView):
         filter_data["submission_type"] = submission_type
 
         access = request.user.user_access
-        subcounty_id = access.administration.id
-        if access.administration.level.level > 2:
-            pieces = access.administration.path.split(".")
-            subcounty_id = int(pieces[2:3][0])
-
-        valid_certification = FormCertificationAssignment.objects.filter(
-            Q(assignee__pk=subcounty_id) |
-            Q(assignee__path__startswith="{0}{1}".format(
-                access.administration.path,
-                access.administration.id
-            ))
-        ).first()
 
         if serializer.validated_data.get("administration"):
             filter_administration = serializer.validated_data.get(
@@ -251,20 +236,7 @@ class FormDataAddListView(APIView):
             filter_data["administration_id__in"] = filter_descendants
         else:
             user_path = access.administration.path or "1."
-            if submission_type != SubmissionTypes.certification:
-                filter_data["administration__path__startswith"] = user_path
-
-            if (
-                submission_type == SubmissionTypes.certification and
-                access.role not in [
-                    UserRoleTypes.super_admin,
-                    UserRoleTypes.admin,
-                ]
-            ):
-                user_assignee = MobileAssignment.objects.filter(
-                    administrations__path__startswith=user_path
-                ).values("user_id")
-                filter_data["created_by__in"] = user_assignee
+            filter_data["administration__path__startswith"] = user_path
 
         # Advance filter
         data_ids = None
@@ -275,12 +247,6 @@ class FormDataAddListView(APIView):
                 options=request.GET.getlist("options"),
             )
             filter_data["pk__in"] = data_ids
-        if (
-            submission_type == SubmissionTypes.certification and
-            access.role != UserRoleTypes.super_admin and
-            not valid_certification
-        ):
-            filter_data["pk__in"] = []
 
         queryset = form.form_form_data.filter(**filter_data).order_by(
             "-created"
@@ -1955,3 +1921,144 @@ def get_glaas_data(request, version, form_id):
         {"counties": counties_data, "national": national_data},
         status=status.HTTP_200_OK,
     )
+
+
+def get_decendants(administration: Administration):
+    path = f"{administration.id}."
+    if administration.path:
+        path = "{0}{1}.".format(
+            administration.path,
+            administration.id
+        )
+    descendants = list(
+        Administration.objects.filter(
+            path__startswith=path
+        ).values_list("id", flat=True)
+    )
+    descendants.append(administration.id)
+    return descendants
+
+
+@extend_schema(
+    responses={
+        (200, "application/json"): inline_serializer(
+            "DataList",
+            fields={
+                "current": serializers.IntegerField(),
+                "total": serializers.IntegerField(),
+                "total_page": serializers.IntegerField(),
+                "data": ListFormDataSerializer(many=True),
+            },
+        )
+    },
+    tags=["Data"],
+    parameters=[
+        OpenApiParameter(
+            name="page",
+            required=True,
+            type=OpenApiTypes.NUMBER,
+            location=OpenApiParameter.QUERY,
+        ),
+        OpenApiParameter(
+            name="administration",
+            required=False,
+            type=OpenApiTypes.NUMBER,
+            location=OpenApiParameter.QUERY,
+        ),
+        OpenApiParameter(
+            name="parent",
+            required=False,
+            type=OpenApiTypes.NUMBER,
+            location=OpenApiParameter.QUERY,
+        ),
+    ],
+    summary="To get list of certification data",
+)
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_certification_data(request, version, form_id):
+    form = get_object_or_404(Forms, pk=form_id)
+    serializer = ListFormDataRequestSerializer(
+        data=request.GET, context={"form_id": form_id}
+    )
+    if not serializer.is_valid():
+        return Response(
+            {"message": validate_serializers_message(serializer.errors)},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    page_size = REST_FRAMEWORK.get("PAGE_SIZE")
+    paginator = PageNumberPagination()
+
+    parent = serializer.validated_data.get("parent")
+    if parent:
+        queryset = form.form_form_data.filter(
+            uuid=parent.uuid,
+            submission_type=SubmissionTypes.certification,
+        )
+        queryset = queryset.order_by("-created")
+        instance = paginator.paginate_queryset(queryset, request)
+        data = {
+            "current": int(request.GET.get("page", "1")),
+            "total": queryset.count(),
+            "total_page": ceil(queryset.count() / page_size),
+            "data": ListFormDataSerializer(
+                instance=instance,
+                context={
+                    "questions": serializer.validated_data.get("questions")
+                },
+                many=True,
+            ).data,
+        }
+        return Response(data, status=status.HTTP_200_OK)
+
+    latest_ids_per_uuid = (
+        form.form_form_data.filter(
+            submission_type=SubmissionTypes.certification
+        )
+        .values("uuid")
+        .annotate(latest_id=Max("id"))
+        .values_list("latest_id", flat=True)
+    )
+    filter_data = {}
+    filter_data["pk__in"] = latest_ids_per_uuid
+    filter_data["submission_type"] = SubmissionTypes.certification
+
+    access = request.user.user_access
+    user_decendants = get_decendants(administration=access.administration)
+    filter_decendants = []
+    if serializer.validated_data.get("administration"):
+        filter_adm = serializer.validated_data.get(
+            "administration"
+        )
+        filter_decendants = get_decendants(administration=filter_adm)
+
+    if access.role != UserRoleTypes.super_admin:
+        filter_adm_key = "created_by__user_access__administration_id__in"
+        filter_data[filter_adm_key] = user_decendants
+        if len(filter_decendants):
+            filter_data[filter_adm_key] = set(filter_decendants) \
+                .intersection(user_decendants)
+
+    if access.role == UserRoleTypes.super_admin and len(filter_decendants):
+        filter_data[filter_adm_key] = filter_decendants
+
+    queryset = form.form_form_data \
+        .filter(**filter_data) \
+        .order_by(
+            "-created"
+        )
+    instance = paginator.paginate_queryset(queryset, request)
+    data = {
+        "current": int(request.GET.get("page", "1")),
+        "total": queryset.count(),
+        "total_page": ceil(queryset.count() / page_size),
+        "data": ListFormDataSerializer(
+            instance=instance,
+            context={
+                "questions": serializer.validated_data.get("questions")
+            },
+            many=True,
+        ).data,
+    }
+    return Response(data, status=status.HTTP_200_OK)
