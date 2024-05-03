@@ -49,8 +49,11 @@ def download_data(
     submission_type=None
 ):
     filter_data = {}
-    if administration_ids:
+    if administration_ids and submission_type != SubmissionTypes.certification:
         filter_data['administration_id__in'] = administration_ids
+    if administration_ids and submission_type == SubmissionTypes.certification:
+        filter_adm_key = "created_by__user_access__administration_id__in"
+        filter_data[filter_adm_key] = administration_ids
     if submission_type:
         filter_data['submission_type'] = submission_type
     else:
@@ -79,7 +82,7 @@ def generate_data_sheet(
     question_names = get_question_names(form=form)
     data = download_data(
         form=form,
-        administration_ids=None,
+        administration_ids=administration_ids,
         submission_type=submission_type,
         download_type=download_type
     )
