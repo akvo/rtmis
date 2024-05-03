@@ -62,7 +62,7 @@ class BulkUnitTestCase(TestCase):
         )
         self.assertTrue(form_data.count())
         form_data = form_data.first()
-        administration = form_data.administration
+        administration = form_data.created_by.user_access.administration
         download_response = download_data(
             form_data.form,
             [administration.id],
@@ -85,5 +85,4 @@ class BulkUnitTestCase(TestCase):
             download_type="all",
             submission_type=SubmissionTypes.verification
         )
-        print("download_response", download_response)
         self.assertEqual(download_response, [])
