@@ -128,7 +128,7 @@ class CertificationEndpointsTestCase(TestCase):
         st = SubmissionTypes.certification
         t = RefreshToken.for_user(self.assignee_user)
         data = self.client.get(
-            f"/api/v1/form-data/{self.form.id}?submission_type={st}",
+            f"/api/v1/certifications/{self.form.id}?submission_type={st}",
             content_type="application/json",
             **{"HTTP_AUTHORIZATION": f"Bearer {t.access_token}"},
         )
@@ -140,7 +140,7 @@ class CertificationEndpointsTestCase(TestCase):
         st = SubmissionTypes.certification
         t = RefreshToken.for_user(self.target_user_1)
         data = self.client.get(
-            f"/api/v1/form-data/{self.form.id}?submission_type={st}",
+            f"/api/v1/certifications/{self.form.id}?submission_type={st}",
             content_type="application/json",
             **{"HTTP_AUTHORIZATION": f"Bearer {t.access_token}"},
         )
@@ -152,7 +152,7 @@ class CertificationEndpointsTestCase(TestCase):
         st = SubmissionTypes.certification
         t = RefreshToken.for_user(self.admin_user)
         data = self.client.get(
-            f"/api/v1/form-data/{self.form.id}?submission_type={st}",
+            f"/api/v1/certifications/{self.form.id}?submission_type={st}",
             content_type="application/json",
             **{"HTTP_AUTHORIZATION": f"Bearer {t.access_token}"},
         )
