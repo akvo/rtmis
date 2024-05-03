@@ -36,12 +36,6 @@ def validate_header_names(header, col, header_names):
         default.update(
             {"error_message": ValidationText.header_name_missing.value})
         return default
-    if "|" not in header:
-        default.update({
-            "error_message":
-            f"{header} {ValidationText.header_no_question_id.value}",
-        })
-        return default
     if "|" in header:
         if header not in header_names:
             header_id = header.split("|")[0]
@@ -173,12 +167,17 @@ def validate_dependency(col, answered: bool, dependency_answer,
     default = {
         "error": ExcelError.value,
         "cell": col,
-        "error_message": f"{question.id} {ValidationText.is_required.value}"
+        "error_message": f"{question.name} {ValidationText.is_required.value}"
     }
     if not question.required and not question.dependency:
         # no answer requirements at all (best performance)
         return False
-    if not answered and question.required and not question.dependency:
+    if (
+        question.required and
+        not answered and
+        not question.dependency and
+        not question.hidden
+    ):
         # answer is absolutely required
         return default
     if question.dependency:
@@ -325,9 +324,8 @@ def validate(form: int, administration: int, file: str):
                     )
                     if errors:
                         data_error.append(errors)
-            else:
-                qid = header.split("|")[0]
-                question = questions.filter(id=int(qid)).first()
+            question = questions.filter(name=header).first()
+            if question:
                 dependencies = False
                 if question.dependency:
                     dependency = questions.filter(
@@ -342,9 +340,13 @@ def validate(form: int, administration: int, file: str):
                         dependency_answer = dependencies[i]
                         if dependency_answer != dependency_answer:
                             dependency_answer = False
-                    errors = validate_row_data(f"{col}{ix}", answer,
-                                               dependency_answer, question,
-                                               adm)
+                    errors = validate_row_data(
+                        f"{col}{ix}",
+                        answer,
+                        dependency_answer,
+                        question,
+                        adm
+                    )
                     if errors:
                         data_error.append(errors)
     return header_error + data_error
