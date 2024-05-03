@@ -2033,8 +2033,8 @@ def get_certification_data(request, version, form_id):
         )
         filter_decendants = get_decendants(administration=filter_adm)
 
+    filter_adm_key = "created_by__user_access__administration_id__in"
     if access.role != UserRoleTypes.super_admin:
-        filter_adm_key = "created_by__user_access__administration_id__in"
         filter_data[filter_adm_key] = user_decendants
         if len(filter_decendants):
             filter_data[filter_adm_key] = set(filter_decendants) \
