@@ -28,7 +28,6 @@ def set_answer_data(data, question):
     if question.type == QuestionTypes.geo:
         option = data.geo
     elif question.type == QuestionTypes.administration:
-        name = data.administration.name
         value = data.administration.id
     elif question.type == QuestionTypes.text:
         name = fake.company() if question.meta else fake.sentence(nb_words=3)
@@ -42,7 +41,7 @@ def set_answer_data(data, question):
         ):
             st_value = SubmissionTypes.FieldStr.get(
                 data.submission_type
-            )
+            ).lower()
             if st_value in question.default_value["submission_type"]:
                 option = [
                     question.default_value["submission_type"][st_value]
@@ -123,24 +122,15 @@ def add_fake_answers(
                     options=option,
                     created_by=data.created_by,
                 )
-    data.name = (
-        " - ".join(meta_name) if form_type != FormTypes.national else data.name
-    )
+    if data.submission_type == SubmissionTypes.registration:
+        data.name = (
+            " - ".join(meta_name)
+            if form_type != FormTypes.national else data.name
+        )
     data.save()
 
 
-def get_mobile_user(administration, form):
-    user = SystemUser.objects.filter(
-        user_access__administration=administration,
-        user_access__role=UserRoleTypes.user
-    ).order_by('?').first()
-    if not user:
-        user = create_user(
-            role=UserRoleTypes.user,
-            administration=administration,
-            random_password=False,
-        )
-    UserForms.objects.get_or_create(form=form, user=user)
+def get_mobile_user(user, form):
     mobile_user = user.mobile_assignments.filter(
         forms__id__in=[form.pk]
     ).first()
@@ -149,8 +139,18 @@ def get_mobile_user(administration, form):
             user=user, name=fake.user_name()
         )
         mobile_user.forms.add(form)
-    villages = administration.parent_administration.all()
-    mobile_user.administrations.set(villages)
+        user_path = "{0}{1}".format(
+            user.user_access.administration.path,
+            user.user_access.administration.id
+        )
+        mobile_adms = form.form_form_data.filter(
+            administration__path__startswith=user_path
+        ).values_list("administration", flat=True)
+        if len(mobile_adms) == 0:
+            mobile_adms = user.user_access \
+                .administration \
+                .parent_administration.order_by('?')[:6]
+        mobile_user.administrations.set(mobile_adms)
     return mobile_user
 
 
@@ -186,8 +186,8 @@ def seed_national_data(form, fake_geo, created, repeat):
             )
             national_data.created = make_aware(created)
             national_data.save()
-            national_data.save_to_file
             add_fake_answers(national_data, form.type)
+            national_data.save_to_file
 
 
 def seed_county_data(
@@ -205,8 +205,22 @@ def seed_county_data(
             administration=administration,
         ).first()
         if assignment:
+            user = SystemUser.objects.filter(
+                user_form__form_id__in=[form.pk],
+                user_access__administration=administration,
+                user_access__role=UserRoleTypes.user
+            ).order_by('?').first()
+            if not user:
+                user = create_user(
+                    role=UserRoleTypes.user,
+                    administration=administration,
+                    random_password=False,
+                )
+                UserForms.objects.get_or_create(
+                    form=form, user=user
+                )
             mobile_user = get_mobile_user(
-                administration=administration, form=form
+                user=user, form=form
             )
             created_by = mobile_user.user
             adm_submission = mobile_user.administrations.order_by('?').first()
@@ -220,8 +234,8 @@ def seed_county_data(
             )
             data.created = make_aware(created)
             data.save()
-            data.save_to_file
             add_fake_answers(data, form.type)
+            data.save_to_file
 
 
 class Command(BaseCommand):

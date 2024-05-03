@@ -7,28 +7,14 @@ from api.v1.v1_forms.models import (
     FormCertificationAssignment,
     UserForms,
 )
-from api.v1.v1_profile.models import Administration
 from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_data.functions import refresh_materialized_data
 from api.v1.v1_data.management.commands.fake_data_seeder import (
-    add_fake_answers,
+    add_fake_answers, get_mobile_user
 )
-from api.v1.v1_mobile.models import MobileAssignment
 
 fake = Faker()
-
-
-def get_mobile_user(user: SystemUser, form: Forms):
-    mobile_assignment = user.mobile_assignments.filter(
-        forms__id__in=[form.pk]
-    ).first()
-    if not mobile_assignment:
-        mobile_assignment = MobileAssignment.objects.create_assignment(
-            user=user, name=fake.user_name()
-        )
-        mobile_assignment.forms.add(form)
-    return mobile_assignment
 
 
 def create_certification(assignee, certification, form):
@@ -48,14 +34,7 @@ def create_certification(assignee, certification, form):
     )
     if entry_user:
         UserForms.objects.get_or_create(form=form, user=entry_user)
-
-        administration_children = Administration.objects.filter(
-            parent=entry_user.user_access.administration
-        ).order_by("?")[:2]
-
-        mobile_assignment = get_mobile_user(user=entry_user, form=form)
-        mobile_assignment.administrations.set(administration_children)
-        mobile_assignment.certifications.set(certification)
+        get_mobile_user(user=entry_user, form=form)
 
     return certify_assignment
 
@@ -63,7 +42,7 @@ def create_certification(assignee, certification, form):
 class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument(
-            "-r", "--repeat", nargs="?", const=3, default=3, type=int
+            "-r", "--repeat", nargs="?", const=2, default=2, type=int
         )
         parser.add_argument(
             "-t", "--test", nargs="?", const=False, default=False, type=bool
@@ -95,7 +74,7 @@ class Command(BaseCommand):
                     county_path,
                     user_assignee.user_access.administration.id
                 )
-                certification = FormData.objects.filter(
+                certification = form.form_form_data.filter(
                     administration__path__startswith=county_path
                 ).exclude(
                     administration__path__startswith=assignee_path
@@ -108,7 +87,7 @@ class Command(BaseCommand):
                     form=form,
                 )
             adm_ids = certification_assignment.administrations.values("id")
-            datapoints = FormData.objects.filter(
+            datapoints = form.form_form_data.filter(
                 administration__in=adm_ids
             ).all()
             ap = "{0}{1}".format(
@@ -123,7 +102,7 @@ class Command(BaseCommand):
                 for i in range(repeat):
                     data = FormData.objects.create(
                         uuid=dp.uuid,
-                        name=f"{dp.name} - certification {i+1}",
+                        name=dp.name,
                         geo=dp.geo,
                         form=form,
                         administration=dp.administration,
@@ -131,6 +110,6 @@ class Command(BaseCommand):
                         submission_type=SubmissionTypes.certification,
                     )
                     data.save()
-                    data.save_to_file
                     add_fake_answers(data, form.type)
+                    data.save_to_file
             refresh_materialized_data()
