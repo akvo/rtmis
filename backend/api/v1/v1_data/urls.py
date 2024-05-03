@@ -21,6 +21,7 @@ from api.v1.v1_data.views import (
     get_jmp_data,
     get_period_submission,
     get_glaas_data,
+    get_certification_data,
 )
 from api.v1.v1_users.views import health_check, get_config_file, email_template
 
@@ -91,4 +92,8 @@ urlpatterns = [
     re_path(r"^(?P<version>(v1))/health/check", health_check),
     re_path(r"^(?P<version>(v1))/config.js", get_config_file),
     re_path(r"^(?P<version>(v1))/email_template", email_template),
+    re_path(
+        r"^(?P<version>(v1))/certifications/(?P<form_id>[0-9]+)",
+        get_certification_data
+    ),
 ]

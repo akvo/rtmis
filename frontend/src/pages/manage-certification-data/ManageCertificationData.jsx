@@ -16,7 +16,6 @@ const ManageCertificationData = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [updateRecord, setUpdateRecord] = useState(true);
-  const [preload, setPreload] = useState(true);
   const [activeFilter, setActiveFilter] = useState(null);
   const navigate = useNavigate();
 
@@ -83,7 +82,6 @@ const ManageCertificationData = () => {
 
   useEffect(() => {
     if (
-      !preload &&
       !updateRecord &&
       !activeFilter &&
       selectedAdministration?.id &&
@@ -95,7 +93,6 @@ const ManageCertificationData = () => {
     if (
       activeFilter &&
       isAdministrationLoaded &&
-      !preload &&
       activeFilter !== selectedAdministration?.id
     ) {
       setActiveFilter(selectedAdministration.id);
@@ -109,7 +106,6 @@ const ManageCertificationData = () => {
     selectedAdministration,
     isAdministrationLoaded,
     updateRecord,
-    preload,
     administration,
   ]);
 
@@ -122,8 +118,8 @@ const ManageCertificationData = () => {
     ) {
       setUpdateRecord(false);
       setLoading(true);
-      let url = `/form-data/${selectedForm}/?submission_type=${config.submissionType.certification}&page=${currentPage}`;
-      if (!preload && selectedAdministration?.id) {
+      let url = `/certifications/${selectedForm}/?page=${currentPage}`;
+      if (selectedAdministration?.id) {
         url += `&administration=${selectedAdministration.id}`;
       }
       if (advancedFilters && advancedFilters.length) {
@@ -138,9 +134,6 @@ const ManageCertificationData = () => {
             setCurrentPage(1);
           }
           setLoading(false);
-          if (preload) {
-            setPreload(false);
-          }
         })
         .catch(() => {
           setDataset([]);
@@ -156,7 +149,6 @@ const ManageCertificationData = () => {
     updateRecord,
     advancedFilters,
     selectedAdministration,
-    preload,
   ]);
 
   useEffect(() => {

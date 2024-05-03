@@ -74,7 +74,7 @@
         {
           "id": 105,
           "order": null,
-          "name": "geolocation",
+          "name": "example_geolocation",
           "label": "Geolocation",
           "short_label": null,
           "meta": true,
