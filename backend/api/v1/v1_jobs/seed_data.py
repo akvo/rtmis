@@ -51,7 +51,7 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
         if not prev_form_data
         else SubmissionTypes.monitoring
     )
-    if dp["submission_type"] == dp["submission_type"] and not prev_form_data:
+    if dp["submission_type"] == dp["submission_type"]:
         st = getattr(SubmissionTypes, dp["submission_type"])
         if st:
             submission_type = st
@@ -75,14 +75,6 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
         ):
             aw = None
         if (
-            q.default_value
-            and q.default_value.get("submission_type")
-            and dp["submission_type"] in q.default_value["submission_type"]
-            and not aw
-        ):
-            dv = dp["submission_type"].lower()
-            aw = q.default_value["submission_type"][dv]
-        if (
             q.disabled
             and q.disabled.get("submission_type")
             and st_monitoring in q.disabled["submission_type"]
@@ -99,31 +91,49 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
                     or prev_answer.value
                     or prev_answer.options
                 )
+        if (
+            q.default_value
+            and q.default_value.get("submission_type")
+            and dp["submission_type"] in q.default_value["submission_type"]
+            and not aw
+        ):
+            dv = dp["submission_type"].lower()
+            aw = q.default_value["submission_type"][dv]
 
         answer = PendingAnswers(question_id=q.id, created_by=user)
         if q.type == QuestionTypes.administration:
-            adms = aw.split("|")
-            adm_list = []
-            for ix, adm in enumerate(adms):
-                if len(adm_list):
-                    parent = adm_list[ix - 1]
-                    adm_list.append(
-                        Administration.objects.get(
-                            name=adm, parent_id=parent.id
+            if isinstance(aw, str):
+                adms = aw.split("|")
+                adm_list = []
+                for ix, adm in enumerate(adms):
+                    if len(adm_list):
+                        parent = adm_list[ix - 1]
+                        adm_list.append(
+                            Administration.objects.get(
+                                name=adm, parent_id=parent.id
+                            )
                         )
-                    )
-                else:
-                    adm_list.append(Administration.objects.get(name=adm))
+                    else:
+                        adm_list.append(Administration.objects.get(name=adm))
 
-            administration = adm_list[-1].id
-            answer.value = administration
-            if q.meta:
-                names.append(adm_list[-1].name)
+                administration = adm_list[-1].id
+                answer.value = administration
+                if q.meta:
+                    names.append(adm_list[-1].name)
+            else:
+                adm = Administration.objects.get(pk=aw)
+                administration = aw
+                answer.value = administration
+                if adm and q.meta:
+                    names.append(adm.name)
 
         if q.type == QuestionTypes.geo:
             if aw:
-                aw = aw.strip().replace("|", ",")
-                geo = [float(g) for g in aw.split(",")]
+                if isinstance(aw, str):
+                    aw = aw.strip().replace("|", ",")
+                    geo = [float(g) for g in aw.split(",")]
+                else:
+                    geo = aw
                 answer.options = geo
             else:
                 valid = False
@@ -151,9 +161,14 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
             if q.meta and aw:
                 names.append(aw)
         if q.type == QuestionTypes.multiple_option:
-            answer.options = aw.split("|")
-            if q.meta:
-                names = names + aw.replace("|", "-")
+            if isinstance(aw, str):
+                answer.options = aw.split("|")
+                if q.meta:
+                    names = names + aw.replace("|", "-")
+            else:
+                answer.options = aw
+                if q.meta and aw:
+                    names = names + "-".join(aw)
         if q.type == QuestionTypes.cascade and aw:
             answer.name = aw
             if q.extra and q.extra.get("type") == "entity" and administration:
@@ -178,7 +193,7 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
             else:
                 answer.name = data_uuid
         if valid:
-            if data_id:
+            if data_id and submission_type != SubmissionTypes.monitoring:
                 try:
                     form_answer = Answers.objects.get(
                         data_id=data_id, question_id=answer.question_id
@@ -234,17 +249,28 @@ def save_data(user: SystemUser, dp: dict, qs: dict, form_id: int, batch_id):
 
     if is_super_admin:
         try:
-            FormData.objects.filter(pk=data_id).update(
-                name=name,
-                form_id=form_id,
-                administration_id=administration,
-                geo=geo,
-                updated_by=user,
-                updated=timezone.now(),
-                uuid=temp.get("uuid"),
-                submission_type=submission_type,
-            )
-            data = FormData.objects.get(pk=data_id)
+            if submission_type != SubmissionTypes.monitoring:
+                FormData.objects.filter(pk=data_id).update(
+                    name=name,
+                    form_id=form_id,
+                    administration_id=administration,
+                    geo=geo,
+                    updated_by=user,
+                    updated=timezone.now(),
+                    uuid=temp.get("uuid"),
+                    submission_type=submission_type,
+                )
+                data = FormData.objects.get(pk=data_id)
+            else:
+                data = FormData.objects.create(
+                    name=name,
+                    form_id=form_id,
+                    administration_id=administration,
+                    geo=geo,
+                    created_by=user,
+                    uuid=temp.get("uuid"),
+                    submission_type=submission_type,
+                )
         except FormData.DoesNotExist:
             data = FormData.objects.create(
                 name=name,
