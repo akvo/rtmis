@@ -109,8 +109,7 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
                     if len(adm_list):
                         parent = adm_list[ix - 1]
                         find_adm = Administration.objects.filter(
-                            name=adm,
-                            parent_id=parent.id
+                            name=adm, parent_id=parent.id
                         ).first()
                     if find_adm:
                         adm_list.append(find_adm)
@@ -238,14 +237,11 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
 def get_decendants(administration: Administration):
     path = f"{administration.id}."
     if administration.path:
-        path = "{0}{1}.".format(
-            administration.path,
-            administration.id
-        )
+        path = "{0}{1}.".format(administration.path, administration.id)
     descendants = list(
-        Administration.objects.filter(
-            path__startswith=path
-        ).values_list("id", flat=True)
+        Administration.objects.filter(path__startswith=path).values_list(
+            "id", flat=True
+        )
     )
     descendants.append(administration.id)
     return descendants
@@ -261,9 +257,12 @@ def save_data(user: SystemUser, dp: dict, qs: dict, form_id: int, batch_id):
     name = temp.get("name")
     answer_history_list = temp.get("answer_history_list")
     submission_type = temp.get("submission_type")
-    parent = FormData.objects.filter(
-        uuid=temp.get("uuid")
-    ).first()
+    parent = FormData.objects.filter(uuid=temp.get("uuid")).first()
+
+    # make data_id None if monitoring
+    data_id = (
+        data_id if not submission_type == SubmissionTypes.monitoring else None
+    )
 
     user_administration = user.user_access.administration
     user_decendants = get_decendants(administration=user_administration)

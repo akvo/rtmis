@@ -15,7 +15,8 @@ def seed_approved_data(data):
         parent__isnull=True,
     ).first()
     # only registration data will be updated
-    if data.data and data.submission_type == SubmissionTypes.registration:
+    # if data.data and data.submission_type == SubmissionTypes.registration:
+    if data.data:
         form_data: FormData = data.data
         form_data.parent = parent_data
         form_data.name = data.name
@@ -25,6 +26,7 @@ def seed_approved_data(data):
         form_data.geo = data.geo
         form_data.updated_by = data.created_by
         form_data.updated = timezone.now()
+        form_data.submission_type = data.submission_type
         form_data.save()
 
         for answer in data.pending_data_answer.all():
