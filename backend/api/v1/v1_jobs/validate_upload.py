@@ -176,7 +176,10 @@ def validate_dependency(col, answered: bool, dependency_answer,
         question.required and
         not answered and
         not question.dependency and
-        not question.hidden
+        not question.hidden and
+        not question.meta_uuid and
+        not question.default_value and
+        not question.disabled
     ):
         # answer is absolutely required
         return default
@@ -192,7 +195,7 @@ def validate_dependency(col, answered: bool, dependency_answer,
         if answered and not question_is_appear:
             default.update({
                 "error_message":
-                f"{question.id} {ValidationText.should_be_empty.value}"
+                f"{question.name} {ValidationText.should_be_empty.value}"
             })
             return default
         # answer should not be empty
@@ -285,7 +288,7 @@ def validate(form: int, administration: int, file: str):
                 "sheets": ",".join(sheet_names)
             }]
     questions = Questions.objects.filter(form_id=form)
-    header_names = [q.to_excel_header for q in questions]
+    header_names = [q.name for q in questions]
     df = pd.read_excel(file, sheet_name='data')
     collect_data_ids = []
     if 'id' in list(df):
@@ -330,8 +333,8 @@ def validate(form: int, administration: int, file: str):
                 if question.dependency:
                     dependency = questions.filter(
                         id=question.dependency[0].get("id")).first()
-                    if dependency.to_excel_header in list(df):
-                        dependencies = list(df[dependency.to_excel_header])
+                    if dependency.name in list(df):
+                        dependencies = list(df[dependency.name])
                 answers = list(df[header])
                 for i, answer in enumerate(answers):
                     ix = i + 2
