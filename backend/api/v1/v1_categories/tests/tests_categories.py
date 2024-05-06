@@ -21,6 +21,7 @@ class CategoryTestCase(TestCase):
         token = user_response.json().get("token")
 
         call_command("form_seeder", "--test")
+        call_command("demo_approval_flow", "--test", True)
         call_command("fake_data_seeder", "-r", 1, "-t", True)
         self.header = {"HTTP_AUTHORIZATION": f"Bearer {token}"}
 
@@ -123,7 +124,8 @@ class CategoryTestCase(TestCase):
             answers = Answers.objects.filter(data_id=data_id).all()
             row_value = df[df["id"] == data_id]
             for a in answers:
-                csv_answer = row_value[f"{a.question.id}|{a.question.name}"][0]
+                csv_answer = row_value[f"{a.question.id}|{a.question.name}"]\
+                    .item()
                 if csv_answer != csv_answer:
                     csv_answer = None
                 db_answer = None

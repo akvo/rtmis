@@ -20,7 +20,6 @@ class JobGenerateExcelDataCommand(TestCase):
                                 user,
                                 content_type='application/json')
         call_command("fake_data_seeder", "-r", 2, "--test", True)
-        call_command("fake_data_seeder", "-r", 2, "--test", True)
         call_command("fake_data_claim_seeder", "-r", 2, "-t", True)
 
     def test_download_all_data(self):

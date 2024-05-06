@@ -6,19 +6,25 @@ from django.test.utils import override_settings
 from api.v1.v1_forms.models import Questions, Forms
 from api.v1.v1_data.models import FormData, SubmissionTypes
 from api.v1.v1_jobs.job import download_data, generate_definition_sheet
+from api.v1.v1_profile.management.commands import administration_seeder
 
 
 @override_settings(USE_TZ=False)
 class BulkUnitTestCase(TestCase):
     def setUp(self):
         call_command("form_seeder", "--test")
-        call_command("administration_seeder", "--test")
+        county = [
+            ["Jakarta", "East Jakarta", "Kramat Jati", "Cawang"],
+            ["Jakarta", "West Jakarta", "Kebon Jeruk", "Kebon Jeruk"],
+            ["Yogyakarta", "Sleman", "Seturan", "Cepit Baru"],
+            ["Yogyakarta", "Bantul", "Bantul", "Bantul"],
+        ]
+        administration_seeder.seed_administration_test(county=county)
         call_command("demo_approval_flow", "--test", True)
         user = {"email": "admin@rush.com", "password": "Test105*"}
         user = self.client.post('/api/v1/login',
                                 user,
                                 content_type='application/json')
-        call_command("fake_data_seeder", "-r", 2, "--test", True)
         call_command("fake_data_seeder", "-r", 2, "--test", True)
         call_command("fake_data_claim_seeder", "-r", 2, "-t", True)
 

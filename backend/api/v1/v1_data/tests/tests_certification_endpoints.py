@@ -1,7 +1,7 @@
 from django.core.management import call_command
 from django.test import TestCase
 from django.test.utils import override_settings
-from django.db.models import Count, Max
+from django.db.models import Max
 from rest_framework_simplejwt.tokens import RefreshToken
 from faker import Faker
 
@@ -58,7 +58,8 @@ class CertificationEndpointsTestCase(TestCase):
             ["Yogyakarta", "Bantul", "Bantul", "Bantul"],
         ]
         administration_seeder.seed_administration_test(county=county)
-        call_command("fake_data_seeder", "-r", 10, "-t", True)
+        call_command("demo_approval_flow", "--test", True)
+        call_command("fake_data_seeder", "-r", 2, "-t", True)
         self.form = Forms.objects.filter(type=1).first()
         self.assignee_level = Levels.objects.filter(name="Sub-County").first()
         # lowest_level
@@ -69,12 +70,9 @@ class CertificationEndpointsTestCase(TestCase):
         # get only id of the target administration
         adm_path = f"{self.administration.path}{self.administration.id}"
         self.target_administration = list(
-            Administration.objects.select_related("administration_form_data")
-            .annotate(num_data=Count("administration_form_data"))
-            .filter(
+            Administration.objects.filter(
                 path__contains=self.administration.path,
                 level=self.target_level,
-                num_data__gt=0,
             )
             .exclude(path__startswith=adm_path)
             .order_by("?")
@@ -122,7 +120,7 @@ class CertificationEndpointsTestCase(TestCase):
         UserForms.objects.get_or_create(form=form, user=self.target_user_1)
 
         # Fake data claim seeder
-        call_command("fake_data_claim_seeder", "-r", 5, "-t", True)
+        call_command("fake_data_claim_seeder", "-r", 2, "-t", True)
 
     def test_open_certification_by_assignee(self):
         st = SubmissionTypes.certification
