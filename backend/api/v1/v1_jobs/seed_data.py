@@ -35,7 +35,7 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
     # check if prev submission exist
     prev_form_data = None
     if data_id:
-        prev_form_data = FormData.objects.get(pk=data_id)
+        prev_form_data = FormData.objects.filter(pk=data_id).first()
     st_monitoring = SubmissionTypes.FieldStr[
         SubmissionTypes.monitoring
     ].lower()
@@ -190,6 +190,7 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
         if q.meta_uuid:
             if aw:
                 answer.name = aw
+                data_uuid = aw
             else:
                 answer.name = data_uuid
         if valid:
@@ -236,6 +237,22 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
     return res
 
 
+def get_decendants(administration: Administration):
+    path = f"{administration.id}."
+    if administration.path:
+        path = "{0}{1}.".format(
+            administration.path,
+            administration.id
+        )
+    descendants = list(
+        Administration.objects.filter(
+            path__startswith=path
+        ).values_list("id", flat=True)
+    )
+    descendants.append(administration.id)
+    return descendants
+
+
 def save_data(user: SystemUser, dp: dict, qs: dict, form_id: int, batch_id):
     is_super_admin = user.user_access.role == UserRoleTypes.super_admin
     data_id = None if math.isnan(dp["data_id"]) else dp["data_id"]
@@ -246,7 +263,14 @@ def save_data(user: SystemUser, dp: dict, qs: dict, form_id: int, batch_id):
     name = temp.get("name")
     answer_history_list = temp.get("answer_history_list")
     submission_type = temp.get("submission_type")
+    parent = FormData.objects.filter(
+        uuid=temp.get("uuid")
+    ).first()
 
+    user_administration = user.user_access.administration
+    user_decendants = get_decendants(administration=user_administration)
+    if administration not in user_decendants:
+        return None
     if is_super_admin:
         try:
             if submission_type != SubmissionTypes.monitoring:
@@ -280,6 +304,7 @@ def save_data(user: SystemUser, dp: dict, qs: dict, form_id: int, batch_id):
                 created_by=user,
                 uuid=temp.get("uuid"),
                 submission_type=submission_type,
+                parent=parent,
             )
     else:
         # same logic as backend/api/v1/v1_data/views.py line 258
@@ -338,15 +363,15 @@ def seed_excel_data(job: Jobs):
     df = df[list(filter(lambda x: x not in non_questions, list(df)))]
     questions = {}
     columns = {}
+    form_id = job.info.get("form")
     for q in list(df):
-        question = Questions.objects.filter(name=q).first()
+        question = Questions.objects.filter(name=q, form_id=form_id).first()
         if question:
             columns.update({q: question.id})
             id = question.id
             questions.update({id: question})
     df = df.rename(columns=columns)
     datapoints = df.to_dict("records")
-    form_id = job.info.get("form")
     if not is_super_admin:
         batch = PendingDataBatch.objects.create(
             form_id=form_id,
