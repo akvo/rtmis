@@ -42,9 +42,10 @@ def validate_header_names(header, col, header_names):
     if "|" in header:
         if header not in header_names:
             header_id = header.split("|")[0]
+            error_msg = f"{header_id} {ValidationText.header_invalid_id.value}"
             default.update(
                 {
-                    "error_message": f"{header_id} {ValidationText.header_invalid_id.value}",
+                    "error_message": error_msg,
                 }
             )
             return default
@@ -63,21 +64,15 @@ def validate_number(answer, question):
             if r == "allow_decimal" and not rule[r]:
                 answer = int(float(answer))
             if r == "max" and float(rule[r]) < answer:
-                return {
-                    "error_message": ValidationText.numeric_max_rule.value.replace(
-                        "--question--", qname
-                    ).replace(
-                        "--rule--", str(rule[r])
-                    )
-                }
+                msg = ValidationText.numeric_max_rule.value.replace(
+                    "--question--", qname
+                ).replace("--rule--", str(rule[r]))
+                return {"error_message": msg}
             if r == "min" and float(rule[r]) > answer:
-                return {
-                    "error_message": ValidationText.numeric_min_rule.value.replace(
-                        "--question--", qname
-                    ).replace(
-                        "--rule--", str(rule[r])
-                    )
-                }
+                msg = ValidationText.numeric_min_rule.value.replace(
+                    "--question--", qname
+                ).replace("--rule--", str(rule[r]))
+                return {"error_message": msg}
     return False
 
 
@@ -122,13 +117,10 @@ def validate_administration(answer, adm):
         path.append(administration.id)
 
     if adm["id"] not in path:
-        return {
-            "error_message": ValidationText.administration_not_part_of.value.replace(
-                "--answer--", str(aw[-1])
-            ).replace(
-                "--administration--", name
-            )
-        }
+        msg = ValidationText.administration_not_part_of.value.replace(
+            "--answer--", str(aw[-1])
+        ).replace("--administration--", name)
+        return {"error_message": msg}
     return False
 
 
@@ -136,9 +128,8 @@ def validate_date(answer):
     try:
         answer = datetime.datetime.strptime(str(answer), "%Y-%m-%d")
     except ValueError:
-        return {
-            "error_message": f"Invalid date format: {answer}. It should be YYYY-MM-DD"
-        }
+        msg = f"Invalid date format: {answer}. It should be YYYY-MM-DD"
+        return {"error_message": msg}
     return False
 
 
@@ -202,11 +193,8 @@ def validate_dependency(
                     question_is_appear = True
         # answer should be blank
         if answered and not question_is_appear:
-            default.update(
-                {
-                    "error_message": f"{question.name} {ValidationText.should_be_empty.value}"
-                }
-            )
+            msg = f"{question.name} {ValidationText.should_be_empty.value}"
+            default.update({"error_message": msg})
             return default
         # answer should not be empty
         if not answered and question_is_appear and question.required:
@@ -270,23 +258,17 @@ def validate_sheet_name(file: str):
 def validate_data_id(col, data_id, collect_data_ids=[]):
     default = {"error": ExcelError.value, "cell": col}
     if data_id and not FormData.objects.filter(id=data_id).exists():
-        default.update(
-            {
-                "error_message": ValidationText.invalid_data_id.value.replace(
-                    "--data_id--", str(data_id)
-                )
-            }
+        msg = ValidationText.invalid_data_id.value.replace(
+            "--data_id--", str(data_id)
         )
+        default.update({"error_message": msg})
         return default
     # check duplicated data_id
     if collect_data_ids.count(data_id) > 1:
-        default.update(
-            {
-                "error_message": ValidationText.duplicated_data_id.value.replace(
-                    "--data_id--", str(data_id)
-                )
-            }
+        msg = ValidationText.duplicated_data_id.value.replace(
+            "--data_id--", str(data_id)
         )
+        default.update({"error_message": msg})
         return default
     return False
 
