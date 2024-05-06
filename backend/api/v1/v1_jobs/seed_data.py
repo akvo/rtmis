@@ -13,17 +13,18 @@ from api.v1.v1_data.models import (
     Answers,
     FormData,
     AnswerHistory,
+    SubmissionTypes,
 )
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_forms.constants import QuestionTypes
 from api.v1.v1_forms.models import Questions, FormApprovalAssignment
 from api.v1.v1_jobs.functions import HText
 from api.v1.v1_jobs.models import Jobs
-from api.v1.v1_profile.models import Administration
+from api.v1.v1_profile.models import Administration, Entity, EntityData
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.constants import UserRoleTypes
 from utils.email_helper import send_email, EmailTypes
-
+from uuid import uuid4
 # import logging
 # logger = logging.getLogger("rtmis")
 # logger.warning("This is log message")
@@ -36,18 +37,38 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
     geo = None
     answerlist = []
     answer_history_list = []
+    data_uuid = uuid4()
+    submission_type = SubmissionTypes.registration
+    if dp["submission_type"] == dp["submission_type"]:
+        st = getattr(SubmissionTypes, dp["submission_type"])
+        if st:
+            submission_type = st
     for a in dp:
-        if a == "data_id":
+        if a in ["data_id", "submission_type"]:
             continue
         aw = dp[a]
-        if aw != aw:
+        q = qs[a]
+        if aw != aw and not q.meta_uuid and not q.default_value:
             continue
         if isinstance(aw, str):
             aw = HText(aw).clean
         if isinstance(aw, float):
             aw = None if math.isnan(aw) else aw
         valid = True
-        q = qs[a]
+        if (
+            q.hidden and
+            q.hidden.get("submission_type") and
+            dp["submission_type"] in q.hidden["submission_type"] and aw
+        ):
+            aw = None
+        if (
+            q.default_value and
+            q.default_value.get("submission_type") and
+            dp["submission_type"] in q.default_value["submission_type"] and
+            not aw
+        ):
+            dv = dp["submission_type"].lower()
+            aw = q.default_value["submission_type"][dv]
 
         answer = PendingAnswers(question_id=q.id, created_by=user)
         if q.type == QuestionTypes.administration:
@@ -103,6 +124,32 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
                 names = names + aw.replace("|", "-")
         if q.type == QuestionTypes.cascade and aw:
             answer.name = aw
+            if q.extra and q.extra.get("type") == "entity" and administration:
+                entity_adm = Administration.objects.get(pk=administration)
+                entity = Entity.objects.filter(
+                    name=q.extra.get("name")
+                ).first()
+                if not entity:
+                    entity = Entity.objects.create(
+                        name=q.extra.get("name")
+                    )
+                entity_data = EntityData.objects.filter(
+                    entity=entity,
+                    name=aw
+                ).first()
+                if not entity_data and adm:
+                    EntityData.objects.create(
+                        name=aw,
+                        entity=entity,
+                        administration=entity_adm
+                    )
+        if q.type == QuestionTypes.autofield and aw:
+            answer.name = aw
+        if q.meta_uuid:
+            if aw:
+                answer.name = aw
+            else:
+                answer.name = data_uuid
         if valid:
             if data_id:
                 try:
@@ -134,7 +181,10 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
         "geo": geo,
         "answerlist": answerlist,
         "name": name,
-        "answer_history_list": answer_history_list}
+        "answer_history_list": answer_history_list,
+        "uuid": data_uuid,
+        "submission_type": submission_type,
+    }
     return res
 
 
@@ -147,6 +197,7 @@ def save_data(user: SystemUser, dp: dict, qs: dict, form_id: int, batch_id):
     answerlist = temp.get("answerlist")
     name = temp.get("name")
     answer_history_list = temp.get("answer_history_list")
+    submission_type = temp.get("submission_type")
 
     if is_super_admin:
         try:
@@ -156,7 +207,10 @@ def save_data(user: SystemUser, dp: dict, qs: dict, form_id: int, batch_id):
                 administration_id=administration,
                 geo=geo,
                 updated_by=user,
-                updated=timezone.now())
+                updated=timezone.now(),
+                uuid=temp.get("uuid"),
+                submission_type=submission_type,
+            )
             data = FormData.objects.get(pk=data_id)
         except FormData.DoesNotExist:
             data = FormData.objects.create(
@@ -164,7 +218,10 @@ def save_data(user: SystemUser, dp: dict, qs: dict, form_id: int, batch_id):
                 form_id=form_id,
                 administration_id=administration,
                 geo=geo,
-                created_by=user)
+                created_by=user,
+                uuid=temp.get("uuid"),
+                submission_type=submission_type,
+            )
     else:
         # same logic as backend/api/v1/v1_data/views.py line 258
         data = PendingFormData.objects.create(
@@ -212,7 +269,6 @@ def seed_excel_data(job: Jobs):
         "datapoint_name",
         "administration",
         "geolocation",
-        "submission_type",
     ]
     df = df[list(filter(lambda x: x not in non_questions, list(df)))]
     questions = {}
