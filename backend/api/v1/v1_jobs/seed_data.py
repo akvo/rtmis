@@ -105,16 +105,15 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
                 adms = aw.split("|")
                 adm_list = []
                 for ix, adm in enumerate(adms):
+                    find_adm = Administration.objects.filter(name=adm).first()
                     if len(adm_list):
                         parent = adm_list[ix - 1]
-                        adm_list.append(
-                            Administration.objects.get(
-                                name=adm, parent_id=parent.id
-                            )
-                        )
-                    else:
-                        adm_list.append(Administration.objects.get(name=adm))
-
+                        find_adm = Administration.objects.filter(
+                            name=adm,
+                            parent_id=parent.id
+                        ).first()
+                    if find_adm:
+                        adm_list.append(find_adm)
                 administration = adm_list[-1].id
                 answer.value = administration
                 if q.meta:
@@ -388,7 +387,7 @@ def seed_excel_data(job: Jobs):
                 form_id=form_id,
                 batch_id=None,
             )
-            answer_count = data.data_answer.count()
+            answer_count = data.data_answer.count() if data else 0
         else:
             data: PendingFormData = save_data(
                 user=job.user,
@@ -397,10 +396,10 @@ def seed_excel_data(job: Jobs):
                 form_id=form_id,
                 batch_id=batch.id,
             )
-            answer_count = data.pending_data_answer.count()
+            answer_count = data.pending_data_answer.count() if data else 0
         if answer_count:
             records.append(data)
-        else:
+        if answer_count == 0 and data:
             data.delete()
     if len(records) == 0:
         form = Forms.objects.filter(pk=int(form_id)).first()
