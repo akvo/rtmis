@@ -95,7 +95,6 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
             q.default_value
             and q.default_value.get("submission_type")
             and dp["submission_type"] in q.default_value["submission_type"]
-            and not aw
         ):
             dv = dp["submission_type"].lower()
             aw = q.default_value["submission_type"][dv]
