@@ -6,6 +6,7 @@ from api.v1.v1_users.models import SystemUser
 from api.v1.v1_data.models import PendingAnswers, PendingFormData
 from django.core.management import call_command
 from rest_framework import status
+from utils.custom_helper import CustomPasscode
 
 
 class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
@@ -21,10 +22,12 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
             mobile_assignments__forms=self.form,
         ).first()
         self.mobile_user = user.mobile_assignments.first()
-
+        self.code = CustomPasscode().decode(
+            encoded_passcode=self.mobile_user.passcode
+        )
         res = self.client.post(
             "/api/v1/device/auth",
-            {"code": "secr3tc0de"},
+            {"code": self.code},
             content_type="application/json",
         )
         data = res.json()
