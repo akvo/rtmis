@@ -6,12 +6,13 @@ from django.utils import timezone
 from django.utils.timezone import make_aware
 
 from faker import Faker
+from uuid import uuid4
 
 from api.v1.v1_data.models import FormData, Answers, PendingAnswers
 from api.v1.v1_forms.constants import QuestionTypes, FormTypes, SubmissionTypes
 from api.v1.v1_forms.models import Forms, UserForms, FormApprovalAssignment
 from api.v1.v1_profile.constants import UserRoleTypes
-from api.v1.v1_profile.models import Access, Administration
+from api.v1.v1_profile.models import Access, Administration, Entity, EntityData
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_mobile.models import MobileAssignment
 from api.v1.v1_users.management.commands.fake_user_seeder import create_user
@@ -60,8 +61,36 @@ def set_answer_data(data, question):
             date_start=timezone.datetime.now().date() - timedelta(days=90),
             date_end=timezone.datetime.now().date(),
         ).strftime("%m/%d/%Y")
+    elif (
+        question.type == QuestionTypes.cascade and
+        question.extra and
+        question.extra.get("type") == "entity"
+    ):
+        entity, created = Entity.objects.get_or_create(
+            name=question.extra.get("name")
+        )
+        name = None
+        if entity:
+            ed = entity.entity_data.filter(
+                administration=data.administration
+            ).order_by('?').first()
+            if ed:
+                name = ed.name
+        if not name:
+            prefix = "{0}".format(
+                entity.name if created else question.extra.get("name")
+            )
+            entity_adm = data.administration
+            name = f"{prefix} {entity_adm.name}"
+            EntityData.objects.get_or_create(
+                entity=entity,
+                name=name,
+                administration=entity_adm,
+            )
     else:
         pass
+    if question.meta_uuid:
+        name = uuid4()
     return name, value, option
 
 
