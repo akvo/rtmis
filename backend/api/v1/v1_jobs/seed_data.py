@@ -32,15 +32,26 @@ from uuid import uuid4
 
 
 def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
+    # check if prev submission exist
+    prev_form_data = None
+    if data_id:
+        prev_form_data = FormData.objects.get(pk=data_id)
+    st_monitoring = SubmissionTypes.FieldStr[
+        SubmissionTypes.monitoring
+    ].lower()
     is_super_admin = user.user_access.role == UserRoleTypes.super_admin
     names = []
     administration = None
     geo = None
     answerlist = []
     answer_history_list = []
-    data_uuid = uuid4()
-    submission_type = SubmissionTypes.registration
-    if dp["submission_type"] == dp["submission_type"]:
+    data_uuid = uuid4() if not prev_form_data else prev_form_data.uuid
+    submission_type = (
+        SubmissionTypes.registration
+        if not prev_form_data
+        else SubmissionTypes.monitoring
+    )
+    if dp["submission_type"] == dp["submission_type"] and not prev_form_data:
         st = getattr(SubmissionTypes, dp["submission_type"])
         if st:
             submission_type = st
@@ -71,6 +82,23 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
         ):
             dv = dp["submission_type"].lower()
             aw = q.default_value["submission_type"][dv]
+        if (
+            q.disabled
+            and q.disabled.get("submission_type")
+            and st_monitoring in q.disabled["submission_type"]
+            and prev_form_data
+        ):
+            # get/replace by answer from prev datapoint
+            aw = None
+            prev_answer = Answers.objects.get(
+                data_id=prev_form_data.id, question_id=q.id
+            )
+            if prev_answer:
+                aw = (
+                    prev_answer.name
+                    or prev_answer.value
+                    or prev_answer.options
+                )
 
         answer = PendingAnswers(question_id=q.id, created_by=user)
         if q.type == QuestionTypes.administration:
@@ -237,6 +265,8 @@ def save_data(user: SystemUser, dp: dict, qs: dict, form_id: int, batch_id):
             data_id=data_id,
             batch_id=batch_id,
             created_by=user,
+            uuid=temp.get("uuid"),
+            submission_type=submission_type,
         )
 
     if is_super_admin:
@@ -357,6 +387,7 @@ def seed_excel_data(job: Jobs):
                 PendingDataApproval.objects.create(
                     batch=batch, user=assignment.user, level_id=level
                 )
+                submitter = f"{job.user.name}, {job.user.designation_name}"
                 context = {
                     "send_to": [assignment.user.email],
                     "listing": [
@@ -365,7 +396,7 @@ def seed_excel_data(job: Jobs):
                         {"name": "Number of Records", "value": df.shape[0]},
                         {
                             "name": "Submitter",
-                            "value": f"{job.user.name}, {job.user.designation_name}",
+                            "value": submitter,
                         },
                     ],
                 }
