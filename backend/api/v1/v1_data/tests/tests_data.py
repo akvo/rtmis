@@ -15,10 +15,23 @@ import json
 
 @override_settings(USE_TZ=False)
 class DataTestCase(TestCase):
-    def test_list_form_data(self):
+    def setUp(self):
         call_command("administration_seeder", "--test")
         call_command("form_seeder", "--test")
 
+        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
+        user_response = self.client.post(
+            "/api/v1/login", user_payload, content_type="application/json"
+        )
+        self.token = user_response.json().get("token")
+
+        call_command("demo_approval_flow", "--test", True)
+        call_command("fake_data_seeder", "-r", 1, "-t", True)
+        call_command(
+            "fake_data_monitoring_seeder", "-r", 5, "-t", True, "-a", True
+        )
+
+    def test_list_form_data(self):
         user = SystemUser.objects.create_user(
             email="test@test.org",
             password="test1234",
@@ -37,8 +50,6 @@ class DataTestCase(TestCase):
             "/api/v1/login", user_payload, content_type="application/json"
         )
         token = user_response.json().get("token")
-
-        call_command("fake_data_seeder", "-r", 1, "-t", True)
         header = {"HTTP_AUTHORIZATION": f"Bearer {token}"}
 
         # PRIVATE ACCESS
@@ -83,20 +94,11 @@ class DataTestCase(TestCase):
         self.assertEqual(data.status_code, 404)
 
     def test_datapoint_deletion(self):
-        call_command("administration_seeder", "--test")
-        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
-        user_response = self.client.post(
-            "/api/v1/login", user_payload, content_type="application/json"
-        )
-        token = user_response.json().get("token")
-        header = {"HTTP_AUTHORIZATION": f"Bearer {token}"}
+        header = {"HTTP_AUTHORIZATION": f"Bearer {self.token}"}
 
         # NOT FOUND
         res = self.client.delete("/api/v1/data/1", follow=True, **header)
         self.assertEqual(res.status_code, 404)
-
-        call_command("form_seeder", "--test")
-        call_command("fake_data_seeder", "-r", 1, "-t", True)
 
         data_id = FormData.objects.first().id
 
@@ -112,19 +114,11 @@ class DataTestCase(TestCase):
         self.assertEqual(answers, 0)
 
     def test_datapoint_with_history_deletion(self):
-        call_command("administration_seeder", "--test")
-        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
-        user_response = self.client.post(
-            "/api/v1/login", user_payload, content_type="application/json"
-        )
-        token = user_response.json().get("token")
-        header = {"HTTP_AUTHORIZATION": f"Bearer {token}"}
+        header = {"HTTP_AUTHORIZATION": f"Bearer {self.token}"}
 
         # NOT FOUND
         res = self.client.delete("/api/v1/data/1", follow=True, **header)
         self.assertEqual(res.status_code, 404)
-
-        call_command("form_seeder", "--test")
         form = Forms.objects.first()
         self.assertEqual(form.id, 1)
         # Answer for UUID flag in question
@@ -157,8 +151,12 @@ class DataTestCase(TestCase):
         data = data.json()
         self.assertEqual(data, {"message": "ok"})
 
-        data_id = FormData.objects.first().id
-        meta_uuid = FormData.objects.first().uuid
+        selected_data = FormData.objects.filter(
+            form=form,
+            uuid=random_uuid
+        ).first()
+        data_id = selected_data.id
+        meta_uuid = selected_data.uuid
 
         # test if datapoint file is generated
         self.assertTrue(storage.check(f"datapoints/{meta_uuid}.json"))
@@ -183,7 +181,7 @@ class DataTestCase(TestCase):
         self.assertEqual(res, {"message": "direct update success"})
 
         # Test if meta uuid is not changed
-        new_meta_uuid = FormData.objects.first().uuid
+        new_meta_uuid = FormData.objects.get(pk=data_id).uuid
         self.assertEqual(new_meta_uuid, meta_uuid)
 
         # Test if downloaded json is updated
@@ -230,20 +228,7 @@ class DataTestCase(TestCase):
         self.assertEqual(hitory, 0)
 
     def test_monitoring_details_by_parent_id(self):
-        call_command("administration_seeder", "--test")
-        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
-        user_response = self.client.post(
-            "/api/v1/login", user_payload, content_type="application/json"
-        )
-        token = user_response.json().get("token")
-        call_command("form_seeder", "--test")
-        call_command("demo_approval_flow", "--test", True)
-        call_command("fake_data_seeder", "-r", 1, "-t", True)
-        call_command(
-            "fake_data_monitoring_seeder", "-r", 5, "-t", True, "-a", True
-        )
-
-        header = {"HTTP_AUTHORIZATION": f"Bearer {token}"}
+        header = {"HTTP_AUTHORIZATION": f"Bearer {self.token}"}
 
         monitoring = FormData.objects.filter(parent__isnull=False).first()
         parent = monitoring.parent
