@@ -1,8 +1,6 @@
-from io import BytesIO
 from django.core.management import call_command
 from django.test import TestCase
 from django.db.models import Count
-import pandas as pd
 from api.v1.v1_jobs.functions import ValidationText
 from api.v1.v1_jobs.validate_upload import validate
 from api.v1.v1_jobs.models import Jobs, JobTypes, JobStatus
@@ -12,16 +10,9 @@ from api.v1.v1_data.models import FormData
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.models import Administration
 from api.v1.v1_profile.tests.mixins import ProfileTestHelperMixin
-from utils.export_form import blank_data_template
-
-
-def write_inmemory_excel_file(form: Forms, df: pd.DataFrame) -> BytesIO:
-    iofile = BytesIO()
-    writer = pd.ExcelWriter(iofile, engine='xlsxwriter')
-    blank_data_template(form=form, writer=writer)
-    df.to_excel(writer, sheet_name='data', index=False)
-    writer.save()
-    return iofile
+from api.v1.v1_data.management.commands.fake_data_seeder import (
+    add_fake_answers
+)
 
 
 class BulkUploadDataTestCase(TestCase, ProfileTestHelperMixin):
@@ -39,8 +30,6 @@ class BulkUploadDataTestCase(TestCase, ProfileTestHelperMixin):
             email=res["email"]
         ).first()
 
-        call_command("demo_approval_flow", "--test", True)
-        call_command("fake_data_seeder", "-r", 1, "-t", True)
         self.test_folder = "api/v1/v1_jobs/tests/fixtures"
 
     def test_upload_empty_data(self):
@@ -228,28 +217,31 @@ class BulkUploadDataTestCase(TestCase, ProfileTestHelperMixin):
 
     def test_upload_update_registration_data(self):
         form = Forms.objects.get(pk=1)
+        administration = Administration.objects.filter(
+            name="Cawang"
+        ).first()
+        name = "new - John Doe - 44 – wife__husband__partner"
+        data = FormData.objects.create(
+            id=1,
+            name=name,
+            geo=["-8.6384108", "116.2469499"],
+            form=form,
+            administration=administration,
+            created_by=self.user,
+        )
+        data.save()
+        add_fake_answers(data, form.type)
+
         upload_file = "{0}/test-success-update-registration.xlsx".format(
             self.test_folder
         )
-        datapoint = form.form_form_data.first()
-        datapoint_adm = datapoint.administration.full_name.replace(" - ", "|")
-        df = pd.read_excel(upload_file, sheet_name='data')
-        df.loc[0, 'id'] = datapoint.id
-        df.loc[0, 'datapoint_name'] = datapoint.name
-        df.loc[0, 'administration'] = datapoint_adm
-        df.loc[0, 'location'] = datapoint_adm
-
-        upload_file_temp = write_inmemory_excel_file(form=form, df=df)
         validation = validate(
             form=form,
-            administration=datapoint.administration.id,
-            file=upload_file_temp
+            administration=administration.id,
+            file=upload_file
         )
 
         self.assertEqual(len(validation), 0)
-
-        with open(upload_file, "wb") as f:
-            f.write(upload_file_temp.getbuffer())
 
         job = Jobs.objects.create(
             type=JobTypes.seed_data,
@@ -269,34 +261,41 @@ class BulkUploadDataTestCase(TestCase, ProfileTestHelperMixin):
             form=form,
             history_count__gt=0
         ).first()
-
         self.assertTrue(updated_dp)
 
     def test_upload_new_monitoring_data(self):
+        meta_uuid = "82a860a5-9c7e-4ab8-9bbc-cdf4a544f85e"
         form = Forms.objects.get(pk=1)
+        administration = Administration.objects.filter(
+            name="Cawang"
+        ).first()
+        name = "new - Jane Doe - 44 – wife__husband__partner"
+        data = FormData.objects.create(
+            id=2,
+            uuid=meta_uuid,
+            name=name,
+            geo=["-8.6384108", "116.2469499"],
+            form=form,
+            administration=administration,
+            created_by=self.user,
+        )
+        data.save()
+        add_fake_answers(data, form.type)
+
         upload_file = "{0}/test-success-new-monitoring.xlsx".format(
             self.test_folder
         )
-        datapoint = form.form_form_data.first()
-        datapoint_adm = datapoint.administration.full_name.replace(" - ", "|")
-        df = pd.read_excel(upload_file, sheet_name='data')
-        df.loc[0, 'id'] = datapoint.id
-        df.loc[0, 'datapoint_name'] = datapoint.name
-        df.loc[0, 'administration'] = datapoint_adm
-        df.loc[0, 'location'] = datapoint_adm
-        df.loc[0, 'meta_uuid'] = datapoint.uuid
 
-        upload_file_temp = write_inmemory_excel_file(form=form, df=df)
+        datapoint = form.form_form_data.first()
+        datapoint.uuid = meta_uuid
+        datapoint.save()
 
         validation = validate(
             form=form,
             administration=datapoint.administration.id,
-            file=upload_file_temp
+            file=upload_file
         )
         self.assertEqual(len(validation), 0)
-
-        with open(upload_file, "wb") as f:
-            f.write(upload_file_temp.getbuffer())
 
         job = Jobs.objects.create(
             type=JobTypes.seed_data,
