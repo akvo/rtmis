@@ -188,6 +188,8 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
                 data_uuid = aw
             else:
                 answer.name = data_uuid
+        if q.type == QuestionTypes.photo and aw:
+            answer.name = aw
         if valid:
             if data_id and submission_type != SubmissionTypes.monitoring:
                 try:
