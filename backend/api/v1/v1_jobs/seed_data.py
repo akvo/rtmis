@@ -39,22 +39,28 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
     st_monitoring = SubmissionTypes.FieldStr[
         SubmissionTypes.monitoring
     ].lower()
+
     is_super_admin = user.user_access.role == UserRoleTypes.super_admin
     names = []
     administration = None
     geo = None
     answerlist = []
     answer_history_list = []
-    data_uuid = uuid4() if not prev_form_data else prev_form_data.uuid
-    submission_type = (
-        SubmissionTypes.registration
-        if not prev_form_data
-        else SubmissionTypes.monitoring
-    )
+
+    # set submisstion type
+    submission_type = SubmissionTypes.registration
     if dp["submission_type"] == dp["submission_type"]:
         st = getattr(SubmissionTypes, dp["submission_type"])
         if st:
             submission_type = st
+
+    # set uuid based on submission type
+    data_uuid = (
+        prev_form_data.uuid
+        if prev_form_data and submission_type == SubmissionTypes.monitoring
+        else uuid4()
+    )
+
     for a in dp:
         if a in ["data_id", "submission_type"]:
             continue
@@ -261,7 +267,7 @@ def save_data(user: SystemUser, dp: dict, qs: dict, form_id: int, batch_id):
 
     # make data_id None if monitoring
     data_id = (
-        data_id if not submission_type == SubmissionTypes.monitoring else None
+        data_id if submission_type != SubmissionTypes.monitoring else None
     )
 
     user_administration = user.user_access.administration
