@@ -366,6 +366,8 @@ def seed_excel_data(job: Jobs):
             id = question.id
             questions.update({id: question})
     df = df.rename(columns=columns)
+    # lower submission type
+    df["submission_type"] = df["submission_type"].str.lower()
     datapoints = df.to_dict("records")
     if not is_super_admin:
         batch = PendingDataBatch.objects.create(

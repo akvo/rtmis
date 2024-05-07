@@ -8,7 +8,7 @@ from string import ascii_uppercase
 import pandas as pd
 
 from api.v1.v1_data.models import FormData
-from api.v1.v1_forms.constants import QuestionTypes
+from api.v1.v1_forms.constants import QuestionTypes, SubmissionTypes
 from api.v1.v1_forms.models import Questions
 from api.v1.v1_jobs.functions import ValidationText, HText
 from api.v1.v1_profile.models import Administration
@@ -330,6 +330,24 @@ def validate(form: int, administration: int, file: str):
                     )
                     if errors:
                         data_error.append(errors)
+            # validate submission type not empty
+            if header == "submission_type":
+                answers = list(df[header])
+                for i, answer in enumerate(answers):
+                    ix = i + 2
+                    try:
+                        st = answer.lower()
+                        getattr(SubmissionTypes, st)
+                    except (AttributeError, TypeError):
+                        msg = f"{header} {ValidationText.is_required.value}"
+                        data_error.append(
+                            {
+                                "error": ExcelError.value,
+                                "cell": f"{col}{ix}",
+                                "error_message": msg,
+                            }
+                        )
+            # EOL validate submission type not empty
             question = questions.filter(name=header).first()
             if question:
                 dependencies = False
