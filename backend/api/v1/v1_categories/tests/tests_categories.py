@@ -7,6 +7,7 @@ from django.test.utils import override_settings
 from api.v1.v1_data.models import Answers, Questions
 from api.v1.v1_categories.functions import validate_number, get_valid_list
 from api.v1.v1_categories.models import DataCategory
+from api.v1.v1_data.models import FormData
 
 
 @override_settings(USE_TZ=False)
@@ -51,12 +52,18 @@ class CategoryTestCase(TestCase):
             list(result["data"][0]),
             ["id", "name", "administration", "geo", "data", "categories"],
         )
-        questions_queryset = Questions.objects.filter(form_id=1).values_list(
-            "id", "name"
-        )
+        datapoint = FormData.objects.filter(form_id=1).first()
+        questions = [
+            "{0}|{1}".format(
+                a.question.id,
+                a.question.name
+            )
+            for a in datapoint.data_answer.all()
+        ]
+
         self.assertEqual(
             sorted(list(result["data"][0]["data"])),
-            sorted([f"{str(x[0])}|{x[1]}" for x in list(questions_queryset)]),
+            sorted(questions),
         )
 
         # PRIVATE RAW DATA ACCESS (POWER BI) WITH FILTER
