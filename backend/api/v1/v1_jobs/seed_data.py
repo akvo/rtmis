@@ -36,9 +36,6 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
     prev_form_data = None
     if data_id:
         prev_form_data = FormData.objects.filter(pk=data_id).first()
-    st_monitoring = SubmissionTypes.FieldStr[
-        SubmissionTypes.monitoring
-    ].lower()
 
     is_super_admin = user.user_access.role == UserRoleTypes.super_admin
     names = []
@@ -55,11 +52,7 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
             submission_type = st
 
     # set uuid based on submission type
-    data_uuid = (
-        prev_form_data.uuid
-        if prev_form_data and submission_type == SubmissionTypes.monitoring
-        else uuid4()
-    )
+    data_uuid = prev_form_data.uuid if prev_form_data else uuid4()
 
     for a in dp:
         if a in ["data_id", "submission_type"]:
@@ -83,8 +76,7 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
         if (
             q.disabled
             and q.disabled.get("submission_type")
-            and st_monitoring in q.disabled["submission_type"]
-            and prev_form_data
+            and dp["submission_type"] in q.disabled["submission_type"]
         ):
             # get/replace by answer from prev datapoint
             aw = None
