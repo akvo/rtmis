@@ -159,11 +159,11 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
             if isinstance(aw, str):
                 answer.options = aw.split("|")
                 if q.meta:
-                    names = names + aw.replace("|", "-")
+                    names.append(aw.replace("|", "-"))
             else:
                 answer.options = aw
                 if q.meta and aw:
-                    names = names + "-".join(aw)
+                    names.append("-".join(aw))
         if q.type == QuestionTypes.cascade and aw:
             answer.name = aw
             if q.extra and q.extra.get("type") == "entity" and administration:
@@ -340,9 +340,11 @@ def save_data(user: SystemUser, dp: dict, qs: dict, form_id: int, batch_id):
     return data
 
 
-def seed_excel_data(job: Jobs):
+def seed_excel_data(job: Jobs, test: bool = False):
     is_super_admin = job.user.user_access.role == UserRoleTypes.super_admin
     file = f"./tmp/{job.info.get('file')}"
+    if test:
+        file = job.info.get('file')
     df = pd.read_excel(file, sheet_name="data")
     if "id" in list(df):
         df = df.rename(columns={"id": "data_id"})
@@ -404,20 +406,21 @@ def seed_excel_data(job: Jobs):
             data.delete()
     if len(records) == 0:
         form = Forms.objects.filter(pk=int(form_id)).first()
-        context = {
-            "send_to": [job.user.email],
-            "form": form.name,
-            "user": job.user,
-            "listing": [
-                {
-                    "name": "Upload Date",
-                    "value": job.created.strftime("%m-%d-%Y, %H:%M:%S"),
-                },
-                {"name": "Questionnaire", "value": form.name},
-                {"name": "Number of Records", "value": df.shape[0]},
-            ],
-        }
-        send_email(context=context, type=EmailTypes.unchanged_data)
+        if not test:
+            context = {
+                "send_to": [job.user.email],
+                "form": form.name,
+                "user": job.user,
+                "listing": [
+                    {
+                        "name": "Upload Date",
+                        "value": job.created.strftime("%m-%d-%Y, %H:%M:%S"),
+                    },
+                    {"name": "Questionnaire", "value": form.name},
+                    {"name": "Number of Records", "value": df.shape[0]},
+                ],
+            }
+            send_email(context=context, type=EmailTypes.unchanged_data)
         if not is_super_admin:
             batch.delete()
         os.remove(file)
@@ -437,19 +440,31 @@ def seed_excel_data(job: Jobs):
                 PendingDataApproval.objects.create(
                     batch=batch, user=assignment.user, level_id=level
                 )
-                submitter = f"{job.user.name}, {job.user.designation_name}"
-                context = {
-                    "send_to": [assignment.user.email],
-                    "listing": [
-                        {"name": "Batch Name", "value": batch.name},
-                        {"name": "Questionnaire", "value": batch.form.name},
-                        {"name": "Number of Records", "value": df.shape[0]},
-                        {
-                            "name": "Submitter",
-                            "value": submitter,
-                        },
-                    ],
-                }
-                send_email(context=context, type=EmailTypes.pending_approval)
-    os.remove(file)
+                if not test:
+                    submitter = f"{job.user.name}, {job.user.designation_name}"
+                    context = {
+                        "send_to": [assignment.user.email],
+                        "listing": [
+                            {
+                                "name": "Batch Name", "value": batch.name},
+                            {
+                                "name": "Questionnaire",
+                                "value": batch.form.name
+                            },
+                            {
+                                "name": "Number of Records",
+                                "value": df.shape[0]
+                            },
+                            {
+                                "name": "Submitter",
+                                "value": submitter,
+                            },
+                        ],
+                    }
+                    send_email(
+                        context=context,
+                        type=EmailTypes.pending_approval
+                    )
+    if not test:
+        os.remove(file)
     return records
