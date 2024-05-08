@@ -243,7 +243,10 @@
             "text": "This question contains a list of possible school locations, starting with the government area or district, down to the community."
           },
           "required": false,
-          "meta": true
+          "meta": true,
+          "disabled": {
+            "submission_type": ["monitoring", "verification", "certification"]
+          }
         },
         {
           "id": 1713505867,
