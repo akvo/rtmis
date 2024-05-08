@@ -169,10 +169,6 @@ class Questions(models.Model):
             "disabled": self.disabled,
         }
 
-    @property
-    def to_excel_header(self):
-        return f"{self.id}|{self.name}"
-
     class Meta:
         unique_together = ("form", "name")
         constraints = [

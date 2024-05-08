@@ -151,7 +151,7 @@ def add_fake_answers(
                     options=option,
                     created_by=data.created_by,
                 )
-    if data.submission_type == SubmissionTypes.registration:
+    if data.submission_type == SubmissionTypes.registration and len(meta_name):
         data.name = (
             " - ".join(meta_name)
             if form_type != FormTypes.national else data.name

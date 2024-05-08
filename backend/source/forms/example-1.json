@@ -16,8 +16,24 @@
       "label": "Question Group 01",
       "questions": [
         {
+          "id": 113,
+          "order": 1,
+          "name": "reg_or_update",
+          "label": "New registration or Monitoring update?",
+          "short_label": "Name",
+          "meta": true,
+          "type": "text",
+          "required": true,
+          "default_value": {
+            "submission_type": {
+              "monitoring": "update",
+              "registration": "new"
+            }
+          }
+        },
+        {
           "id": 101,
-          "order": null,
+          "order": 2,
           "name": "name",
           "label": "Name",
           "short_label": "Name",
@@ -27,7 +43,7 @@
         },
         {
           "id": 102,
-          "order": null,
+          "order": 3,
           "name": "gender",
           "label": "Gender",
           "short_label": null,
@@ -52,7 +68,7 @@
         },
         {
           "id": 103,
-          "order": null,
+          "order": 4,
           "name": "phone",
           "label": "Phone Number",
           "short_label": "Phone Number",
@@ -63,7 +79,7 @@
         },
         {
           "id": 104,
-          "order": null,
+          "order": 5,
           "name": "location",
           "label": "Location",
           "short_label": null,
@@ -73,7 +89,7 @@
         },
         {
           "id": 105,
-          "order": null,
+          "order": 6,
           "name": "example_geolocation",
           "label": "Geolocation",
           "short_label": null,
@@ -83,7 +99,7 @@
         },
         {
           "id": 106,
-          "order": null,
+          "order": 7,
           "name": "family_members",
           "label": "Available Family Members",
           "short_label": null,
@@ -108,7 +124,7 @@
         },
         {
           "id": 107,
-          "order": null,
+          "order": 8,
           "name": "picture",
           "label": "Please take a picture",
           "short_label": "Picture",
@@ -118,7 +134,7 @@
         },
         {
           "id": 108,
-          "order": null,
+          "order": 9,
           "name": "data",
           "label": "Data",
           "short_label": null,
@@ -128,7 +144,7 @@
         },
         {
           "id": 109,
-          "order": null,
+          "order": 10,
           "name": "decimal",
           "label": "Allow decimal and 0",
           "short_label": "Decimal and 0",
@@ -138,7 +154,7 @@
         },
         {
           "id": 110,
-          "order": null,
+          "order": 11,
           "name": "meta_uuid",
           "label": "Meta UUID",
           "short_label": "Meta UUID",
@@ -149,7 +165,7 @@
         },
         {
           "id": 111,
-          "order": null,
+          "order": 12,
           "name": "multiple_of_two",
           "label": "Multiple of 2",
           "short_label": null,
@@ -165,7 +181,7 @@
         },
         {
           "id": 112,
-          "order": 34,
+          "order": 13,
           "name": "verification",
           "label": "Do you verify the claim?",
           "short_label": null,
@@ -191,6 +207,66 @@
           "hidden": {
             "submission_type": ["registration", "monitoring", "certification"]
           }
+        },
+        {
+          "id": 114,
+          "order": 14,
+          "name": "do_you_have_pets",
+          "label": "Do you have pets",
+          "short_label": null,
+          "type": "option",
+          "required": true,
+          "meta": false,
+          "options": [
+            {
+              "id": 1141,
+              "order": 1,
+              "label": "Yes",
+              "value": "yes"
+            },
+            {
+              "id": 1142,
+              "order": 2,
+              "label": "No",
+              "value": "no"
+            }
+          ]
+        },
+        {
+          "id": 115,
+          "order": 15,
+          "name": "whats_the_pet",
+          "label": "What's the pet?",
+          "short_label": null,
+          "type": "multiple_option",
+          "required": true,
+          "meta": false,
+          "dependency": [
+            {
+              "id": 114,
+              "options": ["yes"]
+            }
+          ],
+          "options": [
+            {
+              "id": 1151,
+              "order": 1,
+              "label": "Dog",
+              "value": "dog"
+            },
+            {
+              "id": 1152,
+              "order": 2,
+              "label": "Cat",
+              "value": "cat"
+            },
+            {
+              "id": 1153,
+              "order": 3,
+              "label": "Fish",
+              "value": "fish"
+            }
+          ]
         }
       ]
     }

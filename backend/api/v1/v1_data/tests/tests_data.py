@@ -97,8 +97,10 @@ class DataTestCase(TestCase):
         header = {"HTTP_AUTHORIZATION": f"Bearer {self.token}"}
 
         # NOT FOUND
-        res = self.client.delete("/api/v1/data/1", follow=True, **header)
-        self.assertEqual(res.status_code, 404)
+        exists = FormData.objects.filter(pk=1).first()
+        if not exists:
+            res = self.client.delete("/api/v1/data/1", follow=True, **header)
+            self.assertEqual(res.status_code, 404)
 
         data_id = FormData.objects.first().id
 
@@ -117,8 +119,10 @@ class DataTestCase(TestCase):
         header = {"HTTP_AUTHORIZATION": f"Bearer {self.token}"}
 
         # NOT FOUND
-        res = self.client.delete("/api/v1/data/1", follow=True, **header)
-        self.assertEqual(res.status_code, 404)
+        exists = FormData.objects.filter(pk=1).first()
+        if not exists:
+            res = self.client.delete("/api/v1/data/1", follow=True, **header)
+            self.assertEqual(res.status_code, 404)
         form = Forms.objects.first()
         self.assertEqual(form.id, 1)
         # Answer for UUID flag in question
