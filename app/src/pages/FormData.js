@@ -4,6 +4,7 @@ import { View, ActivityIndicator, StyleSheet, ToastAndroid } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import * as Network from 'expo-network';
 import { UserState, UIState, FormState } from '../store';
 import { BaseLayout } from '../components';
 import { crudDataPoints } from '../database/crud';
@@ -21,31 +22,20 @@ const convertMinutesToHHMM = (minutes) => {
   return `${formattedHours}h ${formattedMinutes}m`;
 };
 
-const syncButtonElement = ({
-  showSubmitted,
-  handleSyncButtonOnPress,
-  disabled,
-  syncSettings = true,
-}) => {
-  if (!showSubmitted || !syncSettings) {
-    return {
-      rightComponent: false,
-    };
-  }
-  const iconName = disabled ? 'checkmark-done' : 'sync';
-  const iconColor = disabled ? 'dodgerblue' : 'black';
-  return {
-    rightComponent: (
-      <Button
-        type="clear"
-        disabled={disabled}
-        onPress={handleSyncButtonOnPress}
-        testID="button-to-trigger-sync"
-      >
-        <Icon name={iconName} color={iconColor} size={18} testID="icon-sync" />
-      </Button>
-    ),
-  };
+const SyncButton = ({ onPress, disabled = false }) => (
+  <Button type="clear" disabled={disabled} onPress={onPress} testID="button-to-trigger-sync">
+    <Icon
+      name={disabled ? 'checkmark-done' : 'sync'}
+      color={disabled ? 'dodgerblue' : 'black'}
+      size={18}
+      testID="icon-sync"
+    />
+  </Button>
+);
+
+SyncButton.propTypes = {
+  onPress: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 const FormDataPage = ({ navigation, route }) => {
@@ -58,8 +48,6 @@ const FormDataPage = ({ navigation, route }) => {
   const [data, setData] = useState([]);
   const [showConfirmationSyncDialog, setShowConfirmationSyncDialog] = useState(false);
   const [syncing, setSyncing] = useState(false);
-
-  const syncSettings = (networkType === 'wifi' && syncWifiOnly) || !syncWifiOnly;
 
   const goBack = () => {
     navigation.navigate('ManageForm', { ...route?.params });
@@ -108,6 +96,19 @@ const FormDataPage = ({ navigation, route }) => {
       ),
     [data, search],
   );
+
+  const loadNetworkType = useCallback(async () => {
+    const { type: networkTypeService } = await Network.getNetworkStateAsync();
+    if (networkType !== networkTypeService) {
+      UIState.update((s) => {
+        s.networkType = networkTypeService;
+      });
+    }
+  }, [networkType]);
+
+  useEffect(() => {
+    loadNetworkType();
+  }, [loadNetworkType]);
 
   const goToDetails = (id) => {
     const findData = filteredData.find((d) => d.id === id);
@@ -193,13 +194,15 @@ const FormDataPage = ({ navigation, route }) => {
           <Icon name="arrow-back" size={18} />
         </Button>
       }
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      {...syncButtonElement({
-        showSubmitted,
-        handleSyncButtonOnPress,
-        disabled: !enableSyncButton,
-        syncSettings,
-      })}
+      rightComponent={
+        !showSubmitted ||
+        (!filteredData.length && !search) ||
+        (syncWifiOnly && networkType !== Network.NetworkStateType.WIFI) ? (
+          false
+        ) : (
+          <SyncButton disabled={!enableSyncButton} onPress={handleSyncButtonOnPress} />
+        )
+      }
     >
       {syncing ? (
         <View style={styles.loadingContainer} testID="sync-loading">

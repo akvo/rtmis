@@ -28,7 +28,7 @@ const SyncService = () => {
     console.info('[ACTIVE JOB]', activeJob);
 
     const { type: networkType } = await Network.getNetworkStateAsync();
-    if (settings?.syncWifiOnly && networkType === Network.NetworkStateType.CELLULAR) {
+    if (settings?.syncWifiOnly && networkType !== Network.NetworkStateType.WIFI) {
       return;
     }
 
