@@ -14,6 +14,8 @@ def seed_approved_data(data):
         uuid=data.uuid,
         parent__isnull=True,
     ).first()
+    # only registration data will be updated
+    # if data.data and data.submission_type == SubmissionTypes.registration:
     if data.data:
         form_data: FormData = data.data
         form_data.parent = parent_data

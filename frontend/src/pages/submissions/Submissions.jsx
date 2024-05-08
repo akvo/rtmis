@@ -205,6 +205,8 @@ const Submissions = () => {
   const btnBatchSelected = useMemo(() => {
     const handleOnClickBatchSelectedDataset = () => {
       // check only for data entry role
+      setBatchName("");
+      setComment("");
       if (user.role.id === 4) {
         api.get(`form/check-approver/${selectedForm}`).then((res) => {
           if (!res.data.count) {
@@ -451,10 +453,15 @@ const Submissions = () => {
                 <Input
                   onChange={(e) => setBatchName(e.target.value)}
                   allowClear
+                  value={batchName}
                 />
               </div>
               <label>{text.submissionComment}</label>
-              <TextArea rows={4} onChange={(e) => setComment(e.target.value)} />
+              <TextArea
+                rows={4}
+                onChange={(e) => setComment(e.target.value)}
+                value={comment}
+              />
             </Col>
             <Col xs={12} align="left">
               <Checkbox checked={true} disabled={true} className="dev">
