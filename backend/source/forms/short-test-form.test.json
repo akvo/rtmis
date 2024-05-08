@@ -1160,6 +1160,27 @@
           "meta": false,
           "options": null,
           "fn": null
+        },
+        {
+          "id": 16994198103537,
+          "order": 6,
+          "name": "trigger_date",
+          "label": "Date Triggered",
+          "short_label": null,
+          "meta": false,
+          "type": "date",
+          "required": true
+        },
+        {
+          "id": 16994198103538,
+          "order": 7,
+          "name": "verification_date",
+          "label": "Date Verified",
+          "short_label": null,
+          "meta": false,
+          "type": "date",
+          "required": false,
+          "options": null
         }
       ]
     }
