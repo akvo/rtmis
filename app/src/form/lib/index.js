@@ -189,7 +189,11 @@ export const generateValidationSchemaFieldLevel = async (currentValue, field) =>
       }
       break;
     case 'date':
-      yupType = Yup.date();
+      if (currentValue === '') {
+        yupType = Yup.string();
+      } else {
+        yupType = Yup.date();
+      }
       break;
     case 'option':
       yupType = Yup.array().nullable();
