@@ -188,14 +188,25 @@ def login(request, version):
         user.last_login = timezone.now()
         user.save()
         refresh = RefreshToken.for_user(user)
+        # Get the expiration time of the new token
+        expiration_time = datetime.datetime.fromtimestamp(
+            refresh.access_token['exp']
+        )
+        expiration_time = timezone.make_aware(expiration_time)
+
         data = UserSerializer(instance=user).data
         data["token"] = str(refresh.access_token)
         data["invite"] = signing.dumps(user.pk)
+        data["expiration_time"] = expiration_time
         response = Response(
             data,
             status=status.HTTP_200_OK,
         )
-        response.set_cookie("AUTH_TOKEN", str(refresh.access_token))
+        response.set_cookie(
+            "AUTH_TOKEN",
+            str(refresh.access_token),
+            expires=expiration_time
+        )
         return response
     return Response(
         {"message": "Invalid login credentials"},
