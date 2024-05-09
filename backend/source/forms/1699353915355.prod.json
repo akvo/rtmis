@@ -7549,6 +7549,7 @@
           "displayOnly": false,
           "fn": {
             "fnColor": {
+              "G0": "#DB3B3B",
               "G1": "#FDC74B",
               "G2": "#93D371",
               "G3": "#4088F4"
