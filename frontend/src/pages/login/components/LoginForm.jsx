@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { Form, Input, Button, notification } from "antd";
 import { Link, useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 import { api, store, config, uiText } from "../../../lib";
 import { useNotification } from "../../../util/hooks";
 import { reloadData } from "../../../util/form";
@@ -8,6 +9,7 @@ import { reloadData } from "../../../util/form";
 const LoginForm = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [, setCookie] = useCookies(["expiration_time"]);
   const { notify } = useNotification();
   const { language } = store.useState((s) => s);
   const { active: activeLang } = language;
@@ -24,6 +26,7 @@ const LoginForm = () => {
       })
       .then((res) => {
         api.setToken(res.data.token);
+        setCookie("expiration_time", res.data?.expiration_time);
         const role_details = config.roles.find(
           (r) => r.id === res.data.role.id
         );
