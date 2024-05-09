@@ -1,6 +1,12 @@
 import "./App.scss";
-import React, { useEffect, useState } from "react";
-import { Route, Routes, Navigate, useLocation } from "react-router-dom";
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  Route,
+  Routes,
+  Navigate,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import {
   Home,
   Login,
@@ -61,6 +67,27 @@ import { reloadData } from "./util/form";
 import CertificationAssignmentForm from "./pages/certification-assignment/CertificationAssignmentForm";
 
 const Private = ({ element: Element, alias }) => {
+  const [cookies] = useCookies(["expiration_time"]);
+
+  const navigate = useNavigate();
+
+  const checkExpires = useCallback(() => {
+    const now = new Date();
+    const end = new Date(cookies?.expiration_time);
+    if (now > end) {
+      eraseCookieFromAllPaths("AUTH_TOKEN");
+      store.update((s) => {
+        s.isLoggedIn = false;
+        s.user = null;
+      });
+      navigate("/login");
+    }
+  }, [navigate, cookies?.expiration_time]);
+
+  useEffect(() => {
+    checkExpires();
+  }, [checkExpires]);
+
   const { user: authUser } = store.useState((state) => state);
   if (authUser) {
     const page_access = authUser?.role_detail?.page_access;
