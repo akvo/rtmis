@@ -19,7 +19,7 @@ class DownloadEntitiesTestCase(TestCase, ProfileTestHelperMixin):
         super().setUp()
         call_command("administration_seeder", "--test")
         self.user = self.create_user('test@akvo.org', self.ROLE_ADMIN)
-        call_command("entities_seeder", "--test")
+        call_command("entities_seeder", "--test", True)
 
     def test_generate_excel_for_all_entities(self):
         file_path = "./entities.xlsx"

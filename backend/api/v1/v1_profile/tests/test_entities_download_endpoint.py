@@ -15,7 +15,7 @@ class EntitiesDownloadEndpointTestCase(TestCase, ProfileTestHelperMixin):
         super().setUp()
         call_command("administration_seeder", "--test")
         self.user = self.create_user('test@akvo.org', self.ROLE_ADMIN)
-        call_command("entities_seeder", "--test")
+        call_command("entities_seeder", "--test", True)
         self.token = self.get_auth_token(self.user.email)
 
     def test_download_entities_no_filter(self):
