@@ -1,4 +1,5 @@
 import { useCallback, useEffect } from 'react';
+import * as Network from 'expo-network';
 import { BuildParamsState, DatapointSyncState, UIState, UserState } from '../store';
 import { backgroundTask } from '../lib';
 import crudJobs, {
@@ -6,7 +7,7 @@ import crudJobs, {
   MAX_ATTEMPT,
   SYNC_DATAPOINT_JOB_NAME,
 } from '../database/crud/crud-jobs';
-import { crudDataPoints } from '../database/crud';
+import { crudConfig, crudDataPoints } from '../database/crud';
 import { downloadDatapointsJson, fetchDatapoints } from '../lib/sync-datapoints';
 import { SYNC_FORM_SUBMISSION_TASK_NAME, SYNC_STATUS } from '../lib/constants';
 /**
@@ -21,9 +22,15 @@ const SyncService = () => {
   const onSync = useCallback(async () => {
     const pendingToSync = await crudDataPoints.selectSubmissionToSync();
     const activeJob = await crudJobs.getActiveJob(SYNC_FORM_SUBMISSION_TASK_NAME);
+    const settings = await crudConfig.getConfig();
 
     // eslint-disable-next-line no-console
     console.info('[ACTIVE JOB]', activeJob);
+
+    const { type: networkType } = await Network.getNetworkStateAsync();
+    if (settings?.syncWifiOnly && networkType !== Network.NetworkStateType.WIFI) {
+      return;
+    }
 
     if (activeJob?.status === jobStatus.ON_PROGRESS) {
       if (activeJob.attempt < MAX_ATTEMPT) {

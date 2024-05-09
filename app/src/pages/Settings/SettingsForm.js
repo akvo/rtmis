@@ -134,14 +134,14 @@ const SettingsForm = ({ route }) => {
 
   const handleOnSwitch = (value, key) => {
     const [stateName, stateKey] = key.split('.');
+    const tinyIntVal = value ? 1 : 0;
     store[stateName].update((s) => {
-      s[stateKey] = value;
+      s[stateKey] = tinyIntVal;
     });
     setSettingsState({
       ...settingsState,
-      [stateKey]: value,
+      [stateKey]: tinyIntVal,
     });
-    const tinyIntVal = value ? 1 : 0;
     handleUpdateOnDB(stateKey, tinyIntVal);
   };
 
@@ -162,12 +162,11 @@ const SettingsForm = ({ route }) => {
     const { rows } = await conn.tx(db, selectQuery, [1]);
 
     const configRows = rows._array[0];
-    setSettingsState({
-      ...settingsState,
+    setSettingsState((s) => ({
+      ...s,
       ...configRows,
-      dataSyncInterval: configRows?.syncInterval || dataSyncInterval,
-    });
-  }, [dataSyncInterval, settingsState]);
+    }));
+  }, []);
 
   const list = useMemo(() => {
     if (route.params?.id) {
@@ -205,7 +204,7 @@ const SettingsForm = ({ route }) => {
                 {l.type === 'switch' && (
                   <Switch
                     onValueChange={(value) => handleOnSwitch(value, l.key)}
-                    value={settingsState[l.name] || false}
+                    value={settingsState?.[l.name] === 1}
                     testID={`settings-form-switch-${i}`}
                   />
                 )}
