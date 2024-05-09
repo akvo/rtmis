@@ -579,13 +579,9 @@
           "type": "autofield",
           "required": true,
           "meta": false,
-          "rule": {
-            "min": 0,
-            "allowDecimal": true
-          },
           "fn": {
             "fnColor": {},
-            "fnString": "#budget_required_sanitation_hygiene-#budget_allocation_sanitation_hygiene",
+            "fnString": "#budget_required_sanitation_hygiene# - #budget_allocation_sanitation_hygiene#",
             "multiline": false
           },
           "options": []
