@@ -29,7 +29,7 @@ class EntitiesDataBulkUploadTemplateExportTestCase(
         super().setUp()
         call_command("administration_seeder", "--test")
         call_command("download_all_administrations", "--test")
-        call_command("entities_seeder", "--test")
+        call_command("entities_seeder", "--test", True)
         self.user = self.create_user("test@akvo.org", self.ROLE_ADMIN)
         self.token = self.get_auth_token(self.user.email)
         self.adm = Administration.objects.filter(path__isnull=False)

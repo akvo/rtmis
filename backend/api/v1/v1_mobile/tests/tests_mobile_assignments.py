@@ -21,7 +21,7 @@ class MobileAssignmentTestCase(TestCase, ProfileTestHelperMixin):
         super().setUp()
         call_command("administration_seeder", "--test")
         call_command('form_seeder', '--test')
-        call_command("entities_seeder", "-t", True)
+        call_command("entities_seeder", "--test", True)
         for entity in Entity.objects.all():
             for adm in Administration.objects.filter(
                     parent__isnull=False

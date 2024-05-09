@@ -10,7 +10,7 @@ from api.v1.v1_profile.models import EntityData
 class EntityDataListTestCase(TestCase):
     def setUp(self):
         call_command("administration_seeder", "--test")
-        call_command("entities_seeder", "--test")
+        call_command("entities_seeder", "--test", True)
 
     def test_get_valid_entity_data(self):
         entity_data = EntityData.objects.filter(
