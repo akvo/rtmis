@@ -157,16 +157,18 @@ const Forms = () => {
     const administration = answers.find(
       (x) => (x.type === "cascade" && x.meta) || x.type === "administration"
     )?.value;
+    const datapointName = datapoint?.name
+      ? datapoint.name
+      : names?.length
+      ? names
+      : `${authUser.administration.name} - ${moment().format("MMM YYYY")}`;
     const dataPayload = {
       administration: administration
         ? Array.isArray(administration)
           ? takeRight(administration)[0]
           : administration
         : authUser.administration.id,
-      name:
-        datapoint?.name || names?.length
-          ? names
-          : `${authUser.administration.name} - ${moment().format("MMM YYYY")}`,
+      name: datapointName,
       geo: geo || null,
       submission_type: uuid
         ? config.submissionType.monitoring
