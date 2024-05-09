@@ -148,6 +148,10 @@ const App = () => {
         s.gpsAccuracyLevel = configExist.gpsAccuracyLevel;
         s.geoLocationTimeout = configExist.geoLocationTimeout;
       });
+
+      UserState.update((s) => {
+        s.syncWifiOnly = configExist?.syncWifiOnly;
+      });
     }
     console.info('[CONFIG] Server URL', serverURL);
   }, [geoLocationTimeout, gpsAccuracyLevel, gpsThreshold, serverURLState, syncValue]);
@@ -181,7 +185,7 @@ const App = () => {
     const unsubscribe = NetInfo.addEventListener((state) => {
       UIState.update((s) => {
         s.online = state.isConnected;
-        s.networkType = state.type;
+        s.networkType = state.type?.toUpperCase();
       });
     });
 

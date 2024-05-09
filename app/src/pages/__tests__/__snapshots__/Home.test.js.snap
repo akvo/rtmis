@@ -413,7 +413,7 @@ exports[`Homepage renders correctly 1`] = `
           },
           {
             "borderRadius": 28,
-            "elevation": 0,
+            "elevation": 4,
           },
           false,
         ]
@@ -426,7 +426,7 @@ exports[`Homepage renders correctly 1`] = `
           {
             "busy": false,
             "checked": undefined,
-            "disabled": true,
+            "disabled": false,
             "expanded": undefined,
             "selected": undefined,
           }
@@ -454,12 +454,13 @@ exports[`Homepage renders correctly 1`] = `
             "opacity": 1,
           }
         }
+        testID="sync-datapoint-button"
       >
         <View
           style={
             {
               "alignItems": "center",
-              "backgroundColor": "hsl(208, 8%, 90%)",
+              "backgroundColor": "#1651b6",
               "borderColor": "#2089dc",
               "borderRadius": 2,
               "borderWidth": 0,
@@ -509,7 +510,7 @@ exports[`Homepage renders correctly 1`] = `
           <Text
             style={
               {
-                "color": "hsl(208, 8%, 63%)",
+                "color": "#ffffff",
                 "fontSize": 18,
                 "marginHorizontal": 8,
                 "paddingVertical": 1,
