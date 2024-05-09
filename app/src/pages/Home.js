@@ -285,7 +285,7 @@ const Home = ({ navigation, route }) => {
     const unsubsNetwork = UIState.subscribe(
       (s) => s.networkType,
       (t) => {
-        if ((syncWifiOnly && t !== Network.NetworkStateType.WIFI) || t !== 'wifi') {
+        if (syncWifiOnly && (t !== Network.NetworkStateType.WIFI || t !== 'wifi')) {
           setSyncDisabled(true);
         }
       },
