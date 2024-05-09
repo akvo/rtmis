@@ -120,6 +120,7 @@ const EntityData = () => {
         setCurrentPage(current);
         setLoading(false);
       } catch {
+        setCurrentPage(1);
         setLoading(false);
       }
     },
