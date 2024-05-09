@@ -8,7 +8,7 @@ describe('UserState', () => {
     expect(id).toBe(null);
     expect(name).toBe('');
     expect(token).toBe(null);
-    expect(syncWifiOnly).toBe(false);
+    expect(syncWifiOnly).toBe(0);
     expect(forms).toEqual([]);
     expect(certifications).toEqual([]);
   });

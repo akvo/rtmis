@@ -59,6 +59,9 @@ describe('Homepage', () => {
     UserState.update((s) => {
       s.id = 1;
     });
+    UIState.update((s) => {
+      s.online = true;
+    });
     const mockLatestFormVersion = mockForms.filter((form) => form.latest);
     crudForms.selectLatestFormVersion.mockImplementation(() =>
       Promise.resolve(mockLatestFormVersion),
@@ -199,6 +202,44 @@ describe('Homepage', () => {
         'Brouillon: 0',
         'Synchronisé: 2',
       ]);
+    });
+  });
+
+  it('should disable sync datapoint button when syncWifiOnly is true & network type cellular', async () => {
+    const { getByTestId } = render(<HomePage navigation={mockNavigation} />);
+
+    act(() => {
+      UserState.update((s) => {
+        s.syncWifiOnly = 1;
+      });
+
+      UIState.update((s) => {
+        s.networkType = 'CELLULAR';
+      });
+    });
+
+    await waitFor(() => {
+      const syncButton = getByTestId('sync-datapoint-button');
+      expect(syncButton.props.accessibilityState?.disabled).toBeTruthy();
+    });
+  });
+
+  it('should enable sync datapoint button when syncWifiOnly is false & network type cellular', async () => {
+    const { getByTestId } = render(<HomePage navigation={mockNavigation} />);
+
+    act(() => {
+      UserState.update((s) => {
+        s.syncWifiOnly = 0;
+      });
+
+      UIState.update((s) => {
+        s.networkType = 'CELLULAR';
+      });
+    });
+
+    await waitFor(() => {
+      const syncButton = getByTestId('sync-datapoint-button');
+      expect(syncButton.props.accessibilityState?.disabled).toBeFalsy();
     });
   });
 });

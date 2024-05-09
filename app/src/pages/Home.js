@@ -6,6 +6,7 @@ import { Platform, ToastAndroid } from 'react-native';
 import * as Notifications from 'expo-notifications';
 import * as Location from 'expo-location';
 import PropTypes from 'prop-types';
+import * as Network from 'expo-network';
 import { BaseLayout } from '../components';
 import {
   FormState,
@@ -26,6 +27,7 @@ const Home = ({ navigation, route }) => {
   const [appLang, setAppLang] = useState('en');
   const [loading, setloading] = useState(true);
   const [syncLoading, setSyncLoading] = useState(false);
+  const [syncDisabled, setSyncDisabled] = useState(false);
 
   const locationIsGranted = UserState.useState((s) => s.locationIsGranted);
   const gpsAccuracyLevel = BuildParamsState.useState((s) => s.gpsAccuracyLevel);
@@ -34,6 +36,7 @@ const Home = ({ navigation, route }) => {
   const userId = UserState.useState((s) => s.id);
   const passcode = AuthState.useState((s) => s.authenticationCode);
   const isOnline = UIState.useState((s) => s.online);
+  const syncWifiOnly = UserState.useState((s) => s.syncWifiOnly);
 
   const activeLang = UIState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
@@ -278,6 +281,31 @@ const Home = ({ navigation, route }) => {
     };
   }, [syncLoading]);
 
+  useEffect(() => {
+    const unsubsNetwork = UIState.subscribe(
+      (s) => s.networkType,
+      (t) => {
+        if ((syncWifiOnly && t !== Network.NetworkStateType.WIFI) || t !== 'wifi') {
+          setSyncDisabled(true);
+        }
+      },
+    );
+
+    const unsubsWifi = UserState.subscribe(
+      (s) => s.syncWifiOnly,
+      (status) => {
+        if (!status) {
+          setSyncDisabled(false);
+        }
+      },
+    );
+
+    return () => {
+      unsubsNetwork();
+      unsubsWifi();
+    };
+  }, [syncWifiOnly]);
+
   return (
     <BaseLayout
       title={trans.homePageTitle}
@@ -301,8 +329,9 @@ const Home = ({ navigation, route }) => {
         color="#1651b6"
         title={syncLoading ? trans.syncingText : trans.syncDataPointBtn}
         style={{ marginBottom: 16 }}
-        disabled={!isOnline || syncLoading}
+        disabled={!isOnline || syncLoading || syncDisabled}
         onPress={handleOnSync}
+        testID="sync-datapoint-button"
       />
     </BaseLayout>
   );
