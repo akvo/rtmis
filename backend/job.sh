@@ -43,4 +43,4 @@ echo "HTML file created: $output_html"
 # This command is necessary for the app to request
 # the cloud-proxy-sql to exit for job execution.
 # Keep this at the bottom of this file.
-# curl -X POST localhost:9091/quitquitquit
+curl -X POST localhost:9091/quitquitquit
