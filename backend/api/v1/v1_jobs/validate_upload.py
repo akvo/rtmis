@@ -188,9 +188,17 @@ def validate_dependency(
         question_dependency = question.dependency[0]
         question_is_appear = False
         if dependency_answer:
-            for daw in dependency_answer.split("|"):
-                if daw in question_dependency["options"]:
+            if "options" in question_dependency:
+                for daw in dependency_answer.split("|"):
+                    if daw in question_dependency["options"]:
+                        question_is_appear = True
+            if "min" in question_dependency:
+                if dependency_answer >= question_dependency["min"]:
                     question_is_appear = True
+            if "max" in question_dependency:
+                if dependency_answer <= question_dependency["max"]:
+                    question_is_appear = True
+
         # answer should be blank
         if answered and not question_is_appear:
             msg = f"{question.name} {ValidationText.should_be_empty.value}"
