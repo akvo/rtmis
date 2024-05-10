@@ -1,6 +1,6 @@
 {
   "id": 1701172125596,
-  "form": "RTMIS Institution Form",
+  "form": "Institution Form",
   "description": "Institution Form",
   "defaultLanguage": "en",
   "languages": ["en"],
@@ -260,7 +260,7 @@
           "label": "Number of functional toilets",
           "short_label": null,
           "type": "number",
-          "tooltip":{
+          "tooltip": {
             "text": "<b>Number of functional toilets:</b> count the number of separate toilet stances or separate toilet seats that are FUNCTIONAL (each of which can be used privately and separately). <b>Functional toilet:</b> the institutional toilet is functioning as intended, and can be used (that is, is not blocked, abandoned or collapsed)"
           },
           "required": true,

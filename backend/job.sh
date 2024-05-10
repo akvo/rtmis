@@ -10,7 +10,9 @@ for file in "$dir"/*.prod.json; do
     form_id="${filename%.prod.json}"
     ./manage.py generate_excel_data "$form_id" --latest=True
     ./manage.py generate_excel_data "$form_id"
+    ./manage.py generate_excel_data "$form_id" --submission="verification" --latest=True
     ./manage.py generate_excel_data "$form_id" --submission="verification"
+    ./manage.py generate_excel_data "$form_id" --submission="certification" --latest=True
     ./manage.py generate_excel_data "$form_id" --submission="certification"
     sleep 5
 done
@@ -41,4 +43,4 @@ echo "HTML file created: $output_html"
 # This command is necessary for the app to request
 # the cloud-proxy-sql to exit for job execution.
 # Keep this at the bottom of this file.
-curl -X POST localhost:9091/quitquitquit
+# curl -X POST localhost:9091/quitquitquit
