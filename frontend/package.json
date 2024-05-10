@@ -16,7 +16,6 @@
     "eas-cli": "^7.3.0",
     "echarts": "^5.2.2",
     "echarts-for-react": "^3.0.2",
-    "fbjs": "^3.0.5",
     "leaflet": "^1.7.1",
     "lodash.debounce": "^4.0.8",
     "lz-string": "^1.4.4",
