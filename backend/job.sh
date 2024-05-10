@@ -10,7 +10,9 @@ for file in "$dir"/*.prod.json; do
     form_id="${filename%.prod.json}"
     ./manage.py generate_excel_data "$form_id" --latest=True
     ./manage.py generate_excel_data "$form_id"
+    ./manage.py generate_excel_data "$form_id" --submission="verification" --latest=True
     ./manage.py generate_excel_data "$form_id" --submission="verification"
+    ./manage.py generate_excel_data "$form_id" --submission="certification" --latest=True
     ./manage.py generate_excel_data "$form_id" --submission="certification"
     sleep 5
 done
@@ -22,16 +24,26 @@ output_html="./storage/cronjob_results/index.html"
 
 # Start the HTML document
 echo "<html>" >"$output_html"
-echo "<head><title>File List</title></head>" >>"$output_html"
+echo "<head><title>File List</title>"
+# Add Bootstrap CSS
+echo "<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'>" >>"$output_html"
+# Add Custom CSS Max Height List Scroll
+echo "</head>" >>"$output_html"
 echo "<body>" >>"$output_html"
-echo "<h1>List of Files</h1>" >>"$output_html"
-echo "<h2>Last updated: $(date)</h2>" >>"$output_html"
-echo "<ul>" >>"$output_html"
+# Header Padding
+echo "<div class='container' style='padding-top: 20px; padding-bottom: 20px;'>" >>"$output_html"
+# Center Header
+echo "<h3 class='text-center'>File List</h3>" >>"$output_html"
+# Last Updated
+echo "<p class='text-center'>Last Updated: $(date)</p>" >>"$output_html"
+echo "<ul class='list-group' style='padding-bottom: 20px;'>" >>"$output_html"
 for file in "$cron_dir"/*.xlsx; do
     filename=$(basename "$file")
-    echo "<li><a href='/cronjob_results/$filename'>$filename</a></li>" >>"$output_html"
+    echo "<li class='list-group-item'><a href='$filename'>$filename</a></li>" >>"$output_html"
 done
 echo "</ul>" >>"$output_html"
+echo "</div>" >>"$output_html"
+# Footer
 echo "</body>" >>"$output_html"
 echo "</html>" >>"$output_html"
 

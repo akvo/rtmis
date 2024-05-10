@@ -42,7 +42,7 @@ class JobGenerateExcelDataCommand(TestCase):
             True
         )
 
-        result_file = f"{CRONJOB_RESULT_DIR}/{form_name}-routine-recent.xlsx"
+        result_file = f"{CRONJOB_RESULT_DIR}/{form_name}-routine-latest.xlsx"
         # self.assertTrue(storage.check(result_file))
 
         download_file = storage.download(result_file)

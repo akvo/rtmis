@@ -57,12 +57,12 @@ class FormSeederTestCase(TestCase):
         json_forms = [
             "CLTS",
             "Water System",
-            "RTMIS Community Monitoring Form",
-            "RTMIS School WASH Form",
-            "RTMIS Household Monitoring Form",
+            "Community Monitoring Form",
+            "School WASH Form",
+            "Household Monitoring Form",
             "Short HH",
-            "RTMIS Institution Form",
-            "RTMIS Healthcare Facility WASH Form",
+            "Institution Form",
+            "Healthcare Facility WASH Form",
             "Governance Form",
             "Urban sanitation form",
         ]
