@@ -20,7 +20,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.akvo.rtmis"
+      "package": "com.akvo.rtmis",
+      "versionCode": "1.0.1"
     },
     "web": {
       "favicon": "./assets/favicon.png"
