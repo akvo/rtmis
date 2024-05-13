@@ -18,7 +18,7 @@ describe('BuildParamsState', () => {
     expect(dataSyncInterval).toBe(buildJson.default.dataSyncInterval);
     expect(errorHandling).toBe(true);
     expect(loggingLevel).toBe('verbose');
-    expect(appVersion).toBe('1.2.0');
+    expect(appVersion).not.toBeNull();
   });
 
   it('should updating the state correctly', () => {

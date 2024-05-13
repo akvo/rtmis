@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { View } from 'react-native';
-import { ListItem } from '@rneui/themed';
+import { ListItem, Icon } from '@rneui/themed';
 import { BaseLayout } from '../../components';
 import { config } from './config';
 import { BuildParamsState, UIState } from '../../store';
@@ -10,6 +10,7 @@ const AboutHome = () => {
   const { appVersion } = BuildParamsState.useState((s) => s);
   const { lang } = UIState.useState((s) => s);
   const nonEnglish = lang !== 'en';
+  const trans = i18n.text(lang);
 
   const list = useMemo(() => {
     const findConfig = config.find((c) => c?.id === 1);
@@ -35,6 +36,14 @@ const AboutHome = () => {
               </ListItem>
             );
           })}
+          {/* Update button */}
+          <ListItem onPress={() => console.info('Update application')}>
+            <ListItem.Content>
+              <ListItem.Title>{trans.updateApp}</ListItem.Title>
+            </ListItem.Content>
+            <Icon name="system-update" type="materialicon" />
+          </ListItem>
+          {/* EOL Update button */}
         </View>
       </BaseLayout.Content>
     </BaseLayout>

@@ -112,6 +112,7 @@ const uiText = {
     loadMore: 'Load more',
     manageVerification: 'Verification form',
     manageCertification: 'Certification form',
+    updateApp: 'Update application',
   },
   fr: {
     latitude: 'Latitude',
@@ -217,6 +218,7 @@ const uiText = {
     loadMore: 'Charger plus',
     manageVerification: 'Formulaire de vérification',
     manageCertification: "Formulaire d'attestation",
+    updateApp: "Met à jour l'application",
   },
 };
 
