@@ -2,7 +2,7 @@
   "expo": {
     "name": "rtmis-mobile",
     "slug": "rtmis-mobile",
-    "version": "1.0.1",
+    "version": "4.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -21,7 +21,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.akvo.rtmis",
-      "versionCode": 101
+      "versionCode": 400
     },
     "web": {
       "favicon": "./assets/favicon.png"
