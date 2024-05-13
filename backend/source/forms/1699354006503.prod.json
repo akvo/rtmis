@@ -1068,7 +1068,7 @@
               "G1 Inadequate sanitation services in communal areas": "#FDC74B",
               "G3 Use of safely managed sanitation services in communal areas": "#4088F4"
             },
-            "fnString": "(#faecal_sludge_disposal_communal_areas#.includes(\"g0\")) ? \"G0 Sanitation services UNSAFELY managed in communal areas\" : (#faecal_sludge_disposal_communal_areas#.includes(\"g3\") ? \"G3 Use of safely managed sanitation services in communal areas\" : \"G1 Inadequate sanitation services in communal areas\")",
+            "fnString": "#faecal_sludge_disposal_communal_areas#.includes(\"g0\") ? \"G0 Sanitation services UNSAFELY managed in communal areas\" : #faecal_sludge_disposal_communal_areas#.includes(\"g3\") ? \"G3 Use of safely managed sanitation services in communal areas\" : \"G1 Inadequate sanitation services in communal areas\"",
             "multiline": false
           }
         },
@@ -1313,7 +1313,7 @@
               "G2 Inadequate vector control in communal areas": "#93D371",
               "G3 Good vector control in communal areas": "#4088F4"
             },
-            "fnString": "(#no_standing_water_communal_areas#.includes(\"g0\") && #treated_larval_breeding_sites_communal_areas#.includes(\"g0\")) ? \"G1 Lack of vector control in communal areas\" : ((#no_standing_water_communal_areas#.includes(\"g3\") && #treated_larval_breeding_sites_communal_areas#.includes(\"g3\")) ? \"G3 Good vector control in communal areas\" : \"G2 Inadequate vector control in communal areas\")",
+            "fnString": "#no_standing_water_communal_areas#.includes(\"g0\") && #treated_larval_breeding_sites_communal_areas#.includes(\"g0\") ? \"G1 Lack of vector control in communal areas\" : #no_standing_water_communal_areas#.includes(\"g3\") && #treated_larval_breeding_sites_communal_areas#.includes(\"g3\") ? \"G3 Good vector control in communal areas\" : \"G2 Inadequate vector control in communal areas\"",
             "multiline": false
           }
         },
@@ -1793,7 +1793,7 @@
               "G2": "#93D371",
               "G3": "#4088F4"
             },
-            "fnString": "#outcome_no_exposed_excreta#.includes(\"G1\") && #outcome_safe_diaper_management#.includes(\"G1\") && #outcome_safe_management_communal_water_sources#.includes(\"G1\") && #outcome_safely_managed_sanitation_services#.includes(\"G1\") && #safe_waste_management_in_communal_areas#.includes(\"G1\") ? #outcome_no_exposed_excreta#.includes(\"G2\") && #outcome_safe_diaper_management#.includes(\"G2\") && #outcome_safe_management_communal_water_sources#.includes(\"G2\") && #outcome_safely_managed_sanitation_services#.includes(\"G2\") && #safe_waste_management_in_communal_areas#.includes(\"G2\") ? #outcome_no_exposed_excreta#.includes(\"G3\") && #outcome_safe_diaper_management#.includes(\"G3\") && #outcome_safe_management_communal_water_sources#.includes(\"G3\") && #outcome_safely_managed_sanitation_services#.includes(\"G3\") && #safe_waste_management_in_communal_areas#.includes(\"G3\") ? 'G3' : 'G2' : 'G1' : 'G0'",
+            "fnString": "#outcome_no_exposed_excreta#.includes(\"G1\") && #outcome_safe_diaper_management#.includes(\"G1\") ? 'G1' : #outcome_no_exposed_excreta#.includes(\"G1\") && #outcome_safe_diaper_management#.includes(\"G1\") && #outcome_safe_management_communal_water_sources#.includes(\"G2\") ? 'G2' : #outcome_no_exposed_excreta#.includes(\"G1\") && #outcome_safe_diaper_management#.includes(\"G1\") && #outcome_safe_management_communal_water_sources#.includes(\"G2\") && #outcome_safely_managed_sanitation_services#.includes(\"G3\") && #outcome_safe_management_liquid_wastes#.includes(\"G3\") && #outcome_safe_management_solid_wastes#.includes(\"G3\") && #outcome_good_vector_control_communal_areas#.includes(\"G3\") ? 'G3' : 'G0'",
             "multiline": false
           }
         }
