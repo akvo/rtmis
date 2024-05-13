@@ -49,6 +49,12 @@ Real Time Monitoring Information Systems
 
 .. toctree::
    :maxdepth: 2
+   :caption: Master Data Management
+
+   MasterDataManagement   
+
+.. toctree::
+   :maxdepth: 2
    :caption: Outputs
 
    outputs
