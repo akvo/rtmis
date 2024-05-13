@@ -20,6 +20,7 @@ import {
   AddNewForm,
   AboutPage,
   UpdateForm,
+  CertificationData,
 } from '../pages';
 import { UIState, AuthState, FormState } from '../store';
 import { backgroundTask, notification } from '../lib';
@@ -85,6 +86,7 @@ const RootNavigator = () => {
           <Stack.Screen name="Users" component={UsersPage} />
           <Stack.Screen name="FormDataDetails" component={FormDataDetailsPage} />
           <Stack.Screen name="AddNewForm" component={AddNewForm} />
+          <Stack.Screen name="CertificationData" component={CertificationData} />
         </>
       )}
     </Stack.Navigator>

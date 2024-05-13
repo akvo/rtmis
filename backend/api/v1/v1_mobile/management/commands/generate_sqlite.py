@@ -16,10 +16,12 @@ class Command(BaseCommand):
         self.log_generated(file, EntityData)
 
     def log_generated(self, file, model):
-        message = f'{file} Generated Successfully' \
-            if file \
+        message = (
+            f"{file} Generated Successfully"
+            if file
             else (
-                f'Failed to generate {model._meta.db_table}, '
-                'possibly empty data'
+                f"Failed to generate {model._meta.db_table}, "
+                "possibly empty data"
             )
+        )
         print(message)

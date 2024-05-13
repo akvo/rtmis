@@ -11,7 +11,7 @@
       },
       {
         "key": "embed",
-        "link": "https://app.powerbi.com/view?r=eyJrIjoiNDcxMDFkYzEtNGUxMS00NTZiLTliMTQtZjE4ODk2MWQxZTFhIiwidCI6ImIxNzBlMTE1LWRjM2QtNGU5Mi04NWJlLWU0YjMwMDljNWRjMiIsImMiOjl9",
+        "link": "https://app.powerbi.com/view?r=eyJrIjoiMjFmODExMzEtYjFhMi00YzU5LWI1OWItYzRiYzJlZGY5NTg5IiwidCI6ImIxNzBlMTE1LWRjM2QtNGU5Mi04NWJlLWU0YjMwMDljNWRjMiIsImMiOjl9",
         "style": {
           "marginTop": "24px"
         }
@@ -30,7 +30,45 @@
       },
       {
         "key": "embed",
-        "link": "https://app.powerbi.com/view?r=eyJrIjoiYzk5MzM4MmYtZGNmOS00NDlhLThlOTUtOWY1NzI4NzczNWIzIiwidCI6ImIxNzBlMTE1LWRjM2QtNGU5Mi04NWJlLWU0YjMwMDljNWRjMiIsImMiOjl9",
+        "link": "https://app.powerbi.com/view?r=eyJrIjoiYzY1ZTVkY2ItM2NlNC00NGIzLWJkOTgtYTc2NjUwOTkyMGM0IiwidCI6ImIxNzBlMTE1LWRjM2QtNGU5Mi04NWJlLWU0YjMwMDljNWRjMiIsImMiOjl9",
+        "style": {
+          "marginTop": "24px"
+        }
+      }
+    ]
+  },
+  {
+    "form_id": 1709689683440,
+    "page": "bi",
+    "name": "Governance",
+    "path": "governance",
+    "content": [
+      {
+        "key": "title",
+        "text": "Governance"
+      },
+      {
+        "key": "embed",
+        "link": "https://app.powerbi.com/view?r=eyJrIjoiMzNhZTkzYmQtZjBjZi00NzlmLTg5YTgtZjU3N2Q3M2EyODgyIiwidCI6ImIxNzBlMTE1LWRjM2QtNGU5Mi04NWJlLWU0YjMwMDljNWRjMiIsImMiOjl9",
+        "style": {
+          "marginTop": "24px"
+        }
+      }
+    ]
+  },
+  {
+    "form_id": 1710731783595,
+    "page": "bi",
+    "name": "Urban Sanitation",
+    "path": "urban-sanitation",
+    "content": [
+      {
+        "key": "title",
+        "text": "Urban Sanitation"
+      },
+      {
+        "key": "embed",
+        "link": "https://app.powerbi.com/view?r=eyJrIjoiMDhjNmQ1MjEtYTFiOC00ZWQ1LTg0N2MtODZlYTUwNDBlNTgyIiwidCI6ImIxNzBlMTE1LWRjM2QtNGU5Mi04NWJlLWU0YjMwMDljNWRjMiIsImMiOjl9",
         "style": {
           "marginTop": "24px"
         }

@@ -1,6 +1,12 @@
 import "./App.scss";
-import React, { useEffect, useState } from "react";
-import { Route, Routes, Navigate, useLocation } from "react-router-dom";
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  Route,
+  Routes,
+  Navigate,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import {
   Home,
   Login,
@@ -39,11 +45,17 @@ import {
   AddEntityData,
   ControlCenter,
   UploadAdministrationData,
+  UploadEntitiesData,
   DownloadAdministrationData,
   BIDashboard,
   MonitoringDetail,
   Downloads,
   CertificationAssignment,
+  ManageCertificationData,
+  ManageVerificationData,
+  VerificationDetail,
+  DownloadEntitiesData,
+  CertificationDetail,
   // Visualisation,
 } from "./pages";
 import { useCookies } from "react-cookie";
@@ -55,6 +67,27 @@ import { reloadData } from "./util/form";
 import CertificationAssignmentForm from "./pages/certification-assignment/CertificationAssignmentForm";
 
 const Private = ({ element: Element, alias }) => {
+  const [cookies] = useCookies(["expiration_time"]);
+
+  const navigate = useNavigate();
+
+  const checkExpires = useCallback(() => {
+    const now = new Date();
+    const end = new Date(cookies?.expiration_time);
+    if (now > end) {
+      eraseCookieFromAllPaths("AUTH_TOKEN");
+      store.update((s) => {
+        s.isLoggedIn = false;
+        s.user = null;
+      });
+      navigate("/login");
+    }
+  }, [navigate, cookies?.expiration_time]);
+
+  useEffect(() => {
+    checkExpires();
+  }, [checkExpires]);
+
   const { user: authUser } = store.useState((state) => state);
   if (authUser) {
     const page_access = authUser?.role_detail?.page_access;
@@ -180,6 +213,16 @@ const RouteList = () => {
           element={<Private element={AddEntityData} alias="master-data" />}
         />
         <Route
+          path="master-data/entities/upload"
+          element={<Private element={UploadEntitiesData} alias="master-data" />}
+        />
+        <Route
+          path="master-data/entities/download"
+          element={
+            <Private element={DownloadEntitiesData} alias="master-data" />
+          }
+        />
+        <Route
           path="master-data/entities/:id"
           element={<Private element={AddEntityData} alias="master-data" />}
         />
@@ -190,6 +233,22 @@ const RouteList = () => {
         <Route
           path="data/submissions"
           element={<Private element={Submissions} alias="data" />}
+        />
+        <Route
+          path="certification-data"
+          element={<Private element={ManageCertificationData} alias="data" />}
+        />
+        <Route
+          path="certification-data/:form/certification/:parentId"
+          element={<Private element={CertificationDetail} alias="data" />}
+        />
+        <Route
+          path="verification-data"
+          element={<Private element={ManageVerificationData} alias="data" />}
+        />
+        <Route
+          path="verification-data/:form/verification/:parentId"
+          element={<Private element={VerificationDetail} alias="data" />}
         />
         <Route
           path="approvals"
@@ -220,6 +279,7 @@ const RouteList = () => {
           element={<Private element={AddAssignment} alias="mobile" />}
         />
         <Route exact path="form/:formId" element={<Forms />} />
+        <Route exact path="form/:formId/:uuid" element={<Forms />} />
         <Route
           path="profile"
           element={<Private element={Profile} alias="profile" />}

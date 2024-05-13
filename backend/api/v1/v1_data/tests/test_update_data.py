@@ -11,17 +11,23 @@ from api.v1.v1_users.models import SystemUser
 
 
 def seed_administration_test():
-    level = Levels(name="country", level=1)
+    level = Levels(name="national", level=0)
     level.save()
     administration = Administration(id=1,
                                     name="Indonesia",
                                     parent=None,
-                                    level=level)
+                                    level=level,
+                                    path=None
+                                    )
     administration.save()
+    level = Levels(name="province", level=1)
+    level.save()
     administration = Administration(id=2,
                                     name="Jakarta",
                                     parent=administration,
-                                    level=level)
+                                    level=level,
+                                    path="1."
+                                    )
     administration.save()
 
 
@@ -77,7 +83,7 @@ class FormDataUpdateTestCase(TestCase):
         data = data.json()
         self.assertEqual(data, {"message": "ok"})
         # Get all data from form
-        data = self.client.get('/api/v1/form-data/1?page=1',
+        data = self.client.get('/api/v1/form-data/1?submission_type=1&page=1',
                                content_type='application/json',
                                **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
         self.assertEqual(data.status_code, 200)
@@ -119,7 +125,7 @@ class FormDataUpdateTestCase(TestCase):
         data = data.json()
         self.assertEqual(data, {"message": "direct update success"})
         # Get all data from form
-        data = self.client.get('/api/v1/form-data/1?page=1',
+        data = self.client.get('/api/v1/form-data/1?submission_type=1&page=1',
                                content_type='application/json',
                                **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
         self.assertEqual(data.status_code, 200)
@@ -258,7 +264,7 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(response['email'], 'wayan@example.com')
         self.assertEqual(response['role']['id'], UserRoleTypes.user)
         # Get all data from form
-        data = self.client.get('/api/v1/form-data/1?page=1',
+        data = self.client.get('/api/v1/form-data/1?submission_type=1&page=1',
                                content_type='application/json',
                                **{'HTTP_AUTHORIZATION':
                                    f'Bearer {data_entry_user_token}'})
@@ -335,7 +341,7 @@ class FormDataUpdateTestCase(TestCase):
         }]
         self.assertEqual(data, results)
         # test get form data with pending data object inside
-        data = self.client.get('/api/v1/form-data/1?page=1',
+        data = self.client.get('/api/v1/form-data/1?submission_type=1&page=1',
                                content_type='application/json',
                                **{'HTTP_AUTHORIZATION':
                                    f'Bearer {token}'})
@@ -367,7 +373,7 @@ class FormDataUpdateTestCase(TestCase):
             "data": {
                 "name": "Testing Data National From Type",
                 "administration": 2,
-                "geo": [6.2088, 106.8456]
+                "geo": [6.2088, 106.8456],
             },
             "answer": [{
                 "question": 201,
@@ -451,7 +457,7 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(response['email'], 'county_admin@example.com')
         self.assertEqual(response['role']['id'], UserRoleTypes.admin)
         # Get all data from form
-        data = self.client.get('/api/v1/form-data/2?page=1',
+        data = self.client.get('/api/v1/form-data/2?submission_type=1&page=1',
                                content_type='application/json',
                                **{'HTTP_AUTHORIZATION':
                                    f'Bearer {county_admin_token}'})
@@ -529,7 +535,7 @@ class FormDataUpdateTestCase(TestCase):
         }]
         self.assertEqual(data, results)
         # test get form data with pending data object inside
-        data = self.client.get('/api/v1/form-data/2?page=1',
+        data = self.client.get('/api/v1/form-data/2?submission_type=1&page=1',
                                content_type='application/json',
                                **{'HTTP_AUTHORIZATION':
                                    f'Bearer {token}'})
@@ -646,7 +652,7 @@ class FormDataUpdateTestCase(TestCase):
         self.assertEqual(response['email'], 'county_admin@example.com')
         self.assertEqual(response['role']['id'], UserRoleTypes.admin)
         # Get all data from form
-        data = self.client.get('/api/v1/form-data/1?page=1',
+        data = self.client.get('/api/v1/form-data/1?submission_type=1&page=1',
                                content_type='application/json',
                                **{'HTTP_AUTHORIZATION':
                                    f'Bearer {county_admin_token}'})
@@ -691,7 +697,7 @@ class FormDataUpdateTestCase(TestCase):
         data = data.json()
         self.assertEqual(data, {"message": "direct update success"})
         # Get all data from form
-        data = self.client.get('/api/v1/form-data/1?page=1',
+        data = self.client.get('/api/v1/form-data/1?submission_type=1&page=1',
                                content_type='application/json',
                                **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
         self.assertEqual(data.status_code, 200)

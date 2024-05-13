@@ -17,10 +17,11 @@ const MasterData = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
-  const [search, setSearch] = useState("");
-  const { language, administration } = store.useState((s) => s);
+  const { language, administration, filters } = store.useState((s) => s);
   const { active: activeLang } = language;
   const parent = administration.slice(-1)?.[0]?.id;
+
+  const search = filters?.query || null;
 
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -92,33 +93,36 @@ const MasterData = () => {
     }
   }, []);
 
-  const fetchData = useCallback(async () => {
-    try {
-      let url = `/administrations?page=${currentPage}`;
-      if (parent) {
-        url = url + `&parent=${parent}`;
+  const fetchData = useCallback(
+    async (currentPage = 1, parent = null, search = null) => {
+      try {
+        let url = `/administrations?page=${currentPage}`;
+        if (parent) {
+          url = url + `&parent=${parent}`;
+        }
+        if (search) {
+          url = url + `&search=${search}`;
+        }
+        const { data: apiData } = await api.get(url);
+        const { total, current, data } = apiData;
+        setDataset(data);
+        setTotalCount(total);
+        setCurrentPage(current);
+        setLoading(false);
+      } catch {
+        setLoading(false);
       }
-      if (search) {
-        url = url + `&search=${search}`;
-      }
-      const { data: apiData } = await api.get(url);
-      const { total, current, data } = apiData;
-      setDataset(data);
-      setTotalCount(total);
-      setCurrentPage(current);
-      setLoading(false);
-    } catch {
-      setLoading(false);
-    }
-  }, [currentPage, parent, search]);
+    },
+    []
+  );
 
   useEffect(() => {
     fetchAttributes();
   }, [fetchAttributes]);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    fetchData(currentPage, parent, search);
+  }, [fetchData, currentPage, parent, search]);
 
   return (
     <div id="masterData">
@@ -137,8 +141,14 @@ const MasterData = () => {
         <div className="table-wrapper">
           <AdministrationFilters
             loading={loading}
-            onSearchChange={setSearch}
+            onChange={(value) =>
+              store.update((s) => {
+                s.filters.query = value;
+              })
+            }
+            onSearchChange={(value) => fetchData(currentPage, parent, value)}
             maxLevel={4}
+            search={search}
           />
           <Divider />
           <div

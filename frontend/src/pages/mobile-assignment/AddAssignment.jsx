@@ -10,6 +10,8 @@ import {
 import { useNotification } from "../../util/hooks";
 import "./style.scss";
 
+const { Option } = Select;
+
 const AddAssignment = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -159,7 +161,8 @@ const AddAssignment = () => {
         name: values.name,
         administrations: selectedAdministrations,
         forms: values.forms,
-        certifications: values?.certifications || [],
+        certifications:
+          values?.certifications || editAssignment?.certifications || [],
       };
       if (id) {
         await api.put(`/mobile-assignments/${id}`, payload);
@@ -344,20 +347,37 @@ const AddAssignment = () => {
                 </Form.Item>
               </div>
             )}
-            {authUser?.certification && (
-              <div className="form-row">
-                <Form.Item name="certifications" label={text.certificationList}>
+            <div
+              className={`form-row ${
+                authUser?.certification?.length ||
+                editAssignment?.certifications?.length
+                  ? "show"
+                  : "hidden"
+              }`}
+            >
+              <Form.Item name="certifications" label={text.certificationList}>
+                {authUser?.certification?.length ? (
                   <Select
                     getPopupContainer={(trigger) => trigger.parentNode}
                     placeholder={text.selectCertification}
-                    fieldNames={{ value: "id", label: "full_name" }}
-                    options={authUser?.certification}
                     mode="multiple"
                     allowClear
-                  />
-                </Form.Item>
-              </div>
-            )}
+                  >
+                    {authUser.certification.map((c) => (
+                      <Option value={c.id} key={c.id}>
+                        {c.full_name}
+                      </Option>
+                    ))}
+                  </Select>
+                ) : (
+                  <ul>
+                    {editAssignment?.certifications?.map((c) => (
+                      <li key={c.id}>{c.full_name}</li>
+                    ))}
+                  </ul>
+                )}
+              </Form.Item>
+            </div>
             <div className="form-row">
               <Form.Item
                 name="forms"

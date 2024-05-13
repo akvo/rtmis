@@ -10,35 +10,37 @@ from api.v1.v1_mobile.models import MobileAssignment
 
 
 class MobileAssignmentToken(AccessToken):
-    token_type = 'mobile_assignment'
+    token_type = "mobile_assignment"
     lifetime = timedelta(days=99999)
 
     @classmethod
     def for_assignment(cls, assignment):
         assert isinstance(assignment, MobileAssignment)
         token = cls()
-        token['assignment_id'] = assignment.id
+        token["assignment_id"] = assignment.id
         return token
 
     @classmethod
     def for_user(cls, _):
         raise NotImplementedError(
-                ".for_user() is not used on this token type.")
+            ".for_user() is not used on this token type."
+        )
 
     @property
     def assignment(self):
-        if not hasattr(self, '_assignment'):
+        if not hasattr(self, "_assignment"):
             self._assignment = self._get_assignment()
         return self._assignment
 
     def _get_assignment(self):
-        assignment_id = self.payload.get('assignment_id', None)
+        assignment_id = self.payload.get("assignment_id", None)
         return (
             MobileAssignment.objects.get(id=assignment_id)
-            if assignment_id else None
+            if assignment_id
+            else None
         )
 
-    def check_exp(self, claim='exp', current_time=None):
+    def check_exp(self, claim="exp", current_time=None):
         """
         Make sure token never expires
         """

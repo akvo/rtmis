@@ -1,75 +1,76 @@
-import random
 from django.core.management import BaseCommand
 from django.core.management import call_command
-from api.v1.v1_profile.models import Administration, Entity, EntityData
-from faker import Faker
+from api.v1.v1_profile.models import (
+    Administration,
+    Entity,
+    EntityData,
+    SystemUser,
+    UserRoleTypes,
+)
+from api.v1.v1_forms.models import Forms
 
-fake = Faker()
 
-
-def get_entity_type(name: str):
-    entity, _ = Entity.objects.get_or_create(name=name)
-    return entity
-
-
-def seed_data(self, repeat: int = 3, test: bool = False):
+def seed_randomly(repeat: int = 1):
     entity_types = ["School", "Health Care Facilities"]
-    wards = Administration.objects.filter(level=4).all()
-    ward = random.choice(wards)
-    if ward:
-        if not test:
-            self.stdout.write(f"WARD: {ward.full_path_name}")
-        random_type = random.choice(entity_types)
-        entity_type = get_entity_type(name=random_type)
-        EntityData.objects.create(
-            name=f"{random_type} - {fake.company()}- {ward.name}",
-            administration=ward,
-            entity=entity_type
-        )
-        villages = Administration.objects.filter(parent=ward.id)
-        for row in range(repeat):
-            village = random.choice(villages)
-            entities = []
-            if not test:
-                self.stdout.write(f"SEEDING - {village.name}")
-            for i in range(repeat):
-                find_type = random.choice(entity_types)
-                entity_type = get_entity_type(name=find_type)
-                ename = f"{entity_type.name} - {fake.company()} {row}{i+1}"
-                if not test:
-                    self.stdout.write(ename)
-                entities.append({
-                    'entity': entity_type,
-                    'name': ename
-                })
-                EntityData.objects.create(
-                    name=ename,
-                    administration=village,
-                    entity=entity_type
-                )
+    for t in entity_types:
+        entity, created = Entity.objects.get_or_create(name=t)
+        for i in range(repeat):
+            administration = Administration.objects.filter(
+                level__name="Village"
+            ).order_by("?").first()
+            name = entity.name if created else t
+            EntityData.objects.create(
+                name=f"{name} - {administration.name} {i+1}",
+                entity=entity,
+                administration=administration
+            )
+
+
+def seed_data(self, repeat: int = 1, test: bool = False):
+    entity_form = Forms.objects.filter(
+        form_question_group__question_group_question__extra__type="entity"
+    ).all()
+    for form in entity_form:
+        users = SystemUser.objects.filter(
+            user_access__role=UserRoleTypes.user, user_form__form=form
+        ).all()
+        for user in users:
+            path = "{0}{1}".format(
+                user.user_access.administration.path,
+                user.user_access.administration.id
+            )
+            for adm in Administration.objects.filter(
+                path__startswith=path
+            )[:repeat].all():
+                entity_types = ["School", "Health Care Facilities"]
+                for t in entity_types:
+                    entity, created = Entity.objects.get_or_create(name=t)
+                    name = entity.name if created else t
+                    EntityData.objects.get_or_create(
+                        name=f"{name} - {adm.name}",
+                        administration=adm,
+                        entity=entity
+                    )
 
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument(
-            "-t",
-            "--test",
+            "-t", "--test",
             nargs="?",
             const=False,
             default=False,
             type=bool
         )
         parser.add_argument(
-            "-r",
-            "--repeat",
+            "-r", "--repeat",
             nargs="?",
-            const=3,
-            default=3,
+            const=1,
+            default=1,
             type=int
         )
         parser.add_argument(
-            "-c",
-            "--clean",
+            "-c", "--clean",
             nargs="?",
             const=1,
             default=False,
@@ -86,6 +87,7 @@ class Command(BaseCommand):
             self.stdout.write("-- Entities Cleared")
         else:
             seed_data(self, repeat=repeat, test=test)
+            seed_randomly(repeat=repeat)
         if not test:
             self.stdout.write("-- FINISH")
             call_command("generate_sqlite")

@@ -169,10 +169,10 @@ const uiText = {
     valOrgName: "Organization name is required",
     valOrgAttributes: "Please select an Attributes",
     // Control Center
-    manageDataTitle: "Manage Data",
-    manageDataButton: "Manage Data",
+    manageDataTitle: "Manage Routine Data",
+    manageDataButton: "Manage Routine Data",
     newSubmissionBtn: "Add New Submission",
-    finishSubmissionBtn: "Finish and Go to Manage Data",
+    finishSubmissionBtn: "Finish and Go to Manage Routine Data",
     finishSubmissionBatchBtn: "Finish and Go to Batch",
     noFormText: "No data",
     noFormSelectedText: "No form selected",
@@ -225,6 +225,26 @@ const uiText = {
         This is where you :
         <ul>
           <li>Download administration data</li>
+        </ul>
+      </Fragment>
+    ),
+    EntitiesDataUpload: "Entities Data Upload",
+    dataEntitiesUploadText: (
+      <Fragment>
+        This is where you :
+        <ul>
+          <li>Bulk upload entities data</li>
+        </ul>
+      </Fragment>
+    ),
+    EntitiesDataDownload: "Entities Data Download",
+    EntitiesDownloadPageHint:
+      "Uncheck Prefilled if you only want an upload template",
+    dataEntitiesDownloadText: (
+      <Fragment>
+        This is where you :
+        <ul>
+          <li>Download entities data</li>
         </ul>
       </Fragment>
     ),
@@ -394,6 +414,7 @@ const uiText = {
     formSuccessTitle: "Thank you for the submission",
     administrationUploadSuccessTitle:
       "Administration Data has been Successfully Uploaded",
+    entitiesUploadSuccessTitle: "Entities Data has been Successfully Uploaded",
     formSuccessSubTitle:
       "Do note that this data has NOT been sent for approval. If you are ready to send the submissions for approval, please create a batch and send to the approver",
     formSuccessSubTitleForAdmin:
@@ -459,6 +480,8 @@ const uiText = {
       "If you do not already have a template, please download",
     templateDownloadAdministrationHint:
       "If you do not already have a template, please ",
+    templateDownloadEntityHint:
+      "If you do not already have an entity template, please ",
     downloadHere: "download here",
     uploading: "Uploading..",
     dropFile: "Drop your file here",
@@ -694,7 +717,7 @@ const uiText = {
     questionCol: "Question",
     responseCol: "Response",
     lastResponseCol: "Last Response",
-    backManageData: "Back to Manage data",
+    backManageData: "Back to Manage Routine Data",
     monitoringDataTitle: "Monitoring data",
     monitoringDataDescription: (
       <Fragment>
@@ -726,6 +749,24 @@ const uiText = {
     selectSubCounty: "Select Sub-county",
     selectCertification: "Select certification",
     certificationList: "Certification list",
+    ManageCertificationDataTitle: "Manage Certification Data",
+    CertificationDetailTitle: "Certification Detail",
+    ManageCertificationDataText: (
+      <Fragment>This is where you can view certification data</Fragment>
+    ),
+    CertificationDetailText: (
+      <Fragment>This is where you can view certification detail</Fragment>
+    ),
+    backManageCertificationData: "Back to Manage Certification Data",
+    ManageVerificationDataTitle: "Manage Verification Data",
+    VerificationDetailTitle: "Verification Detail",
+    ManageVerificationDataText: (
+      <Fragment>This is where you can view verification data</Fragment>
+    ),
+    VerificationDetailText: (
+      <Fragment>This is where you can view verification detail</Fragment>
+    ),
+    backManageVerification: "Back to Manage Verification Data",
   },
 
   de: {},

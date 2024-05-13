@@ -1,7 +1,8 @@
 import * as Yup from 'yup';
-import { i18n } from '../../lib';
+import { helpers, i18n } from '../../lib';
+import { SUBMISSION_TYPES } from '../../lib/constants';
 
-const intersection = (array1, array2) => {
+export const intersection = (array1, array2) => {
   const set1 = new Set(array1);
   const result = [];
   // eslint-disable-next-line no-restricted-syntax
@@ -46,7 +47,7 @@ export const transformForm = (
   forms,
   currentValues,
   lang = 'en',
-  submissionType = 'registration',
+  submissionType = SUBMISSION_TYPES.registration,
 ) => {
   const nonEnglish = lang !== 'en';
   const currentForm = nonEnglish ? i18n.transform(lang, forms) : forms;
@@ -71,13 +72,19 @@ export const transformForm = (
       }
       return q;
     });
-  const filteredQuestions = questions.map((q) => {
-    const disabled = q?.disabled ? q.disabled?.submission_type?.includes(submissionType) : false;
-    return {
-      ...q,
-      disabled,
-    };
-  });
+  const filteredQuestions = questions
+    .map((q) => {
+      const subTypeName = helpers.flipObject(SUBMISSION_TYPES)?.[submissionType];
+      const disabled = q?.disabled ? q.disabled?.submission_type?.includes(subTypeName) : false;
+      // handle hidden question
+      const hidden = q?.hidden ? q.hidden?.submission_type?.includes(subTypeName) : false;
+      return {
+        ...q,
+        disabled,
+        hidden,
+      };
+    })
+    .filter((q) => !q?.hidden); // remove hidden question from question lists
 
   const transformed = filteredQuestions.map((x) => {
     let requiredSignTemp = x?.requiredSign || null;
@@ -163,7 +170,8 @@ export const validateDependency = (dependency, value) => {
 };
 
 export const generateValidationSchemaFieldLevel = async (currentValue, field) => {
-  const { label, type, required, rule, hidden } = field;
+  const { label, type, required, rule } = field;
+  const requiredError = `${label} is required.`;
   let yupType;
   switch (type) {
     case 'number':
@@ -181,13 +189,23 @@ export const generateValidationSchemaFieldLevel = async (currentValue, field) =>
       }
       break;
     case 'date':
-      yupType = Yup.date();
+      if (currentValue === '') {
+        yupType = Yup.string();
+      } else {
+        yupType = Yup.date();
+      }
       break;
     case 'option':
-      yupType = Yup.array();
+      yupType = Yup.array().nullable();
+      if (required) {
+        yupType = Yup.array().min(1, requiredError);
+      }
       break;
     case 'multiple_option':
-      yupType = Yup.array();
+      yupType = Yup.array().nullable();
+      if (required) {
+        yupType = Yup.array().min(1, requiredError);
+      }
       break;
     case 'cascade':
       yupType = Yup.array();
@@ -199,8 +217,7 @@ export const generateValidationSchemaFieldLevel = async (currentValue, field) =>
       yupType = Yup.string();
       break;
   }
-  if (required && !hidden) {
-    const requiredError = `${label} is required.`;
+  if (required) {
     yupType = yupType.required(requiredError);
   }
   try {
@@ -226,12 +243,17 @@ export const generateDataPointName = (forms, currentValues, cascades = {}) => {
           return { id: q.id, type: q.type, value };
         })
     : [];
-
+  const geoQuestion = forms?.question_group
+    ?.flatMap((qg) => qg?.question)
+    ?.find((q) => q?.type === 'geo');
   const dpName = dataPointNameValues
     .filter((d) => d.type !== 'geo' && (d.value || d.value === 0))
     .map((x) => x.value)
     .join(' - ');
-  const [lat, lng] = dataPointNameValues.find((d) => d.type === 'geo')?.value || [];
+  const [lat, lng] =
+    dataPointNameValues.find((d) => d.type === 'geo')?.value ||
+    currentValues?.[geoQuestion?.id] ||
+    [];
   const dpGeo = lat && lng ? `${lat}|${lng}` : null;
   return { dpName, dpGeo };
 };
@@ -250,7 +272,14 @@ export const getDurationInMinutes = (startTime) => {
 const transformValue = (question, value, prefilled = []) => {
   const findPrefilled = prefilled.find((p) => p?.id === question?.id);
   const defaultEmpty = ['multiple_option', 'option'].includes(question?.type) ? [] : '';
-  const answer = value || findPrefilled?.answer || defaultEmpty;
+  let answer = defaultEmpty;
+  if (value || value === 0) {
+    answer = value;
+  }
+  if (findPrefilled?.answer) {
+    answer = findPrefilled.answer;
+  }
+
   if (question?.type === 'cascade') {
     return [answer];
   }

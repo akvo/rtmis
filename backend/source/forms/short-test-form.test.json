@@ -14,7 +14,12 @@
       "I approve this data for submission"
     ]
   },
-  "submission_types": ["registration", "monitoring", "verification", "certification"],
+  "submission_types": [
+    "registration",
+    "monitoring",
+    "verification",
+    "certification"
+  ],
   "question_groups": [
     {
       "id": 16993539153821,
@@ -49,6 +54,18 @@
               "order": 2,
               "label": "Update",
               "value": "update"
+            },
+            {
+              "id": 16993543585762,
+              "order": 3,
+              "label": "Verification",
+              "value": "verification"
+            },
+            {
+              "id": 16993543585763,
+              "order": 4,
+              "label": "Certification",
+              "value": "certification"
             }
           ],
           "dependency": null,
@@ -56,7 +73,9 @@
           "default_value": {
             "submission_type": {
               "monitoring": "update",
-              "registration": "new"
+              "registration": "new",
+              "verification": "verification",
+              "certification": "certification"
             }
           }
         },
@@ -72,15 +91,9 @@
           },
           "required": true,
           "meta": false,
-          "dependency": [
-            {
-              "id": 16993542207341,
-              "options": ["new"]
-            }
-          ],
           "fn": null,
           "disabled": {
-            "submission_type": ["monitoring"]
+            "submission_type": ["monitoring", "verification", "certification"]
           }
         },
         {
@@ -92,18 +105,16 @@
           "meta": false,
           "required": false,
           "type": "cascade",
-          "dependency": [
-            {
-              "id": 16993542207341,
-              "options": ["new"]
-            }
-          ],
+          "api": {
+            "endpoint": "/api/v1/entity-data/1/list/"
+          },
           "extra": {
             "type": "entity",
-            "name": "School"
+            "name": "School",
+            "parentId": 16993548493821
           },
           "disabled": {
-            "submission_type": ["monitoring"]
+            "submission_type": ["monitoring", "verification", "certification"]
           }
         },
         {
@@ -115,24 +126,22 @@
           "meta": false,
           "required": false,
           "type": "cascade",
-          "dependency": [
-            {
-              "id": 16993542207341,
-              "options": ["new"]
-            }
-          ],
+          "api": {
+            "endpoint": "/api/v1/entity-data/2/list/"
+          },
           "extra": {
             "type": "entity",
-            "name": "Health Care Facilities"
+            "name": "Health Care Facilities",
+            "parentId": 16993548493821
           },
           "disabled": {
-            "submission_type": ["monitoring"]
+            "submission_type": ["monitoring", "verification", "certification"]
           }
         },
         {
           "id": 17029147539571,
           "order": 5,
-          "name": "geolocation",
+          "name": "hh_geolocation",
           "label": "Geolocation of the household",
           "short_label": "Geolocation",
           "type": "geo",
@@ -140,15 +149,9 @@
           "required": true,
           "meta": true,
           "options": null,
-          "dependency": [
-            {
-              "id": 16993542207341,
-              "options": ["new"]
-            }
-          ],
           "fn": null,
           "disabled": {
-            "submission_type": ["monitoring"]
+            "submission_type": ["monitoring", "verification", "certification"]
           }
         },
         {
@@ -679,49 +682,57 @@
               "id": 16994237147191,
               "order": 1,
               "label": "G0 No toilet",
-              "value": "g0_no_toilet"
+              "value": "g0_no_toilet",
+              "color": "#db3b3b"
             },
             {
               "id": 16994237147201,
               "order": 2,
               "label": "G1 Dry latrine with drophole",
-              "value": "g1_dry_latrine_with_drophole"
+              "value": "g1_dry_latrine_with_drophole",
+              "color": "#38a15a"
             },
             {
               "id": 16994238623071,
               "order": 3,
               "label": "G1 VIP drophole with vent pipe",
-              "value": "g1_vip_drophole_with_vent_pipe"
+              "value": "g1_vip_drophole_with_vent_pipe",
+              "color": "#38a15a"
             },
             {
               "id": 16994238800831,
               "order": 4,
               "label": "G1 SATO pan",
-              "value": "g1_sato_pan"
+              "value": "g1_sato_pan",
+              "color": "#38a15a"
             },
             {
               "id": 16994238922001,
               "order": 5,
               "label": "G1 Flush or pour-flush pan with water seal",
-              "value": "g1_flush_or_pourflush_pan_with_water_seal"
+              "value": "g1_flush_or_pourflush_pan_with_water_seal",
+              "color": "#38a15a"
             },
             {
               "id": 16994239036001,
               "order": 6,
               "label": "G1 Dry toilet with urine-diverting drophole",
-              "value": "g1_dry_toilet_with_urinediverting_drophole"
+              "value": "g1_dry_toilet_with_urinediverting_drophole",
+              "color": "#38a15a"
             },
             {
               "id": 16994239160781,
               "order": 7,
               "label": "G1 Open pipe (no water seal)",
-              "value": "g1_open_pipe_no_water_seal"
+              "value": "g1_open_pipe_no_water_seal",
+              "color": "#38a15a"
             },
             {
               "id": 16994239188661,
               "order": 8,
               "label": "G1 Other toilet interface",
-              "value": "g1_other_toilet_interface"
+              "value": "g1_other_toilet_interface",
+              "color": "#38a15a"
             }
           ],
           "dependency": null,
@@ -1093,6 +1104,83 @@
             "fnString": "#o_r_flyproof_toilet_type#",
             "multiline": false
           }
+        },
+        {
+          "id": 169995172789999,
+          "order": 3,
+          "name": "certification",
+          "label": "Do you certify the community?",
+          "short_label": null,
+          "type": "option",
+          "required": true,
+          "meta": false,
+          "options": [
+            {
+              "id": 1699951727899991,
+              "order": 1,
+              "label": "Yes",
+              "value": "yes",
+              "color": "green"
+            },
+            {
+              "id": 1699951727899992,
+              "order": 2,
+              "label": "No",
+              "value": "no",
+              "color": "red"
+            }
+          ],
+          "hidden": {
+            "submission_type": ["registration", "monitoring"]
+          }
+        },
+        {
+          "id": 17029148103535,
+          "order": 4,
+          "name": "free_required_text",
+          "label": "Free Required Text in last question group",
+          "short_label": "Text Req",
+          "type": "text",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": null,
+          "meta_uuid": false
+        },
+        {
+          "id": 16994198103536,
+          "order": 5,
+          "name": "free_required_number",
+          "label": "Free Required Number in last question group",
+          "short_label": "Number Req",
+          "type": "number",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "fn": null
+        },
+        {
+          "id": 16994198103537,
+          "order": 6,
+          "name": "trigger_date",
+          "label": "Date Triggered",
+          "short_label": null,
+          "meta": false,
+          "type": "date",
+          "required": true
+        },
+        {
+          "id": 16994198103538,
+          "order": 7,
+          "name": "verification_date",
+          "label": "Date Verified",
+          "short_label": null,
+          "meta": false,
+          "type": "date",
+          "required": false,
+          "options": null
         }
       ]
     }

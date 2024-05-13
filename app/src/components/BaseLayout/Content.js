@@ -17,7 +17,11 @@ const Content = ({ children, data, columns, action }) => {
                 onPress={() => action(d?.id)}
                 testID={`card-touchable-${d?.id}`}
               >
-                <Card title={d?.name} subTitles={d?.subtitles} />
+                <Card
+                  title={d?.name}
+                  subTitles={d?.subtitles}
+                  submissionType={d?.submission_type}
+                />
               </TouchableOpacity>
             ) : (
               <View key={d?.id} testID={`card-non-touchable-${d?.id}`}>

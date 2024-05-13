@@ -45,6 +45,12 @@ if [[ "${seed_fake_data}" == 'y' || "${seed_fake_data}" == 'Y' ]]; then
     python manage.py fake_data_seeder
 fi
 
+echo "Seed Fake Data Claim? [y/n]"
+read -r seed_fake_data_claim
+if [[ "${seed_fake_data_claim}" == 'y' || "${seed_fake_data_claim}" == 'Y' ]]; then
+    python manage.py fake_data_claim_seeder
+fi
+
 echo "Seed Organisation? [y/n]"
 read -r seed_organization
 if [[ "${seed_organization}" == 'y' || "${seed_organization}" == 'Y' ]]; then
@@ -55,6 +61,12 @@ echo "Seed Entities? [y/n]"
 read -r seed_entities
 if [[ "${seed_entities}" == 'y' || "${seed_entities}" == 'Y' ]]; then
     python manage.py entities_seeder
+fi
+
+echo "Seed Administration Attribute? [y/n]"
+read -r seed_administration_attribute
+if [[ "${seed_administration_attribute}" == 'y' || "${seed_administration_attribute}" == 'Y' ]]; then
+    python manage.py administration_attribute_seeder
 fi
 
 python manage.py generate_sqlite

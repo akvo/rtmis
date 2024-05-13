@@ -10,6 +10,6 @@ class EntitiesSeederTestCase(TestCase):
 
     def test_entities_seeder_test(self):
         call_command("administration_seeder", "--test")
-        call_command("entities_seeder", "-r", 1, "-t", True)
+        call_command("entities_seeder", "-r", 1, "--test", True)
         entities = EntityData.objects.all()
         self.assertEqual(entities.count(), 2)

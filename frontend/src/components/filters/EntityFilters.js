@@ -2,12 +2,15 @@ import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Button, Col, Input, Row, Space } from "antd";
 import { store, uiText } from "../../lib";
-import debounce from "lodash.debounce";
 import { PlusOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
 
-const EntityFilters = ({ onSearchChange = () => {} }) => {
+const EntityFilters = ({
+  onChange = () => {},
+  onSearchChange = () => {},
+  search = null,
+}) => {
   const authUser = store.useState((s) => s.user);
   const language = store.useState((s) => s.language);
   const { active: activeLang } = language;
@@ -15,18 +18,17 @@ const EntityFilters = ({ onSearchChange = () => {} }) => {
     return uiText[activeLang];
   }, [activeLang]);
 
-  const handleChange = debounce(onSearchChange, 300);
-
   return (
     <Row>
       <Col flex={1}>
         <Space>
           <Search
             placeholder={text.searchEntityType}
-            onChange={({ target }) => handleChange(target.value)}
+            onChange={({ target }) => onChange(target.value)}
             onSearch={(value) => onSearchChange(value)}
             style={{ width: 240 }}
             allowClear
+            value={search}
           />
         </Space>
       </Col>

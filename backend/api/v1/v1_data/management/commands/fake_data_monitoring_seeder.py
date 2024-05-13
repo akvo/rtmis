@@ -10,13 +10,13 @@ from api.v1.v1_data.models import (
     FormData,
     PendingFormData,
     PendingDataBatch,
-    PendingDataApproval
+    PendingDataApproval,
 )
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_forms.models import UserForms, FormApprovalAssignment
 from api.v1.v1_forms.constants import FormTypes
 from api.v1.v1_data.management.commands.fake_data_seeder import (
-    add_fake_answers
+    add_fake_answers,
 )
 from api.v1.v1_profile.models import Administration, Levels
 from api.v1.v1_data.functions import refresh_materialized_data
@@ -53,12 +53,16 @@ def seed_data(form, user, administrations, repeat, approved):
     pendings = []
     for index in range(repeat):
         selected_adm = random.choice(administrations)
-        datapoint = FormData.objects.filter(
-            administration=selected_adm,
-            created_by_id=user.id,
-            form_id=form.id,
-            parent=None,
-        ).order_by('?').first()
+        datapoint = (
+            FormData.objects.filter(
+                administration=selected_adm,
+                created_by_id=user.id,
+                form_id=form.id,
+                parent=None,
+            )
+            .order_by("?")
+            .first()
+        )
         if not datapoint:
             datapoint = create_new_endpoint(index, form, selected_adm, user)
         adm_name = datapoint.administration.name
@@ -72,53 +76,51 @@ def seed_data(form, user, administrations, repeat, approved):
             created_by=user,
         )
         add_fake_answers(
-            pending_data,
-            form_type=FormTypes.county,
-            pending=True
+            pending_data, form_type=FormTypes.county, pending=True
         )
         pendings.append(pending_data)
     pending_items = [
-        {
-            'administration_id': pending.administration.id,
-            'instance': pending
-        }
+        {"administration_id": pending.administration.id, "instance": pending}
         for pending in pendings
     ]
     df = pd.DataFrame(pending_items)
-    grouped_data = df.groupby(['administration_id']) \
-        .apply(lambda x: x.to_dict('records'))
+    grouped_data = df.groupby(["administration_id"]).apply(
+        lambda x: x.to_dict("records")
+    )
     for administration_id, items in grouped_data.items():
         [dp] = items[:1]
         batch_name = fake.sentence(nb_words=3)
         approved_value = fake.pybool() if not approved else approved
         batch = PendingDataBatch.objects.create(
-            form=dp['instance'].form,
-            administration=dp['instance'].administration,
-            user=dp['instance'].created_by,
+            form=dp["instance"].form,
+            administration=dp["instance"].administration,
+            user=dp["instance"].created_by,
             name=f"{batch_name}-{administration_id}",
             approved=approved_value,
         )
-        batch_items = [i['instance'] for i in items]
+        batch_items = [i["instance"] for i in items]
         batch.batch_pending_data_batch.add(*batch_items)
         path = "{0}{1}".format(
             user.user_access.administration.path,
-            user.user_access.administration_id
+            user.user_access.administration_id,
         )
         parent_adms = Administration.objects.filter(id__in=path.split("."))
         for adm in parent_adms:
             assignment = FormApprovalAssignment.objects.filter(
-                form_id=form.id,
-                administration=adm
+                form_id=form.id, administration=adm
             ).first()
             if assignment:
                 level = assignment.user.user_access.administration.level_id
-                approval_status = DataApprovalStatus.approved \
-                    if batch.approved else DataApprovalStatus.pending
+                approval_status = (
+                    DataApprovalStatus.approved
+                    if batch.approved
+                    else DataApprovalStatus.pending
+                )
                 PendingDataApproval.objects.create(
                     batch=batch,
                     user=assignment.user,
                     level_id=level,
-                    status=approval_status
+                    status=approval_status,
                 )
         if batch.approved:
             for pending in batch.batch_pending_data_batch.all():
@@ -127,42 +129,43 @@ def seed_data(form, user, administrations, repeat, approved):
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
-        parser.add_argument("-r",
-                            "--repeat",
-                            nargs="?",
-                            const=20,
-                            default=20,
-                            type=int)
-        parser.add_argument("-t",
-                            "--test",
-                            nargs="?",
-                            const=False,
-                            default=False,
-                            type=bool)
-        parser.add_argument("-a",
-                            "--approved",
-                            nargs="?",
-                            const=False,
-                            default=False,
-                            type=bool)
+        parser.add_argument(
+            "-r", "--repeat", nargs="?", const=20, default=20, type=int
+        )
+        parser.add_argument(
+            "-t", "--test", nargs="?", const=False, default=False, type=bool
+        )
+        parser.add_argument(
+            "-a",
+            "--approved",
+            nargs="?",
+            const=False,
+            default=False,
+            type=bool,
+        )
 
     def handle(self, *args, **options):
         test = options.get("test")
         repeat = options.get("repeat")
         approved = options.get("approved")
-        lowest_level = Levels.objects.order_by('-id').first()
-        user = SystemUser.objects.filter(
-            user_access__role=UserRoleTypes.user,
-            user_access__administration__level_id__gte=lowest_level.id - 1
-        )\
-            .order_by('?').first()
+        lowest_level = Levels.objects.order_by("-id").first()
+        user = (
+            SystemUser.objects.filter(
+                user_access__role=UserRoleTypes.user,
+                user_access__administration__level_id__gte=lowest_level.id - 1,
+            )
+            .order_by("?")
+            .first()
+        )
         if user:
             ward_id = user.user_access.administration.id
             if lowest_level.id == user.user_access.administration.level.id:
-                parent = list(filter(
-                    lambda p: p,
-                    user.user_access.administration.path.split(".")
-                ))[-1]
+                parent = list(
+                    filter(
+                        lambda p: p,
+                        user.user_access.administration.path.split("."),
+                    )
+                )[-1]
                 ward_id = parent
                 user.user_access.administration_id = parent
                 user.user_access.save()
@@ -176,10 +179,6 @@ class Command(BaseCommand):
                 if not test:
                     print(f"\nSeeding - {user_form.form.name}")
                 seed_data(
-                    user_form.form,
-                    user,
-                    administrations,
-                    repeat,
-                    approved
+                    user_form.form, user, administrations, repeat, approved
                 )
             refresh_materialized_data()

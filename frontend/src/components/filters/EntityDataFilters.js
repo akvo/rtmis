@@ -4,8 +4,11 @@ import { Button, Col, Input, Row, Select, Space } from "antd";
 import RemoveFiltersButton from "./RemoveFiltersButton";
 import AdministrationDropdown from "./AdministrationDropdown";
 import { api, store, uiText } from "../../lib";
-import debounce from "lodash.debounce";
-import { DownloadOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  DownloadOutlined,
+  PlusOutlined,
+  UploadOutlined,
+} from "@ant-design/icons";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -15,6 +18,9 @@ const EntityDataFilters = ({
   onSearchChange = () => {},
   onEntityTypeChange = () => {},
   onDownload = () => {},
+  onChange = () => {},
+  search = null,
+  entityType = null,
 }) => {
   const [preload, setPreload] = useState(true);
   const [page, setPage] = useState(1);
@@ -28,8 +34,6 @@ const EntityDataFilters = ({
   const text = useMemo(() => {
     return uiText[activeLang];
   }, [activeLang]);
-
-  const handleChange = debounce(onSearchChange, 300);
 
   const fetchEntityTypes = useCallback(async () => {
     if (entityTypes.length && preload) {
@@ -68,10 +72,11 @@ const EntityDataFilters = ({
         <Space>
           <Search
             placeholder={text.searchEntity}
-            onChange={({ target }) => handleChange(target.value)}
+            onChange={({ target }) => onChange(target.value)}
             onSearch={(value) => onSearchChange(value)}
             style={{ width: 240 }}
             allowClear
+            value={search}
           />
           <Select
             placeholder={text.entityTypes}
@@ -79,6 +84,7 @@ const EntityDataFilters = ({
             onChange={(value) => onEntityTypeChange(value)}
             allowClear
             mode="multiple"
+            value={entityType}
           >
             {entityTypes.map((type, tx) => {
               return (
@@ -88,10 +94,18 @@ const EntityDataFilters = ({
               );
             })}
           </Select>
-          <AdministrationDropdown loading={loading} />
+          <AdministrationDropdown
+            loading={loading}
+            persist={search ? false : true}
+          />
           <RemoveFiltersButton
             extra={(s) => {
-              s.filters = { trained: null, role: null, organisation: null };
+              s.filters = {
+                trained: null,
+                role: null,
+                organisation: null,
+                entityType: [],
+              };
             }}
           />
         </Space>
@@ -106,6 +120,11 @@ const EntityDataFilters = ({
             >
               {text.download}
             </Button>
+            <Link to="/control-center/master-data/entities/upload">
+              <Button icon={<UploadOutlined />} shape="round">
+                {text.bulkUploadButton}
+              </Button>
+            </Link>
             <Link to="/control-center/master-data/entities/add">
               <Button type="primary" icon={<PlusOutlined />} shape="round">
                 {text.addEntityData}

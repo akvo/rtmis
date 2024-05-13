@@ -45,7 +45,7 @@ const EditableCell = ({
           : newValue
       );
       setOldValue(
-        record.type === "date"
+        record?.lastValue && record.type === "date"
           ? moment(record.lastValue).format("YYYY-MM-DD")
           : record.type === "geo"
           ? record?.lastValue?.join(", ")
@@ -131,7 +131,7 @@ const EditableCell = ({
           ? record?.option?.find((o) => o.value === value[0])?.label || "-"
           : "-";
       default:
-        return value || "-";
+        return value || value === 0 ? value : "-";
     }
   };
 
@@ -151,7 +151,7 @@ const EditableCell = ({
           ? record?.option?.find((o) => o.value === oldValue[0])?.label || "-"
           : "-";
       default:
-        return oldValue || "-";
+        return oldValue || oldValue === 0 ? oldValue : "-";
     }
   };
 
@@ -293,8 +293,8 @@ EditableCell.propTypes = {
     newValue: PropTypes.any,
   }),
   parentId: PropTypes.number.isRequired,
-  updateCell: PropTypes.func.isRequired,
-  resetCell: PropTypes.func.isRequired,
+  updateCell: PropTypes.func,
+  resetCell: PropTypes.func,
   pendingData: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,

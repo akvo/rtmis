@@ -1,6 +1,10 @@
 from django.utils import timezone
-from api.v1.v1_data.models import FormData, Answers, \
-    PendingAnswers, AnswerHistory
+from api.v1.v1_data.models import (
+    FormData,
+    Answers,
+    PendingAnswers,
+    AnswerHistory,
+)
 from api.v1.v1_forms.constants import SubmissionTypes
 
 
@@ -8,8 +12,10 @@ def seed_approved_data(data):
     parent_data = FormData.objects.filter(
         form=data.form,
         uuid=data.uuid,
-        parent=None,
+        parent__isnull=True,
     ).first()
+    # only registration data will be updated
+    # if data.data and data.submission_type == SubmissionTypes.registration:
     if data.data:
         form_data: FormData = data.data
         form_data.parent = parent_data
@@ -24,15 +30,18 @@ def seed_approved_data(data):
         form_data.save()
 
         for answer in data.pending_data_answer.all():
-            form_answer = Answers.objects.get(data=form_data,
-                                              question=answer.question)
+            form_answer = Answers.objects.get(
+                data=form_data, question=answer.question
+            )
 
-            AnswerHistory.objects.create(data=form_answer.data,
-                                         question=form_answer.question,
-                                         name=form_answer.name,
-                                         value=form_answer.value,
-                                         options=form_answer.options,
-                                         created_by=form_answer.created_by)
+            AnswerHistory.objects.create(
+                data=form_answer.data,
+                question=form_answer.question,
+                name=form_answer.name,
+                value=form_answer.value,
+                options=form_answer.options,
+                created_by=form_answer.created_by,
+            )
             form_answer.delete()
     else:
         form_data = FormData.objects.create(
@@ -63,6 +72,6 @@ def seed_approved_data(data):
 
     if form_data.submission_type in [
         SubmissionTypes.registration,
-        SubmissionTypes.monitoring
+        SubmissionTypes.monitoring,
     ]:
         form_data.save_to_file

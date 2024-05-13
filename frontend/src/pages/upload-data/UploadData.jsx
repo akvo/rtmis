@@ -62,7 +62,9 @@ const UploadData = () => {
   const exportGenerate = () => {
     const adm_id = takeRight(administration, 1)[0]?.id;
     api
-      .get(`download/generate?form_id=${formId}&administration_id=${adm_id}`)
+      .get(
+        `download/generate?form_id=${formId}&type=recent&administration_id=${adm_id}`
+      )
       .then(() => {
         notify({
           type: "success",

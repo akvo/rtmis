@@ -19,32 +19,9 @@
           "label": "County",
           "name": "County",
           "order": 1,
-          "type": "option",
-          "required": false,
-          "meta": true,
-          "options": [
-            {
-              "order": 1,
-              "label": "Kitui",
-              "value": "Kitui",
-              "color": null,
-              "id": 1709689698836
-            },
-            {
-              "order": 2,
-              "label": "Turkana",
-              "value": "Turkana",
-              "color": null,
-              "id": 1709689698907
-            },
-            {
-              "order": 3,
-              "label": "Homa Bay",
-              "value": "Homa Bay",
-              "color": null,
-              "id": 1709689751685
-            }
-          ]
+          "type": "administration",
+          "required": true,
+          "meta": true
         }
       ]
     },
@@ -84,63 +61,184 @@
           ]
         },
         {
-          "id": 1709697167940,
-          "label": "Are regulations, standards or guidelines in place for:",
-          "name": "regulations_standards_guidelines",
+          "id": 1714374463,
+          "label": "Are regulations, standards or guidelines in place for: Minimum requirements for toilets (e.g. planning or building regulations)",
+          "name": "minimum_requirements_toilets",
           "order": 2,
           "questionGroupId": 1709689683441,
-          "type": "multiple_option",
+          "type": "option",
           "required": false,
           "meta": false,
           "options": [
             {
               "order": 1,
-              "label": "1. Minimum requirements for toilets (e.g. planning or building regulations)",
-              "value": "min_req_toilets",
+              "label": "Yes",
+              "value": "yes",
+              "color": null,
+              "id": 1714374857
+            },
+            {
+              "order": 2,
+              "label": "No",
+              "value": "no",
+              "color": null,
+              "id": 1714374869
+            }
+          ]
+        },
+        {
+          "id": 1714374520,
+          "label": "Are regulations, standards or guidelines in place for: Minimum requirements for containment and on-site treatment",
+          "name": "minimum_requirements_containment_and_onsite_treatment",
+          "order": 3,
+          "questionGroupId": 1709689683441,
+          "type": "option",
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "order": 1,
+              "label": "Yes",
+              "value": "yes",
+              "color": null,
+              "id": 1714374905
+            },
+            {
+              "order": 2,
+              "label": "No",
+              "value": "no",
+              "color": null,
+              "id": 1714374917
+            }
+          ]
+        },
+        {
+          "id": 1714374534,
+          "label": "Are regulations, standards or guidelines in place for: Minimum requirements for emptying and conveyance (sewer networks)",
+          "name": "minimum_requirements_emptying_conveyance_sewer_networks",
+          "order": 4,
+          "questionGroupId": 1709689683441,
+          "type": "option",
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "order": 1,
+              "label": "Yes",
+              "value": "yes",
               "color": null,
               "id": 1709689765463
             },
             {
               "order": 2,
-              "label": "2. Minimum requirements for containment and on-site treatment",
-              "value": "min_req_containment_treatment",
+              "label": "No",
+              "value": "no",
               "color": null,
               "id": 1709689702875
+            }
+          ]
+        },
+        {
+          "id": 1714374554,
+          "label": "Are regulations, standards or guidelines in place for: Minimum requirements for emptying and conveyance (licensing of service providers)",
+          "name": "minimum_requirements_emptying_conveyance_licensing_service_providers",
+          "order": 5,
+          "questionGroupId": 1709689683441,
+          "type": "option",
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "order": 1,
+              "label": "Yes",
+              "value": "yes",
+              "color": null,
+              "id": 1714375340
             },
             {
-              "order": 3,
-              "label": "3. Minimum requirements for emptying and conveyance (sewer networks)",
-              "value": "min_req_emptying_conveyance",
+              "order": 2,
+              "label": "No",
+              "value": "no",
               "color": null,
-              "id": 1709689702896
+              "id": 1714375354
+            }
+          ]
+        },
+        {
+          "id": 1714374568,
+          "label": "Are regulations, standards or guidelines in place for: Faecal sludge or wastewater treatment",
+          "name": "faecal_sludge_wastewater_treatment",
+          "order": 6,
+          "questionGroupId": 1709689683441,
+          "type": "option",
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "order": 1,
+              "label": "Yes",
+              "value": "yes",
+              "color": null,
+              "id": 1714375368
             },
             {
-              "order": 4,
-              "label": "4. Minimum requirements for emptying and conveyance (licensing of service providers)",
-              "value": "min_req_licensing_service_providers",
+              "order": 2,
+              "label": "No",
+              "value": "no",
               "color": null,
-              "id": 1709689702915
+              "id": 1714375561
+            }
+          ]
+        },
+        {
+          "id": 1714374583,
+          "label": "Are regulations, standards or guidelines in place for: Safe use of treated wastewater and/or sludge",
+          "name": "safe_use_treated_wastewater_sludge",
+          "order": 7,
+          "questionGroupId": 1709689683441,
+          "type": "option",
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "order": 1,
+              "label": "Yes",
+              "value": "yes",
+              "color": null,
+              "id": 1714375577
             },
             {
-              "order": 5,
-              "label": "5. Faecal sludge or wastewater treatment",
-              "value": "faecal_sludge_wastewater_treatment",
+              "order": 2,
+              "label": "No",
+              "value": "no",
               "color": null,
-              "id": 1709689702939
+              "id": 1714375588
+            }
+          ]
+        },
+        {
+          "id": 1714374596,
+          "label": "Are regulations, standards or guidelines in place for: Safety of sanitation workers?",
+          "name": "safety_sanitation_workers",
+          "order": 8,
+          "questionGroupId": 1709689683441,
+          "type": "option",
+          "required": false,
+          "meta": false,
+          "options": [
+            {
+              "order": 1,
+              "label": "Yes",
+              "value": "yes",
+              "color": null,
+              "id": 1714375603
             },
             {
-              "order": 6,
-              "label": "6. Safe use of treated wastewater and/or sludge",
-              "value": "safe_use_treated_wastewater_sludge",
+              "order": 2,
+              "label": "No",
+              "value": "no",
               "color": null,
-              "id": 1709689765474
-            },
-            {
-              "order": 7,
-              "label": "7. Safety of sanitation workers?",
-              "value": "safety_sanitation_workers",
-              "color": null,
-              "id": 1709689765476
+              "id": 1714375615
             }
           ]
         },
@@ -148,7 +246,7 @@
           "id": 1709698055520,
           "label": "Sanitation safety plans used for local-level risk management",
           "name": "sanitation_safety_plans",
-          "order": 3,
+          "order": 9,
           "questionGroupId": 1709689683441,
           "type": "option",
           "required": false,
@@ -174,7 +272,7 @@
           "id": 1709698095513,
           "label": "Climate resilience considered in sanitation policies and plans",
           "name": "climate_resilience_sanitation",
-          "order": 4,
+          "order": 10,
           "questionGroupId": 1709689683441,
           "type": "option",
           "required": false,
@@ -200,7 +298,7 @@
           "id": 1709698133970,
           "label": "Measures to reach vulnerable populations in county policies and plans",
           "name": "measures_reach_vulnerable_populations",
-          "order": 5,
+          "order": 11,
           "questionGroupId": 1709689683441,
           "type": "option",
           "required": false,
@@ -396,7 +494,7 @@
       "questions": [
         {
           "id": 1709698674760,
-          "label": "What is the budget required for sanitation and hygiene",
+          "label": "What is the annual budget REQUIRED for sanitation and hygiene (KES amount from costed roadmap)?",
           "name": "budget_required_sanitation_hygiene",
           "order": 1,
           "questionGroupId": 1709698674762,
@@ -410,7 +508,7 @@
         },
         {
           "id": 1709698674764,
-          "label": "Budget allocated to sanitation and hygiene in last financial year",
+          "label": "Budget ALLOCATED to sanitation and hygiene in last financial year (KES amount)?",
           "name": "budget_allocation_sanitation_hygiene",
           "order": 2,
           "questionGroupId": 1709698674762,
@@ -425,7 +523,7 @@
         },
         {
           "id": 1719698674764,
-          "label": "Percentage of required",
+          "label": "Percentage of required sanitation and hygiene budget ALLOCATED in last financial year (%)",
           "name": "budget_allocation_percentage",
           "order": 3,
           "questionGroupId": 1709698674762,
@@ -442,7 +540,7 @@
         },
         {
           "id": 1709698888801,
-          "label": "Budget utilised for sanitation and hygiene in last financial year",
+          "label": "Budget UTILISED for sanitation and hygiene in last financial year (KES amount)?",
           "name": "budget_util_sanitation_hygiene",
           "order": 4,
           "questionGroupId": 1709698674762,
@@ -457,7 +555,7 @@
         },
         {
           "id": 1719698888801,
-          "label": "Percentage of required",
+          "label": "Percentage of required sanitation and hygiene budget UTILISED in last financial year (%)",
           "name": "budget_utilization_percentage",
           "order": 5,
           "questionGroupId": 1709698674762,
@@ -474,22 +572,23 @@
         },
         {
           "id": 1709698891681,
-          "label": "Funding gap for sanitation and hygiene",
+          "label": "Annual funding gap for sanitation and hygiene (KES amount)",
           "name": "funding_gap_sanitation_hygiene",
           "order": 6,
           "questionGroupId": 1709698674762,
-          "type": "number",
+          "type": "autofield",
           "required": true,
           "meta": false,
-          "rule": {
-            "min": 0,
-            "allowDecimal": true
+          "fn": {
+            "fnColor": {},
+            "fnString": "#budget_required_sanitation_hygiene# - #budget_allocation_sanitation_hygiene#",
+            "multiline": false
           },
           "options": []
         },
         {
           "id": 1719698891681,
-          "label": "Percentage of required",
+          "label": "Percentage annual funding gap for sanitation and hygiene (%)",
           "name": "funding_gap_percentage",
           "order": 7,
           "questionGroupId": 1709698674762,
@@ -524,6 +623,9 @@
           "type": "number",
           "required": true,
           "meta": false,
+          "tooltip": {
+            "text": "G0 communities: communities who have not achieved the G1 ODF outcomes"
+          },
           "rule": {
             "allowDecimal": true
           },
@@ -538,6 +640,9 @@
           "type": "number",
           "required": true,
           "meta": false,
+          "tooltip": {
+            "text": "Supported by implementation partners: a government department or development partner is supporting implementation to achieve G1 outcomes"
+          },
           "rule": {
             "allowDecimal": true
           },
@@ -569,6 +674,9 @@
           "type": "number",
           "required": true,
           "meta": false,
+          "tooltip": {
+            "text": "G1 communities: communities certified as G1 communities who have not achieved the G2 Safe & Sustainable outcomes"
+          },
           "rule": {
             "allowDecimal": true
           },
@@ -583,6 +691,9 @@
           "type": "number",
           "required": false,
           "meta": false,
+          "tooltip": {
+            "text": "Supported by implementation partners: a government department or development partner is supporting implementation to achieve G2 outcomes"
+          },
           "rule": {
             "allowDecimal": true
           },
@@ -614,6 +725,9 @@
           "type": "number",
           "required": true,
           "meta": false,
+          "tooltip": {
+            "text": "G2 communities: communities certified as G2 communities who have not achieved the G3 Clean & Healthy outcomes"
+          },
           "rule": {
             "allowDecimal": true
           },
@@ -628,6 +742,9 @@
           "type": "number",
           "required": true,
           "meta": false,
+          "tooltip": {
+            "text": "Supported by implementation partners: a government department or development partner is supporting implementation to achieve G3 outcomes"
+          },
           "rule": {
             "allowDecimal": true
           },
@@ -671,41 +788,41 @@
           "required": true,
           "meta": false,
           "tooltip": {
-            "text": "Where 1 is very low and 5 is very high"
+            "text": "Participation: involvement of individuals and communities in processes to plan, implement and monitor sanitation and hygiene services"
           },
           "options": [
             {
               "order": 1,
               "label": "1. Very low",
-              "value": "1",
+              "value": "1_very_low",
               "color": null,
               "id": 1709689766927
             },
             {
               "order": 2,
               "label": "2. Low",
-              "value": "2",
+              "value": "2_low",
               "color": null,
               "id": 1709689717537
             },
             {
               "order": 3,
               "label": "3. Middle",
-              "value": "3",
+              "value": "3_middle",
               "color": null,
               "id": 1709689766934
             },
             {
               "order": 4,
               "label": "4. High",
-              "value": "4",
+              "value": "4_high",
               "color": null,
               "id": 1709689717583
             },
             {
               "order": 5,
               "label": "5. Very high",
-              "value": "5",
+              "value": "5_very_high",
               "color": null,
               "id": 1709689717604
             }
@@ -721,7 +838,7 @@
           "required": true,
           "meta": false,
           "tooltip": {
-            "text": "Where 1 is very low and 5 is very high"
+            "text": "Participation: involvement of women in processes to plan, implement and monitor sanitation and hygiene services"
           },
           "options": [
             {
@@ -770,7 +887,9 @@
           "type": "option",
           "required": true,
           "meta": false,
-          "tooltip": null,
+          "tooltip": {
+            "text": "Sufficient government budget and resources: adequate to support participation of users and communities in the planning, implementation and monitoring of sanitation and hygiene services"
+          },
           "options": [
             {
               "order": 1,
@@ -822,6 +941,9 @@
           "type": "option",
           "required": true,
           "meta": false,
+          "tooltip": {
+            "text": "Monitoring data: information on progress and status of sanitation and hygiene services"
+          },
           "options": [
             {
               "order": 1,
@@ -854,6 +976,49 @@
           ]
         },
         {
+          "id": 1714379034,
+          "label": "Monitoring data for sanitation & hygiene: disaggregated data on challenging contexts",
+          "name": "monitoring_data_sanitation_hygiene_disaggregated_data",
+          "order": 2,
+          "questionGroupId": 1709699651611,
+          "type": "option",
+          "required": true,
+          "meta": false,
+          "tooltip": {
+            "text": "Challenging contexts: people who live in remote or hard to reach areas, slums or informal settlements, internally displaced persons and residents of refugee camps, affected by emergencies/disasters/conflicts, and other challenging settings"
+          },
+          "options": [
+            {
+              "order": 1,
+              "label": "Data not available",
+              "value": "data_not_available",
+              "color": "#d0021b",
+              "id": 1714379047
+            },
+            {
+              "order": 2,
+              "label": "Data not used",
+              "value": "data_not_used",
+              "color": "#f5a623",
+              "id": 1714379062
+            },
+            {
+              "order": 3,
+              "label": "Data used for minority",
+              "value": "data_used_for_minority",
+              "color": "#7ed321",
+              "id": 1714379073
+            },
+            {
+              "order": 4,
+              "label": "Data used for majority",
+              "value": "data_used_for_majority",
+              "color": "#417505",
+              "id": 1714379083
+            }
+          ]
+        },
+        {
           "id": 1709699787978,
           "label": "Monitoring data for sanitation & hygiene: disaggregated data available on challenging contexts",
           "name": "monitoring_data_disaggregated_challenging_contexts",
@@ -862,6 +1027,9 @@
           "type": "option",
           "required": true,
           "meta": false,
+          "tooltip": {
+            "text": "Vulnerable and marginalised groups: people living in poverty, women and girls, people living with disabilities, elderly populations, indigenous populations, populations affected by climate change, and other at-risk populations"
+          },
           "options": [
             {
               "order": 1,

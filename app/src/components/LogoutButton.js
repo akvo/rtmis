@@ -31,6 +31,7 @@ const LogoutButton = () => {
       s.id = null;
       s.name = null;
       s.password = '';
+      s.certifications = [];
     });
     setLoading(false);
     setVisible(false);

@@ -8,6 +8,7 @@ import crudDataPoints from '../../database/crud/crud-datapoints';
 import { backgroundTask } from '../../lib';
 import { FormState, UIState } from '../../store';
 import api from '../../lib/api';
+import { SUBMISSION_TYPES } from '../../lib/constants';
 
 global.FormData = require('react-native/Libraries/Network/FormData');
 
@@ -20,6 +21,9 @@ jest.mock('axios', () => ({
 }));
 jest.mock('expo-font');
 jest.mock('expo-asset');
+jest.mock('expo-network', () => ({
+  getNetworkStateAsync: jest.fn(() => Promise.resolve({ type: 'CELLULAR' })),
+}));
 
 describe('FormDataPage', () => {
   beforeAll(() => {
@@ -194,7 +198,7 @@ describe('FormDataPage', () => {
         duration: 145,
         syncedAt: null,
         submitted: 0,
-        submission_type: 'registration',
+        submission_type: SUBMISSION_TYPES.registration,
       },
     ];
     crudDataPoints.selectDataPointsByFormAndSubmitted.mockResolvedValue(mockData);
@@ -210,7 +214,7 @@ describe('FormDataPage', () => {
       ...mockRoute.params,
       dataPointId: 1,
       newSubmission: false,
-      submission_type: 'registration',
+      submission_type: SUBMISSION_TYPES.registration,
     });
   });
 
@@ -312,8 +316,9 @@ describe('FormDataPage', () => {
       const syncButtonElement = wrapper.getByTestId('button-to-trigger-sync');
       expect(syncButtonElement).toBeTruthy();
       expect(syncButtonElement.props.accessibilityState.disabled).toEqual(true);
-      const list0 = wrapper.queryByTestId('card-touchable-1');
-      expect(list0).toBeFalsy();
+      // show blue checkmark
+      const iconButton = wrapper.getByTestId('icon-sync');
+      expect(iconButton.props.style?.[0]?.color).toEqual('dodgerblue');
     });
   });
 

@@ -28,7 +28,7 @@ class PendingDataTestCase(TestCase):
                                          admin_payload,
                                          content_type='application/json')
         self.token = user_response.json().get('token')
-        call_command('demo_approval_flow')
+        call_command('demo_approval_flow', "--test")
 
     def tests_pending_data(self):
         call_command('fake_pending_data_seeder', '-r', 1, '-t', True, '-b', 1)
@@ -142,7 +142,7 @@ class PendingDataTestCase(TestCase):
 
         # get the lowest level approver
         approval: Union[PendingDataApproval, None] = PendingDataApproval\
-            .objects.filter(level__level=MAX_LEVEL_IN_SOURCE_FILE)\
+            .objects.filter(level__level=MAX_LEVEL_IN_SOURCE_FILE - 1)\
             .first()
         t_child = RefreshToken.for_user(approval.user)
         header = {'HTTP_AUTHORIZATION': f'Bearer {t_child.access_token}'}
@@ -154,7 +154,7 @@ class PendingDataTestCase(TestCase):
         self.assertEqual(
             response.json().get('batch')[0]['approver']['status'],
             DataApprovalStatus.pending)
-        self.assertFalse(
+        self.assertTrue(
             response.json().get('batch')[0]['approver']['allow_approve'],
             "Should not allow approve")
         self.assertIn(
@@ -243,7 +243,7 @@ class PendingDataTestCase(TestCase):
         self.assertGreaterEqual(len(response.json().get('batch')), 1)
         status = response.json().get('batch')[0].get('approver').get(
             'status')
-        self.assertEqual(DataApprovalStatus.pending, status)
+        self.assertEqual(DataApprovalStatus.rejected, status)
 
         # update rejected data
         batch_id = response.json().get('batch')[0]['id']

@@ -33,20 +33,22 @@ class IsSuperAdmin(BasePermission):
 
 class PublicGet(BasePermission):
     def has_permission(self, request, view):
-        if request.method == 'GET':
+        if request.method == "GET":
             return True
         if request.user.is_anonymous:
             return False
-        if request.method == 'DELETE':
+        if request.method == "DELETE":
             if request.user.user_access.role in [
-                    UserRoleTypes.super_admin,
-                    UserRoleTypes.admin]:
+                UserRoleTypes.super_admin,
+                UserRoleTypes.admin,
+            ]:
                 return True
             return False
         if request.user.user_access.role in [
-                UserRoleTypes.super_admin,
-                UserRoleTypes.admin,
-                UserRoleTypes.approver,
-                UserRoleTypes.user]:
+            UserRoleTypes.super_admin,
+            UserRoleTypes.admin,
+            UserRoleTypes.approver,
+            UserRoleTypes.user,
+        ]:
             return True
         return False

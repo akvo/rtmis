@@ -8,7 +8,6 @@ import notification from './notification';
 import crudJobs, { jobStatus, MAX_ATTEMPT } from '../database/crud/crud-jobs';
 import { UIState } from '../store';
 import {
-  SUBMISSION_TYPES,
   SYNC_FORM_SUBMISSION_TASK_NAME,
   SYNC_FORM_VERSION_TASK_NAME,
   SYNC_STATUS,
@@ -176,8 +175,15 @@ const syncFormSubmission = async (activeJob = {}) => {
         submitter: session.name,
         geo,
         answers: answerValues,
-        submission_type: SUBMISSION_TYPES?.[d.submission_type] || SUBMISSION_TYPES.registration,
+        submission_type: d.submission_type,
       };
+      const uuidv4Regex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+      if (uuidv4Regex.test(d?.uuid)) {
+        syncData.uuid = d.uuid;
+      }
+      if (!syncData?.uuid && uuidv4Regex.test(activeJob?.info)) {
+        syncData.uuid = activeJob.info;
+      }
       console.info('[syncFormSubmision] SyncData:', syncData);
       // sync data point
       const res = await api.post('/sync', syncData);
@@ -186,6 +192,7 @@ const syncFormSubmission = async (activeJob = {}) => {
         // update data point
         await crudDataPoints.updateDataPoint({
           ...d,
+          submissionType: d?.submission_type,
           syncedAt: new Date().toISOString(),
         });
         sendNotification = true;

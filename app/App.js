@@ -105,6 +105,9 @@ const App = () => {
           s.id = user.id;
           s.name = user.name;
           s.password = user.password;
+          s.certifications = user?.certifications
+            ? JSON.parse(user.certifications.replace(/''/g, "'"))
+            : [];
         });
         AuthState.update((s) => {
           s.token = user.token;
@@ -145,6 +148,10 @@ const App = () => {
         s.gpsAccuracyLevel = configExist.gpsAccuracyLevel;
         s.geoLocationTimeout = configExist.geoLocationTimeout;
       });
+
+      UserState.update((s) => {
+        s.syncWifiOnly = configExist?.syncWifiOnly;
+      });
     }
     console.info('[CONFIG] Server URL', serverURL);
   }, [geoLocationTimeout, gpsAccuracyLevel, gpsThreshold, serverURLState, syncValue]);
@@ -178,7 +185,7 @@ const App = () => {
     const unsubscribe = NetInfo.addEventListener((state) => {
       UIState.update((s) => {
         s.online = state.isConnected;
-        s.networkType = state.type;
+        s.networkType = state.type?.toUpperCase();
       });
     });
 

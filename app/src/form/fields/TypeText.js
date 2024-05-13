@@ -18,11 +18,15 @@ const TypeText = ({
   disabled,
 }) => {
   const requiredValue = required ? requiredSign : null;
+  const inputContainerStyle =
+    metaUUID || disabled
+      ? { ...styles.inputFieldContainer, ...styles.inputFieldDisabled }
+      : styles.inputFieldContainer;
   return (
     <View>
       <FieldLabel keyform={keyform} name={label} tooltip={tooltip} requiredSign={requiredValue} />
       <Input
-        inputContainerStyle={styles.inputFieldContainer}
+        inputContainerStyle={inputContainerStyle}
         multiline
         numberOfLines={1}
         onChangeText={(val) => {
@@ -57,6 +61,6 @@ TypeText.defaultProps = {
   value: '',
   disabled: false,
   meta_uuid: false,
-  requiredSign: "*",
+  requiredSign: '*',
   tooltip: null,
 };

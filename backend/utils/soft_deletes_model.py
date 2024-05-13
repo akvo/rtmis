@@ -28,8 +28,8 @@ class SoftDeletesQuerySet(models.QuerySet):
 
 class SoftDeletesManager(models.Manager):
     def __init__(self, *args, **kwargs):
-        self.with_deleted = kwargs.pop('with_deleted', False)
-        self.only_deleted = kwargs.pop('only_deleted', False)
+        self.with_deleted = kwargs.pop("with_deleted", False)
+        self.only_deleted = kwargs.pop("only_deleted", False)
         super().__init__(*args, **kwargs)
 
     def get_queryset(self):
@@ -68,7 +68,7 @@ class SoftDeletes(models.Model):
         if hard:
             return super().delete(using, keep_parents)
         self.deleted_at = timezone.now()
-        self.save(update_fields=['deleted_at'])
+        self.save(update_fields=["deleted_at"])
 
     def soft_delete(self) -> None:
         self.delete(hard=False)
@@ -78,4 +78,4 @@ class SoftDeletes(models.Model):
 
     def restore(self) -> None:
         self.deleted_at = None
-        self.save(update_fields=['deleted_at'])
+        self.save(update_fields=["deleted_at"])
