@@ -32,15 +32,17 @@ const uiText = {
     service3Text:
       "Real-time insights optimize sanitation metrics for efficient resource allocation.",
     aboutRush: "About RUSH",
-    aboutText: (
-      <>
+    aboutText:
+      "The Kenya Rural Urban Sanitation and Hygiene (RUSH) platform is a real-time monitoring and information system owned by the Ministry of Health. The platform aggregates quantitative and qualitative data from county and national levels and facilitates data analysis, report generation and visualizations.",
+    aboutHighlight: (
+      <Fragment>
         The Kenya Rural Urban Sanitation and Hygiene (RUSH) platform is a
         real-time monitoring and information system owned by the Ministry of
         Health. <br />
         <br /> The platform aggregates quantitative and qualitative data from
         county and national levels and facilitates data analysis, report
         generation and visualizations.
-      </>
+      </Fragment>
     ),
     learnMoreButton: "Learn more",
     realTime: "Real Time Management Information System",

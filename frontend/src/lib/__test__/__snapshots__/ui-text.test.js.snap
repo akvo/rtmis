@@ -26,13 +26,14 @@ Object {
       This is where you can view verification detail
     </React.Fragment>,
     "VerificationDetailTitle": "Verification Detail",
-    "aboutRush": "About RUSH",
-    "aboutText": <React.Fragment>
+    "aboutHighlight": <React.Fragment>
       The Kenya Rural Urban Sanitation and Hygiene (RUSH) platform is a real-time monitoring and information system owned by the Ministry of Health. 
       <br />
       <br />
        The platform aggregates quantitative and qualitative data from county and national levels and facilitates data analysis, report generation and visualizations.
     </React.Fragment>,
+    "aboutRush": "About RUSH",
+    "aboutText": "The Kenya Rural Urban Sanitation and Hygiene (RUSH) platform is a real-time monitoring and information system owned by the Ministry of Health. The platform aggregates quantitative and qualitative data from county and national levels and facilitates data analysis, report generation and visualizations.",
     "accountDisclaimer": "The user is accountable for his/her account and in case there are any changes (Transfers, retirement, any kind of leave, resignation etc) this should be communicated to the County Administrator or National Super Admin who might be able to assign the roles to the new officer.",
     "actionColumn": "Action",
     "addAdmDesc": "This page allows you to add administration to the RUSH platform.",
