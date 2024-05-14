@@ -95,6 +95,10 @@ Manage Attributes
 Manage Entities
 -----------------
 
+==========================
+Add, Delete and Modify
+==========================
+
 1. From the Sidebar of the control center, click the Entities sub menu under the Master Data menu, add or modify an existing entity based on their fields or delete an existing entity.
 
 .. image:: ../assests/image66.png
@@ -146,6 +150,52 @@ Manage Entities
 .. image:: ../assests/image75.png
     :alt: Entity Type
     :width: 100%            
+
+===============
+Upload Entities
+===============
+
+The Upload Entities feature has advanced capabilities to add multiple entities simultaneously, making it more efficient:
+
+1. Click the :bolditalic:`Bulk Upload` button
+
+.. image:: ../assests/entities-upload-1.png
+    :alt: Entity upload step-1
+    :width: 100%
+
+2. Download the entities template if you don't have one. otherwise, upload your existing entities data directly.
+
+.. image:: ../assests/entities-download-1.png
+    :alt: Entity download step-1
+    :width: 100%
+
+2.1 Select administrative if you want the template to *contain a prefilled administration list*.
+
+.. image:: ../assests/entities-download-2.png
+    :alt: Entity download step-2
+    :width: 100%
+
+2.2 Uncheck *prefilled administration list* if it is not necessary.
+
+.. image:: ../assests/entities-download-3.png
+    :alt: Entity download step-3
+    :width: 100%
+
+3. Drag and drop or browse to upload the entities data file
+
+.. image:: ../assests/entities-upload-2.png
+    :alt: Entity upload step-2
+    :width: 100%
+
+4. Once the entities data is successfully uploaded, there are two options:
+    * **Upload another file**: Upload another file that you want to upload.
+    * **Back to the control center**: Go back to the home dashboard.
+
+.. image:: ../assests/entities-upload-3.png
+    :alt: Entity upload step-3
+    :width: 100%
+
+
 
 Manage Organizations
 -----------------------
