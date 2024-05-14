@@ -164,9 +164,6 @@ const Home = () => {
             setMapValues={setMapValues}
           /> */}
           {/* TODO Visualisation */}
-          <div className="todo-visualisation">
-            <em>The Visualisation will be here</em>
-          </div>
         </div>
       </div>
       <div className="home-odd contact">
