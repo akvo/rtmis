@@ -55,6 +55,21 @@ export const Visuals = ({ current, mapValues, setMapValues }) => {
   );
 };
 
+const serviceContent = (text) => [
+  {
+    image: "service-1.svg",
+    text: text.service1Text,
+  },
+  {
+    image: "service-2.svg",
+    text: text.service2Text,
+  },
+  {
+    image: "service-3.svg",
+    text: text.service3Text,
+  },
+];
+
 const Home = () => {
   // const { highlights } = window;
   // const [currentHighlight, setCurrentHighlight] = useState(highlights?.[0]);
@@ -82,12 +97,41 @@ const Home = () => {
 
   return (
     <div id="home">
+      <div className="home-even highlights">
+        <div className="body">
+          <Row justify={{ lg: "space-evenly", md: "start" }} gutter={[16, 16]}>
+            {serviceContent(text).map((s, si) => (
+              <Col key={`service-${si}`} lg={6}>
+                <Space size="middle">
+                  <div
+                    style={{
+                      backgroundColor: "#E8EEF8",
+                      padding: "18px",
+                      borderRadius: "50px",
+                    }}
+                  >
+                    <img
+                      src={`/assets/services/${s.image}`}
+                      alt={s.text}
+                      style={{
+                        width: "32px",
+                        height: "32px",
+                      }}
+                    />
+                  </div>
+                  <div style={{ fontSize: "14px" }}>{s.text}</div>
+                </Space>
+              </Col>
+            ))}
+          </Row>
+        </div>
+      </div>
       <div className="home-odd about">
         <Row>
-          <Col span={10}>
+          <Col md={10}>
             <h1>{text.aboutRush}</h1>
           </Col>
-          <Col span={14}>
+          <Col md={14}>
             <p>{text.aboutText}</p>
             {/*
             <Button type="link">{text.learnMoreButton}</Button>
@@ -111,16 +155,24 @@ const Home = () => {
       <div className="home-even highlights">
         <div className="body">
           <Row gutter={24} justify="space-between">
-            <Col lg={10}>
+            <Col lg={12}>
               <div className="report-wrapper">
                 <div className="description">
-                  <h2>{text.realTime}</h2>
-                  <p>{text.aboutText}</p>
+                  <h1>{text.realTime}</h1>
+                  <p>{text.aboutHighlight}</p>
                 </div>
                 <ul>
-                  <li>
-                    <FiCheckCircle />
-                    <span>{text.reportText}</span>
+                  <li className="inline">
+                    <Space align="center">
+                      <FiCheckCircle />
+                      <span>{text.frameworkText}</span>
+                    </Space>
+                  </li>
+                  <li className="inline">
+                    <Space align="center">
+                      <FiCheckCircle />
+                      <span>{text.reportText}</span>
+                    </Space>
                   </li>
                 </ul>
                 {/*
@@ -130,18 +182,34 @@ const Home = () => {
                 */}
               </div>
             </Col>
-            <Col lg={14}>
+            <Col lg={12}>
               <div className="report-visual-wrapper">
                 <img
                   src={"/assets/rtmis-girl-washing-her-hands.png"}
                   alt="Girl washing her hands"
                   style={{
-                    webkitTransform: "scaleX(-1)",
-                    transform: "scaleX(-1)",
-                    marginRight: "-50px",
-                    maxWidth: "820px",
+                    // webkitTransform: "scaleX(-1)",
+                    // transform: "scaleX(-1)",
+                    // marginRight: "-50px",
+                    maxWidth: "700px",
+                    position: "absolute",
+                    zIndex: 2,
+                    left: "150px",
+                    top: 0,
                   }}
                 />
+                <div
+                  style={{
+                    width: "450px",
+                    height: "300px",
+                    background: "#F5FAFF",
+                    borderRadius: "16px",
+                    position: "absolute",
+                    right: "50px",
+                    top: "-10px",
+                    zIndex: 1,
+                  }}
+                ></div>
               </div>
             </Col>
           </Row>
