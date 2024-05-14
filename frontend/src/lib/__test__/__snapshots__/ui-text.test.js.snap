@@ -27,7 +27,12 @@ Object {
     </React.Fragment>,
     "VerificationDetailTitle": "Verification Detail",
     "aboutRush": "About RUSH",
-    "aboutText": "The Kenya Rural Urban Sanitation and Hygiene (RUSH) platform is a real-time monitoring and information system owned by the Ministry of Health. The platform aggregates quantitative and qualitative data from county and national levels and facilitates data analysis, report generation and visualizations.",
+    "aboutText": <React.Fragment>
+      The Kenya Rural Urban Sanitation and Hygiene (RUSH) platform is a real-time monitoring and information system owned by the Ministry of Health. 
+      <br />
+      <br />
+       The platform aggregates quantitative and qualitative data from county and national levels and facilitates data analysis, report generation and visualizations.
+    </React.Fragment>,
     "accountDisclaimer": "The user is accountable for his/her account and in case there are any changes (Transfers, retirement, any kind of leave, resignation etc) this should be communicated to the County Administrator or National Super Admin who might be able to assign the roles to the new officer.",
     "actionColumn": "Action",
     "addAdmDesc": "This page allows you to add administration to the RUSH platform.",
@@ -344,6 +349,7 @@ Object {
     "formSuccessSubTitle": "Do note that this data has NOT been sent for approval. If you are ready to send the submissions for approval, please create a batch and send to the approver",
     "formSuccessSubTitleForAdmin": "Do note that the data submitted by SUPER ADMIN role will not go through the approval flow and recorded as approved data",
     "formSuccessTitle": "Thank you for the submission",
+    "frameworkText": "4 M&E Frameworks",
     "generating": "Generating",
     "hour": "Hour",
     "informUser": "Inform User for Changes",
@@ -625,6 +631,9 @@ Object {
     "selectType": "Select type...",
     "sendInstructions": "Send Instructions",
     "sendNewRequest": "Notify Approver",
+    "service1Text": "RTMIS offers real-time data for prompt decision-maker access.",
+    "service2Text": "Identifying needs enables targeted interventions and efficient resource deployment.",
+    "service3Text": "Real-time insights optimize sanitation metrics for efficient resource allocation.",
     "settings": "System Settings",
     "settingsDescriptionPanel": "This page allows Super Admin to maintain system critical master lists.",
     "showEmpty": "Show empty values",

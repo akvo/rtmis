@@ -55,18 +55,18 @@ export const Visuals = ({ current, mapValues, setMapValues }) => {
   );
 };
 
-const serviceContent = [
+const serviceContent = (text) => [
   {
     image: "service-1.svg",
-    text: "RTMIS offers real-time data for prompt decision-maker access.",
+    text: text.service1Text,
   },
   {
     image: "service-2.svg",
-    text: "Identifying needs enables targeted interventions and efficient resource deployment.",
+    text: text.service2Text,
   },
   {
     image: "service-3.svg",
-    text: "Real-time insights optimize sanitation metrics for efficient resource allocation.",
+    text: text.service3Text,
   },
 ];
 
@@ -100,7 +100,7 @@ const Home = () => {
       <div className="home-even highlights">
         <div className="body">
           <Row justify="space-evenly">
-            {serviceContent.map((s, si) => (
+            {serviceContent(text).map((s, si) => (
               <Col key={`service-${si}`} span={6}>
                 <Space size="middle">
                   <div
@@ -158,13 +158,21 @@ const Home = () => {
             <Col lg={10}>
               <div className="report-wrapper">
                 <div className="description">
-                  <h2>{text.realTime}</h2>
+                  <h1>{text.realTime}</h1>
                   <p>{text.aboutText}</p>
                 </div>
                 <ul>
-                  <li>
-                    <FiCheckCircle />
-                    <span>{text.reportText}</span>
+                  <li className="inline">
+                    <Space align="center">
+                      <FiCheckCircle />
+                      <span>{text.frameworkText}</span>
+                    </Space>
+                  </li>
+                  <li className="inline">
+                    <Space align="center">
+                      <FiCheckCircle />
+                      <span>{text.reportText}</span>
+                    </Space>
                   </li>
                 </ul>
                 {/*

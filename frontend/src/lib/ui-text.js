@@ -25,12 +25,27 @@ const uiText = {
     minute: "Minute",
     second: "Second",
     welcomeCta: "Explore National Data",
+    service1Text:
+      "RTMIS offers real-time data for prompt decision-maker access.",
+    service2Text:
+      "Identifying needs enables targeted interventions and efficient resource deployment.",
+    service3Text:
+      "Real-time insights optimize sanitation metrics for efficient resource allocation.",
     aboutRush: "About RUSH",
-    aboutText:
-      "The Kenya Rural Urban Sanitation and Hygiene (RUSH) platform is a real-time monitoring and information system owned by the Ministry of Health. The platform aggregates quantitative and qualitative data from county and national levels and facilitates data analysis, report generation and visualizations.",
+    aboutText: (
+      <>
+        The Kenya Rural Urban Sanitation and Hygiene (RUSH) platform is a
+        real-time monitoring and information system owned by the Ministry of
+        Health. <br />
+        <br /> The platform aggregates quantitative and qualitative data from
+        county and national levels and facilitates data analysis, report
+        generation and visualizations.
+      </>
+    ),
     learnMoreButton: "Learn more",
     realTime: "Real Time Management Information System",
     reportText: "Report generation and visualizations.",
+    frameworkText: "4 M&E Frameworks",
     contactText: "Contact Us",
     contactDesText: "Get in touch with us for support or feedback.",
     feedbackBtn: "Send Feedback",
