@@ -99,9 +99,9 @@ const Home = () => {
     <div id="home">
       <div className="home-even highlights">
         <div className="body">
-          <Row justify="space-evenly">
+          <Row justify={{ lg: "space-evenly", md: "start" }} gutter={[16, 16]}>
             {serviceContent(text).map((s, si) => (
-              <Col key={`service-${si}`} span={6}>
+              <Col key={`service-${si}`} lg={6}>
                 <Space size="middle">
                   <div
                     style={{
@@ -128,10 +128,10 @@ const Home = () => {
       </div>
       <div className="home-odd about">
         <Row>
-          <Col span={10}>
+          <Col md={10}>
             <h1>{text.aboutRush}</h1>
           </Col>
-          <Col span={14}>
+          <Col md={14}>
             <p>{text.aboutText}</p>
             {/*
             <Button type="link">{text.learnMoreButton}</Button>
@@ -159,7 +159,7 @@ const Home = () => {
               <div className="report-wrapper">
                 <div className="description">
                   <h1>{text.realTime}</h1>
-                  <p>{text.aboutText}</p>
+                  <p>{text.aboutHighlight}</p>
                 </div>
                 <ul>
                   <li className="inline">
