@@ -155,7 +155,7 @@ const Home = () => {
       <div className="home-even highlights">
         <div className="body">
           <Row gutter={24} justify="space-between">
-            <Col lg={10}>
+            <Col lg={12}>
               <div className="report-wrapper">
                 <div className="description">
                   <h1>{text.realTime}</h1>
@@ -182,18 +182,34 @@ const Home = () => {
                 */}
               </div>
             </Col>
-            <Col lg={14}>
+            <Col lg={12}>
               <div className="report-visual-wrapper">
                 <img
                   src={"/assets/rtmis-girl-washing-her-hands.png"}
                   alt="Girl washing her hands"
                   style={{
-                    webkitTransform: "scaleX(-1)",
-                    transform: "scaleX(-1)",
-                    marginRight: "-50px",
-                    maxWidth: "820px",
+                    // webkitTransform: "scaleX(-1)",
+                    // transform: "scaleX(-1)",
+                    // marginRight: "-50px",
+                    maxWidth: "700px",
+                    position: "absolute",
+                    zIndex: 2,
+                    left: "150px",
+                    top: 0,
                   }}
                 />
+                <div
+                  style={{
+                    width: "450px",
+                    height: "300px",
+                    background: "#F5FAFF",
+                    borderRadius: "16px",
+                    position: "absolute",
+                    right: "50px",
+                    top: "-10px",
+                    zIndex: 1,
+                  }}
+                ></div>
               </div>
             </Col>
           </Row>
