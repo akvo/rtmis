@@ -36,29 +36,90 @@ During phase 2 of RUSH RTMIS implementation, data collection will be done at eve
 * This unique code will apply when the RUSH protocol is fully implemented 
 * The Unique Code shall be composed as follows:  Village name+SN + HH Head's Surname
 
+.. _monitoring_data:
+
+Monitoring data
+---------------
+
+1. From the Data menu in the sidebar, click on the :bolditalic:`Manage Routine Data` submenu. Then, select the row data you want to create as monitoring data.
+
+.. image:: ../assests/data-4.png
+    :alt: Monitoring data step-1
+    :width: 100%
+
+2. Click the :bolditalic:`Update data` button to start creating monitoring data.
+
+.. image:: ../assests/data-6.png
+    :alt: Monitoring data step-2
+    :width: 100%
+
+3. Fill out all necessary fields with the required information and click the :bolditalic:`Submit` button to store the monitoring data.
+
+.. image:: ../assests/data-7.png
+    :alt: Monitoring data step-3
+    :width: 100%
+
+
+Certification data
+------------------
+
+.. note::
+   Please remember, certification data can only be populated via the mobile app based on **certification assignments**.
+   This means that only mobile users who have been assigned villages to certify can populate this data.
+   It should also be noted that certified data can **only be viewed by users who have certification assignments** at all levels of administration, *excluding the original data owner themselves*.
+
+Access to the certification data page is very easy, from the Data menu in the sidebar, click on the :bolditalic:`Manage Certification Data` submenu.
+
+.. image:: ../assests/data-3.png
+    :alt: Certification data
+    :width: 100%
+
+
+Verification data
+-----------------
+
+.. note::
+    Data verification is almost similar to :ref:`monitoring_data`, but monitoring data can be populated from two channels, :ref:`Webforms<webforms>` and mobile, while **verification can only be done via mobile app**.
+
+
+Accessing the verification data page is also very easy. Simply navigate to the Data menu in the sidebar and click on the :bolditalic:`Manage Verification Data` submenu.
+
+.. image:: ../assests/data-2.png
+    :alt: Verification data
+    :width: 100%
+
+
 Deleting data
 --------------
 
-1. From the Data menu of the sidebar, click on the :bolditalic:`Manage Data` submenu.
+.. note::
+   Data deletion can only be performed by Super-admin privileges, and this option is only accessible for routine data.
 
-.. image:: ../assests/image51.png
+1. From the Data menu in the sidebar, click on the :bolditalic:`Manage Routine Data` submenu. Then, select the row data you want to delete.
+
+.. image:: ../assests/data-4.png
     :alt: Deleting Data
     :width: 100%
 
 2. Expand the toggle button next to a data point to delete it.
 
-.. image:: ../assests/image43.png
+.. image:: ../assests/data-5.png
     :alt: Deleting Data
     :width: 100%
 
 Downloading data
 -----------------
-1. Select the questionnaire and click on :bolditalic:`Download Data` button
+
+1. Select the questionnaire and hover over the :bolditalic:`Download Data` button. You will have two options:
+    * **All data**: Get all data from the selected questionnaire.
+    * **Latest data**: Get only the latest data (new or updated) from the selected questionnaire.
 
 .. image:: ../assests/image11.png
-    :alt: Downloading Data
+    :alt: Download data
     :width: 100%
 
+2. After selecting an option, you will be redirected to the Download page, where the following label information related to your action will be displayed.
+
 .. image:: ../assests/image44.png
-    :alt: Downloading Data
+    :alt: Download data page
     :width: 100%
