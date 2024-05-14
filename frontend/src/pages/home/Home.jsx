@@ -55,6 +55,21 @@ export const Visuals = ({ current, mapValues, setMapValues }) => {
   );
 };
 
+const serviceContent = [
+  {
+    image: "service-1.svg",
+    text: "RTMIS offers real-time data for prompt decision-maker access.",
+  },
+  {
+    image: "service-2.svg",
+    text: "Identifying needs enables targeted interventions and efficient resource deployment.",
+  },
+  {
+    image: "service-3.svg",
+    text: "Real-time insights optimize sanitation metrics for efficient resource allocation.",
+  },
+];
+
 const Home = () => {
   // const { highlights } = window;
   // const [currentHighlight, setCurrentHighlight] = useState(highlights?.[0]);
@@ -82,6 +97,35 @@ const Home = () => {
 
   return (
     <div id="home">
+      <div className="home-even highlights">
+        <div className="body">
+          <Row justify="space-evenly">
+            {serviceContent.map((s, si) => (
+              <Col key={`service-${si}`} span={6}>
+                <Space size="middle">
+                  <div
+                    style={{
+                      backgroundColor: "#E8EEF8",
+                      padding: "18px",
+                      borderRadius: "50px",
+                    }}
+                  >
+                    <img
+                      src={`/assets/services/${s.image}`}
+                      alt={s.text}
+                      style={{
+                        width: "32px",
+                        height: "32px",
+                      }}
+                    />
+                  </div>
+                  <div style={{ fontSize: "14px" }}>{s.text}</div>
+                </Space>
+              </Col>
+            ))}
+          </Row>
+        </div>
+      </div>
       <div className="home-odd about">
         <Row>
           <Col span={10}>
