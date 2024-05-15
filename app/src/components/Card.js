@@ -17,6 +17,7 @@ const Card = ({ title, subTitles, submissionType }) => {
     [SUBMISSION_TYPES.verification]: '#ca8a04',
     [SUBMISSION_TYPES.certification]: '#ea580c',
   };
+  const titleWidth = submissionType ? '70%' : '100%';
   return (
     <RneCard>
       {submissionType && (
@@ -45,7 +46,9 @@ const Card = ({ title, subTitles, submissionType }) => {
           </Text>
         </View>
       )}
-      {title && <RneCard.Title style={{ textAlign: 'left' }}>{title}</RneCard.Title>}
+      {title && (
+        <RneCard.Title style={{ textAlign: 'left', width: titleWidth }}>{title}</RneCard.Title>
+      )}
       {subTitles?.map((s, sx) => (
         <Text key={sx}>{s}</Text>
       ))}
