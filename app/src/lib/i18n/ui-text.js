@@ -113,6 +113,9 @@ const uiText = {
     manageVerification: 'Verification form',
     manageCertification: 'Certification form',
     updateApp: 'Update application',
+    checkingVersion: 'Checking for update',
+    buttonUpdate: 'Update',
+    noUpdateFound: 'No update found.',
   },
   fr: {
     latitude: 'Latitude',
@@ -219,6 +222,9 @@ const uiText = {
     manageVerification: 'Formulaire de vérification',
     manageCertification: "Formulaire d'attestation",
     updateApp: "Met à jour l'application",
+    checkingVersion: 'Vérification des mises à jour',
+    buttonUpdate: 'Mise à jour',
+    noUpdateFound: 'Pas de mise à jour trouvée.',
   },
 };
 
