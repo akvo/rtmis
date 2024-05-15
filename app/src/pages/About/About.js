@@ -20,7 +20,7 @@ const AboutHome = () => {
     return findConfig?.fields || [];
   }, []);
 
-  const handleUpdateApp = () => {
+  const handleCheckAppVersion = () => {
     setChecking(true);
     setVisible(true);
     api
@@ -73,7 +73,7 @@ const AboutHome = () => {
             );
           })}
           {/* Update button */}
-          <ListItem onPress={handleUpdateApp}>
+          <ListItem onPress={handleCheckAppVersion}>
             <ListItem.Content>
               <ListItem.Title>{trans.updateApp}</ListItem.Title>
             </ListItem.Content>
