@@ -3,4 +3,4 @@
 
 set -eu
 
-docker-compose exec -T db bash -c 'pg_dump --user akvo --clean --create --format plain rtmis > /docker-entrypoint-initdb.d/001-init.sql; echo "Export done"'
+docker compose exec -T db bash -c 'pg_dump --user akvo --clean --create --format plain rtmis > /docker-entrypoint-initdb.d/001-init.sql; echo "Export done"'
