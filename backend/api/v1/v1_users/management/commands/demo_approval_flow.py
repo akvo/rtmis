@@ -83,15 +83,15 @@ class Command(BaseCommand):
                             form=form,
                             administration=ancestor
                         ).first()
+                    last_name = "Approver"
+                    if ancestor.level.level == 1:
+                        last_name = "Admin"
                     if not assignment:
                         assignment = create_approver(
                             form=form,
                             administration=ancestor,
                             organisation=organisation,
                         )
-                        last_name = "Approver"
-                        if ancestor.level.level == 1:
-                            last_name = "Admin"
                     if not test:
                         print("Level: {} ({})".format(
                             ancestor.level.level,
