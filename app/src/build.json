@@ -1,6 +1,7 @@
 {
   "authenticationType": ["code_assignment", "username", "password"],
   "serverURL": null,
+  "apkURL": null,
   "debugMode": false,
   "dataSyncInterval": 30,
   "errorHandling": true,
