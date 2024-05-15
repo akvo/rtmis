@@ -59,6 +59,7 @@ Monitoring data
     :alt: Monitoring data step-3
     :width: 100%
 
+.. _certification_data:
 
 Certification data
 ------------------
@@ -74,6 +75,8 @@ Access to the certification data page is very easy, from the Data menu in the si
     :alt: Certification data
     :width: 100%
 
+
+.. _verification_data:
 
 Verification data
 -----------------

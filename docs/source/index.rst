@@ -31,6 +31,12 @@ Real Time Monitoring Information Systems
 
 .. toctree::
    :maxdepth: 2
+   :caption: Mobile App
+
+   mobileApp
+
+.. toctree::
+   :maxdepth: 2
    :caption: Administration
    
    administration

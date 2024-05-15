@@ -68,6 +68,8 @@ Validation Tree
    :width: 100%
 
 
+.. _certification_assignment:
+
 Certification Assignment
 ------------------------
 
@@ -107,6 +109,7 @@ Certification Assignment
    :alt: Delete certification assignment
    :width: 100%
 
+.. _mobile_assignment:
 
 Mobile Assignment
 -----------------
@@ -127,7 +130,7 @@ Mobile Assignment
    :alt: Add a new mobile user form
    :width: 100%
 
-3. To view the details of a mobile user, click the expand button. Here, you can also copy the passcode for logging in to the mobile app.
+3. To view the details of a mobile user, click the expand button. Here, you can also copy the passcode for logging in to the :ref:`mobile app<mobileauth>`.
 
 .. image:: ../assests/mobile-users-3.png
    :alt: Mobile assignment details
