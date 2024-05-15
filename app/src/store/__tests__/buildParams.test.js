@@ -41,6 +41,7 @@ describe('BuildParamsState', () => {
     const {
       authenticationType,
       serverURL,
+      apkURL,
       debugMode,
       dataSyncInterval,
       errorHandling,

@@ -149,3 +149,4 @@ class MobileApkTestCase(TestCase):
         # check apk version with current version < last version
         check = self.client.get("/api/v1/device/apk/version/1.0.0")
         self.assertEqual(check.status_code, 200)
+        self.assertEqual(check.json(), {"version": new_version})

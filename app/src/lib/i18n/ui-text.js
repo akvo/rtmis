@@ -116,6 +116,7 @@ const uiText = {
     checkingVersion: 'Checking for update',
     buttonUpdate: 'Update',
     noUpdateFound: 'No update found.',
+    newVersionAvailable: 'New version available.',
   },
   fr: {
     latitude: 'Latitude',
@@ -225,6 +226,7 @@ const uiText = {
     checkingVersion: 'Vérification des mises à jour',
     buttonUpdate: 'Mise à jour',
     noUpdateFound: 'Pas de mise à jour trouvée.',
+    newVersionAvailable: 'Une nouvelle version est disponible.',
   },
 };
 

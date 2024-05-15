@@ -337,10 +337,7 @@ def check_apk_version(request, version, current_version):
         return Response(
             {"message": "No update found."}, status=status.HTTP_404_NOT_FOUND
         )
-    return Response(
-        {"message": f"Update found (v-{apk.apk_version})."},
-        status=status.HTTP_200_OK,
-    )
+    return Response({"version": apk.apk_version}, status=status.HTTP_200_OK)
 
 
 @extend_schema(
