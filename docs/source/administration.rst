@@ -52,7 +52,7 @@ Manage Users (Add, Delete and Modify Users)
    :alt: Edited User
    :width: 100%
 
-Validation Tree`
+Validation Tree
 ------------------------------
 
 1. Select the :bolditalic:`Validation Tree` sub menu from the users menu section of the sidebar to see the approvers for each submitted form across different administrative areas.
@@ -65,4 +65,91 @@ Validation Tree`
 
 .. image:: ../assests/image22.png
    :alt: Data validation
+   :width: 100%
+
+
+.. _certification_assignment:
+
+Certification Assignment
+------------------------
+
+1. Select the :bolditalic:`Certification Assignment` sub-menu from the Users menu section of the sidebar to view the assignments across different administrative areas.
+
+.. image:: ../assests/certification-assignment-1.png
+   :alt: Certification assignment menu
+   :width: 100%
+
+2. To add a new assignment, click the :bolditalic:`New Assignment` button.
+
+.. image:: ../assests/certification-assignment-2.png
+   :alt: Add new certification assignment
+   :width: 100%
+
+3. On the new page, select a sub-county in the **Certifying-subcounty** field and choose one or more villages in the **Villages to certify** field. Ensure that the selected villages belong to different sub-counties. Then, click :bolditalic:`Save` to store the new assignment.
+
+.. image:: ../assests/certification-assignment-3.png
+   :alt: Store new certification assignment
+   :width: 100%
+
+4. To see details of an assignment, click the expand button.
+
+.. image:: ../assests/certification-assignment-4.png
+   :alt: Details certification assignment
+   :width: 100%
+
+5. To modify or delete an assignment, click the **Edit** button
+
+.. image:: ../assests/certification-assignment-5.png
+   :alt: Edit certification assignment
+   :width: 100%
+
+6. Click the **Delete** button to remove the assignment
+
+.. image:: ../assests/certification-assignment-6.png
+   :alt: Delete certification assignment
+   :width: 100%
+
+.. _mobile_assignment:
+
+Mobile Assignment
+-----------------
+
+.. note::
+   Please remember, this menu will not be available for Super-admin and County-admin privileges.
+   The reason for this is to prevent invalid data, abuse, and other forms of fraud, as the subordinates are not known.
+
+1. Select the :bolditalic:`Manage Mobile Users` sub-menu from the Users menu section of the sidebar to view existing mobile users. To add a new mobile user, click the :bolditalic:`Add new data collector` button.
+
+.. image:: ../assests/mobile-users-1.png
+   :alt: Mobile assignment menu
+   :width: 100%
+
+2. On the new page, fill in all the mandatory fields and assign the user to the appropriate administrations and desired questionnaires. Then, click the :bolditalic:`Save` button to store the new mobile user.
+
+.. image:: ../assests/mobile-users-2.png
+   :alt: Add a new mobile user form
+   :width: 100%
+
+3. To view the details of a mobile user, click the expand button. Here, you can also copy the passcode for logging in to the :ref:`mobile app<mobileauth>`.
+
+.. image:: ../assests/mobile-users-3.png
+   :alt: Mobile assignment details
+   :width: 100%
+
+4. To modify or delete a mobile user, click the **Edit** button.
+
+.. image:: ../assests/mobile-users-4.png
+   :alt: Mobile assignment edit
+   :width: 100%
+
+5. Click the **Save** button to apply the changes.
+
+.. image:: ../assests/mobile-users-6.png
+   :alt: Mobile assignment save
+   :width: 100%
+
+6. Click the **Delete** button to remove the mobile user.
+
+.. image:: ../assests/mobile-users-5.png
+   :alt: Mobile assignment delete
    :width: 100%
