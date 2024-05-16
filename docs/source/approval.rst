@@ -15,6 +15,10 @@
 Submitting Data for Approval
 -----------------------------
 
+.. note::
+  Please note, the approval workflow does not apply to the submission of :ref:`verification<verification_data>` and :ref:`certification<certification_data>` data.
+  This is because both types of submissions do not require revalidation at each administrative level and will be directly saved as data points.
+
 1. All data that is pending submission for approval will appear on the pending submission tab. Note that you will need to select different questionnaires to see :bolditalic:`pending submissions` for each questionnaire. This is to avoid batching data from different questionnaires in one batch for approval which is not valid.
 
   .. image:: ../assests/image37.png
