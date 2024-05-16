@@ -66,7 +66,7 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
               <h1>
                 RUSH
                 <small>
-                  Kenya Rural and Urban Sanitation & Hygiene Monitoring Platform
+                  Kenya Rural and Urban Sanitation & Hygiene Monitoring System
                 </small>
               </h1>
             </div>
@@ -164,9 +164,9 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
                 <p
                   class="contact-text"
                 >
-                  Please enter your account details 
+                  Please enter your account details
                   <br />
-                   Having trouble accessing the platform? Please 
+                   Having trouble accessing the platform? Please
                   <a
                     href="#"
                   >
@@ -591,7 +591,7 @@ exports[`Login and Registration test if the registration form exists: Registrati
               <h1>
                 RUSH
                 <small>
-                  Kenya Rural and Urban Sanitation & Hygiene Monitoring Platform
+                  Kenya Rural and Urban Sanitation & Hygiene Monitoring System
                 </small>
               </h1>
             </div>
