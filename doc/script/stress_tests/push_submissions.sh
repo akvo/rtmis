@@ -1,24 +1,30 @@
 #!/bin/bash
 
-if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 <auth_code>"
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 <auth_code> <number_of_submissions>"
     exit 1
 fi
 
 get_auth_token() {
+    code=$1
     curl -s -X 'POST' \
         'https://rtmis.akvotest.org/api/v1/device/auth' \
         -H 'accept: application/json' \
         -H 'Content-Type: application/json' \
         -H 'X-CSRFTOKEN: 8inxCl7WRqWt2enWNQaxpym2N7hN9StDGiccC6YofLz9AC6ORiraiHyuLYYCieTP' \
-        -d '{"code": "$1"}' | jq -r '.syncToken'
+        -d '{"code": "'$code'"}' | jq -r '.syncToken'
 }
 
 URL="https://rtmis.akvotest.org/api/v1/device/sync"
-MOBILE_AUTH_TOKEN=$(get_auth_token $1)
+MOBILE_AUTH_TOKEN=$(get_auth_token "$1")
+# exit if equal to null
+if [ "$MOBILE_AUTH_TOKEN" == "null" ]; then
+    echo "Invalid auth code"
+    exit 1
+fi
 SCHEDULE_TIME="now + 1 minute"
-touch sync.log
 LOG_FILE="./sync.log"
+touch $LOG_FILE
 
 # jq function to generate a random UUID
 generate_uuid() {
@@ -33,14 +39,23 @@ mkdir -p ./tmp
 
 # The sync endpoint
 push_schedule() {
-    # the payload
-    DATA=$(jq . "./tmp/$1.json")
-    echo "curl -s -X 'POST' \
+    # the submission payload
+    DATA=$(<"./tmp/$1.json")
+
+    # Prevent curl argument list too long
+    TMP_DATA_FILE="./tmp/tmp_$1.json"
+    echo "$DATA" >"$TMP_DATA_FILE"
+
+    # Create the curl command to get only the status code
+    CURL_CMD="curl -o /dev/null -s -w \"File:$1.json | Status Code:%{http_code} | Time Total: %{time_total}\n\" -X 'POST' \
     '$URL' \
     -H 'accept: application/json' \
     -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer $MOBILE_AUTH_TOKEN' \
-    -d '$DATA' >> $LOG_FILE 2>&1; echo -e '\n'" | at "$SCHEDULE_TIME"
+    --data-binary @$TMP_DATA_FILE >> $LOG_FILE 2>&1; rm $TMP_DATA_FILE"
+
+    # Schedule the curl command using 'at'
+    echo "$CURL_CMD" | at "$SCHEDULE_TIME" >/dev/null 2>&1
 }
 
 push_data() {
@@ -74,6 +89,6 @@ push_data() {
 input_file="./household_submission.json"
 
 # Repeat 10 times
-for i in $(seq 2 10); do
+for i in $(seq 2 "$2"); do
     push_data "$input_file" "$i"
 done
