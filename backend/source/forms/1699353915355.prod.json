@@ -960,7 +960,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW: Ask each household member individually, the last time you defecated, did you defecate in the open or use the toilet? </b><br/><b>INTERVIEW:</b> do any members of the household require assistance to the the toilet? What sort of assistance?<br/><b>PROBE:</b> do any members of the household use the toilet sometimes, and defecate in the open at other times? In this case, response option is <b>G0 No toilet, practice OD</b><br/>REPEAT for other household members<br/>NOTE: If household member is not available, or too young to answer (0-4 years), ask the household respondent to confirm OD or toilet use"
+            "text": "<b>INTERVIEW: Ask each household member individually, the last time you defecated, did you defecate in the open or use the toilet? </b><br/><b>INTERVIEW:</b> do any members of the household require assistance to the toilet? What sort of assistance?<br/><b>PROBE:</b> do any members of the household use the toilet sometimes, and defecate in the open at other times? In this case, response option is <b>G0 No toilet, practice OD</b><br/>REPEAT for other household members<br/>NOTE: If household member is not available, or too young to answer (0-4 years), ask the household respondent to confirm OD or toilet use"
           },
           "required": true,
           "meta": false,
@@ -994,22 +994,36 @@
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581175,
+              "id": 1715775046,
               "order": 3,
+              "label": "#1: Some toilet use, some open defecation",
+              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699428581175,
+              "order": 4,
               "label": "#1: Use other household toilet (shared)",
               "value": "hh_member_1_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
               "id": 1699428642804,
-              "order": 4,
+              "order": 5,
               "label": "#1: Use own toilet (shared)",
               "value": "hh_member_1_g1_use_own_toilet_shared",
               "color": "#ffa57d"
             },
             {
+              "id": 1715775219,
+              "order": 6,
+              "label": "#1: Use own toilet with assistance (not shared)",
+              "value": "hh_member_1_g2_use_own_toilet_with_assistance",
+              "color": "#38A15A"
+            },
+            {
               "id": 1699428651604,
-              "order": 5,
+              "order": 7,
               "label": "#1: Use own toilet (NOT shared)",
               "value": "hh_member_1_g2_use_own_toilet_not_shared",
               "color": "#38A15A"
@@ -1030,7 +1044,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW: Ask each household member individually, the last time you defecated, did you defecate in the open or use the toilet? </b><br/><b>INTERVIEW:</b> do any members of the household require assistance to the the toilet? What sort of assistance?<br/><b>PROBE:</b> do any members of the household use the toilet sometimes, and defecate in the open at other times? In this case, response option is <b>G0 No toilet, practice OD</b><br/>REPEAT for other household members<br/>NOTE: If household member is not available, or too young to answer (0-4 years), ask the household respondent to confirm OD or toilet use"
+            "text": "<b>INTERVIEW: Ask each household member individually, the last time you defecated, did you defecate in the open or use the toilet? </b><br/><b>INTERVIEW:</b> do any members of the household require assistance to the toilet? What sort of assistance?<br/><b>PROBE:</b> do any members of the household use the toilet sometimes, and defecate in the open at other times? In this case, response option is <b>G0 No toilet, practice OD</b><br/>REPEAT for other household members<br/>NOTE: If household member is not available, or too young to answer (0-4 years), ask the household respondent to confirm OD or toilet use"
           },
           "required": true,
           "meta": false,
@@ -1064,22 +1078,36 @@
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581175,
+              "id": 1715775046,
               "order": 3,
+              "label": "#1: Some toilet use, some open defecation",
+              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699428581175,
+              "order": 4,
               "label": "#1: Use other household toilet (shared)",
               "value": "hh_member_1_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
               "id": 1699428642804,
-              "order": 4,
+              "order": 5,
               "label": "#1: Use own toilet (shared)",
               "value": "hh_member_1_g1_use_own_toilet_shared",
               "color": "#ffa57d"
             },
             {
+              "id": 1715775219,
+              "order": 6,
+              "label": "#1: Use own toilet with assistance (not shared)",
+              "value": "hh_member_1_g2_use_own_toilet_with_assistance",
+              "color": "#38A15A"
+            },
+            {
               "id": 1699428651604,
-              "order": 5,
+              "order": 7,
               "label": "#1: Use own toilet (NOT shared)",
               "value": "hh_member_1_g2_use_own_toilet_not_shared",
               "color": "#38A15A"
@@ -1100,7 +1128,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW: Ask each household member individually, the last time you defecated, did you defecate in the open or use the toilet? </b><br/><b>INTERVIEW:</b> do any members of the household require assistance to the the toilet? What sort of assistance?<br/><b>PROBE:</b> do any members of the household use the toilet sometimes, and defecate in the open at other times? In this case, response option is <b>G0 No toilet, practice OD</b><br/>REPEAT for other household members<br/>NOTE: If household member is not available, or too young to answer (0-4 years), ask the household respondent to confirm OD or toilet use"
+            "text": "<b>INTERVIEW: Ask each household member individually, the last time you defecated, did you defecate in the open or use the toilet? </b><br/><b>INTERVIEW:</b> do any members of the household require assistance to the toilet? What sort of assistance?<br/><b>PROBE:</b> do any members of the household use the toilet sometimes, and defecate in the open at other times? In this case, response option is <b>G0 No toilet, practice OD</b><br/>REPEAT for other household members<br/>NOTE: If household member is not available, or too young to answer (0-4 years), ask the household respondent to confirm OD or toilet use"
           },
           "required": true,
           "meta": false,
@@ -1131,6 +1159,13 @@
               "order": 2,
               "label": "#1: No toilet use, practice open defecation",
               "value": "hh_member_1_g0_no_toilet_use_practice_od",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1715775046,
+              "order": 3,
+              "label": "#1: Some toilet use, some open defecation",
+              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
@@ -1170,7 +1205,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW: Ask each household member individually, the last time you defecated, did you defecate in the open or use the toilet? </b><br/><b>INTERVIEW:</b> do any members of the household require assistance to the the toilet? What sort of assistance?<br/><b>PROBE:</b> do any members of the household use the toilet sometimes, and defecate in the open at other times? In this case, response option is <b>G0 No toilet, practice OD</b><br/>REPEAT for other household members<br/>NOTE: If household member is not available, or too young to answer (0-4 years), ask the household respondent to confirm OD or toilet use"
+            "text": "<b>INTERVIEW: Ask each household member individually, the last time you defecated, did you defecate in the open or use the toilet? </b><br/><b>INTERVIEW:</b> do any members of the household require assistance to the toilet? What sort of assistance?<br/><b>PROBE:</b> do any members of the household use the toilet sometimes, and defecate in the open at other times? In this case, response option is <b>G0 No toilet, practice OD</b><br/>REPEAT for other household members<br/>NOTE: If household member is not available, or too young to answer (0-4 years), ask the household respondent to confirm OD or toilet use"
           },
           "required": true,
           "meta": false,
@@ -1201,6 +1236,13 @@
               "order": 2,
               "label": "#1: No toilet use, practice open defecation",
               "value": "hh_member_1_g0_no_toilet_use_practice_od",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1715775046,
+              "order": 3,
+              "label": "#1: Some toilet use, some open defecation",
+              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
@@ -1240,7 +1282,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW: Ask each household member individually, the last time you defecated, did you defecate in the open or use the toilet? </b><br/><b>INTERVIEW:</b> do any members of the household require assistance to the the toilet? What sort of assistance?<br/><b>PROBE:</b> do any members of the household use the toilet sometimes, and defecate in the open at other times? In this case, response option is <b>G0 No toilet, practice OD</b><br/>REPEAT for other household members<br/>NOTE: If household member is not available, or too young to answer (0-4 years), ask the household respondent to confirm OD or toilet use"
+            "text": "<b>INTERVIEW: Ask each household member individually, the last time you defecated, did you defecate in the open or use the toilet? </b><br/><b>INTERVIEW:</b> do any members of the household require assistance to the toilet? What sort of assistance?<br/><b>PROBE:</b> do any members of the household use the toilet sometimes, and defecate in the open at other times? In this case, response option is <b>G0 No toilet, practice OD</b><br/>REPEAT for other household members<br/>NOTE: If household member is not available, or too young to answer (0-4 years), ask the household respondent to confirm OD or toilet use"
           },
           "required": true,
           "meta": false,
@@ -1271,6 +1313,13 @@
               "order": 2,
               "label": "#1: No toilet use, practice open defecation",
               "value": "hh_member_1_g0_no_toilet_use_practice_od",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1715775046,
+              "order": 3,
+              "label": "#1: Some toilet use, some open defecation",
+              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
@@ -1310,7 +1359,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW: Ask each household member individually, the last time you defecated, did you defecate in the open or use the toilet? </b><br/><b>INTERVIEW:</b> do any members of the household require assistance to the the toilet? What sort of assistance?<br/><b>PROBE:</b> do any members of the household use the toilet sometimes, and defecate in the open at other times? In this case, response option is <b>G0 No toilet, practice OD</b><br/>REPEAT for other household members<br/>NOTE: If household member is not available, or too young to answer (0-4 years), ask the household respondent to confirm OD or toilet use"
+            "text": "<b>INTERVIEW: Ask each household member individually, the last time you defecated, did you defecate in the open or use the toilet? </b><br/><b>INTERVIEW:</b> do any members of the household require assistance to the toilet? What sort of assistance?<br/><b>PROBE:</b> do any members of the household use the toilet sometimes, and defecate in the open at other times? In this case, response option is <b>G0 No toilet, practice OD</b><br/>REPEAT for other household members<br/>NOTE: If household member is not available, or too young to answer (0-4 years), ask the household respondent to confirm OD or toilet use"
           },
           "required": true,
           "meta": false,
@@ -1341,6 +1390,13 @@
               "order": 2,
               "label": "#1: No toilet use, practice open defecation",
               "value": "hh_member_1_g0_no_toilet_use_practice_od",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1715775046,
+              "order": 3,
+              "label": "#1: Some toilet use, some open defecation",
+              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
@@ -1380,7 +1436,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW: Ask each household member individually, the last time you defecated, did you defecate in the open or use the toilet? </b><br/><b>INTERVIEW:</b> do any members of the household require assistance to the the toilet? What sort of assistance?<br/><b>PROBE:</b> do any members of the household use the toilet sometimes, and defecate in the open at other times? In this case, response option is <b>G0 No toilet, practice OD</b><br/>REPEAT for other household members<br/>NOTE: If household member is not available, or too young to answer (0-4 years), ask the household respondent to confirm OD or toilet use"
+            "text": "<b>INTERVIEW: Ask each household member individually, the last time you defecated, did you defecate in the open or use the toilet? </b><br/><b>INTERVIEW:</b> do any members of the household require assistance to the toilet? What sort of assistance?<br/><b>PROBE:</b> do any members of the household use the toilet sometimes, and defecate in the open at other times? In this case, response option is <b>G0 No toilet, practice OD</b><br/>REPEAT for other household members<br/>NOTE: If household member is not available, or too young to answer (0-4 years), ask the household respondent to confirm OD or toilet use"
           },
           "required": true,
           "meta": false,
@@ -1411,6 +1467,13 @@
               "order": 2,
               "label": "#1: No toilet use, practice open defecation",
               "value": "hh_member_1_g0_no_toilet_use_practice_od",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1715775046,
+              "order": 3,
+              "label": "#1: Some toilet use, some open defecation",
+              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
@@ -1450,7 +1513,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW: Ask each household member individually, the last time you defecated, did you defecate in the open or use the toilet? </b><br/><b>INTERVIEW:</b> do any members of the household require assistance to the the toilet? What sort of assistance?<br/><b>PROBE:</b> do any members of the household use the toilet sometimes, and defecate in the open at other times? In this case, response option is <b>G0 No toilet, practice OD</b><br/>REPEAT for other household members<br/>NOTE: If household member is not available, or too young to answer (0-4 years), ask the household respondent to confirm OD or toilet use"
+            "text": "<b>INTERVIEW: Ask each household member individually, the last time you defecated, did you defecate in the open or use the toilet? </b><br/><b>INTERVIEW:</b> do any members of the household require assistance to the toilet? What sort of assistance?<br/><b>PROBE:</b> do any members of the household use the toilet sometimes, and defecate in the open at other times? In this case, response option is <b>G0 No toilet, practice OD</b><br/>REPEAT for other household members<br/>NOTE: If household member is not available, or too young to answer (0-4 years), ask the household respondent to confirm OD or toilet use"
           },
           "required": true,
           "meta": false,
@@ -1481,6 +1544,13 @@
               "order": 2,
               "label": "#1: No toilet use, practice open defecation",
               "value": "hh_member_1_g0_no_toilet_use_practice_od",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1715775046,
+              "order": 3,
+              "label": "#1: Some toilet use, some open defecation",
+              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
@@ -1520,7 +1590,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW: Ask each household member individually, the last time you defecated, did you defecate in the open or use the toilet? </b><br/><b>INTERVIEW:</b> do any members of the household require assistance to the the toilet? What sort of assistance?<br/><b>PROBE:</b> do any members of the household use the toilet sometimes, and defecate in the open at other times? In this case, response option is <b>G0 No toilet, practice OD</b><br/>REPEAT for other household members<br/>NOTE: If household member is not available, or too young to answer (0-4 years), ask the household respondent to confirm OD or toilet use"
+            "text": "<b>INTERVIEW: Ask each household member individually, the last time you defecated, did you defecate in the open or use the toilet? </b><br/><b>INTERVIEW:</b> do any members of the household require assistance to the toilet? What sort of assistance?<br/><b>PROBE:</b> do any members of the household use the toilet sometimes, and defecate in the open at other times? In this case, response option is <b>G0 No toilet, practice OD</b><br/>REPEAT for other household members<br/>NOTE: If household member is not available, or too young to answer (0-4 years), ask the household respondent to confirm OD or toilet use"
           },
           "required": true,
           "meta": false,
@@ -1590,7 +1660,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW: Ask each household member individually, the last time you defecated, did you defecate in the open or use the toilet? </b><br/><b>INTERVIEW:</b> do any members of the household require assistance to the the toilet? What sort of assistance?<br/><b>PROBE:</b> do any members of the household use the toilet sometimes, and defecate in the open at other times? In this case, response option is <b>G0 No toilet, practice OD</b><br/>REPEAT for other household members<br/>NOTE: If household member is not available, or too young to answer (0-4 years), ask the household respondent to confirm OD or toilet use"
+            "text": "<b>INTERVIEW: Ask each household member individually, the last time you defecated, did you defecate in the open or use the toilet? </b><br/><b>INTERVIEW:</b> do any members of the household require assistance to the toilet? What sort of assistance?<br/><b>PROBE:</b> do any members of the household use the toilet sometimes, and defecate in the open at other times? In this case, response option is <b>G0 No toilet, practice OD</b><br/>REPEAT for other household members<br/>NOTE: If household member is not available, or too young to answer (0-4 years), ask the household respondent to confirm OD or toilet use"
           },
           "required": true,
           "meta": false,
@@ -1841,7 +1911,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW:</b> has the toilet pit (or tank) ever filled up? <br/><b>INTERVIEW:</b> what happened when the toilet pit (or tank) last filled up?"
+            "text": "<b>INTERVIEW:</b> has the toilet pit (or tank) ever filled up? <br/><b>INTERVIEW:</b> what happened when the toilet pit (or tank) last filled up?<br/> <b>Never emptied:</b> current pit is not yet full, and has NOT been emptied. <b>Intention to empty:</b> household is planning to empty toilet pit (or tank) when full, or when required"
           },
           "required": true,
           "meta": false,
@@ -1956,7 +2026,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW:<b> the last time it was emptied, who emptied the toilet pit (or tank)?<br/><b>INTERVIEW</b> if a lined pit or tank: what will happen when the toilet pit (or tank) is full?<br/><b>INTERVIEW:</b> how long were the contents stored (without any fresh excreta entering the toilet pit or tank) before emptying?"
+            "text": "<b>INTERVIEW:</b> the last time it was emptied, who emptied the toilet pit (or tank)? <b>INTERVIEW</b> if a lined pit or tank: what will happen when the toilet pit (or tank) is full? <br/> <b>INTERVIEW:</b> how long were the contents stored (without any fresh excreta entering the toilet pit or tank) before emptying? <b>Open container:</b> bucket or other open container used to collect excreta (usually regularly collected and emptied). <br/> <b>Licensed service provider:</b> paid emptier that is approved and regulated by local authority to empty and transport toilet wastes. <b>Unlicensed service provider:</b> paid or unpaid emptier who is NOT approved (for example, family members, neighbours, friends, informal local emptiers). <br/> <b>Sewer connection to LICENSED and FUNCTIONAL treatment or disposal site:</b> the Public Health Office should check whether the sewer network flows to a licensed and functional treatment or disposal site."
           },
           "required": true,
           "meta": false,
@@ -3077,7 +3147,7 @@
               "G1 Functional toilet with privacy": "#FDC74B",
               "G0 Toilet non-functional or not private": "#FD3F31"
             },
-            "fnString": "#od_or_toilet_use#.includes(\"g1\") && #hh_toilet_observed#.includes(\"g1\") && #functional_toilet#.includes(\"g1\") && #toilet_privacy#.includes(\"g1\")? \"G1 Functional toilet with privacy\" : \"G0 Toilet non-functional or not private\"",
+            "fnString": "#hh_toilet_observed#.includes(\"g1\") && #functional_toilet#.includes(\"g1\") && #toilet_privacy#.includes(\"g1\")? \"G1 Functional toilet with privacy\" : \"G0 Toilet non-functional or not private\"",
             "multiline": false
           }
         },
@@ -3118,7 +3188,7 @@
               "G1 Flyproof toilet": "#FDC74B",
               "G0 Toilet NOT flyproof": "#FD3F31"
             },
-            "fnString": "((#od_or_toilet_use#.includes(\"g0\") || #od_or_toilet_use#.includes(\"g1\")) && #toilet_interface#.includes(\"g1\") && #containment_or_collection_system#.includes(\"g1\") && #flyproof_toilet#.includes(\"g1\"))  ? \"G1 Flyproof toilet\"  : \"G0 Toilet NOT flyproof\"",
+            "fnString": "#toilet_interface#.includes(\"g1\") && #containment_or_collection_system#.includes(\"g1\") && #flyproof_toilet#.includes(\"g1\"))  ? \"G1 Flyproof toilet\"  : \"G0 Toilet NOT flyproof\"",
             "multiline": false
           }
         },
@@ -3139,7 +3209,7 @@
               "G1 Clean toilet": "#FDC74B",
               "G0 Toilet NOT clean": "#FD3F31"
             },
-            "fnString": "((#od_or_toilet_use#.includes(\"g0\") || #od_or_toilet_use#.includes(\"g1\")) && #clean_toilet_pandrophole#.includes(\"g1\") && #clean_toilet_walls#.includes(\"g1\")) ? \"G1 Clean toilet\" : \"G0 Toilet NOT clean\"",
+            "fnString": "#clean_toilet_pandrophole#.includes(\"g1\") && #clean_toilet_walls#.includes(\"g1\") ? \"G1 Clean toilet\" : \"G0 Toilet NOT clean\"",
             "multiline": false
           }
         },
@@ -3160,7 +3230,7 @@
               "G1 Use of flyproof and clean toilet": "#FDC74B",
               "G0 Toilet NOT flyproof and clean": "#FD3F31"
             },
-            "fnString": "((#od_or_toilet_use#.includes(\"g0\") || #od_or_toilet_use#.includes(\"g1\")) && #toilet_interface#.includes(\"g1\") && #containment_or_collection_system#.includes(\"g1\") && #flyproof_toilet#.includes(\"g1\") && #clean_toilet_pandrophole#.includes(\"g1\") && #clean_toilet_walls#.includes(\"g1\")) ? \"G1 Use of flyproof and clean toilet\" : \"G0 Toilet NOT flyproof and clean\"",
+            "fnString": "((#o_r_flyproof_toilet_type#.includes(\"G1\") && #o_r_toilet_use_by_all_hh_members#.includes(\"G1\")) && #o_r_functional_toilet_with_privacy#.includes(\"G1\") && #o_r_clean_toilet#.includes(\"G1\") ? \"G1 Use of flyproof and clean toilet\" : \"G0 Toilet NOT flyproof and clean\"",
             "multiline": false
           }
         },
@@ -3240,7 +3310,7 @@
               "G2 Durable toilet with safe containment": "#93D371",
               "G0 Toilet NOT durable and with safe no containment": "#FD3F31"
             },
-            "fnString": "#observe_safely_managed_containment#.includes(\"g2\") && #visible_surface_outflows#.includes(\"g2\") && #community_low_groundwater_contamination#.includes(\"g2\") && #durable_toilet_slab#.includes(\"g2\") && #durable_toilet_containment_collection_system#.includes(\"g2\") ? \"G2 Durable toilet with safe containment\" : \"G0 Toilet NOT durable and with no safe containment\"",
+            "fnString": "#o_r_individual_use_of_own_hh_toilet#.includes(\"G2\") && #o_r_durable_toilet#.includes(\"G2\") && #o_r_toilet_with_safe_containment#.includes(\"G2\") ? \"G2 Durable toilet with safe containment\" : \"G0 Toilet NOT durable and with no safe containment\"",
             "multiline": false
           }
         },
@@ -3261,7 +3331,7 @@
               "G1 Inadequate sanitation services": "#FDC74B",
               "G0 Sanitation services UNSAFELY managed": "#FD3F31"
             },
-            "fnString": "((#od_or_toilet_use#.includes(\"g0\") || #od_or_toilet_use#.includes(\"g1\")) && #safely_managed_onsite_containment#.includes(\"g3\") && #safely_managed_sanitation_services#.includes(\"g3\")) ? \"G3 Use of safely managed sanitation services\" : #safely_managed_onsite_containment#.includes(\"g0\") && #safely_managed_sanitation_services#.includes(\"g0\") ? \"G0 Sanitation services UNSAFELY managed\" : \"G1 Inadequate sanitation services\"",
+            "fnString": "#safely_managed_onsite_containment#.includes(\"g3\") && #safely_managed_sanitation_services#.includes(\"g3\")) ? \"G3 Use of safely managed sanitation services\" : #safely_managed_onsite_containment#.includes(\"g0\") && #safely_managed_sanitation_services#.includes(\"g0\") ? \"G0 Sanitation services UNSAFELY managed\" : \"G1 Inadequate sanitation services\"",
             "multiline": false
           }
         }
@@ -4139,7 +4209,7 @@
               "G2 Handwashing with soap at ALL critical times": "#93D371",
               "G0 No or inadequate handwashing services": "#FD3F31"
             },
-            "fnString": "#handwashing_facility_observed#.includes(\"g1\") && #handwashing_critical_toilet_times#.includes(\"g0\") && #handwashing_critical_food_times#.includes(\"g0\") && #handwashing_critical_animal_times#.includes(\"g0\") ? \"G0 No or inadequate handwashing services\" : #handwashing_critical_toilet_times#.includes(\"g2\") && #handwashing_critical_food_times#.includes(\"g2\") && #handwashing_critical_animal_times#.includes(\"g2\") ? \"G2 Handwashing with soap at ALL critical times\" : \"G1 Some critical handwashing times NOT mentioned\"",
+            "fnString": "#handwashing_critical_infant_times#.includes(\"g0\") && #handwashing_critical_toilet_times#.includes(\"g0\") && #handwashing_critical_food_times#.includes(\"g0\") && #handwashing_critical_animal_times#.includes(\"g0\") ? \"G0 Inadequate or no handwashing facility\" : #handwashing_critical_toilet_times#.includes(\"g2\") && #handwashing_critical_food_times#.includes(\"g2\") && #handwashing_critical_animal_times#.includes(\"g2\") && #handwashing_critical_infant_times#.includes(\"g2\") ? \"G2 Handwashing with soap at ALL critical times\" : \"G1 Some critical handwashing times NOT mentioned\"",
             "multiline": false
           }
         },
@@ -6796,7 +6866,7 @@
               "G2 Clean and safely stored milk containers": "#93D371",
               "G1 Milk containers not adequately washed, or not safely stored": "#FDC74B"
             },
-            "fnString": "#monitor_G2#.includes(\"yes\") && #clean_milk_containers#.includes(\"g0\") && #covered_container_storage#.includes(\"g0\") && #raised_container_storage#.includes(\"g0\") ? \"G0 Milk containers not clean and not safely stored\" : #clean_milk_containers#.includes(\"g2\") && #covered_container_storage#.includes(\"g2\") && #raised_container_storage#.includes(\"g2\") ? \"G2 Clean and safely stored milk containers\" : \"G1 Milk containers not adequately washed, or not safely stored\"",
+            "fnString": "#clean_milk_containers#.includes(\"g0\") && #covered_container_storage#.includes(\"g0\") && #raised_container_storage#.includes(\"g0\") ? \"G0 Milk containers not clean and not safely stored\" : #clean_milk_containers#.includes(\"g2\") && #covered_container_storage#.includes(\"g2\") && #raised_container_storage#.includes(\"g2\") ? \"G2 Clean and safely stored milk containers\" : \"G1 Milk containers not adequately washed, or not safely stored\"",
             "multiline": false
           }
         },
@@ -6904,7 +6974,7 @@
               "G2": "#93D371",
               "G1": "#FDC74B"
             },
-            "fnString": "#o_r_safe_management_of_drinking_water#.includes(\"G0\") && #o_r_safe_management_of_water_sources#.includes(\"G0\") ? \"G0\" : #o_r_safe_management_of_drinking_water#.includes(\"G2\") && #o_r_safe_management_of_water_sources#.includes(\"G2\") ? \"G2\" : \"G1\"",
+            "fnString": "#o_r_safe_management_of_drinking_water#.includes(\"G0\") && #o_r_safe_management_of_water_sources#.includes(\"G0\") ? \"G0 Water is UNSAFELY managed\" : #o_r_safe_management_of_drinking_water#.includes(\"G2\") && #o_r_safe_management_of_water_sources#.includes(\"G2\") ? \"G2 Safe management of water\" : \"G1 Water is NOT adequately managed\"",
             "multiline": false
           }
         },
@@ -7012,7 +7082,7 @@
               "G2": "#93D371",
               "G1": "#FDC74B"
             },
-            "fnString": "#monitor_G2#.includes(\"yes\") && #o_r_no_visible_animal_wastes_in_house_or_compound#.includes(\"G0\") && #o_r_safe_separation_of_animals_from_under5_children#.includes(\"G0\") && #o_r_safe_management_of_animal_wastes_in_compound#.includes(\"G0\") ? \"G0\" : #o_r_no_visible_animal_wastes_in_house_or_compound#.includes(\"G2\") && #o_r_safe_separation_of_animals_from_under5_children#.includes(\"G2\") &&  #o_r_safe_management_of_animal_wastes_in_compound#.includes(\"G2\") ? \"G2\" : \"G1\"",
+            "fnString": "#monitor_G2#.includes(\"yes\") && #o_r_no_visible_animal_wastes_in_house_or_compound#.includes(\"G2\") && #o_r_safe_separation_of_animals_from_under5_children#.includes(\"G2\") &&  #o_r_safe_management_of_animal_wastes_in_compound#.includes(\"G2\") ? \"G2 Safe management of animals and animal wastes\" : \"G0 No safe management of animals and animal wastes\"",
             "multiline": false
           }
         },
@@ -7039,7 +7109,7 @@
               "G3 Safe management of liquid wastes": "#4088F4",
               "G2 Inadequate management of liquid wastes": "#93D371"
             },
-            "fnString": "#soakpit_for_liquid_wastes#.includes(\"g0\") && #drainage_for_stormwater#.includes(\"g0\") ? \"G0 Liquid wastes UNSAFELY managed\"  : #soakpit_for_liquid_wastes#.includes(\"g3\") && #drainage_for_stormwater#.includes(\"g3\") ? \"G3 Safe management of liquid wastes\" : \"G2 Inadequate management of liquid wastes\"",
+            "fnString": "#soakpit_for_liquid_wastes#.includes(\"g0\") && #drainage_for_stormwater#.includes(\"g0\") ? \"G1 Liquid wastes UNSAFELY managed\"  : #soakpit_for_liquid_wastes#.includes(\"g3\") && #drainage_for_stormwater#.includes(\"g3\") ? \"G3 Safe management of liquid wastes\" : \"G2 Inadequate management of liquid wastes\"",
             "multiline": false
           }
         },
@@ -7120,7 +7190,7 @@
               "G2": "#93D371",
               "G3": "#4088F4"
             },
-            "fnString": "#o_r_safe_management_of_liquid_wastes#.includes(\"G0\") && #o_r_safe_management_of_solid_wastes#.includes(\"G0\") && #o_r_good_vector_control_in_compound#.includes(\"G0\") ? \"G1\" : #o_r_safe_management_of_liquid_wastes#.includes(\"G3\") && #o_r_safe_management_of_solid_wastes#.includes(\"G3\") && #o_r_good_vector_control_in_compound#.includes(\"G3\") ? \"G3\" : \"G2\"",
+            "fnString": "#o_r_safe_management_of_liquid_wastes#.includes(\"G1\") && #o_r_safe_management_of_solid_wastes#.includes(\"G1\") && #o_r_good_vector_control_in_compound#.includes(\"G1\") ? \"G1\" : #o_r_safe_management_of_liquid_wastes#.includes(\"G3\") && #o_r_safe_management_of_solid_wastes#.includes(\"G3\") && #o_r_good_vector_control_in_compound#.includes(\"G3\") ? \"G3\" : \"G2\"",
             "multiline": false
           }
         },
@@ -7205,7 +7275,7 @@
               "G2": "#93D371",
               "G3": "#4088F4"
             },
-            "fnString": "#monitor_G3#.includes(\"yes\") && #o_r_clean_face_and_hands#.includes(\"G1\") && #o_r_good_menstrual_health#.includes(\"G1\") ? \"G1\" : #o_r_clean_face_and_hands#.includes(\"G3\") && #o_r_good_menstrual_health#.includes(\"G3\") ? \"G3\" : \"G2\"",
+            "fnString": "#monitor_G3#.includes(\"yes\") && #o_r_clean_face_and_hands#.includes(\"G1\") && #o_r_good_menstrual_health#.includes(\"G1\") ? \"G1 No personal hygiene\" : #o_r_clean_face_and_hands#.includes(\"G3\") && #o_r_good_menstrual_health#.includes(\"G3\") ? \"G3 Good personal hygiene\" : \"G2 Inadequate personal hygiene\"",
             "multiline": false
           }
         },
@@ -7236,7 +7306,7 @@
               "G2 Inadequate nutrition or protection": "#93D371",
               "G3 Good nutrition and protection": "#4088F4"
             },
-            "fnString": "#fully_immunized_children#.includes(\"g1\") ? \"G1 Low nutrition or protection\" : #fully_immunized_children#.includes(\"g3\") ? \"G3 Good nutrition and protection\" : \"G2 Inadequate nutrition or protection\"",
+            "fnString": "#fully_immunized_children#.includes(\"g1\") ? \"G1 No children vaccinated\" : #fully_immunized_children#.includes(\"g3\") ? \"G3 All children fully immunized\" : \"G2 Some children vaccinated\"",
             "multiline": false
           }
         },
@@ -7267,7 +7337,7 @@
               "G2 Inadequate nutrition or protection": "#93D371",
               "G3 Good nutrition and protection": "#4088F4"
             },
-            "fnString": "#vitamin_a_supplements_received#.includes(\"g1\") ? \"G1 Low nutrition or protection\" : #vitamin_a_supplements_received#.includes(\"g3\") ? \"G3 Good nutrition and protection\" : \"G2 Inadequate nutrition or protection\"",
+            "fnString": "#vitamin_a_supplements_received#.includes(\"g1\") ? \"G1 No children received supplements\" : #vitamin_a_supplements_received#.includes(\"g3\") ? \"G3 All Vitamin A supplements received in last 6 months\" : \"G2 Some Vitamin A supplements not received (in last 6 months)\"",
             "multiline": false
           }
         },
@@ -7298,7 +7368,7 @@
               "G2 Inadequate nutrition or protection": "#93D371",
               "G3 Good nutrition and protection": "#4088F4"
             },
-            "fnString": "#exclusive_breastfeeding_under_6_months#.includes(\"g1\") ? \"G1 Low nutrition or protection\"  : #exclusive_breastfeeding_under_6_months#.includes(\"g3\") ? \"G3 Good nutrition and protection\" : \"G2 Inadequate nutrition or protection\"",
+            "fnString": "#exclusive_breastfeeding_under_6_months#.includes(\"g1\") ? \"G1 Under 6-month children regularly receive water or other food\"  : #exclusive_breastfeeding_under_6_months#.includes(\"g3\") ? \"G3 Exclusive breastfeeding for under 6-month children\" : \"G2 Some water and other food received on a few occasions\"",
             "multiline": false
           }
         },
@@ -7329,7 +7399,7 @@
               "G2 Inadequate nutrition or protection": "#93D371",
               "G3 Good nutrition and protection": "#4088F4"
             },
-            "fnString": "#nutritious_diet_6m_2y#.includes(\"g1\") ? \"G1 Low nutrition or protection\" : #nutritious_diet_6m_2y#.includes(\"g3\") ? \"G3 Good nutrition and protection\" : \"G2 Inadequate nutrition or protection\"",
+            "fnString": "#nutritious_diet_6m_2y#.includes(\"g1\") ? \"G1\" : #nutritious_diet_6m_2y#.includes(\"g3\") ? \"G3\" : \"G2\"",
             "multiline": false
           }
         },
@@ -7360,7 +7430,7 @@
               "G2": "#93D371",
               "G3": "#4088F4"
             },
-            "fnString": "#o_r_fully_immunized_children#.includes(\"G1\") && #o_r_vitamin_a_supplements#.includes(\"G1\") && #o_r_exclusive_breastfeeding#.includes(\"G1\") && #o_r_nutritious_diet#.includes(\"G1\") ? \"G1\" : #o_r_fully_immunized_children#.includes(\"G3\") && #o_r_vitamin_a_supplements#.includes(\"G3\") && #o_r_exclusive_breastfeeding#.includes(\"G3\") && #o_r_nutritious_diet#.includes(\"G3\") ? \"G3\" : \"G2\"",
+            "fnString": "#o_r_fully_immunized_children#.includes(\"G1\") && #o_r_vitamin_a_supplements#.includes(\"G1\") && #o_r_exclusive_breastfeeding#.includes(\"G1\") && #o_r_nutritious_diet#.includes(\"G1\") ? \"G1 Low nutrition or protection\" : #o_r_fully_immunized_children#.includes(\"G3\") && #o_r_vitamin_a_supplements#.includes(\"G3\") && #o_r_exclusive_breastfeeding#.includes(\"G3\") && #o_r_nutritious_diet#.includes(\"G3\") ? \"G3 Good nutrition and protection\" : \"G2 Inadequate nutrition or protection\"",
             "multiline": false
           }
         },
@@ -7490,7 +7560,7 @@
               "G3 Clean and Healthy": "#4088F4"
             },
             "multiline": false,
-            "fnString": "#o_r_use_of_safely_managed_sanitation_services#.includes(\"G3\") ? 'G3 Clean and Healthy' : #o_r_durable_toilet#.includes(\"G2\") && #o_r_toilet_with_safe_containment#.includes(\"G2\") && #o_r_individual_use_of_own_hh_toilet#.includes(\"G2\") ? 'G2 Safe and Sustainable' : #o_r_functional_toilet_with_privacy#.includes(\"G1\") && #o_r_flyproof_toilet_type#.includes(\"G1\") && #o_r_clean_toilet#.includes(\"G1\") && #o_r_toilet_use_by_all_hh_members#.includes(\"G1\") ? 'G1 Open Defecation Free' : 'G0 Open Defecation'"
+            "fnString": "#o_r_flyproof_and_clean_toilet#.includes(\"G1\") ? 'G1 Open Defecation Free’: #o_r_flyproof_and_clean_toilet#.includes(\"G1\") && #o_r_durable_toilet_with_safe_containment#.includes(\"G2\") ? 'G2 Safe and Sustainable’: #o_r_flyproof_and_clean_toilet#.includes(\"G1\") && #o_r_durable_toilet_with_safe_containment#.includes(\"G2\") && #o_r_use_of_safely_managed_sanitation_services#.includes(\"G3\") ? 'G3 Clean and Healthy’: 'G0 Open Defecation'"
           }
         },
         {
@@ -7511,7 +7581,7 @@
               "G3 Clean and Healthy": "#4088F4"
             },
             "multiline": false,
-            "fnString": "#o_r_permanent_handwashing_station#.includes(\"G3\") ? 'G3 Clean and Healthy' : #o_r_handwashing_with_soap_at_critical_times#.includes(\"G2\") ? 'G2 Safe and Sustainable' : #o_r_hwf_with_water_and_soap#.includes(\"G1\") ? 'G1 Handwashing facility with soap and water' : 'G0 Inadequate or no handwashing facility'"
+            "fnString": "#o_r_hwf_with_water_and_soap#.includes(\"G1\") ? 'G1 Handwashing facility with soap and water’: #o_r_hwf_with_water_and_soap#.includes(\"G1\") && #o_r_handwashing_with_soap_at_critical_times#.includes(\"G2\") ? 'G2 Safe and Sustainable' : #o_r_hwf_with_water_and_soap#.includes(\"G1\") && #o_r_handwashing_with_soap_at_critical_times#.includes(\"G2\") && #o_r_permanent_handwashing_station#.includes(\"G3\") ? 'G3 Clean and Healthy' : 'G0 Inadequate or no handwashing facility'"
           }
         },
         {
@@ -7531,7 +7601,7 @@
               "G2": "#93D371",
               "G3": "#4088F4"
             },
-            "fnString": "#monitor_G2#.includes(\"yes\") && #o_r_safe_food_hygiene#.includes(\"G1\") && #o_r_safe_water_management#.includes(\"G1\") && #o_r_safe_management_of_animals_wastes#.includes(\"G1\") && #o_r_safe_waste_management#.includes(\"G1\") && #o_r_good_personal_hygiene#.includes(\"G1\") && #o_r_good_nutrition#.includes(\"G1\") && #o_r_endemic#.includes(\"G1\") ? \"G1\" : #o_r_safe_waste_management#.includes(\"G3\") && #o_r_good_personal_hygiene#.includes(\"G3\") && #o_r_good_nutrition#.includes(\"G3\") && #o_r_endemic#.includes(\"G3\") ? \"G3\" : \"G2\"",
+            "fnString": "#o_r_no_exposed_human_excreta#.includes(\"G1\") && #o_r_safe_management_of_child_excreta_and_diapers#.includes(\"G1\") ? “G1” :#o_r_no_exposed_human_excreta#.includes(\"G1\") && #o_r_safe_management_of_child_excreta_and_diapers#.includes(\"G1\") && #o_r_safe_food_hygiene#.includes(\"G2\") && #o_r_safe_water_management#.includes(\"G2\") && #o_r_safe_management_of_animals_wastes#.includes(\"G2\") ? ‘G2’: #o_r_no_exposed_human_excreta#.includes(\"G1\") && #o_r_safe_management_of_child_excreta_and_diapers#.includes(\"G1\") && #o_r_safe_food_hygiene#.includes(\"G2\") && #o_r_safe_water_management#.includes(\"G2\") && #o_r_safe_management_of_animals_wastes#.includes(\"G2\") && #o_r_safe_waste_management#.includes(\"G3\") && #o_r_good_personal_hygiene#.includes(\"G3\") && #o_r_good_nutrition#.includes(\"G3\") && #o_r_endemic#.includes(\"G3\") ? ‘G3’",
             "multiline": false
           }
         },

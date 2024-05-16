@@ -59,7 +59,7 @@ The development site should be running at: [localhost:3000](http://localhost:300
 
 Network Config:
 
-- [setupProxy.js](https://github.com/akvo/rtmis/blob/main/frontend/src/setupProxy.js)
+- [setup:.js](https://github.com/akvo/rtmis/blob/main/frontend/src/setupProxy.js)
 - [mainnetwork](https://github.com/akvo/rtmis/blob/docker-compose.override.yml#L4-L8) container setup
 
 Add New User and Seed Master Data:
