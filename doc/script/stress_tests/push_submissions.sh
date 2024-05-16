@@ -11,7 +11,6 @@ get_auth_token() {
         'https://rtmis.akvotest.org/api/v1/device/auth' \
         -H 'accept: application/json' \
         -H 'Content-Type: application/json' \
-        -H 'X-CSRFTOKEN: 8inxCl7WRqWt2enWNQaxpym2N7hN9StDGiccC6YofLz9AC6ORiraiHyuLYYCieTP' \
         -d '{"code": "'$code'"}' | jq -r '.syncToken'
 }
 
@@ -40,22 +39,15 @@ mkdir -p ./tmp
 # The sync endpoint
 push_schedule() {
     # the submission payload
-    DATA=$(<"./tmp/$1.json")
-
-    # Prevent curl argument list too long
-    TMP_DATA_FILE="./tmp/tmp_$1.json"
-    echo "$DATA" >"$TMP_DATA_FILE"
+    DATA=$(jq . "./tmp/$1.json")
 
     # Create the curl command to get only the status code
-    CURL_CMD="curl -o /dev/null -s -w \"File:$1.json | Status Code:%{http_code} | Time Total: %{time_total}\n\" -X 'POST' \
+    echo "curl -s -o /dev/null -w \"File:$1.json | Status Code:%{http_code} | Time Total: %{time_total}\n\" -X 'POST' \
     '$URL' \
     -H 'accept: application/json' \
     -H 'Content-Type: application/json' \
     -H 'Authorization: Bearer $MOBILE_AUTH_TOKEN' \
-    --data-binary @$TMP_DATA_FILE >> $LOG_FILE 2>&1; rm $TMP_DATA_FILE"
-
-    # Schedule the curl command using 'at'
-    echo "$CURL_CMD" | at "$SCHEDULE_TIME" >/dev/null 2>&1
+    -d '$DATA' >> $LOG_FILE 2>&1" | at "$SCHEDULE_TIME" >/dev/null 2>&1
 }
 
 push_data() {
@@ -89,6 +81,6 @@ push_data() {
 input_file="./household_submission.json"
 
 # Repeat 10 times
-for i in $(seq 2 "$2"); do
+for i in $(seq 1 "$2"); do
     push_data "$input_file" "$i"
 done
