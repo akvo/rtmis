@@ -1,6 +1,6 @@
 {
   "id": 1440,
-  "datapoint_name": "Gaturi - Mother - 01",
+  "datapoint_name": "Gaturi - Stress Test - 01",
   "administration": 61380,
   "uuid": "b0acba11-8064-4cb0-b1f2-59d3797ecae1",
   "geolocation": [-7.8360744, 110.3311868],
@@ -81,7 +81,7 @@
     "1702914803732": "b0acba11-8064-4cb0-b1f2-59d3797ecae1",
     "1699417958748": ["hh_head"],
     "1699419048095": "Gaturi",
-    "1699419165632": "Mother",
+    "1699419165632": "Stress Test",
     "1699419372643": ["male"],
     "1699419815660": 35,
     "1699419861172": 1,

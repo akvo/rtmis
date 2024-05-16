@@ -1,8 +1,14 @@
 #!/bin/bash
 
-if [ "$#" -ne 2 ]; then
-    echo "Usage: $0 <auth_code> <number_of_submissions>"
+if [ "$#" -lt 2 ]; then
+    echo "Usage: $0 <auth_code> <number_of_submissions> <optional:unique_name>"
     exit 1
+fi
+# pick random unique name if not provided
+if [ -z "$3" ]; then
+    unique_name=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+else
+    unique_name=$3
 fi
 
 get_auth_token() {
@@ -55,10 +61,11 @@ push_data() {
     uuid=$(generate_uuid)
     # add leading zero to the index
     index=$(printf "%04d" "$2")
+    unique_name=$3
     local outfile="./tmp/$index.json"
 
     # Modify the JSON object and remove id field
-    jq --arg new_uuid "${uuid}" --arg index "$index" '
+    jq --arg new_uuid "${uuid}" --arg index "${index}" --arg unique_name "${unique_name}" '
         del(.id) |
         del(.datapoint_name) |
         del(.uuid) |
@@ -68,19 +75,23 @@ push_data() {
         .geo = .geolocation |
         .duration = 10 |
         .formId = "1699353915355" |
-        .name = "Gaturi - Father - " + $index |
+        .name = "Gaturi - " + $unique_name + " - " + $index |
         .answers["1702914803732"] = $new_uuid |
         .answers["1703073469466"] = $index |
+        .answers["1699419165632"] = $unique_name |
         del(.geolocation)
-    ' "$infile" >>"$outfile"
-    echo "Modified JSON objects are stored in $outfile"
+    ' "$infile" >"$outfile"
+    # echo "Modified JSON objects are stored in $outfile"
     push_schedule "$index"
 }
 
 # Input JSON file
 input_file="./household_submission.json"
 
+echo "Submitting ${unique_name} with ${2} submissions"
+echo "Submitting ${unique_name} with ${2} submissions" >>$LOG_FILE
+
 # Repeat 10 times
 for i in $(seq 1 "$2"); do
-    push_data "$input_file" "$i"
+    push_data "$input_file" "$i" "$unique_name"
 done
