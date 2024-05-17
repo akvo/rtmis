@@ -109,6 +109,46 @@ class SQLiteGenerationTest(TestCase):
         conn.close()
         os.remove(file_name)
 
+    def test_update_sqlite_with_no_nodes_table(self):
+        # Test for adding new org
+        file_name = generate_sqlite(Organisation)
+        self.assertTrue(os.path.exists(file_name))
+
+        # delete node table
+        conn = sqlite3.connect(file_name)
+        cursor = conn.cursor()
+        try:
+            cursor.execute("DROP TABLE IF EXISTS nodes")
+            print("Table 'nodes' deleted successfully.")
+        except sqlite3.OperationalError as e:
+            print(f"Error deleting table 'nodes': {e}")
+        conn.commit()
+        cursor.close()
+        conn.close()
+        # EOL delete node table
+
+        new_org_name = "Edited Company"
+        org = Organisation.objects.last()
+        org.name = new_org_name
+        org.save()
+        update_sqlite(
+            model=Organisation, data={"name": new_org_name}, id=org.id
+        )
+
+        conn = sqlite3.connect(file_name)
+        self.assertEqual(
+            1,
+            len(
+                pd.read_sql_query(
+                    "SELECT * FROM nodes where name = ?",
+                    conn,
+                    params=[new_org_name],
+                )
+            ),
+        )
+        conn.close()
+        os.remove(file_name)
+
 
 class EntitiesSQLiteGenerationTest(TestCase):
     def setUp(self):
