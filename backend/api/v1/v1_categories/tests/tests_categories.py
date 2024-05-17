@@ -52,7 +52,7 @@ class CategoryTestCase(TestCase):
             list(result["data"][0]),
             ["id", "name", "administration", "geo", "data", "categories"],
         )
-        datapoint = FormData.objects.filter(form_id=1).first()
+        datapoint = FormData.objects.get(pk=result["data"][0]['id'])
         questions = [
             "{0}|{1}".format(
                 a.question.id,
@@ -60,7 +60,6 @@ class CategoryTestCase(TestCase):
             )
             for a in datapoint.data_answer.all()
         ]
-
         self.assertEqual(
             sorted(list(result["data"][0]["data"])),
             sorted(questions),
