@@ -16,6 +16,7 @@ services:
       - DJANGO_SECRET=local-secret
       - APK_UPLOAD_SECRET
       - STORAGE_PATH
+      - SENTRY_DSN
     depends_on:
       - db
   worker:
@@ -33,6 +34,7 @@ services:
       - DJANGO_SECRET=local-secret
       - APK_UPLOAD_SECRET
       - STORAGE_PATH
+      - SENTRY_DSN
     depends_on:
       - backend
   frontend:
