@@ -8,6 +8,8 @@ const BIDashboard = () => {
   const powerBIDashboard = window?.powerBIDashboard;
   const current = powerBIDashboard?.find((x) => x.path === path);
 
+  const title = current?.content?.find((x) => x.key === "title")?.text || null;
+
   return (
     <div id="powerbi-dashboard">
       {current?.content.map((c, ci) => {
@@ -20,6 +22,16 @@ const BIDashboard = () => {
                 className="main-wrapper"
                 style={c?.style ? c.style : {}}
               >
+                {title ? (
+                  <div
+                    className="body"
+                    style={{ paddingTop: "12px", paddingBottom: "12px" }}
+                  >
+                    <h1>{title}</h1>
+                  </div>
+                ) : (
+                  ""
+                )}
                 <ResponsiveEmbed src={c.link} />
                 <div className="blank-white" />
               </div>
