@@ -221,6 +221,7 @@ class BulkUploadDataTestCase(TestCase, ProfileTestHelperMixin):
             name="Cawang"
         ).first()
         name = "new - John Doe - 44 – wife__husband__partner"
+        FormData.objects.all().delete()
         data = FormData.objects.create(
             id=1,
             name=name,
@@ -269,6 +270,7 @@ class BulkUploadDataTestCase(TestCase, ProfileTestHelperMixin):
         administration = Administration.objects.filter(
             name="Cawang"
         ).first()
+        FormData.objects.all().delete()
         name = "new - Jane Doe - 44 – wife__husband__partner"
         data = FormData.objects.create(
             id=2,

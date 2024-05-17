@@ -18,6 +18,7 @@ services:
       - MAILJET_SECRET=$MAILJET_SECRET
       - WEBDOMAIN=notset
       - APK_UPLOAD_SECRET=ci-secret
+      - SENTRY_DSN
     network_mode: service:mainnetwork
     restart: always
     volumes:
