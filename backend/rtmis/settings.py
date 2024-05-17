@@ -12,6 +12,18 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from datetime import timedelta
 from os import environ
 from pathlib import Path
+import sentry_sdk
+
+sentry_sdk.init(
+    dsn=environ['SENTRY_DSN'],
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    traces_sample_rate=1.0,
+    # Set profiles_sample_rate to 1.0 to profile 100%
+    # of sampled transactions.
+    # We recommend adjusting this value in production.
+    profiles_sample_rate=1.0,
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -61,6 +73,7 @@ API_APPS = [
     "api.v1.v1_categories",
     "api.v1.v1_mobile",
     "api.v1.v1_files",
+    "api.sentry_test",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + API_APPS + EXTERNAL_APPS
