@@ -12,18 +12,30 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from datetime import timedelta
 from os import environ
 from pathlib import Path
-import sentry_sdk
 
-sentry_sdk.init(
-    dsn=environ['SENTRY_DSN'],
-    # Set traces_sample_rate to 1.0 to capture 100%
-    # of transactions for performance monitoring.
-    traces_sample_rate=1.0,
-    # Set profiles_sample_rate to 1.0 to profile 100%
-    # of sampled transactions.
-    # We recommend adjusting this value in production.
-    profiles_sample_rate=1.0,
-)
+if 'SENTRY_DSN' in environ:
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+    sentry_environment = "production" if "PROD" in environ else "develop"
+    sentry_sdk.init(
+        dsn=environ['SENTRY_DSN'],
+        # Set traces_sample_rate to 1.0 to capture 100%
+        # of transactions for performance monitoring.
+        environment=sentry_environment,
+        traces_sample_rate=1.0,
+        # Set profiles_sample_rate to 1.0 to profile 100%
+        # of sampled transactions.
+        # We recommend adjusting this value in production.
+        profiles_sample_rate=1.0,
+        ignore_errors=[
+            "django.core.exceptions.PermissionDenied",
+            "django.http.response.Http404",
+            "django.http.response.HttpResponseNotFound",
+            "django.http.response.HttpResponseForbidden",
+            "django.http.response.HttpResponseBadRequest",
+        ],
+        integrations=[DjangoIntegration()]
+    )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

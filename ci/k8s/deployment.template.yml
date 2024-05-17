@@ -232,6 +232,8 @@ spec:
                 secretKeyRef:
                   name: rtmis
                   key: sentry-dsn
+            - name: PROD
+              value: "TRUE"
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /secrets/credentials.json
             - name: STORAGE_PATH
