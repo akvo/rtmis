@@ -236,7 +236,15 @@ const Forms = () => {
 
   const getCascadeAnswerId = useCallback(
     async (id, questonAPI, value) => {
-      const { initial, endpoint } = questonAPI;
+      const { initial, endpoint, query_params } = questonAPI;
+      if (endpoint.includes("organisation")) {
+        const res = await fetch(
+          `${window.location.origin}${endpoint}${query_params}`
+        );
+        const apiData = await res.json();
+        const findOrg = apiData?.children?.find((c) => c?.name === value);
+        return { [id]: [findOrg?.id] };
+      }
       if (initial) {
         const cascadeID = value || initial;
         const res = await fetch(
@@ -259,7 +267,7 @@ const Forms = () => {
       const apiData = await res.json();
       const findCascade = apiData?.find((d) => d?.name === value);
       return {
-        [id]: findCascade ? [findCascade.id] : [],
+        [id]: [findCascade?.id],
       };
     },
     [authUser?.administration?.level]
