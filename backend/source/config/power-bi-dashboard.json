@@ -1,24 +1,5 @@
 [
   {
-    "form_id": 1680838271306,
-    "page": "bi",
-    "name": "JMP",
-    "path": "jmp",
-    "content": [
-      {
-        "key": "title",
-        "text": "JMP"
-      },
-      {
-        "key": "embed",
-        "link": "https://app.powerbi.com/view?r=eyJrIjoiMjFmODExMzEtYjFhMi00YzU5LWI1OWItYzRiYzJlZGY5NTg5IiwidCI6ImIxNzBlMTE1LWRjM2QtNGU5Mi04NWJlLWU0YjMwMDljNWRjMiIsImMiOjl9",
-        "style": {
-          "marginTop": "24px"
-        }
-      }
-    ]
-  },
-  {
     "form_id": 1681077310330,
     "page": "bi",
     "name": "RUSH",
@@ -26,11 +7,30 @@
     "content": [
       {
         "key": "title",
-        "text": "RUSH"
+        "text": "RUSH Dashboard"
       },
       {
         "key": "embed",
         "link": "https://app.powerbi.com/view?r=eyJrIjoiYzY1ZTVkY2ItM2NlNC00NGIzLWJkOTgtYTc2NjUwOTkyMGM0IiwidCI6ImIxNzBlMTE1LWRjM2QtNGU5Mi04NWJlLWU0YjMwMDljNWRjMiIsImMiOjl9",
+        "style": {
+          "marginTop": "24px"
+        }
+      }
+    ]
+  },
+  {
+    "form_id": 1680838271306,
+    "page": "bi",
+    "name": "JMP",
+    "path": "jmp",
+    "content": [
+      {
+        "key": "title",
+        "text": "JMP Dashboard"
+      },
+      {
+        "key": "embed",
+        "link": "https://app.powerbi.com/view?r=eyJrIjoiMjFmODExMzEtYjFhMi00YzU5LWI1OWItYzRiYzJlZGY5NTg5IiwidCI6ImIxNzBlMTE1LWRjM2QtNGU5Mi04NWJlLWU0YjMwMDljNWRjMiIsImMiOjl9",
         "style": {
           "marginTop": "24px"
         }
@@ -45,7 +45,7 @@
     "content": [
       {
         "key": "title",
-        "text": "Governance"
+        "text": "Governance Dashboard"
       },
       {
         "key": "embed",
@@ -64,7 +64,7 @@
     "content": [
       {
         "key": "title",
-        "text": "Urban Sanitation"
+        "text": "Urban Sanitation Dashboard"
       },
       {
         "key": "embed",
