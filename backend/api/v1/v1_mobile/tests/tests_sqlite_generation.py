@@ -154,6 +154,8 @@ class EntitiesSQLiteGenerationTest(TestCase):
     def setUp(self):
         super().setUp()
         call_command("organisation_seeder", "--test")
+        sdCilandak = "SD NEGERI CILANDAK TIMUR 01"
+        sdMenteng = "SD MENTENG ATAS 21 PAGI"
         AdministrationEntitiesTestFactory(
             {
                 "name": "Indonesia",
@@ -173,7 +175,7 @@ class EntitiesSQLiteGenerationTest(TestCase):
                                             },
                                             {
                                                 "entity": "Sekolah",
-                                                "name": "SD NEGERI CILANDAK TIMUR 01",
+                                                "name": sdCilandak,
                                             },
                                         ],
                                     },
@@ -186,7 +188,7 @@ class EntitiesSQLiteGenerationTest(TestCase):
                                             },
                                             {
                                                 "entity": "Sekolah",
-                                                "name": "SD MENTENG ATAS 21 PAGI",
+                                                "name": sdMenteng,
                                             },
                                         ],
                                     },
