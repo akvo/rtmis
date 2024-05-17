@@ -329,6 +329,17 @@ def download_apk_file(request, version):
     return response
 
 
+@extend_schema(tags=["Mobile APK"], summary="Check APK Version")
+@api_view(["GET"])
+def check_apk_version(request, version, current_version):
+    apk = MobileApk.objects.last()
+    if not apk or apk.apk_version <= current_version:
+        return Response(
+            {"message": "No update found."}, status=status.HTTP_404_NOT_FOUND
+        )
+    return Response({"version": apk.apk_version}, status=status.HTTP_200_OK)
+
+
 @extend_schema(
     request=inline_serializer(
         name="UploadAPKFile",

@@ -9,6 +9,7 @@ from .views import (
     download_apk_file,
     get_datapoint_download_list,
     MobileAssignmentViewSet,
+    check_apk_version,
 )
 
 urlpatterns = [
@@ -38,5 +39,9 @@ urlpatterns = [
     re_path(
         r"^(?P<version>(v1))/device/datapoint-list",
         get_datapoint_download_list,
+    ),
+    re_path(
+        r"^(?P<version>(v1))/device/apk/version/(?P<current_version>[^/]+)",
+        check_apk_version,
     ),
 ]

@@ -442,7 +442,7 @@ exports[`AuthFormPage renders correctly 1`] = `
     }
   >
     App version - 
-    1.2.0
+    4.0.0
   </Text>
   <Modal
     hardwareAccelerated={false}
