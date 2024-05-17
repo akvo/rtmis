@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.15
--- Dumped by pg_dump version 12.15
+-- Dumped from database version 12.18
+-- Dumped by pg_dump version 12.18
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -14959,8 +14959,11 @@ COPY public.answer (id, name, value, options, created, updated, created_by_id, d
 1460	\N	\N	["g1_washable_cloths_safely_emptied_and_safely_washed"]	2024-05-16 07:33:02.218664+00	\N	95	29	1699959743410
 1462	\N	\N	["g2_clean_communal_water_points"]	2024-05-16 07:33:02.224809+00	\N	95	29	1699959861479
 1463	\N	\N	["g2_well_protected_communal_water_points"]	2024-05-16 07:33:02.228205+00	\N	95	29	1699960025562
+1464	\N	\N	["g2_well_drained_communal_water_points"]	2024-05-16 07:33:02.231516+00	\N	95	29	1699960104326
+1466	\N	\N	["g3_safely_managed_emptied_to_covered_pit_trench_communal_areas"]	2024-05-16 07:33:02.238369+00	\N	95	29	1699960255414
 1468	\N	\N	["g3_adequate_stormwater_drainage_communal_areas"]	2024-05-16 07:33:02.245199+00	\N	95	29	1699960354498
 1470	\N	\N	["g0_significant_visible_solid_wastes_communal_areas"]	2024-05-16 07:33:02.251947+00	\N	95	29	1699960411329
+1472	\N	\N	["g3_no_visible_standing_water_communal_areas"]	2024-05-16 07:33:02.258907+00	\N	95	29	1699960488230
 1475	\N	\N	["healthcare_facility"]	2024-05-16 07:33:02.270178+00	\N	95	29	1699960591715
 1522	\N	\N	["g1_risk_of_unsafe_services_never_emptied_intention_to_empty_when_full"]	2024-05-16 08:11:39.277453+00	\N	95	30	1699428661689
 1523	\N	\N	["g1_toilet_observed"]	2024-05-16 08:11:39.279634+00	\N	95	30	1699422286091
@@ -15071,9 +15074,6 @@ COPY public.answer (id, name, value, options, created, updated, created_by_id, d
 1439	\N	\N	["village_chief_head"]	2024-05-16 07:33:02.146808+00	\N	95	29	1699951538608
 1446	\N	\N	["more_than_25_percent"]	2024-05-16 07:33:02.172712+00	\N	95	29	1699952295823
 1458	\N	\N	["g1_no_visible_od_or_human_excreta_communal_areas"]	2024-05-16 07:33:02.212114+00	\N	95	29	1699959649782
-1464	\N	\N	["g2_well_drained_communal_water_points"]	2024-05-16 07:33:02.231516+00	\N	95	29	1699960104326
-1466	\N	\N	["g3_safely_managed_emptied_to_covered_pit_trench_communal_areas"]	2024-05-16 07:33:02.238369+00	\N	95	29	1699960255414
-1472	\N	\N	["g3_no_visible_standing_water_communal_areas"]	2024-05-16 07:33:02.258907+00	\N	95	29	1699960488230
 1473	\N	\N	["g1_inadequate_treatment_management_communal_areas"]	2024-05-16 07:33:02.262574+00	\N	95	29	1699960542156
 611	\N	\N	["village_chief_head"]	2024-05-16 05:26:43.344996+00	\N	95	11	1699951538608
 662	\N	\N	["g1g2_at_rish_hh_system_functional_less_than_5_percent_difference"]	2024-05-16 05:26:43.416822+00	\N	95	11	1702324544574
@@ -15755,8 +15755,7 @@ summer-video-west-mobile	api.v1.v1_data.functions.refresh_materialized_data	\N	g
 crazy-uniform-emma-mockingbird	api.v1.v1_data.functions.refresh_materialized_data	\N	gAUpLg==	gAV9lC4=	\N	2024-05-16 08:25:53.389979+00	2024-05-16 08:25:53.543068+00	t	9ea95d476c46468b857ed91ca6c522d1	\N	1
 summer-sweet-delaware-twenty	api.v1.v1_data.tasks.seed_approved_data	\N	gAWVNAgAAAAAAACMFWRqYW5nby5kYi5tb2RlbHMuYmFzZZSMDm1vZGVsX3VucGlja2xllJOUjAd2MV9kYXRhlIwPUGVuZGluZ0Zvcm1EYXRhlIaUhZRSlH2UKIwGX3N0YXRllGgAjApNb2RlbFN0YXRllJOUKYGUfZQojAxmaWVsZHNfY2FjaGWUfZQojARmb3JtlGgCjAh2MV9mb3Jtc5SMBUZvcm1zlIaUhZRSlH2UKIwGX3N0YXRllGgLKYGUfZQojAZhZGRpbmeUiYwCZGKUjAdkZWZhdWx0lGgOfZR1YowCaWSUigaPXt2ddA+MBG5hbWWUjAhTaG9ydCBISJSMB3ZlcnNpb26USwGMBHV1aWSUjAR1dWlklIwEVVVJRJSTlCmBlH2UjANpbnSUihAOr2xHFVQjlS1N9/PLnAkpc2KMBHR5cGWUSwGMEHN1Ym1pc3Npb25fdHlwZXOUXZQoSwFLAksDSwRljBVhcHByb3ZhbF9pbnN0cnVjdGlvbnOUfZQojAR0ZXh0lIwmUGxlYXNlIGNoZWNrIGFsbCBvZiB0aGUgY2hlY2tib3ggYmVsb3eUjAZhY3Rpb26UXZQojChJIGhhdmUgY2hlY2tlZCBhbGwgb2YgdGhlIGRhdGEgY29ycmVjdGx5lIwiSSBhcHByb3ZlIHRoaXMgZGF0YSBmb3Igc3VibWlzc2lvbpRldYwPX2RqYW5nb192ZXJzaW9ulIwFNC4wLjSUdWKMDmFkbWluaXN0cmF0aW9ulGgCjAp2MV9wcm9maWxllIwOQWRtaW5pc3RyYXRpb26UhpSFlFKUfZQoaBdoCymBlH2UKGgOfZRoGoloG2gcdWJoHk0g34wJcGFyZW50X2lklE13AowEY29kZZROjAhsZXZlbF9pZJRLBWgfjAVFZG9tZZSMBHBhdGiUjA0xLjIzLjEyNi42MzEulGg0aDV1YowKY3JlYXRlZF9ieZRoAowIdjFfdXNlcnOUjApTeXN0ZW1Vc2VylIaUhZRSlH2UKIwGX3N0YXRllGgLKYGUfZQoaA59lGgaiWgbaBx1YowCaWSUS2+MCHBhc3N3b3JklIxYcGJrZGYyX3NoYTI1NiQzMjAwMDAkUDNaa1JJUVBUQ3ZuUE1VN1NUcTROaiROL2hkU3lSVjZrQ3lBZGNFaTZxeWs3MHdqR204bmNKcUE0S3U3UDBqVHNNPZSMCmxhc3RfbG9naW6UjAhkYXRldGltZZSMCGRhdGV0aW1llJOUQwoH6AUQCBcoByKrlGhVjAh0aW1lem9uZZSTlGhVjAl0aW1lZGVsdGGUk5RLAEsASwCHlFKUhZRSlIaUUpSMDGlzX3N1cGVydXNlcpSJjApkZWxldGVkX2F0lE6MBWVtYWlslIwUbG9pbWEudXNlcjFAdXNlci5jb22UjAtkYXRlX2pvaW5lZJRoV0MKB+gFEAMnHwgqBJRoYIaUUpSMCmZpcnN0X25hbWWUjAVMb2ltYZSMCWxhc3RfbmFtZZSMBVVzZXIxlIwMcGhvbmVfbnVtYmVylIwNNjI4MTM5MzAwMDAyMpSMC2Rlc2lnbmF0aW9ulIwBN5SMB3RyYWluZWSUiYwHdXBkYXRlZJRoV0MKB+gFEAQAAw3roJRoYIaUUpSMD29yZ2FuaXNhdGlvbl9pZJRLB4wPX2RqYW5nb192ZXJzaW9ulGg1dWKMBGRhdGGUaAJoA4wIRm9ybURhdGGUhpSFlFKUfZQoaBdoCymBlH2UKGgbjAdkZWZhdWx0lGgOfZQojAZwYXJlbnSUaAJoA2h7hpSFlFKUfZQoaBdoCymBlH2UKGgOfZRoGoloG2iCdWJoHksDjAlwYXJlbnRfaWSUTmgfjBlTdWRvd29vZG8gLSBFZG9tdCBzdC4gMTEylIwHZm9ybV9pZJSKBo9e3Z10D4wRYWRtaW5pc3RyYXRpb25faWSUTSDfjANnZW+UXZQoR0BAJkWTiAehR8A5sGzKLbYcZWgijCQwZDZkMTBmMC01OGZjLTQ3YjItOTVjYy03MWM4OWFjOWRkM2GUjA9zdWJtaXNzaW9uX3R5cGWUSwGMDWNyZWF0ZWRfYnlfaWSUS2+MDXVwZGF0ZWRfYnlfaWSUTowHY3JlYXRlZJRoV0MKB+gFEAUPKQzDcJRoYIaUUpSMB3VwZGF0ZWSUTmg0aDV1YmgQaBVoNmg7aEZoS3VoGol1YmgeSyNojEsDaB+MGVN1ZG93b29kbyAtIEVkb210IHN0LiAxMTKUaI6KBo9e3Z10D2iPTSDfaJBdlChHQEAmRZOIB6FHwDmwbMotthxlaCKMJDBkNmQxMGYwLTU4ZmMtNDdiMi05NWNjLTcxYzg5YWM5ZGQzYZRok0sCaJRLb2iVTmiWaFdDCgfoBRAIGTUHvyeUaGCGlFKUaJpOaDRoNXVidWgaiWgbaBx1YowCaWSUS0OMCmRlbGV0ZWRfYXSUTowEbmFtZZRom4wHZm9ybV9pZJSKBo9e3Z10D4wHZGF0YV9pZJRLI4wPc3VibWlzc2lvbl90eXBllEsCjBFhZG1pbmlzdHJhdGlvbl9pZJRNIN+MA2dlb5RonIwEdXVpZJRonYwIYmF0Y2hfaWSUSxeMDWNyZWF0ZWRfYnlfaWSUS2+MDXVwZGF0ZWRfYnlfaWSUTowHY3JlYXRlZJRoV0MKB+gFEAgWJgaoSJRoYIaUUpSMB3VwZGF0ZWSUTowIZHVyYXRpb26USwGMCXN1Ym1pdHRlcpSMBWVkb21llIwPX2RqYW5nb192ZXJzaW9ulGg1jAhhcHByb3ZlZJSIdWKFlC4=	gAV9lC4=	\N	2024-05-16 08:25:53.378365+00	2024-05-16 08:25:53.619564+00	t	fda1c842337240d6910bda71122714c2	\N	1
 burger-arizona-mars-lion	api.v1.v1_data.functions.refresh_materialized_data	\N	gAUpLg==	gAV9lC4=	\N	2024-05-16 09:48:50.019337+00	2024-05-16 09:48:50.178752+00	t	da58bf212a6e470ba6741a4c19f7e571	\N	1
-fix-island-vegan-shade	api.v1.v1_data.functions.refresh_materialized_data	\N	gAUpLg==	gAV9lC4=	\N	2024-05-17 01:48:55.285877+00	2024-05-17 01:53:15.929148+00	t	1d8b32ec7260423791012a50af41edc7	\N	1
-fanta-saturn-kitten-twenty	api.v1.v1_data.functions.refresh_materialized_data	\N	gAUpLg==	gAV9lC4=	\N	2024-05-17 01:58:08.52357+00	2024-05-17 01:58:08.783264+00	t	4d362019bb56476aa3a77403b73a7a14	\N	1
+oxygen-carpet-gee-yankee	api.v1.v1_data.functions.refresh_materialized_data	\N	gAUpLg==	gAV9lC4=	\N	2024-05-17 03:35:55.158844+00	2024-05-17 03:36:47.105187+00	t	f3393555884942a1aada86a42a4e0d95	\N	1
 \.
 
 
@@ -15797,16 +15796,16 @@ COPY public.entity_data (id, name, code, administration_id, entity_id) FROM stdi
 --
 
 COPY public.form (id, name, version, uuid, type, approval_instructions, submission_types) FROM stdin;
-1701757876668	School WASH Form	2	1f5cfbb1-56a1-4250-966d-945eb2bfb6e4	1	\N	{1,2}
-1710731783595	Urban sanitation form	2	64044256-4bbd-48a0-9374-a61fb0861d50	1	\N	{1,2}
-974754029	CLTS	2	9ce7ca17-6737-4bee-89db-c8ec7877aac2	1	\N	{1,2}
-1709689683440	Governance Form	2	bbd9c5dd-32c7-4332-93db-cbeabe7f518b	2	\N	{1,2}
-1699353915355	Household Monitoring Form	2	b522b719-4c48-4017-a5b6-8bc1ecd77622	1	\N	{1,2,3,4}
-16993539153551	Short HH	2	29099ccb-f3f7-4d2d-9523-5415476caf0e	1	{"text": "Please check all of the checkbox below", "action": ["I have checked all of the data correctly", "I approve this data for submission"]}	{1,2,3,4}
-571070071	Water System	2	22336e58-ac2f-4886-80fa-d9de6531a21b	2	\N	{1,2}
-1699354006503	Community Monitoring Form	2	7b02ef7b-1bae-4f64-895d-1892a49768c4	1	\N	{1,2,3,4}
 1701172125596	Institution Form	2	2d2d7e34-d8a3-4fe0-b6a2-c9bf9b223ee1	1	\N	{1,2}
 1701762893741	Healthcare Facility WASH Form	2	9b2a8bf1-5139-4ecf-8a16-abfbf82f9227	1	\N	{1,2}
+571070071	Water System	2	22336e58-ac2f-4886-80fa-d9de6531a21b	2	\N	{1,2}
+1709689683440	Governance Form	2	bbd9c5dd-32c7-4332-93db-cbeabe7f518b	2	\N	{1,2}
+1699354006503	Community Monitoring Form	2	7b02ef7b-1bae-4f64-895d-1892a49768c4	1	\N	{1,2,3,4}
+1710731783595	Urban sanitation form	2	64044256-4bbd-48a0-9374-a61fb0861d50	1	\N	{1,2}
+16993539153551	Short HH	2	29099ccb-f3f7-4d2d-9523-5415476caf0e	1	{"text": "Please check all of the checkbox below", "action": ["I have checked all of the data correctly", "I approve this data for submission"]}	{1,2,3,4}
+974754029	CLTS	2	9ce7ca17-6737-4bee-89db-c8ec7877aac2	1	\N	{1,2}
+1699353915355	Household Monitoring Form	2	b522b719-4c48-4017-a5b6-8bc1ecd77622	1	\N	{1,2,3,4}
+1701757876668	School WASH Form	2	1f5cfbb1-56a1-4250-966d-945eb2bfb6e4	1	\N	{1,2}
 \.
 
 
@@ -16003,1079 +16002,1079 @@ COPY public.mobile_assignments_forms (id, mobileassignment_id, forms_id) FROM st
 --
 
 COPY public.option (id, "order", value, other, question_id, color, label) FROM stdin;
-1309	2	2	f	1709699242015	\N	2. Low
-1310	3	3	f	1709699242015	\N	3. Middle
-1074	1	new	f	1701757914033	\N	New
-1075	2	update	f	1701757914033	\N	Update
-1076	1	chief_principal	f	1706105097574	\N	Chief Principal
-1077	2	senior_principal	f	1706105097574	\N	Senior Principal
-1078	3	principal	f	1706105097574	\N	Principal
-1079	4	deputy_principal	f	1706105097574	\N	Deputy Principal
-1080	5	senior_master	f	1706105097574	\N	Senior Master
-1081	6	deputy_headteacher	f	1706105097574	\N	Deputy Headteacher
-1082	7	teacher	f	1706105097574	\N	Teacher
-1083	8	other	f	1706105097574	\N	Other-specify
-1084	1	no_water_source	f	1706087451989	#db3b3b	No water source
-1085	2	surface_water_lake_river_stream_dam	f	1706087451989	#db3b3b	Surface water (lake, river, stream, dam)
-1086	3	unprotected_well_spring	f	1706087451989	#db3b3b	Unprotected well/spring
-1087	4	children_bring_water_from_home	f	1706087451989	#db3b3b	Children bring water from home
-1088	5	piped_water_supply	f	1706087451989	#38a15a	Piped water supply
-1089	6	protected_well	f	1706087451989	#38a15a	Protected well/spring/borehole
-1090	7	rainwater_tank	f	1706087451989	#38a15a	Rainwater tank
-1091	8	packaged_water_bottles	f	1706087451989	#38a15a	Packaged water (bottles)
-1092	9	tanker_truck_cart	f	1706087451989	#38a15a	Tanker truck or cart
-1093	10	other_improved_specify	f	1706087451989	#38a15a	Other improved - specify
-1094	1	no	f	1706089053651	#db3b3b	No
-1095	2	yes	f	1706089053651	#38a15a	Yes
-1311	4	4	f	1709699242015	\N	4. High
-1096	1	no_unavailable_for_more_than_30_days	f	1706089220816	#db3b3b	No (unavailable for more than 30 days in total)
-1097	2	mostly_unavailable_for_up_to_30_days	f	1706089220816	#ffa57d	Mostly (unavailable for up to 30 days in total)
-1098	3	yes_always_available	f	1706089220816	#38a15a	Yes (always available)
-1099	1	no_treatment	f	1706090780592	#db3b3b	No treatment
-1100	2	filtration	f	1706090780592	#38a15a	Filtration
-1101	3	boiling	f	1706090780592	#38a15a	Boiling
-1102	4	chlorination	f	1706090780592	#38a15a	Chlorination
-1103	5	sodi	f	1706090780592	#38a15a	SODIS
-1104	6	ultraviolet_disinfection	f	1706090780592	#38a15a	Ultraviolet disinfection
-1105	7	other_specify	f	1706090780592	#38a15a	Other (specify)
-1106	1	no	f	1706091513597	#db3b3b	No
-1107	2	yes	f	1706091513597	#38a15a	Yes
-1108	1	no	f	1706091729540	#db3b3b	No
-1109	2	yes	f	1706091729540	#38a15a	Yes
-1110	1	no_toilet	f	1706087820880	#db3b3b	No toilet
-1111	2	vip_drophole_with_vent_pipe	f	1706087820880	#38a15a	Open pits (Uncovered or large openings)
-1112	3	dry_latrine_with_drophole	f	1706087820880	#38a15a	Hole in floor (Dry latrine)
-1113	4	vip_drop_with_vent_pipe	f	1706087820880	#38a15a	Hole in floor (VIP latrine with vent pipe)
-1114	5	sato_pan	f	1706087820880	#38a15a	SATO pan
-1115	6	flush_pour_pan_with_water_seal	f	1706087820880	#38a15a	Flush or pour-flush pan with water seal
-1116	7	dry_toilet_with_urine_drophole	f	1706087820880	#38a15a	Dry toilet with urine-diverting drophole
-1117	8	open_pipe_no_water_seal	f	1706087820880	#38a15a	Open pipe to pit (no water seal)
-1118	9	other_hygienic_toilet_interface	f	1706087820880	#38a15a	Other toilet hygienic interface
-1119	10	other_unhygienic_toilet_interface	f	1706087820880	#38a15a	Other toilet unhygienic interface
-1120	1	no_toilet	f	1706092607055	#db3b3b	No toilet
-1121	2	no_pit_tank_discharge_to_open	f	1706092607055	#db3b3b	No pit or tank (discharge to open: field, open drain, water body, elsewhere)
-1122	3	open_pit_uncovered_large_openings	f	1706092607055	#db3b3b	Open pit (uncovered or large openings)
-1123	4	single_toilet_vault_above_ground	f	1706092607055	#db3b3b	Single toilet vault (above ground)
-1124	5	removable_open_container	f	1706092607055	#db3b3b	Removable open container (e.g. bucket)
-1125	6	single_latrine_pit	f	1706092607055	#38a15a	Single latrine pit
-1126	7	multi_latrine_pit	f	1706092607055	#38a15a	Multi-latrine pit
-1127	8	multi_toilet_vault_above_ground	f	1706092607055	#38a15a	Multi toilet vault (above ground)
-1128	9	septic_tank	f	1706092607055	#38a15a	Septic tank
-1129	10	removable_close_container	f	1706092607055	#38a15a	Removable closed container
-1130	11	sewer_connection	f	1706092607055	#38a15a	Connection to sewer network
-1131	12	flush_to_dont_know	f	1706092607055	#38a15a	Flush to don't know
-1132	13	other_pit_tank	f	1706092607055	#38a15a	Other pit or tank
-1133	1	g0_no_toilet	f	1706093073073	#db3b3b	No Toilet
-1134	2	g0_all_school_toilet_slabs_are_not_durable	f	1706093073073	#db3b3b	All school toilet slabs are NOT durable
-1135	3	g1_some_school_toilet_slab_are_not_durable	f	1706093073073	#ffa57d	Some school toilet slabs are NOT durable
-1136	4	g3_all_funcional_school_toilets_have_durable_toilet_slab	f	1706093073073	#38A15A	All functional school toilets have durable toilet slabs
-1137	1	g0_no_toilet	f	1706093811090	#db3b3b	No Toilet
-1138	2	g0_all_toil_pits_are_not_dura	f	1706093811090	#db3b3b	All toilet pits are NOT durable
-1139	3	g1_some_toil_pits_are_not_dura	f	1706093811090	#ffa57d	Some toilet pits are NOT durable
-1140	4	g3_all_func_toil_pits_are_dura	f	1706093811090	#38a15a	All functional toilet pits are durable
-1141	1	no_toilet	f	1706098008845	#db3b3b	No toilet
-1142	2	all_school_toilets_are_not_flyproof	f	1706098008845	#DB3B3B	All school toilets are NOT flyproof
-1143	3	some_school_toilets_are_not_flyproof	f	1706098008845	#ffa57d	Some school toilets are NOT flyproof
-1144	4	all_functional_school_toilets_are_flyproof	f	1706098008845	#38A15A	All functional school toilets are flyproof
-1145	1	no_toilet	f	1706098410203	#db3b3b	No toilet
-1146	2	all_school_toilets_provide_inadequate_privacy	f	1706098410203	#DB3B3B	All school toilets provide INADEQUATE privacy
-1147	3	some_school_toilets_provide_inadequate_privacy	f	1706098410203	#ffa57d	Some school toilets provide INADEQUATE privacy
-1148	4	all_functional_school_toilets_provide_good_privacy	f	1706098410203	#38A15A	All functional school toilets provide good privacy
-1149	1	no_toilet	f	1706098604926	#db3b3b	No toilet
-1150	2	all_school_toilets_unavailable_to_students	f	1706098604926	#DB3B3B	All school toilets UNAVAILABLE to students
-1151	3	some_school_toilets_unavailable_to_students	f	1706098604926	#ffa57d	Some school toilets UNAVAILABLE to students
-1152	4	all_functional_school_toilets_available_to_students	f	1706098604926	#38A15A	All functional school toilets available to students
-1153	1	no_toilet	f	1706098728743	#db3b3b	No toilet
-1154	2	all_functional_school_toilets_are_clean	f	1706098728743	#DB3B3B	School toilets NOT clean
-1155	3	school_toilets_not_clean	f	1706098728743	#ffa57d	School toilets somewhat clean
-1156	4	school_toilets_somewhat_clean	f	1706098728743	#38A15A	All functional school toilets are clean
-1157	1	human_excreta_observed	f	1706098964064	#DB3B3B	Human excreta observed
-1158	2	no_visible_od_human_excreta	f	1706098964064	#38A15A	No visible OD or human excreta
-1159	1	visible_surface_outflows_from_containment	f	1706099198431	#DB3B3B	Visible surface outflows from containment
-1160	2	evident_previous_surface_outflows_from_containment	f	1706099198431	#ffa57d	Evidence of previous surface outflows from containment
-1161	1	no_toilet	f	1706099341937	#db3b3b	No toilet
-1312	5	5	f	1709699242015	\N	5. Very high
-1162	2	unsafely_contained_emptied_to_open_pit_open_space	f	1706099341937	#DB3B3B	Emptied to open pit or open space
-1163	3	unsafely_contained_emptied_to_unlicenced_unknown_location	f	1706099341937	#DB3B3B	Emptied to UNLICENSED or UNKNOWN location
-1164	4	unsafely_contained_faecal_sludge_stored_for_less_than_2_years_before_emptying_use_stored_waste	f	1706099341937	#ffa57d	Stored for less than 2 years before use of stored waste
-1165	5	safely_contained_never_emptied_not_yet_full_no_intention_to_empty	f	1706099341937	#38A15A	Never emptied (no intention to empty)
-1166	6	safely_contained_never_emptied_previous_pit_tank_replaced_when_full	f	1706099341937	#38A15A	Never emptied, previous pit or tank replaced when full
-1167	7	safely_contained_stored_for_more_than_2_years_before_use_stored_waste	f	1706099341937	#38A15A	Stored for MORE than 2 years before use of stored waste
-1168	8	safely_contained_emptied_to_nearby_covered_pit	f	1706099341937	#38A15A	Emptied to nearby covered pit (buried within community)
-1169	9	safely_contained_emptied_by_licensed_service_provider	f	1706099341937	#38A15A	Emptied by licensed service provider
-1170	10	sewer_connection	f	1706099341937	#38A15A	Connection to sewer network
-1171	1	no	f	1706099849459	#DB3B3B	No
-1172	2	yes	f	1706099849459	#38A15A	Yes
-1173	1	no	f	1706099987137	#DB3B3B	No
-1174	2	yes	f	1706099987137	#38A15A	Yes
-1175	1	no_handwashing_facilities	f	1706087908008	#DB3B3B	No handwashing facilities
-1176	2	handwashing_facilities_outside_school_compound	f	1706087908008	#ffa57d	Handwashing facilities outside school compound
-1177	3	handwashing_facility_by_school_toilets	f	1706087908008	#38A15A	Handwashing facilities by school toilets
-1178	4	handwashing_facility_food_preparation_area	f	1706087908008	#38A15A	Handwashing facilities in food preparation area
-1179	5	handwashing_facility_food_consumption_area	f	1706087908008	#38A15A	Handwashing facilities in food consumption/dining area
-1180	6	hand_facility_by_classroom	f	1706087908008	#38A15A	Handwashing facilities by classrooms
-1181	7	handwashing_facility_school_yard	f	1706087908008	#38A15A	Handwashing facilities in school yard
-1182	8	other_location_for_handwashing_facility	f	1706087908008	#38A15A	Other location for handwashing facilities
-1183	1	no_handwashing_facilities	f	1706100460142	#DB3B3B	No handwashing facilities
-1184	2	no_water_availability	f	1706100460142	#DB3B3B	No water available
-1185	3	some_handwashing_facility_have_water_availability	f	1706100460142	#ffa57d	Water NOT available at some handwashing facilities
-1186	4	all_handwashing_facilities_have_water_availability	f	1706100460142	#38A15A	All handwashing facilities have water available
-1187	1	no_handwashing_facilities	f	1706100696237	#DB3B3B	No handwashing facilities
-1188	2	no_soap_other_cleanser_available	f	1706100696237	#DB3B3B	No soap or other cleanser available
-1189	3	ash_mud_sand_available	f	1706100696237	#DB3B3B	Ash, mud or sand available
-1190	4	some_handwashing_facility_have_soap_available	f	1706100696237	#ffa57d	Some handwashing facilities have soap available
-1191	5	all_handwashing_facility_have_soap_available	f	1706100696237	#38A15A	All handwashing facilities have soap available
-1192	1	no_handwashing_facilities	f	1706100878596	#DB3B3B	No handwashing facilities
-1193	2	jerrycans_other_closed_containers	f	1706100878596	#ffa57d	Jerrycans or other closed containers
-1194	3	portable_basins_other_open_containers	f	1706100878596	#ffa57d	Portable basins or other open containers
-1195	4	other_temporary_handwashing_facilities	f	1706100878596	#ffa57d	Temporary handwashing facilities (tippy tap)
-1196	5	piped_water_taps_with_basins	f	1706100878596	#38A15A	Piped water taps with basins
-1197	6	permanent_handwashing_stations_with_adequate_water_storage	f	1706100878596	#38A15A	Permanent handwashing stations with adequate water storage
-1198	7	other_permanent_handwashing_stations	f	1706100878596	#38A15A	Other permanent handwashing stations
-1199	1	no_handwashing_facilities	f	1706101237257	#DB3B3B	No handwashing facilities
-1200	2	hands_enter_water_containers_during_collection_and_use	f	1706101237257	#DB3B3B	Hands contaminate stored water
-1201	3	water_collected_by_hand_using_ladle_cup_other	f	1706101237257	#ffa57d	Water collected using tool (ladle, cup, other)
-1202	4	closed_water_storage_containers_with_taps	f	1706101237257	#38A15A	Closed water storage containers with taps
-1203	5	piped_water_with_supply_taps	f	1706101237257	#38A15A	Piped water supply with taps
-1204	6	other_handsfree_operation	f	1706101237257	#38A15A	Other hands-free use
-1205	1	no_handwashing_facilities	f	1706101674846	#DB3B3B	No handwashing facilities
-1206	2	no_collection_disposal_washing_water	f	1706101674846	#DB3B3B	No collection or disposal of washing water
-1207	3	collection_washing_water_without_drainage_disposal	f	1706101674846	#ffa57d	Collection of washing water without good drainage or disposal
-1208	4	safe_collection_disposal_washing_water	f	1706101674846	#38A15A	Safe collection and disposal of washing water
-1209	1	no	f	1706101879545	#DB3B3B	No
-1210	2	yes	f	1706101879545	#38A15A	Yes
-1211	1	no	f	1706101994157	#DB3B3B	No
-1212	2	yes	f	1706101994157	#38A15A	Yes
-1213	1	no_bathing_areas	f	1706088324274	#DB3B3B	No bathing areas
-1214	2	inadequate_bathing_areas	f	1706088324274	#ffa57d	Inadequate bathing areas
-1215	3	private_bathing_areas_for_menstrual_hygiene	f	1706088324274	#38A15A	Private bathing areas for menstrual hygiene
-1216	1	no_bathing_areas	f	1706102430669	#DB3B3B	No bathing areas
-1217	2	water_soap_are_not_available_bathing_areas	f	1706102430669	#DB3B3B	Water and soap are NOT available in bathing areas
-1218	3	some_bathing_areas_have_water_soap_available	f	1706102430669	#ffa57d	Some bathing areas have water and soap available
-1219	4	all_bathing_areas_have_both_water_soap_available	f	1706102430669	#38A15A	All bathing areas have both water and soap available
-1220	1	no_bathing_areas	f	1706102541414	#DB3B3B	No bathing areas
-1221	2	all_bathing_areas_are_not_clean	f	1706102541414	#DB3B3B	All bathing areas are NOT clean
-1222	3	some_bathing_areas_are_not_clean	f	1706102541414	#ffa57d	Some bathing areas are NOT clean
-1223	4	clean_bathing_areas_for_menstrual_hygiene	f	1706102541414	#38A15A	Clean bathing areas for menstrual hygiene
-1224	1	materials_are_not_available_not_appropriate	f	1706102678348	#DB3B3B	Materials are NOT available or NOT appropriate
-1225	2	materials_are_not_always_available_appropriate	f	1706102678348	#ffa57d	Materials are not always available or appropriate
-1226	3	appropriate_mhm_materials_are_available	f	1706102678348	#38A15A	Appropriate MHM materials are available
-1227	1	no_covered_bins_available	f	1706102843878	#DB3B3B	No covered bins available
-1228	2	some_covered_bins_available	f	1706102843878	#ffa57d	Some covered bins available
-1229	3	all_bathing_areas_have_covered_bins_available_for_menstrual_hygiene_wastes	f	1706102843878	#38A15A	All bathing areas have covered bins available for menstrual hygiene wastes
-1230	1	no_disposal_facilities	f	1706102974110	#DB3B3B	No disposal facilities
-1231	2	emptied_to_open_pits_open_space_open_water_bodied_open_drains	f	1706102974110	#DB3B3B	Emptied to open pits, open space, open water bodies, open drains
-1232	3	collected_by_unlicenced_service_providers	f	1706102974110	#ffa57d	Collected by UNLICENSED service providers
-1233	4	emptied_to_covered_pit	f	1706102974110	#38A15A	Emptied to covered pit
-1234	5	burned_on_premises	f	1706102974110	#38A15A	Burned on premises
-1235	6	collected_by_municipal_waste_system_service_providers	f	1706102974110	#38A15A	Collected by municpal waste system/licensed service providers
-1236	1	no	f	1706103220972	#DB3B3B	No
-1237	2	yes	f	1706103220972	#38A15A	Yes
-1238	1	amref	f	494780324	\N	Amref
-1239	2	amref_and_local_government	f	494780324	\N	Amref and Local Government
-1240	3	other	f	494780324	\N	Other
-1241	1	yes	f	569090299	\N	Yes
-1242	2	no	f	569090299	\N	No
-1243	1	yes	f	571070202	\N	Yes
-1244	2	no	f	571070202	\N	No
-1245	1	yes	f	557710260	\N	Yes
-1246	2	no	f	557710260	\N	No
-1247	1	yes	f	573010345	\N	Yes
-1248	2	no	f	573010345	\N	No
-1249	1	yes	f	557710261	\N	Yes
-1250	2	no	f	557710261	\N	No
-1251	1	bucket	f	583770042	\N	Bucket
-1252	2	containerbased_sanitation	f	583770042	\N	Container-based sanitation
-1253	3	flushpour_flush_to_piped_sewer_system	f	583770042	\N	Flush/pour flush to piped sewer system
-1254	4	flushpour_flush_to_septic_tank	f	583770042	\N	Flush/pour flush to septic tank
-1255	5	flushpour_flush_to_pit_latrine	f	583770042	\N	Flush/pour flush to pit latrine
-1256	6	flushpour_flush_to_open_drain	f	583770042	\N	Flush/pour flush to open drain
-1257	7	hanging_toiletlatrine	f	583770042	\N	Hanging toilet/latrine
-1258	8	pit_latrine_with_slab	f	583770042	\N	Pit latrine with slab
-1259	9	pit_latrine_without_slabopen_pit	f	583770042	\N	Pit latrine without slab/open pit
-1260	10	twin_pit_offset_latrine	f	583770042	\N	Twin pit offset latrine
-1261	11	twin_pit_with_latrine_slab	f	583770042	\N	Twin pit with latrine slab
-1262	12	twin_pit_without_slab	f	583770042	\N	Twin pit without slab
-1263	13	ventilated_improved_pit_latrine_vip_with_slab	f	583770042	\N	Ventilated improved pit latrine (VIP) with slab
-1264	14	other_composting_latrine	f	583770042	\N	Other composting latrine
-1265	1	open_defecation	f	557700349	\N	Open Defecation
-1266	2	triggered	f	557700349	\N	Triggered
-1267	3	declared_odf	f	557700349	\N	Declared ODF
-1268	4	verified_odf	f	557700349	\N	Verified ODF
-1269	1	yes	f	1709689683442	\N	Yes
-1270	2	no	f	1709689683442	\N	No
-1271	1	yes	f	1714374463	\N	Yes
-1272	2	no	f	1714374463	\N	No
-1273	1	yes	f	1714374520	\N	Yes
-1274	2	no	f	1714374520	\N	No
-1275	1	yes	f	1714374534	\N	Yes
-1276	2	no	f	1714374534	\N	No
-1277	1	yes	f	1714374554	\N	Yes
-1278	2	no	f	1714374554	\N	No
-1279	1	yes	f	1714374568	\N	Yes
-1280	2	no	f	1714374568	\N	No
-1281	1	yes	f	1714374583	\N	Yes
-1282	2	no	f	1714374583	\N	No
-1283	1	yes	f	1714374596	\N	Yes
-1284	2	no	f	1714374596	\N	No
-1285	1	yes	f	1709698055520	\N	Yes
-1286	2	no	f	1709698055520	\N	No
-1287	1	yes	f	1709698095513	\N	Yes
-1288	2	no	f	1709698095513	\N	No
-1289	1	yes	f	1709698133970	\N	Yes
-1290	2	no	f	1709698133970	\N	No
-1291	1	yes	f	1709698185027	\N	Yes
-1292	2	no	f	1709698185027	\N	No
-1293	1	yes	f	1709698458281	\N	Yes
-1294	2	no	f	1709698458281	\N	No
-1295	1	<50%	f	1709698500881	#d0021b	<50%
-1296	2	50%-74%	f	1709698500881	#f5a623	50%-74%
-1297	3	75%-94%	f	1709698500881	#f5a623	75%-94%
-1298	4	>_95%	f	1709698500881	#417505	> 95%
-1299	1	<50%	f	1709698602546	#d0021b	<50%
-1300	2	50%-74%	f	1709698602546	#f5a623	50%-74%
-1301	3	75%-94%	f	1709698602546	#f5a623	75%-94%
-1302	4	>_95%	f	1709698602546	#417505	> 95%
-1303	1	1_very_low	f	1709699086287	\N	1. Very low
-1304	2	2_low	f	1709699086287	\N	2. Low
-1305	3	3_middle	f	1709699086287	\N	3. Middle
-1306	4	4_high	f	1709699086287	\N	4. High
-1307	5	5_very_high	f	1709699086287	\N	5. Very high
-1308	1	1	f	1709699242015	\N	1. Very low
-1313	1	<50%	f	1709699279824	#d0021b	<50%
-1314	2	50%-74%	f	1709699279824	#f5a623	50%-74%
-1315	3	75%-94%	f	1709699279824	#f5a623	75%-94%
-1316	4	>_95%	f	1709699279824	#417505	> 95%
-1317	1	data_not_available	f	1709699648646	#d0021b	Data not available
-1318	2	data_not_used	f	1709699648646	#f5a623	Data not used
-1319	3	data_used_for_minority	f	1709699648646	#7ed321	Data used for minority
-1320	4	data_used_for_majority	f	1709699648646	#417505	Data used for majority
-1321	1	data_not_available	f	1714379034	#d0021b	Data not available
-1322	2	data_not_used	f	1714379034	#f5a623	Data not used
-1323	3	data_used_for_minority	f	1714379034	#7ed321	Data used for minority
-1324	4	data_used_for_majority	f	1714379034	#417505	Data used for majority
-1325	1	data_not_available	f	1709699787978	#d0021b	Data not available
-1326	2	data_not_used	f	1709699787978	#f5a623	Data not used
-1327	3	data_used_for_minority	f	1709699787978	#7ed321	Data used for minority
-1328	4	data_used_for_majority	f	1709699787978	#417505	Data used for majority
-1329	1	new	f	1699354220734	\N	New
-1330	2	update	f	1699354220734	\N	Update
-1331	3	verification	f	1699354220734	\N	Verification
-1332	4	certification	f	1699354220734	\N	Certification
-1333	1	hh_head	f	1699417958748	\N	Household head
-1334	2	spouse_of_hh_head	f	1699417958748	\N	Spouse of household head
-1335	3	parent_of_hh_head	f	1699417958748	\N	Parent of household head
-1336	4	adult_child_of_hh_head	f	1699417958748	\N	Adult child of household head
-1337	5	under18_child_of_hh_head	f	1699417958748	\N	Under-18 child of household head
-1338	1	female	f	1699419372643	\N	Female
-1339	2	male	f	1699419372643	\N	Male
-1340	3	other_gender	f	1699419372643	\N	Other gender
-1341	4	i_prefer_not_to_say	f	1699419372643	\N	I prefer not to say
-1342	1	at_risk_disabled_hh_member_mentally_or_physically	f	1699420621840	#DB3B3B	AT RISK: Disabled household member (mentally or physically)
-1343	2	at_risk_elderlyheaded_households_without_support	f	1699420621840	#DB3B3B	AT RISK: Elderly-headed households (without support)
-1344	3	at_risk_ethnic_minorities	f	1699420621840	#DB3B3B	AT RISK: Ethnic minorities
-1345	4	at_risk_femaleheaded_hh_single_mothers_divorcees_widows	f	1699420621840	#DB3B3B	AT RISK: Female-headed household (single mothers, divorcees, widows)
-1346	5	at_risk_hivaids_affected_or_other_serious_illness	f	1699420621840	#DB3B3B	AT RISK: HIV/AIDS affected (or other serious illness)
-1347	6	at_risk_inmigrants_new_households_in_last_12_months	f	1699420621840	#DB3B3B	AT RISK: In-migrants (new households in last 12 months)
-1348	7	at_risk_internally_displaced_people	f	1699420621840	#DB3B3B	AT RISK: Internally displaced people
-1349	8	at_risk_landlesstenants	f	1699420621840	#DB3B3B	AT RISK: Landless/tenants
-1350	9	at_risk_longterm_poor	f	1699420621840	#DB3B3B	AT RISK: Long-term poor
-1351	10	at_risk_new_adult_households_newly_formed_hh	f	1699420621840	#DB3B3B	AT RISK: New adult households (newly formed household)
-1352	11	at_risk_nomadic_or_seminomadic	f	1699420621840	#DB3B3B	AT RISK: Nomadic or semi-nomadic pastoralists
-1353	12	at_risk_orphans_and_vulnerable_children	f	1699420621840	#DB3B3B	AT RISK: Orphans and vulnerable children
-1354	13	at_risk_religious_minorities	f	1699420621840	#DB3B3B	AT RISK: Religious minorities
-1355	14	at_risk_returning_refugees	f	1699420621840	#DB3B3B	AT RISK: Returning refugees
-1356	15	at_risk_seasonal_fishing_group	f	1699420621840	#DB3B3B	AT RISK: Seasonal migrants (fisherfolk, farmers etc)
-1357	16	at_risk_shared_use_of_someone_elses_toiletpublic_toilet_dont_have_a_toilet	f	1699420621840	#DB3B3B	AT RISK: Shared use of someone else's toilet/public toilet (don't have a toilet)
-1358	17	at_risk_households_with_previously_collapsed_or_flooded_toilets	f	1699420621840	#DB3B3B	AT RISK: previously collapsed or abandoned toilets
-1359	18	other_hh_not_in_atrisk_category	f	1699420621840	#38A15A	OTHER household (NOT in at-risk category)
-1360	1	yes_animals_kept_in_household_compound	f	1710829091	\N	Yes
-1361	2	no_animals_kept_in_household_compound	f	1710829091	\N	No
-1362	1	g0_no_toilet_practice_od	f	1699428072669	#DB3B3B	No toilet, practice open defecation
-1363	2	g0_do_not_use_toilet_practice_od	f	1699428072669	#DB3B3B	Do NOT use toilet, practice open defecation
-1364	3	g1_use_own_toilet	f	1699428072669	#38A15A	Use own toilet
-1365	4	g1_use_other_hh_toilet	f	1699428072669	#38A15A	Use other household toilet
-1366	1	g0_no_toilet	f	1699428400205	#DB3B3B	No toilet
-1367	2	g0_toilet_notshared_more_than_1015_users	f	1699428400205	#DB3B3B	Toilet NOT-shared: MORE than 10-15 users
-1368	3	g0_toilet_shared_more_than_1015_users	f	1699428400205	#DB3B3B	Toilet SHARED: MORE than 10-15 users
-1369	4	g1_toilet_notshared_less_than_1015_users	f	1699428400205	#38A15A	Toilet NOT-shared: Less than 10-15 users
-1370	5	g1_toilet_shared_less_than_1015_users	f	1699428400205	#38A15A	Toilet SHARED: Less than 10-15 users
-1371	1	g0_no_toilet	f	1699428351326	#DB3B3B	No toilet
-1372	2	g0_no_members_use_toilet	f	1699428351326	#DB3B3B	All do NOT use toilet
-1373	3	g0_some_members_do_not_use_toilet	f	1699428351326	#ffa57d	Some do NOT use toilet
-1374	4	g1_all_use_toilet	f	1699428351326	#38A15A	All use toilet
-1375	1	g0_no_toilet	f	1699428535663	#DB3B3B	No toilet
-1376	2	hh_member_1_g0_no_toilet_use_practice_od	f	1699428535663	#DB3B3B	#1: No toilet use, practice open defecation
-1377	3	hh_member_1_g1_use_other_hh_toilet_shared`	f	1699428535663	#ffa57d	#1: Use other household toilet (shared)
-1378	4	hh_member_1_g1_use_own_toilet_shared	f	1699428535663	#ffa57d	#1: Use own toilet (shared)
-1379	5	hh_member_1_g2_use_own_toilet_not_shared	f	1699428535663	#38A15A	#1: Use own toilet (NOT shared)
-1380	1	g0_no_toilet	f	1711626271	#DB3B3B	No toilet
-1381	2	hh_member_1_g0_no_toilet_use_practice_od	f	1711626271	#DB3B3B	#1: No toilet use, practice open defecation
-1382	3	hh_member_1_g1_use_other_hh_toilet_shared`	f	1711626271	#ffa57d	#1: Use other household toilet (shared)
-1383	4	hh_member_1_g1_use_own_toilet_shared	f	1711626271	#ffa57d	#1: Use own toilet (shared)
-1384	5	hh_member_1_g2_use_own_toilet_not_shared	f	1711626271	#38A15A	#1: Use own toilet (NOT shared)
-1385	1	g0_no_toilet	f	1711626326	#DB3B3B	No toilet
-1386	2	hh_member_1_g0_no_toilet_use_practice_od	f	1711626326	#DB3B3B	#1: No toilet use, practice open defecation
-1387	3	hh_member_1_g1_use_other_hh_toilet_shared`	f	1711626326	#ffa57d	#1: Use other household toilet (shared)
-1388	4	hh_member_1_g1_use_own_toilet_shared	f	1711626326	#ffa57d	#1: Use own toilet (shared)
-1389	5	hh_member_1_g2_use_own_toilet_not_shared	f	1711626326	#38A15A	#1: Use own toilet (NOT shared)
-1390	1	g0_no_toilet	f	1711626360	#DB3B3B	No toilet
-1391	2	hh_member_1_g0_no_toilet_use_practice_od	f	1711626360	#DB3B3B	#1: No toilet use, practice open defecation
-1392	3	hh_member_1_g1_use_other_hh_toilet_shared`	f	1711626360	#ffa57d	#1: Use other household toilet (shared)
-1393	4	hh_member_1_g1_use_own_toilet_shared	f	1711626360	#ffa57d	#1: Use own toilet (shared)
-1394	5	hh_member_1_g2_use_own_toilet_not_shared	f	1711626360	#38A15A	#1: Use own toilet (NOT shared)
-1395	1	g0_no_toilet	f	1711626377	#DB3B3B	No toilet
-1396	2	hh_member_1_g0_no_toilet_use_practice_od	f	1711626377	#DB3B3B	#1: No toilet use, practice open defecation
-1397	3	hh_member_1_g1_use_other_hh_toilet_shared`	f	1711626377	#ffa57d	#1: Use other household toilet (shared)
-1398	4	hh_member_1_g1_use_own_toilet_shared	f	1711626377	#ffa57d	#1: Use own toilet (shared)
-1399	5	hh_member_1_g2_use_own_toilet_not_shared	f	1711626377	#38A15A	#1: Use own toilet (NOT shared)
-1400	1	g0_no_toilet	f	1711626412	#DB3B3B	No toilet
-1401	2	hh_member_1_g0_no_toilet_use_practice_od	f	1711626412	#DB3B3B	#1: No toilet use, practice open defecation
-1402	3	hh_member_1_g1_use_other_hh_toilet_shared`	f	1711626412	#ffa57d	#1: Use other household toilet (shared)
-1403	4	hh_member_1_g1_use_own_toilet_shared	f	1711626412	#ffa57d	#1: Use own toilet (shared)
-1404	5	hh_member_1_g2_use_own_toilet_not_shared	f	1711626412	#38A15A	#1: Use own toilet (NOT shared)
-1405	1	g0_no_toilet	f	1711626430	#DB3B3B	No toilet
-1406	2	hh_member_1_g0_no_toilet_use_practice_od	f	1711626430	#DB3B3B	#1: No toilet use, practice open defecation
-1407	3	hh_member_1_g1_use_other_hh_toilet_shared`	f	1711626430	#ffa57d	#1: Use other household toilet (shared)
-1408	4	hh_member_1_g1_use_own_toilet_shared	f	1711626430	#ffa57d	#1: Use own toilet (shared)
-1409	5	hh_member_1_g2_use_own_toilet_not_shared	f	1711626430	#38A15A	#1: Use own toilet (NOT shared)
-1410	1	g0_no_toilet	f	1711626447	#DB3B3B	No toilet
-1411	2	hh_member_1_g0_no_toilet_use_practice_od	f	1711626447	#DB3B3B	#1: No toilet use, practice open defecation
-1412	3	hh_member_1_g1_use_other_hh_toilet_shared`	f	1711626447	#ffa57d	#1: Use other household toilet (shared)
-1413	4	hh_member_1_g1_use_own_toilet_shared	f	1711626447	#ffa57d	#1: Use own toilet (shared)
-1414	5	hh_member_1_g2_use_own_toilet_not_shared	f	1711626447	#38A15A	#1: Use own toilet (NOT shared)
-1415	1	g0_no_toilet	f	1711626463	#DB3B3B	No toilet
-1416	2	hh_member_1_g0_no_toilet_use_practice_od	f	1711626463	#DB3B3B	#1: No toilet use, practice open defecation
-1417	3	hh_member_1_g1_use_other_hh_toilet_shared`	f	1711626463	#ffa57d	#1: Use other household toilet (shared)
-1418	4	hh_member_1_g1_use_own_toilet_shared	f	1711626463	#ffa57d	#1: Use own toilet (shared)
-1419	5	hh_member_1_g2_use_own_toilet_not_shared	f	1711626463	#38A15A	#1: Use own toilet (NOT shared)
-1420	1	g0_no_toilet	f	1711627430	#DB3B3B	No toilet
-1421	2	hh_member_1_g0_no_toilet_use_practice_od	f	1711627430	#DB3B3B	#1: No toilet use, practice open defecation
-1422	3	hh_member_1_g1_use_other_hh_toilet_shared`	f	1711627430	#ffa57d	#1: Use other household toilet (shared)
-1423	4	hh_member_1_g1_use_own_toilet_shared	f	1711627430	#ffa57d	#1: Use own toilet (shared)
-1424	5	hh_member_1_g2_use_own_toilet_not_shared	f	1711627430	#38A15A	#1: Use own toilet (NOT shared)
-1425	1	g0_no_toilet	f	1699427574765	#DB3B3B	No toilet
-1426	2	g0_no_containment_discharge_to_open_open_container	f	1699427574765	#DB3B3B	Toilet with no pit or tank (discharge to open)
-1427	3	g0_not_durable_containment_collapse_problems	f	1699427574765	#DB3B3B	Open pit or open container
-1428	4	g1_unlined_pit_unstable_soil_but_not_collapsed	f	1699427574765	#ffa57d	Unlined pit or tank (unstable soil)
-1429	5	g1_containment_lined_with_inadequate_local_materials	f	1699427574765	#ffa57d	Pit or tank lined with non-durable local materials
-1430	6	g2_containment_unlined_in_stable_soil	f	1699427574765	#38A15A	Pit unlined (in stable soil)
-1431	7	g2_containment_lined_with_blocks_or_bricks	f	1699427574765	#38A15A	Pit lined with blocks or bricks
-1432	8	g2_containment_lined_with_concrete	f	1699427574765	#38A15A	Pit lined with concrete
-1433	9	g2_containment_lined_with_resilient_local_materials	f	1699427574765	#38A15A	Pit lined with resilient local materials
-1434	10	g2_containment_lined_with_other_durable_materials	f	1699427574765	#38A15A	Pit lined with other durable materials
-1435	11	g2_durable_removable_container	f	1699427574765	#38A15A	Durable removable container
-1436	12	g2_durable_sewer_connection	f	1699427574765	#38A15A	Durable connection to sewer network
-1437	1	g0_no_toilet_or_no_containment_or_collection_system	f	1699427885744	#DB3B3B	No toilet
-1438	2	g0_no_pit_or_tank	f	1699427885744	#DB3B3B	Surface outflows: Toilet with no pit or tank
-1439	3	g0_regularly_or_continuously	f	1699427885744	#DB3B3B	Surface outflows: Continuous or regular
-1440	4	g1_only_once_rarely	f	1699427885744	#ffa57d	Surface outflows: Only once, rarely
-1441	5	g2_never	f	1699427885744	#38A15A	NO surface outflows
-1442	1	g0_no_toilet_or_no_containmentcollection_system	f	1699428661689	#DB3B3B	No toilet
-1443	2	g0_toilet_no_pit_or_tank_discharge_to_open	f	1699428661689	#DB3B3B	Toilet with no pit or tank (discharge to open)
-1444	3	g0_unsafe_containment_open_container	f	1699428661689	#DB3B3B	Open pit or open container
-1445	4	g0_unsafe_containment_overflow_to_open_space_open_drain_water_body	f	1699428661689	#DB3B3B	Pit or tank overflows to open
-1446	5	g1_risk_of_unsafe_services_never_emptied_intention_to_empty_when_full	f	1699428661689	#ffa57d	Never emptied (but intention to empty when full)
-1447	6	g3_never_emptied_first_pit_no_intention_to_empty	f	1699428661689	#38A15A	Never emptied (first pit: NO intention to empty)
-1448	7	g3_never_emptied_previous_pit_replaced_no_intention_to_empty	f	1699428661689	#38A15A	Never emptied ( previous pit replaced: NO intention to empty)
-1449	8	g3_yes_containment_emptied	f	1699428661689	#38A15A	EMPTIED: ALL pit (or tank) contents removed
-1450	9	g3_yes_some_contents_removed	f	1699428661689	#38A15A	EMPTIED: SOME pit (or tank) contents removed
-1451	10	g3_yes_closed_container_removed	f	1699428661689	#38A15A	EMPTIED: closed container removed
-1452	11	g3_alternating_twin_pits	f	1699428661689	#38A15A	Alternating twin pits
-1453	12	g3_connection_to_sewer_network	f	1699428661689	#38A15A	Connection to sewer network
-1454	1	g0_no_toilet_or_no_containmentcollection_system	f	1699428820338	#DB3B3B	No toilet
-1455	2	g0_toilet_no_pit_or_tank_discharge_to_open	f	1699428820338	#DB3B3B	Toilet with no pit or tank (discharge to open)
-1456	3	g0_unsafe_containment_open_container	f	1699428820338	#DB3B3B	Open pit or open container
-1457	4	g0_unsafe_disposal_to_open_pit_open_space_open_drain_or_water_body_within_500m_of_hh	f	1699428820338	#DB3B3B	Emptied to open (within 500m)
-1458	5	g0_unsafe_disposal_to_open_space_open_drain_or_water_body_more_than_500m_from_hh	f	1699428820338	#DB3B3B	Emptied to open (MORE than 500m away)
-1459	6	g0_unsafe_treatment_or_disposal_closed_container_removed_by_unlicensed_service_provider_to_offsite_location	f	1699428820338	#DB3B3B	Closed container removed by UNLICENSED worker
-1460	7	g0_unsafe_treatment_or_disposal_emptied_by_unlicensed_service_provider_to_offsite_location	f	1699428820338	#DB3B3B	Emptied by UNLICENSED worker (transported out of community)
-1461	8	g0_unsafe_treatment_or_disposal_sewer_connection_to_open_discharge	f	1699428820338	#DB3B3B	Sewer connection to open discharge
-1462	9	g1_unsafe_storage_stored_for_less_than_2_years_before_use_of_stored_waste	f	1699428820338	#ffa57d	Stored for LESS than 2 years before emptying
-1463	10	g1_unsafe_treatment_or_disposal_sewer_connection_to_unlicensed_or_nonfunctional_treatment_site	f	1699428820338	#ffa57d	Sewer connection to UNLICENSED or NON-FUNCTIONAL treatment site
-1464	11	g3_safely_managed_never_emptied_no_intention_to_empty	f	1699428820338	#38A15A	NOT emptied (NO intention to empty)
-1465	12	g3_safely_managed_emptied_by_licensed_service_provider_to_offsite_location	f	1699428820338	#38A15A	Emptied by LICENSED worker (transported out of community)
-1466	13	g3_safely_managed_emptied_to_covered_pit	f	1699428820338	#38A15A	Emptied to nearby covered pit (buried within community)
-1467	14	g3_closed_container_removed_by_licensed_worker	f	1699428820338	#38A15A	Closed container removed by LICENSED worker
-1468	15	g3_safely_managed_stored_for_more_than_2_years_before_use_of_stored_waste	f	1699428820338	#38A15A	Stored for MORE than 2 years before emptying
-1469	16	g3_sewer_connection_licensed_functional_treatment_or_disposal_site	f	1699428820338	#38A15A	Sewer connection to LICENSED and FUNCTIONAL treatment or disposal site
-1470	1	g0_no_toilet	f	1699422286091	#DB3B3B	No toilet
-1471	2	g1_toilet_observed	f	1699422286091	#38A15A	Toilet observed
-1472	1	g0_no_toilet	f	1699423357200	#DB3B3B	No toilet
-1473	2	g0_nonfunctional_toilet	f	1699423357200	#DB3B3B	Non-functional toilet
-1474	3	g0_partly_functional_toilet	f	1699423357200	#ffa57d	Partly functional toilet
-1475	4	g1_fully_functional_toilet	f	1699423357200	#38A15A	Fully functional toilet
-1476	1	g0_no_toilet	f	1699423571454	#DB3B3B	No toilet
-1477	2	g0_no_toilet_privacy	f	1699423571454	#DB3B3B	No toilet privacy
-1478	3	g0_inadequate_toilet_privacy	f	1699423571454	#ffa57d	Inadequate toilet privacy
-1479	4	g1_good_toilet_privacy	f	1699423571454	#38A15A	Good toilet privacy
-1480	1	g0_no_toilet	f	1699423696720	#DB3B3B	No toilet
-1481	2	g0_no_interface_open_pit	f	1699423696720	#DB3B3B	Open pit (uncovered or large openings)
-1482	3	g1_dry_latrine_with_drophole	f	1699423696720	#38A15A	Hole in floor (dry latrine)
-1483	4	g1_vip_drophole_with_vent_pipe	f	1699423696720	#38A15A	Hole in floor (VIP latrine with vent pipe)
-1484	5	g1_sato_pan	f	1699423696720	#38A15A	SATO pan
-1485	6	g1_flush_or_pourflush_pan_with_water_seal	f	1699423696720	#38A15A	Flush or pour-flush pan with water seal
-1486	7	g1_open_pipe_no_water_seal	f	1699423696720	#38A15A	Open pipe to pit (no water seal)
-1487	8	g1_dry_toilet_with_urinediverting_drophole	f	1699423696720	#38A15A	Urine separation (eco-toilet)
-1488	9	g1_other_toilet_interface	f	1699423696720	#38A15A	Other toilet interface
-1489	1	g0_no_toilet	f	1699423946170	#DB3B3B	No toilet
-1490	2	g0_no_pit_or_tank_discharge_to_open_field_open_drain_water_body_elsewhere	f	1699423946170	#DB3B3B	No pit or tank (open discharge)
-1491	3	g0_open_pit_uncovered_or_large_openings	f	1699423946170	#DB3B3B	Open pit (uncovered or large openings)
-1492	4	g0_removable_open_container_eg_bucket	f	1699423946170	#DB3B3B	Removable open container (e.g. bucket)
-1493	5	g0_single_toilet_vault_above_ground	f	1699423946170	#ffa57d	Single toilet vault (above ground)
-1494	6	g1_single_latrine_pit_under_toilet	f	1699423946170	#38A15A	Single latrine pit: under toilet (direct)
-1495	7	g1_single_latrine_pit_beside_toilet	f	1699423946170	#38A15A	Single latrine pit: beside toilet (offset)
-1496	8	g1_double_latrine_pit_under_toilet	f	1699423946170	#38A15A	Double latrine pit: under toilet (direct)
-1497	9	g1_double_latrine_pit_beside_toilet	f	1699423946170	#38A15A	Double latrine pit: beside toilet (offset)
-1498	10	g1_double_toilet_vault_above_ground	f	1699423946170	#38A15A	Double toilet vault (above ground)
-1499	11	g1_septic_tank	f	1699423946170	#38A15A	Septic tank
-1500	12	g1_piped_sewer_connection	f	1699423946170	#38A15A	Connection to sewer network
-1501	13	g1_flush_to_dont_know	f	1699423946170	#38A15A	Flush or pour-flush to don't know
-1502	14	g1_removable_closed_container	f	1699423946170	#38A15A	Removable closed container
-1503	15	g1_other_pit_or_tank	f	1699423946170	#38A15A	Other closed pit or tank
-1504	1	g0_no_toilet	f	1699424375968	#DB3B3B	No toilet
-1505	2	g0_inadequate_or_missing_drophole_cover	f	1699424375968	#DB3B3B	Inadequate or missing cover on latrine hole
-1506	3	g0_vip_vent_pipe_with_insect_screen	f	1699424375968	#DB3B3B	VIP vent pipe with insect screen
-1507	4	g0_broken_sato_flap	f	1699424375968	#DB3B3B	Broken SATO flap
-1508	5	g0_broken_or_empty_water_seal_no_water	f	1699424375968	#DB3B3B	Broken or empty water seal (no water)
-1509	6	g0_open_pipe_to_pit_or_tank	f	1699424375968	#DB3B3B	Open pipe (to pit or tank)
-1510	7	g0_other_nonflyproof_toilet	f	1699424375968	#DB3B3B	Other non-flyproof toilet
-1511	8	g1_tightfitting_drophole_cover_in_place	f	1699424375968	#38A15A	Tight-fitting cover (in place)
-1512	9	g1_vip_vent_pipe_with_insect_screen	f	1699424375968	#38A15A	VIP vent pipe without insect screen
-1513	10	g1_functional_sato_flap	f	1699424375968	#38A15A	Functional SATO pan with flap
-1514	11	g1_functional_water_seal_with_water	f	1699424375968	#38A15A	Functional water seal (containing water)
-1515	12	g1_other_flyproof_toilet	f	1699424375968	#38A15A	Other flyproof toilet
-1516	1	g0_no_toilet	f	1699425852809	#DB3B3B	No toilet
-1517	2	g0_not_clean_heavy_traces_of_faeces_or_soiled_cleaning_materials	f	1699425852809	#DB3B3B	NOT clean: heavy traces of faeces or soiled cleaning materials
-1518	3	g0_not_clean_some_faeces_and_soiled_cleaning_materials	f	1699425852809	#DB3B3B	NOT clean: some faeces and soiled cleaning materials
-1519	4	g1_clean_minor_traces_of_faeces_or_soiled_materials_easily_cleaned	f	1699425852809	#38A15A	Clean: minor traces of faeces or soiled materials (easily cleaned)
-1520	5	g1_clean_no_visible_faeces_or_soiled_cleansing_materials	f	1699425852809	#38A15A	Clean: no visible faeces or soiled cleansing materials
-1521	1	g0_no_toilet	f	1699426059842	#DB3B3B	No toilet
-1522	2	g0_not_clean_heavy_traces_of_faeces	f	1699426059842	#DB3B3B	NOT clean: heavy traces of faeces
-1523	3	g0_not_clean_some_faeces	f	1699426059842	#DB3B3B	NOT clean: some faeces
-1524	4	g1_clean_minor_traces_of_faeces_easily_cleaned	f	1699426059842	#38A15A	Clean: minor traces of faeces (easily cleaned)
-1525	5	g1_clean_no_visible_faeces	f	1699426059842	#38A15A	Clean: no visible faeces
-1526	1	g0_no_toilet	f	1699427405024	#DB3B3B	No toilet
-1527	2	g0_no_slab_open_pit_faeces_not_contained	f	1699427405024	#DB3B3B	No slab (open pit, faeces not contained)
-1528	3	g0_partial_slab_openings_faeces_not_fully_contained	f	1699427405024	#DB3B3B	Partial slab (openings, faeces not fully contained)
-1529	4	g1_notdurable_slab_mud_covered	f	1699427405024	#ffa57d	Not-durable slab, mud covered
-1530	5	g1_notdurable_slab_cement_covered	f	1699427405024	#ffa57d	Not-durable slab, cement covered
-1531	6	g1_notdurable_slab_wooden	f	1699427405024	#ffa57d	Not-durable slab, wooden
-1532	7	g1_other_notdurable_slab_materials	f	1699427405024	#ffa57d	Other not-durable slab materials
-1533	8	g2_concrete_slab	f	1699427405024	#38A15A	Concrete slab
-1534	9	g2_tiled_concrete_slab	f	1699427405024	#38A15A	Tiled concrete slab
-1535	10	g2_resilient_slab_local_materials	f	1699427405024	#38A15A	Resilient slab (local materials)
-1536	11	g2_structural_plastic_slab	f	1699427405024	#38A15A	Structural plastic slab
-1537	12	g2_other_durable_slab_materials	f	1699427405024	#38A15A	Other durable slab materials
-1538	1	g0_no_toilet_or_no_containment_or_collection_system	f	1699427743413	#DB3B3B	No toilet
-1539	2	g0_no_pit_or_tank	f	1699427743413	#DB3B3B	No pit or tank (open discharge)
-1540	3	g0_visible_surface_outflows	f	1699427743413	#DB3B3B	Visible surface outflows
-1541	4	g1_evidence_of_previous_surface_outflows	f	1699427743413	#ffa57d	Evidence of previous surface outflows
-1542	5	g2_single_pit_not_yet_full_no_surface_outflows	f	1699427743413	#38A15A	Single pit: not yet full (no surface outflows)
-1543	6	g2_double_pits_no_surface_outflows	f	1699427743413	#38A15A	Double pits (no surface outflows)
-1544	7	g2_other_containment_no_surface_outflows	f	1699427743413	#38A15A	Other pit or tank (no surface outflows)
-1545	8	g2_septic_tank_with_soakpit_no_surface_outflows	f	1699427743413	#38A15A	Septic tank with soakpit (no surface outflows)
-1546	9	g2_sewer_connection_no_surface_outflows	f	1699427743413	#38A15A	Connection to sewer network (no surface outflows)
-1547	1	g0_high_risk_of_groundwater_contamination	f	1702282796765	#DB3B3B	High risk of groundwater contamination
-1548	2	g2_low_risk_of_groundwater_contamination	f	1702282796765	#38A15A	Low risk of groundwater contamination
-1549	1	g0_no_handwashing_facility	f	1699429162796	#DB3B3B	No handwashing facility
-1550	2	g1_handwashing_facility_by_toilet	f	1699429162796	#38A15A	Handwashing facility by toilet
-1551	3	g1_handwashing_facility_in_kitchen	f	1699429162796	#38A15A	Handwashing facility in kitchen
-1552	4	g1_portable_handwashing_facility_basin_jug_jerrycan_container	f	1699429162796	#38A15A	Portable handwashing facility (basin, jug, jerrycan, container)
-1553	5	g1_two_handwashing_facilities	f	1699429162796	#38A15A	Two handwashing facilities
-1554	6	g1_more_than_two_handwashing_facilities	f	1699429162796	#38A15A	More than two handwashing facilities
-1555	1	g0_no_handwashing_facility	f	1710753585	#DB3B3B	No handwashing facility
-1556	2	g0_non_functional_handwashing_facility	f	1710753585	#DB3B3B	Non-functional handwashing facility
-1557	3	g1_partly_functional_handwashing_facility	f	1710753585	#ffa57d	Partly functional handwashing facility
-1558	4	g1_fully_functional_handwashing_facility	f	1710753585	#38A15A	Fully functional handwashing facility
-1559	1	g0_no_handwashing_facility	f	1699430427692	#DB3B3B	No handwashing facility
-1560	2	g0_no_water_available	f	1699430427692	#DB3B3B	No water available
-1561	3	g0_water_not_always_available	f	1699430427692	#DB3B3B	Water NOT always available
-1562	4	g1_water_available	f	1699430427692	#38A15A	Water available
-1563	5	g1_water_container_empty_evidence_of_washing	f	1699430427692	#38A15A	Water container empty (evidence of washing)
-1564	1	g0_no_handwashing_facility	f	1699430472221	#DB3B3B	No handwashing facility
-1565	2	g0_no_soap_or_other_cleanser_available	f	1699430472221	#DB3B3B	No soap or other cleanser available
-1566	3	g0_ash_mud_or_sand_available	f	1699430472221	#DB3B3B	Ash, mud or sand available
-1567	4	g0_soap_in_house_not_at_handwashing_facility	f	1699430472221	#ffa57d	Soap in house, NOT at handwashing facility
-1568	5	g1_solid_liquid_or_powder_soap_available	f	1699430472221	#38A15A	Solid, liquid or powder soap available
-1569	1	g0_no_handwashing_facility	f	1699430580239	#DB3B3B	No handwashing facility
-1570	2	g1_jerrycan_or_other_closed_container_no_lid	f	1699430580239	#ffa57d	Jerrycan (or other closed container) with NO lid
-1571	3	g1_jerrycan_or_other_closed_container_with_lid	f	1699430580239	#ffa57d	Jerrycan (or other closed container) with lid
-1572	4	g1_other_temporary_handwashing_facility	f	1699430580239	#ffa57d	Temporary handwashing facility (tippy tap)
-1573	5	g1_portable_basin_or_other_open_container	f	1699430580239	#ffa57d	Portable bowl or other open container
-1574	6	g3_permanent_handwashing_station_with_adequate_water_storage	f	1699430580239	#38A15A	Permanent handwashing station with water storage
-1575	7	g3_piped_water_tap_with_basin	f	1699430580239	#38A15A	Piped water tap with basin
-1576	8	g3_other_permanent_handwashing_station	f	1699430580239	#38A15A	Other permanent handwashing station
-1577	1	g0_no_handwashing_facility	f	1699430671868	#DB3B3B	No handwashing facility
-1578	2	g0_hands_contaminate_water_in_storage	f	1699430671868	#DB3B3B	Hands contaminate water in storage
-1579	3	g0_hands_enter_the_water_container_during_collection_and_use	f	1699430671868	#DB3B3B	Hands touch the water
-1580	4	g1_water_collected_by_hand_using_ladle_cup_other	f	1699430671868	#ffa57d	Water collected using a tool (ladle, cup, other)
-1581	5	g3_closed_water_storage_container_with_tap	f	1699430671868	#38A15A	Closed water storage container with tap
-1582	6	g3_piped_water_tap	f	1699430671868	#38A15A	Piped water supply with tap
-1583	7	g3_other_handsfree_operation	f	1699430671868	#38A15A	Other hands-free operation
-1584	1	g0_no_handwashing_facility	f	1699430761393	#DB3B3B	No handwashing facility
-1585	2	g0_no_collection_or_disposal_of_washing_water	f	1699430761393	#DB3B3B	No collection or disposal of washing water
-1586	3	g1_collection_of_washing_water_without_drainage_or_disposal	f	1699430761393	#ffa57d	Collection of washing water without good drainage or disposal
-1587	4	g3_safe_collection_and_disposal_of_washing_water	f	1699430761393	#38A15A	Safe collection and disposal of washing water
-1588	1	g0_no_handwashing_facility	f	1699430839676	#DB3B3B	No handwashing facility
-1589	2	g0_do_not_wash_hands	f	1699430839676	#DB3B3B	Do NOT wash hands
-1590	3	g0_do_not_use_soap_and_water	f	1699430839676	#DB3B3B	Do NOT use soap and water
-1591	4	g1_no_mention_of_critical_toilet_times	f	1699430839676	#ffa57d	No mention of critical TOILET times
-1592	5	g1_before_toilet_use	f	1699430839676	#ffa57d	Before toilet use
-1593	6	g2_after_toilet_use	f	1699430839676	#38A15A	After toilet use
-1594	1	g0_no_handwashing_facility	f	1699431035188	#DB3B3B	No handwashing facility
-1595	2	g0_do_not_wash_hands	f	1699431035188	#DB3B3B	Do NOT wash hands
-1596	3	g0_do_not_use_soap_and_water	f	1699431035188	#DB3B3B	Do NOT use soap and water
-1597	4	g1_no_mention_of_critical_food_times	f	1699431035188	#ffa57d	No mention of critical FOOD times
-1598	5	g1_after_eating	f	1699431035188	#ffa57d	After eating
-1599	6	g2_before_eating_food_preparation_and_feeding_children	f	1699431035188	#38A15A	Before eating, food preparation and feeding children
-1600	1	g0_no_handwashing_facility	f	1699431983680	#DB3B3B	No handwashing facility
-1601	2	g0_do_not_wash_hands	f	1699431983680	#DB3B3B	Do NOT wash hands
-1602	3	g0_do_not_use_soap_and_water	f	1699431983680	#DB3B3B	GDo NOT use soap and water
-1603	4	g1_no_mention_of_critical_infant_times	f	1699431983680	#ffa57d	No mention of critical INFANT EXCRETA times
-1604	5	g2_after_cleaning_or_handling_infant_faeces_or_after_washing_or_disposal_of_diapers	f	1699431983680	#38A15A	After ANY contact with infant excreta or soiled diapers
-1605	6	g2_no_children_under_5	f	1699431983680	#38A15A	No under-5 children
-1606	1	g0_no_handwashing_facility	f	1699432052966	#DB3B3B	No handwashing facility
-1607	2	g0_do_not_wash_hands	f	1699432052966	#DB3B3B	Do NOT wash hands
-1608	3	g0_do_not_use_soap_and_water	f	1699432052966	#DB3B3B	Do NOT use soap and water
-1609	4	g1_no_mention_of_critical_animal_times	f	1699432052966	#ffa57d	No mention of critical ANIMAL times
-1610	5	g2_after_contact_with_animals_animal_products_or_animal_wastes	f	1699432052966	#38A15A	After ANY contact with animals, animal products or animal wastes
-1611	6	g2_no_animals	f	1699432052966	#38A15A	No animals
-1612	1	g0_child_or_adult_excreta_observed_in_the_compound	f	1699432663952	#DB3B3B	Child or adult excreta observed in the compound
-1613	2	g1_no_visible_od_or_human_excreta_child_or_adult_in_compound	f	1699432663952	#38A15A	No visible human excreta (child or adult) in compound
-1614	1	g0_child_faeces_unsafely_disposed	f	1699432130951	#DB3B3B	Child faeces unsafely disposed
-1615	2	g0_child_faeces_disposed_with_solid_waste	f	1699432130951	#DB3B3B	Child faeces disposed with solid waste
-1681	1	g0_visible_dirt_or_contamination	f	1699433719018	#DB3B3B	Visible dirt or contamination
-1616	3	g0_soiled_potty_or_collection_tool_unsafely_washed	f	1699432130951	#DB3B3B	Child faeces unsafely handled (potty or collection tool unsafely washed)
-1617	4	g1_safely_managed_child_faeces_buried	f	1699432130951	#38A15A	Child faeces buried
-1618	5	g1_safely_managed_child_faeces_put_or_rinsed_into_toilet	f	1699432130951	#38A15A	Child faeces put or rinsed into toilet
-1619	6	g1_safely_managed_child_uses_toilet_without_assistance	f	1699432130951	#38A15A	Child uses toilet WITHOUT assistance
-1620	7	g1_safely_managed_child_uses_toilet_with_assistance	f	1699432130951	#38A15A	Child uses toilet WITH assistance
-1621	8	g1_other_safe_management_of_child_excreta	f	1699432130951	#38A15A	Other safe management of child excreta
-1622	9	g1_no_children_under_5	f	1699432130951	#38A15A	No under-5 children
-1623	1	g0_used_diapers_visible_in_the_compound	f	1699432802923	#DB3B3B	Used diapers visible in the compound
-1624	2	g0_used_diapers_unsafely_disposed_or_unsafely_washed	f	1699432802923	#DB3B3B	Used diapers unsafely disposed or unsafely washed
-1625	3	g0_used_put_in_toilet_pit	f	1699432802923	#ffa57d	Used diapers put in the toilet pit
-1626	4	g1_disposable_diaper_buried_in_compound	f	1699432802923	#38A15A	Used diapers buried
-1627	5	g1_disposable_diaper_put_into_covered_waste_pit	f	1699432802923	#38A15A	Used diapers put into covered waste pit
-1628	6	g1_disposable_diaper_collected_for_disposal_at_communal_site	f	1699432802923	#38A15A	Used diapers collected and safely stored for disposal at communal site
-1629	7	g1_washable_cloth_safely_emptied_and_safely_washed	f	1699432802923	#38A15A	Washable cloths safely emptied and safely washed
-1630	8	g1_no_diapers_or_clothes_used	f	1699432802923	#38A15A	No diapers or cloths used
-1631	9	g1_no_children_under_5	f	1699432802923	#38A15A	No under-5 children
-1632	1	yes	f	16994260598422		Yes
-1633	2	no	f	16994260598422		No
-1634	1	yes	f	16994260598423		Yes
-1635	2	no	f	16994260598423		No
-1636	1	g0_visible_dirt_or_contamination	f	1699432887212	#DB3B3B	Visible dirt or contamination
-1637	2	g1_not_adequately_washed	f	1699432887212	#ffa57d	Traces of dirt or contamination
-1638	3	g2_cleanwashed_produce_raw_and_cooked_food	f	1699432887212	#38A15A	Clean food
-1639	1	g0_no_storage	f	1699433027913	#DB3B3B	No storage
-1640	2	g1_open_storage	f	1699433027913	#ffa57d	Open storage
-1641	3	g2_covered_food_storage	f	1699433027913	#38A15A	Covered food storage
-1642	1	g0_on_ground	f	1699433058652	#DB3B3B	On ground
-1643	2	g1_storage_close_to_ground_risk_of_contact_with_animals	f	1699433058652	#ffa57d	Stored close to ground
-1644	3	g2_storage_off_ground	f	1699433058652	#38A15A	Stored off ground
-1645	1	g0_visible_dirt_or_contamination	f	1699433108344	#DB3B3B	Visible dirt or contamination
-1646	2	g1_not_adequately_washed	f	1699433108344	#ffa57d	Traces of dirt or contamination
-1647	3	g2_cleanwashed_utensils	f	1699433108344	#38A15A	Clean kitchen utensils
-1648	1	g0_no_storage	f	1699433162828	#DB3B3B	No storage
-1649	2	g1_open_storage	f	1699433162828	#ffa57d	Open storage
-1650	3	g2_covered_utensil_storage	f	1699433162828	#38A15A	Covered utensil storage
-1651	1	g0_on_ground	f	1699433205793	#DB3B3B	On ground
-1652	2	g1_storage_close_to_ground_risk_of_contact_with_animals	f	1699433205793	#ffa57d	Stored close to ground
-1653	3	g2_storage_off_ground	f	1699433205793	#38A15A	Stored off ground
-1654	1	g0_visible_dirt_or_contamination	f	1699433286697	#DB3B3B	Visible dirt or contamination
-1655	2	g1_not_adequately_washed	f	1699433286697	#ffa57d	Traces of dirt or contamination
-1656	3	g2_cleanwashed_milk_containers	f	1699433286697	#38A15A	Clean milk containers
-1657	4	g2_no_animals_no_milking	f	1699433286697	#38A15A	No animals / no milking
-1658	1	g0_no_storage	f	1699433337417	#DB3B3B	G0 No storage
-1659	2	g1_open_storage	f	1699433337417	#ffa57d	G1 Open storage
-1660	3	g2_covered_container_storage	f	1699433337417	#38A15A	G2 Covered container storage
-1661	4	g2_no_animals_no_milking	f	1699433337417	#38A15A	No animals / no milking
-1662	1	g0_on_ground	f	1699433394633	#DB3B3B	On ground
-1663	2	g1_storage_close_to_ground_risk_of_contact_with_animals	f	1699433394633	#ffa57d	Stored close to ground
-1664	3	g2_storage_off_ground	f	1699433394633	#38A15A	Stored off ground
-1665	4	g2_no_animals_no_milking	f	1699433394633	#38A15A	No animals / no milking
-1666	1	g0_visible_dirt_or_contamination	f	1699433455365	#DB3B3B	Visible dirt or contamination
-1667	2	g1_not_adequately_washed	f	1699433455365	#ffa57d	Traces of dirt or contamination
-1668	3	g2_cleanwashed_water_containers	f	1699433455365	#38A15A	Clean water containers
-1669	1	g0_no_treatment_and_low_quality	f	1699433503692	#DB3B3B	No treatment and low quality
-1670	2	g1_inadequate_quality	f	1699433503692	#ffa57d	Low quality
-1671	3	g2_adequate_quality_at_collection_point	f	1699433503692	#38A15A	Good water quality at collection point
-1672	4	g2_hh_water_treatment	f	1699433503692	#38A15A	Household water treatment after collection
-1673	1	g0_unsafe_drinking_water_storage	f	1699433564057	#DB3B3B	Unsafe drinking water storage
-1674	2	g1_inadequate_drinking_water_storage	f	1699433564057	#ffa57d	Inadequate drinking water storage
-1675	3	g2_clean_covered_drinking_water_storage	f	1699433564057	#38A15A	Clean, covered drinking water storage
-1676	1	g0_unsafe_water_use	f	1699433637971	#DB3B3B	Unsafe water use
-1677	2	g1_inadequate_water_use	f	1699433637971	#ffa57d	Inadequate water use
-1678	3	g2_water_containers_with_spigots_or_taps	f	1699433637971	#38A15A	Water containers with taps (or spigot pipes)
-1679	4	g2_narrowmouthed_water_containers	f	1699433637971	#38A15A	Narrow-mouthed water containers
-1680	5	g2_clean_utensil_for_water_use	f	1699433637971	#38A15A	Clean utensil for water use
-1877	3	not_functional	f	567450085	#ee6666	Not functional
-1682	2	g1_not_adequately_clean	f	1699433719018	#ffa57d	Traces of dirt or contamination
-1683	3	g2_clean_water_points	f	1699433719018	#38A15A	Clean water point
-1684	4	g2_no_householf_water_point	f	1699433719018	#38A15A	No household water point
-1685	1	g0_no_protection_of_water_points	f	1699433765217	#DB3B3B	No protection of water point
-1686	2	g1_inadequate_protection_of_water_points	f	1699433765217	#ffa57d	Inadequate protection of water point
-1687	3	g2_well_protected_water_points	f	1699433765217	#38A15A	Good protection of water point
-1688	4	g2_no_householf_water_point	f	1699433765217	#38A15A	No household water point
-1689	1	g0_standing_water_visible_around_water_point	f	1699433833227	#DB3B3B	Permanent standing water around water point
-1690	2	g1_inadequately_drained_water_points	f	1699433833227	#ffa57d	Some standing water around water point
-1691	3	g2_well_drained_water_points	f	1699433833227	#38A15A	Good drainage of water point
-1692	4	g2_no_householf_water_point	f	1699433833227	#38A15A	No household water point
-1693	1	g0_widespread_animal_wastes	f	1699433937138	#DB3B3B	Many animal wastes visible
-1694	2	g1_small_amounts_of_animal_wastes_present	f	1699433937138	#ffa57d	Some animal wastes
-1695	3	g2_no_animal_wastes_visible_in_house_or_in_kitchen	f	1699433937138	#38A15A	No animal wastes in house or in kitchen
-1696	4	g2_no_animals	f	1699433937138	#38A15A	No animals
-1697	1	g0_widespread_animal_wastes	f	1699433983369	#DB3B3B	Many animal wastes visible
-1698	2	g1_small_amounts_of_animal_wastes_present	f	1699433983369	#ffa57d	Some animal wastes
-1699	3	g2_no_animal_wastes_visible_in_compound	f	1699433983369	#38A15A	No animal wastes in compound
-1700	4	g2_no_animals	f	1699433983369	#38A15A	No animals
-1701	1	g0_unsafe_location_of_animal_waste_storage	f	1699434044707	#DB3B3B	Animal waste NOT collected or stored
-1702	2	g1_inadequate_location_of_animal_waste_storage	f	1699434044707	#ffa57d	Some animal waste NOT collected or stored
-1703	3	g2_good_location_for_animal_waste_storage	f	1699434044707	#38A15A	Animal waste collected and stored
-1704	4	g2_no_animal_wastes	f	1699434044707	#38A15A	No animals
-1705	1	g0_unsafe_animal_waste_storage_location	f	1699434136823	#DB3B3B	Unsafe place for animal waste storage
-1706	2	g1_animal_waste_storage_too_close_to_house	f	1699434136823	#ffa57d	Animal waste storage close to house
-1707	3	g2_animal_waste_storage_away_from_house_and_play_areas	f	1699434136823	#38A15A	Animal waste storage away from house and play areas
-1708	4	g2_no_animal_waste_storage	f	1699434136823	#38A15A	No animals
-1709	1	g0_animal_waste_storage_is_unsafely_managed	f	1699434209933	#DB3B3B	Animal waste storage is UNSAFELY managed
-1710	2	g1_some_leaks_or_discharges	f	1699434209933	#ffa57d	Some animal waste leaks or discharges
-1711	3	g2_no_leaks_or_discharge_from_animal_waste_storage	f	1699434209933	#38A15A	Animal waste storage safely managed
-1712	4	g2_no_animal_waste_storage	f	1699434209933	#38A15A	No animals
-1713	1	g0_no_animal_pens	f	1699434269372	#DB3B3B	Animals loose in compound
-1714	2	g1_animals_penned_close_to_house_or_play_areas	f	1699434269372	#ffa57d	Animals penned close to house or play areas
-1715	3	g2_animals_penned_away_from_house_and_play_areas	f	1699434269372	#38A15A	Animals penned away from house and play areas
-1716	4	g2_no_animals	f	1699434269372	#38A15A	No animals
-1717	1	g0_no_animal_pens	f	1699434327613	#DB3B3B	No animal pens
-1718	2	g1_inadequate_animal_pens	f	1699434327613	#ffa57d	Inadequate animal pens
-1719	3	g2_safe_confinement_in_animal_pens	f	1699434327613	#38A15A	Safe confinement in animal pens
-1720	4	g2_no_animals	f	1699434327613	#38A15A	No animals
-1721	1	g0_visible_wastewater	f	1699434438966	#DB3B3B	Visible wastewater
-1722	2	g1_inadequate_soakpit	f	1699434438966	#ffa57d	Inadequate soakpit
-1723	3	g3_adequate_wastewater_soakpit_or_drainage	f	1699434438966	#38A15A	Good wastewater soakpit or drainage
-1724	1	g0_significant_erosion	f	1699434488410	#DB3B3B	Significant erosion visible
-1725	2	g1_some_visible_erosion	f	1699434488410	#ffa57d	Some visible erosion
-1726	3	g3_adequate_stormwater_drainage	f	1699434488410	#38A15A	Good stormwater drainage
-1727	4	g3_no_signs_of_stormwater_erosion	f	1699434488410	#38A15A	No signs of stormwater erosion
-1728	1	g0_significant_visible_solid_wastes	f	1699434553677	#DB3B3B	Significant visible solid wastes
-1729	2	g1_some_solid_wastes_visible	f	1699434553677	#ffa57d	Some solid wastes visible
-1730	3	g3_clean_compound_with_no_visible_solid_wastes	f	1699434553677	#38A15A	Clean compound with no visible solid wastes
-1731	1	g0_no_solid_waste_management	f	1699434636655	#DB3B3B	No solid waste management
-1732	2	g1_inadequate_solid_waste_management	f	1699434636655	#ffa57d	Inadequate solid waste management
-1733	3	g3_solid_waste_storage_or_disposal_system	f	1699434636655	#38A15A	Good solid waste storage or disposal system
-1734	1	g0_significant_standing_water_untreated	f	1699434771449	#DB3B3B	Significant standing water (untreated)
-1735	2	g1_inadequate_treatment_or_management	f	1699434771449	#ffa57d	Some standing water (untreated or inadequate treatment)
-1736	3	g3_no_visible_standing_water	f	1699434771449	#38A15A	No visible standing water
-1737	4	g3_treated_or_managed_larval_breeding_sites	f	1699434771449	#38A15A	Treated or managed larval breeding sites
-1738	1	g1_all_with_dirty_faces	f	1699434939105	#DB3B3B	All with dirty faces
-1739	2	g2_some_with_dirty_faces	f	1699434939105	#ffa57d	Some with dirty faces
-1740	3	g3_clean_faces	f	1699434939105	#38A15A	Clean faces
-1741	1	g1_all_with_dirty_hands	f	1699434983278	#DB3B3B	All with dirty hands
-1742	2	g2_some_with_dirty_hands	f	1699434983278	#38A15A	Some with dirty hands
-1743	3	g3_clean_hands	f	1699434983278	#38A15A	Clean hands
-1744	1	g1_no_washing_place	f	1699435026311	#DB3B3B	No washing place
-1745	2	g2_inadequate_washing_place	f	1699435026311	#ffa57d	Inadequate washing place
-1746	3	g3_clean_and_private_washing_place	f	1699435026311	#38A15A	Clean and private washing place
-1747	4	g3_no_menstruating_women_or_girls	f	1699435026311	#38A15A	No menstruating women or girls
-1748	1	g1_no_disposal_site	f	1699435088758	#DB3B3B	No disposal site
-1749	2	g2_inadequate_disposal_site	f	1699435088758	#ffa57d	Inadequate disposal site
-1750	3	g3_safe_disposal_site	f	1699435088758	#38A15A	Safe disposal site
-1751	4	g3_no_menstruating_women_or_girls	f	1699435088758	#38A15A	No menstruating women or girls
-1752	1	g1_materials_are_not_available_or_not_appropriate	f	1699435154797	#DB3B3B	Materials are NOT available or NOT appropriate
-1753	2	g2_materials_are_not_always_available_or_appropriate	f	1699435154797	#ffa57d	Materials are not always available or appropriate
-1754	3	g3_appropriate_materials_are_available	f	1699435154797	#38A15A	Appropriate materials are available
-1755	4	g3_no_menstruating_women_or_girls	f	1699435154797	#38A15A	No menstruating women or girls
-1756	1	g1_no_children_vaccinated	f	1699435207476	#DB3B3B	No children vaccinated
-1757	2	g2_some_children_vaccinated	f	1699435207476	#ffa57d	Some children vaccinated
-1758	3	g3_all_children_fully_immunized	f	1699435207476	#38A15A	All children vaccinated (fully immunized)
-1759	4	g3_no_under5_children	f	1699435207476	#38A15A	No under-5 children
-1760	1	g1_no_children_received_supplements	f	1699435265962	#DB3B3B	No children received supplements
-1761	2	g2_some_vitamin_a_supplements_not_received_in_last_6_months	f	1699435265962	#ffa57d	Some vitamin A supplements not received (in last 6 months)
-1762	3	g3_all_vitamin_a_supplements_received_in_last_6_months	f	1699435265962	#38A15A	All vitamin A supplements received in last 6 months
-1763	4	g3_no_under5_children	f	1699435265962	#38A15A	No under-5 children
-1764	1	g1_under_6month_children_regularly_receive_water_or_other_food	f	1699435329279	#DB3B3B	Under 6-month children regularly receive water or other food
-1765	2	g2_some_water_and_other_food_received_on_a_few_occasions	f	1699435329279	#ffa57d	Some water and other food received on a few occasions
-1766	3	g3_exclusive_breastfeeding_for_under_6month_children	f	1699435329279	#38A15A	Exclusive breastfeeding for under 6-month children
-1767	4	g3_no_under6_month_old_children	f	1699435329279	#38A15A	No under-6 month old children
-1768	1	g1_low_nutrition_diet_some_or_all_children_eat_from_only_12_food_groups	f	1699435397728	#DB3B3B	Some or all children eat from only 1-2 food groups
-1769	2	g2_inadequate_diet_some_or_all_children_eat_from_34_food_groups	f	1699435397728	#ffa57d	Some or all children eat from 3-4 food groups
-1770	3	g3_nutritious_diet_for_all_6_month_to_2_year_children	f	1699435397728	#38A15A	Nutritious diet (5 or more food groups)
-1771	4	g3_no_6_month_to_2year_old_children	f	1699435397728	#38A15A	No 6 month to 2-year old children
-1772	1	g1_no_protection_no_bed_nets_and_no_insect_screen	f	1699435455818	#DB3B3B	No bed nets and no insect screen
-1773	2	g2_inadequate_protection_some_beds_without_nets_or_some_openings_unprotected	f	1699435455818	#ffa57d	Some beds without nets, or some openings unprotected
-1774	3	g3_malariasafe_home	f	1699435455818	#38A15A	Malaria-safe home
-1775	4	g3_not_in_malariaendemic_area	f	1699435455818	#38A15A	NOT in Malaria-Endemic area
-1776	1	g1_no_deworming_no_children_or_adults_treated	f	1699435526190	#DB3B3B	No children or adults treated
-1777	2	g2_inadequate_deworming_some_children_or_adults_not_treated	f	1699435526190	#ffa57d	Some children or adults not treated
-1778	3	g3_dewormed_home_all_treated_in_last_12_months	f	1699435526190	#38A15A	Dewormed home (all treated in last 12 months)
-1779	4	g3_not_in_sthendemic_area	f	1699435526190	#38A15A	NOT in STH-Endemic area
-1780	1	new	f	16993542207341	\N	New
-1781	2	update	f	16993542207341	\N	Update
-1782	3	verification	f	16993542207341	\N	Verification
-1783	4	certification	f	16993542207341	\N	Certification
-1784	1	household_head	f	16994179587481	\N	Household head
-1785	2	spouse_of_household_head	f	16994179587481	\N	Spouse of household head
-1786	3	parent_of_household_head	f	16994179587481	\N	Parent of household head
-1787	4	adult_child_of_household_head	f	16994179587481	\N	Adult child of household head
-1788	5	under18_child_of_household_head	f	16994179587481	\N	Under-18 child of household head
-1789	1	other_household_not_in_atrisk_category	f	16994206218401	#96f2a2	OTHER household (NOT in at-risk category)
-1790	2	at_risk_disabled_household_member_mentally_or_physically	f	16994206218401	#fbbece	AT RISK: Disabled household member (mentally or physically)
-1791	3	at_risk_elderlyheaded_households_without_support	f	16994206218401	#fbbece	AT RISK: Elderly-headed households (without support)
-1792	4	at_risk_orphans_and_vulnerable_children	f	16994206218401	#fbbece	AT RISK: Orphans and vulnerable children
-1793	5	at_risk_femaleheaded_household_single_mothers_divorcees_widows	f	16994206218401	#fbbece	AT RISK: Female-headed household (single mothers, divorcees, widows)
-1794	6	at_risk_internally_displaced_people	f	16994206218401	#fbbece	AT RISK: Internally displaced people
-1795	7	at_risk_returning_refugees	f	16994206218401	#fbbece	AT RISK: Returning refugees
-1796	8	at_risk_hivaids_affected_or_other_serious_illness	f	16994206218401	#fbbece	AT RISK: HIV/AIDS affected (or other serious illness)
-1797	9	at_risk_religious_minorities	f	16994206218401	#fbbece	AT RISK: Religious minorities
-1798	10	at_risk_ethnic_minorities	f	16994206218401	#fbbece	AT RISK: Ethnic minorities
-1799	11	at_risk_nomadic_or_seminomadic	f	16994206218401	#fbbece	AT RISK: Nomadic or semi-nomadic
-1800	12	at_risk_seasonal_fishing_group	f	16994206218401	#fbbece	AT RISK: Seasonal fishing group
-1801	13	at_risk_longterm_poor	f	16994206218401	#fbbece	AT RISK: Long-term poor
-1802	14	at_risk_landlesstenants	f	16994206218401	#fbbece	AT RISK: Landless/tenants
-1878	1	lack_of_water	f	571060084	\N	Lack of water
-1879	2	pump_broken	f	571060084	\N	Pump broken
-1803	15	at_risk_shared_use_of_someone_elses_toiletpublic_toilet_dont_have_a_toilet	f	16994206218401	#fbbece	AT RISK: Shared use of someone else's toilet/public toilet (don't have a toilet)
-1804	16	at_risk_inmigrants_new_households_in_last_12_months	f	16994206218401	#fbbece	AT RISK: In-migrants (new households in last 12 months)
-1805	17	at_risk_new_adult_households_newly_formed_household	f	16994206218401	#fbbece	AT RISK: New adult households (newly formed household)
-1806	18	at_risk_households_with_previously_collapsed_or_flooded_toilets	f	16994206218401	#fbbece	AT RISK: households with previously collapsed or flooded toilets
-1807	1	g0_no_toilet	f	16994222860911	#db3b3b	G0 No toilet
-1808	2	g1_toilet_observed	f	16994222860911	#38a15a	G1 Toilet observed
-1809	1	g0_nonfunctional_toilet	f	16994233572001	\N	G0 Non-functional toilet
-1810	2	g0_partly_functional_toilet	f	16994233572001	\N	G0+ Partly functional toilet
-1811	3	g1_fully_functional_toilet	f	16994233572001	\N	G1 Fully functional toilet
-1812	1	g0_no_toilet_privacy	f	16994235714541	\N	G0 No toilet privacy
-1813	2	g0_inadequate_toilet_privacy	f	16994235714541	\N	G0+ Inadequate toilet privacy
-1814	3	g1_good_toilet_privacy	f	16994235714541	\N	G1 Good toilet privacy
-1815	1	g0_no_toilet	f	16994236967201	#db3b3b	G0 No toilet
-1816	2	g1_dry_latrine_with_drophole	f	16994236967201	#38a15a	G1 Dry latrine with drophole
-1817	3	g1_vip_drophole_with_vent_pipe	f	16994236967201	#38a15a	G1 VIP drophole with vent pipe
-1818	4	g1_sato_pan	f	16994236967201	#38a15a	G1 SATO pan
-1819	5	g1_flush_or_pourflush_pan_with_water_seal	f	16994236967201	#38a15a	G1 Flush or pour-flush pan with water seal
-1820	6	g1_dry_toilet_with_urinediverting_drophole	f	16994236967201	#38a15a	G1 Dry toilet with urine-diverting drophole
-1821	7	g1_open_pipe_no_water_seal	f	16994236967201	#38a15a	G1 Open pipe (no water seal)
-1822	8	g1_other_toilet_interface	f	16994236967201	#38a15a	G1 Other toilet interface
-1823	1	g0_no_toilet	f	16994239461701	\N	G0 No toilet
-1824	2	g0_open_pit_uncovered_or_large_openings	f	16994239461701	\N	G0 Open pit (uncovered or large openings)
-1825	3	g0_single_toilet_vault_above_ground	f	16994239461701	\N	G0 Single toilet vault (above ground)
-1826	4	g0_removable_open_container_eg_bucket	f	16994239461701	\N	G0 Removable open container (e.g. bucket)
-1827	5	g1_single_latrine_pit	f	16994239461701	\N	G1 Single latrine pit
-1828	6	g1_double_latrine_pit	f	16994239461701	\N	G1 Double latrine pit
-1829	7	g1_double_toilet_vault_above_ground	f	16994239461701	\N	G1 Double toilet vault (above ground)
-1830	8	g1_septic_tank	f	16994239461701	\N	G1 Septic tank
-1831	9	g1_removable_closed_container	f	16994239461701	\N	G1 Removable closed container
-1832	10	g1_piped_sewer_connection	f	16994239461701	\N	G1 Piped sewer connection
-1833	11	g1_other_pit_or_tank	f	16994239461701	\N	G1 Other pit or tank
-1834	12	g1_flush_to_dont_know	f	16994239461701	\N	G1 Flush to don't know
-1835	13	g0_no_pit_or_tank_discharge_to_open_field_open_drain_water_body_elsewhere	f	16994239461701	\N	G0 No pit or tank (discharge to open: field, open drain, water body, elsewhere)
-1836	1	g0_vip_vent_pipe_without_insect_screen	f	16994243759681	\N	G0 VIP vent pipe without insect screen
-1837	2	g0_broken_sato_flap	f	16994243759681	\N	G0 Broken SATO flap
-1838	3	g0_broken_or_empty_water_seal_no_water	f	16994243759681	\N	G0 Broken or empty water seal (no water)
-1839	4	g0_open_pipe_to_pit_or_tank	f	16994243759681	\N	G0 Open pipe (to pit or tank)
-1840	5	g0_other_nonflyproof_toilet	f	16994243759681	\N	G0 Other non-flyproof toilet
-1841	6	g1_tightfitting_drophole_cover_in_place	f	16994243759681	\N	G1 Tight-fitting drophole cover (in place)
-1842	7	g1_vip_vent_pipe_with_insect_screen	f	16994243759681	\N	G1 VIP vent pipe with insect screen
-1843	8	g1_functional_sato_flap	f	16994243759681	\N	G1 Functional SATO flap
-1844	9	g1_functional_water_seal_with_water	f	16994243759681	\N	G1 Functional water seal (with water)
-1845	10	g1_other_flyproof_toilet	f	16994243759681	\N	G1 Other flyproof toilet
-1846	11	g0_no_toilet	f	16994243759681	\N	G0 No toilet
-1847	12	g0_inadequate_or_missing_drophole_cover	f	16994243759681	\N	G0 Inadequate or missing drophole cover
-1848	1	yes	f	17030862702501	\N	Yes
-1849	2	no	f	17030862702501	\N	No
-1850	1	a	f	17030862702502	red	A
-1851	2	b	f	17030862702502	blue	B
-1852	1	a	f	17030862702503	red	A
-1853	2	b	f	17030862702503	blue	B
-1854	1	yes	f	169995172789999	green	Yes
-1855	2	no	f	169995172789999	red	No
-1856	1	cda	f	557710145	\N	CDA
-1857	2	government	f	557710145	\N	Government
-1858	3	kale_hiwot	f	557710145	\N	Kale Hiwot
-1859	1	deep_well_with_distribution	f	571050096	\N	Deep well with distribution
-1860	2	hand_dug_well	f	571050096	\N	Hand dug well
-1861	3	shallow_well	f	571050096	\N	Shallow well
-1862	4	protected_spring	f	571050096	\N	Protected spring
-1863	5	unprotected_spring	f	571050096	\N	Unprotected spring
-1864	6	rainwater_collection	f	571050096	\N	Rainwater collection
-1865	7	surface_water	f	571050096	\N	Surface water
-1866	1	afridev	f	569070152	\N	Afridev
-1867	2	indian_mark_ii	f	569070152	\N	Indian Mark II
-1868	3	submersible_pump	f	569070152	\N	Submersible pump
-1869	4	windlass	f	569070152	\N	Windlass
-1870	5	i_dont_know	f	569070152	\N	I don't know
-1871	1	diesel	f	571060083	\N	Diesel
-1872	2	electricity_and_grid	f	571060083	\N	Electricity and grid
-1873	3	gravity_flow	f	571060083	\N	Gravity flow
-1874	4	manual_operation	f	571060083	\N	Manual operation
-1875	1	functional	f	567450085	#91cc75	Functional
-1876	2	functional_but_with_problems	f	567450085	#e39f00	Functional but with problems
-1880	3	tap_broken	f	571060084	\N	Tap broken
-1881	4	distribution_pipeline_broken	f	571060084	\N	Distribution pipeline broken
-1882	5	power_failure	f	571060084	\N	Power failure
-1883	6	lack_of_fuel	f	571060084	\N	Lack of fuel
-1884	7	poor_water_quality	f	571060084	\N	Poor water quality
-1885	1	extension	f	563220092	\N	Extension
-1886	2	inspection	f	563220092	\N	Inspection
-1887	3	national_wash_inventory	f	563220092	\N	National WASH Inventory
-1888	4	new_scheme	f	563220092	\N	New Scheme
-1889	5	repair	f	563220092	\N	Repair
-1890	1	new	f	1699354006535	\N	New
-1891	2	update	f	1699354006535	\N	Update
-1892	3	verification	f	1699354006535	\N	Verification
-1893	4	certification	f	1699354006535	\N	Certification
-1894	1	village_chief_head	f	1699951538608	\N	Village chief/Community head
-1895	2	local_government_official	f	1699951538608	\N	Local Government official
-1896	3	community_health_volunteera	f	1699951538608	\N	Community Health Volunteer
-1897	4	water_committee_member	f	1699951538608	\N	Water/Sanitation/Hygiene Committee Member
-1898	5	school_principal	f	1699951538608	\N	School Principal/Teacher
-1899	6	natural_leader_clts	f	1699951538608	\N	Natural leader (CLTS)
-1900	1	medium_drainage_soil_sand_weathered_rock	f	1699951986776	\N	Medium drainage soil (medium sand, weathered rock)
-1901	2	high_drainage_soil_coarse_sand_gravel_fractured_sandstone_limestone	f	1699951986776	\N	High drainage soil (coarse sand & gravel, fractured sandstone or limestone)
-1902	3	low_drainage_soil_fine_sand_silt_clay	f	1699951986776	\N	Low drainage soil (fine sand, silt or clay)
-1903	1	less_than_5m	f	1699952153243	\N	Less than 5m
-1904	2	between_5_10_m	f	1699952153243	\N	Between 5-10m
-1905	3	more_than_10m	f	1699952153243	\N	More than 10m
-1906	1	protected_groundwater_sources	f	1699952219561	\N	Protected groundwater sources (protected boreholes, protected dug wells or protected springs)
-1907	2	unprotected_groundwater_sources	f	1699952219561	\N	Unprotected groundwater sources (boreholes, dug wells or springs)
-1908	3	no_groundwater_sources_used	f	1699952219561	\N	No groundwater sources used
-1909	1	more_than_25_percent	f	1699952295823	\N	More than 25 percent
-1910	2	between_1_and_25_percent	f	1699952295823	\N	Between 1 percent  and 25 percent
-1911	3	zero_percent	f	1699952295823	\N	Zero Percent
-1912	1	more_than_25_percent	f	1699952355848	\N	More than 25 percent
-1913	2	less_than_25_percent	f	1699952355848	\N	Less than 25 percent
-1914	1	more_than_25_percent	f	1699952418978	\N	More than 25 percent
-1915	2	less_than_25_percent	f	1699952418978	\N	Less than 25 percent
-1916	1	g0_high_risk_groundwater_contamination	f	1702364544574	#DB3B3B	High risk of groundwater contamination
-1917	2	g2_low_risk_groundwater_contamination	f	1702364544574	#38A15A	Low risk of groundwater contamination
-1918	1	g0_at_risk_hh_no_disaggregated_data_available	f	1702324544574	#DB3B3B	At-risk household monitoring: no disaggregated data available from community
-1919	2	g0_at_risk_hh_not_reliable_more_than_5_percent_difference	f	1702324544574	#DB3B3B	At-risk household monitoring not reliable: More than 5% difference in monitoring data
-1920	3	g1g2_at_rish_hh_system_functional_less_than_5_percent_difference	f	1702324544574	#38A15A	At-risk household monitoring system functional: Less than 5% difference in monitoring data
-1921	1	g0_action_plan_g2_not_available_not_approved_not_in_use	f	1699958670124	#DB3B3B	Action plan for G2: not available, not approved or not in use
-1922	2	g1_action_plan_g2_available_and_in_use	f	1699958670124	#38A15A	Action plan for G2: available and in use
-1923	1	g0_action_plan_g3_not_available_not_approved_not_in_use	f	1699958822791	#DB3B3B	Action plan for G3: not available, not approved or not in use
-1924	2	g1_action_plan_g3_available_and_in_use	f	1699958822791	#38A15A	Action plan for G3: available and in use
-1925	1	g0_child_adult_excreta_observed_communal_areas	f	1699959649782	#DB3B3B	Child or adult excreta observed in communal areas
-1926	2	g1_no_visible_od_or_human_excreta_communal_areas	f	1699959649782	#38A15A	No visible OD or human excreta (child or adult) in communal areas
-1927	1	g0_used_diapers_visible_communal_areas	f	1699959743410	#DB3B3B	Used diapers visible in communal areas
-1928	2	g0_used_diapers_unsafely_disposed_unsafely_washed	f	1699959743410	#DB3B3B	Used diapers unsafely disposed or unsafely washed
-1929	3	g1_washable_cloths_safely_emptied_and_safely_washed	f	1699959743410	#38A15A	Washable cloths safely emptied and safely washed
-1930	4	g1_disposable_diapers_put_into_covered_waste_pits	f	1699959743410	#38A15A	Disposable diapers put into covered waste pits
-1931	5	g1_disposable_diapers_buried	f	1699959743410	#38A15A	Disposable diapers buried
-1932	6	g1_disposable_diapers_collected_for_disposal_communal_site	f	1699959743410	#38A15A	Disposable diapers collected for disposal at communal site
-1933	1	g0_visible_dirt_contamination	f	1699959861479	#DB3B3B	Visible dirt or contamination
-1934	2	g1_not_adequately_clean	f	1699959861479	#ffa57d	Not adequately clean
-1935	3	g2_clean_communal_water_points	f	1699959861479	#38A15A	Clean communal water points
-1936	1	g0_no_protection_water_points	f	1699960025562	#DB3B3B	No protection of water points
-1937	2	g1_inadequate_protection_water_points	f	1699960025562	#ffa57d	Inadequate protection of water points
-1938	3	g2_well_protected_communal_water_points	f	1699960025562	#38A15A	Well protected communal water points
-1939	1	g0_standing_water_visible_around_water_points	f	1699960104326	#DB3B3B	Standing water visible around water point
-1940	2	g1_inadequately_drained_water_points	f	1699960104326	#ffa57d	Inadequately drained water points
-1941	3	g2_well_drained_communal_water_points	f	1699960104326	#38A15A	Well drained communal water points
-1942	1	g0_unsafe_disposal_to_open_pit_space_drain_or_water_body_communal_areas	f	1699960255414	#DB3B3B	Unsafe disposal: to open pit, open space, open drain or water body in communal areas
-1943	2	g0_unsafe_treatment_disposal_sewer_connection_to_open_discharge_communal_areas	f	1699960255414	#DB3B3B	Unsafe treatment or disposal: sewer connection to open discharge in communal area
-1944	3	g3_safely_managed_emptied_to_covered_pit_trench_communal_areas	f	1699960255414	#38A15A	Safely managed: emptied to covered pit or trench in communal area
-1945	4	g3_safely_managed_communal_disposal_faecal_sludge_safely_managed	f	1699960255414	#38A15A	Safely managed: communal disposal of faecal sludge is safely managed
-1946	1	g0_significant_erosion_communal_areas	f	1699960354498	#DB3B3B	Significant erosion in communal areas
-1947	2	g1_some_visible_erosion_communal_areas	f	1699960354498	#ffa57d	Some visible erosion in communal areas
-1948	3	g3_adequate_stormwater_drainage_communal_areas	f	1699960354498	#38A15A	Adequate stormwater drainage in communal areas
-1949	4	g3_no_signs_of_stormwater_erosion	f	1699960354498	#38A15A	No signs of stormwater erosion
-1950	1	g0_significant_visible_solid_wastes_communal_areas	f	1699960411329	#DB3B3B	Significant visible solid wastes in communal areas
-1951	2	g1_some_solid_wastes_visible_communal_areas	f	1699960411329	#ffa57d	Some solid wastes visible in communal areas
-1952	3	g3_clean_compound_with_no_visible_solid_wastes_communal_areas	f	1699960411329	#38A15A	Clean compound with no visible solid wastes in communal areas
-1953	1	g0_significant_standing_water_communal_areas	f	1699960488230	#DB3B3B	Significant standing water in communal areas
-1954	2	g3_no_visible_standing_water_communal_areas	f	1699960488230	#ffa57d	No visible standing water in communal areas
-1955	3	g1_some_standing_water_communal_areas	f	1699960488230	#38A15A	Some standing water in communal areas
-1956	1	g0_no_treatment_management_communal_areas	f	1699960542156	#DB3B3B	No treatment or management in communal areas
-1957	2	g1_inadequate_treatment_management_communal_areas	f	1699960542156	#ffa57d	Inadequate treatment or management in communal areas
-1958	3	g3_treated_managed_larval_breeding_sites_communal_areas	f	1699960542156	#38A15A	Treated or managed larval breeding sites in communal areas
-1959	4	g3_no_visible_standing_water_communal_areas	f	1699960542156	#38A15A	No visible standing water in communal areas
-1960	1	school	f	1699960591715	\N	School
-1961	2	healthcare_facility	f	1699960591715	\N	Healthcare facility
-1962	3	transport_station	f	1699960591715	\N	Transport station (bus, train, airport, fuel, other)
-1963	4	market	f	1699960591715	\N	Market
-1964	5	public_toilet	f	1699960591715	\N	Public toilet
-1965	6	government_office_building	f	1699960591715	\N	Government office/building
-1966	7	camps_fishing_mining_farming	f	1699960591715	\N	Camps (fishing, mining, farming)
-1967	8	worship_centres	f	1699960591715	\N	Worship centres (churches, cathedrals, mosques, temples, other)
-1968	9	burial_place	f	1699960591715	\N	Burial place
-1969	10	private_institutions	f	1699960591715	\N	Private institutions
-1970	11	prisons	f	1699960591715	\N	Prisons
-1971	12	other_institutions	f	1699960591715	\N	Other Institutions
-1972	1	no	f	169995172789124	#DB3B3B	No
-1973	2	g1	f	169995172789124	#38A15A	G1
-1974	3	g2	f	169995172789124	#38A15A	G2
-1975	4	g3	f	169995172789124	#38A15A	G3
-1976	1	yes	f	169995172789125	green	Yes
-1977	2	no	f	169995172789125	red	No
-1978	1	yes	f	169995172789126	green	Yes
-1979	2	no	f	169995172789126	red	No
-1980	1	new	f	1701172125598	\N	New
-1981	2	update	f	1701172125598	\N	Update
-1982	1	school	f	1701174317250	\N	School
-1983	2	healthcare_facility	f	1701174317250	\N	Healthcare facility
-1984	3	transport_station_bus_train_airport_fuel_other	f	1701174317250	\N	Transport station (bus, train, airport, fuel, other)
-1985	4	market	f	1701174317250	\N	Market
-1986	5	publ_toilet	f	1701174317250	\N	Public toilet
-1987	6	government_office	f	1701174317250	\N	Government office/building
-1988	7	camp_fishing_mining_farming	f	1701174317250	\N	Camps (fishing, mining, farming)
-1989	8	worship_centres_churches_cathedrals_mosques_temples_other	f	1701174317250	\N	Worship centres (churches, cathedrals, mosques, temples, other)
-1990	9	burial_place	f	1701174317250	\N	Burial place
-1991	10	private_institutions	f	1701174317250	\N	Private institutions
-1992	11	prisons	f	1701174317250	\N	Prisons
-1993	12	other_institutions	f	1701174317250	\N	Other Institutions
-1994	1	g0_all_institutions_toilets_are_nonfunctional	f	1701329515408	#DB3B3B	All institution toilets  are NON-functional
-1995	2	g1_some_institution_toilets_are_nonfunctional	f	1701329515408	#ffa57d	Some institution toilets are non-functional
-1996	3	g3_all_toilets_institution_are_functional	f	1701329515408	#38A15A	All toilets in the institution are functional
-1997	1	g0_all_institution_toilets_are_not_flyproof	f	1701331306965	#DB3B3B	All institution toilets are NOT flyproof
-1998	2	g1_some_institution_toilets_are_not_flyproof	f	1701331306965	#ffa57d	Some institution toilets  are NOT flyproof
-1999	3	g3_all_functional_toilets_are_flyproof	f	1701331306965	#38A15A	All functional toilets are flyproof
-2000	1	g0_all_institution_toilets_are_not_clean	f	1701331373050	#DB3B3B	All institution toilets are NOT clean
-2001	2	g1_some_institution_toilets_are_not_clean	f	1701331373050	#ffa57d	Some institution toilets  are NOT clean
-2002	3	g3_all_functional_toilets_are_clean	f	1701331373050	#38A15A	All functional toilets are clean
-2003	1	g0_all_institution_toil_slabs_are_not_durable	f	1701331438759	#DB3B3B	All institution toilet slabs are NOT durable
-2004	2	g1_some_institution_toil_slabs_are_not_durable	f	1701331438759	#ffa57d	Some institution toilet slabs are NOT durable
-2005	3	g3_all_institution_functional_toil_slabs_are_durable	f	1701331438759	#38A15A	All institution functional toilet slabs are durable
-2006	1	g0_all_inst_toil_pits_are_not_dura	f	1701331908015	#DB3B3B	All institution toilet pits are NOT durable
-2007	2	g1_some_inst_toil_pits_are_not_dura	f	1701331908015	#ffa57d	Some institution toilet pits are NOT durable
-2008	3	g3_all_inst_func_toil_pits_are_dura	f	1701331908015	#38A15A	All institution functional toilet pits are durable
-2009	1	g0_visible_surface_outflows_from_containment	f	1701332234354	#DB3B3B	Visible surface outflows from containment
-2010	2	g1_evidence_previous_surface_outflows_from_containment	f	1701332234354	#ffa57d	Evidence of previous surface outflows from containment
-2011	3	g3_safe_managed_containment_all_institutions_no_surface_outflows	f	1701332234354	#38A15A	Safely managed containment in all institutions: no surface outflows
-2012	1	g0_no_toilet_no_containment_system	f	1701332496414	#DB3B3B	No toilets, or no containment/collection systems
-2013	2	g0_unsafe_containment_open_containers	f	1701332496414	#DB3B3B	Unsafe containment: open containers
-2014	3	g1_risk_unsafe_services_never_emptied_intention_to_emptied_when_full	f	1701332496414	#ffa57d	Risk of unsafe services: never emptied (intention to empty when full)
-2015	4	g3_never_emptied_not_yet_full_first_toilets_no_intention_to_empty	f	1701332496414	#38A15A	Never emptied, not yet full (first toilets: no intention to empty)
-2016	5	g3_never_emptied_previous_pits_tank_replaced_when_full	f	1701332496414	#38A15A	Never emptied, previous pits or tanks replaced when full
-2017	6	g3_safely_managed_sewer_connection_to_licenced_functional_treatment_site	f	1701332496414	#38A15A	G3 Safely managed: sewer connection to LICENSED and FUNCTIONAL treatment site
-2018	1	g0_unsafe_disposal_to_open_pit_open_space_open_draim_water_body_within_500m	f	1701334423738	#DB3B3B	G0 Unsafe disposal: to open pit, open space, open drain or water body (within 500m)
-2019	2	g0_unsafe_disposal_to_open_space_open_drain_water_body_more_than_500m	f	1701334423738	#DB3B3B	G0 Unsafe disposal: to open space, open drain or water body (MORE than 500m)
-2020	3	g0_unsafe_treatment_disposal_emptied_by_unlicenced_service_provider_to_offsite_locaction	f	1701334423738	#DB3B3B	G0 Unsafe treatment or disposal: emptied by UNLICENSED service provider to off-site location
-2021	4	g0_unsafe_treatment_disposal_closed_container_removed_by_unlicenced_service_provider_to_offsite_location	f	1701334423738	#DB3B3B	G0 Unsafe treatment or disposal: closed container removed by UNLICENSED service provider to off-site location
-2022	5	g0_unsafe_treatment_disposal_sewer_connection_to_open_discharge	f	1701334423738	#DB3B3B	Unsafe treatment or disposal: sewer connection to open discharge
-2023	6	g0_unsafe_services_other_unsafely_managed_services	f	1701334423738	#DB3B3B	Unsafe services: other unsafely managed services
-2024	7	g1_unsafe_storage_stored_for_less_than_2_years_before_use_stored_waste	f	1701334423738	#ffa57d	Unsafe storage: stored for less than 2 years before use of stored waste
-2025	8	g1_unsafe_treatment_disposal_sewer_connection_to_unlicenced_nonfunctional_treatment_site	f	1701334423738	#ffa57d	Unsafe treatment or disposal: sewer connection to UNLICENSED or NON-FUNCTIONAL treatment site
-2026	9	g3_safely_managed_emptied_to_cover_pit	f	1701334423738	#38A15A	Safely managed: emptied to covered pit
-2027	10	g3_safely_managed_stored_for_more_than_2_years_before_use_stored_waste	f	1701334423738	#38A15A	Safely managed: stored for MORE than 2 years before use of stored waste
-2028	11	g3_safely_managed_emptied_by_licenced_service_provider_to_offsite_location	f	1701334423738	#38A15A	Safely managed: emptied by LICENSED service provider to off-site location
-2029	12	g3_safely_managed_closed_container_removed_by_licenced_service_provider_to_offsite_location	f	1701334423738	#38A15A	Safely managed: closed container removed by LICENSED service provider to off-site location
-2030	13	g3_safely_managed_other_safely_managed_services	f	1701334423738	#38A15A	Safely managed: other safely managed services
-2031	1	g0_high_risk_groundwater_contamination	f	17022827967659	#DB3B3B	G0 High risk of groundwater contamination
-2032	2	g2_low_risk_groundwater_contamination	f	17022827967659	#38A15A	G2 Low risk of groundwater contamination
-2033	1	g0_no_handwashing_facility	f	1701334833791	#DB3B3B	No handwashing facility
-2034	2	g1_handwashing_facility_by_toilet	f	1701334833791	#38A15A	Handwashing facility by toilet
-2035	3	g1_handwashing_facility_kitchen	f	1701334833791	#38A15A	Handwashing facility in kitchen
-2036	4	g1_portable_handwashing_facility_basin_jug_jerrycan_container	f	1701334833791	#38A15A	Portable handwashing facility (basin, jug, jerrycan, container)
-2037	5	g1_two_handwashing_facilities	f	1701334833791	#38A15A	Two handwashing facilities
-2038	6	g1_more_than_two_handwashing_facilities	f	1701334833791	#38A15A	More than two handwashing facilities
-2039	7	g1_handwashing_facility_elsewhere	f	1701334833791	#38A15A	Handwashing facility elsewhere
-2040	1	g0_no_handwashing_facility	f	1701334972999	#DB3B3B	No handwashing facility
-2041	2	g0_no_water_available	f	1701334972999	#DB3B3B	No water available
-2042	3	g1_water_available	f	1701334972999	#38A15A	Water available
-2043	4	g1_water_container_empty_evidence_washing	f	1701334972999	#38A15A	Water container empty (evidence of washing)
-2044	1	g0_no_handwashing_facility	f	1701335557029	#DB3B3B	No handwashing facility
-2045	2	g0_no_soap_other_cleanser_available	f	1701335557029	#DB3B3B	G0 No soap or other cleanser available
-2046	3	g0_ash_mud_sand_available	f	1701335557029	#DB3B3B	Ash, mud or sand available
-2047	4	g0_soap_available_not_at_handwashing_facility	f	1701335557029	#ffa57d	Soap available, NOT at handwashing facility
-2048	5	g1_solid_liquid_powder_soap_available	f	1701335557029	#38A15A	Solid, liquid or powder soap available
-2049	1	g0_no_handwashing_facility	f	1701358601048	#DB3B3B	No handwashing facility
-2050	2	g1_jerrycan_other_closed_container	f	1701358601048	#ffa57d	Jerrycan or other closed container
-2051	3	g1_portable_basin_other_open_container	f	1701358601048	#ffa57d	Portable basin or other open container
-2052	4	g1_other_temporary_handwashing_facility	f	1701358601048	#ffa57d	Other temporary handwashing facility
-2053	5	g3_other_permanent_handwashing_station	f	1701358601048	#38A15A	Other permanent handwashing station
-2054	6	g3_piped_water_tap_with_basin	f	1701358601048	#38A15A	Piped water tap with basin
-2055	7	g3_market_handwashing_station_with_adequate_water_storage	f	1701358601048	#38A15A	G3 Market handwashing station with adequate water storage
-2118	2	toil_inad_for_peop_with_redu_mobi	f	1701774631031	#ffa57d	Toilet is inadequate for people with reduced mobility
-2056	1	g0_hands_enter_water_container_during_collection_use	f	1701359046016	#DB3B3B	Hands enter the water container (during collection and use)
-2057	2	g1_water_collected_by_hand_using_ladle_cup_other	f	1701359046016	#ffa57d	Water collected by hand (using ladle, cup, other)
-2058	3	g3_closed_water_storage_container_with_tap	f	1701359046016	#38A15A	Closed water storage container with tap
-2059	4	g3_piped_water_tap	f	1701359046016	#38A15A	Piped water tap
-2060	5	g3_other_handsfree_operation	f	1701359046016	#38A15A	Other hands-free operation
-2061	1	g0_no_handwashing_facility	f	1701359231461	#DB3B3B	No handwashing facility
-2062	2	g0_no_collection_disposal_washing_water	f	1701359231461	#DB3B3B	No collection or disposal of washing water
-2063	3	g1_collection_washing_water_without_drainage_disposal	f	1701359231461	#ffa57d	Collection of washing water without drainage or disposal
-2064	4	g3_safe_collection_disposal_washing_water	f	1701359231461	#38A15A	Safe collection and disposal of washing water
-2065	1	new	f	1701762893743	\N	New
-2066	2	update	f	1701762893743	\N	Update
-2067	1	nurs	f	1701772767994	\N	Nurse
-2068	2	doct	f	1701772767994	\N	Doctor
-2069	3	publ_heal_offi	f	1701772767994	\N	Public Health Officer
-2070	4	clin_offi	f	1701772767994	\N	Clinical/Medical Officer
-2071	5	medi_lab_tech	f	1701772767994	\N	Medical Lab Technician
-2072	6	phar	f	1701772767994	\N	Pharmacist
-2073	7	medi_supe	f	1701772767994	\N	Medical Superintendent
-2074	8	dire	f	1701772767994	\N	Director
-2075	9	other	f	1701772767994	\N	Other
-2076	1	no_wate_sour	f	1701773373079	#DB3B3B	No water source
-2077	2	surf_wate_lake_rive_stre_dam	f	1701773373079	#DB3B3B	Surface water (lake, river, stream, dam)
-2078	3	chil_brin_wate_from_home	f	1701773373079	#DB3B3B	Children bring water from home
-2079	4	pipe_wate_supp_insi_buil	f	1701773373079	#38A15A	Piped water supply inside the building
-2080	5	pipe_wate_supp_outs_buil	f	1701773373079	#38A15A	Piped water supply outside the building
-2081	6	prot_well	f	1701773373079	#38A15A	Protected well/spring/borehole
-2082	7	rain_tank	f	1701773373079	#38A15A	Rainwater tank
-2083	8	unpr_well	f	1701773373079	#38A15A	Unprotected well/spring
-2084	9	pack_wate_bott	f	1701773373079	#38A15A	Packaged water (bottles)
-2085	10	tank_truc_cart	f	1701773373079	#38A15A	Tanker truck or cart
-2086	11	othe_impr_spec	f	1701773373079	#38A15A	Other improved - specify
-2087	1	yes	f	1701774004571	#38A15A	Yes
-2088	2	no	f	1701774004571	#DB3B3B	No
-2089	1	no_insu_wate_quan_75_uses	f	1701774054865	#DB3B3B	No, insufficient water quantity (<75% uses)
-2090	2	no_wate_quan_only_suff_for_75_uses	f	1701774054865	#ffa57d	No, water quantity only sufficient for 75% uses
-2091	3	yes_suff_wate_quan_for_all_uses	f	1701774054865	#38A15A	Yes, sufficient water quantity for all uses
-2092	1	all_inpa_toil_are_not_usab_ente_numb	f	1701774110056	#DB3B3B	All inpatient toilets are NOT usable (enter number)
-2093	2	some_inpa_toil_are_not_usab_ente_numb_nonu_numb_usab	f	1701774110056	#ffa57d	Some inpatient toilets are NOT usable (enter number non-usable, and number usable)
-2094	3	all_inpa_toil_are_usab_ente_numb	f	1701774110056	#38A15A	All inpatient toilets are usable (enter number)
-2095	1	all_outp_toil_are_not_usab_ente_numb	f	1701774221650	#DB3B3B	All outpatient toilets are NOT usable (enter number)
-2096	2	some_outp_toil_are_not_usab_ente_numb_nonu_numb_usab	f	1701774221650	#ffa57d	Some outpatient toilets are NOT usable (enter number non-usable, and number usable)
-2097	3	all_outp_toil_are_usab_ente_numb	f	1701774221650	#38A15A	All outpatient toilets are usable (enter number)
-2098	1	no_toil	f	1701774299250	#DB3B3B	No toilets
-2099	2	open_cont_toil_eg_buck_latr	f	1701774299250	#DB3B3B	Open container toilets (e.g. bucket latrines)
-2100	3	hang_latr	f	1701774299250	#DB3B3B	Hanging latrines
-2101	4	pit_latr_with_slab_open_pit	f	1701774299250	#DB3B3B	Pit latrines without slab (open pit)
-2102	5	flus_pour_toil_to_open_fiel_open_drai_wate_body	f	1701774299250	#DB3B3B	Flush or pour-flush toilets to open (field, open drain, water body)
-2103	6	pit_latr_with_slab	f	1701774299250	#38A15A	Pit latrines with slab
-2104	7	flus_pour_toil_to_pit_tank	f	1701774299250	#38A15A	Flush or pour-flush toilets to pit or tank
-2105	8	flus_pour_toil_to_sewe_conn	f	1701774299250	#38A15A	Flush or pour-flush toilets to sewer connection
-2106	9	comp_toil	f	1701774299250	#38A15A	Composting toilets
-2107	10	othe_impr_toil_spec	f	1701774299250	#38A15A	Other improved toilet - specify
-2108	1	no_sepa_toil_exis_for_staf_use_toil_are_unim	f	1701774431012	#DB3B3B	No separate toilet exists for staff use, or toilets are unimproved
-2109	2	toil_exis_for_staf_use_but_not_clea_desi_not_func	f	1701774431012	#ffa57d	Toilet exists for staff use, but is not clearly designated or not functional
-2110	3	yes_at_leas_one_func_toil_clea_desi_for_staf	f	1701774431012	#38A15A	Yes, at least one functional toilet is clearly designated for staff
-2111	1	no_sex_separated_toilets_available_no_privacy	f	1701774484635	#DB3B3B	No sex-separated toilets are available, or no privacy, or toilets unimproved
-2112	2	sex_separated_toilets_exist_but_not_clearly_marked	f	1701774484635	#ffa57d	Sex-separated toilets exist but not clearly marked
-2113	3	yes_sex_separated_rooms_with_privacy	f	1701774484635	#38A15A	Yes, sex-separated rooms for toilets with privacy
-2114	1	no_appr_faci_are_avai_func_for_mens_hygi	f	1701774586397	#DB3B3B	No appropriate facilities are available or functional for menstrual hygiene
-2115	2	spac_avai_to_wash_but_with_inad_faci	f	1701774586397	#ffa57d	Space is available to wash, but with inadequate facilities
-2116	3	yes_usab_toil_avai_with_mens_hygi_faci	f	1701774586397	#38A15A	Yes, usable toilet is available with menstrual hygiene facilities
-2117	1	no_appr_toil_avai_for_peop_with_redu_mobi	f	1701774631031	#DB3B3B	No appropriate toilets available for people with reduced mobility
-2119	3	yes_at_leas_one_usab_toil_avai_for_peop_with_redu_mobi	f	1701774631031	#38A15A	Yes, at least one usable toilet is available for people with reduced mobility
-2120	1	less_than_75_poin_care_have_func_hand_hygi_faci	f	1701775062688	#DB3B3B	Less than 75% of Points of Care have functional hand hygiene facilities
-2121	2	75_more_poin_care_have_func_hand_hygi_faci	f	1701775062688	#ffa57d	75% or more Points of Care have functional hand hygiene facilities
-2122	3	yes_all_poin_care_have_func_hand_hygi_faci	f	1701775062688	#38A15A	Yes, all Points of Care have functional hand hygiene facilities
-2123	1	less_than_50_toil_have_hand_hygi_faci_with_5_metr	f	1701775201634	#DB3B3B	Less than 50% of toilets have hand hygiene facilities within 5 metres
-2124	2	50_more_toil_have_func_hand_hygi_faci_with_5_metr	f	1701775201634	#ffa57d	50% or more of toilets have functioning hand hygiene facilities within 5 metres
-2125	3	all_toil_have_func_hand_hygi_faci_with_5_metr	f	1701775201634	#38A15A	All toilets have functional hand hygiene facilities within 5 metres
-2126	1	no_audi_reco_avai_no_mate_avai	f	1701775273809	#DB3B3B	No audit records available, or no materials available
-2127	2	ward_audi_are_inco_irre	f	1701775273809	#ffa57d	Ward-based audits are incomplete or irregular
-2128	3	reco_avai_regu_ward_audi_repo_suff_mate	f	1701775273809	#38A15A	Records available of regular ward-based audits reporting sufficient materials
-2129	1	no_wast_coll_cont_no_segr	f	1701775490261	#DB3B3B	No waste collection containers or no segregation
-2130	2	not_all_wast_gene_poin_have_func_wast_coll_cont	f	1701775490261	#ffa57d	Not all waste generation points have functional waste collection containers
-2131	3	all_wast_gene_poin_have_func_wast_coll_cont_sepa_by_wast_type	f	1701775490261	#38A15A	All waste generation points have functional waste collection containers separated by waste type
-2132	1	no_disp_site	f	1701775575661	#DB3B3B	No disposal site
-2133	2	disp_site_inad_nonf	f	1701775575661	#ffa57d	Disposal site is inadequate or non-functional
-2134	3	yes_func_disp_site	f	1701775575661	#38A15A	Yes, functional disposal site
-2135	1	no_disp_site	f	1701775635195	#DB3B3B	No disposal site
-2136	2	disp_site_inad_nonf	f	1701775635195	#ffa57d	Disposal site is inadequate or non-functional
-2137	3	yes_func_disp_site	f	1701775635195	#38A15A	Yes, functional disposal site
-2138	1	no_clea_mate	f	1701775723946	#DB3B3B	No cleaning materials
-2139	2	inad_clea_mate	f	1701775723946	#ffa57d	Inadequate cleaning materials
-2140	3	yes_clea_mate_avai	f	1701775723946	#38A15A	Yes, cleaning materials available
-2141	1	no_clea_reco	f	1701775784630	#DB3B3B	No cleaning records
-2142	2	inad_clea_reco	f	1701775784630	#ffa57d	Inadequate cleaning records
-2143	3	yes_dail_clea_reco_avai_for_all_area	f	1701775784630	#38A15A	Yes, daily cleaning records available for all areas
-2144	1	no_reco_toil_clea_less_than_once_per_day	f	1701775883414	#DB3B3B	No records, or toilets cleaned less than once per day
-2145	2	toil_clea_less_than_twic_a_day	f	1701775883414	#ffa57d	Toilets cleaned less than twice a day
-2146	3	yes_all_toil_clea_at_leas_twic_a_day	f	1701775883414	#38A15A	Yes, all toilets cleaned at least twice a day
+1513	2	no	f	557710261	\N	No
+1514	1	bucket	f	583770042	\N	Bucket
+1269	7	poor_water_quality	f	571060084	\N	Poor water quality
+1270	1	extension	f	563220092	\N	Extension
+1271	2	inspection	f	563220092	\N	Inspection
+1272	3	national_wash_inventory	f	563220092	\N	National WASH Inventory
+1273	4	new_scheme	f	563220092	\N	New Scheme
+1274	5	repair	f	563220092	\N	Repair
+1275	1	yes	f	1709689683442	\N	Yes
+1276	2	no	f	1709689683442	\N	No
+1277	1	yes	f	1714374463	\N	Yes
+1278	2	no	f	1714374463	\N	No
+1279	1	yes	f	1714374520	\N	Yes
+1280	2	no	f	1714374520	\N	No
+1281	1	yes	f	1714374534	\N	Yes
+1282	2	no	f	1714374534	\N	No
+1283	1	yes	f	1714374554	\N	Yes
+1284	2	no	f	1714374554	\N	No
+1285	1	yes	f	1714374568	\N	Yes
+1286	2	no	f	1714374568	\N	No
+1287	1	yes	f	1714374583	\N	Yes
+1288	2	no	f	1714374583	\N	No
+1289	1	yes	f	1714374596	\N	Yes
+1290	2	no	f	1714374596	\N	No
+1074	1	new	f	1701172125598	\N	New
+1075	2	update	f	1701172125598	\N	Update
+1076	1	school	f	1701174317250	\N	School
+1077	2	healthcare_facility	f	1701174317250	\N	Healthcare facility
+1078	3	transport_station_bus_train_airport_fuel_other	f	1701174317250	\N	Transport station (bus, train, airport, fuel, other)
+1079	4	market	f	1701174317250	\N	Market
+1080	5	publ_toilet	f	1701174317250	\N	Public toilet
+1081	6	government_office	f	1701174317250	\N	Government office/building
+1082	7	camp_fishing_mining_farming	f	1701174317250	\N	Camps (fishing, mining, farming)
+1083	8	worship_centres_churches_cathedrals_mosques_temples_other	f	1701174317250	\N	Worship centres (churches, cathedrals, mosques, temples, other)
+1084	9	burial_place	f	1701174317250	\N	Burial place
+1085	10	private_institutions	f	1701174317250	\N	Private institutions
+1086	11	prisons	f	1701174317250	\N	Prisons
+1087	12	other_institutions	f	1701174317250	\N	Other Institutions
+1088	1	g0_all_institutions_toilets_are_nonfunctional	f	1701329515408	#DB3B3B	All institution toilets  are NON-functional
+1089	2	g1_some_institution_toilets_are_nonfunctional	f	1701329515408	#ffa57d	Some institution toilets are non-functional
+1090	3	g3_all_toilets_institution_are_functional	f	1701329515408	#38A15A	All toilets in the institution are functional
+1091	1	g0_all_institution_toilets_are_not_flyproof	f	1701331306965	#DB3B3B	All institution toilets are NOT flyproof
+1092	2	g1_some_institution_toilets_are_not_flyproof	f	1701331306965	#ffa57d	Some institution toilets  are NOT flyproof
+1291	1	yes	f	1709698055520	\N	Yes
+1292	2	no	f	1709698055520	\N	No
+1293	1	yes	f	1709698095513	\N	Yes
+1294	2	no	f	1709698095513	\N	No
+1295	1	yes	f	1709698133970	\N	Yes
+1296	2	no	f	1709698133970	\N	No
+1297	1	yes	f	1709698185027	\N	Yes
+1298	2	no	f	1709698185027	\N	No
+1299	1	yes	f	1709698458281	\N	Yes
+1300	2	no	f	1709698458281	\N	No
+1301	1	<50%	f	1709698500881	#d0021b	<50%
+1302	2	50%-74%	f	1709698500881	#f5a623	50%-74%
+1303	3	75%-94%	f	1709698500881	#f5a623	75%-94%
+1093	3	g3_all_functional_toilets_are_flyproof	f	1701331306965	#38A15A	All functional toilets are flyproof
+1094	1	g0_all_institution_toilets_are_not_clean	f	1701331373050	#DB3B3B	All institution toilets are NOT clean
+1095	2	g1_some_institution_toilets_are_not_clean	f	1701331373050	#ffa57d	Some institution toilets  are NOT clean
+1096	3	g3_all_functional_toilets_are_clean	f	1701331373050	#38A15A	All functional toilets are clean
+1097	1	g0_all_institution_toil_slabs_are_not_durable	f	1701331438759	#DB3B3B	All institution toilet slabs are NOT durable
+1098	2	g1_some_institution_toil_slabs_are_not_durable	f	1701331438759	#ffa57d	Some institution toilet slabs are NOT durable
+1099	3	g3_all_institution_functional_toil_slabs_are_durable	f	1701331438759	#38A15A	All institution functional toilet slabs are durable
+1100	1	g0_all_inst_toil_pits_are_not_dura	f	1701331908015	#DB3B3B	All institution toilet pits are NOT durable
+1101	2	g1_some_inst_toil_pits_are_not_dura	f	1701331908015	#ffa57d	Some institution toilet pits are NOT durable
+1102	3	g3_all_inst_func_toil_pits_are_dura	f	1701331908015	#38A15A	All institution functional toilet pits are durable
+1103	1	g0_visible_surface_outflows_from_containment	f	1701332234354	#DB3B3B	Visible surface outflows from containment
+1104	2	g1_evidence_previous_surface_outflows_from_containment	f	1701332234354	#ffa57d	Evidence of previous surface outflows from containment
+1105	3	g3_safe_managed_containment_all_institutions_no_surface_outflows	f	1701332234354	#38A15A	Safely managed containment in all institutions: no surface outflows
+1106	1	g0_no_toilet_no_containment_system	f	1701332496414	#DB3B3B	No toilets, or no containment/collection systems
+1107	2	g0_unsafe_containment_open_containers	f	1701332496414	#DB3B3B	Unsafe containment: open containers
+1108	3	g1_risk_unsafe_services_never_emptied_intention_to_emptied_when_full	f	1701332496414	#ffa57d	Risk of unsafe services: never emptied (intention to empty when full)
+1109	4	g3_never_emptied_not_yet_full_first_toilets_no_intention_to_empty	f	1701332496414	#38A15A	Never emptied, not yet full (first toilets: no intention to empty)
+1110	5	g3_never_emptied_previous_pits_tank_replaced_when_full	f	1701332496414	#38A15A	Never emptied, previous pits or tanks replaced when full
+1111	6	g3_safely_managed_sewer_connection_to_licenced_functional_treatment_site	f	1701332496414	#38A15A	G3 Safely managed: sewer connection to LICENSED and FUNCTIONAL treatment site
+1112	1	g0_unsafe_disposal_to_open_pit_open_space_open_draim_water_body_within_500m	f	1701334423738	#DB3B3B	G0 Unsafe disposal: to open pit, open space, open drain or water body (within 500m)
+1113	2	g0_unsafe_disposal_to_open_space_open_drain_water_body_more_than_500m	f	1701334423738	#DB3B3B	G0 Unsafe disposal: to open space, open drain or water body (MORE than 500m)
+1114	3	g0_unsafe_treatment_disposal_emptied_by_unlicenced_service_provider_to_offsite_locaction	f	1701334423738	#DB3B3B	G0 Unsafe treatment or disposal: emptied by UNLICENSED service provider to off-site location
+1115	4	g0_unsafe_treatment_disposal_closed_container_removed_by_unlicenced_service_provider_to_offsite_location	f	1701334423738	#DB3B3B	G0 Unsafe treatment or disposal: closed container removed by UNLICENSED service provider to off-site location
+1116	5	g0_unsafe_treatment_disposal_sewer_connection_to_open_discharge	f	1701334423738	#DB3B3B	Unsafe treatment or disposal: sewer connection to open discharge
+1117	6	g0_unsafe_services_other_unsafely_managed_services	f	1701334423738	#DB3B3B	Unsafe services: other unsafely managed services
+1118	7	g1_unsafe_storage_stored_for_less_than_2_years_before_use_stored_waste	f	1701334423738	#ffa57d	Unsafe storage: stored for less than 2 years before use of stored waste
+1119	8	g1_unsafe_treatment_disposal_sewer_connection_to_unlicenced_nonfunctional_treatment_site	f	1701334423738	#ffa57d	Unsafe treatment or disposal: sewer connection to UNLICENSED or NON-FUNCTIONAL treatment site
+1120	9	g3_safely_managed_emptied_to_cover_pit	f	1701334423738	#38A15A	Safely managed: emptied to covered pit
+1121	10	g3_safely_managed_stored_for_more_than_2_years_before_use_stored_waste	f	1701334423738	#38A15A	Safely managed: stored for MORE than 2 years before use of stored waste
+1122	11	g3_safely_managed_emptied_by_licenced_service_provider_to_offsite_location	f	1701334423738	#38A15A	Safely managed: emptied by LICENSED service provider to off-site location
+1123	12	g3_safely_managed_closed_container_removed_by_licenced_service_provider_to_offsite_location	f	1701334423738	#38A15A	Safely managed: closed container removed by LICENSED service provider to off-site location
+1124	13	g3_safely_managed_other_safely_managed_services	f	1701334423738	#38A15A	Safely managed: other safely managed services
+1125	1	g0_high_risk_groundwater_contamination	f	17022827967659	#DB3B3B	G0 High risk of groundwater contamination
+1126	2	g2_low_risk_groundwater_contamination	f	17022827967659	#38A15A	G2 Low risk of groundwater contamination
+1127	1	g0_no_handwashing_facility	f	1701334833791	#DB3B3B	No handwashing facility
+1128	2	g1_handwashing_facility_by_toilet	f	1701334833791	#38A15A	Handwashing facility by toilet
+1129	3	g1_handwashing_facility_kitchen	f	1701334833791	#38A15A	Handwashing facility in kitchen
+1130	4	g1_portable_handwashing_facility_basin_jug_jerrycan_container	f	1701334833791	#38A15A	Portable handwashing facility (basin, jug, jerrycan, container)
+1131	5	g1_two_handwashing_facilities	f	1701334833791	#38A15A	Two handwashing facilities
+1132	6	g1_more_than_two_handwashing_facilities	f	1701334833791	#38A15A	More than two handwashing facilities
+1133	7	g1_handwashing_facility_elsewhere	f	1701334833791	#38A15A	Handwashing facility elsewhere
+1134	1	g0_no_handwashing_facility	f	1701334972999	#DB3B3B	No handwashing facility
+1135	2	g0_no_water_available	f	1701334972999	#DB3B3B	No water available
+1136	3	g1_water_available	f	1701334972999	#38A15A	Water available
+1137	4	g1_water_container_empty_evidence_washing	f	1701334972999	#38A15A	Water container empty (evidence of washing)
+1138	1	g0_no_handwashing_facility	f	1701335557029	#DB3B3B	No handwashing facility
+1139	2	g0_no_soap_other_cleanser_available	f	1701335557029	#DB3B3B	G0 No soap or other cleanser available
+1140	3	g0_ash_mud_sand_available	f	1701335557029	#DB3B3B	Ash, mud or sand available
+1304	4	>_95%	f	1709698500881	#417505	> 95%
+1141	4	g0_soap_available_not_at_handwashing_facility	f	1701335557029	#ffa57d	Soap available, NOT at handwashing facility
+1142	5	g1_solid_liquid_powder_soap_available	f	1701335557029	#38A15A	Solid, liquid or powder soap available
+1143	1	g0_no_handwashing_facility	f	1701358601048	#DB3B3B	No handwashing facility
+1144	2	g1_jerrycan_other_closed_container	f	1701358601048	#ffa57d	Jerrycan or other closed container
+1145	3	g1_portable_basin_other_open_container	f	1701358601048	#ffa57d	Portable basin or other open container
+1146	4	g1_other_temporary_handwashing_facility	f	1701358601048	#ffa57d	Other temporary handwashing facility
+1147	5	g3_other_permanent_handwashing_station	f	1701358601048	#38A15A	Other permanent handwashing station
+1148	6	g3_piped_water_tap_with_basin	f	1701358601048	#38A15A	Piped water tap with basin
+1149	7	g3_market_handwashing_station_with_adequate_water_storage	f	1701358601048	#38A15A	G3 Market handwashing station with adequate water storage
+1150	1	g0_hands_enter_water_container_during_collection_use	f	1701359046016	#DB3B3B	Hands enter the water container (during collection and use)
+1151	2	g1_water_collected_by_hand_using_ladle_cup_other	f	1701359046016	#ffa57d	Water collected by hand (using ladle, cup, other)
+1152	3	g3_closed_water_storage_container_with_tap	f	1701359046016	#38A15A	Closed water storage container with tap
+1153	4	g3_piped_water_tap	f	1701359046016	#38A15A	Piped water tap
+1154	5	g3_other_handsfree_operation	f	1701359046016	#38A15A	Other hands-free operation
+1155	1	g0_no_handwashing_facility	f	1701359231461	#DB3B3B	No handwashing facility
+1156	2	g0_no_collection_disposal_washing_water	f	1701359231461	#DB3B3B	No collection or disposal of washing water
+1157	3	g1_collection_washing_water_without_drainage_disposal	f	1701359231461	#ffa57d	Collection of washing water without drainage or disposal
+1158	4	g3_safe_collection_disposal_washing_water	f	1701359231461	#38A15A	Safe collection and disposal of washing water
+1159	1	new	f	1701762893743	\N	New
+1160	2	update	f	1701762893743	\N	Update
+1161	1	nurs	f	1701772767994	\N	Nurse
+1162	2	doct	f	1701772767994	\N	Doctor
+1163	3	publ_heal_offi	f	1701772767994	\N	Public Health Officer
+1164	4	clin_offi	f	1701772767994	\N	Clinical/Medical Officer
+1165	5	medi_lab_tech	f	1701772767994	\N	Medical Lab Technician
+1166	6	phar	f	1701772767994	\N	Pharmacist
+1167	7	medi_supe	f	1701772767994	\N	Medical Superintendent
+1168	8	dire	f	1701772767994	\N	Director
+1169	9	other	f	1701772767994	\N	Other
+1170	1	no_wate_sour	f	1701773373079	#DB3B3B	No water source
+1171	2	surf_wate_lake_rive_stre_dam	f	1701773373079	#DB3B3B	Surface water (lake, river, stream, dam)
+1172	3	chil_brin_wate_from_home	f	1701773373079	#DB3B3B	Children bring water from home
+1173	4	pipe_wate_supp_insi_buil	f	1701773373079	#38A15A	Piped water supply inside the building
+1174	5	pipe_wate_supp_outs_buil	f	1701773373079	#38A15A	Piped water supply outside the building
+1175	6	prot_well	f	1701773373079	#38A15A	Protected well/spring/borehole
+1176	7	rain_tank	f	1701773373079	#38A15A	Rainwater tank
+1177	8	unpr_well	f	1701773373079	#38A15A	Unprotected well/spring
+1178	9	pack_wate_bott	f	1701773373079	#38A15A	Packaged water (bottles)
+1179	10	tank_truc_cart	f	1701773373079	#38A15A	Tanker truck or cart
+1180	11	othe_impr_spec	f	1701773373079	#38A15A	Other improved - specify
+1181	1	yes	f	1701774004571	#38A15A	Yes
+1182	2	no	f	1701774004571	#DB3B3B	No
+1183	1	no_insu_wate_quan_75_uses	f	1701774054865	#DB3B3B	No, insufficient water quantity (<75% uses)
+1184	2	no_wate_quan_only_suff_for_75_uses	f	1701774054865	#ffa57d	No, water quantity only sufficient for 75% uses
+1185	3	yes_suff_wate_quan_for_all_uses	f	1701774054865	#38A15A	Yes, sufficient water quantity for all uses
+1186	1	all_inpa_toil_are_not_usab_ente_numb	f	1701774110056	#DB3B3B	All inpatient toilets are NOT usable (enter number)
+1187	2	some_inpa_toil_are_not_usab_ente_numb_nonu_numb_usab	f	1701774110056	#ffa57d	Some inpatient toilets are NOT usable (enter number non-usable, and number usable)
+1188	3	all_inpa_toil_are_usab_ente_numb	f	1701774110056	#38A15A	All inpatient toilets are usable (enter number)
+1189	1	all_outp_toil_are_not_usab_ente_numb	f	1701774221650	#DB3B3B	All outpatient toilets are NOT usable (enter number)
+1190	2	some_outp_toil_are_not_usab_ente_numb_nonu_numb_usab	f	1701774221650	#ffa57d	Some outpatient toilets are NOT usable (enter number non-usable, and number usable)
+1191	3	all_outp_toil_are_usab_ente_numb	f	1701774221650	#38A15A	All outpatient toilets are usable (enter number)
+1192	1	no_toil	f	1701774299250	#DB3B3B	No toilets
+1193	2	open_cont_toil_eg_buck_latr	f	1701774299250	#DB3B3B	Open container toilets (e.g. bucket latrines)
+1194	3	hang_latr	f	1701774299250	#DB3B3B	Hanging latrines
+1195	4	pit_latr_with_slab_open_pit	f	1701774299250	#DB3B3B	Pit latrines without slab (open pit)
+1196	5	flus_pour_toil_to_open_fiel_open_drai_wate_body	f	1701774299250	#DB3B3B	Flush or pour-flush toilets to open (field, open drain, water body)
+1197	6	pit_latr_with_slab	f	1701774299250	#38A15A	Pit latrines with slab
+1198	7	flus_pour_toil_to_pit_tank	f	1701774299250	#38A15A	Flush or pour-flush toilets to pit or tank
+1199	8	flus_pour_toil_to_sewe_conn	f	1701774299250	#38A15A	Flush or pour-flush toilets to sewer connection
+1200	9	comp_toil	f	1701774299250	#38A15A	Composting toilets
+1201	10	othe_impr_toil_spec	f	1701774299250	#38A15A	Other improved toilet - specify
+1202	1	no_sepa_toil_exis_for_staf_use_toil_are_unim	f	1701774431012	#DB3B3B	No separate toilet exists for staff use, or toilets are unimproved
+1203	2	toil_exis_for_staf_use_but_not_clea_desi_not_func	f	1701774431012	#ffa57d	Toilet exists for staff use, but is not clearly designated or not functional
+1204	3	yes_at_leas_one_func_toil_clea_desi_for_staf	f	1701774431012	#38A15A	Yes, at least one functional toilet is clearly designated for staff
+1205	1	no_sex_separated_toilets_available_no_privacy	f	1701774484635	#DB3B3B	No sex-separated toilets are available, or no privacy, or toilets unimproved
+1206	2	sex_separated_toilets_exist_but_not_clearly_marked	f	1701774484635	#ffa57d	Sex-separated toilets exist but not clearly marked
+1207	3	yes_sex_separated_rooms_with_privacy	f	1701774484635	#38A15A	Yes, sex-separated rooms for toilets with privacy
+1208	1	no_appr_faci_are_avai_func_for_mens_hygi	f	1701774586397	#DB3B3B	No appropriate facilities are available or functional for menstrual hygiene
+1209	2	spac_avai_to_wash_but_with_inad_faci	f	1701774586397	#ffa57d	Space is available to wash, but with inadequate facilities
+1210	3	yes_usab_toil_avai_with_mens_hygi_faci	f	1701774586397	#38A15A	Yes, usable toilet is available with menstrual hygiene facilities
+1211	1	no_appr_toil_avai_for_peop_with_redu_mobi	f	1701774631031	#DB3B3B	No appropriate toilets available for people with reduced mobility
+1212	2	toil_inad_for_peop_with_redu_mobi	f	1701774631031	#ffa57d	Toilet is inadequate for people with reduced mobility
+1213	3	yes_at_leas_one_usab_toil_avai_for_peop_with_redu_mobi	f	1701774631031	#38A15A	Yes, at least one usable toilet is available for people with reduced mobility
+1214	1	less_than_75_poin_care_have_func_hand_hygi_faci	f	1701775062688	#DB3B3B	Less than 75% of Points of Care have functional hand hygiene facilities
+1215	2	75_more_poin_care_have_func_hand_hygi_faci	f	1701775062688	#ffa57d	75% or more Points of Care have functional hand hygiene facilities
+1216	3	yes_all_poin_care_have_func_hand_hygi_faci	f	1701775062688	#38A15A	Yes, all Points of Care have functional hand hygiene facilities
+1217	1	less_than_50_toil_have_hand_hygi_faci_with_5_metr	f	1701775201634	#DB3B3B	Less than 50% of toilets have hand hygiene facilities within 5 metres
+1218	2	50_more_toil_have_func_hand_hygi_faci_with_5_metr	f	1701775201634	#ffa57d	50% or more of toilets have functioning hand hygiene facilities within 5 metres
+1219	3	all_toil_have_func_hand_hygi_faci_with_5_metr	f	1701775201634	#38A15A	All toilets have functional hand hygiene facilities within 5 metres
+1220	1	no_audi_reco_avai_no_mate_avai	f	1701775273809	#DB3B3B	No audit records available, or no materials available
+1221	2	ward_audi_are_inco_irre	f	1701775273809	#ffa57d	Ward-based audits are incomplete or irregular
+1222	3	reco_avai_regu_ward_audi_repo_suff_mate	f	1701775273809	#38A15A	Records available of regular ward-based audits reporting sufficient materials
+1223	1	no_wast_coll_cont_no_segr	f	1701775490261	#DB3B3B	No waste collection containers or no segregation
+1224	2	not_all_wast_gene_poin_have_func_wast_coll_cont	f	1701775490261	#ffa57d	Not all waste generation points have functional waste collection containers
+1225	3	all_wast_gene_poin_have_func_wast_coll_cont_sepa_by_wast_type	f	1701775490261	#38A15A	All waste generation points have functional waste collection containers separated by waste type
+1226	1	no_disp_site	f	1701775575661	#DB3B3B	No disposal site
+1227	2	disp_site_inad_nonf	f	1701775575661	#ffa57d	Disposal site is inadequate or non-functional
+1228	3	yes_func_disp_site	f	1701775575661	#38A15A	Yes, functional disposal site
+1229	1	no_disp_site	f	1701775635195	#DB3B3B	No disposal site
+1230	2	disp_site_inad_nonf	f	1701775635195	#ffa57d	Disposal site is inadequate or non-functional
+1231	3	yes_func_disp_site	f	1701775635195	#38A15A	Yes, functional disposal site
+1232	1	no_clea_mate	f	1701775723946	#DB3B3B	No cleaning materials
+1233	2	inad_clea_mate	f	1701775723946	#ffa57d	Inadequate cleaning materials
+1234	3	yes_clea_mate_avai	f	1701775723946	#38A15A	Yes, cleaning materials available
+1235	1	no_clea_reco	f	1701775784630	#DB3B3B	No cleaning records
+1236	2	inad_clea_reco	f	1701775784630	#ffa57d	Inadequate cleaning records
+1237	3	yes_dail_clea_reco_avai_for_all_area	f	1701775784630	#38A15A	Yes, daily cleaning records available for all areas
+1238	1	no_reco_toil_clea_less_than_once_per_day	f	1701775883414	#DB3B3B	No records, or toilets cleaned less than once per day
+1239	2	toil_clea_less_than_twic_a_day	f	1701775883414	#ffa57d	Toilets cleaned less than twice a day
+1240	3	yes_all_toil_clea_at_leas_twic_a_day	f	1701775883414	#38A15A	Yes, all toilets cleaned at least twice a day
+1241	1	cda	f	557710145	\N	CDA
+1242	2	government	f	557710145	\N	Government
+1243	3	kale_hiwot	f	557710145	\N	Kale Hiwot
+1244	1	deep_well_with_distribution	f	571050096	\N	Deep well with distribution
+1245	2	hand_dug_well	f	571050096	\N	Hand dug well
+1246	3	shallow_well	f	571050096	\N	Shallow well
+1247	4	protected_spring	f	571050096	\N	Protected spring
+1248	5	unprotected_spring	f	571050096	\N	Unprotected spring
+1249	6	rainwater_collection	f	571050096	\N	Rainwater collection
+1250	7	surface_water	f	571050096	\N	Surface water
+1251	1	afridev	f	569070152	\N	Afridev
+1252	2	indian_mark_ii	f	569070152	\N	Indian Mark II
+1253	3	submersible_pump	f	569070152	\N	Submersible pump
+1254	4	windlass	f	569070152	\N	Windlass
+1255	5	i_dont_know	f	569070152	\N	I don't know
+1256	1	diesel	f	571060083	\N	Diesel
+1257	2	electricity_and_grid	f	571060083	\N	Electricity and grid
+1258	3	gravity_flow	f	571060083	\N	Gravity flow
+1259	4	manual_operation	f	571060083	\N	Manual operation
+1260	1	functional	f	567450085	#91cc75	Functional
+1261	2	functional_but_with_problems	f	567450085	#e39f00	Functional but with problems
+1262	3	not_functional	f	567450085	#ee6666	Not functional
+1263	1	lack_of_water	f	571060084	\N	Lack of water
+1264	2	pump_broken	f	571060084	\N	Pump broken
+1265	3	tap_broken	f	571060084	\N	Tap broken
+1266	4	distribution_pipeline_broken	f	571060084	\N	Distribution pipeline broken
+1267	5	power_failure	f	571060084	\N	Power failure
+1268	6	lack_of_fuel	f	571060084	\N	Lack of fuel
+1511	2	no	f	573010345	\N	No
+1305	1	<50%	f	1709698602546	#d0021b	<50%
+1306	2	50%-74%	f	1709698602546	#f5a623	50%-74%
+1307	3	75%-94%	f	1709698602546	#f5a623	75%-94%
+1308	4	>_95%	f	1709698602546	#417505	> 95%
+1309	1	1_very_low	f	1709699086287	\N	1. Very low
+1310	2	2_low	f	1709699086287	\N	2. Low
+1311	3	3_middle	f	1709699086287	\N	3. Middle
+1312	4	4_high	f	1709699086287	\N	4. High
+1313	5	5_very_high	f	1709699086287	\N	5. Very high
+1314	1	1	f	1709699242015	\N	1. Very low
+1315	2	2	f	1709699242015	\N	2. Low
+1316	3	3	f	1709699242015	\N	3. Middle
+1317	4	4	f	1709699242015	\N	4. High
+1318	5	5	f	1709699242015	\N	5. Very high
+1319	1	<50%	f	1709699279824	#d0021b	<50%
+1320	2	50%-74%	f	1709699279824	#f5a623	50%-74%
+1321	3	75%-94%	f	1709699279824	#f5a623	75%-94%
+1322	4	>_95%	f	1709699279824	#417505	> 95%
+1323	1	data_not_available	f	1709699648646	#d0021b	Data not available
+1324	2	data_not_used	f	1709699648646	#f5a623	Data not used
+1325	3	data_used_for_minority	f	1709699648646	#7ed321	Data used for minority
+1326	4	data_used_for_majority	f	1709699648646	#417505	Data used for majority
+1327	1	data_not_available	f	1714379034	#d0021b	Data not available
+1328	2	data_not_used	f	1714379034	#f5a623	Data not used
+1329	3	data_used_for_minority	f	1714379034	#7ed321	Data used for minority
+1330	4	data_used_for_majority	f	1714379034	#417505	Data used for majority
+1331	1	data_not_available	f	1709699787978	#d0021b	Data not available
+1332	2	data_not_used	f	1709699787978	#f5a623	Data not used
+1333	3	data_used_for_minority	f	1709699787978	#7ed321	Data used for minority
+1334	4	data_used_for_majority	f	1709699787978	#417505	Data used for majority
+1335	1	new	f	1699354006535	\N	New
+1336	2	update	f	1699354006535	\N	Update
+1337	3	verification	f	1699354006535	\N	Verification
+1338	4	certification	f	1699354006535	\N	Certification
+1339	1	village_chief_head	f	1699951538608	\N	Village chief/Community head
+1340	2	local_government_official	f	1699951538608	\N	Local Government official
+1341	3	community_health_volunteera	f	1699951538608	\N	Community Health Volunteer
+1342	4	water_committee_member	f	1699951538608	\N	Water/Sanitation/Hygiene Committee Member
+1343	5	school_principal	f	1699951538608	\N	School Principal/Teacher
+1344	6	natural_leader_clts	f	1699951538608	\N	Natural leader (CLTS)
+1345	1	medium_drainage_soil_sand_weathered_rock	f	1699951986776	\N	Medium drainage soil (medium sand, weathered rock)
+1346	2	high_drainage_soil_coarse_sand_gravel_fractured_sandstone_limestone	f	1699951986776	\N	High drainage soil (coarse sand & gravel, fractured sandstone or limestone)
+1347	3	low_drainage_soil_fine_sand_silt_clay	f	1699951986776	\N	Low drainage soil (fine sand, silt or clay)
+1348	1	less_than_5m	f	1699952153243	\N	Less than 5m
+1349	2	between_5_10_m	f	1699952153243	\N	Between 5-10m
+1350	3	more_than_10m	f	1699952153243	\N	More than 10m
+1351	1	protected_groundwater_sources	f	1699952219561	\N	Protected groundwater sources (protected boreholes, protected dug wells or protected springs)
+1352	2	unprotected_groundwater_sources	f	1699952219561	\N	Unprotected groundwater sources (boreholes, dug wells or springs)
+1353	3	no_groundwater_sources_used	f	1699952219561	\N	No groundwater sources used
+1354	1	more_than_25_percent	f	1699952295823	\N	More than 25 percent
+1355	2	between_1_and_25_percent	f	1699952295823	\N	Between 1 percent  and 25 percent
+1356	3	zero_percent	f	1699952295823	\N	Zero Percent
+1357	1	more_than_25_percent	f	1699952355848	\N	More than 25 percent
+1358	2	less_than_25_percent	f	1699952355848	\N	Less than 25 percent
+1359	1	more_than_25_percent	f	1699952418978	\N	More than 25 percent
+1360	2	less_than_25_percent	f	1699952418978	\N	Less than 25 percent
+1361	1	g0_high_risk_groundwater_contamination	f	1702364544574	#DB3B3B	High risk of groundwater contamination
+1362	2	g2_low_risk_groundwater_contamination	f	1702364544574	#38A15A	Low risk of groundwater contamination
+1363	1	g0_at_risk_hh_no_disaggregated_data_available	f	1702324544574	#DB3B3B	At-risk household monitoring: no disaggregated data available from community
+1364	2	g0_at_risk_hh_not_reliable_more_than_5_percent_difference	f	1702324544574	#DB3B3B	At-risk household monitoring not reliable: More than 5% difference in monitoring data
+1365	3	g1g2_at_rish_hh_system_functional_less_than_5_percent_difference	f	1702324544574	#38A15A	At-risk household monitoring system functional: Less than 5% difference in monitoring data
+1366	1	g0_action_plan_g2_not_available_not_approved_not_in_use	f	1699958670124	#DB3B3B	Action plan for G2: not available, not approved or not in use
+1367	2	g1_action_plan_g2_available_and_in_use	f	1699958670124	#38A15A	Action plan for G2: available and in use
+1368	1	g0_action_plan_g3_not_available_not_approved_not_in_use	f	1699958822791	#DB3B3B	Action plan for G3: not available, not approved or not in use
+1369	2	g1_action_plan_g3_available_and_in_use	f	1699958822791	#38A15A	Action plan for G3: available and in use
+1370	1	g0_child_adult_excreta_observed_communal_areas	f	1699959649782	#DB3B3B	Child or adult excreta observed in communal areas
+1371	2	g1_no_visible_od_or_human_excreta_communal_areas	f	1699959649782	#38A15A	No visible OD or human excreta (child or adult) in communal areas
+1372	1	g0_used_diapers_visible_communal_areas	f	1699959743410	#DB3B3B	Used diapers visible in communal areas
+1373	2	g0_used_diapers_unsafely_disposed_unsafely_washed	f	1699959743410	#DB3B3B	Used diapers unsafely disposed or unsafely washed
+1374	3	g1_washable_cloths_safely_emptied_and_safely_washed	f	1699959743410	#38A15A	Washable cloths safely emptied and safely washed
+1375	4	g1_disposable_diapers_put_into_covered_waste_pits	f	1699959743410	#38A15A	Disposable diapers put into covered waste pits
+1376	5	g1_disposable_diapers_buried	f	1699959743410	#38A15A	Disposable diapers buried
+1377	6	g1_disposable_diapers_collected_for_disposal_communal_site	f	1699959743410	#38A15A	Disposable diapers collected for disposal at communal site
+1378	1	g0_visible_dirt_contamination	f	1699959861479	#DB3B3B	Visible dirt or contamination
+1379	2	g1_not_adequately_clean	f	1699959861479	#ffa57d	Not adequately clean
+1380	3	g2_clean_communal_water_points	f	1699959861479	#38A15A	Clean communal water points
+1381	1	g0_no_protection_water_points	f	1699960025562	#DB3B3B	No protection of water points
+1382	2	g1_inadequate_protection_water_points	f	1699960025562	#ffa57d	Inadequate protection of water points
+1383	3	g2_well_protected_communal_water_points	f	1699960025562	#38A15A	Well protected communal water points
+1384	1	g0_standing_water_visible_around_water_points	f	1699960104326	#DB3B3B	Standing water visible around water point
+1385	2	g1_inadequately_drained_water_points	f	1699960104326	#ffa57d	Inadequately drained water points
+1386	3	g2_well_drained_communal_water_points	f	1699960104326	#38A15A	Well drained communal water points
+1387	1	g0_unsafe_disposal_to_open_pit_space_drain_or_water_body_communal_areas	f	1699960255414	#DB3B3B	Unsafe disposal: to open pit, open space, open drain or water body in communal areas
+1388	2	g0_unsafe_treatment_disposal_sewer_connection_to_open_discharge_communal_areas	f	1699960255414	#DB3B3B	Unsafe treatment or disposal: sewer connection to open discharge in communal area
+1389	3	g3_safely_managed_emptied_to_covered_pit_trench_communal_areas	f	1699960255414	#38A15A	Safely managed: emptied to covered pit or trench in communal area
+1390	4	g3_safely_managed_communal_disposal_faecal_sludge_safely_managed	f	1699960255414	#38A15A	Safely managed: communal disposal of faecal sludge is safely managed
+1391	1	g0_significant_erosion_communal_areas	f	1699960354498	#DB3B3B	Significant erosion in communal areas
+1392	2	g1_some_visible_erosion_communal_areas	f	1699960354498	#ffa57d	Some visible erosion in communal areas
+1393	3	g3_adequate_stormwater_drainage_communal_areas	f	1699960354498	#38A15A	Adequate stormwater drainage in communal areas
+1394	4	g3_no_signs_of_stormwater_erosion	f	1699960354498	#38A15A	No signs of stormwater erosion
+1395	1	g0_significant_visible_solid_wastes_communal_areas	f	1699960411329	#DB3B3B	Significant visible solid wastes in communal areas
+1396	2	g1_some_solid_wastes_visible_communal_areas	f	1699960411329	#ffa57d	Some solid wastes visible in communal areas
+1397	3	g3_clean_compound_with_no_visible_solid_wastes_communal_areas	f	1699960411329	#38A15A	Clean compound with no visible solid wastes in communal areas
+1398	1	g0_significant_standing_water_communal_areas	f	1699960488230	#DB3B3B	Significant standing water in communal areas
+1399	2	g3_no_visible_standing_water_communal_areas	f	1699960488230	#ffa57d	No visible standing water in communal areas
+1400	3	g1_some_standing_water_communal_areas	f	1699960488230	#38A15A	Some standing water in communal areas
+1401	1	g0_no_treatment_management_communal_areas	f	1699960542156	#DB3B3B	No treatment or management in communal areas
+1402	2	g1_inadequate_treatment_management_communal_areas	f	1699960542156	#ffa57d	Inadequate treatment or management in communal areas
+1403	3	g3_treated_managed_larval_breeding_sites_communal_areas	f	1699960542156	#38A15A	Treated or managed larval breeding sites in communal areas
+1404	4	g3_no_visible_standing_water_communal_areas	f	1699960542156	#38A15A	No visible standing water in communal areas
+1405	1	school	f	1699960591715	\N	School
+1406	2	healthcare_facility	f	1699960591715	\N	Healthcare facility
+1407	3	transport_station	f	1699960591715	\N	Transport station (bus, train, airport, fuel, other)
+1408	4	market	f	1699960591715	\N	Market
+1409	5	public_toilet	f	1699960591715	\N	Public toilet
+1410	6	government_office_building	f	1699960591715	\N	Government office/building
+1411	7	camps_fishing_mining_farming	f	1699960591715	\N	Camps (fishing, mining, farming)
+1412	8	worship_centres	f	1699960591715	\N	Worship centres (churches, cathedrals, mosques, temples, other)
+1413	9	burial_place	f	1699960591715	\N	Burial place
+1414	10	private_institutions	f	1699960591715	\N	Private institutions
+1415	11	prisons	f	1699960591715	\N	Prisons
+1416	12	other_institutions	f	1699960591715	\N	Other Institutions
+1417	1	no	f	169995172789124	#DB3B3B	No
+1418	2	g1	f	169995172789124	#38A15A	G1
+1419	3	g2	f	169995172789124	#38A15A	G2
+1420	4	g3	f	169995172789124	#38A15A	G3
+1421	1	yes	f	169995172789125	green	Yes
+1422	2	no	f	169995172789125	red	No
+1423	1	yes	f	169995172789126	green	Yes
+1424	2	no	f	169995172789126	red	No
+1425	1	new	f	16993542207341	\N	New
+1426	2	update	f	16993542207341	\N	Update
+1427	3	verification	f	16993542207341	\N	Verification
+1428	4	certification	f	16993542207341	\N	Certification
+1429	1	household_head	f	16994179587481	\N	Household head
+1430	2	spouse_of_household_head	f	16994179587481	\N	Spouse of household head
+1431	3	parent_of_household_head	f	16994179587481	\N	Parent of household head
+1432	4	adult_child_of_household_head	f	16994179587481	\N	Adult child of household head
+1433	5	under18_child_of_household_head	f	16994179587481	\N	Under-18 child of household head
+1434	1	other_household_not_in_atrisk_category	f	16994206218401	#96f2a2	OTHER household (NOT in at-risk category)
+1435	2	at_risk_disabled_household_member_mentally_or_physically	f	16994206218401	#fbbece	AT RISK: Disabled household member (mentally or physically)
+1436	3	at_risk_elderlyheaded_households_without_support	f	16994206218401	#fbbece	AT RISK: Elderly-headed households (without support)
+1437	4	at_risk_orphans_and_vulnerable_children	f	16994206218401	#fbbece	AT RISK: Orphans and vulnerable children
+1438	5	at_risk_femaleheaded_household_single_mothers_divorcees_widows	f	16994206218401	#fbbece	AT RISK: Female-headed household (single mothers, divorcees, widows)
+1512	1	yes	f	557710261	\N	Yes
+1439	6	at_risk_internally_displaced_people	f	16994206218401	#fbbece	AT RISK: Internally displaced people
+1440	7	at_risk_returning_refugees	f	16994206218401	#fbbece	AT RISK: Returning refugees
+1441	8	at_risk_hivaids_affected_or_other_serious_illness	f	16994206218401	#fbbece	AT RISK: HIV/AIDS affected (or other serious illness)
+1442	9	at_risk_religious_minorities	f	16994206218401	#fbbece	AT RISK: Religious minorities
+1443	10	at_risk_ethnic_minorities	f	16994206218401	#fbbece	AT RISK: Ethnic minorities
+1444	11	at_risk_nomadic_or_seminomadic	f	16994206218401	#fbbece	AT RISK: Nomadic or semi-nomadic
+1445	12	at_risk_seasonal_fishing_group	f	16994206218401	#fbbece	AT RISK: Seasonal fishing group
+1446	13	at_risk_longterm_poor	f	16994206218401	#fbbece	AT RISK: Long-term poor
+1447	14	at_risk_landlesstenants	f	16994206218401	#fbbece	AT RISK: Landless/tenants
+1448	15	at_risk_shared_use_of_someone_elses_toiletpublic_toilet_dont_have_a_toilet	f	16994206218401	#fbbece	AT RISK: Shared use of someone else's toilet/public toilet (don't have a toilet)
+1449	16	at_risk_inmigrants_new_households_in_last_12_months	f	16994206218401	#fbbece	AT RISK: In-migrants (new households in last 12 months)
+1450	17	at_risk_new_adult_households_newly_formed_household	f	16994206218401	#fbbece	AT RISK: New adult households (newly formed household)
+1451	18	at_risk_households_with_previously_collapsed_or_flooded_toilets	f	16994206218401	#fbbece	AT RISK: households with previously collapsed or flooded toilets
+1452	1	g0_no_toilet	f	16994222860911	#db3b3b	G0 No toilet
+1453	2	g1_toilet_observed	f	16994222860911	#38a15a	G1 Toilet observed
+1454	1	g0_nonfunctional_toilet	f	16994233572001	\N	G0 Non-functional toilet
+1455	2	g0_partly_functional_toilet	f	16994233572001	\N	G0+ Partly functional toilet
+1456	3	g1_fully_functional_toilet	f	16994233572001	\N	G1 Fully functional toilet
+1457	1	g0_no_toilet_privacy	f	16994235714541	\N	G0 No toilet privacy
+1458	2	g0_inadequate_toilet_privacy	f	16994235714541	\N	G0+ Inadequate toilet privacy
+1459	3	g1_good_toilet_privacy	f	16994235714541	\N	G1 Good toilet privacy
+1460	1	g0_no_toilet	f	16994236967201	#db3b3b	G0 No toilet
+1461	2	g1_dry_latrine_with_drophole	f	16994236967201	#38a15a	G1 Dry latrine with drophole
+1462	3	g1_vip_drophole_with_vent_pipe	f	16994236967201	#38a15a	G1 VIP drophole with vent pipe
+1463	4	g1_sato_pan	f	16994236967201	#38a15a	G1 SATO pan
+1464	5	g1_flush_or_pourflush_pan_with_water_seal	f	16994236967201	#38a15a	G1 Flush or pour-flush pan with water seal
+1465	6	g1_dry_toilet_with_urinediverting_drophole	f	16994236967201	#38a15a	G1 Dry toilet with urine-diverting drophole
+1466	7	g1_open_pipe_no_water_seal	f	16994236967201	#38a15a	G1 Open pipe (no water seal)
+1467	8	g1_other_toilet_interface	f	16994236967201	#38a15a	G1 Other toilet interface
+1468	1	g0_no_toilet	f	16994239461701	\N	G0 No toilet
+1469	2	g0_open_pit_uncovered_or_large_openings	f	16994239461701	\N	G0 Open pit (uncovered or large openings)
+1470	3	g0_single_toilet_vault_above_ground	f	16994239461701	\N	G0 Single toilet vault (above ground)
+1471	4	g0_removable_open_container_eg_bucket	f	16994239461701	\N	G0 Removable open container (e.g. bucket)
+1472	5	g1_single_latrine_pit	f	16994239461701	\N	G1 Single latrine pit
+1473	6	g1_double_latrine_pit	f	16994239461701	\N	G1 Double latrine pit
+1474	7	g1_double_toilet_vault_above_ground	f	16994239461701	\N	G1 Double toilet vault (above ground)
+1475	8	g1_septic_tank	f	16994239461701	\N	G1 Septic tank
+1476	9	g1_removable_closed_container	f	16994239461701	\N	G1 Removable closed container
+1477	10	g1_piped_sewer_connection	f	16994239461701	\N	G1 Piped sewer connection
+1478	11	g1_other_pit_or_tank	f	16994239461701	\N	G1 Other pit or tank
+1479	12	g1_flush_to_dont_know	f	16994239461701	\N	G1 Flush to don't know
+1480	13	g0_no_pit_or_tank_discharge_to_open_field_open_drain_water_body_elsewhere	f	16994239461701	\N	G0 No pit or tank (discharge to open: field, open drain, water body, elsewhere)
+1481	1	g0_vip_vent_pipe_without_insect_screen	f	16994243759681	\N	G0 VIP vent pipe without insect screen
+1482	2	g0_broken_sato_flap	f	16994243759681	\N	G0 Broken SATO flap
+1483	3	g0_broken_or_empty_water_seal_no_water	f	16994243759681	\N	G0 Broken or empty water seal (no water)
+1484	4	g0_open_pipe_to_pit_or_tank	f	16994243759681	\N	G0 Open pipe (to pit or tank)
+1485	5	g0_other_nonflyproof_toilet	f	16994243759681	\N	G0 Other non-flyproof toilet
+1486	6	g1_tightfitting_drophole_cover_in_place	f	16994243759681	\N	G1 Tight-fitting drophole cover (in place)
+1487	7	g1_vip_vent_pipe_with_insect_screen	f	16994243759681	\N	G1 VIP vent pipe with insect screen
+1488	8	g1_functional_sato_flap	f	16994243759681	\N	G1 Functional SATO flap
+1489	9	g1_functional_water_seal_with_water	f	16994243759681	\N	G1 Functional water seal (with water)
+1490	10	g1_other_flyproof_toilet	f	16994243759681	\N	G1 Other flyproof toilet
+1491	11	g0_no_toilet	f	16994243759681	\N	G0 No toilet
+1492	12	g0_inadequate_or_missing_drophole_cover	f	16994243759681	\N	G0 Inadequate or missing drophole cover
+1493	1	yes	f	17030862702501	\N	Yes
+1494	2	no	f	17030862702501	\N	No
+1495	1	a	f	17030862702502	red	A
+1496	2	b	f	17030862702502	blue	B
+1497	1	a	f	17030862702503	red	A
+1498	2	b	f	17030862702503	blue	B
+1499	1	yes	f	169995172789999	green	Yes
+1500	2	no	f	169995172789999	red	No
+1501	1	amref	f	494780324	\N	Amref
+1502	2	amref_and_local_government	f	494780324	\N	Amref and Local Government
+1503	3	other	f	494780324	\N	Other
+1504	1	yes	f	569090299	\N	Yes
+1505	2	no	f	569090299	\N	No
+1506	1	yes	f	571070202	\N	Yes
+1507	2	no	f	571070202	\N	No
+1508	1	yes	f	557710260	\N	Yes
+1509	2	no	f	557710260	\N	No
+1510	1	yes	f	573010345	\N	Yes
+1515	2	containerbased_sanitation	f	583770042	\N	Container-based sanitation
+1516	3	flushpour_flush_to_piped_sewer_system	f	583770042	\N	Flush/pour flush to piped sewer system
+1517	4	flushpour_flush_to_septic_tank	f	583770042	\N	Flush/pour flush to septic tank
+1518	5	flushpour_flush_to_pit_latrine	f	583770042	\N	Flush/pour flush to pit latrine
+1519	6	flushpour_flush_to_open_drain	f	583770042	\N	Flush/pour flush to open drain
+1520	7	hanging_toiletlatrine	f	583770042	\N	Hanging toilet/latrine
+1521	8	pit_latrine_with_slab	f	583770042	\N	Pit latrine with slab
+1522	9	pit_latrine_without_slabopen_pit	f	583770042	\N	Pit latrine without slab/open pit
+1523	10	twin_pit_offset_latrine	f	583770042	\N	Twin pit offset latrine
+1524	11	twin_pit_with_latrine_slab	f	583770042	\N	Twin pit with latrine slab
+1525	12	twin_pit_without_slab	f	583770042	\N	Twin pit without slab
+1526	13	ventilated_improved_pit_latrine_vip_with_slab	f	583770042	\N	Ventilated improved pit latrine (VIP) with slab
+1527	14	other_composting_latrine	f	583770042	\N	Other composting latrine
+1528	1	open_defecation	f	557700349	\N	Open Defecation
+1529	2	triggered	f	557700349	\N	Triggered
+1530	3	declared_odf	f	557700349	\N	Declared ODF
+1531	4	verified_odf	f	557700349	\N	Verified ODF
+1532	1	new	f	1699354220734	\N	New
+1533	2	update	f	1699354220734	\N	Update
+1534	3	verification	f	1699354220734	\N	Verification
+1535	4	certification	f	1699354220734	\N	Certification
+1536	1	hh_head	f	1699417958748	\N	Household head
+1537	2	spouse_of_hh_head	f	1699417958748	\N	Spouse of household head
+1538	3	parent_of_hh_head	f	1699417958748	\N	Parent of household head
+1539	4	adult_child_of_hh_head	f	1699417958748	\N	Adult child of household head
+1540	5	under18_child_of_hh_head	f	1699417958748	\N	Under-18 child of household head
+1541	1	female	f	1699419372643	\N	Female
+1542	2	male	f	1699419372643	\N	Male
+1543	3	other_gender	f	1699419372643	\N	Other gender
+1544	4	i_prefer_not_to_say	f	1699419372643	\N	I prefer not to say
+1545	1	at_risk_disabled_hh_member_mentally_or_physically	f	1699420621840	#DB3B3B	AT RISK: Disabled household member (mentally or physically)
+1546	2	at_risk_elderlyheaded_households_without_support	f	1699420621840	#DB3B3B	AT RISK: Elderly-headed households (without support)
+1547	3	at_risk_ethnic_minorities	f	1699420621840	#DB3B3B	AT RISK: Ethnic minorities
+1548	4	at_risk_femaleheaded_hh_single_mothers_divorcees_widows	f	1699420621840	#DB3B3B	AT RISK: Female-headed household (single mothers, divorcees, widows)
+1549	5	at_risk_hivaids_affected_or_other_serious_illness	f	1699420621840	#DB3B3B	AT RISK: HIV/AIDS affected (or other serious illness)
+1550	6	at_risk_inmigrants_new_households_in_last_12_months	f	1699420621840	#DB3B3B	AT RISK: In-migrants (new households in last 12 months)
+1551	7	at_risk_internally_displaced_people	f	1699420621840	#DB3B3B	AT RISK: Internally displaced people
+1552	8	at_risk_landlesstenants	f	1699420621840	#DB3B3B	AT RISK: Landless/tenants
+1553	9	at_risk_longterm_poor	f	1699420621840	#DB3B3B	AT RISK: Long-term poor
+1554	10	at_risk_new_adult_households_newly_formed_hh	f	1699420621840	#DB3B3B	AT RISK: New adult households (newly formed household)
+1555	11	at_risk_nomadic_or_seminomadic	f	1699420621840	#DB3B3B	AT RISK: Nomadic or semi-nomadic pastoralists
+1556	12	at_risk_orphans_and_vulnerable_children	f	1699420621840	#DB3B3B	AT RISK: Orphans and vulnerable children
+1557	13	at_risk_religious_minorities	f	1699420621840	#DB3B3B	AT RISK: Religious minorities
+1558	14	at_risk_returning_refugees	f	1699420621840	#DB3B3B	AT RISK: Returning refugees
+1559	15	at_risk_seasonal_fishing_group	f	1699420621840	#DB3B3B	AT RISK: Seasonal migrants (fisherfolk, farmers etc)
+1560	16	at_risk_shared_use_of_someone_elses_toiletpublic_toilet_dont_have_a_toilet	f	1699420621840	#DB3B3B	AT RISK: Shared use of someone else's toilet/public toilet (don't have a toilet)
+1561	17	at_risk_households_with_previously_collapsed_or_flooded_toilets	f	1699420621840	#DB3B3B	AT RISK: previously collapsed or abandoned toilets
+1562	18	other_hh_not_in_atrisk_category	f	1699420621840	#38A15A	OTHER household (NOT in at-risk category)
+1563	1	yes_animals_kept_in_household_compound	f	1710829091	\N	Yes
+1564	2	no_animals_kept_in_household_compound	f	1710829091	\N	No
+1565	1	g0_no_toilet_practice_od	f	1699428072669	#DB3B3B	No toilet, practice open defecation
+1566	2	g0_do_not_use_toilet_practice_od	f	1699428072669	#DB3B3B	Do NOT use toilet, practice open defecation
+1567	3	g1_use_own_toilet	f	1699428072669	#38A15A	Use own toilet
+1568	4	g1_use_other_hh_toilet	f	1699428072669	#38A15A	Use other household toilet
+1569	1	g0_no_toilet	f	1699428400205	#DB3B3B	No toilet
+1570	2	g0_toilet_notshared_more_than_1015_users	f	1699428400205	#DB3B3B	Toilet NOT-shared: MORE than 10-15 users
+1571	3	g0_toilet_shared_more_than_1015_users	f	1699428400205	#DB3B3B	Toilet SHARED: MORE than 10-15 users
+1572	4	g1_toilet_notshared_less_than_1015_users	f	1699428400205	#38A15A	Toilet NOT-shared: Less than 10-15 users
+1573	5	g1_toilet_shared_less_than_1015_users	f	1699428400205	#38A15A	Toilet SHARED: Less than 10-15 users
+1574	1	g0_no_toilet	f	1699428351326	#DB3B3B	No toilet
+1575	2	g0_no_members_use_toilet	f	1699428351326	#DB3B3B	All do NOT use toilet
+1576	3	g0_some_members_do_not_use_toilet	f	1699428351326	#ffa57d	Some do NOT use toilet
+1577	4	g1_all_use_toilet	f	1699428351326	#38A15A	All use toilet
+1578	1	g0_no_toilet	f	1699428535663	#DB3B3B	No toilet
+1579	2	hh_member_1_g0_no_toilet_use_practice_od	f	1699428535663	#DB3B3B	#1: No toilet use, practice open defecation
+1580	3	hh_member_1_g1_use_other_hh_toilet_shared`	f	1699428535663	#ffa57d	#1: Use other household toilet (shared)
+1581	4	hh_member_1_g1_use_own_toilet_shared	f	1699428535663	#ffa57d	#1: Use own toilet (shared)
+1582	5	hh_member_1_g2_use_own_toilet_not_shared	f	1699428535663	#38A15A	#1: Use own toilet (NOT shared)
+1583	1	g0_no_toilet	f	1711626271	#DB3B3B	No toilet
+1584	2	hh_member_1_g0_no_toilet_use_practice_od	f	1711626271	#DB3B3B	#1: No toilet use, practice open defecation
+1585	3	hh_member_1_g1_use_other_hh_toilet_shared`	f	1711626271	#ffa57d	#1: Use other household toilet (shared)
+1586	4	hh_member_1_g1_use_own_toilet_shared	f	1711626271	#ffa57d	#1: Use own toilet (shared)
+1587	5	hh_member_1_g2_use_own_toilet_not_shared	f	1711626271	#38A15A	#1: Use own toilet (NOT shared)
+1588	1	g0_no_toilet	f	1711626326	#DB3B3B	No toilet
+1589	2	hh_member_1_g0_no_toilet_use_practice_od	f	1711626326	#DB3B3B	#1: No toilet use, practice open defecation
+1590	3	hh_member_1_g1_use_other_hh_toilet_shared`	f	1711626326	#ffa57d	#1: Use other household toilet (shared)
+1591	4	hh_member_1_g1_use_own_toilet_shared	f	1711626326	#ffa57d	#1: Use own toilet (shared)
+1592	5	hh_member_1_g2_use_own_toilet_not_shared	f	1711626326	#38A15A	#1: Use own toilet (NOT shared)
+1593	1	g0_no_toilet	f	1711626360	#DB3B3B	No toilet
+1594	2	hh_member_1_g0_no_toilet_use_practice_od	f	1711626360	#DB3B3B	#1: No toilet use, practice open defecation
+1595	3	hh_member_1_g1_use_other_hh_toilet_shared`	f	1711626360	#ffa57d	#1: Use other household toilet (shared)
+1596	4	hh_member_1_g1_use_own_toilet_shared	f	1711626360	#ffa57d	#1: Use own toilet (shared)
+1597	5	hh_member_1_g2_use_own_toilet_not_shared	f	1711626360	#38A15A	#1: Use own toilet (NOT shared)
+1598	1	g0_no_toilet	f	1711626377	#DB3B3B	No toilet
+1599	2	hh_member_1_g0_no_toilet_use_practice_od	f	1711626377	#DB3B3B	#1: No toilet use, practice open defecation
+1600	3	hh_member_1_g1_use_other_hh_toilet_shared`	f	1711626377	#ffa57d	#1: Use other household toilet (shared)
+1601	4	hh_member_1_g1_use_own_toilet_shared	f	1711626377	#ffa57d	#1: Use own toilet (shared)
+1602	5	hh_member_1_g2_use_own_toilet_not_shared	f	1711626377	#38A15A	#1: Use own toilet (NOT shared)
+1603	1	g0_no_toilet	f	1711626412	#DB3B3B	No toilet
+1604	2	hh_member_1_g0_no_toilet_use_practice_od	f	1711626412	#DB3B3B	#1: No toilet use, practice open defecation
+1605	3	hh_member_1_g1_use_other_hh_toilet_shared`	f	1711626412	#ffa57d	#1: Use other household toilet (shared)
+1606	4	hh_member_1_g1_use_own_toilet_shared	f	1711626412	#ffa57d	#1: Use own toilet (shared)
+1607	5	hh_member_1_g2_use_own_toilet_not_shared	f	1711626412	#38A15A	#1: Use own toilet (NOT shared)
+1608	1	g0_no_toilet	f	1711626430	#DB3B3B	No toilet
+1609	2	hh_member_1_g0_no_toilet_use_practice_od	f	1711626430	#DB3B3B	#1: No toilet use, practice open defecation
+1610	3	hh_member_1_g1_use_other_hh_toilet_shared`	f	1711626430	#ffa57d	#1: Use other household toilet (shared)
+1611	4	hh_member_1_g1_use_own_toilet_shared	f	1711626430	#ffa57d	#1: Use own toilet (shared)
+1612	5	hh_member_1_g2_use_own_toilet_not_shared	f	1711626430	#38A15A	#1: Use own toilet (NOT shared)
+1613	1	g0_no_toilet	f	1711626447	#DB3B3B	No toilet
+1614	2	hh_member_1_g0_no_toilet_use_practice_od	f	1711626447	#DB3B3B	#1: No toilet use, practice open defecation
+1615	3	hh_member_1_g1_use_other_hh_toilet_shared`	f	1711626447	#ffa57d	#1: Use other household toilet (shared)
+1616	4	hh_member_1_g1_use_own_toilet_shared	f	1711626447	#ffa57d	#1: Use own toilet (shared)
+1617	5	hh_member_1_g2_use_own_toilet_not_shared	f	1711626447	#38A15A	#1: Use own toilet (NOT shared)
+1618	1	g0_no_toilet	f	1711626463	#DB3B3B	No toilet
+1619	2	hh_member_1_g0_no_toilet_use_practice_od	f	1711626463	#DB3B3B	#1: No toilet use, practice open defecation
+1620	3	hh_member_1_g1_use_other_hh_toilet_shared`	f	1711626463	#ffa57d	#1: Use other household toilet (shared)
+1621	4	hh_member_1_g1_use_own_toilet_shared	f	1711626463	#ffa57d	#1: Use own toilet (shared)
+1622	5	hh_member_1_g2_use_own_toilet_not_shared	f	1711626463	#38A15A	#1: Use own toilet (NOT shared)
+1623	1	g0_no_toilet	f	1711627430	#DB3B3B	No toilet
+1624	2	hh_member_1_g0_no_toilet_use_practice_od	f	1711627430	#DB3B3B	#1: No toilet use, practice open defecation
+1625	3	hh_member_1_g1_use_other_hh_toilet_shared`	f	1711627430	#ffa57d	#1: Use other household toilet (shared)
+1626	4	hh_member_1_g1_use_own_toilet_shared	f	1711627430	#ffa57d	#1: Use own toilet (shared)
+1627	5	hh_member_1_g2_use_own_toilet_not_shared	f	1711627430	#38A15A	#1: Use own toilet (NOT shared)
+1628	1	g0_no_toilet	f	1699427574765	#DB3B3B	No toilet
+1629	2	g0_no_containment_discharge_to_open_open_container	f	1699427574765	#DB3B3B	Toilet with no pit or tank (discharge to open)
+1630	3	g0_not_durable_containment_collapse_problems	f	1699427574765	#DB3B3B	Open pit or open container
+1631	4	g1_unlined_pit_unstable_soil_but_not_collapsed	f	1699427574765	#ffa57d	Unlined pit or tank (unstable soil)
+1632	5	g1_containment_lined_with_inadequate_local_materials	f	1699427574765	#ffa57d	Pit or tank lined with non-durable local materials
+1633	6	g2_containment_unlined_in_stable_soil	f	1699427574765	#38A15A	Pit unlined (in stable soil)
+1634	7	g2_containment_lined_with_blocks_or_bricks	f	1699427574765	#38A15A	Pit lined with blocks or bricks
+1635	8	g2_containment_lined_with_concrete	f	1699427574765	#38A15A	Pit lined with concrete
+1636	9	g2_containment_lined_with_resilient_local_materials	f	1699427574765	#38A15A	Pit lined with resilient local materials
+1637	10	g2_containment_lined_with_other_durable_materials	f	1699427574765	#38A15A	Pit lined with other durable materials
+1638	11	g2_durable_removable_container	f	1699427574765	#38A15A	Durable removable container
+1639	12	g2_durable_sewer_connection	f	1699427574765	#38A15A	Durable connection to sewer network
+1640	1	g0_no_toilet_or_no_containment_or_collection_system	f	1699427885744	#DB3B3B	No toilet
+1641	2	g0_no_pit_or_tank	f	1699427885744	#DB3B3B	Surface outflows: Toilet with no pit or tank
+1642	3	g0_regularly_or_continuously	f	1699427885744	#DB3B3B	Surface outflows: Continuous or regular
+1643	4	g1_only_once_rarely	f	1699427885744	#ffa57d	Surface outflows: Only once, rarely
+1644	5	g2_never	f	1699427885744	#38A15A	NO surface outflows
+1645	1	g0_no_toilet_or_no_containmentcollection_system	f	1699428661689	#DB3B3B	No toilet
+1646	2	g0_toilet_no_pit_or_tank_discharge_to_open	f	1699428661689	#DB3B3B	Toilet with no pit or tank (discharge to open)
+1647	3	g0_unsafe_containment_open_container	f	1699428661689	#DB3B3B	Open pit or open container
+1648	4	g0_unsafe_containment_overflow_to_open_space_open_drain_water_body	f	1699428661689	#DB3B3B	Pit or tank overflows to open
+1649	5	g1_risk_of_unsafe_services_never_emptied_intention_to_empty_when_full	f	1699428661689	#ffa57d	Never emptied (but intention to empty when full)
+1650	6	g3_never_emptied_first_pit_no_intention_to_empty	f	1699428661689	#38A15A	Never emptied (first pit: NO intention to empty)
+1651	7	g3_never_emptied_previous_pit_replaced_no_intention_to_empty	f	1699428661689	#38A15A	Never emptied ( previous pit replaced: NO intention to empty)
+1652	8	g3_yes_containment_emptied	f	1699428661689	#38A15A	EMPTIED: ALL pit (or tank) contents removed
+1653	9	g3_yes_some_contents_removed	f	1699428661689	#38A15A	EMPTIED: SOME pit (or tank) contents removed
+1654	10	g3_yes_closed_container_removed	f	1699428661689	#38A15A	EMPTIED: closed container removed
+1655	11	g3_alternating_twin_pits	f	1699428661689	#38A15A	Alternating twin pits
+1656	12	g3_connection_to_sewer_network	f	1699428661689	#38A15A	Connection to sewer network
+1657	1	g0_no_toilet_or_no_containmentcollection_system	f	1699428820338	#DB3B3B	No toilet
+1658	2	g0_toilet_no_pit_or_tank_discharge_to_open	f	1699428820338	#DB3B3B	Toilet with no pit or tank (discharge to open)
+1659	3	g0_unsafe_containment_open_container	f	1699428820338	#DB3B3B	Open pit or open container
+1660	4	g0_unsafe_disposal_to_open_pit_open_space_open_drain_or_water_body_within_500m_of_hh	f	1699428820338	#DB3B3B	Emptied to open (within 500m)
+1661	5	g0_unsafe_disposal_to_open_space_open_drain_or_water_body_more_than_500m_from_hh	f	1699428820338	#DB3B3B	Emptied to open (MORE than 500m away)
+1662	6	g0_unsafe_treatment_or_disposal_closed_container_removed_by_unlicensed_service_provider_to_offsite_location	f	1699428820338	#DB3B3B	Closed container removed by UNLICENSED worker
+1663	7	g0_unsafe_treatment_or_disposal_emptied_by_unlicensed_service_provider_to_offsite_location	f	1699428820338	#DB3B3B	Emptied by UNLICENSED worker (transported out of community)
+1664	8	g0_unsafe_treatment_or_disposal_sewer_connection_to_open_discharge	f	1699428820338	#DB3B3B	Sewer connection to open discharge
+1665	9	g1_unsafe_storage_stored_for_less_than_2_years_before_use_of_stored_waste	f	1699428820338	#ffa57d	Stored for LESS than 2 years before emptying
+1666	10	g1_unsafe_treatment_or_disposal_sewer_connection_to_unlicensed_or_nonfunctional_treatment_site	f	1699428820338	#ffa57d	Sewer connection to UNLICENSED or NON-FUNCTIONAL treatment site
+1667	11	g3_safely_managed_never_emptied_no_intention_to_empty	f	1699428820338	#38A15A	NOT emptied (NO intention to empty)
+1668	12	g3_safely_managed_emptied_by_licensed_service_provider_to_offsite_location	f	1699428820338	#38A15A	Emptied by LICENSED worker (transported out of community)
+1669	13	g3_safely_managed_emptied_to_covered_pit	f	1699428820338	#38A15A	Emptied to nearby covered pit (buried within community)
+1670	14	g3_closed_container_removed_by_licensed_worker	f	1699428820338	#38A15A	Closed container removed by LICENSED worker
+1671	15	g3_safely_managed_stored_for_more_than_2_years_before_use_of_stored_waste	f	1699428820338	#38A15A	Stored for MORE than 2 years before emptying
+1672	16	g3_sewer_connection_licensed_functional_treatment_or_disposal_site	f	1699428820338	#38A15A	Sewer connection to LICENSED and FUNCTIONAL treatment or disposal site
+1673	1	g0_no_toilet	f	1699422286091	#DB3B3B	No toilet
+1674	2	g1_toilet_observed	f	1699422286091	#38A15A	Toilet observed
+1675	1	g0_no_toilet	f	1699423357200	#DB3B3B	No toilet
+1676	2	g0_nonfunctional_toilet	f	1699423357200	#DB3B3B	Non-functional toilet
+1677	3	g0_partly_functional_toilet	f	1699423357200	#ffa57d	Partly functional toilet
+1678	4	g1_fully_functional_toilet	f	1699423357200	#38A15A	Fully functional toilet
+1679	1	g0_no_toilet	f	1699423571454	#DB3B3B	No toilet
+1680	2	g0_no_toilet_privacy	f	1699423571454	#DB3B3B	No toilet privacy
+1681	3	g0_inadequate_toilet_privacy	f	1699423571454	#ffa57d	Inadequate toilet privacy
+1682	4	g1_good_toilet_privacy	f	1699423571454	#38A15A	Good toilet privacy
+1683	1	g0_no_toilet	f	1699423696720	#DB3B3B	No toilet
+1684	2	g0_no_interface_open_pit	f	1699423696720	#DB3B3B	Open pit (uncovered or large openings)
+1685	3	g1_dry_latrine_with_drophole	f	1699423696720	#38A15A	Hole in floor (dry latrine)
+1686	4	g1_vip_drophole_with_vent_pipe	f	1699423696720	#38A15A	Hole in floor (VIP latrine with vent pipe)
+1687	5	g1_sato_pan	f	1699423696720	#38A15A	SATO pan
+1688	6	g1_flush_or_pourflush_pan_with_water_seal	f	1699423696720	#38A15A	Flush or pour-flush pan with water seal
+1689	7	g1_open_pipe_no_water_seal	f	1699423696720	#38A15A	Open pipe to pit (no water seal)
+1690	8	g1_dry_toilet_with_urinediverting_drophole	f	1699423696720	#38A15A	Urine separation (eco-toilet)
+1691	9	g1_other_toilet_interface	f	1699423696720	#38A15A	Other toilet interface
+1692	1	g0_no_toilet	f	1699423946170	#DB3B3B	No toilet
+1693	2	g0_no_pit_or_tank_discharge_to_open_field_open_drain_water_body_elsewhere	f	1699423946170	#DB3B3B	No pit or tank (open discharge)
+1694	3	g0_open_pit_uncovered_or_large_openings	f	1699423946170	#DB3B3B	Open pit (uncovered or large openings)
+1695	4	g0_removable_open_container_eg_bucket	f	1699423946170	#DB3B3B	Removable open container (e.g. bucket)
+1696	5	g0_single_toilet_vault_above_ground	f	1699423946170	#ffa57d	Single toilet vault (above ground)
+1697	6	g1_single_latrine_pit_under_toilet	f	1699423946170	#38A15A	Single latrine pit: under toilet (direct)
+1946	3	g3_clean_hands	f	1699434983278	#38A15A	Clean hands
+1698	7	g1_single_latrine_pit_beside_toilet	f	1699423946170	#38A15A	Single latrine pit: beside toilet (offset)
+1699	8	g1_double_latrine_pit_under_toilet	f	1699423946170	#38A15A	Double latrine pit: under toilet (direct)
+1700	9	g1_double_latrine_pit_beside_toilet	f	1699423946170	#38A15A	Double latrine pit: beside toilet (offset)
+1701	10	g1_double_toilet_vault_above_ground	f	1699423946170	#38A15A	Double toilet vault (above ground)
+1702	11	g1_septic_tank	f	1699423946170	#38A15A	Septic tank
+1703	12	g1_piped_sewer_connection	f	1699423946170	#38A15A	Connection to sewer network
+1704	13	g1_flush_to_dont_know	f	1699423946170	#38A15A	Flush or pour-flush to don't know
+1705	14	g1_removable_closed_container	f	1699423946170	#38A15A	Removable closed container
+1706	15	g1_other_pit_or_tank	f	1699423946170	#38A15A	Other closed pit or tank
+1707	1	g0_no_toilet	f	1699424375968	#DB3B3B	No toilet
+1708	2	g0_inadequate_or_missing_drophole_cover	f	1699424375968	#DB3B3B	Inadequate or missing cover on latrine hole
+1709	3	g0_vip_vent_pipe_with_insect_screen	f	1699424375968	#DB3B3B	VIP vent pipe with insect screen
+1710	4	g0_broken_sato_flap	f	1699424375968	#DB3B3B	Broken SATO flap
+1711	5	g0_broken_or_empty_water_seal_no_water	f	1699424375968	#DB3B3B	Broken or empty water seal (no water)
+1712	6	g0_open_pipe_to_pit_or_tank	f	1699424375968	#DB3B3B	Open pipe (to pit or tank)
+1713	7	g0_other_nonflyproof_toilet	f	1699424375968	#DB3B3B	Other non-flyproof toilet
+1714	8	g1_tightfitting_drophole_cover_in_place	f	1699424375968	#38A15A	Tight-fitting cover (in place)
+1715	9	g1_vip_vent_pipe_with_insect_screen	f	1699424375968	#38A15A	VIP vent pipe without insect screen
+1716	10	g1_functional_sato_flap	f	1699424375968	#38A15A	Functional SATO pan with flap
+1717	11	g1_functional_water_seal_with_water	f	1699424375968	#38A15A	Functional water seal (containing water)
+1718	12	g1_other_flyproof_toilet	f	1699424375968	#38A15A	Other flyproof toilet
+1719	1	g0_no_toilet	f	1699425852809	#DB3B3B	No toilet
+1720	2	g0_not_clean_heavy_traces_of_faeces_or_soiled_cleaning_materials	f	1699425852809	#DB3B3B	NOT clean: heavy traces of faeces or soiled cleaning materials
+1721	3	g0_not_clean_some_faeces_and_soiled_cleaning_materials	f	1699425852809	#DB3B3B	NOT clean: some faeces and soiled cleaning materials
+1722	4	g1_clean_minor_traces_of_faeces_or_soiled_materials_easily_cleaned	f	1699425852809	#38A15A	Clean: minor traces of faeces or soiled materials (easily cleaned)
+1723	5	g1_clean_no_visible_faeces_or_soiled_cleansing_materials	f	1699425852809	#38A15A	Clean: no visible faeces or soiled cleansing materials
+1724	1	g0_no_toilet	f	1699426059842	#DB3B3B	No toilet
+1725	2	g0_not_clean_heavy_traces_of_faeces	f	1699426059842	#DB3B3B	NOT clean: heavy traces of faeces
+1726	3	g0_not_clean_some_faeces	f	1699426059842	#DB3B3B	NOT clean: some faeces
+1727	4	g1_clean_minor_traces_of_faeces_easily_cleaned	f	1699426059842	#38A15A	Clean: minor traces of faeces (easily cleaned)
+1728	5	g1_clean_no_visible_faeces	f	1699426059842	#38A15A	Clean: no visible faeces
+1729	1	g0_no_toilet	f	1699427405024	#DB3B3B	No toilet
+1730	2	g0_no_slab_open_pit_faeces_not_contained	f	1699427405024	#DB3B3B	No slab (open pit, faeces not contained)
+1731	3	g0_partial_slab_openings_faeces_not_fully_contained	f	1699427405024	#DB3B3B	Partial slab (openings, faeces not fully contained)
+1732	4	g1_notdurable_slab_mud_covered	f	1699427405024	#ffa57d	Not-durable slab, mud covered
+1733	5	g1_notdurable_slab_cement_covered	f	1699427405024	#ffa57d	Not-durable slab, cement covered
+1734	6	g1_notdurable_slab_wooden	f	1699427405024	#ffa57d	Not-durable slab, wooden
+1735	7	g1_other_notdurable_slab_materials	f	1699427405024	#ffa57d	Other not-durable slab materials
+1736	8	g2_concrete_slab	f	1699427405024	#38A15A	Concrete slab
+1737	9	g2_tiled_concrete_slab	f	1699427405024	#38A15A	Tiled concrete slab
+1738	10	g2_resilient_slab_local_materials	f	1699427405024	#38A15A	Resilient slab (local materials)
+1739	11	g2_structural_plastic_slab	f	1699427405024	#38A15A	Structural plastic slab
+1740	12	g2_other_durable_slab_materials	f	1699427405024	#38A15A	Other durable slab materials
+1741	1	g0_no_toilet_or_no_containment_or_collection_system	f	1699427743413	#DB3B3B	No toilet
+1742	2	g0_no_pit_or_tank	f	1699427743413	#DB3B3B	No pit or tank (open discharge)
+1743	3	g0_visible_surface_outflows	f	1699427743413	#DB3B3B	Visible surface outflows
+1744	4	g1_evidence_of_previous_surface_outflows	f	1699427743413	#ffa57d	Evidence of previous surface outflows
+1745	5	g2_single_pit_not_yet_full_no_surface_outflows	f	1699427743413	#38A15A	Single pit: not yet full (no surface outflows)
+1746	6	g2_double_pits_no_surface_outflows	f	1699427743413	#38A15A	Double pits (no surface outflows)
+1747	7	g2_other_containment_no_surface_outflows	f	1699427743413	#38A15A	Other pit or tank (no surface outflows)
+1748	8	g2_septic_tank_with_soakpit_no_surface_outflows	f	1699427743413	#38A15A	Septic tank with soakpit (no surface outflows)
+1749	9	g2_sewer_connection_no_surface_outflows	f	1699427743413	#38A15A	Connection to sewer network (no surface outflows)
+1750	1	g0_high_risk_of_groundwater_contamination	f	1702282796765	#DB3B3B	High risk of groundwater contamination
+1751	2	g2_low_risk_of_groundwater_contamination	f	1702282796765	#38A15A	Low risk of groundwater contamination
+1752	1	g0_no_handwashing_facility	f	1699429162796	#DB3B3B	No handwashing facility
+1753	2	g1_handwashing_facility_by_toilet	f	1699429162796	#38A15A	Handwashing facility by toilet
+1754	3	g1_handwashing_facility_in_kitchen	f	1699429162796	#38A15A	Handwashing facility in kitchen
+1755	4	g1_portable_handwashing_facility_basin_jug_jerrycan_container	f	1699429162796	#38A15A	Portable handwashing facility (basin, jug, jerrycan, container)
+1756	5	g1_two_handwashing_facilities	f	1699429162796	#38A15A	Two handwashing facilities
+1757	6	g1_more_than_two_handwashing_facilities	f	1699429162796	#38A15A	More than two handwashing facilities
+1758	1	g0_no_handwashing_facility	f	1710753585	#DB3B3B	No handwashing facility
+1759	2	g0_non_functional_handwashing_facility	f	1710753585	#DB3B3B	Non-functional handwashing facility
+1760	3	g1_partly_functional_handwashing_facility	f	1710753585	#ffa57d	Partly functional handwashing facility
+1761	4	g1_fully_functional_handwashing_facility	f	1710753585	#38A15A	Fully functional handwashing facility
+1762	1	g0_no_handwashing_facility	f	1699430427692	#DB3B3B	No handwashing facility
+1763	2	g0_no_water_available	f	1699430427692	#DB3B3B	No water available
+1764	3	g0_water_not_always_available	f	1699430427692	#DB3B3B	Water NOT always available
+1765	4	g1_water_available	f	1699430427692	#38A15A	Water available
+1766	5	g1_water_container_empty_evidence_of_washing	f	1699430427692	#38A15A	Water container empty (evidence of washing)
+1767	1	g0_no_handwashing_facility	f	1699430472221	#DB3B3B	No handwashing facility
+1768	2	g0_no_soap_or_other_cleanser_available	f	1699430472221	#DB3B3B	No soap or other cleanser available
+1769	3	g0_ash_mud_or_sand_available	f	1699430472221	#DB3B3B	Ash, mud or sand available
+1770	4	g0_soap_in_house_not_at_handwashing_facility	f	1699430472221	#ffa57d	Soap in house, NOT at handwashing facility
+1771	5	g1_solid_liquid_or_powder_soap_available	f	1699430472221	#38A15A	Solid, liquid or powder soap available
+1772	1	g0_no_handwashing_facility	f	1699430580239	#DB3B3B	No handwashing facility
+1773	2	g1_jerrycan_or_other_closed_container_no_lid	f	1699430580239	#ffa57d	Jerrycan (or other closed container) with NO lid
+1774	3	g1_jerrycan_or_other_closed_container_with_lid	f	1699430580239	#ffa57d	Jerrycan (or other closed container) with lid
+1775	4	g1_other_temporary_handwashing_facility	f	1699430580239	#ffa57d	Temporary handwashing facility (tippy tap)
+1776	5	g1_portable_basin_or_other_open_container	f	1699430580239	#ffa57d	Portable bowl or other open container
+1777	6	g3_permanent_handwashing_station_with_adequate_water_storage	f	1699430580239	#38A15A	Permanent handwashing station with water storage
+1778	7	g3_piped_water_tap_with_basin	f	1699430580239	#38A15A	Piped water tap with basin
+1779	8	g3_other_permanent_handwashing_station	f	1699430580239	#38A15A	Other permanent handwashing station
+1780	1	g0_no_handwashing_facility	f	1699430671868	#DB3B3B	No handwashing facility
+1781	2	g0_hands_contaminate_water_in_storage	f	1699430671868	#DB3B3B	Hands contaminate water in storage
+1782	3	g0_hands_enter_the_water_container_during_collection_and_use	f	1699430671868	#DB3B3B	Hands touch the water
+1783	4	g1_water_collected_by_hand_using_ladle_cup_other	f	1699430671868	#ffa57d	Water collected using a tool (ladle, cup, other)
+1784	5	g3_closed_water_storage_container_with_tap	f	1699430671868	#38A15A	Closed water storage container with tap
+1785	6	g3_piped_water_tap	f	1699430671868	#38A15A	Piped water supply with tap
+1786	7	g3_other_handsfree_operation	f	1699430671868	#38A15A	Other hands-free operation
+1787	1	g0_no_handwashing_facility	f	1699430761393	#DB3B3B	No handwashing facility
+1788	2	g0_no_collection_or_disposal_of_washing_water	f	1699430761393	#DB3B3B	No collection or disposal of washing water
+1789	3	g1_collection_of_washing_water_without_drainage_or_disposal	f	1699430761393	#ffa57d	Collection of washing water without good drainage or disposal
+1790	4	g3_safe_collection_and_disposal_of_washing_water	f	1699430761393	#38A15A	Safe collection and disposal of washing water
+1791	1	g0_no_handwashing_facility	f	1699430839676	#DB3B3B	No handwashing facility
+1792	2	g0_do_not_wash_hands	f	1699430839676	#DB3B3B	Do NOT wash hands
+1793	3	g0_do_not_use_soap_and_water	f	1699430839676	#DB3B3B	Do NOT use soap and water
+1794	4	g1_no_mention_of_critical_toilet_times	f	1699430839676	#ffa57d	No mention of critical TOILET times
+1795	5	g1_before_toilet_use	f	1699430839676	#ffa57d	Before toilet use
+1796	6	g2_after_toilet_use	f	1699430839676	#38A15A	After toilet use
+1797	1	g0_no_handwashing_facility	f	1699431035188	#DB3B3B	No handwashing facility
+1798	2	g0_do_not_wash_hands	f	1699431035188	#DB3B3B	Do NOT wash hands
+1799	3	g0_do_not_use_soap_and_water	f	1699431035188	#DB3B3B	Do NOT use soap and water
+1800	4	g1_no_mention_of_critical_food_times	f	1699431035188	#ffa57d	No mention of critical FOOD times
+1801	5	g1_after_eating	f	1699431035188	#ffa57d	After eating
+1802	6	g2_before_eating_food_preparation_and_feeding_children	f	1699431035188	#38A15A	Before eating, food preparation and feeding children
+1803	1	g0_no_handwashing_facility	f	1699431983680	#DB3B3B	No handwashing facility
+1804	2	g0_do_not_wash_hands	f	1699431983680	#DB3B3B	Do NOT wash hands
+1805	3	g0_do_not_use_soap_and_water	f	1699431983680	#DB3B3B	GDo NOT use soap and water
+1806	4	g1_no_mention_of_critical_infant_times	f	1699431983680	#ffa57d	No mention of critical INFANT EXCRETA times
+1807	5	g2_after_cleaning_or_handling_infant_faeces_or_after_washing_or_disposal_of_diapers	f	1699431983680	#38A15A	After ANY contact with infant excreta or soiled diapers
+1808	6	g2_no_children_under_5	f	1699431983680	#38A15A	No under-5 children
+1809	1	g0_no_handwashing_facility	f	1699432052966	#DB3B3B	No handwashing facility
+1810	2	g0_do_not_wash_hands	f	1699432052966	#DB3B3B	Do NOT wash hands
+1811	3	g0_do_not_use_soap_and_water	f	1699432052966	#DB3B3B	Do NOT use soap and water
+1812	4	g1_no_mention_of_critical_animal_times	f	1699432052966	#ffa57d	No mention of critical ANIMAL times
+1813	5	g2_after_contact_with_animals_animal_products_or_animal_wastes	f	1699432052966	#38A15A	After ANY contact with animals, animal products or animal wastes
+1814	6	g2_no_animals	f	1699432052966	#38A15A	No animals
+1815	1	g0_child_or_adult_excreta_observed_in_the_compound	f	1699432663952	#DB3B3B	Child or adult excreta observed in the compound
+1816	2	g1_no_visible_od_or_human_excreta_child_or_adult_in_compound	f	1699432663952	#38A15A	No visible human excreta (child or adult) in compound
+1817	1	g0_child_faeces_unsafely_disposed	f	1699432130951	#DB3B3B	Child faeces unsafely disposed
+1818	2	g0_child_faeces_disposed_with_solid_waste	f	1699432130951	#DB3B3B	Child faeces disposed with solid waste
+1819	3	g0_soiled_potty_or_collection_tool_unsafely_washed	f	1699432130951	#DB3B3B	Child faeces unsafely handled (potty or collection tool unsafely washed)
+1820	4	g1_safely_managed_child_faeces_buried	f	1699432130951	#38A15A	Child faeces buried
+1821	5	g1_safely_managed_child_faeces_put_or_rinsed_into_toilet	f	1699432130951	#38A15A	Child faeces put or rinsed into toilet
+1822	6	g1_safely_managed_child_uses_toilet_without_assistance	f	1699432130951	#38A15A	Child uses toilet WITHOUT assistance
+1823	7	g1_safely_managed_child_uses_toilet_with_assistance	f	1699432130951	#38A15A	Child uses toilet WITH assistance
+1824	8	g1_other_safe_management_of_child_excreta	f	1699432130951	#38A15A	Other safe management of child excreta
+1825	9	g1_no_children_under_5	f	1699432130951	#38A15A	No under-5 children
+1826	1	g0_used_diapers_visible_in_the_compound	f	1699432802923	#DB3B3B	Used diapers visible in the compound
+1827	2	g0_used_diapers_unsafely_disposed_or_unsafely_washed	f	1699432802923	#DB3B3B	Used diapers unsafely disposed or unsafely washed
+1828	3	g0_used_put_in_toilet_pit	f	1699432802923	#ffa57d	Used diapers put in the toilet pit
+1829	4	g1_disposable_diaper_buried_in_compound	f	1699432802923	#38A15A	Used diapers buried
+1830	5	g1_disposable_diaper_put_into_covered_waste_pit	f	1699432802923	#38A15A	Used diapers put into covered waste pit
+1831	6	g1_disposable_diaper_collected_for_disposal_at_communal_site	f	1699432802923	#38A15A	Used diapers collected and safely stored for disposal at communal site
+1832	7	g1_washable_cloth_safely_emptied_and_safely_washed	f	1699432802923	#38A15A	Washable cloths safely emptied and safely washed
+1833	8	g1_no_diapers_or_clothes_used	f	1699432802923	#38A15A	No diapers or cloths used
+1834	9	g1_no_children_under_5	f	1699432802923	#38A15A	No under-5 children
+1835	1	yes	f	16994260598422		Yes
+1836	2	no	f	16994260598422		No
+1837	1	yes	f	16994260598423		Yes
+1838	2	no	f	16994260598423		No
+1839	1	g0_visible_dirt_or_contamination	f	1699432887212	#DB3B3B	Visible dirt or contamination
+1840	2	g1_not_adequately_washed	f	1699432887212	#ffa57d	Traces of dirt or contamination
+1841	3	g2_cleanwashed_produce_raw_and_cooked_food	f	1699432887212	#38A15A	Clean food
+1842	1	g0_no_storage	f	1699433027913	#DB3B3B	No storage
+1843	2	g1_open_storage	f	1699433027913	#ffa57d	Open storage
+1844	3	g2_covered_food_storage	f	1699433027913	#38A15A	Covered food storage
+1845	1	g0_on_ground	f	1699433058652	#DB3B3B	On ground
+1846	2	g1_storage_close_to_ground_risk_of_contact_with_animals	f	1699433058652	#ffa57d	Stored close to ground
+1847	3	g2_storage_off_ground	f	1699433058652	#38A15A	Stored off ground
+1848	1	g0_visible_dirt_or_contamination	f	1699433108344	#DB3B3B	Visible dirt or contamination
+1849	2	g1_not_adequately_washed	f	1699433108344	#ffa57d	Traces of dirt or contamination
+1850	3	g2_cleanwashed_utensils	f	1699433108344	#38A15A	Clean kitchen utensils
+1851	1	g0_no_storage	f	1699433162828	#DB3B3B	No storage
+1852	2	g1_open_storage	f	1699433162828	#ffa57d	Open storage
+1853	3	g2_covered_utensil_storage	f	1699433162828	#38A15A	Covered utensil storage
+1854	1	g0_on_ground	f	1699433205793	#DB3B3B	On ground
+1855	2	g1_storage_close_to_ground_risk_of_contact_with_animals	f	1699433205793	#ffa57d	Stored close to ground
+1856	3	g2_storage_off_ground	f	1699433205793	#38A15A	Stored off ground
+1857	1	g0_visible_dirt_or_contamination	f	1699433286697	#DB3B3B	Visible dirt or contamination
+1858	2	g1_not_adequately_washed	f	1699433286697	#ffa57d	Traces of dirt or contamination
+1859	3	g2_cleanwashed_milk_containers	f	1699433286697	#38A15A	Clean milk containers
+1860	4	g2_no_animals_no_milking	f	1699433286697	#38A15A	No animals / no milking
+1861	1	g0_no_storage	f	1699433337417	#DB3B3B	G0 No storage
+1862	2	g1_open_storage	f	1699433337417	#ffa57d	G1 Open storage
+1863	3	g2_covered_container_storage	f	1699433337417	#38A15A	G2 Covered container storage
+1864	4	g2_no_animals_no_milking	f	1699433337417	#38A15A	No animals / no milking
+1865	1	g0_on_ground	f	1699433394633	#DB3B3B	On ground
+1866	2	g1_storage_close_to_ground_risk_of_contact_with_animals	f	1699433394633	#ffa57d	Stored close to ground
+1867	3	g2_storage_off_ground	f	1699433394633	#38A15A	Stored off ground
+1868	4	g2_no_animals_no_milking	f	1699433394633	#38A15A	No animals / no milking
+1869	1	g0_visible_dirt_or_contamination	f	1699433455365	#DB3B3B	Visible dirt or contamination
+1870	2	g1_not_adequately_washed	f	1699433455365	#ffa57d	Traces of dirt or contamination
+1871	3	g2_cleanwashed_water_containers	f	1699433455365	#38A15A	Clean water containers
+1872	1	g0_no_treatment_and_low_quality	f	1699433503692	#DB3B3B	No treatment and low quality
+1873	2	g1_inadequate_quality	f	1699433503692	#ffa57d	Low quality
+1874	3	g2_adequate_quality_at_collection_point	f	1699433503692	#38A15A	Good water quality at collection point
+1875	4	g2_hh_water_treatment	f	1699433503692	#38A15A	Household water treatment after collection
+1876	1	g0_unsafe_drinking_water_storage	f	1699433564057	#DB3B3B	Unsafe drinking water storage
+1877	2	g1_inadequate_drinking_water_storage	f	1699433564057	#ffa57d	Inadequate drinking water storage
+1878	3	g2_clean_covered_drinking_water_storage	f	1699433564057	#38A15A	Clean, covered drinking water storage
+1879	1	g0_unsafe_water_use	f	1699433637971	#DB3B3B	Unsafe water use
+1880	2	g1_inadequate_water_use	f	1699433637971	#ffa57d	Inadequate water use
+1881	3	g2_water_containers_with_spigots_or_taps	f	1699433637971	#38A15A	Water containers with taps (or spigot pipes)
+1882	4	g2_narrowmouthed_water_containers	f	1699433637971	#38A15A	Narrow-mouthed water containers
+1883	5	g2_clean_utensil_for_water_use	f	1699433637971	#38A15A	Clean utensil for water use
+1884	1	g0_visible_dirt_or_contamination	f	1699433719018	#DB3B3B	Visible dirt or contamination
+1885	2	g1_not_adequately_clean	f	1699433719018	#ffa57d	Traces of dirt or contamination
+1886	3	g2_clean_water_points	f	1699433719018	#38A15A	Clean water point
+1887	4	g2_no_householf_water_point	f	1699433719018	#38A15A	No household water point
+1888	1	g0_no_protection_of_water_points	f	1699433765217	#DB3B3B	No protection of water point
+1889	2	g1_inadequate_protection_of_water_points	f	1699433765217	#ffa57d	Inadequate protection of water point
+1890	3	g2_well_protected_water_points	f	1699433765217	#38A15A	Good protection of water point
+1891	4	g2_no_householf_water_point	f	1699433765217	#38A15A	No household water point
+1892	1	g0_standing_water_visible_around_water_point	f	1699433833227	#DB3B3B	Permanent standing water around water point
+1893	2	g1_inadequately_drained_water_points	f	1699433833227	#ffa57d	Some standing water around water point
+1894	3	g2_well_drained_water_points	f	1699433833227	#38A15A	Good drainage of water point
+1895	4	g2_no_householf_water_point	f	1699433833227	#38A15A	No household water point
+1896	1	g0_widespread_animal_wastes	f	1699433937138	#DB3B3B	Many animal wastes visible
+1897	2	g1_small_amounts_of_animal_wastes_present	f	1699433937138	#ffa57d	Some animal wastes
+1898	3	g2_no_animal_wastes_visible_in_house_or_in_kitchen	f	1699433937138	#38A15A	No animal wastes in house or in kitchen
+1899	4	g2_no_animals	f	1699433937138	#38A15A	No animals
+1900	1	g0_widespread_animal_wastes	f	1699433983369	#DB3B3B	Many animal wastes visible
+1901	2	g1_small_amounts_of_animal_wastes_present	f	1699433983369	#ffa57d	Some animal wastes
+1902	3	g2_no_animal_wastes_visible_in_compound	f	1699433983369	#38A15A	No animal wastes in compound
+1903	4	g2_no_animals	f	1699433983369	#38A15A	No animals
+1904	1	g0_unsafe_location_of_animal_waste_storage	f	1699434044707	#DB3B3B	Animal waste NOT collected or stored
+1905	2	g1_inadequate_location_of_animal_waste_storage	f	1699434044707	#ffa57d	Some animal waste NOT collected or stored
+1906	3	g2_good_location_for_animal_waste_storage	f	1699434044707	#38A15A	Animal waste collected and stored
+1907	4	g2_no_animal_wastes	f	1699434044707	#38A15A	No animals
+1908	1	g0_unsafe_animal_waste_storage_location	f	1699434136823	#DB3B3B	Unsafe place for animal waste storage
+1909	2	g1_animal_waste_storage_too_close_to_house	f	1699434136823	#ffa57d	Animal waste storage close to house
+1910	3	g2_animal_waste_storage_away_from_house_and_play_areas	f	1699434136823	#38A15A	Animal waste storage away from house and play areas
+1911	4	g2_no_animal_waste_storage	f	1699434136823	#38A15A	No animals
+1912	1	g0_animal_waste_storage_is_unsafely_managed	f	1699434209933	#DB3B3B	Animal waste storage is UNSAFELY managed
+1913	2	g1_some_leaks_or_discharges	f	1699434209933	#ffa57d	Some animal waste leaks or discharges
+1914	3	g2_no_leaks_or_discharge_from_animal_waste_storage	f	1699434209933	#38A15A	Animal waste storage safely managed
+1915	4	g2_no_animal_waste_storage	f	1699434209933	#38A15A	No animals
+1916	1	g0_no_animal_pens	f	1699434269372	#DB3B3B	Animals loose in compound
+1917	2	g1_animals_penned_close_to_house_or_play_areas	f	1699434269372	#ffa57d	Animals penned close to house or play areas
+1918	3	g2_animals_penned_away_from_house_and_play_areas	f	1699434269372	#38A15A	Animals penned away from house and play areas
+1919	4	g2_no_animals	f	1699434269372	#38A15A	No animals
+1920	1	g0_no_animal_pens	f	1699434327613	#DB3B3B	No animal pens
+1921	2	g1_inadequate_animal_pens	f	1699434327613	#ffa57d	Inadequate animal pens
+1922	3	g2_safe_confinement_in_animal_pens	f	1699434327613	#38A15A	Safe confinement in animal pens
+1923	4	g2_no_animals	f	1699434327613	#38A15A	No animals
+1924	1	g0_visible_wastewater	f	1699434438966	#DB3B3B	Visible wastewater
+1925	2	g1_inadequate_soakpit	f	1699434438966	#ffa57d	Inadequate soakpit
+1926	3	g3_adequate_wastewater_soakpit_or_drainage	f	1699434438966	#38A15A	Good wastewater soakpit or drainage
+1927	1	g0_significant_erosion	f	1699434488410	#DB3B3B	Significant erosion visible
+1928	2	g1_some_visible_erosion	f	1699434488410	#ffa57d	Some visible erosion
+1929	3	g3_adequate_stormwater_drainage	f	1699434488410	#38A15A	Good stormwater drainage
+1930	4	g3_no_signs_of_stormwater_erosion	f	1699434488410	#38A15A	No signs of stormwater erosion
+1931	1	g0_significant_visible_solid_wastes	f	1699434553677	#DB3B3B	Significant visible solid wastes
+1932	2	g1_some_solid_wastes_visible	f	1699434553677	#ffa57d	Some solid wastes visible
+1933	3	g3_clean_compound_with_no_visible_solid_wastes	f	1699434553677	#38A15A	Clean compound with no visible solid wastes
+1934	1	g0_no_solid_waste_management	f	1699434636655	#DB3B3B	No solid waste management
+1935	2	g1_inadequate_solid_waste_management	f	1699434636655	#ffa57d	Inadequate solid waste management
+1936	3	g3_solid_waste_storage_or_disposal_system	f	1699434636655	#38A15A	Good solid waste storage or disposal system
+1937	1	g0_significant_standing_water_untreated	f	1699434771449	#DB3B3B	Significant standing water (untreated)
+1938	2	g1_inadequate_treatment_or_management	f	1699434771449	#ffa57d	Some standing water (untreated or inadequate treatment)
+1939	3	g3_no_visible_standing_water	f	1699434771449	#38A15A	No visible standing water
+1940	4	g3_treated_or_managed_larval_breeding_sites	f	1699434771449	#38A15A	Treated or managed larval breeding sites
+1941	1	g1_all_with_dirty_faces	f	1699434939105	#DB3B3B	All with dirty faces
+1942	2	g2_some_with_dirty_faces	f	1699434939105	#ffa57d	Some with dirty faces
+1943	3	g3_clean_faces	f	1699434939105	#38A15A	Clean faces
+1944	1	g1_all_with_dirty_hands	f	1699434983278	#DB3B3B	All with dirty hands
+1945	2	g2_some_with_dirty_hands	f	1699434983278	#38A15A	Some with dirty hands
+1947	1	g1_no_washing_place	f	1699435026311	#DB3B3B	No washing place
+1948	2	g2_inadequate_washing_place	f	1699435026311	#ffa57d	Inadequate washing place
+1949	3	g3_clean_and_private_washing_place	f	1699435026311	#38A15A	Clean and private washing place
+1950	4	g3_no_menstruating_women_or_girls	f	1699435026311	#38A15A	No menstruating women or girls
+1951	1	g1_no_disposal_site	f	1699435088758	#DB3B3B	No disposal site
+1952	2	g2_inadequate_disposal_site	f	1699435088758	#ffa57d	Inadequate disposal site
+1953	3	g3_safe_disposal_site	f	1699435088758	#38A15A	Safe disposal site
+1954	4	g3_no_menstruating_women_or_girls	f	1699435088758	#38A15A	No menstruating women or girls
+1955	1	g1_materials_are_not_available_or_not_appropriate	f	1699435154797	#DB3B3B	Materials are NOT available or NOT appropriate
+1956	2	g2_materials_are_not_always_available_or_appropriate	f	1699435154797	#ffa57d	Materials are not always available or appropriate
+1957	3	g3_appropriate_materials_are_available	f	1699435154797	#38A15A	Appropriate materials are available
+1958	4	g3_no_menstruating_women_or_girls	f	1699435154797	#38A15A	No menstruating women or girls
+1959	1	g1_no_children_vaccinated	f	1699435207476	#DB3B3B	No children vaccinated
+1960	2	g2_some_children_vaccinated	f	1699435207476	#ffa57d	Some children vaccinated
+1961	3	g3_all_children_fully_immunized	f	1699435207476	#38A15A	All children vaccinated (fully immunized)
+1962	4	g3_no_under5_children	f	1699435207476	#38A15A	No under-5 children
+1963	1	g1_no_children_received_supplements	f	1699435265962	#DB3B3B	No children received supplements
+1964	2	g2_some_vitamin_a_supplements_not_received_in_last_6_months	f	1699435265962	#ffa57d	Some vitamin A supplements not received (in last 6 months)
+1965	3	g3_all_vitamin_a_supplements_received_in_last_6_months	f	1699435265962	#38A15A	All vitamin A supplements received in last 6 months
+1966	4	g3_no_under5_children	f	1699435265962	#38A15A	No under-5 children
+1967	1	g1_under_6month_children_regularly_receive_water_or_other_food	f	1699435329279	#DB3B3B	Under 6-month children regularly receive water or other food
+1968	2	g2_some_water_and_other_food_received_on_a_few_occasions	f	1699435329279	#ffa57d	Some water and other food received on a few occasions
+1969	3	g3_exclusive_breastfeeding_for_under_6month_children	f	1699435329279	#38A15A	Exclusive breastfeeding for under 6-month children
+1970	4	g3_no_under6_month_old_children	f	1699435329279	#38A15A	No under-6 month old children
+1971	1	g1_low_nutrition_diet_some_or_all_children_eat_from_only_12_food_groups	f	1699435397728	#DB3B3B	Some or all children eat from only 1-2 food groups
+1972	2	g2_inadequate_diet_some_or_all_children_eat_from_34_food_groups	f	1699435397728	#ffa57d	Some or all children eat from 3-4 food groups
+1973	3	g3_nutritious_diet_for_all_6_month_to_2_year_children	f	1699435397728	#38A15A	Nutritious diet (5 or more food groups)
+1974	4	g3_no_6_month_to_2year_old_children	f	1699435397728	#38A15A	No 6 month to 2-year old children
+1975	1	g1_no_protection_no_bed_nets_and_no_insect_screen	f	1699435455818	#DB3B3B	No bed nets and no insect screen
+1976	2	g2_inadequate_protection_some_beds_without_nets_or_some_openings_unprotected	f	1699435455818	#ffa57d	Some beds without nets, or some openings unprotected
+1977	3	g3_malariasafe_home	f	1699435455818	#38A15A	Malaria-safe home
+1978	4	g3_not_in_malariaendemic_area	f	1699435455818	#38A15A	NOT in Malaria-Endemic area
+1979	1	g1_no_deworming_no_children_or_adults_treated	f	1699435526190	#DB3B3B	No children or adults treated
+1980	2	g2_inadequate_deworming_some_children_or_adults_not_treated	f	1699435526190	#ffa57d	Some children or adults not treated
+1981	3	g3_dewormed_home_all_treated_in_last_12_months	f	1699435526190	#38A15A	Dewormed home (all treated in last 12 months)
+1982	4	g3_not_in_sthendemic_area	f	1699435526190	#38A15A	NOT in STH-Endemic area
+1983	1	new	f	1701757914033	\N	New
+1984	2	update	f	1701757914033	\N	Update
+1985	1	chief_principal	f	1706105097574	\N	Chief Principal
+1986	2	senior_principal	f	1706105097574	\N	Senior Principal
+1987	3	principal	f	1706105097574	\N	Principal
+1988	4	deputy_principal	f	1706105097574	\N	Deputy Principal
+1989	5	senior_master	f	1706105097574	\N	Senior Master
+1990	6	deputy_headteacher	f	1706105097574	\N	Deputy Headteacher
+1991	7	teacher	f	1706105097574	\N	Teacher
+1992	8	other	f	1706105097574	\N	Other-specify
+1993	1	no_water_source	f	1706087451989	#db3b3b	No water source
+1994	2	surface_water_lake_river_stream_dam	f	1706087451989	#db3b3b	Surface water (lake, river, stream, dam)
+1995	3	unprotected_well_spring	f	1706087451989	#db3b3b	Unprotected well/spring
+1996	4	children_bring_water_from_home	f	1706087451989	#db3b3b	Children bring water from home
+1997	5	piped_water_supply	f	1706087451989	#38a15a	Piped water supply
+1998	6	protected_well	f	1706087451989	#38a15a	Protected well/spring/borehole
+1999	7	rainwater_tank	f	1706087451989	#38a15a	Rainwater tank
+2000	8	packaged_water_bottles	f	1706087451989	#38a15a	Packaged water (bottles)
+2001	9	tanker_truck_cart	f	1706087451989	#38a15a	Tanker truck or cart
+2002	10	other_improved_specify	f	1706087451989	#38a15a	Other improved - specify
+2003	1	no	f	1706089053651	#db3b3b	No
+2004	2	yes	f	1706089053651	#38a15a	Yes
+2005	1	no_unavailable_for_more_than_30_days	f	1706089220816	#db3b3b	No (unavailable for more than 30 days in total)
+2006	2	mostly_unavailable_for_up_to_30_days	f	1706089220816	#ffa57d	Mostly (unavailable for up to 30 days in total)
+2007	3	yes_always_available	f	1706089220816	#38a15a	Yes (always available)
+2008	1	no_treatment	f	1706090780592	#db3b3b	No treatment
+2009	2	filtration	f	1706090780592	#38a15a	Filtration
+2010	3	boiling	f	1706090780592	#38a15a	Boiling
+2011	4	chlorination	f	1706090780592	#38a15a	Chlorination
+2012	5	sodi	f	1706090780592	#38a15a	SODIS
+2013	6	ultraviolet_disinfection	f	1706090780592	#38a15a	Ultraviolet disinfection
+2014	7	other_specify	f	1706090780592	#38a15a	Other (specify)
+2015	1	no	f	1706091513597	#db3b3b	No
+2016	2	yes	f	1706091513597	#38a15a	Yes
+2017	1	no	f	1706091729540	#db3b3b	No
+2018	2	yes	f	1706091729540	#38a15a	Yes
+2019	1	no_toilet	f	1706087820880	#db3b3b	No toilet
+2020	2	vip_drophole_with_vent_pipe	f	1706087820880	#38a15a	Open pits (Uncovered or large openings)
+2021	3	dry_latrine_with_drophole	f	1706087820880	#38a15a	Hole in floor (Dry latrine)
+2022	4	vip_drop_with_vent_pipe	f	1706087820880	#38a15a	Hole in floor (VIP latrine with vent pipe)
+2023	5	sato_pan	f	1706087820880	#38a15a	SATO pan
+2024	6	flush_pour_pan_with_water_seal	f	1706087820880	#38a15a	Flush or pour-flush pan with water seal
+2025	7	dry_toilet_with_urine_drophole	f	1706087820880	#38a15a	Dry toilet with urine-diverting drophole
+2026	8	open_pipe_no_water_seal	f	1706087820880	#38a15a	Open pipe to pit (no water seal)
+2027	9	other_hygienic_toilet_interface	f	1706087820880	#38a15a	Other toilet hygienic interface
+2028	10	other_unhygienic_toilet_interface	f	1706087820880	#38a15a	Other toilet unhygienic interface
+2029	1	no_toilet	f	1706092607055	#db3b3b	No toilet
+2030	2	no_pit_tank_discharge_to_open	f	1706092607055	#db3b3b	No pit or tank (discharge to open: field, open drain, water body, elsewhere)
+2031	3	open_pit_uncovered_large_openings	f	1706092607055	#db3b3b	Open pit (uncovered or large openings)
+2032	4	single_toilet_vault_above_ground	f	1706092607055	#db3b3b	Single toilet vault (above ground)
+2033	5	removable_open_container	f	1706092607055	#db3b3b	Removable open container (e.g. bucket)
+2034	6	single_latrine_pit	f	1706092607055	#38a15a	Single latrine pit
+2035	7	multi_latrine_pit	f	1706092607055	#38a15a	Multi-latrine pit
+2036	8	multi_toilet_vault_above_ground	f	1706092607055	#38a15a	Multi toilet vault (above ground)
+2037	9	septic_tank	f	1706092607055	#38a15a	Septic tank
+2038	10	removable_close_container	f	1706092607055	#38a15a	Removable closed container
+2039	11	sewer_connection	f	1706092607055	#38a15a	Connection to sewer network
+2040	12	flush_to_dont_know	f	1706092607055	#38a15a	Flush to don't know
+2041	13	other_pit_tank	f	1706092607055	#38a15a	Other pit or tank
+2042	1	g0_no_toilet	f	1706093073073	#db3b3b	No Toilet
+2043	2	g0_all_school_toilet_slabs_are_not_durable	f	1706093073073	#db3b3b	All school toilet slabs are NOT durable
+2044	3	g1_some_school_toilet_slab_are_not_durable	f	1706093073073	#ffa57d	Some school toilet slabs are NOT durable
+2045	4	g3_all_funcional_school_toilets_have_durable_toilet_slab	f	1706093073073	#38A15A	All functional school toilets have durable toilet slabs
+2046	1	g0_no_toilet	f	1706093811090	#db3b3b	No Toilet
+2047	2	g0_all_toil_pits_are_not_dura	f	1706093811090	#db3b3b	All toilet pits are NOT durable
+2048	3	g1_some_toil_pits_are_not_dura	f	1706093811090	#ffa57d	Some toilet pits are NOT durable
+2049	4	g3_all_func_toil_pits_are_dura	f	1706093811090	#38a15a	All functional toilet pits are durable
+2050	1	no_toilet	f	1706098008845	#db3b3b	No toilet
+2051	2	all_school_toilets_are_not_flyproof	f	1706098008845	#DB3B3B	All school toilets are NOT flyproof
+2052	3	some_school_toilets_are_not_flyproof	f	1706098008845	#ffa57d	Some school toilets are NOT flyproof
+2053	4	all_functional_school_toilets_are_flyproof	f	1706098008845	#38A15A	All functional school toilets are flyproof
+2054	1	no_toilet	f	1706098410203	#db3b3b	No toilet
+2055	2	all_school_toilets_provide_inadequate_privacy	f	1706098410203	#DB3B3B	All school toilets provide INADEQUATE privacy
+2056	3	some_school_toilets_provide_inadequate_privacy	f	1706098410203	#ffa57d	Some school toilets provide INADEQUATE privacy
+2057	4	all_functional_school_toilets_provide_good_privacy	f	1706098410203	#38A15A	All functional school toilets provide good privacy
+2058	1	no_toilet	f	1706098604926	#db3b3b	No toilet
+2059	2	all_school_toilets_unavailable_to_students	f	1706098604926	#DB3B3B	All school toilets UNAVAILABLE to students
+2060	3	some_school_toilets_unavailable_to_students	f	1706098604926	#ffa57d	Some school toilets UNAVAILABLE to students
+2061	4	all_functional_school_toilets_available_to_students	f	1706098604926	#38A15A	All functional school toilets available to students
+2062	1	no_toilet	f	1706098728743	#db3b3b	No toilet
+2063	2	all_functional_school_toilets_are_clean	f	1706098728743	#DB3B3B	School toilets NOT clean
+2064	3	school_toilets_not_clean	f	1706098728743	#ffa57d	School toilets somewhat clean
+2065	4	school_toilets_somewhat_clean	f	1706098728743	#38A15A	All functional school toilets are clean
+2066	1	human_excreta_observed	f	1706098964064	#DB3B3B	Human excreta observed
+2067	2	no_visible_od_human_excreta	f	1706098964064	#38A15A	No visible OD or human excreta
+2068	1	visible_surface_outflows_from_containment	f	1706099198431	#DB3B3B	Visible surface outflows from containment
+2069	2	evident_previous_surface_outflows_from_containment	f	1706099198431	#ffa57d	Evidence of previous surface outflows from containment
+2070	1	no_toilet	f	1706099341937	#db3b3b	No toilet
+2071	2	unsafely_contained_emptied_to_open_pit_open_space	f	1706099341937	#DB3B3B	Emptied to open pit or open space
+2072	3	unsafely_contained_emptied_to_unlicenced_unknown_location	f	1706099341937	#DB3B3B	Emptied to UNLICENSED or UNKNOWN location
+2073	4	unsafely_contained_faecal_sludge_stored_for_less_than_2_years_before_emptying_use_stored_waste	f	1706099341937	#ffa57d	Stored for less than 2 years before use of stored waste
+2074	5	safely_contained_never_emptied_not_yet_full_no_intention_to_empty	f	1706099341937	#38A15A	Never emptied (no intention to empty)
+2075	6	safely_contained_never_emptied_previous_pit_tank_replaced_when_full	f	1706099341937	#38A15A	Never emptied, previous pit or tank replaced when full
+2076	7	safely_contained_stored_for_more_than_2_years_before_use_stored_waste	f	1706099341937	#38A15A	Stored for MORE than 2 years before use of stored waste
+2077	8	safely_contained_emptied_to_nearby_covered_pit	f	1706099341937	#38A15A	Emptied to nearby covered pit (buried within community)
+2078	9	safely_contained_emptied_by_licensed_service_provider	f	1706099341937	#38A15A	Emptied by licensed service provider
+2079	10	sewer_connection	f	1706099341937	#38A15A	Connection to sewer network
+2080	1	no	f	1706099849459	#DB3B3B	No
+2081	2	yes	f	1706099849459	#38A15A	Yes
+2082	1	no	f	1706099987137	#DB3B3B	No
+2083	2	yes	f	1706099987137	#38A15A	Yes
+2084	1	no_handwashing_facilities	f	1706087908008	#DB3B3B	No handwashing facilities
+2085	2	handwashing_facilities_outside_school_compound	f	1706087908008	#ffa57d	Handwashing facilities outside school compound
+2086	3	handwashing_facility_by_school_toilets	f	1706087908008	#38A15A	Handwashing facilities by school toilets
+2087	4	handwashing_facility_food_preparation_area	f	1706087908008	#38A15A	Handwashing facilities in food preparation area
+2088	5	handwashing_facility_food_consumption_area	f	1706087908008	#38A15A	Handwashing facilities in food consumption/dining area
+2089	6	hand_facility_by_classroom	f	1706087908008	#38A15A	Handwashing facilities by classrooms
+2090	7	handwashing_facility_school_yard	f	1706087908008	#38A15A	Handwashing facilities in school yard
+2091	8	other_location_for_handwashing_facility	f	1706087908008	#38A15A	Other location for handwashing facilities
+2092	1	no_handwashing_facilities	f	1706100460142	#DB3B3B	No handwashing facilities
+2093	2	no_water_availability	f	1706100460142	#DB3B3B	No water available
+2094	3	some_handwashing_facility_have_water_availability	f	1706100460142	#ffa57d	Water NOT available at some handwashing facilities
+2095	4	all_handwashing_facilities_have_water_availability	f	1706100460142	#38A15A	All handwashing facilities have water available
+2096	1	no_handwashing_facilities	f	1706100696237	#DB3B3B	No handwashing facilities
+2097	2	no_soap_other_cleanser_available	f	1706100696237	#DB3B3B	No soap or other cleanser available
+2098	3	ash_mud_sand_available	f	1706100696237	#DB3B3B	Ash, mud or sand available
+2099	4	some_handwashing_facility_have_soap_available	f	1706100696237	#ffa57d	Some handwashing facilities have soap available
+2100	5	all_handwashing_facility_have_soap_available	f	1706100696237	#38A15A	All handwashing facilities have soap available
+2101	1	no_handwashing_facilities	f	1706100878596	#DB3B3B	No handwashing facilities
+2102	2	jerrycans_other_closed_containers	f	1706100878596	#ffa57d	Jerrycans or other closed containers
+2103	3	portable_basins_other_open_containers	f	1706100878596	#ffa57d	Portable basins or other open containers
+2104	4	other_temporary_handwashing_facilities	f	1706100878596	#ffa57d	Temporary handwashing facilities (tippy tap)
+2105	5	piped_water_taps_with_basins	f	1706100878596	#38A15A	Piped water taps with basins
+2106	6	permanent_handwashing_stations_with_adequate_water_storage	f	1706100878596	#38A15A	Permanent handwashing stations with adequate water storage
+2107	7	other_permanent_handwashing_stations	f	1706100878596	#38A15A	Other permanent handwashing stations
+2108	1	no_handwashing_facilities	f	1706101237257	#DB3B3B	No handwashing facilities
+2109	2	hands_enter_water_containers_during_collection_and_use	f	1706101237257	#DB3B3B	Hands contaminate stored water
+2110	3	water_collected_by_hand_using_ladle_cup_other	f	1706101237257	#ffa57d	Water collected using tool (ladle, cup, other)
+2111	4	closed_water_storage_containers_with_taps	f	1706101237257	#38A15A	Closed water storage containers with taps
+2112	5	piped_water_with_supply_taps	f	1706101237257	#38A15A	Piped water supply with taps
+2113	6	other_handsfree_operation	f	1706101237257	#38A15A	Other hands-free use
+2114	1	no_handwashing_facilities	f	1706101674846	#DB3B3B	No handwashing facilities
+2115	2	no_collection_disposal_washing_water	f	1706101674846	#DB3B3B	No collection or disposal of washing water
+2116	3	collection_washing_water_without_drainage_disposal	f	1706101674846	#ffa57d	Collection of washing water without good drainage or disposal
+2117	4	safe_collection_disposal_washing_water	f	1706101674846	#38A15A	Safe collection and disposal of washing water
+2118	1	no	f	1706101879545	#DB3B3B	No
+2119	2	yes	f	1706101879545	#38A15A	Yes
+2120	1	no	f	1706101994157	#DB3B3B	No
+2121	2	yes	f	1706101994157	#38A15A	Yes
+2122	1	no_bathing_areas	f	1706088324274	#DB3B3B	No bathing areas
+2123	2	inadequate_bathing_areas	f	1706088324274	#ffa57d	Inadequate bathing areas
+2124	3	private_bathing_areas_for_menstrual_hygiene	f	1706088324274	#38A15A	Private bathing areas for menstrual hygiene
+2125	1	no_bathing_areas	f	1706102430669	#DB3B3B	No bathing areas
+2126	2	water_soap_are_not_available_bathing_areas	f	1706102430669	#DB3B3B	Water and soap are NOT available in bathing areas
+2127	3	some_bathing_areas_have_water_soap_available	f	1706102430669	#ffa57d	Some bathing areas have water and soap available
+2128	4	all_bathing_areas_have_both_water_soap_available	f	1706102430669	#38A15A	All bathing areas have both water and soap available
+2129	1	no_bathing_areas	f	1706102541414	#DB3B3B	No bathing areas
+2130	2	all_bathing_areas_are_not_clean	f	1706102541414	#DB3B3B	All bathing areas are NOT clean
+2131	3	some_bathing_areas_are_not_clean	f	1706102541414	#ffa57d	Some bathing areas are NOT clean
+2132	4	clean_bathing_areas_for_menstrual_hygiene	f	1706102541414	#38A15A	Clean bathing areas for menstrual hygiene
+2133	1	materials_are_not_available_not_appropriate	f	1706102678348	#DB3B3B	Materials are NOT available or NOT appropriate
+2134	2	materials_are_not_always_available_appropriate	f	1706102678348	#ffa57d	Materials are not always available or appropriate
+2135	3	appropriate_mhm_materials_are_available	f	1706102678348	#38A15A	Appropriate MHM materials are available
+2136	1	no_covered_bins_available	f	1706102843878	#DB3B3B	No covered bins available
+2137	2	some_covered_bins_available	f	1706102843878	#ffa57d	Some covered bins available
+2138	3	all_bathing_areas_have_covered_bins_available_for_menstrual_hygiene_wastes	f	1706102843878	#38A15A	All bathing areas have covered bins available for menstrual hygiene wastes
+2139	1	no_disposal_facilities	f	1706102974110	#DB3B3B	No disposal facilities
+2140	2	emptied_to_open_pits_open_space_open_water_bodied_open_drains	f	1706102974110	#DB3B3B	Emptied to open pits, open space, open water bodies, open drains
+2141	3	collected_by_unlicenced_service_providers	f	1706102974110	#ffa57d	Collected by UNLICENSED service providers
+2142	4	emptied_to_covered_pit	f	1706102974110	#38A15A	Emptied to covered pit
+2143	5	burned_on_premises	f	1706102974110	#38A15A	Burned on premises
+2144	6	collected_by_municipal_waste_system_service_providers	f	1706102974110	#38A15A	Collected by municpal waste system/licensed service providers
+2145	1	no	f	1706103220972	#DB3B3B	No
+2146	2	yes	f	1706103220972	#38A15A	Yes
 \.
 
 
@@ -18888,6 +18887,7 @@ COPY public.pending_data_approval (id, status, user_id, level_id, batch_id) FROM
 --
 
 COPY public.question (id, "order", label, name, type, meta, required, rule, dependency, form_id, question_group_id, api, extra, fn, tooltip, pre, display_only, meta_uuid, short_label, default_value, disabled, hidden) FROM stdin;
+1710734658255	24	Number of households using individual container-based toilets	households_toilets_container_individual	4	f	t	{"min": 0}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): number of individual (NON-SHARED) toilets with removable closed containers"}	\N	\N	\N	\N	\N	\N	\N
 1706105071390	3	Geolocation of school	school_geolocation	1	f	f	\N	\N	1701757876668	1701757914032	\N	\N	\N	\N	\N	\N	\N	\N	\N	{"submission_type": ["monitoring"]}	\N
 1706105097574	4	School respondent: role/position	school_respondent_role	5	f	f	\N	\N	1701757876668	1701757914032	\N	\N	\N	{"text": "List of school positions/roles"}	\N	\N	\N	\N	\N	\N	\N
 1706105362976	6	Total number of students enrolled in school	total_students_enrolled	4	f	f	{"min": 0}	\N	1701757876668	1701757914032	\N	\N	\N	{"text": "INTERVIEW: what is the total number of students currently enrolled in this school?"}	\N	\N	\N	\N	\N	\N	\N
@@ -18898,6 +18898,7 @@ COPY public.question (id, "order", label, name, type, meta, required, rule, depe
 1713505867	2	School Cascade	school	7	f	f	\N	\N	1701757876668	1701757876669	{"endpoint": "/api/v1/entity-data/1/list/"}	{"name": "School", "type": "entity", "parentId": 1701757876670}	\N	\N	\N	\N	\N	School	\N	{"submission_type": ["monitoring", "verification", "certification"]}	\N
 1706087451989	1	Main source of drinking water	main_drinking_water_source	5	f	f	\N	\N	1701757876668	1706087451988	\N	\N	\N	{"text": "OBSERVE & INTERVIEW: what is the main source of drinking water for the school?<br/>\\n<b>Main source:</b> if there is more than one water source, select the one used most frequently for drinking water"}	\N	\N	\N	\N	\N	\N	\N
 1713500026	2	Other (Please specify)	main_drinking_water_source_other	3	f	f	{"min": 0}	[{"id": 1706087451989, "options": ["other_improved_specify"]}]	1701757876668	1706087451988	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+1706087689694	3	Number of water points	num_water_points	4	f	f	{"min": 0}	\N	1701757876668	1706087451988	\N	\N	\N	{"text": "OBSERVE: how many drinking water points (e.g. taps) are available to students at the school?</br>\\n<b>Number of water points:</b> count the total number of drinking water points available to students at the school "}	\N	\N	\N	\N	\N	\N	\N
 1706089053651	4	Drinking water availability: current	drinking_water_availability_current	5	f	f	{"min": 0}	\N	1701757876668	1706087451988	\N	\N	\N	{"text": "OBSERVE & INTERVIEW: is drinking water from the main water source currently available at the school?</br>\\n<b>Currently available:</b> drinking water is available at the time of the interview, either from the main source directly or stored water originally from the main source"}	\N	\N	\N	\N	\N	\N	\N
 1706089220816	5	Drinking water availability: throughout school year	drinking_water_availability_school_year	5	f	f	{"min": 0}	\N	1701757876668	1706087451988	\N	\N	\N	{"text": "OBSERVE & INTERVIEW: is drinking water typically available throughout the school year?</br>\\n<b>Throughout the school year:</b> drinking water is available throughout the school year, when the students are at school"}	\N	\N	\N	\N	\N	\N	\N
 1706090780592	6	Drinking water treatment	drinking_water_treatment	5	f	f	\N	\N	1701757876668	1706087451988	\N	\N	\N	{"text": "OBSERVE & INTERVIEW: what treatment method is used ot make the water from the main source safe to drink?<br/>\\n<b>SODIS:</b> solar disinfection (plastic bottles placed in sun for a number of hours)"}	\N	\N	\N	\N	\N	\N	\N
@@ -18905,8 +18906,6 @@ COPY public.question (id, "order", label, name, type, meta, required, rule, depe
 1706087820880	1	Main type of school toilet: interface	school_toilet_interface_type	5	f	f	\N	\N	1701757876668	1706087820879	\N	\N	\N	{"text": "<b>Main type:</b> the most common type of school toilet should be selected <b>Toilet interface examples:</b> 1. Dry latrine with hole in floor 2. Pour-flush pan 3. SATO pan."}	\N	\N	\N	\N	\N	\N	\N
 1706092607055	2	Main type of school toilet: pit, tank or connection	school_toilet_containment_collection_system	5	f	f	\N	\N	1701757876668	1706087820879	\N	\N	\N	{"text": "<b>OBSERVE: main type of excreta containment or collection system</b></br>\\n<b>Main type:</b> the most common type of student toilet should be selected</br>\\n<b>Containment system:</b> pit or tank (or other) that contains and stores excreta</br>\\n<b>Collection system:</b> connection through which excreta and wastewater are collected</br>\\n<b>Examples:</b> 1. Latrine pit; 2. Septic tank; 3. Sewer connection.</br>\\n<b>Flush to don't know: </b>household does not know where the toilet flushes to, but no surface outlets or open discharges are visible (in this case, likely to be a buried pit or tank)"}	\N	\N	\N	\N	\N	\N	\N
 1706093073073	3	School toilet: durable slabs	durable_toilet_slabs	5	f	f	\N	\N	1701757876668	1706087820879	\N	\N	\N	{"text": "<b>OBSERVE: durable toilet slabs observed in school toilets?</b></br>\\n<b>Durable toilet slab: </b>toilet slab or floor is made from durable materials. </br>\\n<b>Examples of durable toilet slabs:</b> 1. Concrete toilet slab; 2. Concrete toilet slab covered with ceramic tiles; 3. Structural plastic slab."}	\N	\N	\N	\N	\N	\N	\N
-1710734569226	22	Number of households using SHARED double vault toilets	households_toilets_shared_double	4	f	t	{"min": 0}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): number of individual (NON-SHARED) double vault toilets"}	\N	\N	\N	\N	\N	\N	\N
-1710734658255	24	Number of households using individual container-based toilets	households_toilets_container_individual	4	f	t	{"min": 0}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): number of individual (NON-SHARED) toilets with removable closed containers"}	\N	\N	\N	\N	\N	\N	\N
 1706193332941	5	Number of functional girls-only school toilets	num_girls_only_functional_toilet	4	f	f	\N	\N	1701757876668	1706087820879	\N	\N	\N	{"text": "<b>OBSERVE:</b> count the number of FUNCTIONAL girls-only toilets. <b>Functional:</b> toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required)."}	\N	\N	\N	\N	\N	\N	\N
 1706193081516	6	Number of NON-functional girls-only school toilets	num_girls_only_non_functional_toilet	4	f	f	{"min": 0}	\N	1701757876668	1706087820879	\N	\N	\N	{"text": "<b>OBSERVE:</b> count the number of NON-FUNCTIONAL girls-only toilets. <b>Functional:</b> toilet is broken, toilet hole is blocked, and water is not available for flushing (where required)."}	\N	\N	\N	\N	\N	\N	\N
 1706194881288	7	Number of functional boys-only school toilets	num_boys_only_functional_toilets	4	f	f	{"min": 0}	\N	1701757876668	1706087820879	\N	\N	\N	{"text": "<b>OBSERVE:</b> count the number of FUNCTIONAL boys-only toilets. <b>Functional:</b> toilet is not broken, toilet hole is not blocked, and water is available for flushing (where required)."}	\N	\N	\N	\N	\N	\N	\N
@@ -18920,7 +18919,6 @@ COPY public.question (id, "order", label, name, type, meta, required, rule, depe
 1706098604926	15	School toilet availability	school_toilet_availability	5	f	f	\N	\N	1701757876668	1706087820879	\N	\N	\N	{"text": "<b>OBSERVE: are school toilets available for use by students?</b> </br>\\n<b>Available to students: </b>toilet doors are unlocked, or a key is available to students at all times."}	\N	\N	\N	\N	\N	\N	\N
 1706098728743	16	Clean school toilets	clean_school_toilets	5	f	f	\N	\N	1701757876668	1706087820879	\N	\N	\N	{"text": "<b>OBSERVE: are the school toilets clean?</b></br>\\n<b>Clean:</b> toilets do not have a strong smell; there are not significant numbers of flies or mosquitoes in the toilets; and there are no visible faeces or soiled cleaning materials on the toilet floors, walls, seats (or pans).</br>\\n<b>Somewhat clean: <b>toilets have some smell and/or some trace of faecal matter or soiled cleansing materials in some of the toilets</br>\\n<b>NOT clean: <b>there is a strong smell and/or presence of faecal matter or soiled cleansing materials in most toilets"}	\N	\N	\N	\N	\N	\N	\N
 1706098964064	17	No exposed human excreta around school toilets	no_exposed_excreta_around_school_toilets	5	f	f	\N	\N	1701757876668	1706087820879	\N	\N	\N	{"text": "<b>OBSERVE: visible human faeces around the school toilets or in the school buildings or compound.</b></br>"}	\N	\N	\N	\N	\N	\N	\N
-1710734600409	23	Percentage of households using SHARED double vault toilets (number/total)	num_total_double_vault	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783596	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
 1706099341937	19	Safely managed: excreta contained in pit (or tank)	safely_managed_toilet_containment_faecal_sludge	5	f	f	\N	\N	1701757876668	1706087820879	\N	\N	\N	{"text": "<b>INTERVIEW:</b> have the school toilet pits or tanks ever been emptied? <b>INTERVIEW:</b> have the school toilet pits or tanks ever filled up? <b>INTERVIEW:</b> what happened the last time the school toilet pits or tanks filled up?"}	\N	\N	\N	\N	\N	\N	\N
 1706099987137	21	School toilet accessibility: smallest students	school_toilet_accessibility_smallest_students	5	f	f	\N	\N	1701757876668	1706087820879	\N	\N	\N	{"text": "OBSERVE: is there at least one functional toilet accessible to the smallest children at the school?</br>\\n<b>Accessible: </b>the toilet can be used by the smallest children, including (where necessary) a smaller toilet drophole, a lower seat, and a lower door handle.\\n"}	\N	\N	\N	\N	\N	\N	\N
 1706087908008	1	Main location of school handwashing facilities	main_location_school_handwashing_facilities	5	f	f	\N	\N	1701757876668	1706087908007	\N	\N	\N	{"text": "<b>OBSERVE: where are school handwashing facilities located?</b></br>\\n<b>Location: </b>main location for functional handwashing facilities"}	\N	\N	\N	\N	\N	\N	\N
@@ -18935,22 +18933,7 @@ COPY public.question (id, "order", label, name, type, meta, required, rule, depe
 1706088324274	1	Private bathing areas for menstrual hygiene	private_bathing_areas_menstrual_hygiene	5	f	f	\N	\N	1701757876668	1706088324273	\N	\N	\N	{"text": "<b>OBSERVE: bathing areas adequate for menstrual hygiene</b></br>\\n<b>Adequate bathing area: </b>private and girls-only place for washing and menstrual hygiene, with closable doors that lock from the inside, without the possibility of observation by people outside the bathing area"}	\N	\N	\N	\N	\N	\N	\N
 1706102430669	2	Water and soap available in bathing areas for menstrual hygiene	water_soap_available_menstrual_hygiene_bathing_areas	5	f	f	\N	\N	1701757876668	1706088324273	\N	\N	\N	{"text": "OBSERVE: water and soap available in bathing areas"}	\N	\N	\N	\N	\N	\N	\N
 1706102541414	3	Clean bathing areas for menstrual hygiene	clean_bathing_areas_menstrual_hygiene	5	f	f	\N	\N	1701757876668	1706088324273	\N	\N	\N	{"text": "<b>OBSERVE: clean bathing areas available for menstrual hygiene</b></br>\\n<b>Clean bathing areas:</b> the places available for washing and menstrual hygiene are clean\\n\\n"}	\N	\N	\N	\N	\N	\N	\N
-1709698185027	1	Availability of a costed COUNTY sanitation and hygiene roadmap	costed_county_sanitation_roadmap	5	f	t	\N	\N	1709689683440	1709698185026	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-1706102843878	5	Disposal facilities for menstrual hygiene wastes	disposal_facilities_menstrual_hygiene_wastes	5	f	f	\N	\N	1701757876668	1706088324273	\N	\N	\N	{"text": "<b>OBSERVE: are covered bins available for disposal of menstrual hygiene wastes?</b>"}	\N	\N	\N	\N	\N	\N	\N
-1706102974110	6	Disposal system for menstrual hygiene wastes	disposal_system_menstrual_hygiene_wastes	5	f	f	\N	\N	1701757876668	1706088324273	\N	\N	\N	{"text": "<b>OBSERVE: how are menstrual hygiene wastes (in covered bins) collected and disposed?</b>"}	\N	\N	\N	\N	\N	\N	\N
-1706103220972	7	Menstrual hygiene education	menstrual_hygiene_education	5	f	f	\N	\N	1701757876668	1706088324273	\N	\N	\N	{"text": "INTERVIEW: is menstrual hygiene management education available at the school?</br>\\n"}	\N	\N	\N	\N	\N	\N	\N
-1699354849383	1	What is the location?	location	2	f	t	\N	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "This question contains a list of possible locations, starting with government area or district, down to the village."}	\N	\N	\N	\N	\N	{"submission_type": ["monitoring"]}	\N
-1710731783597	2	Number of households with individual connections to sewer system	households_connections_individual	4	f	t	{"min": 0}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): number of individual (NON-SHARED) household toilets with sewer connections"}	\N	\N	\N	\N	\N	\N	\N
 1710733926688	3	Population with individual connections to sewer system	population_connections_individual	4	f	t	{"min": 0}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): population in households using toilets with individual (NON-SHARED) sewer connections "}	\N	\N	\N	\N	\N	\N	\N
-1710733969729	4	Percentage of households with individual connections to sewer system	percentage_inidividual_connections_to_sewer	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): population in households using toilets with individual (NON-SHARED) sewer connections/total population"}	\N	\N	\N	\N	\N	\N	\N
-1710734019421	5	Percentage of population with individual connections to sewer system	percentage_population_connections	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): population in households using toilets with individual (NON-SHARED) sewer connections/total population"}	\N	\N	\N	\N	\N	\N	\N
-1710734096895	6	Number of households with SHARED connections to sewer system	households_connections_shared	4	f	t	{"min": 0}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): number of SHARED toilets with sewer connections"}	\N	\N	\N	\N	\N	\N	\N
-1710734141149	7	Percentage of households with SHARED connections to sewer system	percentage_shared_connections_to_sewer	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): number of SHARED toilets with sewer connections/total number of households"}	\N	\N	\N	\N	\N	\N	\N
-1710734211303	8	Number of households using individual septic tank systems	households_septic_tanks_individual	4	f	t	{"min": 0, "allowDecimal": false}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): number of individual (NON-SHARED) toilets using septic tanks"}	\N	\N	\N	\N	\N	\N	\N
-1710734228673	9	Population using individual septic tank systems	population_septic_tanks_individual	4	f	t	{"min": 0}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): population in households using individual (NON-SHARED) septic tanks"}	\N	\N	\N	\N	\N	\N	\N
-1710734258591	10	Percentage of households using individual septic tanks	percentage_households_septic	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): number of individual (NON-SHARED) toilets with septic tanks/total number of households"}	\N	\N	\N	\N	\N	\N	\N
-1710734281508	11	Percentage of population using individual septic tanks	percentage_population_septic	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): population using individual (NON-SHARED) septic tanks/total population"}	\N	\N	\N	\N	\N	\N	\N
-1710734359888	12	Number of households with SHARED use of septic tank systems	households_septic_shared	4	f	t	\N	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): number of SHARED toilets using septic tanks"}	\N	\N	\N	\N	\N	\N	\N
 1710734377493	13	Percentage of households using SHARED septic tanks	percentage_households_shared_septic	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): number of SHARED toilets with septic tanks/total number of households"}	\N	\N	\N	\N	\N	\N	\N
 1710734393784	14	Number of households using individual pit latrines with slab	households_pit_latrines_individual	4	f	t	{"min": 0, "allowDecimal": false}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): number of individual (NON-SHARED) pit latrines with slab (single pit)"}	\N	\N	\N	\N	\N	\N	\N
 1710734407728	15	Percentage of households using individual pit latrines with slab (number/total)	num_total_individual_pit_slab	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783596	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
@@ -18960,6 +18943,10 @@ COPY public.question (id, "order", label, name, type, meta, required, rule, depe
 1710734506096	19	Percentage of households using individual VIP latrines (number/total)	num_total_vip_latrines	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783596	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
 1710734522860	20	Number of households using SHARED pit latrines with SATO pans	households_pit_latrines_shared	4	f	t	{"min": 0}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): number of individual (NON-SHARED) SATO pan latrines"}	\N	\N	\N	\N	\N	\N	\N
 1710734566230	21	Percentage of households using SHARED pit latrines with SATO pans (number/total)	num_total_sato_pans	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783596	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+1706102678348	4	Availability of menstrual hygiene materials at the school	availability_menstrual_hygiene_materials_school	5	f	f	\N	\N	1701757876668	1706088324273	\N	\N	\N	{"text": "<b>INTERVIEW: are menstrual hygiene materials available at the school?</b></br>\\n<b>Menstrual hygiene materials and products: </b>disposable and reusable sanitary pads, tampons, and resuable menstrual cups, clean piece of cotton cloth or cotton wool, that are safe and hygienic, and absorb or collect blood during menstrual periods.</br>\\n<b>Available: </b>menstrual hygiene materials are currently available at the school (via free distribution or for purchase).\\n"}	\N	\N	\N	\N	\N	\N	\N
+1706102843878	5	Disposal facilities for menstrual hygiene wastes	disposal_facilities_menstrual_hygiene_wastes	5	f	f	\N	\N	1701757876668	1706088324273	\N	\N	\N	{"text": "<b>OBSERVE: are covered bins available for disposal of menstrual hygiene wastes?</b>"}	\N	\N	\N	\N	\N	\N	\N
+1706102974110	6	Disposal system for menstrual hygiene wastes	disposal_system_menstrual_hygiene_wastes	5	f	f	\N	\N	1701757876668	1706088324273	\N	\N	\N	{"text": "<b>OBSERVE: how are menstrual hygiene wastes (in covered bins) collected and disposed?</b>"}	\N	\N	\N	\N	\N	\N	\N
+1706103220972	7	Menstrual hygiene education	menstrual_hygiene_education	5	f	f	\N	\N	1701757876668	1706088324273	\N	\N	\N	{"text": "INTERVIEW: is menstrual hygiene management education available at the school?</br>\\n"}	\N	\N	\N	\N	\N	\N	\N
 1710734763588	27	Percentage of households using individual toilets with open containers (number/total)	num_total_open_containers	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783596	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
 1710734792700	28	Number of households using SHARED container-based toilets	households_toilets_container_shared	4	f	t	{"min": 0}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): number of SHARED toilets  with removable closed containers"}	\N	\N	\N	\N	\N	\N	\N
 1710734816892	29	Percentage of households using SHARED container-based toilets (number/total)	num_total_shared_container_based	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783596	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
@@ -18981,6 +18968,19 @@ COPY public.question (id, "order", label, name, type, meta, required, rule, depe
 1710735768846	4	Percentage of population with safely managed emptying of SHARED toilet wastes	percentage_safely_managed_emptying_shared_toilet	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783636	\N	\N	\N	{"text": "Population using toilets with on-site containment (SHARED only) with safely managed EMPTYING of faecal sludge and wastewater by licensed service providers/ total population"}	\N	\N	\N	\N	\N	\N	\N
 1710735787447	5	Percentage of population with safely managed transport of toilet wastes	percentage_safely_managed_transport	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783636	\N	\N	\N	{"text": "Population using toilets with on-site containment (individual + SHARED) with safely managed TRANSPORT of faecal sludge and wastewater by licensed service providers/ total population"}	\N	\N	\N	\N	\N	\N	\N
 1710735840233	6	Percentage of population with safely managed transport of SHARED toilet wastes	percentage_safely_managed_transport_shared_toilet	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783636	\N	\N	\N	{"text": "Population using toilets with on-site containment (SHARED only) with safely managed TRANSPORT of faecal sludge and wastewater by licensed service providers/ total population"}	\N	\N	\N	\N	\N	\N	\N
+1710689683442	1	County	County	2	t	t	\N	\N	1709689683440	1709689683441	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+1709689683442	1	Does the law recognise sanitation as a human right?	law_recog_sanitation_right	5	f	f	\N	\N	1709689683440	1709689683442	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+1714374520	3	Are regulations, standards or guidelines in place for: Minimum requirements for containment and on-site treatment	minimum_requirements_containment_and_onsite_treatment	5	f	f	\N	\N	1709689683440	1709689683442	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+1714374534	4	Are regulations, standards or guidelines in place for: Minimum requirements for emptying and conveyance (sewer networks)	minimum_requirements_emptying_conveyance_sewer_networks	5	f	f	\N	\N	1709689683440	1709689683442	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+1714374554	5	Are regulations, standards or guidelines in place for: Minimum requirements for emptying and conveyance (licensing of service providers)	minimum_requirements_emptying_conveyance_licensing_service_providers	5	f	f	\N	\N	1709689683440	1709689683442	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+1714374568	6	Are regulations, standards or guidelines in place for: Faecal sludge or wastewater treatment	faecal_sludge_wastewater_treatment	5	f	f	\N	\N	1709689683440	1709689683442	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+1714374583	7	Are regulations, standards or guidelines in place for: Safe use of treated wastewater and/or sludge	safe_use_treated_wastewater_sludge	5	f	f	\N	\N	1709689683440	1709689683442	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+1714374596	8	Are regulations, standards or guidelines in place for: Safety of sanitation workers?	safety_sanitation_workers	5	f	f	\N	\N	1709689683440	1709689683442	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+1709698055520	9	Sanitation safety plans used for local-level risk management	sanitation_safety_plans	5	f	f	\N	\N	1709689683440	1709689683442	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+1709698095513	10	Climate resilience considered in sanitation policies and plans	climate_resilience_sanitation	5	f	f	\N	\N	1709689683440	1709689683442	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+1709698133970	11	Measures to reach vulnerable populations in county policies and plans	measures_reach_vulnerable_populations	5	f	f	\N	\N	1709689683440	1709689683442	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+1709698458281	2	Inclusion of institutional WASH services in the costed roadmap	institutional_wash_services	5	f	t	\N	[{"id": 1709698185027, "options": ["yes"]}]	1709689683440	1709698185026	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+1709698500881	3	Adequate funding to implement the COUNTY roadmap	adequate_funding_county_roadmap	5	f	t	\N	[{"id": 1709698185027, "options": ["yes"]}]	1709689683440	1709698185026	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
 1710736068806	8	Percentage of population with safely managed treatment of SHARED toilet wastes	percentage_safely_managed_treatment_shared_toilet	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783636	\N	\N	\N	{"text": "Population using toilets with on-site containment (SHARED only) with safely managed TREATMENT of faecal sludge and wastewater by licensed service providers/ total population"}	\N	\N	\N	\N	\N	\N	\N
 1710736087958	9	Percentage of population with safely managed disposal of toilet wastes	percentage_safely_managed_disposal	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783636	\N	\N	\N	{"text": "Population using toilets with on-site containment (individual + SHARED) with safely managed DISPOSAL of faecal sludge and wastewater by licensed service providers/ total population"}	\N	\N	\N	\N	\N	\N	\N
 1710736110759	10	Percentage of population with safely managed disposal of SHARED toilet wastes	percentage_safely_managed_disposal_shared_toilet	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783636	\N	\N	\N	{"text": "Population using toilets with on-site containment (SHARED only) with safely managed DISPOSAL of faecal sludge and wastewater by licensed service providers/ total population"}	\N	\N	\N	\N	\N	\N	\N
@@ -19003,20 +19003,6 @@ COPY public.question (id, "order", label, name, type, meta, required, rule, depe
 569090301	10	Number of Latrines at Verification Date	latrines_verification	4	f	f	\N	\N	974754029	9747540293	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
 583770042	11	Latrine Type of Most Latrines at Verification Date	latrine_type	5	f	t	\N	\N	974754029	9747540293	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
 557700349	12	Open Defecation Status	odf_status	5	f	f	\N	\N	974754029	9747540293	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-1710689683442	1	County	County	2	t	t	\N	\N	1709689683440	1709689683441	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-1709689683442	1	Does the law recognise sanitation as a human right?	law_recog_sanitation_right	5	f	f	\N	\N	1709689683440	1709689683442	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-1714374463	2	Are regulations, standards or guidelines in place for: Minimum requirements for toilets (e.g. planning or building regulations)	minimum_requirements_toilets	5	f	f	\N	\N	1709689683440	1709689683442	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-1714374520	3	Are regulations, standards or guidelines in place for: Minimum requirements for containment and on-site treatment	minimum_requirements_containment_and_onsite_treatment	5	f	f	\N	\N	1709689683440	1709689683442	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-1714374534	4	Are regulations, standards or guidelines in place for: Minimum requirements for emptying and conveyance (sewer networks)	minimum_requirements_emptying_conveyance_sewer_networks	5	f	f	\N	\N	1709689683440	1709689683442	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-1714374554	5	Are regulations, standards or guidelines in place for: Minimum requirements for emptying and conveyance (licensing of service providers)	minimum_requirements_emptying_conveyance_licensing_service_providers	5	f	f	\N	\N	1709689683440	1709689683442	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-1714374568	6	Are regulations, standards or guidelines in place for: Faecal sludge or wastewater treatment	faecal_sludge_wastewater_treatment	5	f	f	\N	\N	1709689683440	1709689683442	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-1714374583	7	Are regulations, standards or guidelines in place for: Safe use of treated wastewater and/or sludge	safe_use_treated_wastewater_sludge	5	f	f	\N	\N	1709689683440	1709689683442	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-1714374596	8	Are regulations, standards or guidelines in place for: Safety of sanitation workers?	safety_sanitation_workers	5	f	f	\N	\N	1709689683440	1709689683442	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-1709698055520	9	Sanitation safety plans used for local-level risk management	sanitation_safety_plans	5	f	f	\N	\N	1709689683440	1709689683442	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-1709698095513	10	Climate resilience considered in sanitation policies and plans	climate_resilience_sanitation	5	f	f	\N	\N	1709689683440	1709689683442	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-1709698133970	11	Measures to reach vulnerable populations in county policies and plans	measures_reach_vulnerable_populations	5	f	f	\N	\N	1709689683440	1709689683442	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-1709698458281	2	Inclusion of institutional WASH services in the costed roadmap	institutional_wash_services	5	f	t	\N	[{"id": 1709698185027, "options": ["yes"]}]	1709689683440	1709698185026	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-1709698500881	3	Adequate funding to implement the COUNTY roadmap	adequate_funding_county_roadmap	5	f	t	\N	[{"id": 1709698185027, "options": ["yes"]}]	1709689683440	1709698185026	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
 1709698602546	4	Sufficient human resources to implement the COUNTY roadmap	sufficient_human_resources_county_roadmap	5	f	t	\N	[{"id": 1709698185027, "options": ["yes"]}]	1709689683440	1709698185026	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
 1709698674760	1	What is the annual budget REQUIRED for sanitation and hygiene (KES amount from costed roadmap)?	budget_required_sanitation_hygiene	4	f	t	{"min": 0}	\N	1709689683440	1709698674762	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
 1709698674764	2	Budget ALLOCATED to sanitation and hygiene in last financial year (KES amount)?	budget_allocation_sanitation_hygiene	4	f	t	{"min": 0, "allowDecimal": true}	\N	1709689683440	1709698674762	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
@@ -19088,6 +19074,7 @@ COPY public.question (id, "order", label, name, type, meta, required, rule, depe
 1699424375968	9	 🔵 G1-1.3c : Is toilet flyproof?	flyproof_toilet	5	f	t	\N	[{"id": 1699428072669, "options": ["g0_do_not_use_toilet_practice_od", "g1_use_own_toilet", "g1_use_other_hh_toilet"]}]	1699353915355	1699422286090	\N	\N	\N	{"text": "<b>Flyproof:</b> toilet design prevents flies from reaching the excreta in the pit (or tank/other) <b>VIP vent pipe with insect screen:</b> the top of the vent pipe should be covered with insect screen to prevent insect entry into the pit or tank.</br> <b>Examples:</b> Pour-flush pit latrine with functional water seal pan. 2. VIP latrine with screened vent pipe. 3. Dry pit latrine with tight-fitting cover on the squate hole."}	{"reg_or_update": {"new": ["g0_no_toilet"]}}	\N	\N	\N	\N	\N	\N
 1699425852809	10	🔵 G1-1.4a : Clean toilet floor and pan	clean_toilet_pandrophole	5	f	t	\N	[{"id": 1699428072669, "options": ["g0_do_not_use_toilet_practice_od", "g1_use_own_toilet", "g1_use_other_hh_toilet"]}]	1699353915355	1699422286090	\N	\N	\N	{"text": "<b>OBSERVE:</b> are the toilet floor and plan clean? <b>Clean:</b> floor and pan of the toilet should appear clean, with no visible faeces, urine or used cleaning materials (for example, toilet paper or other paper, leaves or other anal cleansing materials). <b>Easily cleaned:</b> minor traces of faeces or soiled materials are acceptable only if easily cleaned (for example, if a child forgot to flush the toilet; or if the traces are not yet dry and difficult to clean)."}	{"reg_or_update": {"new": ["g0_no_toilet"]}}	\N	\N	\N	\N	\N	\N
 1702283955461	8	G2-1.4 Outcome result - Toilet with safe containment	o_r_toilet_with_safe_containment	10	f	f	\N	\N	1699353915355	1710748304	\N	\N	{"fnColor": {"G0 Unsafe toilet containment": "#FD3F31", "G2 Toilet with safe containment": "#93D371"}, "fnString": "#observe_safely_managed_containment#.includes(\\"g2\\") && #visible_surface_outflows#.includes(\\"g2\\") && #community_low_groundwater_contamination#.includes(\\"g2\\") ? \\"G2 Toilet with safe containment\\" : \\"G0 Unsafe toilet containment\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
+1699427405024	12	🔵 G2-1.2 : Durable toilet slab	durable_toilet_slab	5	f	t	\N	[{"id": 1699428072669, "options": ["g0_do_not_use_toilet_practice_od", "g1_use_own_toilet", "g1_use_other_hh_toilet"]}]	1699353915355	1699422286090	\N	\N	\N	{"text": "<b>OBSERVE: is the toilet slab made from durable materials?</b><br/><b>Durable toilet slab:</b> the range of materials considered durable will depend on local contexts. The County Public Health Office should approve the use of resilient local materials that will not degrade rapidly under local conditions, and which provide similar lifespans, functionality and cleanliness to toilet slabs made from durable materials.<br/><b>Examples:</b> 1. Concrete toilet slab; 2. Concrete toilet slab covered with ceramic tiles; 3. Structural plastic slab. 4. Durable hardwood floor covered with cement."}	{"reg_or_update": {"new": ["g0_no_toilet"]}}	\N	\N	\N	\N	\N	\N
 1699427743413	13	🔵 G2-1.4a : Excreta contained in pit (or tank)	observe_safely_managed_containment	5	f	t	\N	[{"id": 1699428072669, "options": ["g0_do_not_use_toilet_practice_od", "g1_use_own_toilet", "g1_use_other_hh_toilet"]}]	1699353915355	1699422286090	\N	\N	\N	{"text": "<b>OBSERVE: any evidence of surface outflows from the containment system (for example, visible outflows or leaks; increased vegetation growth around the pit; visible deposits from previous outflows)</b><br/><b>Surface outflows from containment:</b> EITHER continuous outflows of faecal sludge or wastewater from overflow pipes, holes or leaks; OR evidence of previous surface outflows (for example, increased vegetation growth around the containment system, or visible sludge deposits from overflows or leaks).<br/><b>Examples of surface outflows:</b> 1. Septic tank with overflow pipe to the surface (open space, open drain, water body); 2. Latrine pit with signs of wastewater or sludge overflow or leakage."}	{"reg_or_update": {"new": ["g0_no_toilet_or_no_containment_or_collection_system"]}}	\N	\N	\N	\N	\N	\N
 1702282796765	14	G2-1C COMMUNITY LEVEL ASSESSMENT: Low risk of groundwater contamination	community_low_groundwater_contamination	5	f	t	\N	\N	1699353915355	1699422286090	\N	\N	\N	{"text": "<b>Community level assessment of groundwater contamination risk:</b> the risk should be assessed by the PHO in every community, based on the information collected in the Community Form. <br/>The PHO should inform all public health staff working in the community whether there is a <b>High Risk</b> or a <b>Low Risk</b> of groundwater contamination from sanitation in this particular community. <br/>This risk assessment should then be selected for every household in that community. If the risk assessment has not been completed, or is not known, select High Risk"}	{"reg_or_update": {"new": ["g0_high_risk_of_groundwater_contamination"]}}	\N	\N	\N	\N	\N	\N
 1701810579091	1	G1-1.1 Outcome result - Functional toilet with privacy	o_r_functional_toilet_with_privacy	10	f	f	\N	\N	1699353915355	1710748304	\N	\N	{"fnColor": {"G1 Functional toilet with privacy": "#FDC74B", "G0 Toilet non-functional or not private": "#FD3F31"}, "fnString": "#od_or_toilet_use#.includes(\\"g1\\") && #hh_toilet_observed#.includes(\\"g1\\") && #functional_toilet#.includes(\\"g1\\") && #toilet_privacy#.includes(\\"g1\\")? \\"G1 Functional toilet with privacy\\" : \\"G0 Toilet non-functional or not private\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
@@ -19097,14 +19084,13 @@ COPY public.question (id, "order", label, name, type, meta, required, rule, depe
 1711434672	5	G1-1.1 Outcome result - Use of flyproof and clean toilet	o_r_flyproof_and_clean_toilet	10	f	t	\N	\N	1699353915355	1710748304	\N	\N	{"fnColor": {"G0 Toilet NOT flyproof and clean": "#FD3F31", "G1 Use of flyproof and clean toilet": "#FDC74B"}, "fnString": "((#od_or_toilet_use#.includes(\\"g0\\") || #od_or_toilet_use#.includes(\\"g1\\")) && #toilet_interface#.includes(\\"g1\\") && #containment_or_collection_system#.includes(\\"g1\\") && #flyproof_toilet#.includes(\\"g1\\") && #clean_toilet_pandrophole#.includes(\\"g1\\") && #clean_toilet_walls#.includes(\\"g1\\")) ? \\"G1 Use of flyproof and clean toilet\\" : \\"G0 Toilet NOT flyproof and clean\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
 1702285101196	6	G2-1.1 Outcome result - Individual use of own household toilet	o_r_individual_use_of_own_hh_toilet	10	f	f	\N	\N	1699353915355	1710748304	\N	\N	{"fnColor": {"G0 All household members defecate in the open": "#FD3F31", "G1 Some household members do not use their own toilet": "#FDC74B"}, "fnString": "((#od_or_toilet_use#.includes(\\"g0\\") || #od_or_toilet_use#.includes(\\"g1\\")) && #all_hh_members_use_toilet#.includes(\\"g0\\")) ? \\"G0 All household members defecate in the open\\" : \\"G1 Some household members do not use their own toilet\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
 1702283171680	7	G2-1.2 Outcome result - Durable toilet slab	o_r_durable_toilet	10	f	f	\N	\N	1699353915355	1710748304	\N	\N	{"fnColor": {"G2 Durable toilet": "#93D371", "G0 Toilet NOT durable": "#FD3F31"}, "fnString": "((#od_or_toilet_use#.includes(\\"g0\\") || #od_or_toilet_use#.includes(\\"g1\\")) && #durable_toilet_slab#.includes(\\"g2\\") && #durable_toilet_containment_collection_system#.includes(\\"g2\\")) ? \\"G2 Durable toilet\\" : \\"G0 Toilet NOT durable\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
-1702303499563	2	Outcome result - No exposed human excreta	outcome_no_exposed_excreta	10	f	t	\N	\N	1699354006503	1699959649781	\N	\N	{"fnColor": {"G1 No exposed human excreta in compound": "#FDC74B", "G0 Child or adult excreta observed in compound": "#FD3F31"}, "fnString": "#no_exposed_excreta_communal_areas#.includes(\\"g1\\") ? \\"G1 No exposed human excreta in compound\\" : \\"G0 Child or adult excreta observed in compound\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
+1710734281508	11	Percentage of population using individual septic tanks	percentage_population_septic	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): population using individual (NON-SHARED) septic tanks/total population"}	\N	\N	\N	\N	\N	\N	\N
 1702285668136	10	G3-1.1 Outcome result - Safe management of faecal sludge	o_r_use_of_safely_managed_sanitation_services	10	f	f	\N	\N	1699353915355	1710748304	\N	\N	{"fnColor": {"G1 Inadequate sanitation services": "#FDC74B", "G0 Sanitation services UNSAFELY managed": "#FD3F31", "G3 Use of safely managed sanitation services": "#4088F4"}, "fnString": "((#od_or_toilet_use#.includes(\\"g0\\") || #od_or_toilet_use#.includes(\\"g1\\")) && #safely_managed_onsite_containment#.includes(\\"g3\\") && #safely_managed_sanitation_services#.includes(\\"g3\\")) ? \\"G3 Use of safely managed sanitation services\\" : #safely_managed_onsite_containment#.includes(\\"g0\\") && #safely_managed_sanitation_services#.includes(\\"g0\\") ? \\"G0 Sanitation services UNSAFELY managed\\" : \\"G1 Inadequate sanitation services\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
 1699429162796	1	🔵 🟢 G1-2.1a : presence of handwashing facility	handwashing_facility_observed	5	f	t	\N	\N	1699353915355	1699429162795	\N	\N	\N	{"text": "<b>OBSERVE: presence and location of handwashing facility</b><br/><b>INTERVIEW:</b> where do you and other members of your household most often wash your hands?<br/><b>INTERVIEW:</b> is there only one handwashing facility, or are other facilities available?"}	\N	\N	\N	\N	\N	\N	\N
 1710840898	2	HANDWASHING PHOTO 01: view of entire facility (water container/tap, soap)	photo_01_entire_facility	8	f	t	\N	[{"id": 1699429162796, "options": ["g1_handwashing_facility_by_toilet", "g1_handwashing_facility_in_kitchen", "g1_portable_handwashing_facility_basin_jug_jerrycan_container", "g1_two_handwashing_facilities", "g1_more_than_two_handwashing_facilities"]}]	1699353915355	1699429162795	\N	\N	\N	{"text": "<b>PHOTO:</b> of handwashing facility nearest to toilet"}	\N	\N	\N	PHOTO: of handwashing facility nearest to toilet	\N	\N	\N
 1710753585	3	🔵 G1-2.1b : Functional handwashing facility	functional_hwf	5	f	t	\N	\N	1699353915355	1699429162795	\N	\N	\N	{"text": "<b>OBSERVE:</b> is the handwashing facility functional? <b>Functional handwashing facility:</b> the facility is functioning as intended, and all handwashing features can be used (not blocked, abandoned or unable to work).<br/> <b>Partly functional handwashing facility:</b> the facility is functioning, but some features of the facility are not working as intended."}	{"reg_or_update": {"new": ["g0_no_handwashing_facility"]}}	\N	\N	\N	\N	\N	\N
 1699430427692	4	 🔵 G1-2.2 : Water available at handwashing facility	water_available_at_hwf	5	f	t	\N	[{"id": 1699429162796, "options": ["g1_handwashing_facility_by_toilet", "g1_handwashing_facility_in_kitchen", "g1_portable_handwashing_facility_basin_jug_jerrycan_container", "g1_two_handwashing_facilities", "g1_more_than_two_handwashing_facilities"]}]	1699353915355	1699429162795	\N	\N	\N	{"text": "<b>OBSERVE:</b> is water available at the handwashing facility? <b>INTERVIEW:</b> is water always available for washing hands (even in dry season)? <b>Evidence of washing:</b> where an empty water container is observed at the handwashing facility, visible wet ground (or wet materials) under the handwashing facility can be accepted as proof of the recent presence of water."}	{"reg_or_update": {"new": ["g0_no_handwashing_facility"]}}	\N	\N	\N	\N	\N	\N
 1699430472221	5	 🔵 G1-2.3 : Soap available at handwashing facility	soap_available_at_hwf	5	f	t	\N	[{"id": 1699429162796, "options": ["g1_handwashing_facility_by_toilet", "g1_handwashing_facility_in_kitchen", "g1_portable_handwashing_facility_basin_jug_jerrycan_container", "g1_two_handwashing_facilities", "g1_more_than_two_handwashing_facilities"]}]	1699353915355	1699429162795	\N	\N	\N	{"text": "<b>OBSERVE: is soap available at the handwashing facility?</b><br/><b>INTERVIEW:</b> is soap or detergent available in your household for washing hands? <br/><b>Soap:</b> solid, liquid or powder soap or detergent "}	{"reg_or_update": {"new": ["g0_no_handwashing_facility"]}}	\N	\N	\N	\N	\N	\N
-1699430580239	6	 🔵 G3-2.1 : Handwashing facility type	handwashing_facility_type	5	f	t	\N	[{"id": 1699429162796, "options": ["g1_handwashing_facility_by_toilet", "g1_handwashing_facility_in_kitchen", "g1_portable_handwashing_facility_basin_jug_jerrycan_container", "g1_two_handwashing_facilities", "g1_more_than_two_handwashing_facilities"]}]	1699353915355	1699429162795	\N	\N	\N	{"text": "<b>OBSERVE:</b> what type of handwashing facility is used? <b>Permanent handwashing station:</b> facility made from durable materials, with piped water connection or adequate water storage, and located in a fixed place that is appropriate for handwashing at critical times. <br/>Temporary handwashing facility: tippy tap or other facility made from non-durable materials.<br/> <b>Portable bowl:</b> open container that can be picked up and moved."}	{"reg_or_update": {"new": ["g0_no_handwashing_facility"]}}	\N	\N	\N	\N	\N	\N
 1699430671868	7	 🔵 G3-2.2 : Hands-free handwashing facility	handsfree_operation_of_handwashing_facility	5	f	t	\N	[{"id": 1699429162796, "options": ["g1_handwashing_facility_by_toilet", "g1_handwashing_facility_in_kitchen", "g1_portable_handwashing_facility_basin_jug_jerrycan_container", "g1_two_handwashing_facilities", "g1_more_than_two_handwashing_facilities"]}]	1699353915355	1699429162795	\N	\N	\N	{"text": "<b>OBSERVE: mechanism to collect water or trigger water flow </b><br/><b>Hands-free operation:</b> the handwashing station is operated by tap, or other hands-free mechanism that minimises contact with the water collection device and the water container"}	{"reg_or_update": {"new": ["g0_hands_enter_the_water_container_during_collection_and_use"]}}	\N	\N	\N	\N	\N	\N
 1699432663952	1	🔵 G1-3.1 : No exposed human excreta in compound	no_exposed_human_excreta_in_compound	5	f	t	\N	\N	1699353915355	1699432130950	\N	\N	\N	{"text": "<b>OBSERVE: any visible human faeces (OD) in the compound, house, toilet or in any other household buildings or facilities.</b><br/><b>Open defecation in water bodies:</b> where groups or communities may practice open defecation in nearby water bodies (for example, people living near beaches, lakes and rivers), human excreta may not be visible in and around household compounds or communal areas. In these cases, household interviews should be undertaken to assess whether people practice open defecation or use a toilet, in combination of observation of the presence of a functional toilet (to verify claims of toilet use)."}	{"reg_or_update": {"new": ["g0_child_or_adult_excreta_observed_in_the_compound"]}}	\N	\N	\N	\N	\N	\N
 1699430839676	9	🟢 G2-2.1 : When do you usually wash your hands? Note critical TOILET times	handwashing_critical_toilet_times	5	f	t	\N	[{"id": 1699429162796, "options": ["g1_handwashing_facility_by_toilet", "g1_handwashing_facility_in_kitchen", "g1_portable_handwashing_facility_basin_jug_jerrycan_container", "g1_two_handwashing_facilities", "g1_more_than_two_handwashing_facilities"]}]	1699353915355	1699429162795	\N	\N	\N	{"text": "<b>INTERVIEW: when do you usually wash your hands?</b><br/><b>INTERVIEW:</b> what do you usually use to wash your hands?<br/><b>Critical TOILET times:</b> washing of hands with soap and water AFTER toilet use and AFTER anal cleansing.<br/><b>NOTE:</b> households should mention critical handwashing times without being prompted by the monitor"}	{"reg_or_update": {"new": ["g0_no_handwashing_facility"]}}	\N	\N	\N	\N	\N	\N
@@ -19123,16 +19109,16 @@ COPY public.question (id, "order", label, name, type, meta, required, rule, depe
 1699433205793	6	🔵 G2-3.2c : Raised utensil storage	raised_utensil_storage	5	f	t	\N	[{"id": 16994260598422, "options": ["yes"]}]	1699353915355	1711022444	\N	\N	\N	{"text": "<b>OBSERVE: raised storage of kitchen utensils</b><b>Raised kitchen utensil storage:</b> kitchen utensils should be stored off the ground, inside the house (or kitchen), and protected from animal contact in raised storage (for example, cupboards, shelves, boxes and containers)"}	{"monitor_G2": {"yes": ["g0_on_ground"]}}	\N	\N	\N	\N	\N	\N
 1699433286697	7	🔵 G2-3.3a : Clean milk containers	clean_milk_containers	5	f	t	\N	[{"id": 16994260598422, "options": ["yes"]}, {"id": 1710829091, "options": ["yes_animals_kept_in_household_compound"]}]	1699353915355	1711022444	\N	\N	\N	{"text": "<b>OBSERVE: cleanliness of empty milk containers</b><br/><b>Clean milk containers:</b> the containers used to collect and store milk should be thoroughly washed before each milking, so that they are free of dirt and other contamination"}	{"animals_kept_in_household_compund": {"no_animals_kept_in_household_compound": ["g2_no_animals_no_milking"]}}	\N	\N	\N	\N	\N	\N
 1699433337417	8	🔵 G2-3.3b : Covered milk container storage	covered_container_storage	5	f	t	\N	[{"id": 16994260598422, "options": ["yes"]}, {"id": 1710829091, "options": ["yes_animals_kept_in_household_compound"]}]	1699353915355	1711022444	\N	\N	\N	{"text": "<b>OBSERVE: covered storage of empty milk containers</b><br/><b>Covered milk container storage:</b> empty milk containers should be stored in covered storage (for example, cupboards, shelves, boxes and containers) inside the house (or kitchen), and protected from animal contact"}	{"animals_kept_in_household_compund": {"no_animals_kept_in_household_compound": ["g2_no_animals_no_milking"]}}	\N	\N	\N	\N	\N	\N
-16994236967201	9	Toilet interface	toilet_interface	5	f	t	\N	\N	16993539153551	16994222860901	\N	\N	\N	{"text": "OBSERVE: type of toilet interface\\nToilet interface: part of the toilet through which the excreta pass into the containment system\\nExamples: 1. Drophole, 2. Pour-flush pan, 3. SATO pan."}	{"new_or_monitoring": {"new": ["g0_no_toilet"]}}	\N	\N	\N	\N	\N	\N
+1699951887044	4	Implementation partners working in community	implementing_partners	7	f	t	\N	\N	1699354006503	1699951538607	{"list": "children", "endpoint": "/api/v1/organisation/options/", "query_params": "?attribute=2"}	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+1710734359888	12	Number of households with SHARED use of septic tank systems	households_septic_shared	4	f	t	\N	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): number of SHARED toilets using septic tanks"}	\N	\N	\N	\N	\N	\N	\N
 1699433455365	1	🔵 G2-4.1a : Clean water containers	clean_water_containers	5	f	t	\N	[{"id": 16994260598422, "options": ["yes"]}]	1699353915355	1711022464	\N	\N	\N	{"text": "<b>OBSERVE: cleanliness of empty water containers</b><br/><b>Clean water containers:</b> the containers used to collect water should be thoroughly washed before each water collection, so that they are free of dirt and other contamination"}	{"monitor_G2": {"yes": ["g0_visible_dirt_or_contamination"]}}	\N	\N	\N	\N	\N	\N
-1699433503692	2	🟢 G2-4.1b : Good water quality	adequate_water_quality	5	f	t	\N	[{"id": 16994260598422, "options": ["yes"]}]	1699353915355	1711022464	\N	\N	\N	{"text": "<b>OBSERVE: quality of drinking water</b><br/><b>INTERVIEW:</b> is the water supplied by your main source usually of acceptable quality?<br/><b>INTERVIEW:</b> what do you usually do to the water to make it safe to drink? [Options: boil, add chlorine, strain through cloth, use water filter, solar disinfection, settlement, other, NOT required]<br/><b>Adequate quality at collection point:</b> water is collected from protected groundwater sources (for example, covered wells, protected boreholes, or protected water points); OR is treated surface water (e.g. treated by use of chlorine dispensers)<br/><b>Household water treatment:</b> water is settled, filtered, boiled, solar disinfected, or chemically treated (for example, by use of chlorine solution or tablets) by the household"}	{"monitor_G2": {"yes": ["g0_no_treatment_and_low_quality"]}}	\N	\N	\N	\N	\N	\N
 1699433564057	3	🔵 G2-4.1c : Safely stored drinking water	safely_stored_drinking_water	5	f	t	\N	[{"id": 16994260598422, "options": ["yes"]}]	1699353915355	1711022464	\N	\N	\N	{"text": "<b>OBSERVE: safe storage of drinking water</b><br/><b>Safe drinking water storage:</b> drinking water is stored in clean, covered containers, separate from the water used for other purposes, and away from animals"}	{"monitor_G2": {"yes": ["g0_unsafe_drinking_water_storage"]}}	\N	\N	\N	\N	\N	\N
 1699433637971	4	🔵 G2-4.1d : Safely used water	safely_used_water	5	f	t	\N	[{"id": 16994260598422, "options": ["yes"]}]	1699353915355	1711022464	\N	\N	\N	{"text": "<b>OBSERVE: safe use of drinking water</b><br/><b>Safe drinking water use: </b>drinking water is collected and used from containers with spigots and taps, or from narrow-mouthed containers, or using a clean utensil that is only used for water collection"}	{"monitor_G2": {"yes": ["g0_unsafe_water_use"]}}	\N	\N	\N	\N	\N	\N
 1699433719018	5	🔵 G2-4.2a : Clean water point	clean_water_points	5	f	t	\N	[{"id": 16994260598422, "options": ["yes"]}]	1699353915355	1711022464	\N	\N	\N	{"text": "<b>OBSERVE: cleanliness of water points in compound</b><br/><b>Clean water points:</b> free from debris, solid waste, human or animal faeces, and any other potential sources of contamination"}	{"monitor_G2": {"yes": ["g0_visible_dirt_or_contamination"]}}	\N	\N	\N	\N	\N	\N
+1699433765217	6	🔵 G2-4.2b : Protected water point	protected_water_points	5	f	t	\N	[{"id": 16994260598422, "options": ["yes"]}]	1699353915355	1711022464	\N	\N	\N	{"text": "<b>OBSERVE: protection of water points in compound</b><br/><b>Protected surface water sources (pans, dams, lakes, rivers):</b> fenced to prevent animal access<br/><b>Protected water supply source catchments:</b> protected from wastes and pollutants, including human excreta and animal wastes (for example, by excluding animals and prohibiting unsafe activities, such as the use of manure or chemical fertilisers in areas around water supply sources).<br/><b>Protected water points:</b> provide separate water troughs for animal watering<br/><b>Protected groundwater sources (springs, wells, handpumps, boreholes):</b> protected from contamination, wastes and pollutants (for example, by the construction of a spring box, raised parapet wall and cover, wellhead protection and sealed borehole casing)."}	{"monitor_G2": {"yes": ["g0_no_protection_of_water_points"]}}	\N	\N	\N	\N	\N	\N
 1699433833227	7	🔵 G2-4.2c : Well drained water point	well_drained_water_points	5	f	t	\N	[{"id": 16994260598422, "options": ["yes"]}]	1699353915355	1711022464	\N	\N	\N	{"text": "<b>Good drainage of water points:</b> no standing water visible at or around the water source (provision of drainage and soakpits may be required in slow-draining soils)"}	{"monitor_G2": {"yes": ["g0_standing_water_visible_around_water_point"]}}	\N	\N	\N	\N	\N	\N
 1699433937138	1	🔵 G2-5.1a: No animal wastes in house	no_animal_wastes_in_house	5	f	t	\N	[{"id": 16994260598422, "options": ["yes"]}, {"id": 1710829091, "options": ["yes_animals_kept_in_household_compound"]}]	1699353915355	1711022479	\N	\N	\N	{"text": "<b>OBSERVE: presence of unsafely managed animal wastes inside house or kitchen</b><br/><b>Animal wastes:</b> include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices.<br/><b>Safely managed animal wastes:</b> the house and household compound should be free of animal wastes, except in areas where manure is properly stored and managed. Regular collection of animal wastes (for example, daily collection of animal faeces and other wastes) should be evident from observation of the house and household compound"}	{"animals_kept_in_household_compund": {"no_animals_kept_in_household_compound": ["g2_no_animals"]}}	\N	\N	\N	\N	\N	\N
 1699433983369	2	🔵 G2-5.1b : No animal wastes in compound	no_animal_wastes_in_compound	5	f	t	\N	[{"id": 16994260598422, "options": ["yes"]}, {"id": 1710829091, "options": ["yes_animals_kept_in_household_compound"]}]	1699353915355	1711022479	\N	\N	\N	{"text": "<b>Safely managed animal wastes: </b> the household compound should be free of animal wastes, except in areas where manure is properly stored and managed. Regular collection of animal wastes (for example, daily collection of animal faeces and other wastes) should be evident from observation of the household compound."}	{"animals_kept_in_household_compund": {"no_animals_kept_in_household_compound": ["g2_no_animals"]}}	\N	\N	\N	\N	\N	\N
-1699951887044	4	Implementation partners working in community	implementing_partners	7	f	t	\N	\N	1699354006503	1699951538607	{"list": "children", "endpoint": "/api/v1/organisation/options/", "query_params": "?attribute=2"}	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
 1699434136823	4	🔵 G2-5.2b : Safe location of animal waste storage	safe_location_of_animal_waste_storage	5	f	t	\N	[{"id": 16994260598422, "options": ["yes"]}, {"id": 1710829091, "options": ["yes_animals_kept_in_household_compound"]}]	1699353915355	1711022479	\N	\N	\N	{"text": "<b>OBSERVE: location of animal waste storage in the compound</b><br/><b>Animal wastes:</b> include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices.<br/>Animal waste storage: animal wastes should be collected and stored in an appropriate facility located away from the house, and away from child play areas."}	{"animals_kept_in_household_compund": {"no_animals_kept_in_household_compound": ["g2_no_animal_waste_storage"]}}	\N	\N	\N	\N	\N	\N
 1699434209933	5	🔵 G2-5.2c : Safe management of animal waste storage	safe_management_of_animal_waste_storage	5	f	t	\N	[{"id": 16994260598422, "options": ["yes"]}, {"id": 1710829091, "options": ["yes_animals_kept_in_household_compound"]}]	1699353915355	1711022479	\N	\N	\N	{"text": "<b>OBSERVE: leakage or discharge of solid or liquid animal wastes into the area around the animal waste storage facility</b><br/><b>Animal wastes:</b> include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices."}	{"animals_kept_in_household_compund": {"no_animals_kept_in_household_compound": ["g2_no_animal_waste_storage"]}}	\N	\N	\N	\N	\N	\N
 1699434269372	6	🔵 G2-5.3a : Location of animals in compound	location_animals_in_compound	5	f	t	\N	[{"id": 16994260598422, "options": ["yes"]}, {"id": 1710829091, "options": ["yes_animals_kept_in_household_compound"]}]	1699353915355	1711022479	\N	\N	\N	{"text": "<b>OBSERVE: location of animals and animal pens</b><br/><b>Location of animal pens: </b>facility to confine animals, which should be located away from the house and away from child play areas (in small compounds, animals should be penned as far away as possible from the house)"}	{"animals_kept_in_household_compund": {"no_animals_kept_in_household_compound": ["g2_no_animals"]}}	\N	\N	\N	\N	\N	\N
@@ -19160,24 +19146,26 @@ COPY public.question (id, "order", label, name, type, meta, required, rule, depe
 1702296110410	5	G2-3.3 Outcome result - Clean and safely stored milk containers	o_r_clean_and_safely_stored_milk_containers	10	f	f	\N	[{"id": 16994260598422, "options": ["yes"]}]	1699353915355	1710757443	\N	\N	{"fnColor": {"G2 Clean and safely stored milk containers": "#93D371", "G0 Milk containers not clean and not safely stored": "#FD3F31", "G1 Milk containers not adequately washed, or not safely stored": "#FDC74B"}, "fnString": "#monitor_G2#.includes(\\"yes\\") && #clean_milk_containers#.includes(\\"g0\\") && #covered_container_storage#.includes(\\"g0\\") && #raised_container_storage#.includes(\\"g0\\") ? \\"G0 Milk containers not clean and not safely stored\\" : #clean_milk_containers#.includes(\\"g2\\") && #covered_container_storage#.includes(\\"g2\\") && #raised_container_storage#.includes(\\"g2\\") ? \\"G2 Clean and safely stored milk containers\\" : \\"G1 Milk containers not adequately washed, or not safely stored\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
 1712643759	6	G2-3 Outcome result - Safe food hygiene (Household)	o_r_safe_food_hygiene	10	f	f	\N	[{"id": 16994260598422, "options": ["yes"]}]	1699353915355	1710757443	\N	\N	{"fnColor": {"G0": "#FD3F31", "G1": "#FDC74B", "G2": "#93D371"}, "fnString": "#o_r_clean_and_safely_stored_food#.includes(\\"G0\\") && #o_r_clean_and_safely_stored_kitchen_utensils#.includes(\\"G0\\") && #o_r_clean_and_safely_stored_milk_containers#.includes(\\"G0\\") ? \\"G0\\" : #o_r_clean_and_safely_stored_food#.includes(\\"G2\\") && #o_r_clean_and_safely_stored_milk_containers#.includes(\\"G2\\") && #o_r_clean_and_safely_stored_kitchen_utensils#.includes(\\"G2\\") ? \\"G2\\" : \\"G1\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
 1702296406679	7	G2-4.1 Outcome result - Safe management of drinking water	o_r_safe_management_of_drinking_water	10	f	f	\N	[{"id": 16994260598422, "options": ["yes"]}]	1699353915355	1710757443	\N	\N	{"fnColor": {"G2 Safe management of drinking water": "#93D371", "G0 Drinking water is UNSAFELY managed": "#FD3F31", "G1 Drinking water is NOT adequately managed": "#FDC74B"}, "fnString": "#clean_water_containers#.includes(\\"g0\\") && #adequate_water_quality#.includes(\\"g0\\") && #safely_stored_drinking_water#.includes(\\"g0\\") && #safely_used_water#.includes(\\"g0\\") ? \\"G0 Drinking water is UNSAFELY managed\\"  : #clean_water_containers#.includes(\\"g2\\") && #adequate_water_quality#.includes(\\"g2\\") && #safely_stored_drinking_water#.includes(\\"g2\\") && #safely_used_water#.includes(\\"g2\\") ? \\"G2 Safe management of drinking water\\" : \\"G1 Drinking water is NOT adequately managed\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
-1702297533085	11	G2-5.2 Outcome result - Safe management of animal wastes in compound	o_r_safe_management_of_animal_wastes_in_compound	10	f	f	\N	[{"id": 16994260598422, "options": ["yes"]}]	1699353915355	1710757443	\N	\N	{"fnColor": {"G2 Safely managed animal wastes": "#93D371", "G0 Animal wastes UNSAFELY managed": "#FD3F31", "G1 Inadequate management of animal wastes": "#FDC74B"}, "fnString": "#monitor_G2#.includes(\\"yes\\") && #safely_managed_animal_waste_storage#.includes(\\"g0\\") && #safe_location_of_animal_waste_storage#.includes(\\"g0\\") && #safe_management_of_animal_waste_storage#.includes(\\"g0\\") ? \\"G0 Animal wastes UNSAFELY managed\\" : #safely_managed_animal_waste_storage#.includes(\\"g2\\") && #safe_location_of_animal_waste_storage#.includes(\\"g2\\") && #safe_management_of_animal_waste_storage#.includes(\\"g2\\") ? \\"G2 Safely managed animal wastes\\" : \\"G1 Inadequate management of animal wastes\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
+1710734569226	22	Number of households using SHARED double vault toilets	households_toilets_shared_double	4	f	t	{"min": 0}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): number of individual (NON-SHARED) double vault toilets"}	\N	\N	\N	\N	\N	\N	\N
 1702297797962	12	G2-5.3 Outcome result - Safe separation of animals from under-5 children	o_r_safe_separation_of_animals_from_under5_children	10	f	f	\N	[{"id": 16994260598422, "options": ["yes"]}]	1699353915355	1710757443	\N	\N	{"fnColor": {"G0 Animals NOT separated from under-5 children": "#FD3F31", "G2 Safe separation of animals from under-5 children": "#93D371", "G1 Inadequate separation of animals from under-5 children": "#FDC74B"}, "fnString": "#monitor_G2#.includes(\\"yes\\") && #location_animals_in_compound#.includes(\\"g0\\") && #safe_confinement_of_animals#.includes(\\"g0\\") ? \\"G0 Animals NOT separated from under-5 children\\" : #location_animals_in_compound#.includes(\\"g2\\") && #safe_confinement_of_animals#.includes(\\"g2\\") ? \\"G2 Safe separation of animals from under-5 children\\" : \\"G1 Inadequate separation of animals from under-5 children\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
 1712644167	13	G2-5 Outcome result - Safe management of animals and animal wastes (Household)	o_r_safe_management_of_animals_wastes	10	f	f	\N	[{"id": 16994260598422, "options": ["yes"]}]	1699353915355	1710757443	\N	\N	{"fnColor": {"G0": "#FD3F31", "G1": "#FDC74B", "G2": "#93D371"}, "fnString": "#monitor_G2#.includes(\\"yes\\") && #o_r_no_visible_animal_wastes_in_house_or_compound#.includes(\\"G0\\") && #o_r_safe_separation_of_animals_from_under5_children#.includes(\\"G0\\") && #o_r_safe_management_of_animal_wastes_in_compound#.includes(\\"G0\\") ? \\"G0\\" : #o_r_no_visible_animal_wastes_in_house_or_compound#.includes(\\"G2\\") && #o_r_safe_separation_of_animals_from_under5_children#.includes(\\"G2\\") &&  #o_r_safe_management_of_animal_wastes_in_compound#.includes(\\"G2\\") ? \\"G2\\" : \\"G1\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
 1702298080560	14	G3-3.1 Outcome result - Safe management of liquid wastes	o_r_safe_management_of_liquid_wastes	10	f	f	\N	[{"id": 16994260598423, "options": ["yes"]}]	1699353915355	1710757443	\N	\N	{"fnColor": {"G0 Liquid wastes UNSAFELY managed": "#FD3F31", "G3 Safe management of liquid wastes": "#4088F4", "G2 Inadequate management of liquid wastes": "#93D371"}, "fnString": "#soakpit_for_liquid_wastes#.includes(\\"g0\\") && #drainage_for_stormwater#.includes(\\"g0\\") ? \\"G0 Liquid wastes UNSAFELY managed\\"  : #soakpit_for_liquid_wastes#.includes(\\"g3\\") && #drainage_for_stormwater#.includes(\\"g3\\") ? \\"G3 Safe management of liquid wastes\\" : \\"G2 Inadequate management of liquid wastes\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
 1702298318702	15	G3-3.2 Outcome result - Safe management of solid wastes	o_r_safe_management_of_solid_wastes	10	f	f	\N	[{"id": 16994260598423, "options": ["yes"]}]	1699353915355	1710757443	\N	\N	{"fnColor": {"G1 Solid wastes UNSAFELY managed": "#FDC74B", "G3 Safe management of solid wastes": "#4088F4", "G2 Inadequate management of solid wastes": "#93D371"}, "fnString": "#no_visible_solid_wastes#.includes(\\"g0\\") && #solid_waste_facility_or_service#.includes(\\"g0\\") ? \\"G1 Solid wastes UNSAFELY managed\\" : #no_visible_solid_wastes#.includes(\\"g3\\") && #solid_waste_facility_or_service#.includes(\\"g3\\") ? \\"G3 Safe management of solid wastes\\" : \\"G2 Inadequate management of solid wastes\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
 1702298602672	16	G3-3.3 Outcome result - Good vector control in compound	o_r_good_vector_control_in_compound	10	f	f	\N	[{"id": 16994260598423, "options": ["yes"]}]	1699353915355	1710757443	\N	\N	{"fnColor": {"G3 Good vector control": "#4088F4", "G1 Lack of vector control": "#FDC74B", "G2 Inadequate vector control": "#93D371"}, "fnString": "#good_vector_control#.includes(\\"g0\\") ? \\"G1 Lack of vector control\\" : #good_vector_control#.includes(\\"g3\\") ? \\"G3 Good vector control\\" : \\"G2 Inadequate vector control\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
 1712644350	17	G3-3 Outcome result - Safe waste management	o_r_safe_waste_management	10	f	f	\N	[{"id": 16994260598423, "options": ["yes"]}]	1699353915355	1710757443	\N	\N	{"fnColor": {"G1": "#FDC74B", "G2": "#93D371", "G3": "#4088F4"}, "fnString": "#o_r_safe_management_of_liquid_wastes#.includes(\\"G0\\") && #o_r_safe_management_of_solid_wastes#.includes(\\"G0\\") && #o_r_good_vector_control_in_compound#.includes(\\"G0\\") ? \\"G1\\" : #o_r_safe_management_of_liquid_wastes#.includes(\\"G3\\") && #o_r_safe_management_of_solid_wastes#.includes(\\"G3\\") && #o_r_good_vector_control_in_compound#.includes(\\"G3\\") ? \\"G3\\" : \\"G2\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
+1702298863458	16	G3-4.1 Outcome result - Clean face and hands	o_r_clean_face_and_hands	10	f	f	\N	[{"id": 16994260598423, "options": ["yes"]}]	1699353915355	1710757443	\N	\N	{"fnColor": {"G1 No personal hygiene": "#FDC74B", "G3 Good personal hygiene": "#4088F4", "G2 Inadequate personal hygiene": "#93D371"}, "fnString": "#monitor_G3#.includes(\\"yes\\") && #clean_faces#.includes(\\"g1\\") && #clean_hands#.includes(\\"g1\\") ? \\"G1 No personal hygiene\\" : #clean_faces#.includes(\\"g3\\") && #clean_hands#.includes(\\"g3\\") ? \\"G3 Good personal hygiene\\" : \\"G2 Inadequate personal hygiene\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
+1702301820095	17	G3-4.2 Outcome result - Good menstrual health	o_r_good_menstrual_health	10	f	f	\N	[{"id": 16994260598423, "options": ["yes"]}, {"id": 1712234331, "min": 1}]	1699353915355	1710757443	\N	\N	{"fnColor": {"G1 No menstrual hygiene": "#FDC74B", "G3 Good menstrual hygiene": "#4088F4", "G2 Inadequate menstrual hygiene": "#93D371"}, "fnString": "#adequate_washing_place#.includes(\\"g1\\") && #menstrual_hygiene_disposal_site#.includes(\\"g1\\") && #availability_of_hygiene_materials#.includes(\\"g1\\") ? \\"G1 No menstrual hygiene\\" : #adequate_washing_place#.includes(\\"g3\\") && #menstrual_hygiene_disposal_site#.includes(\\"g3\\") && #availability_of_hygiene_materials#.includes(\\"g3\\") ? \\"G3 Good menstrual hygiene\\" : \\"G2 Inadequate menstrual hygiene\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
+1710734600409	23	Percentage of households using SHARED double vault toilets (number/total)	num_total_double_vault	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783596	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
 1702302232732	17	G3-5.2 Outcome result - Vitamin A supplements	o_r_vitamin_a_supplements	10	f	f	\N	[{"id": 16994260598423, "options": ["yes"]}, {"id": 1712229529, "min": 1}]	1699353915355	1710757443	\N	\N	{"fnColor": {"G1 Low nutrition or protection": "#FDC74B", "G3 Good nutrition and protection": "#4088F4", "G2 Inadequate nutrition or protection": "#93D371"}, "fnString": "#vitamin_a_supplements_received#.includes(\\"g1\\") ? \\"G1 Low nutrition or protection\\" : #vitamin_a_supplements_received#.includes(\\"g3\\") ? \\"G3 Good nutrition and protection\\" : \\"G2 Inadequate nutrition or protection\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
 1702302427536	18	G3-5.3 Outcome result - Exclusive breastfeeding	o_r_exclusive_breastfeeding	10	f	f	\N	[{"id": 16994260598423, "options": ["yes"]}, {"id": 1712229529, "min": 1}]	1699353915355	1710757443	\N	\N	{"fnColor": {"G1 Low nutrition or protection": "#FDC74B", "G3 Good nutrition and protection": "#4088F4", "G2 Inadequate nutrition or protection": "#93D371"}, "fnString": "#exclusive_breastfeeding_under_6_months#.includes(\\"g1\\") ? \\"G1 Low nutrition or protection\\"  : #exclusive_breastfeeding_under_6_months#.includes(\\"g3\\") ? \\"G3 Good nutrition and protection\\" : \\"G2 Inadequate nutrition or protection\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
 1702302507816	19	G3-5.4 Outcome result - Nutritious diet	o_r_nutritious_diet	10	f	f	\N	[{"id": 16994260598423, "options": ["yes"]}, {"id": 1712229529, "min": 1}]	1699353915355	1710757443	\N	\N	{"fnColor": {"G1 Low nutrition or protection": "#FDC74B", "G3 Good nutrition and protection": "#4088F4", "G2 Inadequate nutrition or protection": "#93D371"}, "fnString": "#nutritious_diet_6m_2y#.includes(\\"g1\\") ? \\"G1 Low nutrition or protection\\" : #nutritious_diet_6m_2y#.includes(\\"g3\\") ? \\"G3 Good nutrition and protection\\" : \\"G2 Inadequate nutrition or protection\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
 1712644710	20	G3-5.4 Outcome result - Good Nutrition	o_r_good_nutrition	10	f	f	\N	[{"id": 16994260598423, "options": ["yes"]}, {"id": 1712229529, "min": 1}]	1699353915355	1710757443	\N	\N	{"fnColor": {"G1": "#FDC74B", "G2": "#93D371", "G3": "#4088F4"}, "fnString": "#o_r_fully_immunized_children#.includes(\\"G1\\") && #o_r_vitamin_a_supplements#.includes(\\"G1\\") && #o_r_exclusive_breastfeeding#.includes(\\"G1\\") && #o_r_nutritious_diet#.includes(\\"G1\\") ? \\"G1\\" : #o_r_fully_immunized_children#.includes(\\"G3\\") && #o_r_vitamin_a_supplements#.includes(\\"G3\\") && #o_r_exclusive_breastfeeding#.includes(\\"G3\\") && #o_r_nutritious_diet#.includes(\\"G3\\") ? \\"G3\\" : \\"G2\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
-1702299714872	21	G3-E1 Outcome result - Malaria-endemic counties: Malaria-safe homes	o_r_malariasafe_homes	10	f	f	\N	[{"id": 16994260598423, "options": ["yes"]}, {"id": 1699435455818, "options": ["g1_no_protection_no_bed_nets_and_no_insect_screen", "g2_inadequate_protection_some_beds_without_nets_or_some_openings_unprotected", "g3_malariasafe_home"]}]	1699353915355	1710757443	\N	\N	{"fnColor": {"G3 Malaria-safe home": "#4088F4", "G1 No malaria protection": "#FDC74B", "G2 Inadequate malaria protection": "#93D371"}, "fnString": "#malariasafe_home#.includes(\\"g1\\") ? \\"G1 No malaria protection\\"  : (#malariasafe_home#.includes(\\"g3\\") ? \\"G3 Malaria-safe home\\" : \\"G2 Inadequate malaria protection\\")", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
 1702299918738	22	G3-E2 Outcome result - STH-endemic counties: Dewormed homes	o_r_dewormed_homes	10	f	f	\N	[{"id": 16994260598423, "options": ["yes"]}, {"id": 1699435526190, "options": ["g1_no_deworming_no_children_or_adults_treated", "g2_inadequate_deworming_some_children_or_adults_not_treated", "g3_dewormed_home_all_treated_in_last_12_months"]}]	1699353915355	1710757443	\N	\N	{"fnColor": {"G1 No deworming": "#FDC74B", "G3 Dewormed home": "#4088F4", "G2 Inadequate deworming": "#93D371"}, "fnString": "#dewormed_home#.includes(\\"g1\\") ? \\"G1 No deworming\\" : #dewormed_home#.includes(\\"g3\\") ? \\"G3 Dewormed home\\" : \\"G2 Inadequate deworming\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
 1712657830	23	G3-E2 Outcome result - Endemic outcomes	o_r_endemic	10	f	f	\N	[{"id": 16994260598423, "options": ["yes"]}]	1699353915355	1710757443	\N	\N	{"fnColor": {"G1": "#FDC74B", "G2": "#93D371", "G3": "#4088F4"}, "fnString": "#o_r_malariasafe_homes#.includes(\\"G1\\") && #o_r_dewormed_homes#.includes(\\"G1\\") ? \\"G1 No deworming\\" : #o_r_malariasafe_homes#.includes(\\"G3\\") && #o_r_dewormed_homes#.includes(\\"G3\\") ? \\"G3\\" : \\"G2\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
 1703299101191	1	Overall toilet outcome	overall_toilet_outcome	10	f	f	\N	\N	1699353915355	1703086270253	\N	\N	{"fnColor": {"G0 Open Defecation": "#FD3F31", "G3 Clean and Healthy": "#4088F4", "G1 Open Defecation Free": "#FDC74B", "G2 Safe and Sustainable": "#93D371"}, "fnString": "#o_r_use_of_safely_managed_sanitation_services#.includes(\\"G3\\") ? 'G3 Clean and Healthy' : #o_r_durable_toilet#.includes(\\"G2\\") && #o_r_toilet_with_safe_containment#.includes(\\"G2\\") && #o_r_individual_use_of_own_hh_toilet#.includes(\\"G2\\") ? 'G2 Safe and Sustainable' : #o_r_functional_toilet_with_privacy#.includes(\\"G1\\") && #o_r_flyproof_toilet_type#.includes(\\"G1\\") && #o_r_clean_toilet#.includes(\\"G1\\") && #o_r_toilet_use_by_all_hh_members#.includes(\\"G1\\") ? 'G1 Open Defecation Free' : 'G0 Open Defecation'", "multiline": false}	\N	\N	f	\N	\N	\N	\N	\N
 1703299101192	2	Overall hygiene outcome	overall_hygiene_outcome	10	f	f	\N	\N	1699353915355	1703086270253	\N	\N	{"fnColor": {"G3 Clean and Healthy": "#4088F4", "G2 Safe and Sustainable": "#93D371", "G0 Inadequate or no handwashing facility": "#FD3F31", "G1 Handwashing facility with soap and water": "#FDC74B"}, "fnString": "#o_r_permanent_handwashing_station#.includes(\\"G3\\") ? 'G3 Clean and Healthy' : #o_r_handwashing_with_soap_at_critical_times#.includes(\\"G2\\") ? 'G2 Safe and Sustainable' : #o_r_hwf_with_water_and_soap#.includes(\\"G1\\") ? 'G1 Handwashing facility with soap and water' : 'G0 Inadequate or no handwashing facility'", "multiline": false}	\N	\N	f	\N	\N	\N	\N	\N
 1712658383	3	Outcome result - Other outcome	overall_other_outcome	10	f	f	\N	\N	1699353915355	1703086270253	\N	\N	{"fnColor": {"G1": "#FDC74B", "G2": "#93D371", "G3": "#4088F4"}, "fnString": "#monitor_G2#.includes(\\"yes\\") && #o_r_safe_food_hygiene#.includes(\\"G1\\") && #o_r_safe_water_management#.includes(\\"G1\\") && #o_r_safe_management_of_animals_wastes#.includes(\\"G1\\") && #o_r_safe_waste_management#.includes(\\"G1\\") && #o_r_good_personal_hygiene#.includes(\\"G1\\") && #o_r_good_nutrition#.includes(\\"G1\\") && #o_r_endemic#.includes(\\"G1\\") ? \\"G1\\" : #o_r_safe_waste_management#.includes(\\"G3\\") && #o_r_good_personal_hygiene#.includes(\\"G3\\") && #o_r_good_nutrition#.includes(\\"G3\\") && #o_r_endemic#.includes(\\"G3\\") ? \\"G3\\" : \\"G2\\"", "multiline": false}	\N	\N	f	\N	\N	\N	\N	\N
-16993542207341	1	New household registration or Monitoring update?	new_or_monitoring	5	f	f	\N	\N	16993539153551	16993539153821	\N	\N	\N	{"text": "Registration of household in RTMIS (new household) or update of monitoring data (existing household)"}	\N	\N	\N	New or Update	{"submission_type": {"monitoring": "update", "registration": "new", "verification": "verification", "certification": "certification"}}	\N	\N
+1710734696796	25	Percentage of households using individual container-based toilets (number/total)	num_total_container_based	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783596	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
 16993548493821	2	What is the location of the household?	household_location	2	f	t	\N	\N	16993539153551	16993539153821	\N	\N	\N	{"text": "This question contains a list of possible household locations, starting with government area or district, down to the village."}	\N	\N	\N	Location	\N	{"submission_type": ["monitoring", "verification", "certification"]}	\N
 17030862702533	3	School Cascade	school	7	f	f	\N	\N	16993539153551	16993539153821	{"endpoint": "/api/v1/entity-data/1/list/"}	{"name": "School", "type": "entity", "parentId": 16993548493821}	\N	\N	\N	\N	\N	School	\N	{"submission_type": ["monitoring", "verification", "certification"]}	\N
 17030862702534	4	HCF Cascade	hcf	7	f	f	\N	\N	16993539153551	16993539153821	{"endpoint": "/api/v1/entity-data/2/list/"}	{"name": "Health Care Facilities", "type": "entity", "parentId": 16993548493821}	\N	\N	\N	\N	\N	HCF	\N	{"submission_type": ["monitoring", "verification", "certification"]}	\N
@@ -19194,6 +19182,26 @@ COPY public.question (id, "order", label, name, type, meta, required, rule, depe
 16994233572001	6	Functional toilet	functional_toilet	5	f	t	\N	[{"id": 16994222860911, "options": ["g1_toilet_observed"]}]	16993539153551	16994222860901	\N	\N	\N	{"text": "OBSERVE: is the toilet facility functional? \\nFunctional: the household toilet is functioning as intended and can be used (that is, it is not blocked, abandoned, or collapsed)"}	{"new_or_monitoring": {"new": ["g0_nonfunctional_toilet"]}}	\N	\N	Functional toilet	\N	\N	\N
 16994235714541	7	Toilet privacy	toilet_privacy	5	f	f	\N	[{"id": 16994222860911, "options": ["g1_toilet_observed"]}]	16993539153551	16994222860901	\N	\N	\N	{"text": "OBSERVE: does the toilet superstructure meet local criteria for privacy? \\nOBSERVE: are animals prevented from entering the toilet?\\nPrivacy: toilet superstructure has walls and a door that allow use of the toilet without observation by people outside the toilet (NOTE: variations in privacy criteria may be agreed by County Public Health Office to reflect local practices).\\nPrivacy from animals: the toilet superstructure should also prevent animals from entering the toilet, to limit contact between animals and human excreta."}	{"new_or_monitoring": {"new": ["g0_no_toilet_privacy"]}}	\N	\N	Toilet privacy	\N	\N	\N
 17018105790911	8	Outcome result - Functional toilet with privacy	o_r_functional_toilet_with_privacy	10	f	f	\N	\N	16993539153551	16994222860901	\N	\N	{"fnColor": {}, "fnString": "#toilet_observed#.includes(\\"g1\\") && #functional_toilet#.includes(\\"g1\\") && #toilet_privacy#.includes(\\"g1\\") ? \\"G1 Functional toilet with privacy\\" : \\"G0 Toilet non-functional or not private\\"", "multiline": false}	\N	\N	\N	\N	Outcome - Functional toilet with privacy	\N	\N	\N
+1715238587	4	Outcome result - Overall outcome	overall_outcome	10	f	f	\N	\N	1699353915355	1703086270253	\N	\N	{"fnColor": {"G0": "#DB3B3B", "G1": "#FDC74B", "G2": "#93D371", "G3": "#4088F4"}, "fnString": "#overall_toilet_outcome#.includes(\\"G1\\") && #overall_hygiene_outcome#.includes(\\"G1\\") && #overall_other_outcome#.includes(\\"G1\\") ? 'G1' : #overall_toilet_outcome#.includes(\\"G2\\") && #overall_hygiene_outcome#.includes(\\"G2\\") && #overall_other_outcome#.includes(\\"G2\\") ? 'G2' : #overall_toilet_outcome#.includes(\\"G3\\") && #overall_hygiene_outcome#.includes(\\"G3\\") && #overall_other_outcome#.includes(\\"G3\\") ? 'G3' : 'G0'", "multiline": false}	\N	\N	f	\N	\N	\N	\N	\N
+563210188	3	Name of Village	village	3	t	t	\N	\N	571070071	5710700711	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+563260127	4	GPS Coordinates of Village	gps	1	t	t	\N	\N	571070071	5710700711	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+571070074	1	Water System Name	name	3	t	t	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+557710145	2	Organization That Installed Water System	organization	5	f	f	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+571050096	3	Water Source Type	water_source_type	5	f	f	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+527850181	4	Depth of Well (m)	well_depth	4	f	f	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+573000210	5	Maximum Yield (lpd)	yield	4	f	f	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+569070152	6	Abstraction/Pump Equipment	abstraction_pump_equipment	5	f	f	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+571060083	7	Source of Energy	source_of_energy	5	f	f	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+555960249	8	Number of Functional Taps	functional_taps	4	f	f	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+567400198	10	Estimated Number of Users	number_of_users	4	f	t	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+567450085	11	Functionality Status	functionality_status	5	f	f	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+571060084	12	Problems With Water System	water_system_problems	5	f	f	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+563220092	13	Reason for Survey	reason_for_survey	5	f	f	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+1699951210638	2	What is the location of the community?	location_community	2	t	t	\N	\N	1699354006503	1699354006534	\N	\N	\N	{"text": "This question contains a list of possible household locations, starting with the government area or district, down to the village."}	\N	\N	\N	\N	\N	{"submission_type": ["monitoring", "verification", "certification"]}	\N
+1699951425330	3	Geolocation of the community	geolocation_community	1	t	t	\N	\N	1699354006503	1699354006534	\N	\N	\N	{"text": "Record GPS coordinates of a central place in the community (e.g. community meeting place)"}	\N	\N	\N	\N	\N	{"submission_type": ["monitoring", "verification", "certification"]}	\N
+1699951538608	1	Community respondent: role in community	community_respondent_role	5	f	t	\N	\N	1699354006503	1699951538607	\N	\N	\N	{"text": "List of community roles"}	{"new_or_update": {"new": ["village_chief_head"]}}	\N	\N	\N	\N	\N	\N
+1699951878044	3	Number of at-risk households	nr_atrisk_hh	4	f	t	{"min": 0}	\N	1699354006503	1699951538607	\N	\N	\N	{"text": "<b>INTERVIEW:</b> how many at-risk households have been identified in the community?<br><b>At-risk households:</b> households that meet the at-risk criteria determined by the County Public Health Office"}	\N	\N	\N	\N	\N	\N	\N
+16994239461701	10	Containment or collection system	containment_or_collection_system	5	f	f	\N	[{"id": 16994222860911, "options": ["g1_toilet_observed"]}]	16993539153551	16994222860901	\N	\N	\N	{"text": "OBSERVE: type of excreta containment or collection system\\nContainment system: pit or tank (or other) that contains and stores excreta\\nCollection system: connection through which excreta and wastewater are collected\\nExamples: 1. Latrine pit; 2. Septic tank; 3. Sewer connection.\\nFlush to don't know: household does not know where the toilet flushes to, but no surface outlets or open discharges are visible (in this case, likely to be a buried pit or tank)"}	{"new_or_monitoring": {"new": ["g0_no_toilet"]}}	\N	\N	Containment or collection system	\N	\N	\N
 16994243759681	11	Flyproof toilet	flyproof_toilet	5	f	t	\N	[{"id": 16994222860911, "options": ["g1_toilet_observed"]}]	16993539153551	16994222860901	\N	\N	\N	{"text": "OBSERVE: is the toilet flyproof?\\nFlyproof: toilet design prevents flies from reaching the excreta in the pit (or other containment system)\\nVIP vent pipe with insect screen: vent pipes should be covered with insect screen to prevent insect entry into the pit or tank.\\nExamples: 1. Pour-flush pit latrine with a functional water-seal pan; 2. VIP latrine with a screened vent pipe; 3. Dry pit latrine with a tight-fitting drophole cover."}	{"new_or_monitoring": {"new": ["g0_vip_vent_pipe_without_insect_screen"]}}	\N	\N	\N	\N	\N	\N
 17022810847861	12	Outcome result -  Flyproof toilet type	o_r_flyproof_toilet_type	10	f	f	\N	\N	16993539153551	16994222860901	\N	\N	{"fnColor": {"G1 Flyproof toilet": "#00ff00", "G0 Toilet NOT flyproof": "#ff0000"}, "fnString": "#toilet_interface#.includes(\\"g1\\") && #containment_or_collection_system#.includes(\\"g1\\") && #flyproof_toilet#.includes(\\"g1\\") ? \\"G1 Flyproof toilet\\"  : \\"G0 Toilet NOT flyproof\\"", "multiline": false}	\N	\N	\N	\N	Outcome - Flyproof toilet type	\N	\N	\N
 17030862702501	1	New autofield	new_autofield	5	f	t	\N	\N	16993539153551	17030862702531	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
@@ -19206,28 +19214,6 @@ COPY public.question (id, "order", label, name, type, meta, required, rule, depe
 16994198103536	5	Free Required Number in last question group	free_required_number	4	f	t	\N	\N	16993539153551	17030862702531	\N	\N	\N	\N	\N	\N	\N	Number Req	\N	\N	\N
 16994198103537	6	Date Triggered	trigger_date	9	f	t	\N	\N	16993539153551	17030862702531	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
 16994198103538	7	Date Verified	verification_date	9	f	f	\N	\N	16993539153551	17030862702531	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-5710700711	1	location	location	2	t	t	\N	\N	571070071	5710700711	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-563210188	3	Name of Village	village	3	t	t	\N	\N	571070071	5710700711	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-563260127	4	GPS Coordinates of Village	gps	1	t	t	\N	\N	571070071	5710700711	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-571070074	1	Water System Name	name	3	t	t	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-557710145	2	Organization That Installed Water System	organization	5	f	f	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-571050096	3	Water Source Type	water_source_type	5	f	f	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-527850181	4	Depth of Well (m)	well_depth	4	f	f	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-573000210	5	Maximum Yield (lpd)	yield	4	f	f	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-569070152	6	Abstraction/Pump Equipment	abstraction_pump_equipment	5	f	f	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-571060083	7	Source of Energy	source_of_energy	5	f	f	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-555960249	8	Number of Functional Taps	functional_taps	4	f	f	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-546560207	9	Number of Non-Functional Taps	non_functional_taps	4	f	f	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-567400198	10	Estimated Number of Users	number_of_users	4	f	t	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-567450085	11	Functionality Status	functionality_status	5	f	f	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-571060084	12	Problems With Water System	water_system_problems	5	f	f	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-563220092	13	Reason for Survey	reason_for_survey	5	f	f	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-1699354006535	1	New Community or Monitoring update?	new_or_update	5	f	t	\N	\N	1699354006503	1699354006534	\N	\N	\N	{"text": "Entry of community data in RTMIS (first time) or update of monitoring data (existing community)"}	\N	\N	\N	\N	{"submission_type": {"monitoring": "update", "registration": "new", "verification": "verification", "certification": "certification"}}	\N	\N
-1699951210638	2	What is the location of the community?	location_community	2	t	t	\N	\N	1699354006503	1699354006534	\N	\N	\N	{"text": "This question contains a list of possible household locations, starting with the government area or district, down to the village."}	\N	\N	\N	\N	\N	{"submission_type": ["monitoring", "verification", "certification"]}	\N
-1699951425330	3	Geolocation of the community	geolocation_community	1	t	t	\N	\N	1699354006503	1699354006534	\N	\N	\N	{"text": "Record GPS coordinates of a central place in the community (e.g. community meeting place)"}	\N	\N	\N	\N	\N	{"submission_type": ["monitoring", "verification", "certification"]}	\N
-1699951538608	1	Community respondent: role in community	community_respondent_role	5	f	t	\N	\N	1699354006503	1699951538607	\N	\N	\N	{"text": "List of community roles"}	{"new_or_update": {"new": ["village_chief_head"]}}	\N	\N	\N	\N	\N	\N
-1699951727891	2	Number of households in community	nr_hh_community	4	f	t	{"min": 1}	\N	1699354006503	1699951538607	\N	\N	\N	{"text": "<b>INTERVIEW:</b> how many households currently live in this community (village or urban neighbourhood), including temporary, migrant and seasonal visitors?<br><b>Household:</b> defined as a person or group of persons who: a) Are related or unrelated; b) live together in the same dwelling/housing unit (at least 4 nights a week); c) acknowledge one adult male or female as the head of household; d) share the same living arrangements; and e) are considered as one unit."}	\N	\N	\N	\N	\N	\N	\N
-1699951878044	3	Number of at-risk households	nr_atrisk_hh	4	f	t	{"min": 0}	\N	1699354006503	1699951538607	\N	\N	\N	{"text": "<b>INTERVIEW:</b> how many at-risk households have been identified in the community?<br><b>At-risk households:</b> households that meet the at-risk criteria determined by the County Public Health Office"}	\N	\N	\N	\N	\N	\N	\N
 1699952153243	6	Depth to groundwater in community	dept_to_groundwater	5	f	t	\N	\N	1699354006503	1699951538607	\N	\N	\N	{"text": "<b>INTERVIEW:</b> what is the average depth to the groundwater table in this community?<br><b>Depth to groundwater:</b> how many metres below ground is water found (e.g. depth from ground level to water in wells and boreholes)?"}	{"new_or_update": {"new": ["less_than_5m"]}}	\N	\N	\N	\N	\N	\N
 1699952219561	7	Water supply protection in community	water_supply_protection	5	f	t	\N	\N	1699354006503	1699951538607	\N	\N	\N	{"text": "<b>INTERVIEW:</b> what is the main water supply technology used in this community?<br><b>Water supply technology:</b> main system or facilities used to supply drinking water"}	{"new_or_update": {"new": ["protected_groundwater_sources"]}}	\N	\N	\N	\N	\N	\N
 1699952295823	8	Use of groundwater for drinking water supply	groundwater_drinking_supply	5	f	t	\N	\N	1699354006503	1699951538607	\N	\N	\N	{"text": "<b>INTERVIEW:</b> what percentage of households obtain drinking water from groundwater sources in this community?<br><b>Obtained from groundwater sources:</b> drinking water is collected from water supplies or water points that produce water from below ground (boreholes, dug wells or springs)"}	{"new_or_update": {"new": ["more_than_25_percent"]}}	\N	\N	\N	\N	\N	\N
@@ -19253,6 +19239,7 @@ COPY public.question (id, "order", label, name, type, meta, required, rule, depe
 1699960354498	11	Drainage for stormwater in communal areas	stormwater_drainage_communal_areas	5	f	t	\N	\N	1699354006503	1699959649781	\N	\N	\N	{"text": "<b>OBSERVE: erosion or other damage caused by stormwater flows in communal areas</b><br><b>Stormwater:</b> surface water from rainfall or storms.<br><b>Adequate stormwater drainage:</b> drains or other services that limit or prevent erosion from stormwater flows (for example, EITHER by transporting flows away from communal areas, OR by encouraging infiltration into the soil)<br><b>Communal areas: areas within the community that are not part of household compounds, and which are accessible to all."}	{"new_or_update": {"new": ["g0_significant_erosion_communal_areas"]}}	\N	\N	\N	\N	\N	\N
 1702306876033	12	Outcome result - Safe management of liquid wastes	outcome_safe_management_liquid_wastes	10	f	t	\N	\N	1699354006503	1699959649781	\N	\N	{"fnColor": {"G1 Liquid wastes UNSAFELY managed in communal areas": "#FDC74B", "G3 Safe management of liquid wastes in communal areas": "#4088F4", "G2 Inadequate management of liquid wastes in communal areas": "#93D371"}, "fnString": "(#stormwater_drainage_communal_areas#.includes(\\"g0\\")) ? \\"G1 Liquid wastes UNSAFELY managed in communal areas\\" : (#stormwater_drainage_communal_areas#.includes(\\"g3\\") ? \\"G3 Safe management of liquid wastes in communal areas\\" : \\"G2 Inadequate management of liquid wastes in communal areas\\")", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
 1699960411329	13	No visible solid wastes in communal areas	no_visible_solid_wastes_communal_areas	5	f	t	\N	\N	1699354006503	1699959649781	\N	\N	\N	{"text": "<b>OBSERVE: visible solid wastes in communal areas</b><br><b>Solid wastes:</b> food wastes, paper, plastic, rags, metal, glass and other solid materials discarded by the household<br><b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."}	{"new_or_update": {"new": ["g0_significant_visible_solid_wastes_communal_areas"]}}	\N	\N	\N	\N	\N	\N
+1702307100780	14	Outcome result - Safe management of solid wastes	outcome_safe_management_solid_wastes	10	f	t	\N	\N	1699354006503	1699959649781	\N	\N	{"fnColor": {"G1 Solid wastes UNSAFELY managed in communal areas": "#FDC74B", "G3 Safe management of solid wastes in communal areas": "#4088F4", "G2 Inadequate management of solid wastes in communal areas": "#93D371"}, "fnString": "(#no_visible_solid_wastes_communal_areas#.includes(\\"g0\\")) ? \\"G1 Solid wastes UNSAFELY managed in communal areas\\" : (#no_visible_solid_wastes_communal_areas#.includes(\\"g3\\") ? \\"G3 Safe management of solid wastes in communal areas\\" : \\"G2 Inadequate management of solid wastes in communal areas\\")", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
 1699960488230	15	No standing water in communal areas	no_standing_water_communal_areas	5	f	t	\N	\N	1699354006503	1699959649781	\N	\N	\N	{"text": "<b>OBSERVE: visible standing water in communal areas</b><br><b>Standing water:</b> accumulation of wastewater (or stormwater) in communal area, which does NOT immediately drain away<br><b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."}	{"new_or_update": {"new": ["g0_significant_standing_water_communal_areas"]}}	\N	\N	\N	\N	\N	\N
 1702307258403	17	Outcome result - Good vector control in communal areas	outcome_good_vector_control_communal_areas	10	f	t	\N	\N	1699354006503	1699959649781	\N	\N	{"fnColor": {"G3 Good vector control in communal areas": "#4088F4", "G1 Lack of vector control in communal areas": "#FDC74B", "G2 Inadequate vector control in communal areas": "#93D371"}, "fnString": "(#no_standing_water_communal_areas#.includes(\\"g0\\") && #treated_larval_breeding_sites_communal_areas#.includes(\\"g0\\")) ? \\"G1 Lack of vector control in communal areas\\" : ((#no_standing_water_communal_areas#.includes(\\"g3\\") && #treated_larval_breeding_sites_communal_areas#.includes(\\"g3\\")) ? \\"G3 Good vector control in communal areas\\" : \\"G2 Inadequate vector control in communal areas\\")", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
 1699960591715	18	Type of institution	institution_type	6	f	t	\N	\N	1699354006503	1699959649781	\N	\N	\N	{"text": "</b>OBSERVE: type of institution (located within community)</b><br><b>Institution:</b> any public building with open access to the communal toilets and handwashing facilities"}	\N	\N	\N	\N	\N	\N	\N
@@ -19272,20 +19259,18 @@ COPY public.question (id, "order", label, name, type, meta, required, rule, depe
 169995172789124	32	Do you want to claim a grade for this community?	claim	5	f	t	\N	\N	1699354006503	1699959649781	\N	\N	\N	\N	\N	\N	\N	\N	\N	{"submission_type": ["certification", "verification"]}	\N
 169995172789125	33	Do you verify the claim?	verification	5	f	t	\N	\N	1699354006503	1699959649781	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	{"submission_type": ["registration", "monitoring", "certification"]}
 169995172789126	34	Do you certify the community?	certification	5	f	t	\N	\N	1699354006503	1699959649781	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	{"submission_type": ["registration", "monitoring", "verification"]}
-1701359046016	20	Hands-free operation of institutional handwashing facility	hands_free_operation_institutional_HWF	5	f	t	\N	\N	1701172125596	1701174317249	\N	\N	\N	{"text": "<b>OBSERVE: mechanism to collect water or trigger water flow</b><br/><b>Hands-free operation: </b>the handwashing station is operated by tap, or other hands-free mechanism that minimises contact with the water collection device and the water container"}	{"new_institution_monitoring_update": {"new": ["g0_hands_enter_water_container_during_collection_use"]}}	\N	\N	\N	\N	\N	\N
-1701172125598	1	New institution or monitoring update?	new_institution_monitoring_update	5	f	t	\N	\N	1701172125596	1701172125597	\N	\N	\N	{"text": "Entry of institution data in RTMIS (first time) or update of monitoring data (existing institution)"}	\N	\N	\N	\N	{"submission_type": {"monitoring": "update", "registration": "new"}}	\N	\N
 1701329787633	2	What is the village of the institution?	institution_village	2	t	t	\N	\N	1701172125596	1701172125597	\N	\N	\N	{"text": "This question contains a list of possible household locations, starting with government area or district, down to the village."}	\N	\N	\N	\N	\N	{"submission_type": ["monitoring"]}	\N
 1701173656314	3	Geo-location of the institution	institution_geolocation	1	t	t	\N	\N	1701172125596	1701172125597	\N	\N	\N	{"text": "Record GPS coordinates of a central place in the institution (e.g. in front of entrance)"}	\N	\N	\N	\N	\N	{"submission_type": ["monitoring"]}	\N
 1701174317250	4	Type of institution	institution_type	5	t	t	\N	\N	1701172125596	1701172125597	\N	\N	\N	{"text": "<b>OBSERVE: type of institution (located within community), Institution: any public building with open access to the communal toilets and handwashing facilities</b>"}	\N	\N	\N	\N	\N	\N	\N
 1699419048095232	5	Institution ID	institution_ID	3	t	t	\N	\N	1701172125596	1701172125597	\N	\N	\N	{"text": "<b>ID/Name:</b> enter the name of the institution (for example, name of school or name of health facility) with, where available, an ID code. If no code is available, just enter the name"}	\N	\N	\N	\N	\N	\N	\N
 1701373837500	6	Institution respondent: role in institution	institution_respondent_role	3	f	t	\N	\N	1701172125596	1701172125597	\N	\N	\N	{"text": "<b>Institution respondent:</b> person from the institution who is providing information. For example, head teacher, or doctor, or owner/manager."}	\N	\N	\N	\N	\N	\N	\N
-1701329515408	4	Functional institutional toilet	functional_institutional_toilet	5	f	t	\N	\N	1701172125596	1701174317249	\N	\N	\N	{"text": "<b>OBSERVE:</b> functional toilets observed in institution? <b>Functional toilet:</b> the institutional toilet is functioning as intended, and can be used (that is, is not blocked, abandoned or collapsed)"}	{"new_institution_monitoring_update": {"new": ["g0_all_institutions_toilets_are_nonfunctional"]}}	\N	\N	\N	\N	\N	\N
 16994198156602	6	Number of non-functional toilets	num_non_functional_toilets	4	f	t	{"max": 99, "min": 0}	\N	1701172125596	1701174317249	\N	\N	\N	{"text": "<b>Number of non-functional toilets:</b> count the number of separate toilet stances or separate toilet seats that are NON-FUNCTIONAL. <b>Non-functional toilet:</b> the institutional toilet is NOT functioning as intended, and cannot be used (that is, the toilet is blocked, abandoned, collapsed or otherwise non-functioning)"}	\N	\N	\N	\N	\N	\N	\N
 1701331306965	7	Flyproof institutional toilet	flyproof_institutional_toilet	5	f	t	\N	\N	1701172125596	1701174317249	\N	\N	\N	{"text": "<b>OBSERVE:</b> flyproof toilets observed in institution. <b>Flyproof toilet:</b> toilet design prevents flies from reaching the excreta in the pit (or tank/other)."}	{"new_institution_monitoring_update": {"new": ["g0_all_institution_toilets_are_not_flyproof"]}}	\N	\N	\N	\N	\N	\N
 1701331373050	8	Clean institutional toilet	clean_institutional_toilet	5	f	t	\N	\N	1701172125596	1701174317249	\N	\N	\N	{"text": "<b>OBSERVE:</b> clean toilets observed in institution. <b>Clean toilet:</b> floor, pan and walls of toilets should appear clean, with no visible faeces, urine or used cleaning materials (for example, toilet paper or other paper, leaves or other anal cleansing materials)."}	{"new_institution_monitoring_update": {"new": ["g0_all_institution_toilets_are_not_clean"]}}	\N	\N	\N	\N	\N	\N
-1701331438759	9	Durable institutional toilet slab	durable_toilet_slab	5	f	t	\N	\N	1701172125596	1701174317249	\N	\N	\N	{"text": "<b>OBSERVE:</b> durable toilet slabs observed in institution? <b>Durable toilet slab:</b> the range of materials considered durable will depend on local contexts. The County Public Health Office should approve the use of resilient local materials that will not degrade rapidly under local conditions, and which provide similar lifespans, functionality and cleanliness to toilet slabs made from durable materials. <b>Examples:</b> Concrete toilet slab 2. Concrete toilet slab covered with ceramic tiles; 3. Structural plastic slab; 4. Durable hardwood floor covered with cement."}	{"new_institution_monitoring_update": {"new": ["g0_all_institution_toil_slabs_are_not_durable"]}}	\N	\N	\N	\N	\N	\N
 1701331908015	10	Durable institutional toilet pits	durable_toilet_pits	5	f	t	\N	\N	1701172125596	1701174317249	\N	\N	\N	{"text": "<b>OBSERVE:</b> durable toilet pits observed in institution? <b>OBSERVE:</b> are there any signs of collapse or damage to the toilet pits or tanks (or connections)? <b>INTERVIEW (where pit or tank not visible):</b> were any materials used to support the sides of the toilet pits (or tanks)?<br/> <b>INTERVIEW (where pit or tank not visible):</b> does the soil in this area collapse without structural support? <b>INTERVIEW (where pit or tank not visible):</b> have any toilet pits (or tanks) in this area collapsed in the last 12 months<br/> <b>Durable toilet pit (in stable soils):</b> unlined pits may be assessed as durable in areas where other unlined pits are known to be stable and long-lasting. <b>Durable toilet pit (in UNSTABLE soils):</b> pits (or tanks) should either be lined with durable materials, or lined with resilient local materials that will not degrade rapidly under local conditions, and which provide similar lifespans and support to linings made from durable materials."}	{"new_institution_monitoring_update": {"new": ["g0_all_inst_toil_pits_are_not_dura"]}}	\N	\N	\N	\N	\N	\N
 1702312767767	12	Number of usable outpatient toilets	usable_outpatient_toilets	10	f	t	\N	\N	1701762893741	1701773373078	\N	\N	{"fnColor": {"Outpatient: 2 or more USABLE outpatient toilets": "#38A15A", "Outpatient: Less than 2 USABLE outpatient toilets": "#DB3B3B"}, "fnString": "#total_usable_outpatient_toilets# > 1 ? \\"Outpatient: 2 or more USABLE outpatient toilets\\" : \\"Outpatient: Less than 2 USABLE outpatient toilets\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
+1715245783	34	Outcome result - Overall outcome	overall_outcome	10	f	t	\N	\N	1699354006503	1699959649781	\N	\N	{"fnColor": {"G0": "#DB3B3B", "G1": "#FDC74B", "G2": "#93D371", "G3": "#4088F4"}, "fnString": "#outcome_no_exposed_excreta#.includes(\\"G1\\") && #outcome_safe_diaper_management#.includes(\\"G1\\") && #outcome_safe_management_communal_water_sources#.includes(\\"G1\\") && #outcome_safely_managed_sanitation_services#.includes(\\"G1\\") && #safe_waste_management_in_communal_areas#.includes(\\"G1\\") ? #outcome_no_exposed_excreta#.includes(\\"G2\\") && #outcome_safe_diaper_management#.includes(\\"G2\\") && #outcome_safe_management_communal_water_sources#.includes(\\"G2\\") && #outcome_safely_managed_sanitation_services#.includes(\\"G2\\") && #safe_waste_management_in_communal_areas#.includes(\\"G2\\") ? #outcome_no_exposed_excreta#.includes(\\"G3\\") && #outcome_safe_diaper_management#.includes(\\"G3\\") && #outcome_safe_management_communal_water_sources#.includes(\\"G3\\") && #outcome_safely_managed_sanitation_services#.includes(\\"G3\\") && #safe_waste_management_in_communal_areas#.includes(\\"G3\\") ? 'G3' : 'G2' : 'G1' : 'G0'", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
+16994198156601	7	Household head: age	household_head_age	4	f	f	{"max": 200, "min": 0}	\N	16993539153551	16994179587471	\N	\N	\N	\N	\N	\N	\N	Age	\N	\N	\N
 1701332496414	12	Safely managed containment: faecal sludge contained	safely_managed_faecal_sludge_containment	5	f	t	\N	\N	1701172125596	1701174317249	\N	\N	\N	{"text": "<b>INTERVIEW: has the institutional toilet containment (pit, tank or other) ever been emptied?,</b><br/> <b>INTERVIEW:</b> has the institutional toilet containment (pit, tank or other) ever filled up?,<br/> <b>INTERVIEW:</b> what happened when the institutional toilet containment (pit, tank or other) last filled up?"}	\N	\N	\N	\N	\N	\N	\N
 17022827967659	14	COMMUNITY LEVEL ASSESSMENT: Low risk of groundwater contamination	community_low_groundwater_contamination_risk	5	f	t	\N	\N	1701172125596	1701174317249	\N	\N	\N	\N	{"new_institution_monitoring_update": {"new": ["g0_high_risk_grou_cont"]}}	\N	\N	\N	\N	\N	\N
 17022839554619	15	Outcome result - Safely managed and usable institutional toilets	outcome_safely_managed_usable_institutional_toilets	10	f	t	\N	\N	1701172125596	1701174317249	\N	\N	{"fnColor": {"G1 Inadequate institutional sanitation services": "#FDC74B", "G0 Institutional sanitation services UNSAFELY managed": "#FD3F31", "G3 Use of safely managed institutional sanitation services": "#4088F4"}, "fnString": "#functional_institutional_toilet#.includes(\\"g0\\") && #flyproof_institutional_toilet#.includes(\\"g0\\") && #clean_institutional_toilet#.includes(\\"g0\\") && #durable_toilet_slab#.includes(\\"g0\\") && #durable_toilet_pits#.includes(\\"g0\\") && #safely_managed_wastewater_containment#.includes(\\"g0\\") && #safely_managed_faecal_sludge_containment#.includes(\\"g0\\")  && #safely_managed_sanitation_services#.includes(\\"g0\\") ? \\"G0 Institutional sanitation services UNSAFELY managed\\" : (#functional_institutional_toilet#.includes(\\"g3\\") && #flyproof_institutional_toilet#.includes(\\"g3\\") && #clean_institutional_toilet#.includes(\\"g3\\")  && #durable_toilet_slab#.includes(\\"g3\\") && #durable_toilet_pits#.includes(\\"g3\\") && #safely_managed_wastewater_containment#.includes(\\"g3\\") && #safely_managed_faecal_sludge_containment#.includes(\\"g3\\") && #safely_managed_sanitation_services#.includes(\\"g3\\")) ? \\"G3 Use of safely managed institutional sanitation services\\" : \\"G1 Inadequate institutional sanitation services\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
@@ -19312,8 +19297,9 @@ COPY public.question (id, "order", label, name, type, meta, required, rule, depe
 168885172789333	9	Total number of usable outpatient toilets	total_usable_outpatient_toilets	4	f	t	{"min": 1}	[{"id": 1701774221650, "options": ["all_outp_toil_are_usab_ente_numb", "some_outp_toil_are_not_usab_ente_numb_nonu_numb_usab"]}]	1701762893741	1701773373078	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
 168885127879441	10	Total number of not usable outpatient toilets	total_not_usable_outpatient_toilets	4	f	t	{"min": 1}	[{"id": 1701774221650, "options": ["all_outp_toil_are_not_usab_ente_numb", "some_outp_toil_are_not_usab_ente_numb_nonu_numb_usab"]}]	1701762893741	1701773373078	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
 1702312769667	11	Inpatient-toilet ratio	inpatient_toilet_ratio	10	f	t	\N	\N	1701762893741	1701773373078	\N	\N	{"fnColor": {"Inpatient: 20 or less inpatients to each USABLE inpatient toilet": "#38A15A", "Inpatient: More than 20 inpatients to each USABLE inpatient toilet": "#DB3B3B"}, "fnString": "(#total_beds_inpatients_HCF# / #total_usable_inpatient_toilets#) <= 20 ? \\"Inpatient: 20 or less inpatients to each USABLE inpatient toilet\\" : \\"Inpatient: More than 20 inpatients to each USABLE inpatient toilet\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
-1701757914033	1	New school registration or monitoring update?	new_school_registration_monitoring_update	5	f	f	\N	\N	1701757876668	1701757914032	\N	\N	\N	{"text": "Entry of school data in RTMIS (first time) or update of monitoring data (existing school)"}	\N	\N	\N	\N	{"submission_type": {"monitoring": "update", "registration": "new"}}	\N	\N
-1706087689694	3	Number of water points	num_water_points	4	f	f	{"min": 0}	\N	1701757876668	1706087451988	\N	\N	\N	{"text": "OBSERVE: how many drinking water points (e.g. taps) are available to students at the school?</br>\\n<b>Number of water points:</b> count the total number of drinking water points available to students at the school "}	\N	\N	\N	\N	\N	\N	\N
+1713498651	5	Other (Please specify)	school_respondent_role_other	3	f	f	{"min": 0}	[{"id": 1706105097574, "options": ["other"]}]	1701757876668	1701757914032	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+1701172125598	1	New institution or monitoring update?	new_institution_monitoring_update	5	f	t	\N	\N	1701172125596	1701172125597	\N	\N	\N	{"text": "Entry of institution data in RTMIS (first time) or update of monitoring data (existing institution)"}	\N	\N	\N	\N	{"submission_type": {"monitoring": "update", "registration": "new"}}	\N	\N
+1701329515408	4	Functional institutional toilet	functional_institutional_toilet	5	f	t	\N	\N	1701172125596	1701174317249	\N	\N	\N	{"text": "<b>OBSERVE:</b> functional toilets observed in institution? <b>Functional toilet:</b> the institutional toilet is functioning as intended, and can be used (that is, is not blocked, abandoned or collapsed)"}	{"new_institution_monitoring_update": {"new": ["g0_all_institutions_toilets_are_nonfunctional"]}}	\N	\N	\N	\N	\N	\N
 1713863930	14	Other (Please specify)	facility_toilet_type_other	3	f	f	\N	[{"id": 1701774299250, "options": ["othe_impr_toil_spec"]}]	1701762893741	1701773373078	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
 1701774431012	15	Dedicated toilets for facility staff	dedicated_toilets_facility_staff	5	f	f	\N	\N	1701762893741	1701773373078	\N	\N	\N	{"text": "<b>OBSERVE:</b> are separate toilets provided for use by facility staff?"}	\N	\N	\N	\N	\N	\N	\N
 1701774484635	16	Toilets in sex-separated rooms	sex_separated_room_toilets	5	f	f	\N	\N	1701762893741	1701773373078	\N	\N	\N	{"text": "<b>OBSERVE:</b> are sex-separated or gender-neutral toilets available?<br/><b>Sex-separated toilets:</b> rooms with multiple toilet stalls, or a private room with a single toilet, that are dedicated for use by either women or men<br/><b>Gender-neutral toilet:</b> a private room with a single toilet that allows women and men to use the toilet separately."}	\N	\N	\N	\N	\N	\N	\N
@@ -19328,15 +19314,39 @@ COPY public.question (id, "order", label, name, type, meta, required, rule, depe
 1701775723946	25	Materials for cleaning	cleaning_materials	5	f	f	\N	\N	1701762893741	1701773373078	\N	\N	\N	{"text": "<b>OBSERVE:</b> are appropriate materials available for cleaning?<br/><b>Appropriate cleaning materials:</b> detergent, mops, buckets etc"}	\N	\N	\N	\N	\N	\N	\N
 1701775784630	26	Cleaning records	cleaning_records	5	f	f	\N	\N	1701762893741	1701773373078	\N	\N	\N	{"text": "<b>OBSERVE:</b> is a record of cleaning activities (by day) available in the facility?<br/><b>Daily cleaning record:</b> details of cleaning activities undertaken on each day, signed by cleaners and counter-signed by supervisors"}	\N	\N	\N	\N	\N	\N	\N
 1701775883414	27	Toilet cleaning frequency	toilet_cleaning_frequency	5	f	f	\N	\N	1701762893741	1701773373078	\N	\N	\N	{"text": "<b>OBSERVE:</b> do the cleaning roster and cleaning records confirm that toilets are cleaned twice a day?<br/><b>Cleaning roster:</b> schedule specifying responsibility for cleaning tasks, frequency of cleaning, and step-by-step protocol for specific cleaning tasks</br><b>Daily cleaning record:</b> details of cleaning activities undertaken on each day, signed by cleaners and counter-signed by supervisors"}	\N	\N	\N	\N	\N	\N	\N
-1706091513597	7	Drinking water accessibility: students with limited mobility or vision	water_accessibility_students_lim_mobility_vision	5	f	f	\N	\N	1701757876668	1706087451988	\N	\N	\N	{"text": "<b>OBSERVE: is drinking water accessible to those with limited mobility or vision?</b></br>\\n<b>Accessible:</b> drinking water can be accessed (directly from the source or from a storage container) via a clear path without stairs or steps that is free of obstruction and has age-appropriate handrails; the tap can be reached from a seated position; and the water source/dispsenser can be opened and closed with minimal effort with one closed fist or foot"}	\N	\N	\N	\N	\N	\N	\N
-1706093811090	4	School toilet: durable pits	durable_toilet_pits	5	f	f	\N	\N	1701757876668	1706087820879	\N	\N	\N	{"text": "<b>OBSERVE: durable toilet pits observed in school toilets?</b></br>\\n<b>OBSERVE:</b> are there any signs of collapse or damage to the school toilet containment or collection system?</br>\\n<b>INTERVIEW (where containment not visible): </b>were any materials used to support the sides of the containment system? </br>\\n<b>INTERVIEW (where containment not visible):</b> does the soil collapse without support?</br>\\n<b>INTERVIEW (where containment not visible):</b> has the toilet pit collapsed in the last 12 months?</br>\\n</b>Durable toilet containment (in stable soils): </b>unlined pits may be assessed as durable in areas where other unlined pits are known to be stable and long-lasting.</br>\\n</b>Durable toilet containment (in UNSTABLE soils): </b>the pit or tank should either be lined with durable materials (e.g. concrete, brickwork, blockwork), or lined with resilient local materials approved by the county public health office for pit linings. </br>"}	\N	\N	\N	\N	\N	\N	\N
-1706099198431	18	Safely managed: wastewater contained in pit (or tank)	safely_managed_toilet_containment_wastewater	5	f	f	\N	\N	1701757876668	1706087820879	\N	\N	\N	{"text": "<b>OBSERVE:</b> any evidence of surface outflows from pits or tanks<br/><b>Surface outflows from pits or tanks:</b> EITHER continuous outflows of faecal sludge or wastewater from overflow pipes, holes or leaks; OR evidence of previous surface outflows (for example, increased vegetation growth around the pits, or visible sludge deposits from overflows or leaks)"}	\N	\N	\N	\N	\N	\N	\N
-1706099849459	20	School toilet accessibility: students with limited mobility or vision	school_toilet_accessibility_students_lim_mobility_vision	5	f	f	\N	\N	1701757876668	1706087820879	\N	\N	\N	{"text": "OBSERVE: is there at least one functional toilet accessible to those with limited mobility or vision?</br>\\n<b>Accessible: </b>the toilet can be accessed via a clear path without stairs or steps that is free of obstructions and has age-appropriate handrails; there is enough space inside for a wheelchair user to enter, turn, close the door and park by the toilet; the door is wide enough for a wheelchair (at least 80cm) and opens outward with minimal or no difference in floor height between outside and inside; and the door handle and seat are within reach of students using wheelchairs, crutches or sticks, including a fixed raised pan or movable raised toilet seat to accommodate students who may have difficulty squatting\\n"}	\N	\N	\N	\N	\N	\N	\N
-1706102678348	4	Availability of menstrual hygiene materials at the school	availability_menstrual_hygiene_materials_school	5	f	f	\N	\N	1701757876668	1706088324273	\N	\N	\N	{"text": "<b>INTERVIEW: are menstrual hygiene materials available at the school?</b></br>\\n<b>Menstrual hygiene materials and products: </b>disposable and reusable sanitary pads, tampons, and resuable menstrual cups, clean piece of cotton cloth or cotton wool, that are safe and hygienic, and absorb or collect blood during menstrual periods.</br>\\n<b>Available: </b>menstrual hygiene materials are currently available at the school (via free distribution or for purchase).\\n"}	\N	\N	\N	\N	\N	\N	\N
-1710734696796	25	Percentage of households using individual container-based toilets (number/total)	num_total_container_based	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783596	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-1710734742139	26	Number of households using individual toilets with open containers	households_toilets_open_individual	4	f	t	{"min": 0, "allowDecimal": false}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): number of individual (NON-SHARED) toilets with removable open containers (e.g. buckets)"}	\N	\N	\N	\N	\N	\N	\N
-1710735863761	7	Percentage of population with safely managed treatment of toilet wastes	percentage_safely_managed_treatment	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783636	\N	\N	\N	{"text": "Population using toilets with on-site containment (individual + SHARED) or sewer connections with safely managed TREATMENT of faecal sludge and wastewater by licensed service providers/ total population"}	\N	\N	\N	\N	\N	\N	\N
+1701331438759	9	Durable institutional toilet slab	durable_toilet_slab	5	f	t	\N	\N	1701172125596	1701174317249	\N	\N	\N	{"text": "<b>OBSERVE:</b> durable toilet slabs observed in institution? <b>Durable toilet slab:</b> the range of materials considered durable will depend on local contexts. The County Public Health Office should approve the use of resilient local materials that will not degrade rapidly under local conditions, and which provide similar lifespans, functionality and cleanliness to toilet slabs made from durable materials. <b>Examples:</b> Concrete toilet slab 2. Concrete toilet slab covered with ceramic tiles; 3. Structural plastic slab; 4. Durable hardwood floor covered with cement."}	{"new_institution_monitoring_update": {"new": ["g0_all_institution_toil_slabs_are_not_durable"]}}	\N	\N	\N	\N	\N	\N
+1701332234354	11	Safely managed containment: wastewater contained	safely_managed_wastewater_containment	5	f	t	\N	\N	1701172125596	1701174317249	\N	\N	\N	{"text": "<b>OBSERVE: any evidence of surface outflows from containment systems (for example, visible outflows or leaks; increased vegetation growth around the pit; visible deposits from previous outflows),</b><br/> <b>Surface outflows from containment: </b> EITHER continuous outflows of faecal sludge or wastewater from overflow pipes, holes or leaks; OR evidence of previous surface outflows (for example, increased vegetation growth around the containment system, or visible sludge deposits from overflows or leaks)."}	{"new_institution_monitoring_update": {"new": ["g0_visible_surface_outflows_from_containment"]}}	\N	\N	\N	\N	\N	\N
+1701334423738	13	Safely managed sanitation services: emptying, treatment & disposal	safely_managed_sanitation_services	5	f	t	\N	\N	1701172125596	1701174317249	\N	\N	\N	{"text": "<b>INTERVIEW: the last time it was emptied, where were the contents of the toilet containment emptied to?,</b><br/><b> INTERVIEW: the last time it was emptied, who emptied the toilet containment?,</b><br/><b> INTERVIEW (if the containment system is a lined pit or tank, which has never been emptied):</b> what will happen when the toilet containment is full?,</b><br/><b> Licensed service provider:</b> paid emptier that is approved and regulated by local authority to empty and transport toilet wastes,</b><br/><b> Unlicensed service provider:</b> paid or unpaid emptier who is NOT approved by local authority to empty and transport toilet wastes (for example, family members, neighbours, friends, informal local emptiers)</b> <br/><b>Off-site location:</b> site for the treatment, disposal or use of toilet wastes that is away from the household/community, whose location may or may not be known to the household.<br/><b>Sewer connection to licensed and functional treatment site: </b>the Public Health Office should check whether the sewer network flows to a licensed and functional treatment or disposal site."}	{"new_institution_monitoring_update": {"new": ["g0_unsafe_disposal_to_open_pit_open_space_open_draim_water_body_within_500m"]}}	\N	\N	\N	\N	\N	\N
+1701359046016	20	Hands-free operation of institutional handwashing facility	hands_free_operation_institutional_HWF	5	f	t	\N	\N	1701172125596	1701174317249	\N	\N	\N	{"text": "<b>OBSERVE: mechanism to collect water or trigger water flow</b><br/><b>Hands-free operation: </b>the handwashing station is operated by tap, or other hands-free mechanism that minimises contact with the water collection device and the water container"}	{"new_institution_monitoring_update": {"new": ["g0_hands_enter_water_container_during_collection_use"]}}	\N	\N	\N	\N	\N	\N
+1701359231461	22	Adequate drainage of washing water	adequate_drainage_washing_water	5	f	t	\N	\N	1701172125596	1701174317249	\N	\N	\N	{"text": "<b>OBSERVE: facility to collect washing water, and facility to drain and dispose of the washing water</b><br/><b>Collection of washing water: </b>container to collect dirty washing water (for example, a basin or other container)<br/><b>Drainage and disposal of washing water:</b> drainage pipe or other facility to direct the washing water to an appropriate disposal point (for example, a soakpit or drain)"}	{"new_institution_monitoring_update": {"new": ["g0_no_collection_disposal_washing_water"]}}	\N	\N	\N	\N	\N	\N
+1701358131461	23	Outcome result - Permanent handwashing stations in institution	outcome_permanent_handwashing_stations_in_institution	10	f	t	\N	\N	1701172125596	1701174317249	\N	\N	{"fnColor": {"G3 Permanent handwashing services": "#4088F4", "G1 Non-durable handwashing services": "#FDC74B", "G0 No or inadequate handwashing services": "#FD3F31"}, "fnString": "#handwashing_facility_institution#.includes(\\"g0\\") && #water_available_institutional_HWF#.includes(\\"g0\\") && #soap_available_institutional_HWF#.includes(\\"g0\\") && #institutional_HWF_type#.includes(\\"g0\\") && #hands_free_operation_institutional_HWF#.includes(\\"g0\\") && #adequate_drainage_washing_water#.includes(\\"g0\\") ? \\"G0 No or inadequate handwashing services\\" : (#institutional_HWF_type#.includes(\\"g3\\") && #hands_free_operation_institutional_HWF#.includes(\\"g3\\") && #adequate_drainage_washing_water#.includes(\\"g3\\")) ? \\"G3 Permanent handwashing services\\" : \\"G1 Non-durable handwashing services\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
+1701774299250	13	Type of facility toilet	facility_toilet_type	5	f	f	\N	\N	1701762893741	1701773373078	\N	\N	\N	{"text": "<b>OBSERVE:</b> What type of toilets are used by patients at the facility?<br/><b>Toilet type:</b> select the main type of toilet used<br/><b>Pit latrine without slab:</b> a dry toilet that does not have a squatting slab, platform or seat; or an open pit (or pit with large openings) where excreta are collected.<br/><b>Pit latrine with slab:</b> a dry toilet that collects excreta in a pit in the ground covered with a squatting slab or platform that is constructed from materials that are durable and easy to clean (e.g. concrete, bricks, stone, fibreglass, ceramic, metal, wooden planks or durable plastic)"}	\N	\N	\N	\N	\N	\N	\N
+5710700711	1	location	location	2	t	t	\N	\N	571070071	5710700711	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+546560207	9	Number of Non-Functional Taps	non_functional_taps	4	f	f	\N	\N	571070071	5710700712	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+1714374463	2	Are regulations, standards or guidelines in place for: Minimum requirements for toilets (e.g. planning or building regulations)	minimum_requirements_toilets	5	f	f	\N	\N	1709689683440	1709689683442	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
+1709698185027	1	Availability of a costed COUNTY sanitation and hygiene roadmap	costed_county_sanitation_roadmap	5	f	t	\N	\N	1709689683440	1709698185026	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
 1719698674764	3	Percentage of required sanitation and hygiene budget ALLOCATED in last financial year (%)	budget_allocation_percentage	10	f	t	\N	\N	1709689683440	1709698674762	\N	\N	{"fnColor": {}, "fnString": "#budget_required_sanitation_hygiene# > 0 && #budget_allocation_sanitation_hygiene# <= #budget_required_sanitation_hygiene# ? #budget_allocation_sanitation_hygiene# / #budget_required_sanitation_hygiene# * 100 : 0", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
+1699354006535	1	New Community or Monitoring update?	new_or_update	5	f	t	\N	\N	1699354006503	1699354006534	\N	\N	\N	{"text": "Entry of community data in RTMIS (first time) or update of monitoring data (existing community)"}	\N	\N	\N	\N	{"submission_type": {"monitoring": "update", "registration": "new", "verification": "verification", "certification": "certification"}}	\N	\N
+1710734742139	26	Number of households using individual toilets with open containers	households_toilets_open_individual	4	f	t	{"min": 0, "allowDecimal": false}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): number of individual (NON-SHARED) toilets with removable open containers (e.g. buckets)"}	\N	\N	\N	\N	\N	\N	\N
+1699951727891	2	Number of households in community	nr_hh_community	4	f	t	{"min": 1}	\N	1699354006503	1699951538607	\N	\N	\N	{"text": "<b>INTERVIEW:</b> how many households currently live in this community (village or urban neighbourhood), including temporary, migrant and seasonal visitors?<br><b>Household:</b> defined as a person or group of persons who: a) Are related or unrelated; b) live together in the same dwelling/housing unit (at least 4 nights a week); c) acknowledge one adult male or female as the head of household; d) share the same living arrangements; and e) are considered as one unit."}	\N	\N	\N	\N	\N	\N	\N
+1699951986776	5	Soil type in community	soil_type	5	f	t	\N	\N	1699354006503	1699951538607	\N	\N	\N	{"text": "<b>INTERVIEW:</b> what is the main soil type in this community?<br><b>Soil type:</b> what type of soil makes up the top 6 feet of the soil profile (only one type can be selected)<br><b>Soil drainage:</b> ask whether water soaks into the soil? If water soaks in quickly and easily, then it is likely to be a high drainage soil; if it soaks in at a normal rate, it is a medium drainage soil; and if water soaks in very slowly (or not at all) then it is a low drainage soil"}	{"new_or_update": {"new": ["medium_drainage_soil_sand_weathered_rock"]}}	\N	\N	\N	\N	\N	\N
+1699959649782	1	No exposed human excreta in communal areas	no_exposed_excreta_communal_areas	5	f	t	\N	\N	1699354006503	1699959649781	\N	\N	\N	{"text": "<b>OBSERVE: visible human faeces in communal areas</b><br><b>Open defecation in water bodies:</b> where groups or communities may practice open defecation in nearby water bodies (for example, people living near beaches, lakes and rivers), human excreta may not be visible in communal areas. In these cases, household interviews should be undertaken to assess whether people practice open defecation (including in water bodies) or use a toilet, in combination of observation of the presence of a functional toilet (to verify claims of toilet use).<br><b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."}	{"new_or_update": {"new": ["g0_child_adult_excreta_observed_communal_areas"]}}	\N	\N	\N	\N	\N	\N
+1702303499563	2	Outcome result - No exposed human excreta	outcome_no_exposed_excreta	10	f	t	\N	\N	1699354006503	1699959649781	\N	\N	{"fnColor": {"G1 No exposed human excreta in compound": "#FDC74B", "G0 Child or adult excreta observed in compound": "#FD3F31"}, "fnString": "#no_exposed_excreta_communal_areas#.includes(\\"g1\\") ? \\"G1 No exposed human excreta in compound\\" : \\"G0 Child or adult excreta observed in compound\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
+1699959743410	3	Safe management of diapers in communal areas	safe_diaper_management_communal_areas	5	f	t	\N	\N	1699354006503	1699959649781	\N	\N	\N	{"text": "<b>OBSERVE: no used diapers visible in communal areas</b><br><b>Safe management of washable cloths:</b> where washable cloths are used to contain child excreta, the cloths should be cleaned and washed in a safe place (for example, so that the child excreta do not contaminate the compound or a water point) and any faeces contained in the cloth should be safely disposed (for example, put or rinsed into the toilet, or buried).<br><b>Safe management of disposable diapers:</b> where disposable diapers are used to contain child excreta, the diapers should be properly closed and EITHER disposed to a covered waste pit, OR buried, OR collected for disposal at a safely managed communal disposal site. <br><b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."}	{"new_or_update": {"new": ["g0_used_diapers_visible_communal_areas"]}}	\N	\N	\N	\N	\N	\N
+1699960542156	16	Treated larval breeding sites in communal areas	treated_larval_breeding_sites_communal_areas	5	f	t	\N	\N	1699354006503	1699959649781	\N	\N	\N	{"text": "<b>INTERVIEW: where standing water provides larval breeding sites in communal areas, are treatment or other vector control activities used to limit mosquito breeding?</b><br><b>Larval breeding sites: </b>mosquitoes lay eggs directly in or near water, soil and at the base of plants in places that may fill with water.<br><b>Vector control activities:</b> draining of standing water; covering of water storage containers; filling of depressions that hold water; filling of cracks in water tank and septic tank covers; cover open vents or plumbing pipes (with insect screen).<br><b>Treatment activities:</b> use of larvicides to treat bodies of water that will not be used for drinking, and which cannot be covered, emptied or removed; use of fogging or surface applications to control adult mosquitoes"}	{"new_or_update": {"new": ["g0_no_treatment_management_communal_areas"]}}	\N	\N	\N	\N	\N	\N
+1699354849383	1	What is the location?	location	2	f	t	\N	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "This question contains a list of possible locations, starting with government area or district, down to the village."}	\N	\N	\N	\N	\N	{"submission_type": ["monitoring"]}	\N
+1710731783597	2	Number of households with individual connections to sewer system	households_connections_individual	4	f	t	{"min": 0}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): number of individual (NON-SHARED) household toilets with sewer connections"}	\N	\N	\N	\N	\N	\N	\N
+1710733969729	4	Percentage of households with individual connections to sewer system	percentage_inidividual_connections_to_sewer	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): population in households using toilets with individual (NON-SHARED) sewer connections/total population"}	\N	\N	\N	\N	\N	\N	\N
+1710734019421	5	Percentage of population with individual connections to sewer system	percentage_population_connections	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): population in households using toilets with individual (NON-SHARED) sewer connections/total population"}	\N	\N	\N	\N	\N	\N	\N
+1710734096895	6	Number of households with SHARED connections to sewer system	households_connections_shared	4	f	t	{"min": 0}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): number of SHARED toilets with sewer connections"}	\N	\N	\N	\N	\N	\N	\N
+1710734141149	7	Percentage of households with SHARED connections to sewer system	percentage_shared_connections_to_sewer	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): number of SHARED toilets with sewer connections/total number of households"}	\N	\N	\N	\N	\N	\N	\N
+1710734211303	8	Number of households using individual septic tank systems	households_septic_tanks_individual	4	f	t	{"min": 0, "allowDecimal": false}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): number of individual (NON-SHARED) toilets using septic tanks"}	\N	\N	\N	\N	\N	\N	\N
+1710734228673	9	Population using individual septic tank systems	population_septic_tanks_individual	4	f	t	{"min": 0}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): population in households using individual (NON-SHARED) septic tanks"}	\N	\N	\N	\N	\N	\N	\N
+1710734258591	10	Percentage of households using individual septic tanks	percentage_households_septic	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783596	\N	\N	\N	{"text": "RTMIS household data (1.4.5): number of individual (NON-SHARED) toilets with septic tanks/total number of households"}	\N	\N	\N	\N	\N	\N	\N
+1710735863761	7	Percentage of population with safely managed treatment of toilet wastes	percentage_safely_managed_treatment	4	f	t	{"max": 100, "min": 0, "allowDecimal": true}	\N	1710731783595	1710731783636	\N	\N	\N	{"text": "Population using toilets with on-site containment (individual + SHARED) or sewer connections with safely managed TREATMENT of faecal sludge and wastewater by licensed service providers/ total population"}	\N	\N	\N	\N	\N	\N	\N
+16993542207341	1	New household registration or Monitoring update?	new_or_monitoring	5	f	f	\N	\N	16993539153551	16993539153821	\N	\N	\N	{"text": "Registration of household in RTMIS (new household) or update of monitoring data (existing household)"}	\N	\N	\N	New or Update	{"submission_type": {"monitoring": "update", "registration": "new", "verification": "verification", "certification": "certification"}}	\N	\N
+16994206218401	20	Household: in any at-risk categories?	at_risk_categories	6	f	t	\N	\N	16993539153551	16994179587471	\N	\N	\N	{"text": "<b>INTERVIEW</b>: is the household in any of the following at-risk household categories? Household may be in more than one category \\n\\n<b>At-risk household</b>: defined as a household at risk of not achieving or not sustaining the required sanitation and hygiene outcomes, or at risk from the public health hazards associated with unsafely managed sanitation and hygiene services\\n<b>At-risk categories</b>: the county public health office should determine the at-risk categories to be flagged in this county. The following list includes a number of potential at-risk categories, but should be edited to match the priority at-risk categories identified by the county public health office"}	{"new_or_monitoring": {"new": ["other_household_not_in_atrisk_category"]}}	\N	\N	At-risk Categories	\N	\N	\N
+16994236967201	9	Toilet interface	toilet_interface	5	f	t	\N	\N	16993539153551	16994222860901	\N	\N	\N	{"text": "OBSERVE: type of toilet interface\\nToilet interface: part of the toilet through which the excreta pass into the containment system\\nExamples: 1. Drophole, 2. Pour-flush pan, 3. SATO pan."}	{"new_or_monitoring": {"new": ["g0_no_toilet"]}}	\N	\N	\N	\N	\N	\N
 1699354220734	1	New household registration or Monitoring update?	reg_or_update	5	f	t	\N	\N	1699353915355	1699353915382	\N	\N	\N	{"text": "Registration of household in RTMIS (new household) or update of monitoring data (existing household)"}	\N	\N	\N	\N	{"submission_type": {"monitoring": "update", "registration": "new", "verification": "verification", "certification": "certification"}}	\N	\N
 1699420621840	21	Household: in any at-risk categories?	hh_in_any_atrisk_categories	6	f	t	\N	\N	1699353915355	1699417958747	\N	\N	\N	{"text": "<b>INTERVIEW</b>: is the household in any of the following at-risk household categories? Household may be in more than one category <br/><b>At-risk household</b>: defined as a household at risk of not achieving or not sustaining the required sanitation and hygiene outcomes, or at risk from the public health hazards associated with unsafely managed sanitation and hygiene services<br/><b>At-risk categories</b>: the county public health office should determine the at-risk categories to be flagged in this county. The following list includes a number of potential at-risk categories, but should be edited to match the priority at-risk categories identified by the county public health office"}	{"reg_or_update": {"new": ["other_hh_not_in_atrisk_category"]}}	\N	\N	\N	\N	\N	\N
 1710742052	2	🟢 G1-1.2b : Name the household head of the other household toilet used?	name_household_head_other_toilet_used	3	f	f	\N	[{"id": 1699428072669, "options": ["g1_use_other_hh_toilet"]}]	1699353915355	1699428072668	\N	\N	\N	{"text": "<b>Other household toilet:</b> enter the name of the household head who owns the other household toilet used <b>INTERVIEW: </b> do you share this toilet with others who are not members of your household?<br/><b>Shared toilet use:</b> shared use of a toilet is acceptable, providing that no more than 10-15 people use the toilet. The County Public Health Office should agree on the maximum number of people sharing a toilet based on local practices and evidence of hygienic outcomes in shared toilets."}	\N	\N	\N	\N	\N	\N	\N
@@ -19346,38 +19356,27 @@ COPY public.question (id, "order", label, name, type, meta, required, rule, depe
 1699428661689	18	🟢 G3-1.1a : has the pit (or tank) ever been emptied?	safely_managed_onsite_containment	5	f	t	\N	[{"id": 1699428072669, "options": ["g0_do_not_use_toilet_practice_od", "g1_use_own_toilet", "g1_use_other_hh_toilet"]}]	1699353915355	1699428072668	\N	\N	\N	{"text": "<b>INTERVIEW:</b> has the toilet pit (or tank) ever filled up? <br/><b>INTERVIEW:</b> what happened when the toilet pit (or tank) last filled up?"}	{"reg_or_update": {"new": ["g0_no_toilet_or_no_containmentcollection_system"]}}	\N	\N	\N	\N	\N	\N
 1699428820338	19	 🟢 G3-1.1b : where were the pit (or tank) contents emptied to?	safely_managed_sanitation_services	5	f	t	\N	[{"id": 1699428661689, "options": ["g3_yes_containment_emptied", "g3_yes_some_contents_removed", "g3_yes_closed_container_removed", "g3_alternating_twin_pits", "g3_connection_to_sewer_network"]}]	1699353915355	1699428072668	\N	\N	\N	{"text": "<b>INTERVIEW:<b> the last time it was emptied, who emptied the toilet pit (or tank)?<br/><b>INTERVIEW</b> if a lined pit or tank: what will happen when the toilet pit (or tank) is full?<br/><b>INTERVIEW:</b> how long were the contents stored (without any fresh excreta entering the toilet pit or tank) before emptying?"}	{"reg_or_update": {"new": ["g0_no_toilet_or_no_containmentcollection_system"]}}	\N	\N	\N	\N	\N	\N
 1699426059842	11	🔵 G1-1.4b : Clean toilet walls	clean_toilet_walls	5	f	t	\N	[{"id": 1699428072669, "options": ["g0_do_not_use_toilet_practice_od", "g1_use_own_toilet", "g1_use_other_hh_toilet"]}]	1699353915355	1699422286090	\N	\N	\N	{"text": "<b>OBSERVE: are the toilet walls clean?</b><br/><b>Clean:</b> walls of the toilet should appear clean, with no visible faeces, urine or used cleaning materials (for example, toilet paper or other paper, leaves or other anal cleansing materials).<br/><b>Easily cleaned:</b> minor traces of faeces or soiled materials are acceptable only if easily cleaned (for example, if the traces are not yet dry and difficult to clean)"}	{"reg_or_update": {"new": ["g0_no_toilet"]}}	\N	\N	\N	\N	\N	\N
-1699427405024	12	🔵 G2-1.2 : Durable toilet slab	durable_toilet_slab	5	f	t	\N	[{"id": 1699428072669, "options": ["g0_do_not_use_toilet_practice_od", "g1_use_own_toilet", "g1_use_other_hh_toilet"]}]	1699353915355	1699422286090	\N	\N	\N	{"text": "<b>OBSERVE: is the toilet slab made from durable materials?</b><br/><b>Durable toilet slab:</b> the range of materials considered durable will depend on local contexts. The County Public Health Office should approve the use of resilient local materials that will not degrade rapidly under local conditions, and which provide similar lifespans, functionality and cleanliness to toilet slabs made from durable materials.<br/><b>Examples:</b> 1. Concrete toilet slab; 2. Concrete toilet slab covered with ceramic tiles; 3. Structural plastic slab. 4. Durable hardwood floor covered with cement."}	{"reg_or_update": {"new": ["g0_no_toilet"]}}	\N	\N	\N	\N	\N	\N
 1711436502	9	G2-1 Outome result: Individual Use of durable toilet with safe containment	o_r_durable_toilet_with_safe_containment	10	f	t	\N	\N	1699353915355	1710748304	\N	\N	{"fnColor": {"G2 Durable toilet with safe containment": "#93D371", "G0 Toilet NOT durable and with safe no containment": "#FD3F31"}, "fnString": "#observe_safely_managed_containment#.includes(\\"g2\\") && #visible_surface_outflows#.includes(\\"g2\\") && #community_low_groundwater_contamination#.includes(\\"g2\\") && #durable_toilet_slab#.includes(\\"g2\\") && #durable_toilet_containment_collection_system#.includes(\\"g2\\") ? \\"G2 Durable toilet with safe containment\\" : \\"G0 Toilet NOT durable and with no safe containment\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
+1699430580239	6	 🔵 G3-2.1 : Handwashing facility type	handwashing_facility_type	5	f	t	\N	[{"id": 1699429162796, "options": ["g1_handwashing_facility_by_toilet", "g1_handwashing_facility_in_kitchen", "g1_portable_handwashing_facility_basin_jug_jerrycan_container", "g1_two_handwashing_facilities", "g1_more_than_two_handwashing_facilities"]}]	1699353915355	1699429162795	\N	\N	\N	{"text": "<b>OBSERVE:</b> what type of handwashing facility is used? <b>Permanent handwashing station:</b> facility made from durable materials, with piped water connection or adequate water storage, and located in a fixed place that is appropriate for handwashing at critical times. <br/>Temporary handwashing facility: tippy tap or other facility made from non-durable materials.<br/> <b>Portable bowl:</b> open container that can be picked up and moved."}	{"reg_or_update": {"new": ["g0_no_handwashing_facility"]}}	\N	\N	\N	\N	\N	\N
 1699430761393	8	 🔵 G3-2.3 : Drainage of washing water	adequate_drainage_of_washing_water	5	f	t	\N	[{"id": 1699429162796, "options": ["g1_handwashing_facility_by_toilet", "g1_handwashing_facility_in_kitchen", "g1_portable_handwashing_facility_basin_jug_jerrycan_container", "g1_two_handwashing_facilities", "g1_more_than_two_handwashing_facilities"]}]	1699353915355	1699429162795	\N	\N	\N	{"text": "<b>OBSERVE: facility to collect washing water, and facility to drain and dispose of the washing water</b><br/><b>Collection of washing water:</b> container to collect dirty washing water (for example, a basin or other container)<br/><b>Drainage and disposal of washing water:</b> drainage pipe or other facility to direct the washing water to an appropriate disposal point (for example, a soakpit or drain)"}	{"reg_or_update": {"new": ["g0_no_handwashing_facility"]}}	\N	\N	\N	\N	\N	\N
 1699431035188	10	🟢 G2-2.2 : When do you usually wash your hands? Note critical FOOD times	handwashing_critical_food_times	5	f	t	\N	[{"id": 1699429162796, "options": ["g1_handwashing_facility_by_toilet", "g1_handwashing_facility_in_kitchen", "g1_portable_handwashing_facility_basin_jug_jerrycan_container", "g1_two_handwashing_facilities", "g1_more_than_two_handwashing_facilities"]}]	1699353915355	1699429162795	\N	\N	\N	{"text": "<b>INTERVIEW:</b> what do you usually use to wash your hands? <b>Assessment:</b> if the household confirms handwashing with soap and water, note whether any of the critical times (related to toilets, food, infant excreta and animals) are mentioned. <br/>Ask about “any other times when you wash your hands?” but DO NOT make suggestions. <b>Critical TOILET times:</b> washing of hands with soap and water AFTER toilet use and AFTER anal cleansing."}	{"reg_or_update": {"new": ["g0_no_handwashing_facility"]}}	\N	\N	\N	\N	\N	\N
 1699432052966	12	🟢 G2-2.4 : When do you usually wash your hands? Note critical ANIMAL times	handwashing_critical_animal_times	5	f	t	\N	[{"id": 1710829091, "options": ["yes_animals_kept_in_household_compound"]}, {"id": 1699429162796, "options": ["g1_handwashing_facility_by_toilet", "g1_handwashing_facility_in_kitchen", "g1_portable_handwashing_facility_basin_jug_jerrycan_container", "g1_two_handwashing_facilities", "g1_more_than_two_handwashing_facilities"]}]	1699353915355	1699429162795	\N	\N	\N	{"text": "<b>INTERVIEW:</b> what do you usually use to wash your hands? <b>Assessment:</b> if the household confirms handwashing with soap and water, note whether any of the critical times (related to toilets, food, infant excreta and animals) are mentioned. <br/>Ask about “any other times when you wash your hands?” but DO NOT make suggestions. <b>Critical TOILET times:</b> washing of hands with soap and water AFTER toilet use and AFTER anal cleansing."}	{"reg_or_update": {"new": ["g0_no_handwashing_facility"]}, "animals_kept_in_household_compound": {"new": ["g2_no_animals"]}}	\N	\N	\N	\N	\N	\N
 1699432130951	2	🟢 G1-4.1 : Safe management of child excreta in compound	safe_management_of_child_excreta_in_compound	5	f	t	\N	[{"id": 1712229529, "min": 1}]	1699353915355	1699432130950	\N	\N	\N	{"text": "<b>INTERVIEW:</b> the last time [name of youngest child] defecated, where did they defecate? <b>INTERVIEW:</b> what happened to the child faeces after defecation? If collected, where were the child faeces disposed? <b>INTERVIEW:</b> If a collection tool was used, was it washed safely?<b>Child excreta:</b> faeces or urine of children who are considered too young to use a toilet easily <b>Unsafely washed:</b> washing of dirty collection tools (for example, potty or shovel) in household compound, at a water point, without safe disposal of the contaminated washing water. <b>Unsafely disposed:</b> child faeces diposed to open space, field, open drain, water body."}	{"reg_or_update": {"new": ["g0_soiled_potty_or_collection_tool_unsafely_washed"]}}	\N	\N	\N	\N	\N	\N
 1699432802923	3	🔵 🟢 G1-4.2 : Safe management of used diapers in compound	safe_management_of_diapers_in_compound	5	f	t	\N	[{"id": 1712229529, "min": 1}]	1699353915355	1699432130950	\N	\N	\N	{"text": "<b>OBSERVE:</b> are any used diapers visible in the compound? <b>INTERVIEW:</b> the last time [name of youngest child] defecated, were the faeces contained by a cloth or a diaper? <b>INTERVIEW:</b> if a washable cloth was used, where was the cloth cleaned and washed? <br/> And how were any faeces on the cloth disposed? <b>INTERVIEW:</b> if a disposable diaper was used, what happened to the used diaper? <b>Safe management of used diapers:</b> where disposable diapers are used to contain child excreta, <br/>the used diapers should be properly closed and EITHER disposed to a covered waste pit, OR buried, OR collected for disposal at a safely managed communal disposal site. <b>Safe management of washable cloths:</b> where washable cloths are used to contain child excreta, the used cloths should be cleaned and washed in a safe place (for example, so that the child excreta do not contaminate the household compound or a water point)<br/> and any faeces contained in the cloth should be safely disposed (for example, put or rinsed into the toilet, or buried). <b>Used diapers put in the toilet pit:</b> used diapers should not be disposed into a toilet pit because they do not degrade, and may cause the pit to fill up rapidly."}	{"reg_or_update": {"new": ["g0_used_diapers_visible_in_the_compound"]}}	\N	\N	\N	\N	\N	\N
 1699433394633	9	🔵 G2-3.3c : Raised milk container storage	raised_container_storage	5	f	t	\N	[{"id": 16994260598422, "options": ["yes"]}, {"id": 1710829091, "options": ["yes_animals_kept_in_household_compound"]}]	1699353915355	1711022444	\N	\N	\N	{"text": "<b>OBSERVE: raised storage of empty milk containers</b><br/><b>Raised milk container storage:</b> empty milk containers should be stored off the ground, inside the house (or kitchen), and protected from animal contact in raised storage (for example, cupboards, shelves, boxes and containers)"}	{"animals_kept_in_household_compund": {"no_animals_kept_in_household_compound": ["g2_no_animals_no_milking"]}}	\N	\N	\N	\N	\N	\N
-1699433765217	6	🔵 G2-4.2b : Protected water point	protected_water_points	5	f	t	\N	[{"id": 16994260598422, "options": ["yes"]}]	1699353915355	1711022464	\N	\N	\N	{"text": "<b>OBSERVE: protection of water points in compound</b><br/><b>Protected surface water sources (pans, dams, lakes, rivers):</b> fenced to prevent animal access<br/><b>Protected water supply source catchments:</b> protected from wastes and pollutants, including human excreta and animal wastes (for example, by excluding animals and prohibiting unsafe activities, such as the use of manure or chemical fertilisers in areas around water supply sources).<br/><b>Protected water points:</b> provide separate water troughs for animal watering<br/><b>Protected groundwater sources (springs, wells, handpumps, boreholes):</b> protected from contamination, wastes and pollutants (for example, by the construction of a spring box, raised parapet wall and cover, wellhead protection and sealed borehole casing)."}	{"monitor_G2": {"yes": ["g0_no_protection_of_water_points"]}}	\N	\N	\N	\N	\N	\N
+1699433503692	2	🟢 G2-4.1b : Good water quality	adequate_water_quality	5	f	t	\N	[{"id": 16994260598422, "options": ["yes"]}]	1699353915355	1711022464	\N	\N	\N	{"text": "<b>OBSERVE: quality of drinking water</b><br/><b>INTERVIEW:</b> is the water supplied by your main source usually of acceptable quality?<br/><b>INTERVIEW:</b> what do you usually do to the water to make it safe to drink? [Options: boil, add chlorine, strain through cloth, use water filter, solar disinfection, settlement, other, NOT required]<br/><b>Adequate quality at collection point:</b> water is collected from protected groundwater sources (for example, covered wells, protected boreholes, or protected water points); OR is treated surface water (e.g. treated by use of chlorine dispensers)<br/><b>Household water treatment:</b> water is settled, filtered, boiled, solar disinfected, or chemically treated (for example, by use of chlorine solution or tablets) by the household"}	{"monitor_G2": {"yes": ["g0_no_treatment_and_low_quality"]}}	\N	\N	\N	\N	\N	\N
 1699434044707	3	🔵 G2-5.2a : Presence of animal waste storage area	safely_managed_animal_waste_storage	5	f	t	\N	[{"id": 16994260598422, "options": ["yes"]}, {"id": 1710829091, "options": ["yes_animals_kept_in_household_compound"]}]	1699353915355	1711022479	\N	\N	\N	{"text": "<b>OBSERVE: storage of animal wastes in the compound</b><br/><b>Animal wastes:</b> include animal faeces and urine, animal bedding, spilled feed and water, contaminated washing water and other wastewater, and animal parts or products (for example, blood, skins, feathers, organs). These wastes may be combined, or separate, depending on local practices.<br/><b>Animal wastes not accessible by animals or children:</b> any animal waste facility should prevent animal and child access to the wastes."}	{"animals_kept_in_household_compund": {"no_animals_kept_in_household_compound": ["g2_no_animal_wastes"]}}	\N	\N	\N	\N	\N	\N
 1699434771449	5	🔵 🟢 G3-3.3 : Good vector control	good_vector_control	5	f	t	\N	[{"id": 16994260598423, "options": ["yes"]}]	1699353915355	1711022498	\N	\N	\N	{"text": "<b>OBSERVE:</b> is standing water visible in compound? <b>INTERVIEW:</b> where standing water provides larval breeding sites, are vector treatment or other vector control activities used to limit mosquito breeding? <br/><b>INTERVIEW:</b> is standing water visible at any time of the year? Standing water: accumulation of wastewater (or stormwater) in compound, which does NOT immediately drain away<br/> <b>No standing water:</b> wastewater (or stormwater) is not currently visible in the compound, and is not visible at any time of the year <b>Larval breeding sites:</b> locations where mosquitoes lay eggs directly in or near water, soil and at the base of plants in places that may fill with water.<b>Vector control activities:</b> draining of standing water; covering of water storage containers; filling of depressions that hold water; filling of cracks in water tank and septic tank covers; covering of open vents or plumbing pipes (with insect screen).<br/> <b>Vector treatment activities:</b> use of larvicides to treat bodies of water that will not be used for drinking, and which cannot be covered, emptied or removed; use of fogging or surface applications to control adult mosquitoes."}	{"monitor_G3": {"yes": ["g0_significant_visible_solid_wastes"]}}	\N	\N	\N	\N	\N	\N
 1699435397728	4	🔵 G3-5.4 : Nutritious diet for 6-month to 2-year old children	nutritious_diet_6m_2y	5	f	t	\N	[{"id": 16994260598423, "options": ["yes"]}, {"id": 1712229529, "min": 1}]	1699353915355	1711022528	\N	\N	\N	{"text": "<b>OBSERVE: what food types/groups are present in the home?</b><br/><b>INTERVIEW (to mothers of under 2 year children):</b> which of these foods have been fed to your under-2 children in the last 7 days?<br/><b>Nutritious diet: </b>all 6-month to under-2 children received foods from 5 or more food groups during the previous day<br/><b>Nutritious diet assessment:</b> by household interview, supported by observation of the foods available in the house (to confirm reported diet of under-2 children)<br/><b>Nutritious food groups:</b> 1. Breast milk 2. Grains, white roots, tubers and plaintains 3. Legumes and nuts 4. Dairy 5. Flesh foods (meat, fish, poultry, liver and organ meats) 6. Eggs 7. Vitamin A rich fruits and vegetables (for example, sweet potato, kale, carrot, red pepper, mango, pink grapefruit, watermelon) 8. Other fruits and vegetables."}	{"monitor_G3": {"yes": ["g1_low_nutrition_diet_some_or_all_children_eat_from_only_12_food_groups"]}}	\N	\N	\N	\N	\N	\N
 1702297046194	10	G2-5.1 Outcome result - No visible animal wastes in house or compound	o_r_no_visible_animal_wastes_in_house_or_compound	10	f	f	\N	[{"id": 16994260598422, "options": ["yes"]}]	1699353915355	1710757443	\N	\N	{"fnColor": {"G2 No visible animal wastes": "#93D371", "G1 Some animal wastes visible": "#FDC74B", "G0 Widespread presence of animal wastes": "#FD3F31"}, "fnString": "#monitor_G2#.includes(\\"yes\\") && #no_animal_wastes_in_house#.includes(\\"g0\\") && #no_animal_wastes_in_compound#.includes(\\"g0\\") ? \\"G0 Widespread presence of animal wastes\\" : #no_animal_wastes_in_house#.includes(\\"g2\\") && #no_animal_wastes_in_compound#.includes(\\"g2\\") ? \\"G2 No visible animal wastes\\" : \\"G1 Some animal wastes visible\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
-1702298863458	16	G3-4.1 Outcome result - Clean face and hands	o_r_clean_face_and_hands	10	f	f	\N	[{"id": 16994260598423, "options": ["yes"]}]	1699353915355	1710757443	\N	\N	{"fnColor": {"G1 No personal hygiene": "#FDC74B", "G3 Good personal hygiene": "#4088F4", "G2 Inadequate personal hygiene": "#93D371"}, "fnString": "#monitor_G3#.includes(\\"yes\\") && #clean_faces#.includes(\\"g1\\") && #clean_hands#.includes(\\"g1\\") ? \\"G1 No personal hygiene\\" : #clean_faces#.includes(\\"g3\\") && #clean_hands#.includes(\\"g3\\") ? \\"G3 Good personal hygiene\\" : \\"G2 Inadequate personal hygiene\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
-1702301820095	17	G3-4.2 Outcome result - Good menstrual health	o_r_good_menstrual_health	10	f	f	\N	[{"id": 16994260598423, "options": ["yes"]}, {"id": 1712234331, "min": 1}]	1699353915355	1710757443	\N	\N	{"fnColor": {"G1 No menstrual hygiene": "#FDC74B", "G3 Good menstrual hygiene": "#4088F4", "G2 Inadequate menstrual hygiene": "#93D371"}, "fnString": "#adequate_washing_place#.includes(\\"g1\\") && #menstrual_hygiene_disposal_site#.includes(\\"g1\\") && #availability_of_hygiene_materials#.includes(\\"g1\\") ? \\"G1 No menstrual hygiene\\" : #adequate_washing_place#.includes(\\"g3\\") && #menstrual_hygiene_disposal_site#.includes(\\"g3\\") && #availability_of_hygiene_materials#.includes(\\"g3\\") ? \\"G3 Good menstrual hygiene\\" : \\"G2 Inadequate menstrual hygiene\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
+1702297533085	11	G2-5.2 Outcome result - Safe management of animal wastes in compound	o_r_safe_management_of_animal_wastes_in_compound	10	f	f	\N	[{"id": 16994260598422, "options": ["yes"]}]	1699353915355	1710757443	\N	\N	{"fnColor": {"G2 Safely managed animal wastes": "#93D371", "G0 Animal wastes UNSAFELY managed": "#FD3F31", "G1 Inadequate management of animal wastes": "#FDC74B"}, "fnString": "#monitor_G2#.includes(\\"yes\\") && #safely_managed_animal_waste_storage#.includes(\\"g0\\") && #safe_location_of_animal_waste_storage#.includes(\\"g0\\") && #safe_management_of_animal_waste_storage#.includes(\\"g0\\") ? \\"G0 Animal wastes UNSAFELY managed\\" : #safely_managed_animal_waste_storage#.includes(\\"g2\\") && #safe_location_of_animal_waste_storage#.includes(\\"g2\\") && #safe_management_of_animal_waste_storage#.includes(\\"g2\\") ? \\"G2 Safely managed animal wastes\\" : \\"G1 Inadequate management of animal wastes\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
 1702302041022	19	G3-5.1 Outcome result - Fully immunized children	o_r_fully_immunized_children	10	f	f	\N	[{"id": 16994260598423, "options": ["yes"]}, {"id": 1712229529, "min": 1}]	1699353915355	1710757443	\N	\N	{"fnColor": {"G1 Low nutrition or protection": "#FDC74B", "G3 Good nutrition and protection": "#4088F4", "G2 Inadequate nutrition or protection": "#93D371"}, "fnString": "#fully_immunized_children#.includes(\\"g1\\") ? \\"G1 Low nutrition or protection\\" : #fully_immunized_children#.includes(\\"g3\\") ? \\"G3 Good nutrition and protection\\" : \\"G2 Inadequate nutrition or protection\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
-1715238587	4	Outcome result - Overall outcome	overall_outcome	10	f	f	\N	\N	1699353915355	1703086270253	\N	\N	{"fnColor": {"G0": "#DB3B3B", "G1": "#FDC74B", "G2": "#93D371", "G3": "#4088F4"}, "fnString": "#overall_toilet_outcome#.includes(\\"G1\\") && #overall_hygiene_outcome#.includes(\\"G1\\") && #overall_other_outcome#.includes(\\"G1\\") ? 'G1' : #overall_toilet_outcome#.includes(\\"G2\\") && #overall_hygiene_outcome#.includes(\\"G2\\") && #overall_other_outcome#.includes(\\"G2\\") ? 'G2' : #overall_toilet_outcome#.includes(\\"G3\\") && #overall_hygiene_outcome#.includes(\\"G3\\") && #overall_other_outcome#.includes(\\"G3\\") ? 'G3' : 'G0'", "multiline": false}	\N	\N	f	\N	\N	\N	\N	\N
-16994206218401	20	Household: in any at-risk categories?	at_risk_categories	6	f	t	\N	\N	16993539153551	16994179587471	\N	\N	\N	{"text": "<b>INTERVIEW</b>: is the household in any of the following at-risk household categories? Household may be in more than one category \\n\\n<b>At-risk household</b>: defined as a household at risk of not achieving or not sustaining the required sanitation and hygiene outcomes, or at risk from the public health hazards associated with unsafely managed sanitation and hygiene services\\n<b>At-risk categories</b>: the county public health office should determine the at-risk categories to be flagged in this county. The following list includes a number of potential at-risk categories, but should be edited to match the priority at-risk categories identified by the county public health office"}	{"new_or_monitoring": {"new": ["other_household_not_in_atrisk_category"]}}	\N	\N	At-risk Categories	\N	\N	\N
-16994198156601	5	Number of functional toilets	num_functional_toilets	4	f	t	{"max": 99, "min": 0}	\N	16993539153551	1701174317249	\N	\N	\N	{"text": "<b>Number of functional toilets:</b> count the number of separate toilet stances or separate toilet seats that are FUNCTIONAL (each of which can be used privately and separately). <b>Functional toilet:</b> the institutional toilet is functioning as intended, and can be used (that is, is not blocked, abandoned or collapsed)"}	\N	\N	\N	\N	\N	\N	\N
-16994239461701	10	Containment or collection system	containment_or_collection_system	5	f	f	\N	[{"id": 16994222860911, "options": ["g1_toilet_observed"]}]	16993539153551	16994222860901	\N	\N	\N	{"text": "OBSERVE: type of excreta containment or collection system\\nContainment system: pit or tank (or other) that contains and stores excreta\\nCollection system: connection through which excreta and wastewater are collected\\nExamples: 1. Latrine pit; 2. Septic tank; 3. Sewer connection.\\nFlush to don't know: household does not know where the toilet flushes to, but no surface outlets or open discharges are visible (in this case, likely to be a buried pit or tank)"}	{"new_or_monitoring": {"new": ["g0_no_toilet"]}}	\N	\N	Containment or collection system	\N	\N	\N
-1699951986776	5	Soil type in community	soil_type	5	f	t	\N	\N	1699354006503	1699951538607	\N	\N	\N	{"text": "<b>INTERVIEW:</b> what is the main soil type in this community?<br><b>Soil type:</b> what type of soil makes up the top 6 feet of the soil profile (only one type can be selected)<br><b>Soil drainage:</b> ask whether water soaks into the soil? If water soaks in quickly and easily, then it is likely to be a high drainage soil; if it soaks in at a normal rate, it is a medium drainage soil; and if water soaks in very slowly (or not at all) then it is a low drainage soil"}	{"new_or_update": {"new": ["medium_drainage_soil_sand_weathered_rock"]}}	\N	\N	\N	\N	\N	\N
-1699959649782	1	No exposed human excreta in communal areas	no_exposed_excreta_communal_areas	5	f	t	\N	\N	1699354006503	1699959649781	\N	\N	\N	{"text": "<b>OBSERVE: visible human faeces in communal areas</b><br><b>Open defecation in water bodies:</b> where groups or communities may practice open defecation in nearby water bodies (for example, people living near beaches, lakes and rivers), human excreta may not be visible in communal areas. In these cases, household interviews should be undertaken to assess whether people practice open defecation (including in water bodies) or use a toilet, in combination of observation of the presence of a functional toilet (to verify claims of toilet use).<br><b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."}	{"new_or_update": {"new": ["g0_child_adult_excreta_observed_communal_areas"]}}	\N	\N	\N	\N	\N	\N
-1699959743410	3	Safe management of diapers in communal areas	safe_diaper_management_communal_areas	5	f	t	\N	\N	1699354006503	1699959649781	\N	\N	\N	{"text": "<b>OBSERVE: no used diapers visible in communal areas</b><br><b>Safe management of washable cloths:</b> where washable cloths are used to contain child excreta, the cloths should be cleaned and washed in a safe place (for example, so that the child excreta do not contaminate the compound or a water point) and any faeces contained in the cloth should be safely disposed (for example, put or rinsed into the toilet, or buried).<br><b>Safe management of disposable diapers:</b> where disposable diapers are used to contain child excreta, the diapers should be properly closed and EITHER disposed to a covered waste pit, OR buried, OR collected for disposal at a safely managed communal disposal site. <br><b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."}	{"new_or_update": {"new": ["g0_used_diapers_visible_communal_areas"]}}	\N	\N	\N	\N	\N	\N
-1702307100780	14	Outcome result - Safe management of solid wastes	outcome_safe_management_solid_wastes	10	f	t	\N	\N	1699354006503	1699959649781	\N	\N	{"fnColor": {"G1 Solid wastes UNSAFELY managed in communal areas": "#FDC74B", "G3 Safe management of solid wastes in communal areas": "#4088F4", "G2 Inadequate management of solid wastes in communal areas": "#93D371"}, "fnString": "(#no_visible_solid_wastes_communal_areas#.includes(\\"g0\\")) ? \\"G1 Solid wastes UNSAFELY managed in communal areas\\" : (#no_visible_solid_wastes_communal_areas#.includes(\\"g3\\") ? \\"G3 Safe management of solid wastes in communal areas\\" : \\"G2 Inadequate management of solid wastes in communal areas\\")", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
-1699960542156	16	Treated larval breeding sites in communal areas	treated_larval_breeding_sites_communal_areas	5	f	t	\N	\N	1699354006503	1699959649781	\N	\N	\N	{"text": "<b>INTERVIEW: where standing water provides larval breeding sites in communal areas, are treatment or other vector control activities used to limit mosquito breeding?</b><br><b>Larval breeding sites: </b>mosquitoes lay eggs directly in or near water, soil and at the base of plants in places that may fill with water.<br><b>Vector control activities:</b> draining of standing water; covering of water storage containers; filling of depressions that hold water; filling of cracks in water tank and septic tank covers; cover open vents or plumbing pipes (with insect screen).<br><b>Treatment activities:</b> use of larvicides to treat bodies of water that will not be used for drinking, and which cannot be covered, emptied or removed; use of fogging or surface applications to control adult mosquitoes"}	{"new_or_update": {"new": ["g0_no_treatment_management_communal_areas"]}}	\N	\N	\N	\N	\N	\N
-1715245783	34	Outcome result - Overall outcome	overall_outcome	10	f	t	\N	\N	1699354006503	1699959649781	\N	\N	{"fnColor": {"G0": "#DB3B3B", "G1": "#FDC74B", "G2": "#93D371", "G3": "#4088F4"}, "fnString": "#outcome_no_exposed_excreta#.includes(\\"G1\\") && #outcome_safe_diaper_management#.includes(\\"G1\\") && #outcome_safe_management_communal_water_sources#.includes(\\"G1\\") && #outcome_safely_managed_sanitation_services#.includes(\\"G1\\") && #safe_waste_management_in_communal_areas#.includes(\\"G1\\") ? #outcome_no_exposed_excreta#.includes(\\"G2\\") && #outcome_safe_diaper_management#.includes(\\"G2\\") && #outcome_safe_management_communal_water_sources#.includes(\\"G2\\") && #outcome_safely_managed_sanitation_services#.includes(\\"G2\\") && #safe_waste_management_in_communal_areas#.includes(\\"G2\\") ? #outcome_no_exposed_excreta#.includes(\\"G3\\") && #outcome_safe_diaper_management#.includes(\\"G3\\") && #outcome_safe_management_communal_water_sources#.includes(\\"G3\\") && #outcome_safely_managed_sanitation_services#.includes(\\"G3\\") && #safe_waste_management_in_communal_areas#.includes(\\"G3\\") ? 'G3' : 'G2' : 'G1' : 'G0'", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
-1701332234354	11	Safely managed containment: wastewater contained	safely_managed_wastewater_containment	5	f	t	\N	\N	1701172125596	1701174317249	\N	\N	\N	{"text": "<b>OBSERVE: any evidence of surface outflows from containment systems (for example, visible outflows or leaks; increased vegetation growth around the pit; visible deposits from previous outflows),</b><br/> <b>Surface outflows from containment: </b> EITHER continuous outflows of faecal sludge or wastewater from overflow pipes, holes or leaks; OR evidence of previous surface outflows (for example, increased vegetation growth around the containment system, or visible sludge deposits from overflows or leaks)."}	{"new_institution_monitoring_update": {"new": ["g0_visible_surface_outflows_from_containment"]}}	\N	\N	\N	\N	\N	\N
-1701334423738	13	Safely managed sanitation services: emptying, treatment & disposal	safely_managed_sanitation_services	5	f	t	\N	\N	1701172125596	1701174317249	\N	\N	\N	{"text": "<b>INTERVIEW: the last time it was emptied, where were the contents of the toilet containment emptied to?,</b><br/><b> INTERVIEW: the last time it was emptied, who emptied the toilet containment?,</b><br/><b> INTERVIEW (if the containment system is a lined pit or tank, which has never been emptied):</b> what will happen when the toilet containment is full?,</b><br/><b> Licensed service provider:</b> paid emptier that is approved and regulated by local authority to empty and transport toilet wastes,</b><br/><b> Unlicensed service provider:</b> paid or unpaid emptier who is NOT approved by local authority to empty and transport toilet wastes (for example, family members, neighbours, friends, informal local emptiers)</b> <br/><b>Off-site location:</b> site for the treatment, disposal or use of toilet wastes that is away from the household/community, whose location may or may not be known to the household.<br/><b>Sewer connection to licensed and functional treatment site: </b>the Public Health Office should check whether the sewer network flows to a licensed and functional treatment or disposal site."}	{"new_institution_monitoring_update": {"new": ["g0_unsafe_disposal_to_open_pit_open_space_open_draim_water_body_within_500m"]}}	\N	\N	\N	\N	\N	\N
-1701359231461	22	Adequate drainage of washing water	adequate_drainage_washing_water	5	f	t	\N	\N	1701172125596	1701174317249	\N	\N	\N	{"text": "<b>OBSERVE: facility to collect washing water, and facility to drain and dispose of the washing water</b><br/><b>Collection of washing water: </b>container to collect dirty washing water (for example, a basin or other container)<br/><b>Drainage and disposal of washing water:</b> drainage pipe or other facility to direct the washing water to an appropriate disposal point (for example, a soakpit or drain)"}	{"new_institution_monitoring_update": {"new": ["g0_no_collection_disposal_washing_water"]}}	\N	\N	\N	\N	\N	\N
-1701358131461	23	Outcome result - Permanent handwashing stations in institution	outcome_permanent_handwashing_stations_in_institution	10	f	t	\N	\N	1701172125596	1701174317249	\N	\N	{"fnColor": {"G3 Permanent handwashing services": "#4088F4", "G1 Non-durable handwashing services": "#FDC74B", "G0 No or inadequate handwashing services": "#FD3F31"}, "fnString": "#handwashing_facility_institution#.includes(\\"g0\\") && #water_available_institutional_HWF#.includes(\\"g0\\") && #soap_available_institutional_HWF#.includes(\\"g0\\") && #institutional_HWF_type#.includes(\\"g0\\") && #hands_free_operation_institutional_HWF#.includes(\\"g0\\") && #adequate_drainage_washing_water#.includes(\\"g0\\") ? \\"G0 No or inadequate handwashing services\\" : (#institutional_HWF_type#.includes(\\"g3\\") && #hands_free_operation_institutional_HWF#.includes(\\"g3\\") && #adequate_drainage_washing_water#.includes(\\"g3\\")) ? \\"G3 Permanent handwashing services\\" : \\"G1 Non-durable handwashing services\\"", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
-1713498651	2	Other (Please specify)	respondent_role_other	3	f	f	\N	[{"id": 1701772767994, "options": ["other"]}]	1701757876668	1701772767993	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N
-1701774299250	13	Type of facility toilet	facility_toilet_type	5	f	f	\N	\N	1701762893741	1701773373078	\N	\N	\N	{"text": "<b>OBSERVE:</b> What type of toilets are used by patients at the facility?<br/><b>Toilet type:</b> select the main type of toilet used<br/><b>Pit latrine without slab:</b> a dry toilet that does not have a squatting slab, platform or seat; or an open pit (or pit with large openings) where excreta are collected.<br/><b>Pit latrine with slab:</b> a dry toilet that collects excreta in a pit in the ground covered with a squatting slab or platform that is constructed from materials that are durable and easy to clean (e.g. concrete, bricks, stone, fibreglass, ceramic, metal, wooden planks or durable plastic)"}	\N	\N	\N	\N	\N	\N	\N
+1702299714872	21	G3-E1 Outcome result - Malaria-endemic counties: Malaria-safe homes	o_r_malariasafe_homes	10	f	f	\N	[{"id": 16994260598423, "options": ["yes"]}, {"id": 1699435455818, "options": ["g1_no_protection_no_bed_nets_and_no_insect_screen", "g2_inadequate_protection_some_beds_without_nets_or_some_openings_unprotected", "g3_malariasafe_home"]}]	1699353915355	1710757443	\N	\N	{"fnColor": {"G3 Malaria-safe home": "#4088F4", "G1 No malaria protection": "#FDC74B", "G2 Inadequate malaria protection": "#93D371"}, "fnString": "#malariasafe_home#.includes(\\"g1\\") ? \\"G1 No malaria protection\\"  : (#malariasafe_home#.includes(\\"g3\\") ? \\"G3 Malaria-safe home\\" : \\"G2 Inadequate malaria protection\\")", "multiline": false}	\N	\N	\N	\N	\N	\N	\N	\N
+1701757914033	1	New school registration or monitoring update?	new_school_registration_monitoring_update	5	f	f	\N	\N	1701757876668	1701757914032	\N	\N	\N	{"text": "Entry of school data in RTMIS (first time) or update of monitoring data (existing school)"}	\N	\N	\N	\N	{"submission_type": {"monitoring": "update", "registration": "new"}}	\N	\N
+1706091513597	7	Drinking water accessibility: students with limited mobility or vision	water_accessibility_students_lim_mobility_vision	5	f	f	\N	\N	1701757876668	1706087451988	\N	\N	\N	{"text": "<b>OBSERVE: is drinking water accessible to those with limited mobility or vision?</b></br>\\n<b>Accessible:</b> drinking water can be accessed (directly from the source or from a storage container) via a clear path without stairs or steps that is free of obstruction and has age-appropriate handrails; the tap can be reached from a seated position; and the water source/dispsenser can be opened and closed with minimal effort with one closed fist or foot"}	\N	\N	\N	\N	\N	\N	\N
+1706093811090	4	School toilet: durable pits	durable_toilet_pits	5	f	f	\N	\N	1701757876668	1706087820879	\N	\N	\N	{"text": "<b>OBSERVE: durable toilet pits observed in school toilets?</b></br>\\n<b>OBSERVE:</b> are there any signs of collapse or damage to the school toilet containment or collection system?</br>\\n<b>INTERVIEW (where containment not visible): </b>were any materials used to support the sides of the containment system? </br>\\n<b>INTERVIEW (where containment not visible):</b> does the soil collapse without support?</br>\\n<b>INTERVIEW (where containment not visible):</b> has the toilet pit collapsed in the last 12 months?</br>\\n</b>Durable toilet containment (in stable soils): </b>unlined pits may be assessed as durable in areas where other unlined pits are known to be stable and long-lasting.</br>\\n</b>Durable toilet containment (in UNSTABLE soils): </b>the pit or tank should either be lined with durable materials (e.g. concrete, brickwork, blockwork), or lined with resilient local materials approved by the county public health office for pit linings. </br>"}	\N	\N	\N	\N	\N	\N	\N
+1706099198431	18	Safely managed: wastewater contained in pit (or tank)	safely_managed_toilet_containment_wastewater	5	f	f	\N	\N	1701757876668	1706087820879	\N	\N	\N	{"text": "<b>OBSERVE:</b> any evidence of surface outflows from pits or tanks<br/><b>Surface outflows from pits or tanks:</b> EITHER continuous outflows of faecal sludge or wastewater from overflow pipes, holes or leaks; OR evidence of previous surface outflows (for example, increased vegetation growth around the pits, or visible sludge deposits from overflows or leaks)"}	\N	\N	\N	\N	\N	\N	\N
+1706099849459	20	School toilet accessibility: students with limited mobility or vision	school_toilet_accessibility_students_lim_mobility_vision	5	f	f	\N	\N	1701757876668	1706087820879	\N	\N	\N	{"text": "OBSERVE: is there at least one functional toilet accessible to those with limited mobility or vision?</br>\\n<b>Accessible: </b>the toilet can be accessed via a clear path without stairs or steps that is free of obstructions and has age-appropriate handrails; there is enough space inside for a wheelchair user to enter, turn, close the door and park by the toilet; the door is wide enough for a wheelchair (at least 80cm) and opens outward with minimal or no difference in floor height between outside and inside; and the door handle and seat are within reach of students using wheelchairs, crutches or sticks, including a fixed raised pan or movable raised toilet seat to accommodate students who may have difficulty squatting\\n"}	\N	\N	\N	\N	\N	\N	\N
 \.
 
 
@@ -19387,6 +19386,7 @@ COPY public.question (id, "order", label, name, type, meta, required, rule, depe
 
 COPY public.question_attribute (id, name, attribute, options, question_id) FROM stdin;
 10	\N	5	\N	16994179587481
+11	\N	5	\N	16994198156601
 12	\N	5	\N	16994206218401
 13	\N	5	\N	16994222860911
 14	\N	5	\N	16994233572001
@@ -19402,17 +19402,13 @@ COPY public.question_attribute (id, name, attribute, options, question_id) FROM 
 --
 
 COPY public.question_group (id, name, form_id, "order", label) FROM stdin;
-1701757914032	school_wash_data	1701757876668	1	School WASH: Data
-1701757876669	school_location	1701757876668	2	School: Location
-1706087451988	school_water_supply	1701757876668	3	School Water Supply
-1706087820879	school_sanitation	1701757876668	4	School Sanitation
-1706087908007	school_hygiene	1701757876668	5	School Hygiene
-1706088324273	menstrual_health	1701757876668	6	Menstrual Health
-1710731783596	urban_sanitation_onsite_services	1710731783595	1	URBAN SANITATION: On-site services
-1710731783636	safely_managed_sanisation_services	1710731783595	2	URBAN SANITATION: Safely managed sanitation services
-9747540291	location	974754029	1	Location
-9747540292	village_information	974754029	2	Village Information
-9747540293	clts_intervention_information	974754029	3	CLTS Intervention Information
+1701172125597	institution_primary_data	1701172125596	1	Institution: Primary Data
+1701174317249	interview_institution_wash_data	1701172125596	3	INTERVIEW: Institution WaSH Data
+1701770366285	hcf_location	1701762893741	1	HCF: LOCATION
+1701772767993	interview_hcf_data_first_time	1701762893741	2	INTERVIEW: HCF DATA
+1701773373078	interview_healthcare_facility_wash_outcomes	1701762893741	3	INTERVIEW: HCF WASH OUTCOMES
+5710700711	location_demographics	571070071	1	Location Demographics
+5710700712	water_system_information	571070071	2	Water System Information
 1709689683441	county	1709689683440	1	County
 1709689683442	policy_and_procedure	1709689683440	2	Policy and procedure
 1709698185026	costed_roadmap_sanitation_hygiene	1709689683440	3	Costed roadmap for sanitation & hygiene
@@ -19420,6 +19416,19 @@ COPY public.question_group (id, name, form_id, "order", label) FROM stdin;
 1709698946090	partnerships_sanitation_hygiene	1709689683440	5	Partnerships for sanitation & hygiene
 1709699279823	service_user_participation	1709689683440	6	Service user participation
 1709699651611	monitoring_sanitation_hygiene	1709689683440	7	Monitoring for sanitation & hygiene
+1699354006534	community_primary_data	1699354006503	1	COMMUNITY Primary data
+1699951538607	interview_community_data	1699354006503	3	INTERVIEW: Community data
+1699951538601	interview_community_toilet_data	1699354006503	3	INTERVIEW: Community toilet data
+1699959649781	observation_community_outcomes	1699354006503	5	OBSERVATION: COMMUNITY OUTCOMES
+1710731783596	urban_sanitation_onsite_services	1710731783595	1	URBAN SANITATION: On-site services
+1710731783636	safely_managed_sanisation_services	1710731783595	2	URBAN SANITATION: Safely managed sanitation services
+16993539153821	household_location	16993539153551	1	HOUSEHOLD: Location
+16994179587471	interview_household_primary_information	16993539153551	2	INTERVIEW: Household Primary information
+16994222860901	observation_toilet_outcomes	16993539153551	3	OBSERVATION: TOILET OUTCOMES
+17030862702531	summary_of_outcomes	16993539153551	7	Summary of Outcomes
+9747540291	location	974754029	1	Location
+9747540292	village_information	974754029	2	Village Information
+9747540293	clts_intervention_information	974754029	3	CLTS Intervention Information
 1699353915382	household_location	1699353915355	1	HOUSEHOLD: Location
 1699417958747	interview_household_primary_information	1699353915355	2	INTERVIEW: Household Primary information
 1699428072668	interview_toilet_outcomes	1699353915355	3	INTERVIEW: Toilet Outcomes
@@ -19436,21 +19445,12 @@ COPY public.question_group (id, name, form_id, "order", label) FROM stdin;
 1711022528	good_nutrition	1699353915355	14	OBSERVATION: Good nutrition
 1710757443	observation__environmental_health_outcomes_results	1699353915355	15	OUTCOME RESULTS:  Environmental Health
 1703086270253	summary_of_outcomes	1699353915355	16	Summary of Outcomes
-16993539153821	household_location	16993539153551	1	HOUSEHOLD: Location
-16994179587471	interview_household_primary_information	16993539153551	2	INTERVIEW: Household Primary information
-16994222860901	observation_toilet_outcomes	16993539153551	3	OBSERVATION: TOILET OUTCOMES
-17030862702531	summary_of_outcomes	16993539153551	7	Summary of Outcomes
-5710700711	location_demographics	571070071	1	Location Demographics
-5710700712	water_system_information	571070071	2	Water System Information
-1699354006534	community_primary_data	1699354006503	1	COMMUNITY Primary data
-1699951538607	interview_community_data	1699354006503	3	INTERVIEW: Community data
-1699951538601	interview_community_toilet_data	1699354006503	3	INTERVIEW: Community toilet data
-1699959649781	observation_community_outcomes	1699354006503	5	OBSERVATION: COMMUNITY OUTCOMES
-1701172125597	institution_primary_data	1701172125596	1	Institution: Primary Data
-1701174317249	interview_institution_wash_data	1701172125596	3	INTERVIEW: Institution WaSH Data
-1701770366285	hcf_location	1701762893741	1	HCF: LOCATION
-1701772767993	interview_hcf_data_first_time	1701762893741	2	INTERVIEW: HCF DATA
-1701773373078	interview_healthcare_facility_wash_outcomes	1701762893741	3	INTERVIEW: HCF WASH OUTCOMES
+1701757914032	school_wash_data	1701757876668	1	School WASH: Data
+1701757876669	school_location	1701757876668	2	School: Location
+1706087451988	school_water_supply	1701757876668	3	School Water Supply
+1706087820879	school_sanitation	1701757876668	4	School Sanitation
+1706087908007	school_hygiene	1701757876668	5	School Hygiene
+1706088324273	menstrual_health	1701757876668	6	Menstrual Health
 \.
 
 
@@ -19484,7 +19484,7 @@ COPY public.system_user (id, password, last_login, is_superuser, email, date_joi
 96	pbkdf2_sha256$320000$Y6QjcOVTilYzgWdvcUrOk5$tP/LuIKntjwDaEIWriLR1h+BwaJ1CACCEIfa9JA5RAc=	2024-05-16 09:27:00.860645+00	f	kanyaluo.user2@user.com	2024-05-16 03:06:14.40645+00	Kanyaluo	User	2	6281393504917	2024-05-16 03:50:05.370672+00	\N	2	f
 104	pbkdf2_sha256$320000$DxppFqKqu2ei44AKF84ZZU$1aQSV5ZzUue3vGTknc7pWJtyENHzUIUS0YAolS7kFTQ=	2024-05-16 07:09:29.56695+00	f	chuluni.approver2@user.com	2024-05-16 03:20:21.964449+00	Chuluni	Approver	5	6281393000016	2024-05-16 03:55:04.525446+00	\N	5	f
 102	pbkdf2_sha256$320000$0WMKkBMBLYySiVs7FABULg$NPPgvXQgatzoC0uIUNa2JxSN2ZGHjuSkAcsiK+0+EvM=	2024-05-16 09:40:15.861221+00	f	chuluni.user2@user.com	2024-05-16 03:18:02.164906+00	Chuluni	User	5	6281393000014	2024-05-16 03:54:10.49673+00	\N	5	f
-1	pbkdf2_sha256$320000$Kr2T7yC6Be9Z9dyfjT9QZE$VFIuID996m5G1m5XOp+HZDl6xdf/VS06AJGwi3o+sak=	2024-05-17 01:59:30.943698+00	t	tech.consultancy@akvo.org	2024-05-16 02:36:57.941658+00	Akvo	Admin	1	31208200175	2024-05-16 04:02:25.049107+00	\N	143	f
+1	pbkdf2_sha256$320000$Kr2T7yC6Be9Z9dyfjT9QZE$VFIuID996m5G1m5XOp+HZDl6xdf/VS06AJGwi3o+sak=	2024-05-17 03:38:02.674178+00	t	tech.consultancy@akvo.org	2024-05-16 02:36:57.941658+00	Akvo	Admin	1	31208200175	2024-05-16 04:02:25.049107+00	\N	143	f
 \.
 
 
@@ -19667,7 +19667,7 @@ SELECT pg_catalog.setval('public.django_migrations_id_seq', 139, true);
 -- Name: django_q_ormq_id_seq; Type: SEQUENCE SET; Schema: public; Owner: akvo
 --
 
-SELECT pg_catalog.setval('public.django_q_ormq_id_seq', 82, true);
+SELECT pg_catalog.setval('public.django_q_ormq_id_seq', 81, true);
 
 
 --
