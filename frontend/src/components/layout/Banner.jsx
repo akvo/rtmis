@@ -113,7 +113,7 @@ const Banner = () => {
         <h1 className="welcome">{text?.welcome}</h1>
         <div className="launching">
           <h4>{text?.countdownTitle}</h4>
-          <Countdown date="2025-12-31T09:00:00" renderer={renderer} />
+          <Countdown date="2030-12-31T23:59:59" renderer={renderer} />
         </div>
         <Row>
           {/*
