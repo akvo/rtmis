@@ -291,6 +291,7 @@ Object {
     },
     "footerContactPhone": "+25x-xx-xxxxx",
     "footerContactTitle": "Contacts",
+    "footerDonorSupport": "RTMIS was developed with technical and financial support from UNICEF, USAID, and the Government of Japan. Developed by Akvo.",
     "footerExternalLinkItems": Array [
       Object {
         "text": "JMP",

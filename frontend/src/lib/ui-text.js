@@ -97,6 +97,8 @@ const uiText = {
     footerAboutTitle: "About Data",
     footerAboutDescription:
       "All the data contained in the RUSH platform is aggregated from both primary and secondary data sources from the 47 counties in Kenya. The data is updated on a monthly basis.",
+    footerDonorSupport:
+      "RTMIS was developed with technical and financial support from UNICEF, USAID, and the Government of Japan. Developed by Akvo.",
     footerContactTitle: "Contacts",
     footerContactAddress:
       "Afya House, Cathedral Road, P.O. Box:30016–00100, Nairobi, Kenya",
