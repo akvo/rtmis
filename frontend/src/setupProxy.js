@@ -13,6 +13,7 @@ module.exports = function (app) {
     createProxyMiddleware({
       target: "http://localhost:8000",
       changeOrigin: true,
+      secure: false,
       pathRewrite: {
         "^/config.js": "/api/v1/config.js",
       },
