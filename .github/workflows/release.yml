@@ -130,7 +130,7 @@ jobs:
           echo "COMMIT_SHORT_SHA=$shortSha" >> $GITHUB_ENV
 
       - name: Get App Version
-        id: vars
+        id: get_version
         run: |
           cd app
           apk_version=$(grep '"version":' package.json | sed -E 's/.*"version": *"([^"]+)".*/\1/')
