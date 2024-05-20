@@ -107,30 +107,33 @@ class AdministrationViewSet(ModelViewSet):
     pagination_class = Pagination
 
     def get_queryset(self):
-        queryset = Administration.objects.prefetch_related(
-            "parent_administration", "attributes"
+        queryset = Administration.objects.select_related(
+            'level'
+        ).prefetch_related(
+            'parent_administration',
+            'attributes'
         ).all()
+
         search = self.request.query_params.get("search")
         parent_id = self.request.query_params.get("parent")
         level_id = self.request.query_params.get("level")
+
         if search:
             queryset = queryset.filter(
                 Q(name__icontains=search) | Q(code__icontains=search)
             )
+
         if parent_id:
-            try:
-                parent = Administration.objects.get(id=parent_id)
+            if Administration.objects.filter(id=parent_id).exists():
+                parent = Administration.objects.only('path').get(id=parent_id)
                 queryset = queryset.filter(
                     path__startswith=f"{parent.path or ''}{parent.id}."
                 )
-            except Administration.DoesNotExist:
-                pass
+
         if level_id:
-            try:
-                level = Levels.objects.get(id=level_id)
-                queryset = queryset.filter(level=level)
-            except Levels.DoesNotExist:
-                pass
+            if Levels.objects.filter(id=level_id).exists():
+                queryset = queryset.filter(level_id=level_id)
+
         return queryset.order_by("id")
 
     def get_serializer(self, *args, **kwargs):
