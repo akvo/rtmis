@@ -59,6 +59,8 @@ def update_sqlite(model, data, id=None):
                 query = f"INSERT INTO nodes({field_names}) \
                     VALUES ({placeholders})"
                 c.execute(query, params)
+    except sqlite3.OperationalError:
+        generate_sqlite(model=model)
     except Exception as error:
         logger.error(
             {

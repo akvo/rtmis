@@ -12,8 +12,8 @@ from utils.custom_generator import generate_sqlite, update_sqlite
 
 class SQLiteGenerationTest(TestCase):
     def setUp(self):
-        call_command('administration_seeder')
-        call_command('organisation_seeder', '--test')
+        call_command("administration_seeder")
+        call_command("organisation_seeder", "--test")
         self.administration = Administration.objects.all()
         self.organization = Organisation.objects.all()
 
@@ -24,7 +24,7 @@ class SQLiteGenerationTest(TestCase):
         conn = sqlite3.connect(file_name)
         self.assertEqual(
             len(self.organization),
-            len(pd.read_sql_query('SELECT * FROM nodes', conn)),
+            len(pd.read_sql_query("SELECT * FROM nodes", conn)),
         )
         conn.close()
         os.remove(file_name)
@@ -35,15 +35,15 @@ class SQLiteGenerationTest(TestCase):
         conn = sqlite3.connect(file_name)
         self.assertEqual(
             len(self.administration),
-            len(pd.read_sql_query('SELECT * FROM nodes', conn)),
+            len(pd.read_sql_query("SELECT * FROM nodes", conn)),
         )
         conn.close()
         os.remove(file_name)
 
     def test_sqlite_generation_command(self):
-        call_command('generate_sqlite')
-        generated_administration_sqlite = f'{MASTER_DATA}/administrator.sqlite'
-        generated_organisation_sqlite = f'{MASTER_DATA}/organisation.sqlite'
+        call_command("generate_sqlite")
+        generated_administration_sqlite = f"{MASTER_DATA}/administrator.sqlite"
+        generated_organisation_sqlite = f"{MASTER_DATA}/organisation.sqlite"
         self.assertTrue(os.path.exists(generated_administration_sqlite))
         self.assertTrue(os.path.exists(generated_organisation_sqlite))
 
@@ -53,11 +53,11 @@ class SQLiteGenerationTest(TestCase):
         conn = sqlite3.connect(file_name)
         self.assertEqual(
             len(self.administration),
-            len(pd.read_sql_query('SELECT * FROM nodes', conn)),
+            len(pd.read_sql_query("SELECT * FROM nodes", conn)),
         )
         conn.close()
-        file = file_name.split('/')[-1]
-        endpoint = f'/api/v1/device/sqlite/{file}'
+        file = file_name.split("/")[-1]
+        endpoint = f"/api/v1/device/sqlite/{file}"
         response = self.client.get(endpoint)
         self.assertEqual(response.status_code, 200)
 
@@ -68,17 +68,16 @@ class SQLiteGenerationTest(TestCase):
 
         org = Organisation.objects.create(name="SQLite Company")
         update_sqlite(
-            model=Organisation,
-            data={'id': org.id, 'name': org.name}
+            model=Organisation, data={"id": org.id, "name": org.name}
         )
         conn = sqlite3.connect(file_name)
         self.assertEqual(
             1,
-            len(pd.read_sql_query(
-                'SELECT * FROM nodes where id = ?',
-                conn,
-                params=[org.id]
-            )),
+            len(
+                pd.read_sql_query(
+                    "SELECT * FROM nodes where id = ?", conn, params=[org.id]
+                )
+            ),
         )
         conn.close()
         os.remove(file_name)
@@ -88,24 +87,64 @@ class SQLiteGenerationTest(TestCase):
         file_name = generate_sqlite(Organisation)
         self.assertTrue(os.path.exists(file_name))
 
-        new_org_name = 'Edited Company'
+        new_org_name = "Edited Company"
         org = Organisation.objects.last()
         org.name = new_org_name
         org.save()
         update_sqlite(
-            model=Organisation,
-            data={'name': new_org_name},
-            id=org.id
+            model=Organisation, data={"name": new_org_name}, id=org.id
         )
 
         conn = sqlite3.connect(file_name)
         self.assertEqual(
             1,
-            len(pd.read_sql_query(
-                'SELECT * FROM nodes where name = ?',
-                conn,
-                params=[new_org_name]
-            )),
+            len(
+                pd.read_sql_query(
+                    "SELECT * FROM nodes where name = ?",
+                    conn,
+                    params=[new_org_name],
+                )
+            ),
+        )
+        conn.close()
+        os.remove(file_name)
+
+    def test_update_sqlite_with_no_nodes_table(self):
+        # Test for adding new org
+        file_name = generate_sqlite(Organisation)
+        self.assertTrue(os.path.exists(file_name))
+
+        # delete node table
+        conn = sqlite3.connect(file_name)
+        cursor = conn.cursor()
+        try:
+            cursor.execute("DROP TABLE IF EXISTS nodes")
+            print("Table 'nodes' deleted successfully.")
+        except sqlite3.OperationalError as e:
+            print(f"Error deleting table 'nodes': {e}")
+        conn.commit()
+        cursor.close()
+        conn.close()
+        # EOL delete node table
+
+        new_org_name = "Edited Company"
+        org = Organisation.objects.last()
+        org.name = new_org_name
+        org.save()
+        update_sqlite(
+            model=Organisation, data={"name": new_org_name}, id=org.id
+        )
+
+        conn = sqlite3.connect(file_name)
+        self.assertEqual(
+            1,
+            len(
+                pd.read_sql_query(
+                    "SELECT * FROM nodes where name = ?",
+                    conn,
+                    params=[new_org_name],
+                )
+            ),
         )
         conn.close()
         os.remove(file_name)
@@ -114,53 +153,61 @@ class SQLiteGenerationTest(TestCase):
 class EntitiesSQLiteGenerationTest(TestCase):
     def setUp(self):
         super().setUp()
-        call_command('organisation_seeder', '--test')
-        AdministrationEntitiesTestFactory({
-            'name': 'Indonesia',
-            'children': [{
-                'name': 'Jakarta',
-                'children': [{
-                    'name': 'Jakarta Selatan',
-                    'children': [
-                        {
-                            'name': 'Pasar Minggu',
-                            'entities': [
-                                {
-                                    'entity': 'Rumah Sakit',
-                                    'name': 'RSUD Jati Padang',
-                                },
-                                {
-                                    'entity': 'Sekolah',
-                                    'name': 'SD NEGERI CILANDAK TIMUR 01',
-                                }
-                            ],
-                        },
-                        {
-                            'name': 'Setiabudi',
-                            'entities': [
-                                {
-                                    'entity': 'Rumah Sakit',
-                                    'name': 'RS Agung',
-                                },
-                                {
-                                    'entity': 'Sekolah',
-                                    'name': 'SD MENTENG ATAS 21 PAGI',
-                                }
-                            ],
-                        }
-                    ],
-                }],
-            }],
-        }).populate()
+        call_command("organisation_seeder", "--test")
+        sdCilandak = "SD NEGERI CILANDAK TIMUR 01"
+        sdMenteng = "SD MENTENG ATAS 21 PAGI"
+        AdministrationEntitiesTestFactory(
+            {
+                "name": "Indonesia",
+                "children": [
+                    {
+                        "name": "Jakarta",
+                        "children": [
+                            {
+                                "name": "Jakarta Selatan",
+                                "children": [
+                                    {
+                                        "name": "Pasar Minggu",
+                                        "entities": [
+                                            {
+                                                "entity": "Rumah Sakit",
+                                                "name": "RSUD Jati Padang",
+                                            },
+                                            {
+                                                "entity": "Sekolah",
+                                                "name": sdCilandak,
+                                            },
+                                        ],
+                                    },
+                                    {
+                                        "name": "Setiabudi",
+                                        "entities": [
+                                            {
+                                                "entity": "Rumah Sakit",
+                                                "name": "RS Agung",
+                                            },
+                                            {
+                                                "entity": "Sekolah",
+                                                "name": sdMenteng,
+                                            },
+                                        ],
+                                    },
+                                ],
+                            }
+                        ],
+                    }
+                ],
+            }
+        ).populate()
 
     def test_generate_entity(self):
         file_name = generate_sqlite(Entity)
         self.assertTrue(os.path.exists(file_name))
         conn = sqlite3.connect(file_name)
-        df = pd.read_sql_query('SELECT * FROM nodes', conn)
+        df = pd.read_sql_query("SELECT * FROM nodes", conn)
         self.assertEqual(
-            list(Entity.objects.all().values_list('name', flat=True)),
-            df['name'].values.tolist(),
+            list(Entity.objects.all().values_list("name", flat=True)),
+            df["name"].values.tolist(),
         )
         conn.close()
         os.remove(file_name)
@@ -169,17 +216,17 @@ class EntitiesSQLiteGenerationTest(TestCase):
         file_name = generate_sqlite(EntityData)
         self.assertTrue(os.path.exists(file_name))
         conn = sqlite3.connect(file_name)
-        df = pd.read_sql_query('SELECT * FROM nodes', conn)
+        df = pd.read_sql_query("SELECT * FROM nodes", conn)
         self.assertEqual(
-            list(EntityData.objects.all().values_list('name', flat=True)),
-            df['name'].values.tolist(),
+            list(EntityData.objects.all().values_list("name", flat=True)),
+            df["name"].values.tolist(),
         )
         conn.close()
         os.remove(file_name)
 
     def test_sqlite_generation_command(self):
-        call_command('generate_sqlite')
-        generated_entity_sqlite = f'{MASTER_DATA}/entities.sqlite'
-        generated_entity_data_sqlite = f'{MASTER_DATA}/entity_data.sqlite'
+        call_command("generate_sqlite")
+        generated_entity_sqlite = f"{MASTER_DATA}/entities.sqlite"
+        generated_entity_data_sqlite = f"{MASTER_DATA}/entity_data.sqlite"
         self.assertTrue(os.path.exists(generated_entity_sqlite))
         self.assertTrue(os.path.exists(generated_entity_data_sqlite))

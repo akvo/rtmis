@@ -46,6 +46,13 @@ jobs:
           shortSha=$(git rev-parse --short ${{ github.sha }})
           echo "COMMIT_SHORT_SHA=$shortSha" >> $GITHUB_ENV
 
+      - name: Get App Version
+        id: get_version
+        run: |
+          cd app
+          apk_version=$(grep '"version":' package.json | sed -E 's/.*"version": *"([^"]+)".*/\1/')
+          echo "APK_VERSION=$apk_version" >> $GITHUB_ENV
+
       - name: Send custom JSON data to Slack workflow
         id: slack
         uses: slackapi/slack-github-action@v1.24.0
@@ -57,7 +64,7 @@ jobs:
                     "type": "header",
                     "text": {
                         "type": "plain_text",
-                        "text": ":iphone: [TEST] New APK build just released",
+                        "text": ":iphone: [TEST] New APK build just released - ${{ env.APK_VERSION }}",
                         "emoji": true
                     }
                 },
@@ -92,7 +99,7 @@ jobs:
 
       - name: 🌟 Send APK
         env:
-          APK_VERSION: ${{ github.ref_name }}
+          APK_VERSION: ${{ env.APK_VERSION }}
           SECRET: ${{ secrets.APK_UPLOAD_SECRET }}
         run: |
           curl -X 'POST' \
