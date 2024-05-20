@@ -254,12 +254,7 @@
               "value": "low_drainage_soil_fine_sand_silt_clay"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["medium_drainage_soil_sand_weathered_rock"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1699952153243,
@@ -293,12 +288,7 @@
               "value": "more_than_10m"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["less_than_5m"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1699952219561,
@@ -332,12 +322,7 @@
               "value": "no_groundwater_sources_used"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["protected_groundwater_sources"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1699952295823,
@@ -371,12 +356,7 @@
               "value": "zero_percent"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["more_than_25_percent"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1699952355848,
@@ -404,12 +384,7 @@
               "value": "less_than_25_percent"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["more_than_25_percent"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1699952418978,
@@ -437,12 +412,7 @@
               "value": "less_than_25_percent"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["more_than_25_percent"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1702364544574,
@@ -469,12 +439,7 @@
               "value": "g2_low_risk_groundwater_contamination",
               "color": "#38A15A"
             }
-          ],
-          "pre": {
-            "new_or_update": {
-              "new": ["g0_high_risk_groundwater_contamination"]
-            }
-          }
+          ]
         }
       ]
     },
@@ -743,12 +708,7 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["g0_child_adult_excreta_observed_communal_areas"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1702303499563,
@@ -826,12 +786,7 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["g0_used_diapers_visible_communal_areas"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1702303769667,
@@ -888,12 +843,7 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["g0_visible_dirt_contamination"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1699960025562,
@@ -930,12 +880,7 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["g0_no_protection_water_points"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1699960104326,
@@ -972,12 +917,7 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["g0_standing_water_visible_around_water_points"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1702303919369,
@@ -1042,14 +982,7 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": [
-                "g0_unsafe_disposal_to_open_pit_space_drain_or_water_body_communal_areas"
-              ]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1702304803791,
@@ -1114,12 +1047,7 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["g0_significant_erosion_communal_areas"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1702306876033,
@@ -1177,12 +1105,7 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["g0_significant_visible_solid_wastes_communal_areas"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1702307100780,
@@ -1240,12 +1163,7 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["g0_significant_standing_water_communal_areas"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1699960542156,
@@ -1289,12 +1207,7 @@
               "color": "#38A15A"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["g0_no_treatment_management_communal_areas"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1702307258403,

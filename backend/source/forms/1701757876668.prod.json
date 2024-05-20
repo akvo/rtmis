@@ -1288,18 +1288,39 @@
           "meta": false,
           "options": [
             {
-              "id": 1706099206116,
+              "id": 17135011991,
               "order": 1,
+              "label": "No Toilet",
+              "value": "g0_no_toilet",
+              "color": "#db3b3b"
+            },
+            {
+              "id": 17135011992,
+              "order": 2,
+              "label": "No pit or tank (open discharge)",
+              "value": "g0_no_pit_or_tank",
+              "color": "#db3b3b"
+            },
+            {
+              "id": 1706099206116,
+              "order": 3,
               "label": "Visible surface outflows from containment",
               "value": "visible_surface_outflows_from_containment",
               "color": "#DB3B3B"
             },
             {
               "id": 1706099206117,
-              "order": 2,
+              "order": 4,
               "label": "Evidence of previous surface outflows from containment",
               "value": "evident_previous_surface_outflows_from_containment",
               "color": "#ffa57d"
+            },
+            {
+              "id": 17060992061173,
+              "order": 5,
+              "label": "Safely managed wastewater: no surface outflows",
+              "value": "safely_managed_no_surface_outflows",
+              "color": "#38A15A"
             }
           ],
           "dependency": null,

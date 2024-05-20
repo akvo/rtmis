@@ -989,28 +989,42 @@
             {
               "id": 1699428581174,
               "order": 2,
-              "label": "#1: No toilet use, practice open defecation",
+              "label": "No toilet use, practice open defecation",
               "value": "hh_member_1_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581175,
+              "id": 1715775046,
               "order": 3,
-              "label": "#1: Use other household toilet (shared)",
+              "label": "Some toilet use, some open defecation",
+              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699428581175,
+              "order": 4,
+              "label": "Use other household toilet (shared)",
               "value": "hh_member_1_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
               "id": 1699428642804,
-              "order": 4,
-              "label": "#1: Use own toilet (shared)",
+              "order": 5,
+              "label": "Use own toilet (shared)",
               "value": "hh_member_1_g1_use_own_toilet_shared",
               "color": "#ffa57d"
             },
             {
+              "id": 1715775219,
+              "order": 6,
+              "label": "Use own toilet with assistance (not shared)",
+              "value": "hh_member_1_g2_use_own_toilet_with_assistance",
+              "color": "#38A15A"
+            },
+            {
               "id": 1699428651604,
-              "order": 5,
-              "label": "#1: Use own toilet (NOT shared)",
+              "order": 7,
+              "label": "Use own toilet (NOT shared)",
               "value": "hh_member_1_g2_use_own_toilet_not_shared",
               "color": "#38A15A"
             }
@@ -1059,28 +1073,42 @@
             {
               "id": 1699428581174,
               "order": 2,
-              "label": "#1: No toilet use, practice open defecation",
+              "label": "No toilet use, practice open defecation",
               "value": "hh_member_1_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581175,
+              "id": 1715775046,
               "order": 3,
-              "label": "#1: Use other household toilet (shared)",
+              "label": "Some toilet use, some open defecation",
+              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699428581175,
+              "order": 4,
+              "label": "Use other household toilet (shared)",
               "value": "hh_member_1_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
               "id": 1699428642804,
-              "order": 4,
-              "label": "#1: Use own toilet (shared)",
+              "order": 5,
+              "label": "Use own toilet (shared)",
               "value": "hh_member_1_g1_use_own_toilet_shared",
               "color": "#ffa57d"
             },
             {
+              "id": 1715775219,
+              "order": 6,
+              "label": "Use own toilet with assistance (not shared)",
+              "value": "hh_member_1_g2_use_own_toilet_with_assistance",
+              "color": "#38A15A"
+            },
+            {
               "id": 1699428651604,
-              "order": 5,
-              "label": "#1: Use own toilet (NOT shared)",
+              "order": 7,
+              "label": "Use own toilet (NOT shared)",
               "value": "hh_member_1_g2_use_own_toilet_not_shared",
               "color": "#38A15A"
             }
@@ -1129,28 +1157,42 @@
             {
               "id": 1699428581174,
               "order": 2,
-              "label": "#1: No toilet use, practice open defecation",
+              "label": "No toilet use, practice open defecation",
               "value": "hh_member_1_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581175,
+              "id": 1715775046,
               "order": 3,
-              "label": "#1: Use other household toilet (shared)",
+              "label": "Some toilet use, some open defecation",
+              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699428581175,
+              "order": 4,
+              "label": "Use other household toilet (shared)",
               "value": "hh_member_1_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
               "id": 1699428642804,
-              "order": 4,
-              "label": "#1: Use own toilet (shared)",
+              "order": 5,
+              "label": "Use own toilet (shared)",
               "value": "hh_member_1_g1_use_own_toilet_shared",
               "color": "#ffa57d"
             },
             {
+              "id": 1715775219,
+              "order": 6,
+              "label": "Use own toilet with assistance (not shared)",
+              "value": "hh_member_1_g2_use_own_toilet_with_assistance",
+              "color": "#38A15A"
+            },
+            {
               "id": 1699428651604,
-              "order": 5,
-              "label": "#1: Use own toilet (NOT shared)",
+              "order": 7,
+              "label": "Use own toilet (NOT shared)",
               "value": "hh_member_1_g2_use_own_toilet_not_shared",
               "color": "#38A15A"
             }
@@ -1199,28 +1241,42 @@
             {
               "id": 1699428581174,
               "order": 2,
-              "label": "#1: No toilet use, practice open defecation",
+              "label": "No toilet use, practice open defecation",
               "value": "hh_member_1_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581175,
+              "id": 1715775046,
               "order": 3,
-              "label": "#1: Use other household toilet (shared)",
+              "label": "Some toilet use, some open defecation",
+              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699428581175,
+              "order": 4,
+              "label": "Use other household toilet (shared)",
               "value": "hh_member_1_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
               "id": 1699428642804,
-              "order": 4,
-              "label": "#1: Use own toilet (shared)",
+              "order": 5,
+              "label": "Use own toilet (shared)",
               "value": "hh_member_1_g1_use_own_toilet_shared",
               "color": "#ffa57d"
             },
             {
+              "id": 1715775219,
+              "order": 6,
+              "label": "Use own toilet with assistance (not shared)",
+              "value": "hh_member_1_g2_use_own_toilet_with_assistance",
+              "color": "#38A15A"
+            },
+            {
               "id": 1699428651604,
-              "order": 5,
-              "label": "#1: Use own toilet (NOT shared)",
+              "order": 7,
+              "label": "Use own toilet (NOT shared)",
               "value": "hh_member_1_g2_use_own_toilet_not_shared",
               "color": "#38A15A"
             }
@@ -1269,28 +1325,42 @@
             {
               "id": 1699428581174,
               "order": 2,
-              "label": "#1: No toilet use, practice open defecation",
+              "label": "No toilet use, practice open defecation",
               "value": "hh_member_1_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581175,
+              "id": 1715775046,
               "order": 3,
-              "label": "#1: Use other household toilet (shared)",
+              "label": "Some toilet use, some open defecation",
+              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699428581175,
+              "order": 4,
+              "label": "Use other household toilet (shared)",
               "value": "hh_member_1_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
               "id": 1699428642804,
-              "order": 4,
-              "label": "#1: Use own toilet (shared)",
+              "order": 5,
+              "label": "Use own toilet (shared)",
               "value": "hh_member_1_g1_use_own_toilet_shared",
               "color": "#ffa57d"
             },
             {
+              "id": 1715775219,
+              "order": 6,
+              "label": "Use own toilet with assistance (not shared)",
+              "value": "hh_member_1_g2_use_own_toilet_with_assistance",
+              "color": "#38A15A"
+            },
+            {
               "id": 1699428651604,
-              "order": 5,
-              "label": "#1: Use own toilet (NOT shared)",
+              "order": 7,
+              "label": "Use own toilet (NOT shared)",
               "value": "hh_member_1_g2_use_own_toilet_not_shared",
               "color": "#38A15A"
             }
@@ -1339,28 +1409,42 @@
             {
               "id": 1699428581174,
               "order": 2,
-              "label": "#1: No toilet use, practice open defecation",
+              "label": "No toilet use, practice open defecation",
               "value": "hh_member_1_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581175,
+              "id": 1715775046,
               "order": 3,
-              "label": "#1: Use other household toilet (shared)",
+              "label": "Some toilet use, some open defecation",
+              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699428581175,
+              "order": 4,
+              "label": "Use other household toilet (shared)",
               "value": "hh_member_1_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
               "id": 1699428642804,
-              "order": 4,
-              "label": "#1: Use own toilet (shared)",
+              "order": 5,
+              "label": "Use own toilet (shared)",
               "value": "hh_member_1_g1_use_own_toilet_shared",
               "color": "#ffa57d"
             },
             {
+              "id": 1715775219,
+              "order": 6,
+              "label": "Use own toilet with assistance (not shared)",
+              "value": "hh_member_1_g2_use_own_toilet_with_assistance",
+              "color": "#38A15A"
+            },
+            {
               "id": 1699428651604,
-              "order": 5,
-              "label": "#1: Use own toilet (NOT shared)",
+              "order": 7,
+              "label": "Use own toilet (NOT shared)",
               "value": "hh_member_1_g2_use_own_toilet_not_shared",
               "color": "#38A15A"
             }
@@ -1409,28 +1493,42 @@
             {
               "id": 1699428581174,
               "order": 2,
-              "label": "#1: No toilet use, practice open defecation",
+              "label": "No toilet use, practice open defecation",
               "value": "hh_member_1_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581175,
+              "id": 1715775046,
               "order": 3,
-              "label": "#1: Use other household toilet (shared)",
+              "label": "Some toilet use, some open defecation",
+              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699428581175,
+              "order": 4,
+              "label": "Use other household toilet (shared)",
               "value": "hh_member_1_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
               "id": 1699428642804,
-              "order": 4,
-              "label": "#1: Use own toilet (shared)",
+              "order": 5,
+              "label": "Use own toilet (shared)",
               "value": "hh_member_1_g1_use_own_toilet_shared",
               "color": "#ffa57d"
             },
             {
+              "id": 1715775219,
+              "order": 6,
+              "label": "Use own toilet with assistance (not shared)",
+              "value": "hh_member_1_g2_use_own_toilet_with_assistance",
+              "color": "#38A15A"
+            },
+            {
               "id": 1699428651604,
-              "order": 5,
-              "label": "#1: Use own toilet (NOT shared)",
+              "order": 7,
+              "label": "Use own toilet (NOT shared)",
               "value": "hh_member_1_g2_use_own_toilet_not_shared",
               "color": "#38A15A"
             }
@@ -1479,28 +1577,42 @@
             {
               "id": 1699428581174,
               "order": 2,
-              "label": "#1: No toilet use, practice open defecation",
+              "label": "No toilet use, practice open defecation",
               "value": "hh_member_1_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581175,
+              "id": 1715775046,
               "order": 3,
-              "label": "#1: Use other household toilet (shared)",
+              "label": "Some toilet use, some open defecation",
+              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699428581175,
+              "order":4,
+              "label": "Use other household toilet (shared)",
               "value": "hh_member_1_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
               "id": 1699428642804,
-              "order": 4,
-              "label": "#1: Use own toilet (shared)",
+              "order": 5,
+              "label": "Use own toilet (shared)",
               "value": "hh_member_1_g1_use_own_toilet_shared",
               "color": "#ffa57d"
             },
             {
+              "id": 1715775219,
+              "order": 6,
+              "label": "Use own toilet with assistance (not shared)",
+              "value": "hh_member_1_g2_use_own_toilet_with_assistance",
+              "color": "#38A15A"
+            },
+            {
               "id": 1699428651604,
-              "order": 5,
-              "label": "#1: Use own toilet (NOT shared)",
+              "order": 7,
+              "label": "Use own toilet (NOT shared)",
               "value": "hh_member_1_g2_use_own_toilet_not_shared",
               "color": "#38A15A"
             }
@@ -1549,28 +1661,42 @@
             {
               "id": 1699428581174,
               "order": 2,
-              "label": "#1: No toilet use, practice open defecation",
+              "label": "No toilet use, practice open defecation",
               "value": "hh_member_1_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581175,
+              "id": 1715775046,
               "order": 3,
-              "label": "#1: Use other household toilet (shared)",
+              "label": "Some toilet use, some open defecation",
+              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699428581175,
+              "order": 4,
+              "label": "Use other household toilet (shared)",
               "value": "hh_member_1_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
               "id": 1699428642804,
-              "order": 4,
-              "label": "#1: Use own toilet (shared)",
+              "order": 5,
+              "label": "Use own toilet (shared)",
               "value": "hh_member_1_g1_use_own_toilet_shared",
               "color": "#ffa57d"
             },
             {
+              "id": 1715775219,
+              "order": 6,
+              "label": "Use own toilet with assistance (not shared)",
+              "value": "hh_member_1_g2_use_own_toilet_with_assistance",
+              "color": "#38A15A"
+            },
+            {
               "id": 1699428651604,
-              "order": 5,
-              "label": "#1: Use own toilet (NOT shared)",
+              "order": 7,
+              "label": "Use own toilet (NOT shared)",
               "value": "hh_member_1_g2_use_own_toilet_not_shared",
               "color": "#38A15A"
             }
@@ -1619,28 +1745,42 @@
             {
               "id": 1699428581174,
               "order": 2,
-              "label": "#1: No toilet use, practice open defecation",
+              "label": "No toilet use, practice open defecation",
               "value": "hh_member_1_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581175,
+              "id": 1715775046,
               "order": 3,
-              "label": "#1: Use other household toilet (shared)",
+              "label": "Some toilet use, some open defecation",
+              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
+              "color": "#DB3B3B"
+            },
+            {
+              "id": 1699428581175,
+              "order": 4,
+              "label": "Use other household toilet (shared)",
               "value": "hh_member_1_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
               "id": 1699428642804,
-              "order": 4,
-              "label": "#1: Use own toilet (shared)",
+              "order": 5,
+              "label": "Use own toilet (shared)",
               "value": "hh_member_1_g1_use_own_toilet_shared",
               "color": "#ffa57d"
             },
             {
+              "id": 1715775219,
+              "order": 6,
+              "label": "Use own toilet with assistance (not shared)",
+              "value": "hh_member_1_g2_use_own_toilet_with_assistance",
+              "color": "#38A15A"
+            },
+            {
               "id": 1699428651604,
-              "order": 5,
-              "label": "#1: Use own toilet (NOT shared)",
+              "order": 7,
+              "label": "Use own toilet (NOT shared)",
               "value": "hh_member_1_g2_use_own_toilet_not_shared",
               "color": "#38A15A"
             }
@@ -2407,7 +2547,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: type of excreta containment or collection system</b> <br/><b>Containment system:</b> pit or tank (or other) that contains and stores excreta<br/><b>Collection system:</b> connection through which excreta and wastewater are collected<br/><b>Examples:</b> 1. Latrine pit; 2. Septic tank; 3. Sewer connection.<br/><b>Flush to don't know:</b> household does not know where the toilet flushes to, but no surface outlets or open discharges are visible (in this case, likely to be a buried pit or tank)"
+            "text": "<b>OBSERVE:</b> [Pit or tank (or other): storage for excreta (urine and faeces). Connection: pipe through which excreta and wastewater are collected (e.g. sewer network connection). Examples: 1. Latrine pit. 2. Septic tank. 3. Connection to sewer network. Flush to don’t know: household does not know where the toilet flushes to, but no surface outlets or open discharges are visible (in this case, likely to be a buried pit or tank). "
           },
           "required": true,
           "meta": false,
