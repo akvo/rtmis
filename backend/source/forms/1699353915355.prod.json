@@ -4279,7 +4279,7 @@
               "G2 Handwashing with soap at ALL critical times": "#93D371",
               "G0 No or inadequate handwashing services": "#FD3F31"
             },
-            "fnString": "(#handwashing_facility_observed#.includes(\"g1\") || !#handwashing_facility_observed#) && (#handwashing_critical_toilet_times#.includes(\"g0\") || !#handwashing_critical_toilet_times#) && (#handwashing_critical_food_times#.includes(\"g0\") || !#handwashing_critical_food_times#) && (#handwashing_critical_animal_times#.includes(\"g0\") || !#handwashing_critical_animal_times#) ? \"G0 No or inadequate handwashing services\" : (#handwashing_critical_toilet_times#.includes(\"g2\") || !#handwashing_critical_toilet_times#) && (#handwashing_critical_food_times#.includes(\"g2\") || !#handwashing_critical_food_times#) && (#handwashing_critical_animal_times#.includes(\"g2\") || !#handwashing_critical_animal_times#) ? \"G2 Handwashing with soap at ALL critical times\" : \"G1 Some critical handwashing times NOT mentioned\"",
+            "fnString": "(#handwashing_critical_toilet_times#.includes(\"g0\") || !#handwashing_critical_toilet_times#) && (#handwashing_critical_food_times#.includes(\"g0\") || !#handwashing_critical_food_times#) && (#handwashing_critical_animal_times#.includes(\"g0\") || !#handwashing_critical_animal_times#) ? \"G0 No or inadequate handwashing services\" : (#handwashing_critical_toilet_times#.includes(\"g2\") || !#handwashing_critical_toilet_times#) && (#handwashing_critical_food_times#.includes(\"g2\") || !#handwashing_critical_food_times#) && (#handwashing_critical_animal_times#.includes(\"g2\") || !#handwashing_critical_animal_times#) ? \"G2 Handwashing with soap at ALL critical times\" : \"G1 Some critical handwashing times NOT mentioned\"",
             "multiline": false
           }
         },
@@ -7630,7 +7630,7 @@
               "G3 Clean and Healthy": "#4088F4"
             },
             "multiline": false,
-            "fnString": "#o_r_flyproof_and_clean_toilet#.includes(\"G1\") ? 'G1 Open Defecation Free’: #o_r_flyproof_and_clean_toilet#.includes(\"G1\") && #o_r_durable_toilet_with_safe_containment#.includes(\"G2\") ? 'G2 Safe and Sustainable’: #o_r_flyproof_and_clean_toilet#.includes(\"G1\") && #o_r_durable_toilet_with_safe_containment#.includes(\"G2\") && #o_r_use_of_safely_managed_sanitation_services#.includes(\"G3\") ? 'G3 Clean and Healthy’: 'G0 Open Defecation'"
+            "fnString": "(#o_r_flyproof_and_clean_toilet#.includes(\"G1\") || !#o_r_flyproof_and_clean_toilet#) ? 'G1 Open Defecation Free’: (#o_r_flyproof_and_clean_toilet#.includes(\"G1\") || !#o_r_flyproof_and_clean_toilet#) && (#o_r_durable_toilet_with_safe_containment#.includes(\"G2\") || !#o_r_durable_toilet_with_safe_containment#) ? 'G2 Safe and Sustainable’: (#o_r_flyproof_and_clean_toilet#.includes(\"G1\") || !#o_r_flyproof_and_clean_toilet#) && (#o_r_durable_toilet_with_safe_containment#.includes(\"G2\") || !#o_r_durable_toilet_with_safe_containment#) && (#o_r_use_of_safely_managed_sanitation_services#.includes(\"G3\") || !#o_r_use_of_safely_managed_sanitation_services#) ? 'G3 Clean and Healthy’: 'G0 Open Defecation'"
           }
         },
         {
@@ -7667,6 +7667,7 @@
           "displayOnly": false,
           "fn": {
             "fnColor": {
+              "G0": "#FD3F31",
               "G1": "#FDC74B",
               "G2": "#93D371",
               "G3": "#4088F4"
