@@ -8,6 +8,7 @@ const BuildParamsState = new Store({
     'password',
   ],
   serverURL: defaultBuildParams?.serverURL,
+  apkURL: defaultBuildParams?.apkURL,
   debugMode: defaultBuildParams?.debugMode || false,
   dataSyncInterval: defaultBuildParams?.dataSyncInterval || 3600,
   errorHandling: defaultBuildParams?.errorHandling || true,

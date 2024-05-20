@@ -635,7 +635,7 @@
               "id": 1713500619,
               "order": 2,
               "label": "Open pits (Uncovered or large openings)",
-              "value": "vip_drophole_with_vent_pipe",
+              "value": "open_pits_uncovered_large_openings",
               "color": "#38a15a"
             },
             {

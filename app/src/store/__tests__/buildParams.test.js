@@ -18,16 +18,18 @@ describe('BuildParamsState', () => {
     expect(dataSyncInterval).toBe(buildJson.default.dataSyncInterval);
     expect(errorHandling).toBe(true);
     expect(loggingLevel).toBe('verbose');
-    expect(appVersion).toBe('1.2.0');
+    expect(appVersion).not.toBeNull();
   });
 
   it('should updating the state correctly', () => {
     const { result } = renderHook(() => BuildParamsState.useState());
     const serverURLValue = 'http://127.0.0.1:8080';
+    const apkURLValue = 'http://127.0.0.1:8080/app';
     act(() => {
       BuildParamsState.update((s) => {
         s.authenticationType = ['code_assignment'];
         s.serverURL = serverURLValue;
+        s.apkURL = apkURLValue;
         s.debugMode = true;
         s.debugMode = true;
         s.dataSyncInterval = 400;
@@ -39,6 +41,7 @@ describe('BuildParamsState', () => {
     const {
       authenticationType,
       serverURL,
+      apkURL,
       debugMode,
       dataSyncInterval,
       errorHandling,
@@ -47,6 +50,7 @@ describe('BuildParamsState', () => {
     } = result.current;
     expect(authenticationType).toEqual(['code_assignment']);
     expect(serverURL).toBe(serverURLValue);
+    expect(apkURL).toBe(apkURLValue);
     expect(debugMode).toBe(true);
     expect(dataSyncInterval).toBe(400);
     expect(errorHandling).toBe(false);

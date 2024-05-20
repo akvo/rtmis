@@ -26,6 +26,7 @@ services:
       - WEBDOMAIN=notset
       - APK_UPLOAD_SECRET=ci-secret
       - STORAGE_PATH="./storage"
+      - SENTRY_DSN
     depends_on:
       - db
     command: tail -f /dev/null

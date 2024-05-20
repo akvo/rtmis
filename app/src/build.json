@@ -1,11 +1,12 @@
 {
   "authenticationType": ["code_assignment", "username", "password"],
   "serverURL": null,
+  "apkURL": null,
   "debugMode": false,
   "dataSyncInterval": 30,
   "errorHandling": true,
   "loggingLevel": "verbose",
-  "appVersion": "1.2.0",
+  "appVersion": "4.0.1",
   "lang": "en",
   "gpsThreshold": 30
 }
