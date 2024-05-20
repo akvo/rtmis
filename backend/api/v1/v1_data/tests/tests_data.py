@@ -234,10 +234,10 @@ class DataTestCase(TestCase):
     def test_monitoring_details_by_parent_id(self):
         header = {"HTTP_AUTHORIZATION": f"Bearer {self.token}"}
 
-        monitoring = FormData.objects.filter(parent__isnull=False).first()
-        parent = monitoring.parent
-        form_id = monitoring.form.id
-        url = f"/api/v1/form-data/{form_id}?page=1&parent={parent.id}"
+        parent = FormData.objects.filter(children__gt=0).first()
+        form_id = parent.form.id
+        url = f"/api/v1/form-data/{form_id}"
+        url += f"?page=1&parent={parent.id}&submission_type=2"
         data = self.client.get(url, follow=True, **header)
         result = data.json()
         self.assertEqual(data.status_code, 200)
