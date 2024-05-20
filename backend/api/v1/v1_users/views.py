@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate
 from django.core import signing
 from django.core.management import call_command
 from django.core.signing import BadSignature
-from django.db.models import Value, Q
+from django.db.models import Value, Q, Count
 from django.db.models.functions import Coalesce, Concat
 from django.http import HttpResponse
 from django.utils import timezone
@@ -29,7 +29,8 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from api.v1.v1_forms.models import (
-    FormApprovalAssignment, FormCertificationAssignment
+    FormApprovalAssignment,
+    FormCertificationAssignment,
 )
 from api.v1.v1_data.models import PendingDataApproval, SubmissionTypes
 from api.v1.v1_profile.constants import UserRoleTypes, OrganisationTypes
@@ -190,7 +191,7 @@ def login(request, version):
         refresh = RefreshToken.for_user(user)
         # Get the expiration time of the new token
         expiration_time = datetime.datetime.fromtimestamp(
-            refresh.access_token['exp']
+            refresh.access_token["exp"]
         )
         expiration_time = timezone.make_aware(expiration_time)
 
@@ -203,9 +204,7 @@ def login(request, version):
             status=status.HTTP_200_OK,
         )
         response.set_cookie(
-            "AUTH_TOKEN",
-            str(refresh.access_token),
-            expires=expiration_time
+            "AUTH_TOKEN", str(refresh.access_token), expires=expiration_time
         )
         return response
     return Response(
@@ -333,15 +332,15 @@ def list_administration(request, version, administration_id):
     filter = request.GET.get("filter")
     max_level = request.GET.get("max_level")
     submission_type = request.GET.get("submission_type")
-    last_level = Levels.objects.order_by('-level').first()
+    last_level = Levels.objects.order_by("-level").first()
     filter_children = []
     if (
-        submission_type and
-        int(submission_type) == SubmissionTypes.certification and
-        instance.level.id != last_level.id
+        submission_type
+        and int(submission_type) == SubmissionTypes.certification
+        and instance.level.id != last_level.id
     ):
         allowed_path = instance.path
-        ward_level = Levels.objects.order_by('-level')[1:2].first()
+        ward_level = Levels.objects.order_by("-level")[1:2].first()
         if instance.level.id == ward_level.id:
             allowed_path = instance.parent.path
         if not instance.path:
@@ -796,18 +795,23 @@ def list_organisations(request, version):
     id = request.GET.get("id")
     attributes = request.GET.get("attributes")
     search = request.GET.get("search")
-    instance = Organisation.objects.all()
+
+    instance = Organisation.objects.prefetch_related(
+        'organisation_organisation_attribute'
+    ).annotate(user_count=Count('user_organisation')).all()
+
     if id:
-        instance = Organisation.objects.filter(pk=id).all()
+        instance = instance.filter(pk=id)
     if attributes and not id:
         ids = OrganisationAttribute.objects.filter(type=attributes).distinct(
             "organisation_id"
         )
-        instance = Organisation.objects.filter(
+        instance = instance.filter(
             pk__in=[o.organisation_id for o in ids]
-        ).all()
+        )
     if search and not id:
         instance = instance.filter(name__icontains=search)
+
     return Response(
         OrganisationListSerializer(instance=instance, many=True).data,
         status=status.HTTP_200_OK,
@@ -911,8 +915,8 @@ class OrganisationEditDeleteView(APIView):
             required=False,
             location=OpenApiParameter.PATH,
             type=OpenApiTypes.NUMBER,
-            description="ID of the selected organization (optional)"
-        )
+            description="ID of the selected organization (optional)",
+        ),
     ],
     tags=["Organisation"],
     summary="Get list of organisations for webform options",
@@ -922,18 +926,12 @@ def list_organisation_options(request, version, selected_id=None):
     attribute = request.GET.get("attribute")
     if selected_id:
         return Response(
-            {
-                "type_id": attribute,
-                "name": selected_id,
-                "children": []
-            },
+            {"type_id": attribute, "name": selected_id, "children": []},
             status=status.HTTP_200_OK,
         )
     instance = None
     if attribute:
-        instance = OrganisationAttribute.objects.filter(
-            type=attribute
-        ).first()
+        instance = OrganisationAttribute.objects.filter(type=attribute).first()
     return Response(
         OrganisationAttributeChildrenSerializer(instance=instance).data,
         status=status.HTTP_200_OK,

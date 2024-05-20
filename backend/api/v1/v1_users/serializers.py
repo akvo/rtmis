@@ -64,18 +64,13 @@ class OrganisationAttributeChildrenSerializer(serializers.ModelSerializer):
 
 class OrganisationListSerializer(serializers.ModelSerializer):
     attributes = serializers.SerializerMethodField()
-    users = serializers.SerializerMethodField()
+    users = serializers.IntegerField(source='user_count')
 
     @extend_schema_field(OrganisationAttributeSerializer(many=True))
     def get_attributes(self, instance: Organisation):
-        attr = OrganisationAttribute.objects.filter(
-            organisation_id=instance.id).all()
+        # Use the prefetched data instead of querying the database again
+        attr = instance.organisation_organisation_attribute.all()
         return OrganisationAttributeSerializer(instance=attr, many=True).data
-
-    @extend_schema_field(OpenApiTypes.INT)
-    def get_users(self, instance: Organisation):
-        return SystemUser.objects.filter(
-            organisation_id=instance.id).count()
 
     class Meta:
         model = Organisation
