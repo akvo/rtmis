@@ -3258,7 +3258,7 @@
               "G1 Flyproof toilet": "#FDC74B",
               "G0 Toilet NOT flyproof": "#FD3F31"
             },
-            "fnString": "((#od_or_toilet_use#.includes(\"g0\") || #od_or_toilet_use#.includes(\"g1\")) && #toilet_interface#.includes(\"g1\") && #containment_or_collection_system#.includes(\"g1\") && #flyproof_toilet#.includes(\"g1\"))  ? \"G1 Flyproof toilet\"  : \"G0 Toilet NOT flyproof\"",
+            "fnString": "(#toilet_interface#.includes(\"g1\") || !#toilet_interface#) && (#containment_or_collection_system#.includes(\"g1\") || !#containment_or_collection_system#) && (#flyproof_toilet#.includes(\"g1\")|| !#flyproof_toilet#)  ? \"G1 Flyproof toilet\"  : \"G0 Toilet NOT flyproof\"",
             "multiline": false
           }
         },
@@ -3279,7 +3279,7 @@
               "G1 Clean toilet": "#FDC74B",
               "G0 Toilet NOT clean": "#FD3F31"
             },
-            "fnString": "((#od_or_toilet_use#.includes(\"g0\") || #od_or_toilet_use#.includes(\"g1\")) && #clean_toilet_pandrophole#.includes(\"g1\") && #clean_toilet_walls#.includes(\"g1\")) ? \"G1 Clean toilet\" : \"G0 Toilet NOT clean\"",
+            "fnString": "#clean_toilet_pandrophole#.includes(\"g1\") && #clean_toilet_walls#.includes(\"g1\") ? \"G1 Clean toilet\" : \"G0 Toilet NOT clean\"",
             "multiline": false
           }
         },
@@ -3401,7 +3401,7 @@
               "G1 Inadequate sanitation services": "#FDC74B",
               "G0 Sanitation services UNSAFELY managed": "#FD3F31"
             },
-            "fnString": "((#od_or_toilet_use#.includes(\"g0\") || #od_or_toilet_use#.includes(\"g1\")) && #safely_managed_onsite_containment#.includes(\"g3\") && #safely_managed_sanitation_services#.includes(\"g3\")) ? \"G3 Use of safely managed sanitation services\" : #safely_managed_onsite_containment#.includes(\"g0\") && #safely_managed_sanitation_services#.includes(\"g0\") ? \"G0 Sanitation services UNSAFELY managed\" : \"G1 Inadequate sanitation services\"",
+            "fnString": "(#safely_managed_onsite_containment#.includes(\"g3\") || !#safely_managed_onsite_containment#) && (#safely_managed_sanitation_services#.includes(\"g3\") || !#safely_managed_sanitation_services#) ? \"G3 Use of safely managed sanitation services\" : (#safely_managed_onsite_containment#.includes(\"g0\") || !#safely_managed_onsite_containment#) && (#safely_managed_sanitation_services#.includes(\"g0\") || !#safely_managed_sanitation_services#) ? \"G0 Sanitation services UNSAFELY managed\" : \"G1 Inadequate sanitation services\"",
             "multiline": false
           }
         }
@@ -4258,7 +4258,7 @@
               "G1 Handwashing facility with soap and water": "#FDC74B",
               "G0 Inadequate or no handwashing facility": "#FD3F31"
             },
-            "fnString": "#handwashing_facility_observed#.includes(\"g1\") && #water_available_at_hwf#.includes(\"g1\") && #soap_available_at_hwf#.includes(\"g1\") ? \"G1 Handwashing facility with soap and water\" : \"G0 Inadequate or no handwashing facility\"",
+            "fnString": "(#handwashing_facility_observed#.includes(\"g1\") || !#handwashing_facility_observed#) && (#water_available_at_hwf#.includes(\"g1\") || !#water_available_at_hwf#) && (#soap_available_at_hwf#.includes(\"g1\") || !#soap_available_at_hwf#) ? \"G1 Handwashing facility with soap and water\" : \"G0 Inadequate or no handwashing facility\"",
             "multiline": false
           }
         },
@@ -4279,7 +4279,7 @@
               "G2 Handwashing with soap at ALL critical times": "#93D371",
               "G0 No or inadequate handwashing services": "#FD3F31"
             },
-            "fnString": "#handwashing_facility_observed#.includes(\"g1\") && #handwashing_critical_toilet_times#.includes(\"g0\") && #handwashing_critical_food_times#.includes(\"g0\") && #handwashing_critical_animal_times#.includes(\"g0\") ? \"G0 No or inadequate handwashing services\" : #handwashing_critical_toilet_times#.includes(\"g2\") && #handwashing_critical_food_times#.includes(\"g2\") && #handwashing_critical_animal_times#.includes(\"g2\") ? \"G2 Handwashing with soap at ALL critical times\" : \"G1 Some critical handwashing times NOT mentioned\"",
+            "fnString": "(#handwashing_facility_observed#.includes(\"g1\") || !#handwashing_facility_observed#) && (#handwashing_critical_toilet_times#.includes(\"g0\") || !#handwashing_critical_toilet_times#) && (#handwashing_critical_food_times#.includes(\"g0\") || !#handwashing_critical_food_times#) && (#handwashing_critical_animal_times#.includes(\"g0\") || #handwashing_critical_animal_times#) ? \"G0 No or inadequate handwashing services\" : (#handwashing_critical_toilet_times#.includes(\"g2\") || !#handwashing_critical_toilet_times#) && (#handwashing_critical_food_times#.includes(\"g2\") || !#handwashing_critical_food_times#) && (#handwashing_critical_animal_times#.includes(\"g2\") || !#handwashing_critical_animal_times#) ? \"G2 Handwashing with soap at ALL critical times\" : \"G1 Some critical handwashing times NOT mentioned\"",
             "multiline": false
           }
         },
@@ -4300,7 +4300,7 @@
               "G3 Permanent handwashing services": "#4088F4",
               "G1 Non-durable handwashing services": "#FDC74B"
             },
-            "fnString": "#handwashing_facility_type#.includes(\"g0\") && #handsfree_operation_of_handwashing_facility#.includes(\"g0\") && #adequate_drainage_of_washing_water#.includes(\"g0\") ? \"G0 No or inadequate handwashing services\" : #handwashing_facility_observed#.includes(\"g1\") && #handwashing_facility_type#.includes(\"g3\") && #handsfree_operation_of_handwashing_facility#.includes(\"g3\") && #adequate_drainage_of_washing_water#.includes(\"g3\") ? \"G3 Permanent handwashing services\" : \"G1 Non-durable handwashing services\"",
+            "fnString": "(#handwashing_facility_type#.includes(\"g0\") || !#handwashing_facility_type#) && (#handsfree_operation_of_handwashing_facility#.includes(\"g0\") || !#handsfree_operation_of_handwashing_facility#) && (#adequate_drainage_of_washing_water#.includes(\"g0\") || !#adequate_drainage_of_washing_water#) ? \"G0 No or inadequate handwashing services\" : (#handwashing_facility_observed#.includes(\"g1\") || !#handwashing_facility_observed#) && (#handwashing_facility_type#.includes(\"g3\") || !#handwashing_facility_type#) && (#handsfree_operation_of_handwashing_facility#.includes(\"g3\") || !#handsfree_operation_of_handwashing_facility#) && (#adequate_drainage_of_washing_water#.includes(\"g3\") || !#adequate_drainage_of_washing_water#) ? \"G3 Permanent handwashing services\" : \"G1 Non-durable handwashing services\"",
             "multiline": false
           }
         }
@@ -7376,7 +7376,7 @@
               "G2 Inadequate nutrition or protection": "#93D371",
               "G3 Good nutrition and protection": "#4088F4"
             },
-            "fnString": "#fully_immunized_children#.includes(\"g1\") ? \"G1 Low nutrition or protection\" : #fully_immunized_children#.includes(\"g3\") ? \"G3 Good nutrition and protection\" : \"G2 Inadequate nutrition or protection\"",
+            "fnString": "#fully_immunized_children#.includes(\"g1\") ? \"G1 No children vaccinated\" : #fully_immunized_children#.includes(\"g3\") ? \"G3 All children fully immunized\" : \"G2 Some children vaccinated\"",
             "multiline": false
           }
         },
@@ -7403,11 +7403,11 @@
           ],
           "fn": {
             "fnColor": {
-              "G1 Low nutrition or protection": "#FDC74B",
-              "G2 Inadequate nutrition or protection": "#93D371",
-              "G3 Good nutrition and protection": "#4088F4"
+              "G1 No children received supplements": "#FDC74B",
+              "G2 Some Vitamin A supplements not received (in last 6 months)": "#93D371",
+              "G3 All Vitamin A supplements received in last 6 months": "#4088F4"
             },
-            "fnString": "#vitamin_a_supplements_received#.includes(\"g1\") ? \"G1 Low nutrition or protection\" : #vitamin_a_supplements_received#.includes(\"g3\") ? \"G3 Good nutrition and protection\" : \"G2 Inadequate nutrition or protection\"",
+            "fnString": "#vitamin_a_supplements_received#.includes(\"g1\") ? \"G1 No children received supplements\" : #vitamin_a_supplements_received#.includes(\"g3\") ? \"G3 All Vitamin A supplements received in last 6 months\" : \"G2 Some Vitamin A supplements not received (in last 6 months)\"",
             "multiline": false
           }
         },
@@ -7500,7 +7500,7 @@
               "G2": "#93D371",
               "G3": "#4088F4"
             },
-            "fnString": "#o_r_fully_immunized_children#.includes(\"G1\") && #o_r_vitamin_a_supplements#.includes(\"G1\") && #o_r_exclusive_breastfeeding#.includes(\"G1\") && #o_r_nutritious_diet#.includes(\"G1\") ? \"G1\" : #o_r_fully_immunized_children#.includes(\"G3\") && #o_r_vitamin_a_supplements#.includes(\"G3\") && #o_r_exclusive_breastfeeding#.includes(\"G3\") && #o_r_nutritious_diet#.includes(\"G3\") ? \"G3\" : \"G2\"",
+            "fnString": "(#o_r_fully_immunized_children#.includes(\"G1\") || !#o_r_fully_immunized_children#) && (#o_r_vitamin_a_supplements#.includes(\"G1\") || !#o_r_vitamin_a_supplements#) && (#o_r_exclusive_breastfeeding#.includes(\"G1\") || !#o_r_exclusive_breastfeeding#) && (#o_r_nutritious_diet#.includes(\"G1\") || !#o_r_nutritious_diet#) ? \"G1\" : (#o_r_fully_immunized_children#.includes(\"G3\") || !#o_r_fully_immunized_children#) && (#o_r_vitamin_a_supplements#.includes(\"G3\") || !#o_r_vitamin_a_supplements#) && (#o_r_exclusive_breastfeeding#.includes(\"G3\")|| !#o_r_exclusive_breastfeeding#) && (#o_r_nutritious_diet#.includes(\"G3\") || !#o_r_nutritious_diet#) ? \"G3\" : \"G2\"",
             "multiline": false
           }
         },
