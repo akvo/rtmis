@@ -24,6 +24,7 @@ const Footer = ({ className = "footer", ...props }) => {
             alt={config.siteLogo}
           />
           <p>{text?.footerAboutDescription}</p>
+          <p>{text?.footerDonorSupport}</p>
         </Col>
         <Col span={4}>
           <h2>{text?.footerExternalLinkTitle}</h2>
