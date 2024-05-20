@@ -162,6 +162,12 @@
               "order": 6,
               "label": "Natural leader (CLTS)",
               "value": "natural_leader_clts"
+            },
+            {
+              "id": 1716208838,
+              "order": 7,
+              "label": "Other",
+              "value": "other"
             }
           ],
           "fn": null,
@@ -215,6 +221,9 @@
           "short_label": null,
           "meta": false,
           "required": true,
+          "tooltip":{
+            "text":"mplementation partner: an organization or service provider that is developing, implementing or supporting sanitation, hygiene or environmental health services in the community."
+          },
           "type": "cascade",
           "api": {
             "endpoint": "/api/v1/organisation/options/",
