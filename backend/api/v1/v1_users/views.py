@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate
 from django.core import signing
 from django.core.management import call_command
 from django.core.signing import BadSignature
-from django.db.models import Value, Q
+from django.db.models import Value, Q, Count
 from django.db.models.functions import Coalesce, Concat
 from django.http import HttpResponse
 from django.utils import timezone
@@ -796,20 +796,21 @@ def list_organisations(request, version):
     attributes = request.GET.get("attributes")
     search = request.GET.get("search")
 
-    queryset = Organisation.objects.prefetch_related(
-        "organisation_organisation_attribute", "user_organisation"
-    )
+    instance = Organisation.objects.prefetch_related(
+        'organisation_organisation_attribute'
+    ).annotate(user_count=Count('user_organisation')).all()
 
     if id:
-        queryset = queryset.filter(pk=id)
+        instance = instance.filter(pk=id)
     if attributes and not id:
-        queryset = queryset.filter(
-            organisation_organisation_attribute__type=attributes
-        ).distinct()
+        ids = OrganisationAttribute.objects.filter(type=attributes).distinct(
+            "organisation_id"
+        )
+        instance = instance.filter(
+            pk__in=[o.organisation_id for o in ids]
+        )
     if search and not id:
-        queryset = queryset.filter(name__icontains=search)
-
-    instance = queryset.all()
+        instance = instance.filter(name__icontains=search)
 
     return Response(
         OrganisationListSerializer(instance=instance, many=True).data,
