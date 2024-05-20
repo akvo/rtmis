@@ -3300,7 +3300,7 @@
               "G1 Use of flyproof and clean toilet": "#FDC74B",
               "G0 Toilet NOT flyproof and clean": "#FD3F31"
             },
-            "fnString": "((#o_r_flyproof_toilet_type#.includes(\"G1\") && #o_r_toilet_use_by_all_hh_members#.includes(\"G1\")) && #o_r_functional_toilet_with_privacy#.includes(\"G1\") && #o_r_clean_toilet#.includes(\"G1\") ? \"G1 Use of flyproof and clean toilet\" : \"G0 Toilet NOT flyproof and clean\"",
+            "fnString": "(#o_r_flyproof_toilet_type#.includes(\"G1\") || !#o_r_flyproof_toilet_type#) && (#o_r_toilet_use_by_all_hh_members#.includes(\"G1\") || !#o_r_toilet_use_by_all_hh_members#) && (#o_r_functional_toilet_with_privacy#.includes(\"G1\") || !#o_r_functional_toilet_with_privacy#) && (#o_r_clean_toilet#.includes(\"G1\") || !#o_r_clean_toilet#) ? \"G1 Use of flyproof and clean toilet\" : \"G0 Toilet NOT flyproof and clean\"",
             "multiline": false
           }
         },
@@ -4279,7 +4279,7 @@
               "G2 Handwashing with soap at ALL critical times": "#93D371",
               "G0 No or inadequate handwashing services": "#FD3F31"
             },
-            "fnString": "(#handwashing_facility_observed#.includes(\"g1\") || !#handwashing_facility_observed#) && (#handwashing_critical_toilet_times#.includes(\"g0\") || !#handwashing_critical_toilet_times#) && (#handwashing_critical_food_times#.includes(\"g0\") || !#handwashing_critical_food_times#) && (#handwashing_critical_animal_times#.includes(\"g0\") || #handwashing_critical_animal_times#) ? \"G0 No or inadequate handwashing services\" : (#handwashing_critical_toilet_times#.includes(\"g2\") || !#handwashing_critical_toilet_times#) && (#handwashing_critical_food_times#.includes(\"g2\") || !#handwashing_critical_food_times#) && (#handwashing_critical_animal_times#.includes(\"g2\") || !#handwashing_critical_animal_times#) ? \"G2 Handwashing with soap at ALL critical times\" : \"G1 Some critical handwashing times NOT mentioned\"",
+            "fnString": "(#handwashing_facility_observed#.includes(\"g1\") || !#handwashing_facility_observed#) && (#handwashing_critical_toilet_times#.includes(\"g0\") || !#handwashing_critical_toilet_times#) && (#handwashing_critical_food_times#.includes(\"g0\") || !#handwashing_critical_food_times#) && (#handwashing_critical_animal_times#.includes(\"g0\") || !#handwashing_critical_animal_times#) ? \"G0 No or inadequate handwashing services\" : (#handwashing_critical_toilet_times#.includes(\"g2\") || !#handwashing_critical_toilet_times#) && (#handwashing_critical_food_times#.includes(\"g2\") || !#handwashing_critical_food_times#) && (#handwashing_critical_animal_times#.includes(\"g2\") || !#handwashing_critical_animal_times#) ? \"G2 Handwashing with soap at ALL critical times\" : \"G1 Some critical handwashing times NOT mentioned\"",
             "multiline": false
           }
         },
