@@ -4279,7 +4279,7 @@
               "G2 Handwashing with soap at ALL critical times": "#93D371",
               "G0 No or inadequate handwashing services": "#FD3F31"
             },
-            "fnString": "(#handwashing_critical_toilet_times#.includes(\"g0\") || !#handwashing_critical_toilet_times#) && (#handwashing_critical_food_times#.includes(\"g0\") || !#handwashing_critical_food_times#) && (#handwashing_critical_animal_times#.includes(\"g0\") || !#handwashing_critical_animal_times#) ? \"G0 No or inadequate handwashing services\" : (#handwashing_critical_toilet_times#.includes(\"g2\") || !#handwashing_critical_toilet_times#) && (#handwashing_critical_food_times#.includes(\"g2\") || !#handwashing_critical_food_times#) && (#handwashing_critical_animal_times#.includes(\"g2\") || !#handwashing_critical_animal_times#) ? \"G2 Handwashing with soap at ALL critical times\" : \"G1 Some critical handwashing times NOT mentioned\"",
+            "fnString": "(#handwashing_critical_infant_times#.includes(\"g0\") || !#handwashing_critical_infant_times#) && (#handwashing_critical_toilet_times#.includes(\"g0\") || !#handwashing_critical_toilet_times#) && (#handwashing_critical_food_times#.includes(\"g0\") || !#handwashing_critical_food_times#) ? \"G0 No or inadequate handwashing services\" : (#handwashing_critical_infant_times#.includes(\"g2\") || !#handwashing_critical_infant_times#) && (#handwashing_critical_toilet_times#.includes(\"g2\") || !#handwashing_critical_toilet_times#) && (#handwashing_critical_food_times#.includes(\"g2\") || !#handwashing_critical_food_times#) ? \"G2 Handwashing with soap at ALL critical times\" : \"G1 Some critical handwashing times NOT mentioned\"",
             "multiline": false
           }
         },
@@ -7651,7 +7651,7 @@
               "G3 Clean and Healthy": "#4088F4"
             },
             "multiline": false,
-            "fnString": "#o_r_hwf_with_water_and_soap#.includes(\"G1\") ? 'G1 Handwashing facility with soap and water’: #o_r_hwf_with_water_and_soap#.includes(\"G1\") && #o_r_handwashing_with_soap_at_critical_times#.includes(\"G2\") ? 'G2 Safe and Sustainable' : #o_r_hwf_with_water_and_soap#.includes(\"G1\") && #o_r_handwashing_with_soap_at_critical_times#.includes(\"G2\") && #o_r_permanent_handwashing_station#.includes(\"G3\") ? 'G3 Clean and Healthy' : 'G0 Inadequate or no handwashing facility'"
+            "fnString": "(#o_r_hwf_with_water_and_soap#.includes(\"G1\") || !#o_r_hwf_with_water_and_soap# )? 'G1 Handwashing facility with soap and water’: #o_r_hwf_with_water_and_soap#.includes(\"G1\") && #o_r_handwashing_with_soap_at_critical_times#.includes(\"G2\") ? 'G2 Safe and Sustainable' : #o_r_hwf_with_water_and_soap#.includes(\"G1\") && #o_r_handwashing_with_soap_at_critical_times#.includes(\"G2\") && #o_r_permanent_handwashing_station#.includes(\"G3\") ? 'G3 Clean and Healthy' : 'G0 Inadequate or no handwashing facility'"
           }
         },
         {
