@@ -1120,11 +1120,11 @@
           "id": 1699960411329,
           "order": 13,
           "name": "no_visible_solid_wastes_communal_areas",
-          "label": "No visible solid wastes in communal areas",
+          "label": "4.13 G3-3.2C No visible solid wastes in communal areas",
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: visible solid wastes in communal areas</b><br><b>Solid wastes:</b> food wastes, paper, plastic, rags, metal, glass and other solid materials discarded by the household<br><b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."
+            "text": "<b>Solid wastes:</b> food wastes, paper, plastic, rags, metal, glass and other solid materials discarded by the household<br><b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."
           },
           "required": true,
           "meta": false,
@@ -1178,7 +1178,7 @@
           "id": 1699960488230,
           "order": 15,
           "name": "no_standing_water_communal_areas",
-          "label": "No standing water in communal areas",
+          "label": "4.15 G3-3.3C No standing water in communal areas",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1206,50 +1206,6 @@
               "order": 2,
               "label": "Some standing water in communal areas",
               "value": "g1_some_standing_water_communal_areas",
-              "color": "#38A15A"
-            }
-          ],
-          "fn": null
-        },
-        {
-          "id": 1699960542156,
-          "order": 16,
-          "name": "treated_larval_breeding_sites_communal_areas",
-          "label": "Treated larval breeding sites in communal areas",
-          "short_label": null,
-          "type": "option",
-          "tooltip": {
-            "text": "<b>INTERVIEW: where standing water provides larval breeding sites in communal areas, are treatment or other vector control activities used to limit mosquito breeding?</b><br><b>Larval breeding sites: </b>mosquitoes lay eggs directly in or near water, soil and at the base of plants in places that may fill with water.<br><b>Vector control activities:</b> draining of standing water; covering of water storage containers; filling of depressions that hold water; filling of cracks in water tank and septic tank covers; cover open vents or plumbing pipes (with insect screen).<br><b>Treatment activities:</b> use of larvicides to treat bodies of water that will not be used for drinking, and which cannot be covered, emptied or removed; use of fogging or surface applications to control adult mosquitoes"
-          },
-          "required": true,
-          "meta": false,
-          "options": [
-            {
-              "id": 1699960550615,
-              "order": 1,
-              "label": "No treatment or management in communal areas",
-              "value": "g0_no_treatment_management_communal_areas",
-              "color": "#DB3B3B"
-            },
-            {
-              "id": 1699960550616,
-              "order": 2,
-              "label": "Inadequate treatment or management in communal areas",
-              "value": "g1_inadequate_treatment_management_communal_areas",
-              "color": "#ffa57d"
-            },
-            {
-              "id": 1699960576151,
-              "order": 3,
-              "label": "Treated or managed larval breeding sites in communal areas",
-              "value": "g3_treated_managed_larval_breeding_sites_communal_areas",
-              "color": "#38A15A"
-            },
-            {
-              "id": 1699960583286,
-              "order": 4,
-              "label": "No visible standing water in communal areas",
-              "value": "g3_no_visible_standing_water_communal_areas",
               "color": "#38A15A"
             }
           ],
@@ -1284,7 +1240,7 @@
           "short_label": null,
           "type": "multiple_option",
           "tooltip": {
-            "text": "</b>OBSERVE: type of institution (located within community)</b><br><b>Institution:</b> any public building with open access to the communal toilets and handwashing facilities"
+            "text": "<b>OBSERVE & INTERVIEW:</b> list all of the types of institution (located with community boundaries) that contain toilets.<br/<b>Institution:</b> any public or private building in which workers or visitors have access to toilets and handwashing facilities.<b>Private institutions:</b> hotels, guesthouses, restaurants, offices, factories, shops, centres of learning, nursing homes in which workers or visitors have access to toilets.<b>Worship centres:</b> includes churches, cathedrals, mosques, temples and all other buildings used for religious activities in which worshippers have access to toilets. <br/><b>Transport stations:</b> includes bus stations, train stations, airports, fuel depots or other transport-related buildings in which workers or travellers have access to toilets."
           },
           "required": true,
           "meta": false,
