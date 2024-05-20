@@ -72,17 +72,6 @@ class OrganisationListSerializer(serializers.ModelSerializer):
         attr = instance.organisation_organisation_attribute.all()
         return OrganisationAttributeSerializer(instance=attr, many=True).data
 
-    # @extend_schema_field(OrganisationAttributeSerializer(many=True))
-    # def get_attributes(self, instance: Organisation):
-    #     attr = OrganisationAttribute.objects.filter(
-    #         organisation_id=instance.id).all()
-    #     return OrganisationAttributeSerializer(instance=attr, many=True).data
-
-    # @extend_schema_field(OpenApiTypes.INT)
-    # def get_users(self, instance: Organisation):
-    #     return SystemUser.objects.filter(
-    #         organisation_id=instance.id).count()
-
     class Meta:
         model = Organisation
         fields = ['id', 'name', 'attributes', 'users']
