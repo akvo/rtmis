@@ -37,25 +37,21 @@
           "meta": false,
           "options": [
             {
-              "id": 1699951061387,
               "order": 1,
               "label": "New",
               "value": "new"
             },
             {
-              "id": 1699951061388,
               "order": 2,
               "label": "Update",
               "value": "update"
             },
             {
-              "id": 1699951061389,
               "order": 3,
               "label": "Verification",
               "value": "verification"
             },
             {
-              "id": 1699951061390,
               "order": 4,
               "label": "Certification",
               "value": "certification"
@@ -128,40 +124,39 @@
           "meta": false,
           "options": [
             {
-              "id": 1699951606690,
               "order": 1,
               "label": "Village chief/Community head",
               "value": "village_chief_head"
             },
             {
-              "id": 1699951606691,
               "order": 2,
               "label": "Local Government official",
               "value": "local_government_official"
             },
             {
-              "id": 1699951635730,
               "order": 3,
               "label": "Community Health Volunteer",
               "value": "community_health_volunteera"
             },
             {
-              "id": 1699951647026,
               "order": 4,
               "label": "Water/Sanitation/Hygiene Committee Member",
               "value": "water_committee_member"
             },
             {
-              "id": 1699951654526,
               "order": 5,
               "label": "School Principal/Teacher",
               "value": "school_principal"
             },
             {
-              "id": 1699951664742,
               "order": 6,
               "label": "Natural leader (CLTS)",
               "value": "natural_leader_clts"
+            },
+            {
+              "order": 7,
+              "label": "Other",
+              "value": "other"
             }
           ],
           "fn": null,
@@ -215,6 +210,9 @@
           "short_label": null,
           "meta": false,
           "required": true,
+          "tooltip": {
+            "text": "mplementation partner: an organization or service provider that is developing, implementing or supporting sanitation, hygiene or environmental health services in the community."
+          },
           "type": "cascade",
           "api": {
             "endpoint": "/api/v1/organisation/options/",
@@ -230,36 +228,28 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW:</b> what is the main soil type in this community?<br><b>Soil type:</b> what type of soil makes up the top 6 feet of the soil profile (only one type can be selected)<br><b>Soil drainage:</b> ask whether water soaks into the soil? If water soaks in quickly and easily, then it is likely to be a high drainage soil; if it soaks in at a normal rate, it is a medium drainage soil; and if water soaks in very slowly (or not at all) then it is a low drainage soil"
+            "text": "<b>INTERVIEW:</b> what is the main soil type in this community?<br><b>Soil type:</b> what type of soil makes up the top 2 metres of the soil profile (only one type can be selected)<br><b>Soil drainage:</b> ask whether water soaks into the soil? If water soaks in quickly and easily, then it is likely to be a high drainage soil; if it soaks in at a normal rate, it is a medium drainage soil; and if water soaks in very slowly (or not at all) then it is a low drainage soil"
           },
           "required": true,
           "meta": false,
           "options": [
             {
-              "id": 1699952083835,
               "order": 2,
               "label": "Medium drainage soil (medium sand, weathered rock)",
               "value": "medium_drainage_soil_sand_weathered_rock"
             },
             {
-              "id": 1699952105720,
               "order": 3,
               "label": "High drainage soil (coarse sand & gravel, fractured sandstone or limestone)",
               "value": "high_drainage_soil_coarse_sand_gravel_fractured_sandstone_limestone"
             },
             {
-              "id": 1699952083834,
               "order": 1,
               "label": "Low drainage soil (fine sand, silt or clay)",
               "value": "low_drainage_soil_fine_sand_silt_clay"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["medium_drainage_soil_sand_weathered_rock"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1699952153243,
@@ -275,30 +265,22 @@
           "meta": false,
           "options": [
             {
-              "id": 1699952189625,
               "order": 1,
               "label": "Less than 5m",
               "value": "less_than_5m"
             },
             {
-              "id": 1699952189626,
               "order": 2,
               "label": "Between 5-10m",
               "value": "between_5_10_m"
             },
             {
-              "id": 1699952204199,
               "order": 3,
               "label": "More than 10m",
               "value": "more_than_10m"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["less_than_5m"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1699952219561,
@@ -314,36 +296,28 @@
           "meta": false,
           "options": [
             {
-              "id": 1699952247326,
               "order": 1,
               "label": "Protected groundwater sources (protected boreholes, protected dug wells or protected springs)",
               "value": "protected_groundwater_sources"
             },
             {
-              "id": 1699952247327,
               "order": 2,
               "label": "Unprotected groundwater sources (boreholes, dug wells or springs)",
               "value": "unprotected_groundwater_sources"
             },
             {
-              "id": 1699952266846,
               "order": 3,
               "label": "No groundwater sources used",
               "value": "no_groundwater_sources_used"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["protected_groundwater_sources"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1699952295823,
           "order": 8,
           "name": "groundwater_drinking_supply",
-          "label": "Use of groundwater for drinking water supply",
+          "label": "Percentage of households that use groundwater for drinking?",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -353,30 +327,22 @@
           "meta": false,
           "options": [
             {
-              "id": 1699952315820,
               "order": 1,
               "label": "More than 25 percent",
               "value": "more_than_25_percent"
             },
             {
-              "id": 1699952315821,
               "order": 2,
               "label": "Between 1 percent  and 25 percent",
               "value": "between_1_and_25_percent"
             },
             {
-              "id": 1699952343092,
               "order": 3,
               "label": "Zero Percent",
               "value": "zero_percent"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["more_than_25_percent"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1699952355848,
@@ -392,30 +358,23 @@
           "meta": false,
           "options": [
             {
-              "id": 1699952385488,
               "order": 1,
               "label": "More than 25 percent",
               "value": "more_than_25_percent"
             },
             {
-              "id": 1699952385489,
               "order": 2,
               "label": "Less than 25 percent",
               "value": "less_than_25_percent"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["more_than_25_percent"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1699952418978,
           "order": 10,
           "name": "toilets_uphill_from_groundwater_sources",
-          "label": "Toilets uphill from groundwater sources",
+          "label": "Percentage of toilets uphill from groundwater sources?",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -425,24 +384,17 @@
           "meta": false,
           "options": [
             {
-              "id": 1699952432804,
               "order": 1,
               "label": "More than 25 percent",
               "value": "more_than_25_percent"
             },
             {
-              "id": 1699952432805,
               "order": 2,
               "label": "Less than 25 percent",
               "value": "less_than_25_percent"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["more_than_25_percent"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1702364544574,
@@ -456,25 +408,18 @@
           "meta": false,
           "options": [
             {
-              "id": 16999524328041,
               "order": 1,
               "label": "High risk of groundwater contamination",
               "value": "g0_high_risk_groundwater_contamination",
               "color": "#DB3B3B"
             },
             {
-              "id": 16999524328052,
               "order": 2,
               "label": "Low risk of groundwater contamination",
               "value": "g2_low_risk_groundwater_contamination",
               "color": "#38A15A"
             }
-          ],
-          "pre": {
-            "new_or_update": {
-              "new": ["g0_high_risk_groundwater_contamination"]
-            }
-          }
+          ]
         }
       ]
     },
@@ -607,23 +552,20 @@
           "meta": false,
           "options": [
             {
-              "id": 16999223328041,
               "order": 1,
-              "label": "At-risk household monitoring: no disaggregated data available from community",
+              "label": "No monitoring data available",
               "value": "g0_at_risk_hh_no_disaggregated_data_available",
               "color": "#DB3B3B"
             },
             {
-              "id": 16999524328042,
               "order": 2,
-              "label": "At-risk household monitoring not reliable: More than 5% difference in monitoring data",
+              "label": "More than 5% difference in monitoring data",
               "value": "g0_at_risk_hh_not_reliable_more_than_5_percent_difference",
-              "color": "#DB3B3B"
+              "color": "#FDC74B"
             },
             {
-              "id": 16999524328852,
               "order": 3,
-              "label": "At-risk household monitoring system functional: Less than 5% difference in monitoring data",
+              "label": "Less than 5% difference in monitoring data",
               "value": "g1g2_at_rish_hh_system_functional_less_than_5_percent_difference",
               "color": "#38A15A"
             }
@@ -648,14 +590,12 @@
           "meta": false,
           "options": [
             {
-              "id": 1699958682490,
               "order": 1,
               "label": "Action plan for G2: not available, not approved or not in use",
               "value": "g0_action_plan_g2_not_available_not_approved_not_in_use",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699958682491,
               "order": 2,
               "label": "Action plan for G2: available and in use",
               "value": "g1_action_plan_g2_available_and_in_use",
@@ -683,16 +623,14 @@
           "meta": false,
           "options": [
             {
-              "id": 1699958837025,
               "order": 1,
-              "label": "Action plan for G3: not available, not approved or not in use",
+              "label": "Not available, not approved or not in use",
               "value": "g0_action_plan_g3_not_available_not_approved_not_in_use",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699958837026,
               "order": 2,
-              "label": "Action plan for G3: available and in use",
+              "label": "Available, approved and in use",
               "value": "g1_action_plan_g3_available_and_in_use",
               "color": "#38A15A"
             }
@@ -719,7 +657,7 @@
           "id": 1699959649782,
           "order": 1,
           "name": "no_exposed_excreta_communal_areas",
-          "label": "No exposed human excreta in communal areas",
+          "label": "4.1 G1-3C No exposed human excreta in communal areas",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -729,26 +667,19 @@
           "meta": false,
           "options": [
             {
-              "id": 1699959708165,
               "order": 1,
               "label": "Child or adult excreta observed in communal areas",
               "value": "g0_child_adult_excreta_observed_communal_areas",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699959708166,
               "order": 2,
               "label": "No visible OD or human excreta (child or adult) in communal areas",
               "value": "g1_no_visible_od_or_human_excreta_communal_areas",
               "color": "#38A15A"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["g0_child_adult_excreta_observed_communal_areas"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1702303499563,
@@ -757,7 +688,9 @@
           "label": "Outcome result - No exposed human excreta",
           "short_label": null,
           "type": "autofield",
-          "tooltip": null,
+          "tooltip": {
+            "text": "<b>Open defecation in water bodies:</b> where groups or communities practice open defecation in nearby water bodies (for example, people living near beaches, lakes and rivers), human excreta may not be visible in communal areas. In these cases, household interviews should be undertaken to assess whether people practice open defecation (including in water bodies) or use a toilet, in combination with observation of the presence of a functional toilet (to verify claims of toilet use)."
+          },
           "required": true,
           "meta": false,
           "options": null,
@@ -774,7 +707,7 @@
           "id": 1699959743410,
           "order": 3,
           "name": "safe_diaper_management_communal_areas",
-          "label": "Safe management of diapers in communal areas",
+          "label": "4.3 G1-3C Safe management of used diapers in communal areas",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -784,54 +717,49 @@
           "meta": false,
           "options": [
             {
-              "id": 1699959793320,
               "order": 1,
               "label": "Used diapers visible in communal areas",
               "value": "g0_used_diapers_visible_communal_areas",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699959793321,
               "order": 2,
               "label": "Used diapers unsafely disposed or unsafely washed",
               "value": "g0_used_diapers_unsafely_disposed_unsafely_washed",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699959809374,
               "order": 3,
+              "label": "Used diapers buried",
+              "value": "g1_disposable_diapers_buried",
+              "color": "#38A15A"
+            },
+            {
+              "order": 4,
+              "label": "Used diapers put into covered waste pits",
+              "value": "g1_disposable_diapers_put_into_covered_waste_pits",
+              "color": "#38A15A"
+            },
+            {
+              "order": 5,
+              "label": "Used diapers collected for disposal at communal site",
+              "value": "g1_disposable_diapers_collected_for_disposal_communal_site",
+              "color": "#38A15A"
+            },
+            {
+              "order": 6,
               "label": "Washable cloths safely emptied and safely washed",
               "value": "g1_washable_cloths_safely_emptied_and_safely_washed",
               "color": "#38A15A"
             },
             {
-              "id": 1699959816980,
-              "order": 4,
-              "label": "Disposable diapers put into covered waste pits",
-              "value": "g1_disposable_diapers_put_into_covered_waste_pits",
-              "color": "#38A15A"
-            },
-            {
-              "id": 1699959825380,
-              "order": 5,
-              "label": "Disposable diapers buried",
-              "value": "g1_disposable_diapers_buried",
-              "color": "#38A15A"
-            },
-            {
-              "id": 1699959832147,
-              "order": 6,
-              "label": "Disposable diapers collected for disposal at communal site",
-              "value": "g1_disposable_diapers_collected_for_disposal_communal_site",
+              "order": 7,
+              "label": "No diapers or cloths used",
+              "value": "g1_no_diapers_or_cloths_used",
               "color": "#38A15A"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["g0_used_diapers_visible_communal_areas"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1702303769667,
@@ -857,7 +785,7 @@
           "id": 1699959861479,
           "order": 5,
           "name": "clean_communal_water_points",
-          "label": "Clean communal water points",
+          "label": "4.5 G2-4.1C Clean communal water points",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -867,39 +795,37 @@
           "meta": false,
           "options": [
             {
-              "id": 1699959885703,
               "order": 1,
               "label": "Visible dirt or contamination",
               "value": "g0_visible_dirt_contamination",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699959885704,
               "order": 2,
               "label": "Not adequately clean",
               "value": "g1_not_adequately_clean",
               "color": "#ffa57d"
             },
             {
-              "id": 1699959904493,
               "order": 3,
               "label": "Clean communal water points",
               "value": "g2_clean_communal_water_points",
               "color": "#38A15A"
+            },
+            {
+              "order": 4,
+              "label": "No communal water points",
+              "value": "g2_no_communal_water_points",
+              "color": "#38A15A"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["g0_visible_dirt_contamination"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1699960025562,
           "order": 6,
           "name": "protected_communal_water_points",
-          "label": "Protected communal water points",
+          "label": "4.6 G2-4.2C Protected communal water points",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -909,75 +835,71 @@
           "meta": false,
           "options": [
             {
-              "id": 1699960039749,
               "order": 1,
               "label": "No protection of water points",
               "value": "g0_no_protection_water_points",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699960039750,
               "order": 2,
               "label": "Inadequate protection of water points",
               "value": "g1_inadequate_protection_water_points",
               "color": "#ffa57d"
             },
             {
-              "id": 1699960068576,
               "order": 3,
               "label": "Well protected communal water points",
               "value": "g2_well_protected_communal_water_points",
               "color": "#38A15A"
+            },
+            {
+              "order": 4,
+              "label": "No communal water points",
+              "value": "g2_no_communal_water_points",
+              "color": "#38A15A"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["g0_no_protection_water_points"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1699960104326,
           "order": 7,
           "name": "well_drained_communal_water_points",
-          "label": "Well drained communal water points",
+          "label": "4.7 G2-4.3C Drainage of communal water points",
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: drainage of water points in communal areas</b><br><b>Well drained water points:</b> no standing water visible at or around the water source (provision of drainage and soakpits may be required in slow-draining soils)"
+            "text": "<b>Good drainage of water points:</b> no standing water visible at or around water sources (provision of drainage and soakpits may be required in slow-draining soils)"
           },
           "required": true,
           "meta": false,
           "options": [
             {
-              "id": 1699960149726,
               "order": 1,
               "label": "Standing water visible around water point",
               "value": "g0_standing_water_visible_around_water_points",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699960149727,
               "order": 2,
               "label": "Inadequately drained water points",
               "value": "g1_inadequately_drained_water_points",
               "color": "#ffa57d"
             },
             {
-              "id": 1699960194331,
               "order": 3,
               "label": "Well drained communal water points",
               "value": "g2_well_drained_communal_water_points",
               "color": "#38A15A"
+            },
+            {
+              "order": 4,
+              "label": "No communal water points",
+              "value": "g2_no_communal_water_points",
+              "color": "#38A15A"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["g0_standing_water_visible_around_water_points"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1702303919369,
@@ -1004,7 +926,7 @@
           "id": 1699960255414,
           "order": 9,
           "name": "faecal_sludge_disposal_communal_areas",
-          "label": "Faecal sludge disposal in communal areas",
+          "label": "4.9 G3-1C Faecal sludge disposal in communal areas",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1014,42 +936,37 @@
           "meta": false,
           "options": [
             {
-              "id": 1699960314911,
               "order": 1,
-              "label": "Unsafe disposal: to open pit, open space, open drain or water body in communal areas",
+              "label": "Disposal to open in communal areas",
               "value": "g0_unsafe_disposal_to_open_pit_space_drain_or_water_body_communal_areas",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699960314912,
               "order": 2,
-              "label": "Unsafe treatment or disposal: sewer connection to open discharge in communal area",
+              "label": "Sewer connection to open discharge in communal area",
               "value": "g0_unsafe_treatment_disposal_sewer_connection_to_open_discharge_communal_areas",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699960335049,
               "order": 3,
-              "label": "Safely managed: emptied to covered pit or trench in communal area",
+              "label": "Emptied to covered pit or trench in communal area",
               "value": "g3_safely_managed_emptied_to_covered_pit_trench_communal_areas",
               "color": "#38A15A"
             },
             {
-              "id": 1699960344606,
               "order": 4,
-              "label": "Safely managed: communal disposal of faecal sludge is safely managed",
+              "label": "Communal disposal of faecal sludge is safely managed",
               "value": "g3_safely_managed_communal_disposal_faecal_sludge_safely_managed",
+              "color": "#38A15A"
+            },
+            {
+              "order": 5,
+              "label": "No sludge disposal in communal areas",
+              "value": "g3_no_sludge_disposal_in_communal_areas",
               "color": "#38A15A"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": [
-                "g0_unsafe_disposal_to_open_pit_space_drain_or_water_body_communal_areas"
-              ]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1702304803791,
@@ -1076,7 +993,7 @@
           "id": 1699960354498,
           "order": 11,
           "name": "stormwater_drainage_communal_areas",
-          "label": "Drainage for stormwater in communal areas",
+          "label": "4.11 G3-3.1C Drainage for stormwater in communal areas",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1086,40 +1003,31 @@
           "meta": false,
           "options": [
             {
-              "id": 1699960368823,
               "order": 1,
               "label": "Significant erosion in communal areas",
               "value": "g0_significant_erosion_communal_areas",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699960368824,
               "order": 2,
               "label": "Some visible erosion in communal areas",
               "value": "g1_some_visible_erosion_communal_areas",
               "color": "#ffa57d"
             },
             {
-              "id": 1699960393600,
               "order": 3,
               "label": "Adequate stormwater drainage in communal areas",
               "value": "g3_adequate_stormwater_drainage_communal_areas",
               "color": "#38A15A"
             },
             {
-              "id": 1699960400486,
               "order": 4,
               "label": "No signs of stormwater erosion",
               "value": "g3_no_signs_of_stormwater_erosion",
               "color": "#38A15A"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["g0_significant_erosion_communal_areas"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1702306876033,
@@ -1146,43 +1054,35 @@
           "id": 1699960411329,
           "order": 13,
           "name": "no_visible_solid_wastes_communal_areas",
-          "label": "No visible solid wastes in communal areas",
+          "label": "4.13 G3-3.2C No visible solid wastes in communal areas",
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: visible solid wastes in communal areas</b><br><b>Solid wastes:</b> food wastes, paper, plastic, rags, metal, glass and other solid materials discarded by the household<br><b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."
+            "text": "<b>Solid wastes:</b> food wastes, paper, plastic, rags, metal, glass and other solid materials discarded by the household<br><b>Communal areas:</b> areas within the community that are not part of household compounds, and which are accessible to all."
           },
           "required": true,
           "meta": false,
           "options": [
             {
-              "id": 1699960447922,
               "order": 1,
               "label": "Significant visible solid wastes in communal areas",
               "value": "g0_significant_visible_solid_wastes_communal_areas",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699960447923,
               "order": 2,
               "label": "Some solid wastes visible in communal areas",
               "value": "g1_some_solid_wastes_visible_communal_areas",
               "color": "#ffa57d"
             },
             {
-              "id": 1699960457906,
               "order": 3,
               "label": "Clean compound with no visible solid wastes in communal areas",
               "value": "g3_clean_compound_with_no_visible_solid_wastes_communal_areas",
               "color": "#38A15A"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["g0_significant_visible_solid_wastes_communal_areas"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1702307100780,
@@ -1209,7 +1109,7 @@
           "id": 1699960488230,
           "order": 15,
           "name": "no_standing_water_communal_areas",
-          "label": "No standing water in communal areas",
+          "label": "4.15 G3-3.3C No standing water in communal areas",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1219,82 +1119,25 @@
           "meta": false,
           "options": [
             {
-              "id": 1699960496310,
               "order": 1,
               "label": "Significant standing water in communal areas",
               "value": "g0_significant_standing_water_communal_areas",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699960524045,
               "order": 3,
               "label": "No visible standing water in communal areas",
               "value": "g3_no_visible_standing_water_communal_areas",
               "color": "#ffa57d"
             },
             {
-              "id": 1699960496311,
               "order": 2,
               "label": "Some standing water in communal areas",
               "value": "g1_some_standing_water_communal_areas",
               "color": "#38A15A"
             }
           ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["g0_significant_standing_water_communal_areas"]
-            }
-          }
-        },
-        {
-          "id": 1699960542156,
-          "order": 16,
-          "name": "treated_larval_breeding_sites_communal_areas",
-          "label": "Treated larval breeding sites in communal areas",
-          "short_label": null,
-          "type": "option",
-          "tooltip": {
-            "text": "<b>INTERVIEW: where standing water provides larval breeding sites in communal areas, are treatment or other vector control activities used to limit mosquito breeding?</b><br><b>Larval breeding sites: </b>mosquitoes lay eggs directly in or near water, soil and at the base of plants in places that may fill with water.<br><b>Vector control activities:</b> draining of standing water; covering of water storage containers; filling of depressions that hold water; filling of cracks in water tank and septic tank covers; cover open vents or plumbing pipes (with insect screen).<br><b>Treatment activities:</b> use of larvicides to treat bodies of water that will not be used for drinking, and which cannot be covered, emptied or removed; use of fogging or surface applications to control adult mosquitoes"
-          },
-          "required": true,
-          "meta": false,
-          "options": [
-            {
-              "id": 1699960550615,
-              "order": 1,
-              "label": "No treatment or management in communal areas",
-              "value": "g0_no_treatment_management_communal_areas",
-              "color": "#DB3B3B"
-            },
-            {
-              "id": 1699960550616,
-              "order": 2,
-              "label": "Inadequate treatment or management in communal areas",
-              "value": "g1_inadequate_treatment_management_communal_areas",
-              "color": "#ffa57d"
-            },
-            {
-              "id": 1699960576151,
-              "order": 3,
-              "label": "Treated or managed larval breeding sites in communal areas",
-              "value": "g3_treated_managed_larval_breeding_sites_communal_areas",
-              "color": "#38A15A"
-            },
-            {
-              "id": 1699960583286,
-              "order": 4,
-              "label": "No visible standing water in communal areas",
-              "value": "g3_no_visible_standing_water_communal_areas",
-              "color": "#38A15A"
-            }
-          ],
-          "fn": null,
-          "pre": {
-            "new_or_update": {
-              "new": ["g0_no_treatment_management_communal_areas"]
-            }
-          }
+          "fn": null
         },
         {
           "id": 1702307258403,
@@ -1325,79 +1168,67 @@
           "short_label": null,
           "type": "multiple_option",
           "tooltip": {
-            "text": "</b>OBSERVE: type of institution (located within community)</b><br><b>Institution:</b> any public building with open access to the communal toilets and handwashing facilities"
+            "text": "<b>OBSERVE & INTERVIEW:</b> list all of the types of institution (located with community boundaries) that contain toilets.<br/<b>Institution:</b> any public or private building in which workers or visitors have access to toilets and handwashing facilities.<b>Private institutions:</b> hotels, guesthouses, restaurants, offices, factories, shops, centres of learning, nursing homes in which workers or visitors have access to toilets.<b>Worship centres:</b> includes churches, cathedrals, mosques, temples and all other buildings used for religious activities in which worshippers have access to toilets. <br/><b>Transport stations:</b> includes bus stations, train stations, airports, fuel depots or other transport-related buildings in which workers or travellers have access to toilets."
           },
           "required": true,
           "meta": false,
           "options": [
             {
-              "id": 1699960853968,
               "order": 1,
               "label": "School",
               "value": "school"
             },
             {
-              "id": 1699960853969,
               "order": 2,
               "label": "Healthcare facility",
               "value": "healthcare_facility"
             },
             {
-              "id": 1699960879028,
               "order": 3,
               "label": "Transport station (bus, train, airport, fuel, other)",
               "value": "transport_station"
             },
             {
-              "id": 1699960886964,
               "order": 4,
               "label": "Market",
               "value": "market"
             },
             {
-              "id": 1699960888631,
               "order": 5,
               "label": "Public toilet",
               "value": "public_toilet"
             },
             {
-              "id": 1699960890214,
               "order": 6,
               "label": "Government office/building",
               "value": "government_office_building"
             },
             {
-              "id": 1699960891381,
               "order": 7,
               "label": "Camps (fishing, mining, farming)",
               "value": "camps_fishing_mining_farming"
             },
             {
-              "id": 1699960926316,
               "order": 8,
               "label": "Worship centres (churches, cathedrals, mosques, temples, other)",
               "value": "worship_centres"
             },
             {
-              "id": 1699960929781,
               "order": 9,
               "label": "Burial place",
               "value": "burial_place"
             },
             {
-              "id": 1699960938134,
               "order": 10,
               "label": "Private institutions",
               "value": "private_institutions"
             },
             {
-              "id": 1699960946417,
               "order": 11,
               "label": "Prisons",
               "value": "prisons"
             },
             {
-              "id": 169996093813499,
               "order": 12,
               "label": "Other Institutions",
               "value": "other_institutions"
@@ -1685,28 +1516,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699951727891241,
               "order": 1,
               "label": "No",
               "value": "no",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699951727891242,
               "order": 2,
               "label": "G1",
               "value": "g1",
               "color": "#38A15A"
             },
             {
-              "id": 1699951727891243,
               "order": 3,
               "label": "G2",
               "value": "g2",
               "color": "#38A15A"
             },
             {
-              "id": 1699951727891244,
               "order": 4,
               "label": "G3",
               "value": "g3",
@@ -1728,14 +1555,12 @@
           "meta": false,
           "options": [
             {
-              "id": 1699951727891251,
               "order": 1,
               "label": "Yes",
               "value": "yes",
               "color": "green"
             },
             {
-              "id": 1699951727891252,
               "order": 2,
               "label": "No",
               "value": "no",
@@ -1757,14 +1582,12 @@
           "meta": false,
           "options": [
             {
-              "id": 1699951727891261,
               "order": 1,
               "label": "Yes",
               "value": "yes",
               "color": "green"
             },
             {
-              "id": 1699951727891262,
               "order": 2,
               "label": "No",
               "value": "no",
@@ -1779,7 +1602,7 @@
           "id": 1715245783,
           "order": 34,
           "name": "overall_outcome",
-          "label": "Outcome result - Overall outcome",
+          "label": "Outcome result - Overall outcome in communal areas",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -1793,7 +1616,7 @@
               "G2": "#93D371",
               "G3": "#4088F4"
             },
-            "fnString": "#outcome_no_exposed_excreta#.includes(\"G1\") && #outcome_safe_diaper_management#.includes(\"G1\") && #outcome_safe_management_communal_water_sources#.includes(\"G1\") && #outcome_safely_managed_sanitation_services#.includes(\"G1\") && #safe_waste_management_in_communal_areas#.includes(\"G1\") ? #outcome_no_exposed_excreta#.includes(\"G2\") && #outcome_safe_diaper_management#.includes(\"G2\") && #outcome_safe_management_communal_water_sources#.includes(\"G2\") && #outcome_safely_managed_sanitation_services#.includes(\"G2\") && #safe_waste_management_in_communal_areas#.includes(\"G2\") ? #outcome_no_exposed_excreta#.includes(\"G3\") && #outcome_safe_diaper_management#.includes(\"G3\") && #outcome_safe_management_communal_water_sources#.includes(\"G3\") && #outcome_safely_managed_sanitation_services#.includes(\"G3\") && #safe_waste_management_in_communal_areas#.includes(\"G3\") ? 'G3' : 'G2' : 'G1' : 'G0'",
+            "fnString": "#outcome_no_exposed_excreta#.includes(\"G1\") && #outcome_safe_diaper_management#.includes(\"G1\") && #outcome_safe_management_communal_water_sources#.includes(\"G2\") && #outcome_safely_managed_sanitation_services#.includes(\"G3\") && #outcome_safe_management_liquid_wastes#.includes(\"G3\") && #outcome_safe_management_solid_wastes#.includes(\"G3\") && #outcome_good_vector_control_communal_areas#.includes(\"G3\") ? \"G3\" : #outcome_no_exposed_excreta#.includes(\"G1\") && #outcome_safe_diaper_management#.includes(\"G1\") && #outcome_safe_management_communal_water_sources#.includes(\"G2\") ? \"G2\" : #outcome_no_exposed_excreta#.includes(\"G1\") && #outcome_safe_diaper_management#.includes(\"G1\") ? \"G1\" : \"G0\"",
             "multiline": false
           }
         }
