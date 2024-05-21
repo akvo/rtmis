@@ -499,7 +499,7 @@
           "id": 1712234331,
           "order": 19,
           "name": "total_menstruating_women_or_girls",
-          "label": "Total number of menstruating girls or women who live permanently in this house",
+          "label": "Total number of potentially menstruating girls or women who live permanently in this house",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -989,42 +989,42 @@
             {
               "id": 1699428581174,
               "order": 2,
-              "label": "#1: No toilet use, practice open defecation",
+              "label": "No toilet use, practice open defecation",
               "value": "hh_member_1_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
               "id": 17157750461,
               "order": 3,
-              "label": "#1: Some toilet use, some open defecation",
-              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
+              "label": "Some toilet use, some open defecation",
+              "value": "hh_member_1_g0_some_toilet_use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
               "id": 1699428581175,
               "order": 4,
-              "label": "#1: Use other household toilet (shared)",
-              "value": "hh_member_1_g1_use_other_hh_toilet_shared`",
-              "color": "#ffa57d"
+              "label": "Use other household toilet (shared)",
+              "value": "hh_member_1_g0_toilet_shaerd_other",
+              "color": "#DB3B3B"
             },
             {
               "id": 1699428642804,
               "order": 5,
-              "label": "#1: Use own toilet (shared)",
+              "label": "Use own toilet (shared)",
               "value": "hh_member_1_g1_use_own_toilet_shared",
               "color": "#ffa57d"
             },
             {
               "id": 17157752191,
               "order": 6,
-              "label": "#1: Use own toilet with assistance (not shared)",
+              "label": "Use own toilet with assistance (not shared)",
               "value": "hh_member_1_g2_use_own_toilet_with_assistance",
               "color": "#38A15A"
             },
             {
               "id": 1699428651604,
               "order": 7,
-              "label": "#1: Use own toilet (NOT shared)",
+              "label": "Use own toilet (NOT shared)",
               "value": "hh_member_1_g2_use_own_toilet_not_shared",
               "color": "#38A15A"
             }
@@ -1073,43 +1073,43 @@
             {
               "id": 1699428581174,
               "order": 2,
-              "label": "#1: No toilet use, practice open defecation",
-              "value": "hh_member_1_g0_no_toilet_use_practice_od",
+              "label": "No toilet use, practice open defecation",
+              "value": "hh_member_2_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
               "id": 17157750462,
               "order": 3,
-              "label": "#1: Some toilet use, some open defecation",
-              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
+              "label": "Some toilet use, some open defecation",
+              "value": "hh_member_2_g0_some_toilet use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
               "id": 1699428581175,
               "order": 4,
-              "label": "#1: Use other household toilet (shared)",
-              "value": "hh_member_1_g1_use_other_hh_toilet_shared`",
+              "label": "Use other household toilet (shared)",
+              "value": "hh_member_2_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
-              "id": 1699428642804,
+              "id": 16994286428041,
               "order": 5,
-              "label": "#1: Use own toilet (shared)",
-              "value": "hh_member_1_g1_use_own_toilet_shared",
+              "label": "Use own toilet (shared)",
+              "value": "hh_member_2_g1_use_own_toilet_shared",
               "color": "#ffa57d"
             },
             {
               "id": 17157752192,
               "order": 6,
-              "label": "#1: Use own toilet with assistance (not shared)",
-              "value": "hh_member_1_g2_use_own_toilet_with_assistance",
+              "label": "Use own toilet with assistance (not shared)",
+              "value": "hh_member_2_g2_use_own_toilet_with_assistance",
               "color": "#38A15A"
             },
             {
               "id": 1699428651604,
               "order": 7,
-              "label": "#1: Use own toilet (NOT shared)",
-              "value": "hh_member_1_g2_use_own_toilet_not_shared",
+              "label": "Use own toilet (NOT shared)",
+              "value": "hh_member_2_g2_use_own_toilet_not_shared",
               "color": "#38A15A"
             }
           ],
@@ -1157,36 +1157,43 @@
             {
               "id": 1699428581174,
               "order": 2,
-              "label": "#1: No toilet use, practice open defecation",
-              "value": "hh_member_1_g0_no_toilet_use_practice_od",
+              "label": "No toilet use, practice open defecation",
+              "value": "hh_member_3_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
               "id": 17157750463,
               "order": 3,
-              "label": "#1: Some toilet use, some open defecation",
-              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
+              "label": "Some toilet use, some open defecation",
+              "value": "hh_member_3_g0_some_toilet_use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
               "id": 1699428581175,
               "order": 4,
-              "label": "#1: Use other household toilet (shared)",
-              "value": "hh_member_1_g1_use_other_hh_toilet_shared`",
+              "label": "Use other household toilet (shared)",
+              "value": "hh_member_3_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
-              "id": 1699428642804,
+              "id": 16994286428042,
               "order": 5,
-              "label": "#1: Use own toilet (shared)",
-              "value": "hh_member_1_g1_use_own_toilet_shared",
+              "label": "Use own toilet (shared)",
+              "value": "hh_member_3_g1_use_own_toilet_shared",
               "color": "#ffa57d"
+            },
+            {
+              "id": 17157752193,
+              "order": 6,
+              "label": "Use own toilet with assistance (not shared)",
+              "value": "hh_member_3_g2_use_own_toilet_with_assistance",
+              "color": "#38A15A"
             },
             {
               "id": 1699428651604,
-              "order": 6,
-              "label": "#1: Use own toilet (NOT shared)",
-              "value": "hh_member_1_g2_use_own_toilet_not_shared",
+              "order": 7,
+              "label": "Use own toilet (NOT shared)",
+              "value": "hh_member_3_g2_use_own_toilet_not_shared",
               "color": "#38A15A"
             }
           ],
@@ -1234,35 +1241,42 @@
             {
               "id": 1699428581174,
               "order": 2,
-              "label": "#1: No toilet use, practice open defecation",
-              "value": "hh_member_1_g0_no_toilet_use_practice_od",
+              "label": "No toilet use, practice open defecation",
+              "value": "hh_member_4_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
               "id": 17157750464,
               "order": 3,
-              "label": "#1: Some toilet use, some open defecation",
-              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
+              "label": "Some toilet use, some open defecation",
+              "value": "hh_member_4_g0_some_toilet_use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
               "id": 1699428581175,
               "order": 4,
-              "label": "#1: Use other household toilet (shared)",
-              "value": "hh_member_1_g1_use_other_hh_toilet_shared`",
+              "label": "Use other household toilet (shared)",
+              "value": "hh_member_4_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
-              "id": 1699428642804,
+              "id": 16994286428043,
               "order": 5,
-              "label": "#1: Use own toilet (shared)",
-              "value": "hh_member_1_g1_use_own_toilet_shared",
+              "label": "Use own toilet (shared)",
+              "value": "hh_member_4_g1_use_own_toilet_shared",
               "color": "#ffa57d"
+            },
+            {
+              "id": 17157752194,
+              "order": 6,
+              "label": "Use own toilet with assistance (not shared)",
+              "value": "hh_member_4_g2_use_own_toilet_with_assistance",
+              "color": "#38A15A"
             },
             {
               "id": 1699428651604,
-              "order": 6,
-              "label": "#1: Use own toilet (NOT shared)",
+              "order": 7,
+              "label": "Use own toilet (NOT shared)",
               "value": "hh_member_1_g2_use_own_toilet_not_shared",
               "color": "#38A15A"
             }
@@ -1311,36 +1325,43 @@
             {
               "id": 1699428581174,
               "order": 2,
-              "label": "#1: No toilet use, practice open defecation",
-              "value": "hh_member_1_g0_no_toilet_use_practice_od",
+              "label": "No toilet use, practice open defecation",
+              "value": "hh_member_5_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
               "id": 17157750465,
               "order": 3,
-              "label": "#1: Some toilet use, some open defecation",
-              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
+              "label": "Some toilet use, some open defecation",
+              "value": "hh_member_5_g0_some_toilet_use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
               "id": 1699428581175,
               "order": 4,
-              "label": "#1: Use other household toilet (shared)",
-              "value": "hh_member_1_g1_use_other_hh_toilet_shared`",
+              "label": "Use other household toilet (shared)",
+              "value": "hh_member_5_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
-              "id": 1699428642804,
+              "id": 16994286428044,
               "order": 5,
-              "label": "#1: Use own toilet (shared)",
-              "value": "hh_member_1_g1_use_own_toilet_shared",
+              "label": "Use own toilet (shared)",
+              "value": "hh_member_5_g1_use_own_toilet_shared",
               "color": "#ffa57d"
+            },
+            {
+              "id": 17157752195,
+              "order": 6,
+              "label": "Use own toilet with assistance (not shared)",
+              "value": "hh_member_5_g2_use_own_toilet_with_assistance",
+              "color": "#38A15A"
             },
             {
               "id": 1699428651604,
-              "order": 6,
-              "label": "#1: Use own toilet (NOT shared)",
-              "value": "hh_member_1_g2_use_own_toilet_not_shared",
+              "order": 7,
+              "label": "Use own toilet (NOT shared)",
+              "value": "hh_member_5_g2_use_own_toilet_not_shared",
               "color": "#38A15A"
             }
           ],
@@ -1388,36 +1409,43 @@
             {
               "id": 1699428581174,
               "order": 2,
-              "label": "#1: No toilet use, practice open defecation",
-              "value": "hh_member_1_g0_no_toilet_use_practice_od",
+              "label": "No toilet use, practice open defecation",
+              "value": "hh_member_6_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
               "id": 17157750466,
               "order": 3,
-              "label": "#1: Some toilet use, some open defecation",
-              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
+              "label": "Some toilet use, some open defecation",
+              "value": "hh_member_6_g0_some_toilet_use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
               "id": 1699428581175,
               "order": 4,
-              "label": "#1: Use other household toilet (shared)",
-              "value": "hh_member_1_g1_use_other_hh_toilet_shared`",
+              "label": "Use other household toilet (shared)",
+              "value": "hh_member_6_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
-              "id": 1699428642804,
+              "id": 16994286428045,
               "order": 5,
-              "label": "#1: Use own toilet (shared)",
-              "value": "hh_member_1_g1_use_own_toilet_shared",
+              "label": "Use own toilet (shared)",
+              "value": "hh_member_6_g1_use_own_toilet_shared",
               "color": "#ffa57d"
+            },
+            {
+              "id": 17157752196,
+              "order": 6,
+              "label": "Use own toilet with assistance (not shared)",
+              "value": "hh_member_6_g2_use_own_toilet_with_assistance",
+              "color": "#38A15A"
             },
             {
               "id": 1699428651604,
-              "order": 6,
-              "label": "#1: Use own toilet (NOT shared)",
-              "value": "hh_member_1_g2_use_own_toilet_not_shared",
+              "order": 7,
+              "label": "Use own toilet (NOT shared)",
+              "value": "hh_member_6_g2_use_own_toilet_not_shared",
               "color": "#38A15A"
             }
           ],
@@ -1465,36 +1493,43 @@
             {
               "id": 1699428581174,
               "order": 2,
-              "label": "#1: No toilet use, practice open defecation",
-              "value": "hh_member_1_g0_no_toilet_use_practice_od",
+              "label": "No toilet use, practice open defecation",
+              "value": "hh_member_7_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
               "id": 17157750467,
               "order": 3,
-              "label": "#1: Some toilet use, some open defecation",
-              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
+              "label": "Some toilet use, some open defecation",
+              "value": "hh_member_7_g0_some_toilet_use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
               "id": 1699428581175,
               "order": 4,
-              "label": "#1: Use other household toilet (shared)",
-              "value": "hh_member_1_g1_use_other_hh_toilet_shared`",
+              "label": "Use other household toilet (shared)",
+              "value": "hh_member_7_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
-              "id": 1699428642804,
+              "id": 16994286428046,
               "order": 5,
-              "label": "#1: Use own toilet (shared)",
-              "value": "hh_member_1_g1_use_own_toilet_shared",
+              "label": "Use own toilet (shared)",
+              "value": "hh_member_7_g1_use_own_toilet_shared",
               "color": "#ffa57d"
+            },
+            {
+              "id": 17157752197,
+              "order": 6,
+              "label": "Use own toilet with assistance (not shared)",
+              "value": "hh_member_7_g2_use_own_toilet_with_assistance",
+              "color": "#38A15A"
             },
             {
               "id": 1699428651604,
-              "order": 6,
-              "label": "#1: Use own toilet (NOT shared)",
-              "value": "hh_member_1_g2_use_own_toilet_not_shared",
+              "order": 7,
+              "label": "Use own toilet (NOT shared)",
+              "value": "hh_member_7_g2_use_own_toilet_not_shared",
               "color": "#38A15A"
             }
           ],
@@ -1542,36 +1577,43 @@
             {
               "id": 1699428581174,
               "order": 2,
-              "label": "#1: No toilet use, practice open defecation",
-              "value": "hh_member_1_g0_no_toilet_use_practice_od",
+              "label": "No toilet use, practice open defecation",
+              "value": "hh_member_8_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
               "id": 17157750468,
               "order": 3,
-              "label": "#1: Some toilet use, some open defecation",
-              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
+              "label": "Some toilet use, some open defecation",
+              "value": "hh_member_8_g0_some_toilet_use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
               "id": 1699428581175,
-              "order": 4,
-              "label": "#1: Use other household toilet (shared)",
-              "value": "hh_member_1_g1_use_other_hh_toilet_shared`",
+              "order":4,
+              "label": "Use other household toilet (shared)",
+              "value": "hh_member_8_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
-              "id": 1699428642804,
+              "id": 16994286428047,
               "order": 5,
-              "label": "#1: Use own toilet (shared)",
-              "value": "hh_member_1_g1_use_own_toilet_shared",
+              "label": "Use own toilet (shared)",
+              "value": "hh_member_8_g1_use_own_toilet_shared",
               "color": "#ffa57d"
+            },
+            {
+              "id": 17157752198,
+              "order": 6,
+              "label": "Use own toilet with assistance (not shared)",
+              "value": "hh_member_8_g2_use_own_toilet_with_assistance",
+              "color": "#38A15A"
             },
             {
               "id": 1699428651604,
-              "order": 6,
-              "label": "#1: Use own toilet (NOT shared)",
-              "value": "hh_member_1_g2_use_own_toilet_not_shared",
+              "order": 7,
+              "label": "Use own toilet (NOT shared)",
+              "value": "hh_member_8_g2_use_own_toilet_not_shared",
               "color": "#38A15A"
             }
           ],
@@ -1619,36 +1661,43 @@
             {
               "id": 1699428581174,
               "order": 2,
-              "label": "#1: No toilet use, practice open defecation",
-              "value": "hh_member_1_g0_no_toilet_use_practice_od",
+              "label": "No toilet use, practice open defecation",
+              "value": "hh_member_9_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
               "id": 17157750469,
               "order": 3,
-              "label": "#1: Some toilet use, some open defecation",
-              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
+              "label": "Some toilet use, some open defecation",
+              "value": "hh_member_9_g0_some_toilet_use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
               "id": 1699428581175,
               "order": 4,
-              "label": "#1: Use other household toilet (shared)",
-              "value": "hh_member_1_g1_use_other_hh_toilet_shared`",
+              "label": "Use other household toilet (shared)",
+              "value": "hh_member_9_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
-              "id": 1699428642804,
+              "id": 16994286428048,
               "order": 5,
-              "label": "#1: Use own toilet (shared)",
-              "value": "hh_member_1_g1_use_own_toilet_shared",
+              "label": "Use own toilet (shared)",
+              "value": "hh_member_9_g1_use_own_toilet_shared",
               "color": "#ffa57d"
+            },
+            {
+              "id": 17157752198,
+              "order": 6,
+              "label": "Use own toilet with assistance (not shared)",
+              "value": "hh_member_9_g2_use_own_toilet_with_assistance",
+              "color": "#38A15A"
             },
             {
               "id": 1699428651604,
-              "order": 6,
-              "label": "#1: Use own toilet (NOT shared)",
-              "value": "hh_member_1_g2_use_own_toilet_not_shared",
+              "order": 7,
+              "label": "Use own toilet (NOT shared)",
+              "value": "hh_member_9_g2_use_own_toilet_not_shared",
               "color": "#38A15A"
             }
           ],
@@ -1696,36 +1745,43 @@
             {
               "id": 1699428581174,
               "order": 2,
-              "label": "#1: No toilet use, practice open defecation",
-              "value": "hh_member_1_g0_no_toilet_use_practice_od",
+              "label": "No toilet use, practice open defecation",
+              "value": "hh_member_10_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
               "id": 17157750471,
               "order": 3,
-              "label": "#1: Some toilet use, some open defecation",
-              "value": "hh_member_1_g0_some_toilet use_some_open_defecation",
+              "label": "Some toilet use, some open defecation",
+              "value": "hh_member_10_g0_some_toilet_use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
               "id": 1699428581175,
               "order": 4,
-              "label": "#1: Use other household toilet (shared)",
-              "value": "hh_member_1_g1_use_other_hh_toilet_shared`",
+              "label": "Use other household toilet (shared)",
+              "value": "hh_member_10_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
-              "id": 1699428642804,
+              "id": 16994286428049,
               "order": 5,
-              "label": "#1: Use own toilet (shared)",
-              "value": "hh_member_1_g1_use_own_toilet_shared",
+              "label": "Use own toilet (shared)",
+              "value": "hh_member_10_g1_use_own_toilet_shared",
               "color": "#ffa57d"
+            },
+            {
+              "id": 17157752190,
+              "order": 6,
+              "label": "Use own toilet with assistance (not shared)",
+              "value": "hh_member_10_g2_use_own_toilet_with_assistance",
+              "color": "#38A15A"
             },
             {
               "id": 1699428651604,
-              "order": 6,
-              "label": "#1: Use own toilet (NOT shared)",
-              "value": "hh_member_1_g2_use_own_toilet_not_shared",
+              "order": 7,
+              "label": "Use own toilet (NOT shared)",
+              "value": "hh_member_10_g2_use_own_toilet_not_shared",
               "color": "#38A15A"
             }
           ],
@@ -2040,7 +2096,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW:</b> the last time it was emptied, who emptied the toilet pit (or tank)? <b>INTERVIEW</b> if a lined pit or tank: what will happen when the toilet pit (or tank) is full? <br/> <b>INTERVIEW:</b> how long were the contents stored (without any fresh excreta entering the toilet pit or tank) before emptying? <b>Open container:</b> bucket or other open container used to collect excreta (usually regularly collected and emptied). <br/> <b>Licensed service provider:</b> paid emptier that is approved and regulated by local authority to empty and transport toilet wastes. <b>Unlicensed service provider:</b> paid or unpaid emptier who is NOT approved (for example, family members, neighbours, friends, informal local emptiers). <br/> <b>Sewer connection to LICENSED and FUNCTIONAL treatment or disposal site:</b> the Public Health Office should check whether the sewer network flows to a licensed and functional treatment or disposal site."
+            "text": "<b>INTERVIEW:</b> the last time it was emptied, who emptied the toilet pit (or tank)? <b>INTERVIEW:</b> if a lined pit or tank: what will happen when the toilet pit (or tank) is full?<b>INTERVIEW:</b> How long were the contents stored (without any fresh excreta entering the toilet pit or tank) before emptying?<br/>Storage time: length of time that contents of containment were stored without any fresh excreta entering the containment (for example, alternating twin pit latrine where full pit is disconnected and contents are stored for 2 years before emptying)<br/>Licensed service provider: paid emptier that is approved and regulated by local authority to empty and transport toilet wastes<br/>Unlicensed service provider: paid or unpaid emptier who is NOT approved (for example, family members, neighbours, friends, informal local emptiers) <br/>Sewer connection to licensed and functional treatment site: the Public Health Office should check whether the sewer network flows to a licensed and functional treatment or disposal site.<br/>Open container: bucket or other open container used to collect excreta (usually regularly collected and emptied)."
           },
           "required": true,
           "meta": false,
@@ -2491,7 +2547,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE: type of excreta containment or collection system</b> <br/><b>Containment system:</b> pit or tank (or other) that contains and stores excreta<br/><b>Collection system:</b> connection through which excreta and wastewater are collected<br/><b>Examples:</b> 1. Latrine pit; 2. Septic tank; 3. Sewer connection.<br/><b>Flush to don't know:</b> household does not know where the toilet flushes to, but no surface outlets or open discharges are visible (in this case, likely to be a buried pit or tank)"
+            "text": "<b>OBSERVE:</b> [Pit or tank (or other): storage for excreta (urine and faeces). Connection: pipe through which excreta and wastewater are collected (e.g. sewer network connection). Examples: 1. Latrine pit. 2. Septic tank. 3. Connection to sewer network. Flush to don’t know: household does not know where the toilet flushes to, but no surface outlets or open discharges are visible (in this case, likely to be a buried pit or tank). "
           },
           "required": true,
           "meta": false,
@@ -3148,7 +3204,7 @@
           "id": 1701810579091,
           "order": 1,
           "name": "o_r_functional_toilet_with_privacy",
-          "label": "G1-1.1 Outcome result - Functional toilet with privacy",
+          "label": "G1-1.1 OUTCOME RESULT - Functional toilet with privacy",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -3169,7 +3225,7 @@
           "id": 1702284734752,
           "order": 2,
           "name": "o_r_toilet_use_by_all_hh_members",
-          "label": "G1-1.2 Outcome result - Toilet use by all household members",
+          "label": "G1-1.2 OUTCOME RESULT - Toilet use by all household members",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -3189,7 +3245,7 @@
           "id": 1702281084786,
           "order": 3,
           "name": "o_r_flyproof_toilet_type",
-          "label": "G1-1.3 Outcome result -  Flyproof toilet type",
+          "label": "G1-1.3 OUTCOME RESULT -  Flyproof toilet type",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -3202,7 +3258,7 @@
               "G1 Flyproof toilet": "#FDC74B",
               "G0 Toilet NOT flyproof": "#FD3F31"
             },
-            "fnString": "#toilet_interface#.includes(\"g1\") && #containment_or_collection_system#.includes(\"g1\") && #flyproof_toilet#.includes(\"g1\"))  ? \"G1 Flyproof toilet\"  : \"G0 Toilet NOT flyproof\"",
+            "fnString": "(#toilet_interface#.includes(\"g1\") || !#toilet_interface#) && (#containment_or_collection_system#.includes(\"g1\") || !#containment_or_collection_system#) && (#flyproof_toilet#.includes(\"g1\")|| !#flyproof_toilet#)  ? \"G1 Flyproof toilet\"  : \"G0 Toilet NOT flyproof\"",
             "multiline": false
           }
         },
@@ -3210,7 +3266,7 @@
           "id": 1702282119933,
           "order": 4,
           "name": "o_r_clean_toilet",
-          "label": "G1-1.4 Outcome result - Clean toilet",
+          "label": "G1-1.4 OUTCOME RESULT - Clean toilet",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -3231,7 +3287,7 @@
           "id": 1711434672,
           "order": 5,
           "name": "o_r_flyproof_and_clean_toilet",
-          "label": "G1-1.1 Outcome result - Use of flyproof and clean toilet",
+          "label": "G1-1.5 OUTCOME RESULT - Use of flyproof and clean toilet",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -3244,7 +3300,7 @@
               "G1 Use of flyproof and clean toilet": "#FDC74B",
               "G0 Toilet NOT flyproof and clean": "#FD3F31"
             },
-            "fnString": "((#o_r_flyproof_toilet_type#.includes(\"G1\") && #o_r_toilet_use_by_all_hh_members#.includes(\"G1\")) && #o_r_functional_toilet_with_privacy#.includes(\"G1\") && #o_r_clean_toilet#.includes(\"G1\") ? \"G1 Use of flyproof and clean toilet\" : \"G0 Toilet NOT flyproof and clean\"",
+            "fnString": "(#o_r_flyproof_toilet_type#.includes(\"G1\") || !#o_r_flyproof_toilet_type#) && (#o_r_toilet_use_by_all_hh_members#.includes(\"G1\") || !#o_r_toilet_use_by_all_hh_members#) && (#o_r_functional_toilet_with_privacy#.includes(\"G1\") || !#o_r_functional_toilet_with_privacy#) && (#o_r_clean_toilet#.includes(\"G1\") || !#o_r_clean_toilet#) ? \"G1 Use of flyproof and clean toilet\" : \"G0 Toilet NOT flyproof and clean\"",
             "multiline": false
           }
         },
@@ -3252,7 +3308,7 @@
           "id": 1702285101196,
           "order": 6,
           "name": "o_r_individual_use_of_own_hh_toilet",
-          "label": "G2-1.1 Outcome result - Individual use of own household toilet",
+          "label": "G2-1.1 OUTCOME RESULT - Individual use of own household toilet",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -3272,7 +3328,7 @@
           "id": 1702283171680,
           "order": 7,
           "name": "o_r_durable_toilet",
-          "label": "G2-1.2 Outcome result - Durable toilet slab",
+          "label": "G2-1.2 OUTCOME RESULT - Durable toilet slab",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -3292,7 +3348,7 @@
           "id": 1702283955461,
           "order": 8,
           "name": "o_r_toilet_with_safe_containment",
-          "label": "G2-1.4 Outcome result - Toilet with safe containment",
+          "label": "G2-1.4 OUTCOME RESULT - Toilet with safe containment",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -3312,7 +3368,7 @@
           "id": 1711436502,
           "order": 9,
           "name": "o_r_durable_toilet_with_safe_containment",
-          "label": "G2-1 Outome result: Individual Use of durable toilet with safe containment",
+          "label": "G2-1 OUTCOME RESULT: Individual Use of durable toilet with safe containment",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -3332,7 +3388,7 @@
           "id": 1702285668136,
           "order": 10,
           "name": "o_r_use_of_safely_managed_sanitation_services",
-          "label": "G3-1.1 Outcome result - Safe management of faecal sludge",
+          "label": "G3-1.1 OUTCOME RESULT - Safe management of faecal sludge",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -3345,7 +3401,7 @@
               "G1 Inadequate sanitation services": "#FDC74B",
               "G0 Sanitation services UNSAFELY managed": "#FD3F31"
             },
-            "fnString": "#safely_managed_onsite_containment#.includes(\"g3\") && #safely_managed_sanitation_services#.includes(\"g3\")) ? \"G3 Use of safely managed sanitation services\" : #safely_managed_onsite_containment#.includes(\"g0\") && #safely_managed_sanitation_services#.includes(\"g0\") ? \"G0 Sanitation services UNSAFELY managed\" : \"G1 Inadequate sanitation services\"",
+            "fnString": "(#safely_managed_onsite_containment#.includes(\"g3\") || !#safely_managed_onsite_containment#) && (#safely_managed_sanitation_services#.includes(\"g3\") || !#safely_managed_sanitation_services#) ? \"G3 Use of safely managed sanitation services\" : (#safely_managed_onsite_containment#.includes(\"g0\") || !#safely_managed_onsite_containment#) && (#safely_managed_sanitation_services#.includes(\"g0\") || !#safely_managed_sanitation_services#) ? \"G0 Sanitation services UNSAFELY managed\" : \"G1 Inadequate sanitation services\"",
             "multiline": false
           }
         }
@@ -4190,7 +4246,7 @@
           "id": 1702287053503,
           "order": 1,
           "name": "o_r_hwf_with_water_and_soap",
-          "label": "G1-2 Outcome result - Handwashing facility with water and soap",
+          "label": "G1-2 OUTCOME RESULT - Handwashing facility with water and soap",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -4202,7 +4258,7 @@
               "G1 Handwashing facility with soap and water": "#FDC74B",
               "G0 Inadequate or no handwashing facility": "#FD3F31"
             },
-            "fnString": "#handwashing_facility_observed#.includes(\"g1\") && #water_available_at_hwf#.includes(\"g1\") && #soap_available_at_hwf#.includes(\"g1\") ? \"G1 Handwashing facility with soap and water\" : \"G0 Inadequate or no handwashing facility\"",
+            "fnString": "(#handwashing_facility_observed#.includes(\"g1\") || !#handwashing_facility_observed#) && (#water_available_at_hwf#.includes(\"g1\") || !#water_available_at_hwf#) && (#soap_available_at_hwf#.includes(\"g1\") || !#soap_available_at_hwf#) ? \"G1 Handwashing facility with soap and water\" : \"G0 Inadequate or no handwashing facility\"",
             "multiline": false
           }
         },
@@ -4210,7 +4266,7 @@
           "id": 1702288599133,
           "order": 2,
           "name": "o_r_handwashing_with_soap_at_critical_times",
-          "label": "G2-2 Outcome result - Handwashing with soap at critical times",
+          "label": "G2-2 OUTCOME RESULT - Handwashing with soap at critical times",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -4223,7 +4279,7 @@
               "G2 Handwashing with soap at ALL critical times": "#93D371",
               "G0 No or inadequate handwashing services": "#FD3F31"
             },
-            "fnString": "#handwashing_critical_infant_times#.includes(\"g0\") && #handwashing_critical_toilet_times#.includes(\"g0\") && #handwashing_critical_food_times#.includes(\"g0\") && #handwashing_critical_animal_times#.includes(\"g0\") ? \"G0 Inadequate or no handwashing facility\" : #handwashing_critical_toilet_times#.includes(\"g2\") && #handwashing_critical_food_times#.includes(\"g2\") && #handwashing_critical_animal_times#.includes(\"g2\") && #handwashing_critical_infant_times#.includes(\"g2\") ? \"G2 Handwashing with soap at ALL critical times\" : \"G1 Some critical handwashing times NOT mentioned\"",
+            "fnString": "(#handwashing_critical_infant_times#.includes(\"g0\") || !#handwashing_critical_infant_times#) && (#handwashing_critical_toilet_times#.includes(\"g0\") || !#handwashing_critical_toilet_times#) && (#handwashing_critical_food_times#.includes(\"g0\") || !#handwashing_critical_food_times#) ? \"G0 No or inadequate handwashing services\" : (#handwashing_critical_infant_times#.includes(\"g2\") || !#handwashing_critical_infant_times#) && (#handwashing_critical_toilet_times#.includes(\"g2\") || !#handwashing_critical_toilet_times#) && (#handwashing_critical_food_times#.includes(\"g2\") || !#handwashing_critical_food_times#) ? \"G2 Handwashing with soap at ALL critical times\" : \"G1 Some critical handwashing times NOT mentioned\"",
             "multiline": false
           }
         },
@@ -4231,7 +4287,7 @@
           "id": 1702287685048,
           "order": 3,
           "name": "o_r_permanent_handwashing_station",
-          "label": "G3-2 Outcome result - Permanent handwashing station",
+          "label": "G3-2 OUTCOME RESULT - Permanent handwashing station",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -4244,7 +4300,7 @@
               "G3 Permanent handwashing services": "#4088F4",
               "G1 Non-durable handwashing services": "#FDC74B"
             },
-            "fnString": "#handwashing_facility_type#.includes(\"g0\") && #handsfree_operation_of_handwashing_facility#.includes(\"g0\") && #adequate_drainage_of_washing_water#.includes(\"g0\") ? \"G0 No or inadequate handwashing services\" : #handwashing_facility_observed#.includes(\"g1\") && #handwashing_facility_type#.includes(\"g3\") && #handsfree_operation_of_handwashing_facility#.includes(\"g3\") && #adequate_drainage_of_washing_water#.includes(\"g3\") ? \"G3 Permanent handwashing services\" : \"G1 Non-durable handwashing services\"",
+            "fnString": "(#handwashing_facility_type#.includes(\"g0\") || !#handwashing_facility_type#) && (#handsfree_operation_of_handwashing_facility#.includes(\"g0\") || !#handsfree_operation_of_handwashing_facility#) && (#adequate_drainage_of_washing_water#.includes(\"g0\") || !#adequate_drainage_of_washing_water#) ? \"G0 No or inadequate handwashing services\" : (#handwashing_facility_observed#.includes(\"g1\") || !#handwashing_facility_observed#) && (#handwashing_facility_type#.includes(\"g3\") || !#handwashing_facility_type#) && (#handsfree_operation_of_handwashing_facility#.includes(\"g3\") || !#handsfree_operation_of_handwashing_facility#) && (#adequate_drainage_of_washing_water#.includes(\"g3\") || !#adequate_drainage_of_washing_water#) ? \"G3 Permanent handwashing services\" : \"G1 Non-durable handwashing services\"",
             "multiline": false
           }
         }
@@ -6761,7 +6817,7 @@
           "id": 1702289546185,
           "order": 1,
           "name": "o_r_no_exposed_human_excreta",
-          "label": "G1-3 Outcome Result: No exposed human excreta",
+          "label": "G1-3 OUTCOME RESULT: No exposed human excreta",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -6781,7 +6837,7 @@
           "id": 1702289725502,
           "order": 2,
           "name": "o_r_safe_management_of_child_excreta_and_diapers",
-          "label": "G1-4 Outcome Result: Safe Management of child excreta and diapers",
+          "label": "G1-4 OUTCOME RESULT: Safe Management of child excreta and diapers",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -6807,7 +6863,7 @@
           "id": 1702295289084,
           "order": 3,
           "name": "o_r_clean_and_safely_stored_food",
-          "label": "G2-3.1 Outcome result - Clean and safely stored food",
+          "label": "G2-3.1 OUTCOME RESULT - Clean and safely stored food",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -6834,7 +6890,7 @@
           "id": 1702295769122,
           "order": 4,
           "name": "o_r_clean_and_safely_stored_kitchen_utensils",
-          "label": "G2-3.2 Outcome result - Clean and safely stored kitchen utensils",
+          "label": "G2-3.2 OUTCOME RESULT - Clean and safely stored kitchen utensils",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -6861,7 +6917,7 @@
           "id": 1702296110410,
           "order": 5,
           "name": "o_r_clean_and_safely_stored_milk_containers",
-          "label": "G2-3.3 Outcome result - Clean and safely stored milk containers",
+          "label": "G2-3.3 OUTCOME RESULT - Clean and safely stored milk containers",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -6888,7 +6944,7 @@
           "id": 1712643759,
           "order": 6,
           "name": "o_r_safe_food_hygiene",
-          "label": "G2-3 Outcome result - Safe food hygiene (Household)",
+          "label": "G2-3 OUTCOME RESULT - Safe food hygiene (Household)",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -6915,7 +6971,7 @@
           "id": 1702296406679,
           "order": 7,
           "name": "o_r_safe_management_of_drinking_water",
-          "label": "G2-4.1 Outcome result - Safe management of drinking water",
+          "label": "G2-4.1 OUTCOME RESULT - Safe management of drinking water",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -6942,7 +6998,7 @@
           "id": 1702296839468,
           "order": 8,
           "name": "o_r_safe_management_of_water_sources",
-          "label": "G2-4.2 Outcome result - Safe management of water sources",
+          "label": "G2-4.2 OUTCOME RESULT - Safe management of water sources",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -6969,7 +7025,7 @@
           "id": 1712644066,
           "order": 9,
           "name": "o_r_safe_water_management",
-          "label": "G2-4 Outcome result - Safe water management (Household)",
+          "label": "G2-4 OUTCOME RESULT - Safe water management (Household)",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -6996,7 +7052,7 @@
           "id": 1702297046194,
           "order": 10,
           "name": "o_r_no_visible_animal_wastes_in_house_or_compound",
-          "label": "G2-5.1 Outcome result - No visible animal wastes in house or compound",
+          "label": "G2-5.1 OUTCOME RESULT - No visible animal wastes in house or compound",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -7023,7 +7079,7 @@
           "id": 1702297533085,
           "order": 11,
           "name": "o_r_safe_management_of_animal_wastes_in_compound",
-          "label": "G2-5.2 Outcome result - Safe management of animal wastes in compound",
+          "label": "G2-5.2 OUTCOME RESULT - Safe management of animal wastes in compound",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -7050,7 +7106,7 @@
           "id": 1702297797962,
           "order": 12,
           "name": "o_r_safe_separation_of_animals_from_under5_children",
-          "label": "G2-5.3 Outcome result - Safe separation of animals from under-5 children",
+          "label": "G2-5.3 OUTCOME RESULT - Safe separation of animals from under-5 children",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -7077,7 +7133,7 @@
           "id": 1712644167,
           "order": 13,
           "name": "o_r_safe_management_of_animals_wastes",
-          "label": "G2-5 Outcome result - Safe management of animals and animal wastes (Household)",
+          "label": "G2-5 OUTCOME RESULT - Safe management of animals and animal wastes (Household)",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -7104,7 +7160,7 @@
           "id": 1702298080560,
           "order": 14,
           "name": "o_r_safe_management_of_liquid_wastes",
-          "label": "G3-3.1 Outcome result - Safe management of liquid wastes",
+          "label": "G3-3.1 OUTCOME RESULT - Safe management of liquid wastes",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -7131,7 +7187,7 @@
           "id": 1702298318702,
           "order": 15,
           "name": "o_r_safe_management_of_solid_wastes",
-          "label": "G3-3.2 Outcome result - Safe management of solid wastes",
+          "label": "G3-3.2 OUTCOME RESULT - Safe management of solid wastes",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -7158,7 +7214,7 @@
           "id": 1702298602672,
           "order": 16,
           "name": "o_r_good_vector_control_in_compound",
-          "label": "G3-3.3 Outcome result - Good vector control in compound",
+          "label": "G3-3.3 OUTCOME RESULT - Good vector control in compound",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -7185,7 +7241,7 @@
           "id": 1712644350,
           "order": 17,
           "name": "o_r_safe_waste_management",
-          "label": "G3-3 Outcome result - Safe waste management",
+          "label": "G3-3 OUTCOME RESULT - Safe waste management",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -7212,7 +7268,7 @@
           "id": 1702298863458,
           "order": 16,
           "name": "o_r_clean_face_and_hands",
-          "label": "G3-4.1 Outcome result - Clean face and hands",
+          "label": "G3-4.1 OUTCOME RESULT - Clean face and hands",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -7239,7 +7295,7 @@
           "id": 1702301820095,
           "order": 17,
           "name": "o_r_good_menstrual_health",
-          "label": "G3-4.2 Outcome result - Good menstrual health",
+          "label": "G3-4.2 OUTCOME RESULT - Good menstrual health",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -7270,7 +7326,7 @@
           "id": 1712644557,
           "order": 18,
           "name": "o_r_good_personal_hygiene",
-          "label": "G3-4 Outcome result - Good personal hygiene",
+          "label": "G3-4 OUTCOME RESULT - Good personal hygiene",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -7297,7 +7353,7 @@
           "id": 1702302041022,
           "order": 19,
           "name": "o_r_fully_immunized_children",
-          "label": "G3-5.1 Outcome result - Fully immunized children",
+          "label": "G3-5.1 OUTCOME RESULT - Fully immunized children",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -7328,7 +7384,7 @@
           "id": 1702302232732,
           "order": 17,
           "name": "o_r_vitamin_a_supplements",
-          "label": "G3-5.2 Outcome result - Vitamin A supplements",
+          "label": "G3-5.2 OUTCOME RESULT - Vitamin A supplements",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -7347,9 +7403,9 @@
           ],
           "fn": {
             "fnColor": {
-              "G1 Low nutrition or protection": "#FDC74B",
-              "G2 Inadequate nutrition or protection": "#93D371",
-              "G3 Good nutrition and protection": "#4088F4"
+              "G1 No children received supplements": "#FDC74B",
+              "G2 Some Vitamin A supplements not received (in last 6 months)": "#93D371",
+              "G3 All Vitamin A supplements received in last 6 months": "#4088F4"
             },
             "fnString": "#vitamin_a_supplements_received#.includes(\"g1\") ? \"G1 No children received supplements\" : #vitamin_a_supplements_received#.includes(\"g3\") ? \"G3 All Vitamin A supplements received in last 6 months\" : \"G2 Some Vitamin A supplements not received (in last 6 months)\"",
             "multiline": false
@@ -7359,7 +7415,7 @@
           "id": 1702302427536,
           "order": 18,
           "name": "o_r_exclusive_breastfeeding",
-          "label": "G3-5.3 Outcome result - Exclusive breastfeeding",
+          "label": "G3-5.3 OUTCOME RESULT - Exclusive breastfeeding",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -7390,7 +7446,7 @@
           "id": 1702302507816,
           "order": 19,
           "name": "o_r_nutritious_diet",
-          "label": "G3-5.4 Outcome result - Nutritious diet",
+          "label": "G3-5.4 OUTCOME RESULT - Nutritious diet",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -7421,7 +7477,7 @@
           "id": 1712644710,
           "order": 20,
           "name": "o_r_good_nutrition",
-          "label": "G3-5.4 Outcome result - Good Nutrition",
+          "label": "G3-5.4 OUTCOME RESULT - Good Nutrition",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -7444,7 +7500,7 @@
               "G2": "#93D371",
               "G3": "#4088F4"
             },
-            "fnString": "#o_r_fully_immunized_children#.includes(\"G1\") && #o_r_vitamin_a_supplements#.includes(\"G1\") && #o_r_exclusive_breastfeeding#.includes(\"G1\") && #o_r_nutritious_diet#.includes(\"G1\") ? \"G1 Low nutrition or protection\" : #o_r_fully_immunized_children#.includes(\"G3\") && #o_r_vitamin_a_supplements#.includes(\"G3\") && #o_r_exclusive_breastfeeding#.includes(\"G3\") && #o_r_nutritious_diet#.includes(\"G3\") ? \"G3 Good nutrition and protection\" : \"G2 Inadequate nutrition or protection\"",
+            "fnString": "(#o_r_fully_immunized_children#.includes(\"G1\") || !#o_r_fully_immunized_children#) && (#o_r_vitamin_a_supplements#.includes(\"G1\") || !#o_r_vitamin_a_supplements#) && (#o_r_exclusive_breastfeeding#.includes(\"G1\") || !#o_r_exclusive_breastfeeding#) && (#o_r_nutritious_diet#.includes(\"G1\") || !#o_r_nutritious_diet#) ? \"G1\" : (#o_r_fully_immunized_children#.includes(\"G3\") || !#o_r_fully_immunized_children#) && (#o_r_vitamin_a_supplements#.includes(\"G3\") || !#o_r_vitamin_a_supplements#) && (#o_r_exclusive_breastfeeding#.includes(\"G3\")|| !#o_r_exclusive_breastfeeding#) && (#o_r_nutritious_diet#.includes(\"G3\") || !#o_r_nutritious_diet#) ? \"G3\" : \"G2\"",
             "multiline": false
           }
         },
@@ -7452,7 +7508,7 @@
           "id": 1702299714872,
           "order": 21,
           "name": "o_r_malariasafe_homes",
-          "label": "G3-E1 Outcome result - Malaria-endemic counties: Malaria-safe homes",
+          "label": "G3-E1 OUTCOME RESULT - Malaria-endemic counties: Malaria-safe homes",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -7487,7 +7543,7 @@
           "id": 1702299918738,
           "order": 22,
           "name": "o_r_dewormed_homes",
-          "label": "G3-E2 Outcome result - STH-endemic counties: Dewormed homes",
+          "label": "G3-E2 OUTCOME RESULT - STH-endemic counties: Dewormed homes",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -7522,7 +7578,7 @@
           "id": 1712657830,
           "order": 23,
           "name": "o_r_endemic",
-          "label": "G3-E2 Outcome result - Endemic outcomes",
+          "label": "G3-E2 OUTCOME RESULT - Endemic outcomes",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -7574,7 +7630,7 @@
               "G3 Clean and Healthy": "#4088F4"
             },
             "multiline": false,
-            "fnString": "#o_r_flyproof_and_clean_toilet#.includes(\"G1\") ? 'G1 Open Defecation Free’: #o_r_flyproof_and_clean_toilet#.includes(\"G1\") && #o_r_durable_toilet_with_safe_containment#.includes(\"G2\") ? 'G2 Safe and Sustainable’: #o_r_flyproof_and_clean_toilet#.includes(\"G1\") && #o_r_durable_toilet_with_safe_containment#.includes(\"G2\") && #o_r_use_of_safely_managed_sanitation_services#.includes(\"G3\") ? 'G3 Clean and Healthy’: 'G0 Open Defecation'"
+            "fnString": "(#o_r_flyproof_and_clean_toilet#.includes(\"G1\") || !#o_r_flyproof_and_clean_toilet#) ? 'G1 Open Defecation Free’: (#o_r_flyproof_and_clean_toilet#.includes(\"G1\") || !#o_r_flyproof_and_clean_toilet#) && (#o_r_durable_toilet_with_safe_containment#.includes(\"G2\") || !#o_r_durable_toilet_with_safe_containment#) ? 'G2 Safe and Sustainable’: (#o_r_flyproof_and_clean_toilet#.includes(\"G1\") || !#o_r_flyproof_and_clean_toilet#) && (#o_r_durable_toilet_with_safe_containment#.includes(\"G2\") || !#o_r_durable_toilet_with_safe_containment#) && (#o_r_use_of_safely_managed_sanitation_services#.includes(\"G3\") || !#o_r_use_of_safely_managed_sanitation_services#) ? 'G3 Clean and Healthy’: 'G0 Open Defecation'"
           }
         },
         {
@@ -7595,14 +7651,14 @@
               "G3 Clean and Healthy": "#4088F4"
             },
             "multiline": false,
-            "fnString": "#o_r_hwf_with_water_and_soap#.includes(\"G1\") ? 'G1 Handwashing facility with soap and water’: #o_r_hwf_with_water_and_soap#.includes(\"G1\") && #o_r_handwashing_with_soap_at_critical_times#.includes(\"G2\") ? 'G2 Safe and Sustainable' : #o_r_hwf_with_water_and_soap#.includes(\"G1\") && #o_r_handwashing_with_soap_at_critical_times#.includes(\"G2\") && #o_r_permanent_handwashing_station#.includes(\"G3\") ? 'G3 Clean and Healthy' : 'G0 Inadequate or no handwashing facility'"
+            "fnString": "(#o_r_hwf_with_water_and_soap#.includes(\"G1\") || !#o_r_hwf_with_water_and_soap# )? 'G1 Handwashing facility with soap and water’: #o_r_hwf_with_water_and_soap#.includes(\"G1\") && #o_r_handwashing_with_soap_at_critical_times#.includes(\"G2\") ? 'G2 Safe and Sustainable' : #o_r_hwf_with_water_and_soap#.includes(\"G1\") && #o_r_handwashing_with_soap_at_critical_times#.includes(\"G2\") && #o_r_permanent_handwashing_station#.includes(\"G3\") ? 'G3 Clean and Healthy' : 'G0 Inadequate or no handwashing facility'"
           }
         },
         {
           "id": 1712658383,
           "order": 3,
           "name": "overall_other_outcome",
-          "label": "Outcome result - Other outcome",
+          "label": "OUTCOME RESULT - Other outcome",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -7611,6 +7667,7 @@
           "displayOnly": false,
           "fn": {
             "fnColor": {
+              "G0": "#FD3F31",
               "G1": "#FDC74B",
               "G2": "#93D371",
               "G3": "#4088F4"
