@@ -82,7 +82,7 @@ Syncing datapoints is a feature that pulls data from the server to the mobile ap
 * Re-fetching forms
 * Re-downloading administration, organisations and entities data
 * Getting the latest datapoints for monitoring and verification
-* Getting certification datapoints
+* Getting certification assignments
 
 To sync data with the server, follow these steps:
 

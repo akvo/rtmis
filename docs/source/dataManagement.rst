@@ -61,8 +61,8 @@ Monitoring data
 
 .. _certification_data:
 
-Certification data
-------------------
+Manage Grade Certification
+--------------------------
 
 .. note::
    Please remember, certification data can only be populated via the mobile app based on **certification assignments**.
@@ -72,23 +72,23 @@ Certification data
 Access to the certification data page is very easy, from the Data menu in the sidebar, click on the :bolditalic:`Manage Certification Data` submenu.
 
 .. image:: ../assests/data-3.png
-    :alt: Certification data
+    :alt: Manage Grade Certification
     :width: 100%
 
 
 .. _verification_data:
 
-Verification data
------------------
+Manage Grade Claim
+------------------
 
 .. note::
-    Data verification is almost similar to :ref:`monitoring_data`, but monitoring data can be populated from two channels, :ref:`Webforms<webforms>` and mobile, while **verification can only be done via mobile app**.
+    Manage Grade Claim is almost similar to :ref:`monitoring_data`, but monitoring data can be populated from two channels, :ref:`Webforms<webforms>` and mobile, while **verification can only be done via mobile app**.
 
 
-Accessing the verification data page is also very easy. Simply navigate to the Data menu in the sidebar and click on the :bolditalic:`Manage Verification Data` submenu.
+Accessing the Manage Grade Claim page is also very easy. Simply navigate to the Data menu in the sidebar and click on the :bolditalic:`Manage Manage Grade Claim` submenu.
 
 .. image:: ../assests/data-2.png
-    :alt: Verification data
+    :alt: Manage Grade Claim
     :width: 100%
 
 
