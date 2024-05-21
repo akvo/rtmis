@@ -47,16 +47,12 @@
             {
               "order": 1,
               "label": "Yes",
-              "value": "yes",
-              "color": null,
-              "id": 1709689765456
+              "value": "yes"
             },
             {
               "order": 2,
               "label": "No",
-              "value": "no",
-              "color": null,
-              "id": 1709689702820
+              "value": "no"
             }
           ]
         },
@@ -73,16 +69,12 @@
             {
               "order": 1,
               "label": "Yes",
-              "value": "yes",
-              "color": null,
-              "id": 1714374857
+              "value": "yes"
             },
             {
               "order": 2,
               "label": "No",
-              "value": "no",
-              "color": null,
-              "id": 1714374869
+              "value": "no"
             }
           ]
         },
@@ -99,16 +91,12 @@
             {
               "order": 1,
               "label": "Yes",
-              "value": "yes",
-              "color": null,
-              "id": 1714374905
+              "value": "yes"
             },
             {
               "order": 2,
               "label": "No",
-              "value": "no",
-              "color": null,
-              "id": 1714374917
+              "value": "no"
             }
           ]
         },
@@ -125,16 +113,12 @@
             {
               "order": 1,
               "label": "Yes",
-              "value": "yes",
-              "color": null,
-              "id": 1709689765463
+              "value": "yes"
             },
             {
               "order": 2,
               "label": "No",
-              "value": "no",
-              "color": null,
-              "id": 1709689702875
+              "value": "no"
             }
           ]
         },
@@ -151,16 +135,12 @@
             {
               "order": 1,
               "label": "Yes",
-              "value": "yes",
-              "color": null,
-              "id": 1714375340
+              "value": "yes"
             },
             {
               "order": 2,
               "label": "No",
-              "value": "no",
-              "color": null,
-              "id": 1714375354
+              "value": "no"
             }
           ]
         },
@@ -177,16 +157,12 @@
             {
               "order": 1,
               "label": "Yes",
-              "value": "yes",
-              "color": null,
-              "id": 1714375368
+              "value": "yes"
             },
             {
               "order": 2,
               "label": "No",
-              "value": "no",
-              "color": null,
-              "id": 1714375561
+              "value": "no"
             }
           ]
         },
@@ -203,16 +179,12 @@
             {
               "order": 1,
               "label": "Yes",
-              "value": "yes",
-              "color": null,
-              "id": 1714375577
+              "value": "yes"
             },
             {
               "order": 2,
               "label": "No",
-              "value": "no",
-              "color": null,
-              "id": 1714375588
+              "value": "no"
             }
           ]
         },
@@ -229,16 +201,12 @@
             {
               "order": 1,
               "label": "Yes",
-              "value": "yes",
-              "color": null,
-              "id": 1714375603
+              "value": "yes"
             },
             {
               "order": 2,
               "label": "No",
-              "value": "no",
-              "color": null,
-              "id": 1714375615
+              "value": "no"
             }
           ]
         },
@@ -255,16 +223,12 @@
             {
               "order": 1,
               "label": "Yes",
-              "value": "yes",
-              "color": null,
-              "id": 1709689703013
+              "value": "yes"
             },
             {
               "order": 2,
               "label": "No",
-              "value": "no",
-              "color": null,
-              "id": 1709689751726
+              "value": "no"
             }
           ]
         },
@@ -281,16 +245,12 @@
             {
               "order": 1,
               "label": "Yes",
-              "value": "yes",
-              "color": null,
-              "id": 1709689703063
+              "value": "yes"
             },
             {
               "order": 2,
               "label": "No",
-              "value": "no",
-              "color": null,
-              "id": 1709689703084
+              "value": "no"
             }
           ]
         },
@@ -307,16 +267,12 @@
             {
               "order": 1,
               "label": "Yes",
-              "value": "yes",
-              "color": null,
-              "id": 1709689703115
+              "value": "yes"
             },
             {
               "order": 2,
               "label": "No",
-              "value": "no",
-              "color": null,
-              "id": 1709689703134
+              "value": "no"
             }
           ]
         }
@@ -344,16 +300,12 @@
             {
               "order": 1,
               "label": "Yes",
-              "value": "yes",
-              "color": null,
-              "id": 1709689706727
+              "value": "yes"
             },
             {
               "order": 2,
               "label": "No",
-              "value": "no",
-              "color": null,
-              "id": 1709689765855
+              "value": "no"
             }
           ]
         },
@@ -370,16 +322,12 @@
             {
               "order": 1,
               "label": "Yes",
-              "value": "yes",
-              "color": null,
-              "id": 1709689706799
+              "value": "yes"
             },
             {
               "order": 2,
               "label": "No",
-              "value": "no",
-              "color": null,
-              "id": 1709689765860
+              "value": "no"
             }
           ],
           "dependency": [
@@ -403,29 +351,25 @@
               "order": 1,
               "label": "<50%",
               "value": "<50%",
-              "color": "#d0021b",
-              "id": 1709689706844
+              "color": "#d0021b"
             },
             {
               "order": 2,
               "label": "50%-74%",
               "value": "50%-74%",
-              "color": "#f5a623",
-              "id": 1709689706863
+              "color": "#f5a623"
             },
             {
               "order": 3,
               "label": "75%-94%",
               "value": "75%-94%",
-              "color": "#f5a623",
-              "id": 1709689706882
+              "color": "#f5a623"
             },
             {
               "order": 4,
               "label": "> 95%",
               "value": ">_95%",
-              "color": "#417505",
-              "id": 1709689765868
+              "color": "#417505"
             }
           ],
           "dependency": [
@@ -449,29 +393,25 @@
               "order": 1,
               "label": "<50%",
               "value": "<50%",
-              "color": "#d0021b",
-              "id": 1709689765870
+              "color": "#d0021b"
             },
             {
               "order": 2,
               "label": "50%-74%",
               "value": "50%-74%",
-              "color": "#f5a623",
-              "id": 1709689706940
+              "color": "#f5a623"
             },
             {
               "order": 3,
               "label": "75%-94%",
               "value": "75%-94%",
-              "color": "#f5a623",
-              "id": 1709689765874
+              "color": "#f5a623"
             },
             {
               "order": 4,
               "label": "> 95%",
               "value": ">_95%",
-              "color": "#417505",
-              "id": 1709689706978
+              "color": "#417505"
             }
           ],
           "dependency": [
@@ -794,37 +734,27 @@
             {
               "order": 1,
               "label": "1. Very low",
-              "value": "1_very_low",
-              "color": null,
-              "id": 1709689766927
+              "value": "1_very_low"
             },
             {
               "order": 2,
               "label": "2. Low",
-              "value": "2_low",
-              "color": null,
-              "id": 1709689717537
+              "value": "2_low"
             },
             {
               "order": 3,
               "label": "3. Middle",
-              "value": "3_middle",
-              "color": null,
-              "id": 1709689766934
+              "value": "3_middle"
             },
             {
               "order": 4,
               "label": "4. High",
-              "value": "4_high",
-              "color": null,
-              "id": 1709689717583
+              "value": "4_high"
             },
             {
               "order": 5,
               "label": "5. Very high",
-              "value": "5_very_high",
-              "color": null,
-              "id": 1709689717604
+              "value": "5_very_high"
             }
           ]
         },
@@ -844,37 +774,27 @@
             {
               "order": 1,
               "label": "1. Very low",
-              "value": "1",
-              "color": null,
-              "id": 1709689717659
+              "value": "1"
             },
             {
               "order": 2,
               "label": "2. Low",
-              "value": "2",
-              "color": null,
-              "id": 1709689766946
+              "value": "2"
             },
             {
               "order": 3,
               "label": "3. Middle",
-              "value": "3",
-              "color": null,
-              "id": 1709689766948
+              "value": "3"
             },
             {
               "order": 4,
               "label": "4. High",
-              "value": "4",
-              "color": null,
-              "id": 1709689766950
+              "value": "4"
             },
             {
               "order": 5,
               "label": "5. Very high",
-              "value": "5",
-              "color": null,
-              "id": 1709689766952
+              "value": "5"
             }
           ]
         },
@@ -895,29 +815,25 @@
               "order": 1,
               "label": "<50%",
               "value": "<50%",
-              "color": "#d0021b",
-              "id": 1709689717795
+              "color": "#d0021b"
             },
             {
               "order": 2,
               "label": "50%-74%",
               "value": "50%-74%",
-              "color": "#f5a623",
-              "id": 1709689717814
+              "color": "#f5a623"
             },
             {
               "order": 3,
               "label": "75%-94%",
               "value": "75%-94%",
-              "color": "#f5a623",
-              "id": 1709689717833
+              "color": "#f5a623"
             },
             {
               "order": 4,
               "label": "> 95%",
               "value": ">_95%",
-              "color": "#417505",
-              "id": 1709689766963
+              "color": "#417505"
             }
           ]
         }
@@ -949,29 +865,25 @@
               "order": 1,
               "label": "Data not available",
               "value": "data_not_available",
-              "color": "#d0021b",
-              "id": 1709689721400
+              "color": "#d0021b"
             },
             {
               "order": 2,
               "label": "Data not used",
               "value": "data_not_used",
-              "color": "#f5a623",
-              "id": 1709689721443
+              "color": "#f5a623"
             },
             {
               "order": 3,
               "label": "Data used for minority",
               "value": "data_used_for_minority",
-              "color": "#7ed321",
-              "id": 1709689721464
+              "color": "#7ed321"
             },
             {
               "order": 4,
               "label": "Data used for majority",
               "value": "data_used_for_majority",
-              "color": "#417505",
-              "id": 1709689721488
+              "color": "#417505"
             }
           ]
         },
@@ -992,29 +904,25 @@
               "order": 1,
               "label": "Data not available",
               "value": "data_not_available",
-              "color": "#d0021b",
-              "id": 1714379047
+              "color": "#d0021b"
             },
             {
               "order": 2,
               "label": "Data not used",
               "value": "data_not_used",
-              "color": "#f5a623",
-              "id": 1714379062
+              "color": "#f5a623"
             },
             {
               "order": 3,
               "label": "Data used for minority",
               "value": "data_used_for_minority",
-              "color": "#7ed321",
-              "id": 1714379073
+              "color": "#7ed321"
             },
             {
               "order": 4,
               "label": "Data used for majority",
               "value": "data_used_for_majority",
-              "color": "#417505",
-              "id": 1714379083
+              "color": "#417505"
             }
           ]
         },
@@ -1035,29 +943,25 @@
               "order": 1,
               "label": "Data not available",
               "value": "data_not_available",
-              "color": "#d0021b",
-              "id": 1709689767330
+              "color": "#d0021b"
             },
             {
               "order": 2,
               "label": "Data not used",
               "value": "data_not_used",
-              "color": "#f5a623",
-              "id": 1709689721543
+              "color": "#f5a623"
             },
             {
               "order": 3,
               "label": "Data used for minority",
               "value": "data_used_for_minority",
-              "color": "#7ed321",
-              "id": 1709689721559
+              "color": "#7ed321"
             },
             {
               "order": 4,
               "label": "Data used for majority",
               "value": "data_used_for_majority",
-              "color": "#417505",
-              "id": 1709689767336
+              "color": "#417505"
             }
           ]
         }

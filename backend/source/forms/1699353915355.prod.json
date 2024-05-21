@@ -37,25 +37,21 @@
           "meta": false,
           "options": [
             {
-              "id": 1699354358575,
               "order": 1,
               "label": "New",
               "value": "new"
             },
             {
-              "id": 1699354358576,
               "order": 2,
               "label": "Update",
               "value": "update"
             },
             {
-              "id": 1699354358577,
               "order": 3,
               "value": "verification",
               "label": "Verification"
             },
             {
-              "id": 1699354358578,
               "order": 4,
               "value": "certification",
               "label": "Certification"
@@ -144,31 +140,26 @@
           "meta": false,
           "options": [
             {
-              "id": 1699418843853,
               "order": 1,
               "label": "Household head",
               "value": "hh_head"
             },
             {
-              "id": 1699418843854,
               "order": 2,
               "label": "Spouse of household head",
               "value": "spouse_of_hh_head"
             },
             {
-              "id": 1699418871580,
               "order": 3,
               "label": "Parent of household head",
               "value": "parent_of_hh_head"
             },
             {
-              "id": 1699418878735,
               "order": 4,
               "label": "Adult child of household head",
               "value": "adult_child_of_hh_head"
             },
             {
-              "id": 1699418886187,
               "order": 5,
               "label": "Under-18 child of household head",
               "value": "under18_child_of_hh_head"
@@ -252,25 +243,21 @@
           "meta": false,
           "options": [
             {
-              "id": 1699419380102,
               "order": 1,
               "label": "Female",
               "value": "female"
             },
             {
-              "id": 1699419380101,
               "order": 2,
               "label": "Male",
               "value": "male"
             },
             {
-              "id": 1699419417084,
               "order": 3,
               "label": "Other gender",
               "value": "other_gender"
             },
             {
-              "id": 1699419420456,
               "order": 4,
               "label": "I prefer not to say",
               "value": "i_prefer_not_to_say"
@@ -545,126 +532,108 @@
           "meta": false,
           "options": [
             {
-              "id": 1702915144069,
               "order": 1,
               "label": "AT RISK: Disabled household member (mentally or physically)",
               "value": "at_risk_disabled_hh_member_mentally_or_physically",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702916149557,
               "order": 2,
               "label": "AT RISK: Elderly-headed households (without support)",
               "value": "at_risk_elderlyheaded_households_without_support",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702916262350,
               "order": 3,
               "label": "AT RISK: Ethnic minorities",
               "value": "at_risk_ethnic_minorities",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702916204384,
               "order": 4,
               "label": "AT RISK: Female-headed household (single mothers, divorcees, widows)",
               "value": "at_risk_femaleheaded_hh_single_mothers_divorcees_widows",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702916243750,
               "order": 5,
               "label": "AT RISK: HIV/AIDS affected (or other serious illness)",
               "value": "at_risk_hivaids_affected_or_other_serious_illness",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702916333235,
               "order": 6,
               "label": "AT RISK: In-migrants (new households in last 12 months)",
               "value": "at_risk_inmigrants_new_households_in_last_12_months",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702916223734,
               "order": 7,
               "label": "AT RISK: Internally displaced people",
               "value": "at_risk_internally_displaced_people",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702916311400,
               "order": 7,
               "label": "AT RISK: Landless/tenants",
               "value": "at_risk_landlesstenants",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702916302450,
               "order": 8,
               "label": "AT RISK: Long-term poor",
               "value": "at_risk_longterm_poor",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702916341267,
               "order": 9,
               "label": "AT RISK: New adult households (newly formed household)",
               "value": "at_risk_new_adult_households_newly_formed_hh",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702916282717,
               "order": 10,
               "label": "AT RISK: Nomadic or semi-nomadic pastoralists",
               "value": "at_risk_nomadic_or_seminomadic",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702916163485,
               "order": 11,
               "label": "AT RISK: Orphans and vulnerable children",
               "value": "at_risk_orphans_and_vulnerable_children",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702916252967,
               "order": 12,
               "label": "AT RISK: Religious minorities",
               "value": "at_risk_religious_minorities",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702916231272,
               "order": 13,
               "label": "AT RISK: Returning refugees",
               "value": "at_risk_returning_refugees",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702916285517,
               "order": 14,
               "label": "AT RISK: Seasonal migrants (fisherfolk, farmers etc)",
               "value": "at_risk_seasonal_fishing_group",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702916320701,
               "order": 15,
               "label": "AT RISK: Shared use of someone else's toilet/public toilet (don't have a toilet)",
               "value": "at_risk_shared_use_of_someone_elses_toiletpublic_toilet_dont_have_a_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702916350017,
               "order": 16,
               "label": "AT RISK: previously collapsed or abandoned toilets",
               "value": "at_risk_households_with_previously_collapsed_or_flooded_toilets",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702915144068,
               "order": 17,
               "label": "OTHER household (NOT in at-risk category)",
               "value": "other_hh_not_in_atrisk_category",
@@ -693,13 +662,11 @@
           "meta": false,
           "options": [
             {
-              "id": 1710829108,
               "order": 1,
               "label": "Yes",
               "value": "yes_animals_kept_in_household_compound"
             },
             {
-              "id": 1710829128,
               "order": 2,
               "label": "No",
               "value": "no_animals_kept_in_household_compound"
@@ -749,28 +716,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699428304299,
               "order": 1,
               "label": "No toilet, practice open defecation",
               "value": "g0_no_toilet_practice_od",
               "color": "#DB3B3B"
             },
             {
-              "id": 1710739672,
               "order": 2,
               "label": "Do NOT use toilet, practice open defecation",
               "value": "g0_do_not_use_toilet_practice_od",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428304300,
               "order": 3,
               "label": "Use own toilet",
               "value": "g1_use_own_toilet",
               "color": "#38A15A"
             },
             {
-              "id": 1699428314314,
               "order": 4,
               "label": "Use other household toilet",
               "value": "g1_use_other_hh_toilet",
@@ -822,35 +785,30 @@
           ],
           "options": [
             {
-              "id": 1710742257,
               "order": 1,
               "label": "No toilet",
               "value": "g0_no_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 1700037304278,
               "order": 2,
               "label": "Toilet NOT-shared: MORE than 10-15 users",
               "value": "g0_toilet_notshared_more_than_1015_users",
               "color": "#DB3B3B"
             },
             {
-              "id": 1700037304277,
               "order": 3,
               "label": "Toilet SHARED: MORE than 10-15 users",
               "value": "g0_toilet_shared_more_than_1015_users",
               "color": "#DB3B3B"
             },
             {
-              "id": 1700037326498,
               "order": 4,
               "label": "Toilet NOT-shared: Less than 10-15 users",
               "value": "g1_toilet_notshared_less_than_1015_users",
               "color": "#38A15A"
             },
             {
-              "id": 1700037338454,
               "order": 5,
               "label": "Toilet SHARED: Less than 10-15 users",
               "value": "g1_toilet_shared_less_than_1015_users",
@@ -917,28 +875,24 @@
           ],
           "options": [
             {
-              "id": 1710743090,
               "order": 1,
               "label": "No toilet",
               "value": "g0_no_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428357900,
               "order": 2,
               "label": "All do NOT use toilet",
               "value": "g0_no_members_use_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428357901,
               "order": 3,
               "label": "Some do NOT use toilet",
               "value": "g0_some_members_do_not_use_toilet",
               "color": "#ffa57d"
             },
             {
-              "id": 1699428387760,
               "order": 4,
               "label": "All use toilet",
               "value": "g1_all_use_toilet",
@@ -980,49 +934,42 @@
           ],
           "options": [
             {
-              "id": 1710743655,
               "order": 1,
               "label": "No toilet",
               "value": "g0_no_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581174,
               "order": 2,
               "label": "No toilet use, practice open defecation",
               "value": "hh_member_1_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
-              "id": 17157750461,
               "order": 3,
               "label": "Some toilet use, some open defecation",
               "value": "hh_member_1_g0_some_toilet_use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581175,
               "order": 4,
               "label": "Use other household toilet (shared)",
               "value": "hh_member_1_g0_toilet_shaerd_other",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428642804,
               "order": 5,
               "label": "Use own toilet (shared)",
               "value": "hh_member_1_g1_use_own_toilet_shared",
               "color": "#ffa57d"
             },
             {
-              "id": 17157752191,
               "order": 6,
               "label": "Use own toilet with assistance (not shared)",
               "value": "hh_member_1_g2_use_own_toilet_with_assistance",
               "color": "#38A15A"
             },
             {
-              "id": 1699428651604,
               "order": 7,
               "label": "Use own toilet (NOT shared)",
               "value": "hh_member_1_g2_use_own_toilet_not_shared",
@@ -1064,49 +1011,42 @@
           ],
           "options": [
             {
-              "id": 1710743655,
               "order": 1,
               "label": "No toilet",
               "value": "g0_no_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581174,
               "order": 2,
               "label": "No toilet use, practice open defecation",
               "value": "hh_member_2_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
-              "id": 17157750462,
               "order": 3,
               "label": "Some toilet use, some open defecation",
               "value": "hh_member_2_g0_some_toilet use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581175,
               "order": 4,
               "label": "Use other household toilet (shared)",
               "value": "hh_member_2_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
-              "id": 16994286428041,
               "order": 5,
               "label": "Use own toilet (shared)",
               "value": "hh_member_2_g1_use_own_toilet_shared",
               "color": "#ffa57d"
             },
             {
-              "id": 17157752192,
               "order": 6,
               "label": "Use own toilet with assistance (not shared)",
               "value": "hh_member_2_g2_use_own_toilet_with_assistance",
               "color": "#38A15A"
             },
             {
-              "id": 1699428651604,
               "order": 7,
               "label": "Use own toilet (NOT shared)",
               "value": "hh_member_2_g2_use_own_toilet_not_shared",
@@ -1148,49 +1088,42 @@
           ],
           "options": [
             {
-              "id": 1710743655,
               "order": 1,
               "label": "No toilet",
               "value": "g0_no_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581174,
               "order": 2,
               "label": "No toilet use, practice open defecation",
               "value": "hh_member_3_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
-              "id": 17157750463,
               "order": 3,
               "label": "Some toilet use, some open defecation",
               "value": "hh_member_3_g0_some_toilet_use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581175,
               "order": 4,
               "label": "Use other household toilet (shared)",
               "value": "hh_member_3_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
-              "id": 16994286428042,
               "order": 5,
               "label": "Use own toilet (shared)",
               "value": "hh_member_3_g1_use_own_toilet_shared",
               "color": "#ffa57d"
             },
             {
-              "id": 17157752193,
               "order": 6,
               "label": "Use own toilet with assistance (not shared)",
               "value": "hh_member_3_g2_use_own_toilet_with_assistance",
               "color": "#38A15A"
             },
             {
-              "id": 1699428651604,
               "order": 7,
               "label": "Use own toilet (NOT shared)",
               "value": "hh_member_3_g2_use_own_toilet_not_shared",
@@ -1232,49 +1165,42 @@
           ],
           "options": [
             {
-              "id": 1710743655,
               "order": 1,
               "label": "No toilet",
               "value": "g0_no_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581174,
               "order": 2,
               "label": "No toilet use, practice open defecation",
               "value": "hh_member_4_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
-              "id": 17157750464,
               "order": 3,
               "label": "Some toilet use, some open defecation",
               "value": "hh_member_4_g0_some_toilet_use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581175,
               "order": 4,
               "label": "Use other household toilet (shared)",
               "value": "hh_member_4_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
-              "id": 16994286428043,
               "order": 5,
               "label": "Use own toilet (shared)",
               "value": "hh_member_4_g1_use_own_toilet_shared",
               "color": "#ffa57d"
             },
             {
-              "id": 17157752194,
               "order": 6,
               "label": "Use own toilet with assistance (not shared)",
               "value": "hh_member_4_g2_use_own_toilet_with_assistance",
               "color": "#38A15A"
             },
             {
-              "id": 1699428651604,
               "order": 7,
               "label": "Use own toilet (NOT shared)",
               "value": "hh_member_1_g2_use_own_toilet_not_shared",
@@ -1316,49 +1242,42 @@
           ],
           "options": [
             {
-              "id": 1710743655,
               "order": 1,
               "label": "No toilet",
               "value": "g0_no_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581174,
               "order": 2,
               "label": "No toilet use, practice open defecation",
               "value": "hh_member_5_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
-              "id": 17157750465,
               "order": 3,
               "label": "Some toilet use, some open defecation",
               "value": "hh_member_5_g0_some_toilet_use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581175,
               "order": 4,
               "label": "Use other household toilet (shared)",
               "value": "hh_member_5_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
-              "id": 16994286428044,
               "order": 5,
               "label": "Use own toilet (shared)",
               "value": "hh_member_5_g1_use_own_toilet_shared",
               "color": "#ffa57d"
             },
             {
-              "id": 17157752195,
               "order": 6,
               "label": "Use own toilet with assistance (not shared)",
               "value": "hh_member_5_g2_use_own_toilet_with_assistance",
               "color": "#38A15A"
             },
             {
-              "id": 1699428651604,
               "order": 7,
               "label": "Use own toilet (NOT shared)",
               "value": "hh_member_5_g2_use_own_toilet_not_shared",
@@ -1400,49 +1319,42 @@
           ],
           "options": [
             {
-              "id": 1710743655,
               "order": 1,
               "label": "No toilet",
               "value": "g0_no_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581174,
               "order": 2,
               "label": "No toilet use, practice open defecation",
               "value": "hh_member_6_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
-              "id": 17157750466,
               "order": 3,
               "label": "Some toilet use, some open defecation",
               "value": "hh_member_6_g0_some_toilet_use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581175,
               "order": 4,
               "label": "Use other household toilet (shared)",
               "value": "hh_member_6_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
-              "id": 16994286428045,
               "order": 5,
               "label": "Use own toilet (shared)",
               "value": "hh_member_6_g1_use_own_toilet_shared",
               "color": "#ffa57d"
             },
             {
-              "id": 17157752196,
               "order": 6,
               "label": "Use own toilet with assistance (not shared)",
               "value": "hh_member_6_g2_use_own_toilet_with_assistance",
               "color": "#38A15A"
             },
             {
-              "id": 1699428651604,
               "order": 7,
               "label": "Use own toilet (NOT shared)",
               "value": "hh_member_6_g2_use_own_toilet_not_shared",
@@ -1484,49 +1396,42 @@
           ],
           "options": [
             {
-              "id": 1710743655,
               "order": 1,
               "label": "No toilet",
               "value": "g0_no_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581174,
               "order": 2,
               "label": "No toilet use, practice open defecation",
               "value": "hh_member_7_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
-              "id": 17157750467,
               "order": 3,
               "label": "Some toilet use, some open defecation",
               "value": "hh_member_7_g0_some_toilet_use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581175,
               "order": 4,
               "label": "Use other household toilet (shared)",
               "value": "hh_member_7_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
-              "id": 16994286428046,
               "order": 5,
               "label": "Use own toilet (shared)",
               "value": "hh_member_7_g1_use_own_toilet_shared",
               "color": "#ffa57d"
             },
             {
-              "id": 17157752197,
               "order": 6,
               "label": "Use own toilet with assistance (not shared)",
               "value": "hh_member_7_g2_use_own_toilet_with_assistance",
               "color": "#38A15A"
             },
             {
-              "id": 1699428651604,
               "order": 7,
               "label": "Use own toilet (NOT shared)",
               "value": "hh_member_7_g2_use_own_toilet_not_shared",
@@ -1568,49 +1473,42 @@
           ],
           "options": [
             {
-              "id": 1710743655,
               "order": 1,
               "label": "No toilet",
               "value": "g0_no_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581174,
               "order": 2,
               "label": "No toilet use, practice open defecation",
               "value": "hh_member_8_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
-              "id": 17157750468,
               "order": 3,
               "label": "Some toilet use, some open defecation",
               "value": "hh_member_8_g0_some_toilet_use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581175,
-              "order":4,
+              "order": 4,
               "label": "Use other household toilet (shared)",
               "value": "hh_member_8_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
-              "id": 16994286428047,
               "order": 5,
               "label": "Use own toilet (shared)",
               "value": "hh_member_8_g1_use_own_toilet_shared",
               "color": "#ffa57d"
             },
             {
-              "id": 17157752198,
               "order": 6,
               "label": "Use own toilet with assistance (not shared)",
               "value": "hh_member_8_g2_use_own_toilet_with_assistance",
               "color": "#38A15A"
             },
             {
-              "id": 1699428651604,
               "order": 7,
               "label": "Use own toilet (NOT shared)",
               "value": "hh_member_8_g2_use_own_toilet_not_shared",
@@ -1652,49 +1550,42 @@
           ],
           "options": [
             {
-              "id": 1710743655,
               "order": 1,
               "label": "No toilet",
               "value": "g0_no_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581174,
               "order": 2,
               "label": "No toilet use, practice open defecation",
               "value": "hh_member_9_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
-              "id": 17157750469,
               "order": 3,
               "label": "Some toilet use, some open defecation",
               "value": "hh_member_9_g0_some_toilet_use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581175,
               "order": 4,
               "label": "Use other household toilet (shared)",
               "value": "hh_member_9_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
-              "id": 16994286428048,
               "order": 5,
               "label": "Use own toilet (shared)",
               "value": "hh_member_9_g1_use_own_toilet_shared",
               "color": "#ffa57d"
             },
             {
-              "id": 17157752198,
               "order": 6,
               "label": "Use own toilet with assistance (not shared)",
               "value": "hh_member_9_g2_use_own_toilet_with_assistance",
               "color": "#38A15A"
             },
             {
-              "id": 1699428651604,
               "order": 7,
               "label": "Use own toilet (NOT shared)",
               "value": "hh_member_9_g2_use_own_toilet_not_shared",
@@ -1736,49 +1627,42 @@
           ],
           "options": [
             {
-              "id": 1710743655,
               "order": 1,
               "label": "No toilet",
               "value": "g0_no_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581174,
               "order": 2,
               "label": "No toilet use, practice open defecation",
               "value": "hh_member_10_g0_no_toilet_use_practice_od",
               "color": "#DB3B3B"
             },
             {
-              "id": 17157750471,
               "order": 3,
               "label": "Some toilet use, some open defecation",
               "value": "hh_member_10_g0_some_toilet_use_some_open_defecation",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428581175,
               "order": 4,
               "label": "Use other household toilet (shared)",
               "value": "hh_member_10_g1_use_other_hh_toilet_shared`",
               "color": "#ffa57d"
             },
             {
-              "id": 16994286428049,
               "order": 5,
               "label": "Use own toilet (shared)",
               "value": "hh_member_10_g1_use_own_toilet_shared",
               "color": "#ffa57d"
             },
             {
-              "id": 17157752190,
               "order": 6,
               "label": "Use own toilet with assistance (not shared)",
               "value": "hh_member_10_g2_use_own_toilet_with_assistance",
               "color": "#38A15A"
             },
             {
-              "id": 1699428651604,
               "order": 7,
               "label": "Use own toilet (NOT shared)",
               "value": "hh_member_10_g2_use_own_toilet_not_shared",
@@ -1816,84 +1700,72 @@
           ],
           "options": [
             {
-              "id": 1699427608150,
               "order": 1,
               "label": "No toilet",
               "value": "g0_no_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699427608151,
               "order": 2,
               "label": "Toilet with no pit or tank (discharge to open)",
               "value": "g0_no_containment_discharge_to_open_open_container",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699427632214,
               "order": 3,
               "label": "Open pit or open container",
               "value": "g0_not_durable_containment_collapse_problems",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699427638947,
               "order": 4,
               "label": "Unlined pit or tank (unstable soil)",
               "value": "g1_unlined_pit_unstable_soil_but_not_collapsed",
               "color": "#ffa57d"
             },
             {
-              "id": 1699427646049,
               "order": 5,
               "label": "Pit or tank lined with non-durable local materials",
               "value": "g1_containment_lined_with_inadequate_local_materials",
               "color": "#ffa57d"
             },
             {
-              "id": 1699427653231,
               "order": 6,
               "label": "Pit unlined (in stable soil)",
               "value": "g2_containment_unlined_in_stable_soil",
               "color": "#38A15A"
             },
             {
-              "id": 1699427660666,
               "order": 7,
               "label": "Pit lined with blocks or bricks",
               "value": "g2_containment_lined_with_blocks_or_bricks",
               "color": "#38A15A"
             },
             {
-              "id": 1699427675915,
               "order": 8,
               "label": "Pit lined with concrete",
               "value": "g2_containment_lined_with_concrete",
               "color": "#38A15A"
             },
             {
-              "id": 1699427667581,
               "order": 9,
               "label": "Pit lined with resilient local materials",
               "value": "g2_containment_lined_with_resilient_local_materials",
               "color": "#38A15A"
             },
             {
-              "id": 1699427683917,
               "order": 10,
               "label": "Pit lined with other durable materials",
               "value": "g2_containment_lined_with_other_durable_materials",
               "color": "#38A15A"
             },
             {
-              "id": 1699427693452,
               "order": 11,
               "label": "Durable removable container",
               "value": "g2_durable_removable_container",
               "color": "#38A15A"
             },
             {
-              "id": 1699427701268,
               "order": 12,
               "label": "Durable connection to sewer network",
               "value": "g2_durable_sewer_connection",
@@ -1931,35 +1803,30 @@
           ],
           "options": [
             {
-              "id": 1699427918024,
               "order": 1,
               "label": "No toilet",
               "value": "g0_no_toilet_or_no_containment_or_collection_system",
               "color": "#DB3B3B"
             },
             {
-              "id": 1710744756,
               "order": 2,
               "label": "Surface outflows: Toilet with no pit or tank",
               "value": "g0_no_pit_or_tank",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699427918025,
               "order": 3,
               "label": "Surface outflows: Continuous or regular",
               "value": "g0_regularly_or_continuously",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699427957175,
               "order": 4,
               "label": "Surface outflows: Only once, rarely",
               "value": "g1_only_once_rarely",
               "color": "#ffa57d"
             },
             {
-              "id": 1699427964024,
               "order": 5,
               "label": "NO surface outflows",
               "value": "g2_never",
@@ -1987,84 +1854,72 @@
           "meta": false,
           "options": [
             {
-              "id": 1699428734675,
               "order": 1,
               "label": "No toilet",
               "value": "g0_no_toilet_or_no_containmentcollection_system",
               "color": "#DB3B3B"
             },
             {
-              "id": 1710746275,
               "order": 2,
               "label": "Toilet with no pit or tank (discharge to open)",
               "value": "g0_toilet_no_pit_or_tank_discharge_to_open",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428734676,
               "order": 3,
               "label": "Open pit or open container",
               "value": "g0_unsafe_containment_open_container",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428752420,
               "order": 4,
               "label": "Pit or tank overflows to open",
               "value": "g0_unsafe_containment_overflow_to_open_space_open_drain_water_body",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428939544,
               "order": 5,
               "label": "Never emptied (but intention to empty when full)",
               "value": "g1_risk_of_unsafe_services_never_emptied_intention_to_empty_when_full",
               "color": "#ffa57d"
             },
             {
-              "id": 1699428755154,
               "order": 6,
               "label": "Never emptied (first pit: NO intention to empty)",
               "value": "g3_never_emptied_first_pit_no_intention_to_empty",
               "color": "#38A15A"
             },
             {
-              "id": 1699428767471,
               "order": 7,
               "label": "Never emptied ( previous pit replaced: NO intention to empty)",
               "value": "g3_never_emptied_previous_pit_replaced_no_intention_to_empty",
               "color": "#38A15A"
             },
             {
-              "id": 16994287702567,
               "order": 8,
               "label": "EMPTIED: ALL pit (or tank) contents removed",
               "value": "g3_yes_containment_emptied",
               "color": "#38A15A"
             },
             {
-              "id": 1710746939,
               "order": 9,
               "label": "EMPTIED: SOME pit (or tank) contents removed",
               "value": "g3_yes_some_contents_removed",
               "color": "#38A15A"
             },
             {
-              "id": 16994287702568,
               "order": 10,
               "label": "EMPTIED: closed container removed",
               "value": "g3_yes_closed_container_removed",
               "color": "#38A15A"
             },
             {
-              "id": 16994287702569,
               "order": 11,
               "label": "Alternating twin pits",
               "value": "g3_alternating_twin_pits",
               "color": "#38A15A"
             },
             {
-              "id": 16994287702561,
               "order": 12,
               "label": "Connection to sewer network",
               "value": "g3_connection_to_sewer_network",
@@ -2114,112 +1969,96 @@
           ],
           "options": [
             {
-              "id": 1699428827812,
               "label": "No toilet",
               "value": "g0_no_toilet_or_no_containmentcollection_system",
               "order": 1,
               "color": "#DB3B3B"
             },
             {
-              "id": 1710747345,
               "label": "Toilet with no pit or tank (discharge to open)",
               "value": "g0_toilet_no_pit_or_tank_discharge_to_open",
               "order": 2,
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428827813,
               "label": "Open pit or open container",
               "value": "g0_unsafe_containment_open_container",
               "order": 3,
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428900390,
               "label": "Emptied to open (within 500m)",
               "value": "g0_unsafe_disposal_to_open_pit_open_space_open_drain_or_water_body_within_500m_of_hh",
               "order": 4,
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428903041,
               "label": "Emptied to open (MORE than 500m away)",
               "value": "g0_unsafe_disposal_to_open_space_open_drain_or_water_body_more_than_500m_from_hh",
               "order": 5,
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428921060,
               "label": "Closed container removed by UNLICENSED worker",
               "value": "g0_unsafe_treatment_or_disposal_closed_container_removed_by_unlicensed_service_provider_to_offsite_location",
               "order": 6,
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428912825,
               "label": "Emptied by UNLICENSED worker (transported out of community)",
               "value": "g0_unsafe_treatment_or_disposal_emptied_by_unlicensed_service_provider_to_offsite_location",
               "order": 7,
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428931576,
               "label": "Sewer connection to open discharge",
               "value": "g0_unsafe_treatment_or_disposal_sewer_connection_to_open_discharge",
               "order": 8,
               "color": "#DB3B3B"
             },
             {
-              "id": 1699428950010,
               "label": "Stored for LESS than 2 years before emptying",
               "value": "g1_unsafe_storage_stored_for_less_than_2_years_before_use_of_stored_waste",
               "order": 9,
               "color": "#ffa57d"
             },
             {
-              "id": 1699428957723,
               "label": "Sewer connection to UNLICENSED or NON-FUNCTIONAL treatment site",
               "value": "g1_unsafe_treatment_or_disposal_sewer_connection_to_unlicensed_or_nonfunctional_treatment_site",
               "order": 10,
               "color": "#ffa57d"
             },
             {
-              "id": 1699428967861,
               "order": 11,
               "label": "NOT emptied (NO intention to empty)",
               "value": "g3_safely_managed_never_emptied_no_intention_to_empty",
               "color": "#38A15A"
             },
             {
-              "id": 1699429000331,
               "order": 12,
               "label": "Emptied by LICENSED worker (transported out of community)",
               "value": "g3_safely_managed_emptied_by_licensed_service_provider_to_offsite_location",
               "color": "#38A15A"
             },
             {
-              "id": 1699428977247,
               "order": 13,
               "label": "Emptied to nearby covered pit (buried within community)",
               "value": "g3_safely_managed_emptied_to_covered_pit",
               "color": "#38A15A"
             },
             {
-              "id": 1710747762,
               "order": 14,
               "label": "Closed container removed by LICENSED worker",
               "value": "g3_closed_container_removed_by_licensed_worker",
               "color": "#38A15A"
             },
             {
-              "id": 1699428991810,
               "order": 15,
               "label": "Stored for MORE than 2 years before emptying",
               "value": "g3_safely_managed_stored_for_more_than_2_years_before_use_of_stored_waste",
               "color": "#38A15A"
             },
             {
-              "id": 1710747889,
               "order": 16,
               "label": "Sewer connection to LICENSED and FUNCTIONAL treatment or disposal site",
               "value": "g3_sewer_connection_licensed_functional_treatment_or_disposal_site",
@@ -2268,14 +2107,12 @@
           ],
           "options": [
             {
-              "id": 1699422978623,
               "order": 1,
               "label": "No toilet",
               "value": "g0_no_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699422978624,
               "order": 2,
               "label": "Toilet observed",
               "value": "g1_toilet_observed",
@@ -2351,28 +2188,24 @@
           ],
           "options": [
             {
-              "id": 16994239628191,
               "order": 1,
               "label": "No toilet",
               "value": "g0_no_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699423434694,
               "order": 2,
               "label": "Non-functional toilet",
               "value": "g0_nonfunctional_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699423434695,
               "order": 3,
               "label": "Partly functional toilet",
               "value": "g0_partly_functional_toilet",
               "color": "#ffa57d"
             },
             {
-              "id": 1699423473150,
               "order": 4,
               "label": "Fully functional toilet",
               "value": "g1_fully_functional_toilet",
@@ -2410,28 +2243,24 @@
           ],
           "options": [
             {
-              "id": 16994239628192,
               "order": 1,
               "label": "No toilet",
               "value": "g0_no_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699423579622,
               "order": 2,
               "label": "No toilet privacy",
               "value": "g0_no_toilet_privacy",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699423579623,
               "order": 3,
               "label": "Inadequate toilet privacy",
               "value": "g0_inadequate_toilet_privacy",
               "color": "#ffa57d"
             },
             {
-              "id": 1699423654846,
               "order": 4,
               "label": "Good toilet privacy",
               "value": "g1_good_toilet_privacy",
@@ -2459,63 +2288,54 @@
           "meta": false,
           "options": [
             {
-              "id": 1699423714719,
               "order": 1,
               "label": "No toilet",
               "value": "g0_no_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 16994237147199,
               "order": 1,
               "label": "Open pit (uncovered or large openings)",
               "value": "g0_no_interface_open_pit",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699423714720,
               "order": 2,
               "label": "Hole in floor (dry latrine)",
               "value": "g1_dry_latrine_with_drophole",
               "color": "#38A15A"
             },
             {
-              "id": 1699423862307,
               "order": 3,
               "label": "Hole in floor (VIP latrine with vent pipe)",
               "value": "g1_vip_drophole_with_vent_pipe",
               "color": "#38A15A"
             },
             {
-              "id": 1699423880083,
               "order": 4,
               "label": "SATO pan",
               "value": "g1_sato_pan",
               "color": "#38A15A"
             },
             {
-              "id": 1699423892200,
               "order": 5,
               "label": "Flush or pour-flush pan with water seal",
               "value": "g1_flush_or_pourflush_pan_with_water_seal",
               "color": "#38A15A"
             },
             {
-              "id": 1699423916078,
               "order": 6,
               "label": "Open pipe to pit (no water seal)",
               "value": "g1_open_pipe_no_water_seal",
               "color": "#38A15A"
             },
             {
-              "id": 1699423903600,
               "order": 7,
               "label": "Urine separation (eco-toilet)",
               "value": "g1_dry_toilet_with_urinediverting_drophole",
               "color": "#38A15A"
             },
             {
-              "id": 1699423918866,
               "order": 8,
               "label": "Other toilet interface",
               "value": "g1_other_toilet_interface",
@@ -2547,111 +2367,96 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>OBSERVE:</b> [Pit or tank (or other): storage for excreta (urine and faeces). Connection: pipe through which excreta and wastewater are collected (e.g. sewer network connection). Examples: 1. Latrine pit. 2. Septic tank. 3. Connection to sewer network. Flush to don’t know: household does not know where the toilet flushes to, but no surface outlets or open discharges are visible (in this case, likely to be a buried pit or tank). "
+            "text": "<b>OBSERVE:</b> [Pit or tank (or other): storage for excreta (urine and faeces). Connection: pipe through which excreta and wastewater are collected (e.g. sewer network connection). Examples: 1. Latrine pit. 2. Septic tank. 3. Connection to sewer network. Flush to don\u2019t know: household does not know where the toilet flushes to, but no surface outlets or open discharges are visible (in this case, likely to be a buried pit or tank). "
           },
           "required": true,
           "meta": false,
           "options": [
             {
-              "id": 1699423962819,
               "order": 1,
               "label": "No toilet",
               "value": "g0_no_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699423962820,
               "order": 2,
               "label": "No pit or tank (open discharge)",
               "value": "g0_no_pit_or_tank_discharge_to_open_field_open_drain_water_body_elsewhere",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699424042855,
               "order": 3,
               "label": "Open pit (uncovered or large openings)",
               "value": "g0_open_pit_uncovered_or_large_openings",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699424058516,
               "order": 4,
               "label": "Removable open container (e.g. bucket)",
               "value": "g0_removable_open_container_eg_bucket",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699424050793,
               "order": 5,
               "label": "Single toilet vault (above ground)",
               "value": "g0_single_toilet_vault_above_ground",
               "color": "#ffa57d"
             },
             {
-              "id": 1699424067066,
               "order": 6,
               "label": "Single latrine pit: under toilet (direct)",
               "value": "g1_single_latrine_pit_under_toilet",
               "color": "#38A15A"
             },
             {
-              "id": 1710749439,
               "order": 7,
               "label": "Single latrine pit: beside toilet (offset)",
               "value": "g1_single_latrine_pit_beside_toilet",
               "color": "#38A15A"
             },
             {
-              "id": 1699424076000,
               "order": 8,
               "label": "Double latrine pit: under toilet (direct)",
               "value": "g1_double_latrine_pit_under_toilet",
               "color": "#38A15A"
             },
             {
-              "id": 1710749570,
               "order": 9,
               "label": "Double latrine pit: beside toilet (offset)",
               "value": "g1_double_latrine_pit_beside_toilet",
               "color": "#38A15A"
             },
             {
-              "id": 1699424087945,
               "order": 10,
               "label": "Double toilet vault (above ground)",
               "value": "g1_double_toilet_vault_above_ground",
               "color": "#38A15A"
             },
             {
-              "id": 1699424096549,
               "order": 11,
               "label": "Septic tank",
               "value": "g1_septic_tank",
               "color": "#38A15A"
             },
             {
-              "id": 1699424113501,
               "order": 12,
               "label": "Connection to sewer network",
               "value": "g1_piped_sewer_connection",
               "color": "#38A15A"
             },
             {
-              "id": 1699424135551,
               "order": 13,
               "label": "Flush or pour-flush to don't know",
               "value": "g1_flush_to_dont_know",
               "color": "#38A15A"
             },
             {
-              "id": 1699424104883,
               "order": 14,
               "label": "Removable closed container",
               "value": "g1_removable_closed_container",
               "color": "#38A15A"
             },
             {
-              "id": 1699424121866,
               "order": 15,
               "label": "Other closed pit or tank",
               "value": "g1_other_pit_or_tank",
@@ -2712,84 +2517,72 @@
           "meta": false,
           "options": [
             {
-              "id": 1699424390166,
               "order": 1,
               "label": "No toilet",
               "value": "g0_no_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699424390167,
               "order": 2,
               "label": "Inadequate or missing cover on latrine hole",
               "value": "g0_inadequate_or_missing_drophole_cover",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699424431487,
               "order": 3,
               "label": "VIP vent pipe with insect screen",
               "value": "g0_vip_vent_pipe_with_insect_screen",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699424438922,
               "order": 4,
               "label": "Broken SATO flap",
               "value": "g0_broken_sato_flap",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699424446583,
               "order": 5,
               "label": "Broken or empty water seal (no water)",
               "value": "g0_broken_or_empty_water_seal_no_water",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699424454824,
               "order": 6,
               "label": "Open pipe (to pit or tank)",
               "value": "g0_open_pipe_to_pit_or_tank",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699424462574,
               "order": 7,
               "label": "Other non-flyproof toilet",
               "value": "g0_other_nonflyproof_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699424470753,
               "order": 8,
               "label": "Tight-fitting cover (in place)",
               "value": "g1_tightfitting_drophole_cover_in_place",
               "color": "#38A15A"
             },
             {
-              "id": 1699424481108,
               "order": 9,
               "label": "VIP vent pipe without insect screen",
               "value": "g1_vip_vent_pipe_with_insect_screen",
               "color": "#38A15A"
             },
             {
-              "id": 1699424487776,
               "order": 10,
               "label": "Functional SATO pan with flap",
               "value": "g1_functional_sato_flap",
               "color": "#38A15A"
             },
             {
-              "id": 1699424505975,
               "order": 11,
               "label": "Functional water seal (containing water)",
               "value": "g1_functional_water_seal_with_water",
               "color": "#38A15A"
             },
             {
-              "id": 1699424513523,
               "order": 12,
               "label": "Other flyproof toilet",
               "value": "g1_other_flyproof_toilet",
@@ -2827,35 +2620,30 @@
           "meta": false,
           "options": [
             {
-              "id": 1710749905,
               "order": 1,
               "label": "No toilet",
               "value": "g0_no_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699425865885,
               "order": 2,
               "label": "NOT clean: heavy traces of faeces or soiled cleaning materials",
               "value": "g0_not_clean_heavy_traces_of_faeces_or_soiled_cleaning_materials",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699425865886,
               "order": 3,
               "label": "NOT clean: some faeces and soiled cleaning materials",
               "value": "g0_not_clean_some_faeces_and_soiled_cleaning_materials",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699425897473,
               "order": 4,
               "label": "Clean: minor traces of faeces or soiled materials (easily cleaned)",
               "value": "g1_clean_minor_traces_of_faeces_or_soiled_materials_easily_cleaned",
               "color": "#38A15A"
             },
             {
-              "id": 1699425908023,
               "order": 5,
               "label": "Clean: no visible faeces or soiled cleansing materials",
               "value": "g1_clean_no_visible_faeces_or_soiled_cleansing_materials",
@@ -2893,35 +2681,30 @@
           "meta": false,
           "options": [
             {
-              "id": 1710750023,
               "order": 1,
               "label": "No toilet",
               "value": "g0_no_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699426086413,
               "order": 1,
               "label": "NOT clean: heavy traces of faeces",
               "value": "g0_not_clean_heavy_traces_of_faeces",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699426086414,
               "order": 2,
               "label": "NOT clean: some faeces",
               "value": "g0_not_clean_some_faeces",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699426150422,
               "order": 3,
               "label": "Clean: minor traces of faeces (easily cleaned)",
               "value": "g1_clean_minor_traces_of_faeces_easily_cleaned",
               "color": "#38A15A"
             },
             {
-              "id": 1699426158098,
               "order": 4,
               "label": "Clean: no visible faeces",
               "value": "g1_clean_no_visible_faeces",
@@ -2959,84 +2742,72 @@
           "meta": false,
           "options": [
             {
-              "id": 1699427428373,
               "order": 1,
               "label": "No toilet",
               "value": "g0_no_toilet",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699427428374,
               "order": 2,
               "label": "No slab (open pit, faeces not contained)",
               "value": "g0_no_slab_open_pit_faeces_not_contained",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699427462525,
               "order": 3,
               "label": "Partial slab (openings, faeces not fully contained)",
               "value": "g0_partial_slab_openings_faeces_not_fully_contained",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699427473237,
               "order": 4,
               "label": "Not-durable slab, mud covered",
               "value": "g1_notdurable_slab_mud_covered",
               "color": "#ffa57d"
             },
             {
-              "id": 1699427491544,
               "order": 5,
               "label": "Not-durable slab, cement covered",
               "value": "g1_notdurable_slab_cement_covered",
               "color": "#ffa57d"
             },
             {
-              "id": 1699427499528,
               "order": 6,
               "label": "Not-durable slab, wooden",
               "value": "g1_notdurable_slab_wooden",
               "color": "#ffa57d"
             },
             {
-              "id": 1699427507678,
               "order": 7,
               "label": "Other not-durable slab materials",
               "value": "g1_other_notdurable_slab_materials",
               "color": "#ffa57d"
             },
             {
-              "id": 1699427515662,
               "order": 8,
               "label": "Concrete slab",
               "value": "g2_concrete_slab",
               "color": "#38A15A"
             },
             {
-              "id": 1699427523778,
               "order": 9,
               "label": "Tiled concrete slab",
               "value": "g2_tiled_concrete_slab",
               "color": "#38A15A"
             },
             {
-              "id": 1699427532195,
               "order": 10,
               "label": "Resilient slab (local materials)",
               "value": "g2_resilient_slab_local_materials",
               "color": "#38A15A"
             },
             {
-              "id": 1699427539979,
               "order": 11,
               "label": "Structural plastic slab",
               "value": "g2_structural_plastic_slab",
               "color": "#38A15A"
             },
             {
-              "id": 1699427547887,
               "order": 12,
               "label": "Other durable slab materials",
               "value": "g2_other_durable_slab_materials",
@@ -3074,63 +2845,54 @@
           "meta": false,
           "options": [
             {
-              "id": 1699427749991,
               "order": 1,
               "label": "No toilet",
               "value": "g0_no_toilet_or_no_containment_or_collection_system",
               "color": "#DB3B3B"
             },
             {
-              "id": 1710750552,
               "order": 2,
               "label": "No pit or tank (open discharge)",
               "value": "g0_no_pit_or_tank",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699427749992,
               "order": 3,
               "label": "Visible surface outflows",
               "value": "g0_visible_surface_outflows",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699427805971,
               "order": 4,
               "label": "Evidence of previous surface outflows",
               "value": "g1_evidence_of_previous_surface_outflows",
               "color": "#ffa57d"
             },
             {
-              "id": 1699427817604,
               "order": 5,
               "label": "Single pit: not yet full (no surface outflows)",
               "value": "g2_single_pit_not_yet_full_no_surface_outflows",
               "color": "#38A15A"
             },
             {
-              "id": 1699427826621,
               "order": 6,
               "label": "Double pits (no surface outflows)",
               "value": "g2_double_pits_no_surface_outflows",
               "color": "#38A15A"
             },
             {
-              "id": 1699427851456,
               "order": 7,
               "label": "Other pit or tank (no surface outflows)",
               "value": "g2_other_containment_no_surface_outflows",
               "color": "#38A15A"
             },
             {
-              "id": 1699427834988,
               "order": 8,
               "label": "Septic tank with soakpit (no surface outflows)",
               "value": "g2_septic_tank_with_soakpit_no_surface_outflows",
               "color": "#38A15A"
             },
             {
-              "id": 1699427843089,
               "order": 9,
               "label": "Connection to sewer network (no surface outflows)",
               "value": "g2_sewer_connection_no_surface_outflows",
@@ -3168,14 +2930,12 @@
           "meta": false,
           "options": [
             {
-              "id": 1702282914707,
               "order": 1,
               "label": "High risk of groundwater contamination",
               "value": "g0_high_risk_of_groundwater_contamination",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702282914708,
               "order": 2,
               "label": "Low risk of groundwater contamination",
               "value": "g2_low_risk_of_groundwater_contamination",
@@ -3430,42 +3190,36 @@
           "meta": false,
           "options": [
             {
-              "id": 1699429377787,
               "order": 1,
               "label": "No handwashing facility",
               "value": "g0_no_handwashing_facility",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699429377788,
               "order": 2,
               "label": "Handwashing facility by toilet",
               "value": "g1_handwashing_facility_by_toilet",
               "color": "#38A15A"
             },
             {
-              "id": 1699429386933,
               "order": 3,
               "label": "Handwashing facility in kitchen",
               "value": "g1_handwashing_facility_in_kitchen",
               "color": "#38A15A"
             },
             {
-              "id": 1699429393518,
               "order": 4,
               "label": "Portable handwashing facility (basin, jug, jerrycan, container)",
               "value": "g1_portable_handwashing_facility_basin_jug_jerrycan_container",
               "color": "#38A15A"
             },
             {
-              "id": 1699429401584,
               "order": 5,
               "label": "Two handwashing facilities",
               "value": "g1_two_handwashing_facilities",
               "color": "#38A15A"
             },
             {
-              "id": 1699429411017,
               "order": 6,
               "label": "More than two handwashing facilities",
               "value": "g1_more_than_two_handwashing_facilities",
@@ -3515,28 +3269,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1710754040,
               "order": 1,
               "label": "No handwashing facility",
               "value": "g0_no_handwashing_facility",
               "color": "#DB3B3B"
             },
             {
-              "id": 1710754053,
               "order": 2,
               "label": "Non-functional handwashing facility",
               "value": "g0_non_functional_handwashing_facility",
               "color": "#DB3B3B"
             },
             {
-              "id": 1710754067,
               "order": 3,
               "label": "Partly functional handwashing facility",
               "value": "g1_partly_functional_handwashing_facility",
               "color": "#ffa57d"
             },
             {
-              "id": 1710754084,
               "order": 4,
               "label": "Fully functional handwashing facility",
               "value": "g1_fully_functional_handwashing_facility",
@@ -3564,35 +3314,30 @@
           "meta": false,
           "options": [
             {
-              "id": 1710754168,
               "order": 1,
               "label": "No handwashing facility",
               "value": "g0_no_handwashing_facility",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699430444403,
               "order": 2,
               "label": "No water available",
               "value": "g0_no_water_available",
               "color": "#DB3B3B"
             },
             {
-              "id": 1712828407,
               "order": 3,
               "label": "Water NOT always available",
               "value": "g0_water_not_always_available",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699430444404,
               "order": 4,
               "label": "Water available",
               "value": "g1_water_available",
               "color": "#38A15A"
             },
             {
-              "id": 1699430460966,
               "order": 5,
               "label": "Water container empty (evidence of washing)",
               "value": "g1_water_container_empty_evidence_of_washing",
@@ -3632,35 +3377,30 @@
           "meta": false,
           "options": [
             {
-              "id": 1710754288,
               "order": 1,
               "label": "No handwashing facility",
               "value": "g0_no_handwashing_facility",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699430537952,
               "order": 2,
               "label": "No soap or other cleanser available",
               "value": "g0_no_soap_or_other_cleanser_available",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699430537953,
               "order": 3,
               "label": "Ash, mud or sand available",
               "value": "g0_ash_mud_or_sand_available",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699430550935,
               "order": 4,
               "label": "Soap in house, NOT at handwashing facility",
               "value": "g0_soap_in_house_not_at_handwashing_facility",
               "color": "#ffa57d"
             },
             {
-              "id": 1699430561373,
               "order": 5,
               "label": "Solid, liquid or powder soap available",
               "value": "g1_solid_liquid_or_powder_soap_available",
@@ -3700,56 +3440,48 @@
           "meta": false,
           "options": [
             {
-              "id": 1699430587796,
               "order": 1,
               "label": "No handwashing facility",
               "value": "g0_no_handwashing_facility",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699430587797,
               "order": 2,
               "label": "Jerrycan (or other closed container) with NO lid",
               "value": "g1_jerrycan_or_other_closed_container_no_lid",
               "color": "#ffa57d"
             },
             {
-              "id": 1710755171,
               "order": 3,
               "label": "Jerrycan (or other closed container) with lid",
               "value": "g1_jerrycan_or_other_closed_container_with_lid",
               "color": "#ffa57d"
             },
             {
-              "id": 1699430627524,
               "order": 4,
               "label": "Temporary handwashing facility (tippy tap)",
               "value": "g1_other_temporary_handwashing_facility",
               "color": "#ffa57d"
             },
             {
-              "id": 1699430616653,
               "order": 5,
               "label": "Portable bowl or other open container",
               "value": "g1_portable_basin_or_other_open_container",
               "color": "#ffa57d"
             },
             {
-              "id": 1699430645941,
               "order": 6,
               "label": "Permanent handwashing station with water storage",
               "value": "g3_permanent_handwashing_station_with_adequate_water_storage",
               "color": "#38A15A"
             },
             {
-              "id": 1699430637426,
               "order": 7,
               "label": "Piped water tap with basin",
               "value": "g3_piped_water_tap_with_basin",
               "color": "#38A15A"
             },
             {
-              "id": 1699430655691,
               "order": 8,
               "label": "Other permanent handwashing station",
               "value": "g3_other_permanent_handwashing_station",
@@ -3789,49 +3521,42 @@
           "meta": false,
           "options": [
             {
-              "id": 1710755509,
               "order": 1,
               "label": "No handwashing facility",
               "value": "g0_no_handwashing_facility",
               "color": "#DB3B3B"
             },
             {
-              "id": 1712828863,
               "order": 2,
               "label": "Hands contaminate water in storage",
               "value": "g0_hands_contaminate_water_in_storage",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699430708818,
               "order": 3,
               "label": "Hands touch the water",
               "value": "g0_hands_enter_the_water_container_during_collection_and_use",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699430708819,
               "order": 4,
               "label": "Water collected using a tool (ladle, cup, other)",
               "value": "g1_water_collected_by_hand_using_ladle_cup_other",
               "color": "#ffa57d"
             },
             {
-              "id": 1699430719684,
               "order": 5,
               "label": "Closed water storage container with tap",
               "value": "g3_closed_water_storage_container_with_tap",
               "color": "#38A15A"
             },
             {
-              "id": 1699430726294,
               "order": 6,
               "label": "Piped water supply with tap",
               "value": "g3_piped_water_tap",
               "color": "#38A15A"
             },
             {
-              "id": 1699430734229,
               "order": 7,
               "label": "Other hands-free operation",
               "value": "g3_other_handsfree_operation",
@@ -3873,28 +3598,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1710755608,
               "order": 1,
               "label": "No handwashing facility",
               "value": "g0_no_handwashing_facility",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699430769018,
               "order": 2,
               "label": "No collection or disposal of washing water",
               "value": "g0_no_collection_or_disposal_of_washing_water",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699430769019,
               "order": 3,
               "label": "Collection of washing water without good drainage or disposal",
               "value": "g1_collection_of_washing_water_without_drainage_or_disposal",
               "color": "#ffa57d"
             },
             {
-              "id": 1699430803259,
               "order": 4,
               "label": "Safe collection and disposal of washing water",
               "value": "g3_safe_collection_and_disposal_of_washing_water",
@@ -3934,42 +3655,36 @@
           "meta": false,
           "options": [
             {
-              "id": 1699430973814,
               "order": 1,
               "label": "No handwashing facility",
               "value": "g0_no_handwashing_facility",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699430973816,
               "order": 2,
               "label": "Do NOT wash hands",
               "value": "g0_do_not_wash_hands",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699430995185,
               "order": 3,
               "label": "Do NOT use soap and water",
               "value": "g0_do_not_use_soap_and_water",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699430997807,
               "order": 4,
               "label": "No mention of critical TOILET times",
               "value": "g1_no_mention_of_critical_toilet_times",
               "color": "#ffa57d"
             },
             {
-              "id": 1699431011291,
               "order": 5,
               "label": "Before toilet use",
               "value": "g1_before_toilet_use",
               "color": "#ffa57d"
             },
             {
-              "id": 1699431014052,
               "order": 6,
               "label": "After toilet use",
               "value": "g2_after_toilet_use",
@@ -4003,48 +3718,42 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW:</b> what do you usually use to wash your hands? <b>Assessment:</b> if the household confirms handwashing with soap and water, note whether any of the critical times (related to toilets, food, infant excreta and animals) are mentioned. <br/>Ask about “any other times when you wash your hands?” but DO NOT make suggestions. <b>Critical TOILET times:</b> washing of hands with soap and water AFTER toilet use and AFTER anal cleansing."
+            "text": "<b>INTERVIEW:</b> what do you usually use to wash your hands? <b>Assessment:</b> if the household confirms handwashing with soap and water, note whether any of the critical times (related to toilets, food, infant excreta and animals) are mentioned. <br/>Ask about \u201cany other times when you wash your hands?\u201d but DO NOT make suggestions. <b>Critical TOILET times:</b> washing of hands with soap and water AFTER toilet use and AFTER anal cleansing."
           },
           "required": true,
           "meta": false,
           "options": [
             {
-              "id": 1699431891671,
               "order": 1,
               "label": "No handwashing facility",
               "value": "g0_no_handwashing_facility",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699431891672,
               "order": 2,
               "label": "Do NOT wash hands",
               "value": "g0_do_not_wash_hands",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699431938066,
               "order": 3,
               "label": "Do NOT use soap and water",
               "value": "g0_do_not_use_soap_and_water",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699431945132,
               "order": 4,
               "label": "No mention of critical FOOD times",
               "value": "g1_no_mention_of_critical_food_times",
               "color": "#ffa57d"
             },
             {
-              "id": 1699431952483,
               "order": 5,
               "label": "After eating",
               "value": "g1_after_eating",
               "color": "#ffa57d"
             },
             {
-              "id": 1699431959741,
               "order": 6,
               "label": "Before eating, food preparation and feeding children",
               "value": "g2_before_eating_food_preparation_and_feeding_children",
@@ -4078,48 +3787,42 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW:</b> what do you usually use to wash your hands? <b>Assessment:</b> if the household confirms handwashing with soap and water, note whether any of the critical times (related to toilets, food, infant excreta and animals) are mentioned. <br/>Ask about “any other times when you wash your hands?” but DO NOT make suggestions. <b>Critical TOILET times:</b> washing of hands with soap and water AFTER toilet use and AFTER anal cleansing."
+            "text": "<b>INTERVIEW:</b> what do you usually use to wash your hands? <b>Assessment:</b> if the household confirms handwashing with soap and water, note whether any of the critical times (related to toilets, food, infant excreta and animals) are mentioned. <br/>Ask about \u201cany other times when you wash your hands?\u201d but DO NOT make suggestions. <b>Critical TOILET times:</b> washing of hands with soap and water AFTER toilet use and AFTER anal cleansing."
           },
           "required": true,
           "meta": false,
           "options": [
             {
-              "id": 1699431991247,
               "order": 1,
               "label": "No handwashing facility",
               "value": "g0_no_handwashing_facility",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699431991248,
               "order": 2,
               "label": "Do NOT wash hands",
               "value": "g0_do_not_wash_hands",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699432016381,
               "order": 3,
               "label": "GDo NOT use soap and water",
               "value": "g0_do_not_use_soap_and_water",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699432024918,
               "order": 4,
               "label": "No mention of critical INFANT EXCRETA times",
               "value": "g1_no_mention_of_critical_infant_times",
               "color": "#ffa57d"
             },
             {
-              "id": 1699432033801,
               "order": 5,
               "label": "After ANY contact with infant excreta or soiled diapers",
               "value": "g2_after_cleaning_or_handling_infant_faeces_or_after_washing_or_disposal_of_diapers",
               "color": "#38A15A"
             },
             {
-              "id": 1710757211,
               "order": 6,
               "label": "No under-5 children",
               "value": "g2_no_children_under_5",
@@ -4157,48 +3860,42 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW:</b> what do you usually use to wash your hands? <b>Assessment:</b> if the household confirms handwashing with soap and water, note whether any of the critical times (related to toilets, food, infant excreta and animals) are mentioned. <br/>Ask about “any other times when you wash your hands?” but DO NOT make suggestions. <b>Critical TOILET times:</b> washing of hands with soap and water AFTER toilet use and AFTER anal cleansing."
+            "text": "<b>INTERVIEW:</b> what do you usually use to wash your hands? <b>Assessment:</b> if the household confirms handwashing with soap and water, note whether any of the critical times (related to toilets, food, infant excreta and animals) are mentioned. <br/>Ask about \u201cany other times when you wash your hands?\u201d but DO NOT make suggestions. <b>Critical TOILET times:</b> washing of hands with soap and water AFTER toilet use and AFTER anal cleansing."
           },
           "required": true,
           "meta": false,
           "options": [
             {
-              "id": 1699432059735,
               "order": 1,
               "label": "No handwashing facility",
               "value": "g0_no_handwashing_facility",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699432059736,
               "order": 2,
               "label": "Do NOT wash hands",
               "value": "g0_do_not_wash_hands",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699432088984,
               "order": 3,
               "label": "Do NOT use soap and water",
               "value": "g0_do_not_use_soap_and_water",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699432096352,
               "order": 4,
               "label": "No mention of critical ANIMAL times",
               "value": "g1_no_mention_of_critical_animal_times",
               "color": "#ffa57d"
             },
             {
-              "id": 1699432105018,
               "order": 5,
               "label": "After ANY contact with animals, animal products or animal wastes",
               "value": "g2_after_contact_with_animals_animal_products_or_animal_wastes",
               "color": "#38A15A"
             },
             {
-              "id": 1710757282,
               "order": 5,
               "label": "No animals",
               "value": "g2_no_animals",
@@ -4329,14 +4026,12 @@
           "meta": false,
           "options": [
             {
-              "id": 1699432699760,
               "order": 1,
               "label": "Child or adult excreta observed in the compound",
               "value": "g0_child_or_adult_excreta_observed_in_the_compound",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699432699761,
               "order": 2,
               "label": "No visible human excreta (child or adult) in compound",
               "value": "g1_no_visible_od_or_human_excreta_child_or_adult_in_compound",
@@ -4364,63 +4059,54 @@
           "meta": false,
           "options": [
             {
-              "id": 1699432375411,
               "order": 1,
               "label": "Child faeces unsafely disposed",
               "value": "g0_child_faeces_unsafely_disposed",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699432390302,
               "order": 2,
               "label": "Child faeces disposed with solid waste",
               "value": "g0_child_faeces_disposed_with_solid_waste",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699432375410,
               "order": 3,
               "label": "Child faeces unsafely handled (potty or collection tool unsafely washed)",
               "value": "g0_soiled_potty_or_collection_tool_unsafely_washed",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699432397135,
               "order": 4,
               "label": "Child faeces buried",
               "value": "g1_safely_managed_child_faeces_buried",
               "color": "#38A15A"
             },
             {
-              "id": 1699432404537,
               "order": 5,
               "label": "Child faeces put or rinsed into toilet",
               "value": "g1_safely_managed_child_faeces_put_or_rinsed_into_toilet",
               "color": "#38A15A"
             },
             {
-              "id": 1699432419984,
               "order": 6,
               "label": "Child uses toilet WITHOUT assistance",
               "value": "g1_safely_managed_child_uses_toilet_without_assistance",
               "color": "#38A15A"
             },
             {
-              "id": 1699432412881,
               "order": 7,
               "label": "Child uses toilet WITH assistance",
               "value": "g1_safely_managed_child_uses_toilet_with_assistance",
               "color": "#38A15A"
             },
             {
-              "id": 1710758038,
               "order": 8,
               "label": "Other safe management of child excreta",
               "value": "g1_other_safe_management_of_child_excreta",
               "color": "#38A15A"
             },
             {
-              "id": 1710758053,
               "order": 9,
               "label": "No under-5 children",
               "value": "g1_no_children_under_5",
@@ -4454,63 +4140,54 @@
           "meta": false,
           "options": [
             {
-              "id": 1699432820055,
               "order": 1,
               "label": "Used diapers visible in the compound",
               "value": "g0_used_diapers_visible_in_the_compound",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699432820056,
               "order": 2,
               "label": "Used diapers unsafely disposed or unsafely washed",
               "value": "g0_used_diapers_unsafely_disposed_or_unsafely_washed",
               "color": "#DB3B3B"
             },
             {
-              "id": 1710758549,
               "order": 3,
               "label": "Used diapers put in the toilet pit",
               "value": "g0_used_put_in_toilet_pit",
               "color": "#ffa57d"
             },
             {
-              "id": 1699432861018,
               "order": 4,
               "label": "Used diapers buried",
               "value": "g1_disposable_diaper_buried_in_compound",
               "color": "#38A15A"
             },
             {
-              "id": 1699432854246,
               "order": 5,
               "label": "Used diapers put into covered waste pit",
               "value": "g1_disposable_diaper_put_into_covered_waste_pit",
               "color": "#38A15A"
             },
             {
-              "id": 1699432868642,
               "order": 6,
               "label": "Used diapers collected and safely stored for disposal at communal site",
               "value": "g1_disposable_diaper_collected_for_disposal_at_communal_site",
               "color": "#38A15A"
             },
             {
-              "id": 1699432844768,
               "order": 7,
               "label": "Washable cloths safely emptied and safely washed",
               "value": "g1_washable_cloth_safely_emptied_and_safely_washed",
               "color": "#38A15A"
             },
             {
-              "id": 1710758535,
               "order": 8,
               "label": "No diapers or cloths used",
               "value": "g1_no_diapers_or_clothes_used",
               "color": "#38A15A"
             },
             {
-              "id": 1710758521,
               "order": 9,
               "label": "No under-5 children",
               "value": "g1_no_children_under_5",
@@ -4541,14 +4218,12 @@
           "meta": false,
           "options": [
             {
-              "id": 16994260864132,
               "order": 1,
               "label": "Yes",
               "value": "yes",
               "color": ""
             },
             {
-              "id": 16994260864142,
               "order": 2,
               "label": "No",
               "value": "no",
@@ -4569,14 +4244,12 @@
           "meta": false,
           "options": [
             {
-              "id": 16994260864133,
               "order": 1,
               "label": "Yes",
               "value": "yes",
               "color": ""
             },
             {
-              "id": 16994260864143,
               "order": 2,
               "label": "No",
               "value": "no",
@@ -4616,21 +4289,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1699432904231,
               "order": 1,
               "label": "Visible dirt or contamination",
               "value": "g0_visible_dirt_or_contamination",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699432904232,
               "order": 2,
               "label": "Traces of dirt or contamination",
               "value": "g1_not_adequately_washed",
               "color": "#ffa57d"
             },
             {
-              "id": 1699433013634,
               "order": 3,
               "label": "Clean food",
               "value": "g2_cleanwashed_produce_raw_and_cooked_food",
@@ -4664,21 +4334,18 @@
           ],
           "options": [
             {
-              "id": 1699433035000,
               "order": 1,
               "label": "No storage",
               "value": "g0_no_storage",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699433035001,
               "order": 2,
               "label": "Open storage",
               "value": "g1_open_storage",
               "color": "#ffa57d"
             },
             {
-              "id": 1699433050599,
               "order": 3,
               "label": "Covered food storage",
               "value": "g2_covered_food_storage",
@@ -4712,21 +4379,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1699433072223,
               "order": 1,
               "label": "On ground",
               "value": "g0_on_ground",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699433072224,
               "order": 2,
               "label": "Stored close to ground",
               "value": "g1_storage_close_to_ground_risk_of_contact_with_animals",
               "color": "#ffa57d"
             },
             {
-              "id": 1699433097933,
               "order": 3,
               "label": "Stored off ground",
               "value": "g2_storage_off_ground",
@@ -4760,21 +4424,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1699433121812,
               "order": 1,
               "label": "Visible dirt or contamination",
               "value": "g0_visible_dirt_or_contamination",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699433121813,
               "order": 2,
               "label": "Traces of dirt or contamination",
               "value": "g1_not_adequately_washed",
               "color": "#ffa57d"
             },
             {
-              "id": 1699433147831,
               "order": 3,
               "label": "Clean kitchen utensils",
               "value": "g2_cleanwashed_utensils",
@@ -4808,21 +4469,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1699433169850,
               "label": "No storage",
               "order": 1,
               "value": "g0_no_storage",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699433169851,
               "label": "Open storage",
               "order": 2,
               "value": "g1_open_storage",
               "color": "#ffa57d"
             },
             {
-              "id": 1699433195385,
               "label": "Covered utensil storage",
               "order": 3,
               "value": "g2_covered_utensil_storage",
@@ -4856,21 +4514,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1699433245793,
               "order": 1,
               "label": "On ground",
               "value": "g0_on_ground",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699433245794,
               "order": 2,
               "label": "Stored close to ground",
               "value": "g1_storage_close_to_ground_risk_of_contact_with_animals",
               "color": "#ffa57d"
             },
             {
-              "id": 1699433264971,
               "order": 3,
               "label": "Stored off ground",
               "value": "g2_storage_off_ground",
@@ -4908,28 +4563,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699433292786,
               "order": 1,
               "label": "Visible dirt or contamination",
               "value": "g0_visible_dirt_or_contamination",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699433292787,
               "order": 2,
               "label": "Traces of dirt or contamination",
               "value": "g1_not_adequately_washed",
               "color": "#ffa57d"
             },
             {
-              "id": 1699433319040,
               "order": 3,
               "label": "Clean milk containers",
               "value": "g2_cleanwashed_milk_containers",
               "color": "#38A15A"
             },
             {
-              "id": 1711355928,
               "order": 4,
               "label": "No animals / no milking",
               "value": "g2_no_animals_no_milking",
@@ -4969,28 +4620,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699433345333,
               "order": 1,
               "label": "G0 No storage",
               "value": "g0_no_storage",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699433345334,
               "order": 2,
               "label": "G1 Open storage",
               "value": "g1_open_storage",
               "color": "#ffa57d"
             },
             {
-              "id": 1699433372041,
               "order": 3,
               "label": "G2 Covered container storage",
               "value": "g2_covered_container_storage",
               "color": "#38A15A"
             },
             {
-              "id": 1710759155,
               "order": 4,
               "label": "No animals / no milking",
               "value": "g2_no_animals_no_milking",
@@ -5030,28 +4677,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699433401151,
               "order": 1,
               "label": "On ground",
               "value": "g0_on_ground",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699433401152,
               "order": 2,
               "label": "Stored close to ground",
               "value": "g1_storage_close_to_ground_risk_of_contact_with_animals",
               "color": "#ffa57d"
             },
             {
-              "id": 1699433451209,
               "order": 3,
               "label": "Stored off ground",
               "value": "g2_storage_off_ground",
               "color": "#38A15A"
             },
             {
-              "id": 1710759196,
               "order": 4,
               "label": "No animals / no milking",
               "value": "g2_no_animals_no_milking",
@@ -5098,21 +4741,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1699433470838,
               "label": "Visible dirt or contamination",
               "order": 1,
               "value": "g0_visible_dirt_or_contamination",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699433470839,
               "label": "Traces of dirt or contamination",
               "order": 2,
               "value": "g1_not_adequately_washed",
               "color": "#ffa57d"
             },
             {
-              "id": 1699433493907,
               "label": "Clean water containers",
               "order": 3,
               "value": "g2_cleanwashed_water_containers",
@@ -5146,28 +4786,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699433520609,
               "order": 1,
               "label": "No treatment and low quality",
               "value": "g0_no_treatment_and_low_quality",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699433520610,
               "order": 2,
               "label": "Low quality",
               "value": "g1_inadequate_quality",
               "color": "#ffa57d"
             },
             {
-              "id": 1699433546285,
               "order": 3,
               "label": "Good water quality at collection point",
               "value": "g2_adequate_quality_at_collection_point",
               "color": "#38A15A"
             },
             {
-              "id": 1699433554050,
               "order": 4,
               "label": "Household water treatment after collection",
               "value": "g2_hh_water_treatment",
@@ -5201,21 +4837,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1699433583298,
               "order": 1,
               "label": "Unsafe drinking water storage",
               "value": "g0_unsafe_drinking_water_storage",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699433583299,
               "order": 2,
               "label": "Inadequate drinking water storage",
               "value": "g1_inadequate_drinking_water_storage",
               "color": "#ffa57d"
             },
             {
-              "id": 1699433613002,
               "order": 3,
               "label": "Clean, covered drinking water storage",
               "value": "g2_clean_covered_drinking_water_storage",
@@ -5249,35 +4882,30 @@
           "meta": false,
           "options": [
             {
-              "id": 1699433645221,
               "order": 1,
               "label": "Unsafe water use",
               "value": "g0_unsafe_water_use",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699433645222,
               "order": 2,
               "label": "Inadequate water use",
               "value": "g1_inadequate_water_use",
               "color": "#ffa57d"
             },
             {
-              "id": 1699433676316,
               "order": 3,
               "label": "Water containers with taps (or spigot pipes)",
               "value": "g2_water_containers_with_spigots_or_taps",
               "color": "#38A15A"
             },
             {
-              "id": 1699433685152,
               "order": 4,
               "label": "Narrow-mouthed water containers",
               "value": "g2_narrowmouthed_water_containers",
               "color": "#38A15A"
             },
             {
-              "id": 1699433692930,
               "order": 5,
               "label": "Clean utensil for water use",
               "value": "g2_clean_utensil_for_water_use",
@@ -5311,28 +4939,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699433735643,
               "order": 1,
               "label": "Visible dirt or contamination",
               "value": "g0_visible_dirt_or_contamination",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699433735644,
               "order": 2,
               "label": "Traces of dirt or contamination",
               "value": "g1_not_adequately_clean",
               "color": "#ffa57d"
             },
             {
-              "id": 1699433753252,
               "order": 3,
               "label": "Clean water point",
               "value": "g2_clean_water_points",
               "color": "#38A15A"
             },
             {
-              "id": 1710759467,
               "order": 4,
               "label": "No household water point",
               "value": "g2_no_householf_water_point",
@@ -5366,28 +4990,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699433781736,
               "order": 1,
               "label": "No protection of water point",
               "value": "g0_no_protection_of_water_points",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699433781737,
               "order": 2,
               "label": "Inadequate protection of water point",
               "value": "g1_inadequate_protection_of_water_points",
               "color": "#ffa57d"
             },
             {
-              "id": 1699433812250,
               "order": 3,
               "label": "Good protection of water point",
               "value": "g2_well_protected_water_points",
               "color": "#38A15A"
             },
             {
-              "id": 1710759508,
               "order": 4,
               "label": "No household water point",
               "value": "g2_no_householf_water_point",
@@ -5421,28 +5041,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699433840068,
               "order": 1,
               "label": "Permanent standing water around water point",
               "value": "g0_standing_water_visible_around_water_point",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699433840069,
               "order": 2,
               "label": "Some standing water around water point",
               "value": "g1_inadequately_drained_water_points",
               "color": "#ffa57d"
             },
             {
-              "id": 1699433864520,
               "order": 3,
               "label": "Good drainage of water point",
               "value": "g2_well_drained_water_points",
               "color": "#38A15A"
             },
             {
-              "id": 1710759555,
               "order": 4,
               "label": "No household water point",
               "value": "g2_no_householf_water_point",
@@ -5491,28 +5107,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699433944786,
               "order": 1,
               "label": "Many animal wastes visible",
               "value": "g0_widespread_animal_wastes",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699433944787,
               "order": 2,
               "label": "Some animal wastes",
               "value": "g1_small_amounts_of_animal_wastes_present",
               "color": "#ffa57d"
             },
             {
-              "id": 1699433970914,
               "order": 3,
               "label": "No animal wastes in house or in kitchen",
               "value": "g2_no_animal_wastes_visible_in_house_or_in_kitchen",
               "color": "#38A15A"
             },
             {
-              "id": 1710759659,
               "order": 4,
               "label": "No animals",
               "value": "g2_no_animals",
@@ -5550,28 +5162,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699434005924,
               "order": 1,
               "label": "Many animal wastes visible",
               "value": "g0_widespread_animal_wastes",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699434005925,
               "order": 2,
               "label": "Some animal wastes",
               "value": "g1_small_amounts_of_animal_wastes_present",
               "color": "#ffa57d"
             },
             {
-              "id": 1699434034410,
               "order": 3,
               "label": "No animal wastes in compound",
               "value": "g2_no_animal_wastes_visible_in_compound",
               "color": "#38A15A"
             },
             {
-              "id": 1710759699,
               "order": 4,
               "label": "No animals",
               "value": "g2_no_animals",
@@ -5609,28 +5217,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699434062766,
               "order": 1,
               "label": "Animal waste NOT collected or stored",
               "value": "g0_unsafe_location_of_animal_waste_storage",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699434062767,
               "order": 2,
               "label": "Some animal waste NOT collected or stored",
               "value": "g1_inadequate_location_of_animal_waste_storage",
               "color": "#ffa57d"
             },
             {
-              "id": 1699434115385,
               "order": 3,
               "label": "Animal waste collected and stored",
               "value": "g2_good_location_for_animal_waste_storage",
               "color": "#38A15A"
             },
             {
-              "id": 1699434124054,
               "order": 4,
               "label": "No animals",
               "value": "g2_no_animal_wastes",
@@ -5668,28 +5272,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699434150271,
               "order": 1,
               "label": "Unsafe place for animal waste storage",
               "value": "g0_unsafe_animal_waste_storage_location",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699434150272,
               "order": 2,
               "label": "Animal waste storage close to house",
               "value": "g1_animal_waste_storage_too_close_to_house",
               "color": "#ffa57d"
             },
             {
-              "id": 1699434172399,
               "order": 3,
               "label": "Animal waste storage away from house and play areas",
               "value": "g2_animal_waste_storage_away_from_house_and_play_areas",
               "color": "#38A15A"
             },
             {
-              "id": 1699434179715,
               "order": 4,
               "label": "No animals",
               "value": "g2_no_animal_waste_storage",
@@ -5729,28 +5329,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699434228312,
               "order": 1,
               "label": "Animal waste storage is UNSAFELY managed",
               "value": "g0_animal_waste_storage_is_unsafely_managed",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699434228313,
               "order": 2,
               "label": "Some animal waste leaks or discharges",
               "value": "g1_some_leaks_or_discharges",
               "color": "#ffa57d"
             },
             {
-              "id": 1699434245690,
               "order": 3,
               "label": "Animal waste storage safely managed",
               "value": "g2_no_leaks_or_discharge_from_animal_waste_storage",
               "color": "#38A15A"
             },
             {
-              "id": 1699434259523,
               "order": 4,
               "label": "No animals",
               "value": "g2_no_animal_waste_storage",
@@ -5790,28 +5386,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699434284185,
               "order": 1,
               "label": "Animals loose in compound",
               "value": "g0_no_animal_pens",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699434284186,
               "order": 2,
               "label": "Animals penned close to house or play areas",
               "value": "g1_animals_penned_close_to_house_or_play_areas",
               "color": "#ffa57d"
             },
             {
-              "id": 1699434311373,
               "order": 3,
               "label": "Animals penned away from house and play areas",
               "value": "g2_animals_penned_away_from_house_and_play_areas",
               "color": "#38A15A"
             },
             {
-              "id": 1699434318735,
               "order": 4,
               "label": "No animals",
               "value": "g2_no_animals",
@@ -5849,28 +5441,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699434366773,
               "order": 1,
               "label": "No animal pens",
               "value": "g0_no_animal_pens",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699434366774,
               "order": 2,
               "label": "Inadequate animal pens",
               "value": "g1_inadequate_animal_pens",
               "color": "#ffa57d"
             },
             {
-              "id": 1699434379857,
               "order": 3,
               "label": "Safe confinement in animal pens",
               "value": "g2_safe_confinement_in_animal_pens",
               "color": "#38A15A"
             },
             {
-              "id": 1699434396549,
               "order": 4,
               "label": "No animals",
               "value": "g2_no_animals",
@@ -5915,21 +5503,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1699434453392,
               "order": 1,
               "label": "Visible wastewater",
               "value": "g0_visible_wastewater",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699434453393,
               "order": 2,
               "label": "Inadequate soakpit",
               "value": "g1_inadequate_soakpit",
               "color": "#ffa57d"
             },
             {
-              "id": 1699434478997,
               "order": 3,
               "label": "Good wastewater soakpit or drainage",
               "value": "g3_adequate_wastewater_soakpit_or_drainage",
@@ -5963,28 +5548,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699434515366,
               "order": 1,
               "label": "Significant erosion visible",
               "value": "g0_significant_erosion",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699434515367,
               "order": 2,
               "label": "Some visible erosion",
               "value": "g1_some_visible_erosion",
               "color": "#ffa57d"
             },
             {
-              "id": 1699434530222,
               "order": 3,
               "label": "Good stormwater drainage",
               "value": "g3_adequate_stormwater_drainage",
               "color": "#38A15A"
             },
             {
-              "id": 1699434541607,
               "order": 4,
               "label": "No signs of stormwater erosion",
               "value": "g3_no_signs_of_stormwater_erosion",
@@ -6018,21 +5599,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1699434616508,
               "order": 1,
               "label": "Significant visible solid wastes",
               "value": "g0_significant_visible_solid_wastes",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699434616509,
               "order": 2,
               "label": "Some solid wastes visible",
               "value": "g1_some_solid_wastes_visible",
               "color": "#ffa57d"
             },
             {
-              "id": 1699434627989,
               "order": 3,
               "label": "Clean compound with no visible solid wastes",
               "value": "g3_clean_compound_with_no_visible_solid_wastes",
@@ -6066,21 +5644,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1699434659601,
               "order": 1,
               "label": "No solid waste management",
               "value": "g0_no_solid_waste_management",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699434659602,
               "order": 2,
               "label": "Inadequate solid waste management",
               "value": "g1_inadequate_solid_waste_management",
               "color": "#ffa57d"
             },
             {
-              "id": 1699434679765,
               "order": 3,
               "label": "Good solid waste storage or disposal system",
               "value": "g3_solid_waste_storage_or_disposal_system",
@@ -6114,28 +5689,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699434786692,
               "order": 1,
               "label": "Significant standing water (untreated)",
               "value": "g0_significant_standing_water_untreated",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699434786693,
               "order": 2,
               "label": "Some standing water (untreated or inadequate treatment)",
               "value": "g1_inadequate_treatment_or_management",
               "color": "#ffa57d"
             },
             {
-              "id": 1699434821235,
               "order": 3,
               "label": "No visible standing water",
               "value": "g3_no_visible_standing_water",
               "color": "#38A15A"
             },
             {
-              "id": 1699434814599,
               "order": 4,
               "label": "Treated or managed larval breeding sites",
               "value": "g3_treated_or_managed_larval_breeding_sites",
@@ -6174,21 +5745,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1699434958492,
               "order": 1,
               "label": "All with dirty faces",
               "value": "g1_all_with_dirty_faces",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699434958493,
               "order": 2,
               "label": "Some with dirty faces",
               "value": "g2_some_with_dirty_faces",
               "color": "#ffa57d"
             },
             {
-              "id": 1699434973481,
               "order": 3,
               "label": "Clean faces",
               "value": "g3_clean_faces",
@@ -6236,21 +5804,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1699434994917,
               "order": 1,
               "label": "All with dirty hands",
               "value": "g1_all_with_dirty_hands",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699434994918,
               "order": 2,
               "label": "Some with dirty hands",
               "value": "g2_some_with_dirty_hands",
               "color": "#38A15A"
             },
             {
-              "id": 1699435018297,
               "order": 3,
               "label": "Clean hands",
               "value": "g3_clean_hands",
@@ -6288,28 +5853,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699435045593,
               "order": 1,
               "label": "No washing place",
               "value": "g1_no_washing_place",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699435045594,
               "order": 2,
               "label": "Inadequate washing place",
               "value": "g2_inadequate_washing_place",
               "color": "#ffa57d"
             },
             {
-              "id": 1699435073964,
               "order": 3,
               "label": "Clean and private washing place",
               "value": "g3_clean_and_private_washing_place",
               "color": "#38A15A"
             },
             {
-              "id": 1710760872,
               "order": 4,
               "label": "No menstruating women or girls",
               "value": "g3_no_menstruating_women_or_girls",
@@ -6347,28 +5908,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699435115909,
               "order": 1,
               "label": "No disposal site",
               "value": "g1_no_disposal_site",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699435115910,
               "order": 2,
               "label": "Inadequate disposal site",
               "value": "g2_inadequate_disposal_site",
               "color": "#ffa57d"
             },
             {
-              "id": 1699435146147,
               "order": 3,
               "label": "Safe disposal site",
               "value": "g3_safe_disposal_site",
               "color": "#38A15A"
             },
             {
-              "id": 1710760928,
               "order": 4,
               "label": "No menstruating women or girls",
               "value": "g3_no_menstruating_women_or_girls",
@@ -6406,28 +5963,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699435167330,
               "order": 1,
               "label": "Materials are NOT available or NOT appropriate",
               "value": "g1_materials_are_not_available_or_not_appropriate",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699435167331,
               "order": 2,
               "label": "Materials are not always available or appropriate",
               "value": "g2_materials_are_not_always_available_or_appropriate",
               "color": "#ffa57d"
             },
             {
-              "id": 1699435199530,
               "order": 3,
               "label": "Appropriate materials are available",
               "value": "g3_appropriate_materials_are_available",
               "color": "#38A15A"
             },
             {
-              "id": 1710761035,
               "order": 4,
               "label": "No menstruating women or girls",
               "value": "g3_no_menstruating_women_or_girls",
@@ -6476,28 +6029,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699435221069,
               "order": 1,
               "label": "No children vaccinated",
               "value": "g1_no_children_vaccinated",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699435221070,
               "order": 2,
               "label": "Some children vaccinated",
               "value": "g2_some_children_vaccinated",
               "color": "#ffa57d"
             },
             {
-              "id": 1699435248383,
               "order": 3,
               "label": "All children vaccinated (fully immunized)",
               "value": "g3_all_children_fully_immunized",
               "color": "#38A15A"
             },
             {
-              "id": 1699435257202,
               "order": 4,
               "label": "No under-5 children",
               "value": "g3_no_under5_children",
@@ -6535,28 +6084,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699435287173,
               "order": 1,
               "label": "No children received supplements",
               "value": "g1_no_children_received_supplements",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699435287174,
               "order": 2,
               "label": "Some vitamin A supplements not received (in last 6 months)",
               "value": "g2_some_vitamin_a_supplements_not_received_in_last_6_months",
               "color": "#ffa57d"
             },
             {
-              "id": 1699435312904,
               "order": 3,
               "label": "All vitamin A supplements received in last 6 months",
               "value": "g3_all_vitamin_a_supplements_received_in_last_6_months",
               "color": "#38A15A"
             },
             {
-              "id": 1699435319480,
               "order": 4,
               "label": "No under-5 children",
               "value": "g3_no_under5_children",
@@ -6594,28 +6139,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699435353061,
               "order": 1,
               "label": "Under 6-month children regularly receive water or other food",
               "value": "g1_under_6month_children_regularly_receive_water_or_other_food",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699435353062,
               "order": 2,
               "label": "Some water and other food received on a few occasions",
               "value": "g2_some_water_and_other_food_received_on_a_few_occasions",
               "color": "#ffa57d"
             },
             {
-              "id": 1699435379590,
               "order": 3,
               "label": "Exclusive breastfeeding for under 6-month children",
               "value": "g3_exclusive_breastfeeding_for_under_6month_children",
               "color": "#38A15A"
             },
             {
-              "id": 1699435387772,
               "order": 4,
               "label": "No under-6 month old children",
               "value": "g3_no_under6_month_old_children",
@@ -6655,28 +6196,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699435413253,
               "order": 1,
               "label": "Some or all children eat from only 1-2 food groups",
               "value": "g1_low_nutrition_diet_some_or_all_children_eat_from_only_12_food_groups",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699435413254,
               "order": 2,
               "label": "Some or all children eat from 3-4 food groups",
               "value": "g2_inadequate_diet_some_or_all_children_eat_from_34_food_groups",
               "color": "#ffa57d"
             },
             {
-              "id": 1699435438408,
               "order": 3,
               "label": "Nutritious diet (5 or more food groups)",
               "value": "g3_nutritious_diet_for_all_6_month_to_2_year_children",
               "color": "#38A15A"
             },
             {
-              "id": 1699435446243,
               "order": 4,
               "label": "No 6 month to 2-year old children",
               "value": "g3_no_6_month_to_2year_old_children",
@@ -6712,28 +6249,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699435481500,
               "order": 1,
               "label": "No bed nets and no insect screen",
               "value": "g1_no_protection_no_bed_nets_and_no_insect_screen",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699435481501,
               "order": 2,
               "label": "Some beds without nets, or some openings unprotected",
               "value": "g2_inadequate_protection_some_beds_without_nets_or_some_openings_unprotected",
               "color": "#ffa57d"
             },
             {
-              "id": 1699435508225,
               "order": 3,
               "label": "Malaria-safe home",
               "value": "g3_malariasafe_home",
               "color": "#38A15A"
             },
             {
-              "id": 1699435516094,
               "order": 4,
               "label": "NOT in Malaria-Endemic area",
               "value": "g3_not_in_malariaendemic_area",
@@ -6767,28 +6300,24 @@
           "meta": false,
           "options": [
             {
-              "id": 1699435540083,
               "order": 1,
               "label": "No children or adults treated",
               "value": "g1_no_deworming_no_children_or_adults_treated",
               "color": "#DB3B3B"
             },
             {
-              "id": 1699435540084,
               "order": 2,
               "label": "Some children or adults not treated",
               "value": "g2_inadequate_deworming_some_children_or_adults_not_treated",
               "color": "#ffa57d"
             },
             {
-              "id": 1699435565694,
               "order": 3,
               "label": "Dewormed home (all treated in last 12 months)",
               "value": "g3_dewormed_home_all_treated_in_last_12_months",
               "color": "#38A15A"
             },
             {
-              "id": 1699435572940,
               "order": 4,
               "label": "NOT in STH-Endemic area",
               "value": "g3_not_in_sthendemic_area",
@@ -7630,7 +7159,7 @@
               "G3 Clean and Healthy": "#4088F4"
             },
             "multiline": false,
-            "fnString": "(#o_r_flyproof_and_clean_toilet#.includes(\"G1\") || !#o_r_flyproof_and_clean_toilet#) ? 'G1 Open Defecation Free’: (#o_r_flyproof_and_clean_toilet#.includes(\"G1\") || !#o_r_flyproof_and_clean_toilet#) && (#o_r_durable_toilet_with_safe_containment#.includes(\"G2\") || !#o_r_durable_toilet_with_safe_containment#) ? 'G2 Safe and Sustainable’: (#o_r_flyproof_and_clean_toilet#.includes(\"G1\") || !#o_r_flyproof_and_clean_toilet#) && (#o_r_durable_toilet_with_safe_containment#.includes(\"G2\") || !#o_r_durable_toilet_with_safe_containment#) && (#o_r_use_of_safely_managed_sanitation_services#.includes(\"G3\") || !#o_r_use_of_safely_managed_sanitation_services#) ? 'G3 Clean and Healthy’: 'G0 Open Defecation'"
+            "fnString": "(#o_r_flyproof_and_clean_toilet#.includes(\"G1\") || !#o_r_flyproof_and_clean_toilet#) ? 'G1 Open Defecation Free\u2019: (#o_r_flyproof_and_clean_toilet#.includes(\"G1\") || !#o_r_flyproof_and_clean_toilet#) && (#o_r_durable_toilet_with_safe_containment#.includes(\"G2\") || !#o_r_durable_toilet_with_safe_containment#) ? 'G2 Safe and Sustainable\u2019: (#o_r_flyproof_and_clean_toilet#.includes(\"G1\") || !#o_r_flyproof_and_clean_toilet#) && (#o_r_durable_toilet_with_safe_containment#.includes(\"G2\") || !#o_r_durable_toilet_with_safe_containment#) && (#o_r_use_of_safely_managed_sanitation_services#.includes(\"G3\") || !#o_r_use_of_safely_managed_sanitation_services#) ? 'G3 Clean and Healthy\u2019: 'G0 Open Defecation'"
           }
         },
         {
@@ -7651,7 +7180,7 @@
               "G3 Clean and Healthy": "#4088F4"
             },
             "multiline": false,
-            "fnString": "(#o_r_hwf_with_water_and_soap#.includes(\"G1\") || !#o_r_hwf_with_water_and_soap# )? 'G1 Handwashing facility with soap and water’: #o_r_hwf_with_water_and_soap#.includes(\"G1\") && #o_r_handwashing_with_soap_at_critical_times#.includes(\"G2\") ? 'G2 Safe and Sustainable' : #o_r_hwf_with_water_and_soap#.includes(\"G1\") && #o_r_handwashing_with_soap_at_critical_times#.includes(\"G2\") && #o_r_permanent_handwashing_station#.includes(\"G3\") ? 'G3 Clean and Healthy' : 'G0 Inadequate or no handwashing facility'"
+            "fnString": "(#o_r_hwf_with_water_and_soap#.includes(\"G1\") || !#o_r_hwf_with_water_and_soap# )? 'G1 Handwashing facility with soap and water\u2019: #o_r_hwf_with_water_and_soap#.includes(\"G1\") && #o_r_handwashing_with_soap_at_critical_times#.includes(\"G2\") ? 'G2 Safe and Sustainable' : #o_r_hwf_with_water_and_soap#.includes(\"G1\") && #o_r_handwashing_with_soap_at_critical_times#.includes(\"G2\") && #o_r_permanent_handwashing_station#.includes(\"G3\") ? 'G3 Clean and Healthy' : 'G0 Inadequate or no handwashing facility'"
           }
         },
         {
@@ -7672,7 +7201,7 @@
               "G2": "#93D371",
               "G3": "#4088F4"
             },
-            "fnString": "#o_r_no_exposed_human_excreta#.includes(\"G1\") && #o_r_safe_management_of_child_excreta_and_diapers#.includes(\"G1\") ? “G1” :#o_r_no_exposed_human_excreta#.includes(\"G1\") && #o_r_safe_management_of_child_excreta_and_diapers#.includes(\"G1\") && #o_r_safe_food_hygiene#.includes(\"G2\") && #o_r_safe_water_management#.includes(\"G2\") && #o_r_safe_management_of_animals_wastes#.includes(\"G2\") ? ‘G2’: #o_r_no_exposed_human_excreta#.includes(\"G1\") && #o_r_safe_management_of_child_excreta_and_diapers#.includes(\"G1\") && #o_r_safe_food_hygiene#.includes(\"G2\") && #o_r_safe_water_management#.includes(\"G2\") && #o_r_safe_management_of_animals_wastes#.includes(\"G2\") && #o_r_safe_waste_management#.includes(\"G3\") && #o_r_good_personal_hygiene#.includes(\"G3\") && #o_r_good_nutrition#.includes(\"G3\") && #o_r_endemic#.includes(\"G3\") ? ‘G3’",
+            "fnString": "#o_r_no_exposed_human_excreta#.includes(\"G1\") && #o_r_safe_management_of_child_excreta_and_diapers#.includes(\"G1\") ? \u201cG1\u201d :#o_r_no_exposed_human_excreta#.includes(\"G1\") && #o_r_safe_management_of_child_excreta_and_diapers#.includes(\"G1\") && #o_r_safe_food_hygiene#.includes(\"G2\") && #o_r_safe_water_management#.includes(\"G2\") && #o_r_safe_management_of_animals_wastes#.includes(\"G2\") ? \u2018G2\u2019: #o_r_no_exposed_human_excreta#.includes(\"G1\") && #o_r_safe_management_of_child_excreta_and_diapers#.includes(\"G1\") && #o_r_safe_food_hygiene#.includes(\"G2\") && #o_r_safe_water_management#.includes(\"G2\") && #o_r_safe_management_of_animals_wastes#.includes(\"G2\") && #o_r_safe_waste_management#.includes(\"G3\") && #o_r_good_personal_hygiene#.includes(\"G3\") && #o_r_good_nutrition#.includes(\"G3\") && #o_r_endemic#.includes(\"G3\") ? \u2018G3\u2019",
             "multiline": false
           }
         },
