@@ -29,13 +29,11 @@
           "meta": false,
           "options": [
             {
-              "id": 1701770299704,
               "order": 1,
               "value": "new",
               "label": "New"
             },
             {
-              "id": 1701770299705,
               "order": 2,
               "value": "update",
               "label": "Update"
@@ -106,55 +104,46 @@
           "meta": false,
           "options": [
             {
-              "id": 1701772879093,
               "order": 1,
               "label": "Nurse",
               "value": "nurs"
             },
             {
-              "id": 1701772879094,
               "order": 2,
               "label": "Doctor",
               "value": "doct"
             },
             {
-              "id": 1701772892891,
               "order": 3,
               "label": "Public Health Officer",
               "value": "publ_heal_offi"
             },
             {
-              "id": 1701772899770,
               "order": 4,
               "label": "Clinical/Medical Officer",
               "value": "clin_offi"
             },
             {
-              "id": 1701772908095,
               "order": 5,
               "label": "Medical Lab Technician",
               "value": "medi_lab_tech"
             },
             {
-              "id": 1701772914771,
               "order": 6,
               "label": "Pharmacist",
               "value": "phar"
             },
             {
-              "id": 1701772921512,
               "order": 7,
               "label": "Medical Superintendent",
               "value": "medi_supe"
             },
             {
-              "id": 1701772931461,
               "order": 8,
               "label": "Director",
               "value": "dire"
             },
             {
-              "id": 1713858612,
               "order": 9,
               "label": "Other",
               "value": "other"
@@ -232,77 +221,66 @@
           "meta": false,
           "options": [
             {
-              "id": 1701773444066,
               "order": 1,
               "label": "No water source",
               "value": "no_wate_sour",
               "color": "#DB3B3B"
             },
             {
-              "id": 1701773444067,
               "order": 2,
               "label": "Surface water (lake, river, stream, dam)",
               "value": "surf_wate_lake_rive_stre_dam",
               "color": "#DB3B3B"
             },
             {
-              "id": 1701773460159,
               "order": 3,
               "label": "Children bring water from home",
               "value": "chil_brin_wate_from_home",
               "color": "#DB3B3B"
             },
             {
-              "id": 1701773466456,
               "order": 4,
               "label": "Piped water supply inside the building",
               "value": "pipe_wate_supp_insi_buil",
               "color": "#38A15A"
             },
             {
-              "id": 1701773472788,
               "order": 5,
               "label": "Piped water supply outside the building",
               "value": "pipe_wate_supp_outs_buil",
               "color": "#38A15A"
             },
             {
-              "id": 1701773479730,
               "order": 6,
               "label": "Protected well/spring/borehole",
               "value": "prot_well",
               "color": "#38A15A"
             },
             {
-              "id": 1701773487913,
               "order": 7,
               "label": "Rainwater tank",
               "value": "rain_tank",
               "color": "#38A15A"
             },
             {
-              "id": 1701773495679,
               "order": 8,
               "label": "Unprotected well/spring",
               "value": "unpr_well",
               "color": "#38A15A"
             },
             {
-              "id": 1701773508880,
               "order": 9,
               "label": "Packaged water (bottles)",
               "value": "pack_wate_bott",
               "color": "#38A15A"
             },
             {
-              "id": 1701773516714,
               "order": 10,
               "label": "Tanker truck or cart",
               "value": "tank_truc_cart",
               "color": "#38A15A"
             },
             {
-              "id": 1701773523797,
               "order": 11,
               "label": "Other improved - specify",
               "value": "othe_impr_spec",
@@ -342,14 +320,12 @@
           "meta": false,
           "options": [
             {
-              "id": 1701774035997,
               "order": 1,
               "label": "Yes",
               "value": "yes",
               "color": "#38A15A"
             },
             {
-              "id": 1701774035998,
               "order": 2,
               "label": "No",
               "value": "no",
@@ -371,21 +347,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1701774083411,
               "order": 1,
               "value": "no_insu_wate_quan_75_uses",
               "label": "No, insufficient water quantity (<75% uses)",
               "color": "#DB3B3B"
             },
             {
-              "id": 1701774083412,
               "order": 2,
               "value": "no_wate_quan_only_suff_for_75_uses",
               "label": "No, water quantity only sufficient for 75% uses",
               "color": "#ffa57d"
             },
             {
-              "id": 1701774099088,
               "order": 3,
               "value": "yes_suff_wate_quan_for_all_uses",
               "label": "Yes, sufficient water quantity for all uses",
@@ -407,21 +380,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1701774140627,
               "order": 1,
               "label": "All inpatient toilets are NOT usable (enter number)",
               "value": "all_inpa_toil_are_not_usab_ente_numb",
               "color": "#DB3B3B"
             },
             {
-              "id": 1701774140628,
               "order": 2,
               "label": "Some inpatient toilets are NOT usable (enter number non-usable, and number usable)",
               "value": "some_inpa_toil_are_not_usab_ente_numb_nonu_numb_usab",
               "color": "#ffa57d"
             },
             {
-              "id": 1701774189035,
               "order": 3,
               "label": "All inpatient toilets are usable (enter number)",
               "value": "all_inpa_toil_are_usab_ente_numb",
@@ -491,21 +461,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1701774250537,
               "order": 1,
               "label": "All outpatient toilets are NOT usable (enter number)",
               "value": "all_outp_toil_are_not_usab_ente_numb",
               "color": "#DB3B3B"
             },
             {
-              "id": 1701774250538,
               "order": 2,
               "label": "Some outpatient toilets are NOT usable (enter number non-usable, and number usable)",
               "value": "some_outp_toil_are_not_usab_ente_numb_nonu_numb_usab",
               "color": "#ffa57d"
             },
             {
-              "id": 1701774268058,
               "order": 3,
               "label": "All outpatient toilets are usable (enter number)",
               "value": "all_outp_toil_are_usab_ente_numb",
@@ -615,70 +582,60 @@
           "meta": false,
           "options": [
             {
-              "id": 1701774326363,
               "order": 1,
               "label": "No toilets",
               "value": "no_toil",
               "color": "#DB3B3B"
             },
             {
-              "id": 1701774326364,
               "order": 2,
               "label": "Open container toilets (e.g. bucket latrines)",
               "value": "open_cont_toil_eg_buck_latr",
               "color": "#DB3B3B"
             },
             {
-              "id": 1701774341343,
               "order": 3,
               "label": "Hanging latrines",
               "value": "hang_latr",
               "color": "#DB3B3B"
             },
             {
-              "id": 1701774348564,
               "order": 4,
               "label": "Pit latrines without slab (open pit)",
               "value": "pit_latr_with_slab_open_pit",
               "color": "#DB3B3B"
             },
             {
-              "id": 1701774356981,
               "order": 5,
               "label": "Flush or pour-flush toilets to open (field, open drain, water body)",
               "value": "flus_pour_toil_to_open_fiel_open_drai_wate_body",
               "color": "#DB3B3B"
             },
             {
-              "id": 1701774365682,
               "order": 6,
               "label": "Pit latrines with slab",
               "value": "pit_latr_with_slab",
               "color": "#38A15A"
             },
             {
-              "id": 1701774377864,
               "order": 7,
               "label": "Flush or pour-flush toilets to pit or tank",
               "value": "flus_pour_toil_to_pit_tank",
               "color": "#38A15A"
             },
             {
-              "id": 1701774384832,
               "order": 8,
               "label": "Flush or pour-flush toilets to sewer connection",
               "value": "flus_pour_toil_to_sewe_conn",
               "color": "#38A15A"
             },
             {
-              "id": 1701774409798,
               "order": 9,
               "label": "Composting toilets",
               "value": "comp_toil",
               "color": "#38A15A"
             },
             {
-              "id": 1701774412617,
               "order": 10,
               "label": "Other improved toilet - specify",
               "value": "othe_impr_toil_spec",
@@ -718,21 +675,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1701774458310,
               "order": 1,
               "label": "No separate toilet exists for staff use, or toilets are unimproved",
               "value": "no_sepa_toil_exis_for_staf_use_toil_are_unim",
               "color": "#DB3B3B"
             },
             {
-              "id": 1701774458311,
               "order": 2,
               "label": "Toilet exists for staff use, but is not clearly designated or not functional",
               "value": "toil_exis_for_staf_use_but_not_clea_desi_not_func",
               "color": "#ffa57d"
             },
             {
-              "id": 1701774474959,
               "order": 3,
               "label": "Yes, at least one functional toilet is clearly designated for staff",
               "value": "yes_at_leas_one_func_toil_clea_desi_for_staf",
@@ -754,21 +708,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1701774512898,
               "order": 1,
               "label": "No sex-separated toilets are available, or no privacy, or toilets unimproved",
               "value": "no_sex_separated_toilets_available_no_privacy",
               "color": "#DB3B3B"
             },
             {
-              "id": 1701774512899,
               "order": 2,
               "label": "Sex-separated toilets exist but not clearly marked",
               "value": "sex_separated_toilets_exist_but_not_clearly_marked",
               "color": "#ffa57d"
             },
             {
-              "id": 1701774540650,
               "order": 3,
               "label": "Yes, sex-separated rooms for toilets with privacy",
               "value": "yes_sex_separated_rooms_with_privacy",
@@ -790,21 +741,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1702282168919,
               "order": 1,
               "label": "No appropriate facilities are available or functional for menstrual hygiene",
               "value": "no_appr_faci_are_avai_func_for_mens_hygi",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702282168920,
               "order": 2,
               "label": "Space is available to wash, but with inadequate facilities",
               "value": "spac_avai_to_wash_but_with_inad_faci",
               "color": "#ffa57d"
             },
             {
-              "id": 1702282330299,
               "order": 3,
               "label": "Yes, usable toilet is available with menstrual hygiene facilities",
               "value": "yes_usab_toil_avai_with_mens_hygi_faci",
@@ -826,21 +774,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1702282406348,
               "order": 1,
               "label": "No appropriate toilets available for people with reduced mobility",
               "value": "no_appr_toil_avai_for_peop_with_redu_mobi",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702282406349,
               "order": 2,
               "label": "Toilet is inadequate for people with reduced mobility",
               "value": "toil_inad_for_peop_with_redu_mobi",
               "color": "#ffa57d"
             },
             {
-              "id": 1702286438460,
               "order": 3,
               "label": "Yes, at least one usable toilet is available for people with reduced mobility",
               "value": "yes_at_leas_one_usab_toil_avai_for_peop_with_redu_mobi",
@@ -862,21 +807,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1702286448768,
               "order": 1,
               "label": "Less than 75% of Points of Care have functional hand hygiene facilities",
               "value": "less_than_75_poin_care_have_func_hand_hygi_faci",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702286448769,
               "order": 2,
               "label": "75% or more Points of Care have functional hand hygiene facilities",
               "value": "75_more_poin_care_have_func_hand_hygi_faci",
               "color": "#ffa57d"
             },
             {
-              "id": 1702286487475,
               "order": 3,
               "label": "Yes, all Points of Care have functional hand hygiene facilities",
               "value": "yes_all_poin_care_have_func_hand_hygi_faci",
@@ -898,21 +840,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1702286506552,
               "order": 1,
               "label": "Less than 50% of toilets have hand hygiene facilities within 5 metres",
               "value": "less_than_50_toil_have_hand_hygi_faci_with_5_metr",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702286506553,
               "order": 2,
               "label": "50% or more of toilets have functioning hand hygiene facilities within 5 metres",
               "value": "50_more_toil_have_func_hand_hygi_faci_with_5_metr",
               "color": "#ffa57d"
             },
             {
-              "id": 1702286534909,
               "order": 3,
               "label": "All toilets have functional hand hygiene facilities within 5 metres",
               "value": "all_toil_have_func_hand_hygi_faci_with_5_metr",
@@ -934,21 +873,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1702286543863,
               "order": 1,
               "label": "No audit records available, or no materials available",
               "value": "no_audi_reco_avai_no_mate_avai",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702286543864,
               "order": 2,
               "label": "Ward-based audits are incomplete or irregular",
               "value": "ward_audi_are_inco_irre",
               "color": "#ffa57d"
             },
             {
-              "id": 1702286580715,
               "order": 3,
               "label": "Records available of regular ward-based audits reporting sufficient materials",
               "value": "reco_avai_regu_ward_audi_repo_suff_mate",
@@ -970,21 +906,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1702286589725,
               "order": 1,
               "value": "no_wast_coll_cont_no_segr",
               "label": "No waste collection containers or no segregation",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702286589726,
               "order": 2,
               "value": "not_all_wast_gene_poin_have_func_wast_coll_cont",
               "label": "Not all waste generation points have functional waste collection containers",
               "color": "#ffa57d"
             },
             {
-              "id": 1702286611113,
               "order": 3,
               "value": "all_wast_gene_poin_have_func_wast_coll_cont_sepa_by_wast_type",
               "label": "All waste generation points have functional waste collection containers separated by waste type",
@@ -1006,21 +939,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1702286622640,
               "order": 1,
               "label": "No disposal site",
               "value": "no_disp_site",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702286622641,
               "order": 2,
               "label": "Disposal site is inadequate or non-functional",
               "value": "disp_site_inad_nonf",
               "color": "#ffa57d"
             },
             {
-              "id": 1702286641395,
               "order": 3,
               "label": "Yes, functional disposal site",
               "value": "yes_func_disp_site",
@@ -1042,21 +972,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1702286652304,
               "order": 1,
               "value": "no_disp_site",
               "label": "No disposal site",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702286652305,
               "order": 2,
               "value": "disp_site_inad_nonf",
               "label": "Disposal site is inadequate or non-functional",
               "color": "#ffa57d"
             },
             {
-              "id": 1702286682933,
               "order": 3,
               "value": "yes_func_disp_site",
               "label": "Yes, functional disposal site",
@@ -1078,21 +1005,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1702286692356,
               "order": 1,
               "label": "No cleaning materials",
               "value": "no_clea_mate",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702286692357,
               "order": 2,
               "label": "Inadequate cleaning materials",
               "value": "inad_clea_mate",
               "color": "#ffa57d"
             },
             {
-              "id": 1702286712365,
               "order": 3,
               "label": "Yes, cleaning materials available",
               "value": "yes_clea_mate_avai",
@@ -1114,21 +1038,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1702286723817,
               "order": 1,
               "label": "No cleaning records",
               "value": "no_clea_reco",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702286723818,
               "order": 2,
               "label": "Inadequate cleaning records",
               "value": "inad_clea_reco",
               "color": "#ffa57d"
             },
             {
-              "id": 1702286746346,
               "order": 3,
               "label": "Yes, daily cleaning records available for all areas",
               "value": "yes_dail_clea_reco_avai_for_all_area",
@@ -1150,21 +1071,18 @@
           "meta": false,
           "options": [
             {
-              "id": 1702286755559,
               "order": 1,
               "label": "No records, or toilets cleaned less than once per day",
               "value": "no_reco_toil_clea_less_than_once_per_day",
               "color": "#DB3B3B"
             },
             {
-              "id": 1702286755560,
               "order": 2,
               "label": "Toilets cleaned less than twice a day",
               "value": "toil_clea_less_than_twic_a_day",
               "color": "#ffa57d"
             },
             {
-              "id": 1702286778572,
               "order": 3,
               "label": "Yes, all toilets cleaned at least twice a day",
               "value": "yes_all_toil_clea_at_leas_twic_a_day",
