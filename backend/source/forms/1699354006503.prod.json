@@ -1156,7 +1156,7 @@
               "G2 Inadequate vector control in communal areas": "#93D371",
               "G3 Good vector control in communal areas": "#4088F4"
             },
-            "fnString": "(#no_standing_water_communal_areas#.includes(\"g0\") && #treated_larval_breeding_sites_communal_areas#.includes(\"g0\")) ? \"G1 Lack of vector control in communal areas\" : ((#no_standing_water_communal_areas#.includes(\"g3\") && #treated_larval_breeding_sites_communal_areas#.includes(\"g3\")) ? \"G3 Good vector control in communal areas\" : \"G2 Inadequate vector control in communal areas\")",
+            "fnString": "(#no_standing_water_communal_areas#.includes(\"g0\") ) ? \"G1 Lack of vector control in communal areas\" : ((#no_standing_water_communal_areas#.includes(\"g3\") ) ? \"G3 Good vector control in communal areas\" : \"G2 Inadequate vector control in communal areas\")",
             "multiline": false
           }
         },
