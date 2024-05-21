@@ -44,25 +44,21 @@
           "meta": false,
           "options": [
             {
-              "id": 16993543585751,
               "order": 1,
               "label": "New",
               "value": "new"
             },
             {
-              "id": 16993543585761,
               "order": 2,
               "label": "Update",
               "value": "update"
             },
             {
-              "id": 16993543585762,
               "order": 3,
               "label": "Verification",
               "value": "verification"
             },
             {
-              "id": 16993543585763,
               "order": 4,
               "label": "Certification",
               "value": "certification"
@@ -193,31 +189,26 @@
           "meta": false,
           "options": [
             {
-              "id": 16994188438531,
               "order": 1,
               "label": "Household head",
               "value": "household_head"
             },
             {
-              "id": 16994188438541,
               "order": 2,
               "label": "Spouse of household head",
               "value": "spouse_of_household_head"
             },
             {
-              "id": 16994188715801,
               "order": 3,
               "label": "Parent of household head",
               "value": "parent_of_household_head"
             },
             {
-              "id": 16994188787351,
               "order": 4,
               "label": "Adult child of household head",
               "value": "adult_child_of_household_head"
             },
             {
-              "id": 16994188861871,
               "order": 5,
               "label": "Under-18 child of household head",
               "value": "under18_child_of_household_head"
@@ -337,126 +328,108 @@
           "meta": false,
           "options": [
             {
-              "id": 17029151440681,
               "order": 1,
               "label": "OTHER household (NOT in at-risk category)",
               "color": "#96f2a2",
               "value": "other_household_not_in_atrisk_category"
             },
             {
-              "id": 17029151440691,
               "order": 2,
               "label": "AT RISK: Disabled household member (mentally or physically)",
               "color": "#fbbece",
               "value": "at_risk_disabled_household_member_mentally_or_physically"
             },
             {
-              "id": 17029161495571,
               "order": 3,
               "label": "AT RISK: Elderly-headed households (without support)",
               "color": "#fbbece",
               "value": "at_risk_elderlyheaded_households_without_support"
             },
             {
-              "id": 17029161634851,
               "order": 4,
               "label": "AT RISK: Orphans and vulnerable children",
               "color": "#fbbece",
               "value": "at_risk_orphans_and_vulnerable_children"
             },
             {
-              "id": 17029162043841,
               "order": 5,
               "label": "AT RISK: Female-headed household (single mothers, divorcees, widows)",
               "color": "#fbbece",
               "value": "at_risk_femaleheaded_household_single_mothers_divorcees_widows"
             },
             {
-              "id": 17029162237341,
               "order": 6,
               "label": "AT RISK: Internally displaced people",
               "color": "#fbbece",
               "value": "at_risk_internally_displaced_people"
             },
             {
-              "id": 17029162312721,
               "order": 7,
               "label": "AT RISK: Returning refugees",
               "color": "#fbbece",
               "value": "at_risk_returning_refugees"
             },
             {
-              "id": 17029162437501,
               "order": 8,
               "label": "AT RISK: HIV/AIDS affected (or other serious illness)",
               "color": "#fbbece",
               "value": "at_risk_hivaids_affected_or_other_serious_illness"
             },
             {
-              "id": 17029162529671,
               "order": 9,
               "label": "AT RISK: Religious minorities",
               "color": "#fbbece",
               "value": "at_risk_religious_minorities"
             },
             {
-              "id": 17029162623501,
               "order": 10,
               "label": "AT RISK: Ethnic minorities",
               "color": "#fbbece",
               "value": "at_risk_ethnic_minorities"
             },
             {
-              "id": 17029162827171,
               "order": 11,
               "label": "AT RISK: Nomadic or semi-nomadic",
               "color": "#fbbece",
               "value": "at_risk_nomadic_or_seminomadic"
             },
             {
-              "id": 17029162855171,
               "order": 12,
               "label": "AT RISK: Seasonal fishing group",
               "color": "#fbbece",
               "value": "at_risk_seasonal_fishing_group"
             },
             {
-              "id": 17029163024501,
               "order": 13,
               "label": "AT RISK: Long-term poor",
               "color": "#fbbece",
               "value": "at_risk_longterm_poor"
             },
             {
-              "id": 17029163114001,
               "order": 14,
               "label": "AT RISK: Landless/tenants",
               "color": "#fbbece",
               "value": "at_risk_landlesstenants"
             },
             {
-              "id": 17029163207011,
               "order": 15,
               "label": "AT RISK: Shared use of someone else's toilet/public toilet (don't have a toilet)",
               "color": "#fbbece",
               "value": "at_risk_shared_use_of_someone_elses_toiletpublic_toilet_dont_have_a_toilet"
             },
             {
-              "id": 17029163332351,
               "order": 16,
               "label": "AT RISK: In-migrants (new households in last 12 months)",
               "color": "#fbbece",
               "value": "at_risk_inmigrants_new_households_in_last_12_months"
             },
             {
-              "id": 17029163412671,
               "order": 17,
               "label": "AT RISK: New adult households (newly formed household)",
               "color": "#fbbece",
               "value": "at_risk_new_adult_households_newly_formed_household"
             },
             {
-              "id": 17029163500171,
               "order": 18,
               "label": "AT RISK: households with previously collapsed or flooded toilets",
               "color": "#fbbece",
@@ -513,14 +486,12 @@
           "meta": false,
           "options": [
             {
-              "id": 16994229786231,
               "order": 1,
               "label": "G0 No toilet",
               "color": "#db3b3b",
               "value": "g0_no_toilet"
             },
             {
-              "id": 16994229786241,
               "order": 2,
               "label": "G1 Toilet observed",
               "color": "#38a15a",
@@ -569,19 +540,16 @@
           "meta": false,
           "options": [
             {
-              "id": 16994234346941,
               "order": 1,
               "label": "G0 Non-functional toilet",
               "value": "g0_nonfunctional_toilet"
             },
             {
-              "id": 16994234346951,
               "order": 2,
               "label": "G0+ Partly functional toilet",
               "value": "g0_partly_functional_toilet"
             },
             {
-              "id": 16994234731501,
               "order": 3,
               "label": "G1 Fully functional toilet",
               "value": "g1_fully_functional_toilet"
@@ -615,19 +583,16 @@
           "meta": false,
           "options": [
             {
-              "id": 16994235796221,
               "order": 1,
               "label": "G0 No toilet privacy",
               "value": "g0_no_toilet_privacy"
             },
             {
-              "id": 16994235796231,
               "order": 2,
               "label": "G0+ Inadequate toilet privacy",
               "value": "g0_inadequate_toilet_privacy"
             },
             {
-              "id": 16994236548461,
               "order": 3,
               "label": "G1 Good toilet privacy",
               "value": "g1_good_toilet_privacy"
@@ -679,56 +644,48 @@
           "meta": false,
           "options": [
             {
-              "id": 16994237147191,
               "order": 1,
               "label": "G0 No toilet",
               "value": "g0_no_toilet",
               "color": "#db3b3b"
             },
             {
-              "id": 16994237147201,
               "order": 2,
               "label": "G1 Dry latrine with drophole",
               "value": "g1_dry_latrine_with_drophole",
               "color": "#38a15a"
             },
             {
-              "id": 16994238623071,
               "order": 3,
               "label": "G1 VIP drophole with vent pipe",
               "value": "g1_vip_drophole_with_vent_pipe",
               "color": "#38a15a"
             },
             {
-              "id": 16994238800831,
               "order": 4,
               "label": "G1 SATO pan",
               "value": "g1_sato_pan",
               "color": "#38a15a"
             },
             {
-              "id": 16994238922001,
               "order": 5,
               "label": "G1 Flush or pour-flush pan with water seal",
               "value": "g1_flush_or_pourflush_pan_with_water_seal",
               "color": "#38a15a"
             },
             {
-              "id": 16994239036001,
               "order": 6,
               "label": "G1 Dry toilet with urine-diverting drophole",
               "value": "g1_dry_toilet_with_urinediverting_drophole",
               "color": "#38a15a"
             },
             {
-              "id": 16994239160781,
               "order": 7,
               "label": "G1 Open pipe (no water seal)",
               "value": "g1_open_pipe_no_water_seal",
               "color": "#38a15a"
             },
             {
-              "id": 16994239188661,
               "order": 8,
               "label": "G1 Other toilet interface",
               "value": "g1_other_toilet_interface",
@@ -758,79 +715,66 @@
           "meta": false,
           "options": [
             {
-              "id": 16994239628191,
               "order": 1,
               "label": "G0 No toilet",
               "value": "g0_no_toilet"
             },
             {
-              "id": 16994240428551,
               "order": 3,
               "label": "G0 Open pit (uncovered or large openings)",
               "value": "g0_open_pit_uncovered_or_large_openings"
             },
             {
-              "id": 16994240507931,
               "order": 4,
               "label": "G0 Single toilet vault (above ground)",
               "value": "g0_single_toilet_vault_above_ground"
             },
             {
-              "id": 16994240585161,
               "order": 5,
               "label": "G0 Removable open container (e.g. bucket)",
               "value": "g0_removable_open_container_eg_bucket"
             },
             {
-              "id": 16994240670661,
               "order": 6,
               "label": "G1 Single latrine pit",
               "value": "g1_single_latrine_pit"
             },
             {
-              "id": 16994240760001,
               "order": 7,
               "label": "G1 Double latrine pit",
               "value": "g1_double_latrine_pit"
             },
             {
-              "id": 16994240879451,
               "order": 8,
               "label": "G1 Double toilet vault (above ground)",
               "value": "g1_double_toilet_vault_above_ground"
             },
             {
-              "id": 16994240965491,
               "order": 9,
               "label": "G1 Septic tank",
               "value": "g1_septic_tank"
             },
             {
-              "id": 16994241048831,
               "order": 10,
               "label": "G1 Removable closed container",
               "value": "g1_removable_closed_container"
             },
             {
-              "id": 16994241135011,
               "order": 11,
               "label": "G1 Piped sewer connection",
               "value": "g1_piped_sewer_connection"
             },
             {
-              "id": 16994241218661,
               "order": 12,
               "label": "G1 Other pit or tank",
               "value": "g1_other_pit_or_tank"
             },
             {
-              "id": 16994241355511,
               "order": 13,
               "label": "G1 Flush to don't know",
               "value": "g1_flush_to_dont_know"
             },
             {
-              "id": 16994239628201,
               "order": 2,
               "label": "G0 No pit or tank (discharge to open: field, open drain, water body, elsewhere)",
               "value": "g0_no_pit_or_tank_discharge_to_open_field_open_drain_water_body_elsewhere"
@@ -863,73 +807,61 @@
           "meta": false,
           "options": [
             {
-              "id": 16994244314871,
               "order": 3,
               "label": "G0 VIP vent pipe without insect screen",
               "value": "g0_vip_vent_pipe_without_insect_screen"
             },
             {
-              "id": 16994244389221,
               "order": 4,
               "label": "G0 Broken SATO flap",
               "value": "g0_broken_sato_flap"
             },
             {
-              "id": 16994244465831,
               "order": 5,
               "label": "G0 Broken or empty water seal (no water)",
               "value": "g0_broken_or_empty_water_seal_no_water"
             },
             {
-              "id": 16994244548241,
               "order": 6,
               "label": "G0 Open pipe (to pit or tank)",
               "value": "g0_open_pipe_to_pit_or_tank"
             },
             {
-              "id": 16994244625741,
               "order": 7,
               "label": "G0 Other non-flyproof toilet",
               "value": "g0_other_nonflyproof_toilet"
             },
             {
-              "id": 16994244707531,
               "order": 8,
               "label": "G1 Tight-fitting drophole cover (in place)",
               "value": "g1_tightfitting_drophole_cover_in_place"
             },
             {
-              "id": 16994244811081,
               "order": 9,
               "label": "G1 VIP vent pipe with insect screen",
               "value": "g1_vip_vent_pipe_with_insect_screen"
             },
             {
-              "id": 16994244877761,
               "order": 10,
               "label": "G1 Functional SATO flap",
               "value": "g1_functional_sato_flap"
             },
             {
-              "id": 16994245059751,
               "order": 11,
               "label": "G1 Functional water seal (with water)",
               "value": "g1_functional_water_seal_with_water"
             },
             {
-              "id": 16994245135231,
               "order": 12,
               "label": "G1 Other flyproof toilet",
               "value": "g1_other_flyproof_toilet"
             },
             {
-              "id": 16994243901661,
               "order": 1,
               "label": "G0 No toilet",
               "value": "g0_no_toilet"
             },
             {
-              "id": 16994243901671,
               "order": 2,
               "label": "G0 Inadequate or missing drophole cover",
               "value": "g0_inadequate_or_missing_drophole_cover"
@@ -992,12 +924,10 @@
           "type": "option",
           "options": [
             {
-              "id": 170308627025011,
               "label": "Yes",
               "value": "yes"
             },
             {
-              "id": 170308627025012,
               "label": "No",
               "value": "no"
             }
@@ -1020,13 +950,11 @@
           "type": "option",
           "options": [
             {
-              "id": 170308627025021,
               "label": "A",
               "color": "red",
               "value": "a"
             },
             {
-              "id": 170308627025022,
               "label": "B",
               "color": "blue",
               "value": "b"
@@ -1055,13 +983,11 @@
           "type": "option",
           "options": [
             {
-              "id": 170308627025031,
               "label": "A",
               "color": "red",
               "value": "a"
             },
             {
-              "id": 170308627025032,
               "label": "B",
               "color": "blue",
               "value": "b"
@@ -1116,14 +1042,12 @@
           "meta": false,
           "options": [
             {
-              "id": 1699951727899991,
               "order": 1,
               "label": "Yes",
               "value": "yes",
               "color": "green"
             },
             {
-              "id": 1699951727899992,
               "order": 2,
               "label": "No",
               "value": "no",
