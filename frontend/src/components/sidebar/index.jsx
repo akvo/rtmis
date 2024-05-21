@@ -52,11 +52,11 @@ const Sidebar = () => {
       url: "/control-center/certification",
     },
     "certification-data": {
-      label: "Manage Certification Data",
+      label: "Manage Grade Certification",
       url: "/control-center/certification-data",
     },
     "verification-data": {
-      label: "Manage Verification Data",
+      label: "Manage Grade Claim",
       url: "/control-center/verification-data",
     },
   };
