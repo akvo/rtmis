@@ -27,7 +27,7 @@ const checkDirty = (fnString) =>
 // convert fn string to array
 const fnToArray = (fnString) => {
   // eslint-disable-next-line no-useless-escape
-  const regex = /\#\d+|[(),?;&.'":()+\-*/.]|<=|<|>|>=|!=|==|[||]{2}|=>|\w+| /g;
+  const regex = /\#\d+|[(),?;&.'":()+\-*/.!]|<=|<|>|>=|!=|==|[||]{2}|=>|\w+| /g;
   return fnString.match(regex);
 };
 
@@ -45,6 +45,7 @@ const generateFnBody = (fnMetadata, values) => {
     return false;
   }
 
+  const defaultValue = fnMetadata.includes('.includes') || fnMetadata.includes('!') ? 'null' : null;
   const fnMetadataTemp = fnToArray(fnMetadata);
 
   // save defined condition to detect how many condition on fn
@@ -58,7 +59,7 @@ const generateFnBody = (fnMetadata, values) => {
       fnBodyTemp.push(f); // save condition
       let val = values?.[meta[1]];
       if (!val) {
-        return null;
+        return defaultValue;
       }
       if (typeof val === 'object') {
         if (Array.isArray(val)) {
