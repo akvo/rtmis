@@ -1,6 +1,7 @@
 from collections import OrderedDict
 import logging
 from django.db import transaction
+from django.db.models import Q
 import pandas as pd
 from typing import Any, Dict, List, Tuple, Type, Union
 from django.db.models import Model
@@ -47,8 +48,13 @@ def seed_administrations(
     last_obj = None
     for item in data:
         level, name = item
-        obj, _ = Administration.objects.get_or_create(
-            name=name, level=level, parent=last_obj)
+        obj = Administration.objects.filter(Q(name__iexact=name)).first()
+        if not obj:
+            obj = Administration.objects.create(
+                name=name.title(),
+                level=level,
+                parent=last_obj
+            )
         last_obj = obj
     return last_obj
 

@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+from django.db.models import Q
 from typing import List
 from api.v1.v1_profile.models import (
     Administration,
@@ -123,7 +124,7 @@ def validate_entity_data(filename: str):
                     # skip if the entity data already exists
                     entity_name = row["Name"]
                     entity_data = EntityData.objects.filter(
-                        name=entity_name,
+                        Q(name__iexact=entity_name),
                         entity=entity,
                         administration=administration,
                     ).first()
