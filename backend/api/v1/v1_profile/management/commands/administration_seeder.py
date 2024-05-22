@@ -147,7 +147,7 @@ def seed_administration_prod():
         for i, r in enumerate(filtered_res.to_dict("records")):
             administration = Administration(
                 id=r.get("id"),
-                name=r.get("name"),
+                name=r.get("name").title(),
                 parent=Administration.objects.filter(
                     id=r.get("parent")
                 ).first(),

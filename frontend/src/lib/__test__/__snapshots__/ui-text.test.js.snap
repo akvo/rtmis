@@ -608,7 +608,7 @@ Object {
     "questionCol": "Question",
     "questionnaireText": "Questionnaire",
     "questionnairesLabel": "Questionnaires",
-    "realTime": "Real Time Management Information System",
+    "realTime": "Real-Time Monitoring and Information System (RTMIS)",
     "reportText": "Report generation and visualizations.",
     "reports": "Reports",
     "resetHint": <React.Fragment>

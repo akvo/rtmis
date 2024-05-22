@@ -64,7 +64,7 @@ const uiText = {
       </Fragment>
     ),
     learnMoreButton: "Learn more",
-    realTime: "Real Time Management Information System",
+    realTime: "Real-Time Monitoring and Information System (RTMIS)",
     reportText: "Report generation and visualizations.",
     frameworkText: "4 M&E Frameworks",
     contactText: "Contact Us",

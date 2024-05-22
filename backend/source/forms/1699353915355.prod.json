@@ -7180,7 +7180,7 @@
               "G3 Clean and Healthy": "#4088F4"
             },
             "multiline": false,
-            "fnString": "(!#o_r_hwf_with_water_and_soap# || #o_r_hwf_with_water_and_soap#.includes(\"G1\"))? 'G1 Handwashing facility with soap and water': #o_r_hwf_with_water_and_soap#.includes(\"G1\") && #o_r_handwashing_with_soap_at_critical_times#.includes(\"G2\") ? 'G2 Safe and Sustainable' : #o_r_hwf_with_water_and_soap#.includes(\"G1\") && #o_r_handwashing_with_soap_at_critical_times#.includes(\"G2\") && #o_r_permanent_handwashing_station#.includes(\"G3\") ? 'G3 Clean and Healthy' : 'G0 Inadequate or no handwashing facility'"
+            "fnString": "(!#o_r_hwf_with_water_and_soap# || #o_r_hwf_with_water_and_soap#.includes(\"G1\")) ? 'G1 Handwashing facility with soap and water' : ((!#o_r_hwf_with_water_and_soap# || #o_r_hwf_with_water_and_soap#.includes(\"G1\")) && (!#o_r_handwashing_with_soap_at_critical_times# || #o_r_handwashing_with_soap_at_critical_times#.includes(\"G2\"))) ? 'G2 Safe and Sustainable' : ((!#o_r_hwf_with_water_and_soap# || #o_r_hwf_with_water_and_soap#.includes(\"G1\")) && (!#o_r_handwashing_with_soap_at_critical_times# || #o_r_handwashing_with_soap_at_critical_times#.includes(\"G2\")) && (!#o_r_permanent_handwashing_station# || #o_r_permanent_handwashing_station#.includes(\"G3\"))) ? 'G3 Clean and Healthy' : 'G0 Inadequate or no handwashing facility'"
           }
         },
         {
@@ -7201,7 +7201,7 @@
               "G2": "#93D371",
               "G3": "#4088F4"
             },
-            "fnString": "#o_r_no_exposed_human_excreta#.includes(\"G1\") && #o_r_safe_management_of_child_excreta_and_diapers#.includes(\"G1\") ? 'G1' :#o_r_no_exposed_human_excreta#.includes(\"G1\") && #o_r_safe_management_of_child_excreta_and_diapers#.includes(\"G1\") && #o_r_safe_food_hygiene#.includes(\"G2\") && #o_r_safe_water_management#.includes(\"G2\") && #o_r_safe_management_of_animals_wastes#.includes(\"G2\") ? \u2018G2\u2019: #o_r_no_exposed_human_excreta#.includes(\"G1\") && #o_r_safe_management_of_child_excreta_and_diapers#.includes(\"G1\") && #o_r_safe_food_hygiene#.includes(\"G2\") && #o_r_safe_water_management#.includes(\"G2\") && #o_r_safe_management_of_animals_wastes#.includes(\"G2\") && #o_r_safe_waste_management#.includes(\"G3\") && #o_r_good_personal_hygiene#.includes(\"G3\") && #o_r_good_nutrition#.includes(\"G3\") && #o_r_endemic#.includes(\"G3\") ? 'G3'",
+            "fnString": "(!#o_r_no_exposed_human_excreta# || #o_r_no_exposed_human_excreta#.includes(\"G1\")) && (!#o_r_safe_management_of_child_excreta_and_diapers# || #o_r_safe_management_of_child_excreta_and_diapers#.includes(\"G1\")) ? 'G1' : ((!#o_r_no_exposed_human_excreta# || #o_r_no_exposed_human_excreta#.includes(\"G1\")) && (!#o_r_safe_management_of_child_excreta_and_diapers# || #o_r_safe_management_of_child_excreta_and_diapers#.includes(\"G1\")) && (!#o_r_safe_food_hygiene# || #o_r_safe_food_hygiene#.includes(\"G2\")) && (!#o_r_safe_water_management# || #o_r_safe_water_management#.includes(\"G2\")) && (!#o_r_safe_management_of_animals_wastes# || #o_r_safe_management_of_animals_wastes#.includes(\"G2\")) ? 'G2' : ((!#o_r_no_exposed_human_excreta# || #o_r_no_exposed_human_excreta#.includes(\"G1\")) && (!#o_r_safe_management_of_child_excreta_and_diapers# || #o_r_safe_management_of_child_excreta_and_diapers#.includes(\"G1\")) && (!#o_r_safe_food_hygiene# || #o_r_safe_food_hygiene#.includes(\"G2\")) && (!#o_r_safe_water_management# || #o_r_safe_water_management#.includes(\"G2\")) && (!#o_r_safe_management_of_animals_wastes# || #o_r_safe_management_of_animals_wastes#.includes(\"G2\")) && (!#o_r_safe_waste_management# || #o_r_safe_waste_management#.includes(\"G3\")) && (!#o_r_good_personal_hygiene# || #o_r_good_personal_hygiene#.includes(\"G3\")) && (!#o_r_good_nutrition# || #o_r_good_nutrition#.includes(\"G3\")) && (!#o_r_endemic# || #o_r_endemic#.includes(\"G3\")) ? 'G3' : 'G0')",
             "multiline": false
           }
         },
@@ -7223,7 +7223,7 @@
               "G2": "#93D371",
               "G3": "#4088F4"
             },
-            "fnString": "#overall_toilet_outcome#.includes(\"G1\") && #overall_hygiene_outcome#.includes(\"G1\") && #overall_other_outcome#.includes(\"G1\") ? 'G1' : #overall_toilet_outcome#.includes(\"G2\") && #overall_hygiene_outcome#.includes(\"G2\") && #overall_other_outcome#.includes(\"G2\") ? 'G2' : #overall_toilet_outcome#.includes(\"G3\") && #overall_hygiene_outcome#.includes(\"G3\") && #overall_other_outcome#.includes(\"G3\") ? 'G3' : 'G0'",
+            "fnString": "((!#overall_toilet_outcome#||#overall_toilet_outcome#.includes(\"G1\"))&&(!#overall_hygiene_outcome#||#overall_hygiene_outcome#.includes(\"G1\"))&&(!#overall_other_outcome#||#overall_other_outcome#.includes(\"G1\")))?'G1':((!#overall_toilet_outcome#||#overall_toilet_outcome#.includes(\"G2\"))&&(!#overall_hygiene_outcome#||#overall_hygiene_outcome#.includes(\"G2\"))&&(!#overall_other_outcome#||#overall_other_outcome#.includes(\"G2\")))?'G2':((!#overall_toilet_outcome#||#overall_toilet_outcome#.includes(\"G3\"))&&(!#overall_hygiene_outcome#||#overall_hygiene_outcome#.includes(\"G3\"))&&(!#overall_other_outcome#||#overall_other_outcome#.includes(\"G3\")))?'G3':'G0'",
             "multiline": false
           }
         }
