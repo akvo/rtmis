@@ -45,7 +45,6 @@ const generateFnBody = (fnMetadata, values) => {
     return false;
   }
 
-  const defaultValue = fnMetadata.includes('.includes') || fnMetadata.includes('!') ? 'null' : null;
   const fnMetadataTemp = fnToArray(fnMetadata);
 
   // save defined condition to detect how many condition on fn
@@ -59,7 +58,7 @@ const generateFnBody = (fnMetadata, values) => {
       fnBodyTemp.push(f); // save condition
       let val = values?.[meta[1]];
       if (!val) {
-        return defaultValue;
+        return 'null';
       }
       if (typeof val === 'object') {
         if (Array.isArray(val)) {
@@ -67,7 +66,7 @@ const generateFnBody = (fnMetadata, values) => {
         } else if (val?.lat) {
           val = `${val.lat},${val.lng}`;
         } else {
-          val = null;
+          val = 'null';
         }
       }
       if (typeof val === 'number') {
