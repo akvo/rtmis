@@ -48,7 +48,11 @@ def seed_administrations(
     last_obj = None
     for item in data:
         level, name = item
-        obj = Administration.objects.filter(Q(name__iexact=name)).first()
+        obj = Administration.objects.filter(
+            Q(name__iexact=name),
+            level=level,
+            parent=last_obj,
+        ).first()
         if not obj:
             obj = Administration.objects.create(
                 name=name.title(),

@@ -10,11 +10,11 @@
   "submission_types": ["registration", "monitoring"],
   "question_groups": [
     {
-      "id": 1701757914032,
+      "id": 1701757876669,
       "order": 1,
-      "name": "school_wash_data",
-      "label": "School WASH: Data",
-      "description": null,
+      "name": "school_location",
+      "label": "School: Location",
+      "description": "This question contains a list of possible school locations, starting with the government area or district, down to the community.",
       "repeatable": false,
       "translations": null,
       "questions": [
@@ -51,8 +51,45 @@
           "rule": null
         },
         {
-          "id": 1706105071390,
+          "id": 1701757876670,
+          "order": 2,
+          "name": "school_location",
+          "label": "What is the location of the school?",
+          "short_label": null,
+          "type": "administration",
+          "tooltip": {
+            "text": "This question contains a list of possible school locations, starting with the government area or district, down to the community."
+          },
+          "required": false,
+          "meta": true,
+          "disabled": {
+            "submission_type": ["monitoring", "verification", "certification"]
+          }
+        },
+        {
+          "id": 1713505867,
           "order": 3,
+          "name": "school",
+          "label": "School Cascade",
+          "short_label": "School",
+          "meta": false,
+          "required": false,
+          "type": "cascade",
+          "api": {
+            "endpoint": "/api/v1/entity-data/1/list/"
+          },
+          "extra": {
+            "type": "entity",
+            "name": "School",
+            "parentId": 1701757876670
+          },
+          "disabled": {
+            "submission_type": ["monitoring", "verification", "certification"]
+          }
+        },
+        {
+          "id": 1706105071390,
+          "order": 4,
           "name": "school_geolocation",
           "label": "Geolocation of school",
           "short_label": null,
@@ -65,10 +102,21 @@
           "disabled": {
             "submission_type": ["monitoring"]
           }
-        },
+        }
+      ]
+    },
+    {
+      "id": 1701757914032,
+      "order": 2,
+      "name": "school_wash_data",
+      "label": "School WASH: Data",
+      "description": null,
+      "repeatable": false,
+      "translations": null,
+      "questions": [
         {
           "id": 1706105097574,
-          "order": 4,
+          "order": 1,
           "name": "school_respondent_role",
           "label": "School respondent: role/position",
           "short_label": null,
@@ -124,7 +172,7 @@
         },
         {
           "id": 1713498651,
-          "order": 5,
+          "order": 2,
           "name": "school_respondent_role_other",
           "label": "Other (Please specify)",
           "short_label": null,
@@ -145,7 +193,7 @@
         },
         {
           "id": 1706105362976,
-          "order": 6,
+          "order": 3,
           "name": "total_students_enrolled",
           "label": "Total number of students enrolled in school",
           "short_label": null,
@@ -162,7 +210,7 @@
         },
         {
           "id": 1706105426912,
-          "order": 7,
+          "order": 4,
           "name": "num_boys_enrolled",
           "label": "Number of boys (male students) enrolled in school",
           "short_label": null,
@@ -179,7 +227,7 @@
         },
         {
           "id": 1706105453740,
-          "order": 8,
+          "order": 5,
           "name": "num_girls_enrolled",
           "label": "Number of girls (female students) enrolled in school",
           "short_label": null,
@@ -196,7 +244,7 @@
         },
         {
           "id": 1706105556610,
-          "order": 9,
+          "order": 6,
           "name": "num_students_disability",
           "label": "Number of students with disability enrolled in school",
           "short_label": null,
@@ -209,54 +257,6 @@
           "options": null,
           "rule": {
             "min": 0
-          }
-        }
-      ]
-    },
-    {
-      "id": 1701757876669,
-      "order": 2,
-      "name": "school_location",
-      "label": "School: Location",
-      "description": "This question contains a list of possible school locations, starting with the government area or district, down to the community.",
-      "repeatable": false,
-      "translations": null,
-      "questions": [
-        {
-          "id": 1701757876670,
-          "order": 1,
-          "name": "school_location",
-          "label": "What is the location of the school?",
-          "short_label": null,
-          "type": "administration",
-          "tooltip": {
-            "text": "This question contains a list of possible school locations, starting with the government area or district, down to the community."
-          },
-          "required": false,
-          "meta": true,
-          "disabled": {
-            "submission_type": ["monitoring", "verification", "certification"]
-          }
-        },
-        {
-          "id": 1713505867,
-          "order": 2,
-          "name": "school",
-          "label": "School Cascade",
-          "short_label": "School",
-          "meta": false,
-          "required": false,
-          "type": "cascade",
-          "api": {
-            "endpoint": "/api/v1/entity-data/1/list/"
-          },
-          "extra": {
-            "type": "entity",
-            "name": "School",
-            "parentId": 1701757876670
-          },
-          "disabled": {
-            "submission_type": ["monitoring", "verification", "certification"]
           }
         }
       ]
