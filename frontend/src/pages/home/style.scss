@@ -111,6 +111,7 @@
         flex-direction: column;
         gap: 24px;
         .description {
+          z-index: 2;
           h1 {
             margin-bottom: 16px;
             color: #1651b6;
