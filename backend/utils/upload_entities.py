@@ -95,6 +95,13 @@ def validate_entity_data(filename: str):
             administration = None
             higher_level = None
             for level in Levels.objects.all().order_by("level"):
+                if level.name not in row:
+                    errors.append({
+                        "sheet": entity.name,
+                        "row": 1,
+                        "message": f"Header {level.name} is missing",
+                    })
+                    continue
                 if row[level.name] != row[level.name]:
                     previous_level = Levels.objects.filter(
                         level=level.level - 1
@@ -105,8 +112,8 @@ def validate_entity_data(filename: str):
                     row_value = row[level.name]
                     adm_names += [row_value]
                     administration = Administration.objects.filter(
+                        Q(name__iexact=row_value),
                         parent=administration,
-                        name=row_value,
                         level=level
                     ).first()
                     if not administration:
@@ -120,7 +127,7 @@ def validate_entity_data(filename: str):
                     "message": f"Invalid Administration for {adm_names}",
                 })
             else:
-                if level == last_level:
+                if level == last_level and not bool(pd.isnull(row["Name"])):
                     # skip if the entity data already exists
                     entity_name = row["Name"]
                     entity_data = EntityData.objects.filter(
