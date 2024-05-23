@@ -109,18 +109,21 @@ class MobileAssignmentApiSyncTest(TestCase, AssignmentTokenTestHelperMixin):
             "submission_type": SubmissionTypes.registration,
             "answers": answers,
         }
-
         self.assertEqual(len(answers), len(questions))
 
-        # Submit correct data
-        response = self.client.post(
-            "/api/v1/device/sync",
-            post_data,
-            follow=True,
-            content_type="application/json",
-            **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
-        )
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        # check N+1 query
+        def call_route():
+            # Submit correct data
+            response = self.client.post(
+                "/api/v1/device/sync",
+                post_data,
+                follow=True,
+                content_type="application/json",
+                **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
+            )
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertNumQueries(28, call_route)
 
         pending_data = PendingFormData.objects.filter(
             created_by=self.user
@@ -219,16 +222,19 @@ class MobileAssignmentApiSyncTest(TestCase, AssignmentTokenTestHelperMixin):
         assignment.save()
 
         token = self.get_assignmen_token(self.passcode)
-        response = self.client.post(
-            "/api/v1/device/sync",
-            post_data,
-            follow=True,
-            content_type="application/json",
-            **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
-        )
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-        # submit certification data
+        def call_second_route(post_data):
+            response = self.client.post(
+                "/api/v1/device/sync",
+                post_data,
+                follow=True,
+                content_type="application/json",
+                **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
+            )
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertNumQueries(28, call_second_route(post_data=post_data))
+
         post_data = {
             "formId": self.form.id,
             "name": "testing datapoint for certification",
@@ -238,15 +244,19 @@ class MobileAssignmentApiSyncTest(TestCase, AssignmentTokenTestHelperMixin):
             "submission_type": SubmissionTypes.certification,
             "answers": answers,
         }
-        response = self.client.post(
-            "/api/v1/device/sync",
-            post_data,
-            follow=True,
-            content_type="application/json",
-            **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
-        )
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        # submit certification data
+        def call_third_route():
+            response = self.client.post(
+                "/api/v1/device/sync",
+                post_data,
+                follow=True,
+                content_type="application/json",
+                **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
+            )
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertNumQueries(29, call_third_route)
 
         data = FormData.objects.all()
         names = [d.name for d in data]

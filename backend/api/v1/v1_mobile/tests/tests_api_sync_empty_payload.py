@@ -82,6 +82,19 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
         ).count()
         self.assertEqual(total_null_answers, 0)
 
+        # check N+1 query
+        def call_route():
+            response = self.client.post(
+                "/api/v1/device/sync",
+                payload,
+                follow=True,
+                content_type="application/json",
+                **{"HTTP_AUTHORIZATION": f"Bearer {self.token}"},
+            )
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertNumQueries(22, call_route)
+
     def test_empty_required_number_type_of_question(self):
         mobile_adm = self.mobile_user.administrations.first()
         uuid = "22b9ecb2-c400-4b76-bcba-0a70a6942bb6"
@@ -130,6 +143,19 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
             options__isnull=True,
         ).count()
         self.assertEqual(total_null_answers, 0)
+
+        # check N+1 query
+        def call_route():
+            response = self.client.post(
+                "/api/v1/device/sync",
+                payload,
+                follow=True,
+                content_type="application/json",
+                **{"HTTP_AUTHORIZATION": f"Bearer {self.token}"},
+            )
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertNumQueries(22, call_route)
 
     def test_allowed_zero_required_number_type_of_question(self):
         mobile_adm = self.mobile_user.administrations.first()
@@ -182,6 +208,19 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
         ).count()
         self.assertEqual(total_null_answers, 0)
 
+        # check N+1 query
+        def call_route():
+            response = self.client.post(
+                "/api/v1/device/sync",
+                payload,
+                follow=True,
+                content_type="application/json",
+                **{"HTTP_AUTHORIZATION": f"Bearer {self.token}"},
+            )
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertNumQueries(23, call_route)
+
     def test_empty_required_option_type_of_question(self):
         mobile_adm = self.mobile_user.administrations.first()
         uuid = "42b9ecb2-c400-4b76-bcba-0a70a6942bb6"
@@ -229,6 +268,19 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
             options__isnull=True,
         ).count()
         self.assertEqual(total_null_answers, 0)
+
+        # check N+1 query
+        def call_route():
+            response = self.client.post(
+                "/api/v1/device/sync",
+                payload,
+                follow=True,
+                content_type="application/json",
+                **{"HTTP_AUTHORIZATION": f"Bearer {self.token}"},
+            )
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertNumQueries(21, call_route)
 
     def test_empty_required_multiple_options_type_of_question(self):
         mobile_adm = self.mobile_user.administrations.first()
@@ -278,6 +330,19 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
         ).count()
         self.assertEqual(total_null_answers, 0)
 
+        # check N+1 query
+        def call_route():
+            response = self.client.post(
+                "/api/v1/device/sync",
+                payload,
+                follow=True,
+                content_type="application/json",
+                **{"HTTP_AUTHORIZATION": f"Bearer {self.token}"},
+            )
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertNumQueries(22, call_route)
+
     def test_empty_required_geo_type_of_question(self):
         mobile_adm = self.mobile_user.administrations.first()
         uuid = "62b9ecb2-c400-4b76-bcba-0a70a6942bb6"
@@ -325,6 +390,19 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
             options__isnull=True,
         ).count()
         self.assertEqual(total_null_answers, 0)
+
+        # check N+1 query
+        def call_route():
+            response = self.client.post(
+                "/api/v1/device/sync",
+                payload,
+                follow=True,
+                content_type="application/json",
+                **{"HTTP_AUTHORIZATION": f"Bearer {self.token}"},
+            )
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertNumQueries(22, call_route)
 
     def test_empty_required_hidden_from_registration_type(self):
         mobile_adm = self.mobile_user.administrations.first()
@@ -376,6 +454,19 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
         ).count()
         self.assertEqual(total_null_answers, 0)
 
+        # check N+1 query
+        def call_route():
+            response = self.client.post(
+                "/api/v1/device/sync",
+                payload,
+                follow=True,
+                content_type="application/json",
+                **{"HTTP_AUTHORIZATION": f"Bearer {self.token}"},
+            )
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertNumQueries(24, call_route)
+
     def test_empty_non_required_autofield_type_of_question(self):
         mobile_adm = self.mobile_user.administrations.first()
         uuid = "82b9ecb2-c400-4b76-bcba-0a70a6942bb6"
@@ -425,6 +516,18 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
         ).count()
         self.assertEqual(total_null_answers, 0)
 
+        def call_route():
+            response = self.client.post(
+                "/api/v1/device/sync",
+                payload,
+                follow=True,
+                content_type="application/json",
+                **{"HTTP_AUTHORIZATION": f"Bearer {self.token}"},
+            )
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertNumQueries(23, call_route)
+
     def test_empty_required_meta_uuid_type_of_question(self):
         mobile_adm = self.mobile_user.administrations.first()
         st = SubmissionTypes.registration
@@ -472,6 +575,19 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
             options__isnull=True,
         ).count()
         self.assertEqual(total_null_answers, 0)
+
+        # check N+1 query
+        def call_route():
+            response = self.client.post(
+                "/api/v1/device/sync",
+                payload,
+                follow=True,
+                content_type="application/json",
+                **{"HTTP_AUTHORIZATION": f"Bearer {self.token}"},
+            )
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertNumQueries(21, call_route)
 
     def test_empty_required_photo_type_of_question(self):
         mobile_adm = self.mobile_user.administrations.first()
@@ -521,6 +637,19 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
         ).count()
         self.assertEqual(total_null_answers, 0)
 
+        # check N+1 query
+        def call_route():
+            response = self.client.post(
+                "/api/v1/device/sync",
+                payload,
+                follow=True,
+                content_type="application/json",
+                **{"HTTP_AUTHORIZATION": f"Bearer {self.token}"},
+            )
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertNumQueries(22, call_route)
+
     def test_empty_required_date_type_of_question(self):
         mobile_adm = self.mobile_user.administrations.first()
         uuid = "93b9ecb2-c400-4b76-bcba-0a10a6942bb6"
@@ -568,6 +697,19 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
             options__isnull=True,
         ).count()
         self.assertEqual(total_null_answers, 0)
+
+        # check N+1 query
+        def call_route():
+            response = self.client.post(
+                "/api/v1/device/sync",
+                payload,
+                follow=True,
+                content_type="application/json",
+                **{"HTTP_AUTHORIZATION": f"Bearer {self.token}"},
+            )
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertNumQueries(22, call_route)
 
     def test_valid_pending_answers_for_all_questions(self):
         mobile_adm = self.mobile_user.administrations.first()
@@ -653,3 +795,16 @@ class MobileAssignmentApiSyncEmptyPayloadTest(TestCase):
         self.assertEqual(a_109.value, 5.1)
         self.assertEqual(a_110.name, uuid)
         self.assertEqual(a_111.name, "10.2")
+
+        # check N+1 query
+        def call_route():
+            response = self.client.post(
+                "/api/v1/device/sync",
+                payload,
+                follow=True,
+                content_type="application/json",
+                **{"HTTP_AUTHORIZATION": f"Bearer {self.token}"},
+            )
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertNumQueries(24, call_route)

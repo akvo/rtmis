@@ -1143,7 +1143,7 @@ class SubmitPendingFormDataSerializer(serializers.ModelSerializer):
 
 class SubmitPendingFormDataAnswerSerializer(serializers.ModelSerializer):
     value = UnvalidatedField(allow_null=False)
-    question = CustomPrimaryKeyRelatedField(queryset=Questions.objects.none())
+    question = CustomPrimaryKeyRelatedField(queryset=Questions.objects.all())
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -1153,63 +1153,50 @@ class SubmitPendingFormDataAnswerSerializer(serializers.ModelSerializer):
         return value
 
     def validate(self, attrs):
-        if attrs.get("value") == "":
+        question = attrs.get("question")
+        value = attrs.get("value")
+
+        if value == "":
             raise ValidationError(
-                "Value is required for Question:{0}".format(
-                    attrs.get("question").id
-                )
+                f"Value is required for Question: {question.id}"
             )
 
-        if (
-            isinstance(attrs.get("value"), list)
-            and len(attrs.get("value")) == 0
-        ):
+        if isinstance(value, list) and len(value) == 0:
             raise ValidationError(
-                "Value is required for Question:{0}".format(
-                    attrs.get("question").id
-                )
+                f"Value is required for Question: {question.id}"
             )
 
-        if not isinstance(attrs.get("value"), list) and attrs.get(
-            "question"
-        ).type in [
+        if not isinstance(value, list) and question.type in [
             QuestionTypes.geo,
             QuestionTypes.option,
             QuestionTypes.multiple_option,
         ]:
             raise ValidationError(
-                "Valid list value is required for Question:{0}".format(
-                    attrs.get("question").id
-                )
+                f"Valid list value is required for Question: {question.id}"
             )
-        elif not isinstance(attrs.get("value"), str) and attrs.get(
-            "question"
-        ).type in [
+
+        elif not isinstance(value, str) and question.type in [
             QuestionTypes.text,
             QuestionTypes.photo,
             QuestionTypes.date,
         ]:
             raise ValidationError(
-                "Valid string value is required for Question:{0}".format(
-                    attrs.get("question").id
-                )
+                f"Valid string value is required for Question: {question.id}"
             )
+
         elif not (
-            isinstance(attrs.get("value"), int)
-            or isinstance(attrs.get("value"), float)
-        ) and attrs.get("question").type in [
+            isinstance(value, int) or isinstance(value, float)) \
+            and question.type in [
             QuestionTypes.number,
             QuestionTypes.administration,
             QuestionTypes.cascade,
         ]:
             raise ValidationError(
-                "Valid number value is required for Question:{0}".format(
-                    attrs.get("question").id
-                )
+                f"Valid number value is required for Question: {question.id}"
             )
 
-        if attrs.get("question").type == QuestionTypes.administration:
-            attrs["value"] = int(float(attrs.get("value")))
+        if question.type == QuestionTypes.administration:
+            attrs["value"] = int(float(value))
 
         return attrs
 
@@ -1251,7 +1238,7 @@ class SubmitPendingFormSerializer(serializers.Serializer):
         data["created_by"] = self.context.get("user")
 
         # check user role and form type
-        user: SystemUser = self.context.get("user")
+        user = self.context.get("user")
         is_super_admin = user.user_access.role == UserRoleTypes.super_admin
         is_county_admin = (
             user.user_access.role == UserRoleTypes.admin
@@ -1265,6 +1252,7 @@ class SubmitPendingFormSerializer(serializers.Serializer):
         ]
         if data.get("submission_type") in direct_submission_types:
             direct_to_data = True
+
         # save to pending data
         if not direct_to_data:
             obj_data = self.fields.get("data").create(data)
@@ -1281,77 +1269,113 @@ class SubmitPendingFormSerializer(serializers.Serializer):
                 submission_type=data.get("submission_type"),
             )
 
+        pending_answers = []
+        answers = []
+
         for answer in validated_data.get("answer"):
+            question = answer.get("question")
             name = None
             value = None
             option = None
 
-            if answer.get("question").meta_uuid:
+            if question.meta_uuid:
                 obj_data.uuid = answer.get("value")
                 obj_data.save()
 
-            if answer.get("question").type in [
+            if question.type in [
                 QuestionTypes.geo,
                 QuestionTypes.option,
                 QuestionTypes.multiple_option,
             ]:
                 option = answer.get("value")
-            elif answer.get("question").type in [
+            elif question.type in [
                 QuestionTypes.text,
                 QuestionTypes.photo,
                 QuestionTypes.date,
                 QuestionTypes.autofield,
             ]:
                 name = answer.get("value")
-            elif answer.get("question").type == QuestionTypes.cascade:
+            elif question.type == QuestionTypes.cascade:
                 id = answer.get("value")
                 val = None
-                if answer.get("question").api:
-                    ep = answer.get("question").api.get("endpoint")
+                if question.api:
+                    ep = question.api.get("endpoint")
                     if "organisation" in ep:
-                        val = Organisation.objects.filter(pk=id).first()
-                        val = val.name
+                        name = Organisation.objects.filter(pk=id).values_list(
+                            'name', flat=True).first()
+                        val = name
                     if "entity-data" in ep:
-                        val = EntityData.objects.filter(pk=id).first()
-                        val = val.name
+                        name = EntityData.objects.filter(pk=id).values_list(
+                            'name', flat=True).first()
+                        val = name
                     if "entity-data" not in ep and "organisation" not in ep:
                         ep = ep.split("?")[0]
                         ep = f"{ep}?id={id}"
                         val = requests.get(ep).json()
                         val = val[0].get("name")
 
-                if answer.get("question").extra:
-                    cs_type = answer.get("question").extra.get("type")
+                if question.extra:
+                    cs_type = question.extra.get("type")
                     if cs_type == "entity":
-                        val = EntityData.objects.filter(pk=id).first()
-                        val = val.name
+                        name = EntityData.objects.filter(pk=id).values_list(
+                            'name', flat=True).first()
+                        val = name
                 name = val
             else:
                 # for administration,number question type
                 value = answer.get("value")
 
+            # # save to pending answer
+            # if not direct_to_data:
+            #     PendingAnswers.objects.create(
+            #         pending_data=obj_data,
+            #         question=answer.get("question"),
+            #         name=name,
+            #         value=value,
+            #         options=option,
+            #         created_by=self.context.get("user"),
+            #         created=data.get("submitedAt") or timezone.now(),
+            #     )
+
+            # # save to form data
+            # if direct_to_data:
+            #     Answers.objects.create(
+            #         data=obj_data,
+            #         question=answer.get("question"),
+            #         name=name,
+            #         value=value,
+            #         options=option,
+            #         created_by=self.context.get("user"),
+            #     )
+
             # save to pending answer
             if not direct_to_data:
-                PendingAnswers.objects.create(
+                pending_answers.append(PendingAnswers(
                     pending_data=obj_data,
-                    question=answer.get("question"),
+                    question=question,
                     name=name,
                     value=value,
                     options=option,
                     created_by=self.context.get("user"),
                     created=data.get("submitedAt") or timezone.now(),
-                )
+                ))
 
             # save to form data
             if direct_to_data:
-                Answers.objects.create(
+                answers.append(Answers(
                     data=obj_data,
-                    question=answer.get("question"),
+                    question=question,
                     name=name,
                     value=value,
                     options=option,
                     created_by=self.context.get("user"),
-                )
+                ))
+
+        # bulk create pending answers / answers
+        if pending_answers:
+            PendingAnswers.objects.bulk_create(pending_answers)
+        if answers:
+            Answers.objects.bulk_create(answers)
 
         if direct_to_data:
             if data.get("uuid"):
