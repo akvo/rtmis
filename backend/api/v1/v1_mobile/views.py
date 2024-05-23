@@ -171,7 +171,10 @@ def sync_pending_form_data(request, version):
     user = assignment.user
     # TODO : Get certifications administration list
     certifications = assignment.certifications.count()
-    administration = Access.objects.filter(user=user).first().administration
+    # administration = Access.objects.filter(user=user).first().administration
+    administration = Access.objects.select_related(
+        'administration').filter(user=user).first().administration
+
     if not request.data.get("answers"):
         return Response(
             {"message": "Answers is required."},
