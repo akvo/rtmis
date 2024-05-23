@@ -1143,7 +1143,7 @@ class SubmitPendingFormDataSerializer(serializers.ModelSerializer):
 
 class SubmitPendingFormDataAnswerSerializer(serializers.ModelSerializer):
     value = UnvalidatedField(allow_null=False)
-    question = CustomPrimaryKeyRelatedField(queryset=Questions.objects.all())
+    question = CustomPrimaryKeyRelatedField(queryset=Questions.objects.none())
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
