@@ -127,7 +127,7 @@ def validate_entity_data(filename: str):
                     "message": f"Invalid Administration for {adm_names}",
                 })
             else:
-                if level == last_level:
+                if level == last_level and not bool(pd.isnull(row["Name"])):
                     # skip if the entity data already exists
                     entity_name = row["Name"]
                     entity_data = EntityData.objects.filter(
