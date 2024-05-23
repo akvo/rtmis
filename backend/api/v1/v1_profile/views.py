@@ -351,7 +351,7 @@ def export_prefilled_administrations_template(request: Request, version):
         OpenApiParameter(
             name="entity_ids",
             required=False,
-            type={"entity_ids": "array", "items": {"type": "number"}},
+            type={"type": "array", "items": {"type": "number"}},
             location=OpenApiParameter.QUERY,
             explode=False,
         ),
@@ -397,9 +397,9 @@ def export_entity_data(request: Request, version):
     summary="Export template for Entities data bulk upload",
     parameters=[
         OpenApiParameter(
-            name="entity_ids",
+            name="entity_types",
             required=True,
-            type={"entity_ids": "array", "items": {"type": "number"}},
+            type={"type": "array", "items": {"type": "number"}},
             location=OpenApiParameter.QUERY,
             explode=False,
         ),
@@ -415,7 +415,7 @@ def export_entities_data_template(request: Request, version):
             status=status.HTTP_400_BAD_REQUEST,
         )
     entity_ids = clean_array_param(
-        request.query_params.get("entity_ids", ""), maybe_int
+        request.query_params.get("entity_types", ""), maybe_int
     )
     filepath = generate_entities_data_excel(
         cast(SystemUser, request.user), entity_ids
@@ -440,7 +440,7 @@ def export_entities_data_template(request: Request, version):
         OpenApiParameter(
             name="entity_ids",
             required=False,
-            type={"entity_ids": "array", "items": {"type": "number"}},
+            type={"type": "array", "items": {"type": "number"}},
             location=OpenApiParameter.QUERY,
             explode=False,
         ),
