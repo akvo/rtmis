@@ -3718,7 +3718,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW:</b> what do you usually use to wash your hands? <b>Assessment:</b> if the household confirms handwashing with soap and water, note whether any of the critical times (related to toilets, food, infant excreta and animals) are mentioned. <br/>Ask about \u201cany other times when you wash your hands?\u201d but DO NOT make suggestions. <b>Critical FOOD times:</b> washing of hands with soap and water <b>BEFORE</b> food preparation or cooking; <b>BEFORE</b> feeding infants or young children; and <b>BEFORE</b> eating."
+            "text": "<b>INTERVIEW:</b> what do you usually use to wash your hands? <b>Assessment:</b> if the household confirms handwashing with soap and water, note whether any of the critical times (related to toilets, food, infant excreta and animals) are mentioned. <br/>Ask about \u201can other times when you wash your hands?\u201d but DO NOT make suggestions. <b>Critical FOOD times:</b> washing of hands with soap and water <b>BEFORE</b> food preparation or cooking; <b>BEFORE</b> feeding infants or young children; and <b>BEFORE</b> eating."
           },
           "required": true,
           "meta": false,
@@ -3787,7 +3787,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW:</b> what do you usually use to wash your hands? <b>Assessment:</b> if the household confirms handwashing with soap and water, note whether any of the critical times (related to toilets, food, infant excreta and animals) are mentioned. <br/>Ask about \u201cany other times when you wash your hands?\u201d but DO NOT make suggestions. <b>Critical INFANT times:</b> washing of hands with soap and water by caregivers AFTER cleaning an infant of excreta, AFTER handling child faeces, or AFTER washing or disposing of a used diaper"
+            "text": "<b>INTERVIEW:</b> what do you usually use to wash your hands? <b>Assessment:</b> if the household confirms handwashing with soap and water, note whether any of the critical times (related to toilets, food, infant excreta and animals) are mentioned. <br/>Ask about \u201can other times when you wash your hands?\u201d but DO NOT make suggestions. <b>Critical INFANT times:</b> washing of hands with soap and water by caregivers AFTER cleaning an infant of excreta, AFTER handling child faeces, or AFTER washing or disposing of a used diaper"
           },
           "required": true,
           "meta": false,
@@ -3860,7 +3860,7 @@
           "short_label": null,
           "type": "option",
           "tooltip": {
-            "text": "<b>INTERVIEW:</b> what do you usually use to wash your hands? <b>Assessment:</b> if the household confirms handwashing with soap and water, note whether any of the critical times (related to toilets, food, infant excreta and animals) are mentioned. <br/>Ask about \u201cany other times when you wash your hands?\u201d but DO NOT make suggestions. <b>Critical ANIMAL times:</b> washing of hands with soap and water <b>AFTER</b> contact with animals, animal products or animal wastes; and both <b>BEFORE</b> and <b>AFTER</b> milking (in households that milk animals)"
+            "text": "<b>INTERVIEW:</b> what do you usually use to wash your hands? <b>Assessment:</b> if the household confirms handwashing with soap and water, note whether any of the critical times (related to toilets, food, infant excreta and animals) are mentioned. <br/>Ask about \u201can other times when you wash your hands?\u201d but DO NOT make suggestions. <b>Critical ANIMAL times:</b> washing of hands with soap and water <b>AFTER</b> contact with animals, animal products or animal wastes; and both <b>BEFORE</b> and <b>AFTER</b> milking (in households that milk animals)"
           },
           "required": true,
           "meta": false,
