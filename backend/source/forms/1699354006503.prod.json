@@ -1125,15 +1125,15 @@
               "color": "#DB3B3B"
             },
             {
-              "order": 3,
-              "label": "No visible standing water in communal areas",
-              "value": "g3_no_visible_standing_water_communal_areas",
-              "color": "#ffa57d"
-            },
-            {
               "order": 2,
               "label": "Some standing water in communal areas",
               "value": "g1_some_standing_water_communal_areas",
+              "color": "#ffa57d"
+            },
+            {
+              "order": 3,
+              "label": "No visible standing water in communal areas",
+              "value": "g3_no_visible_standing_water_communal_areas",
               "color": "#38A15A"
             }
           ],
