@@ -1325,29 +1325,6 @@ class SubmitPendingFormSerializer(serializers.Serializer):
                 # for administration,number question type
                 value = answer.get("value")
 
-            # # save to pending answer
-            # if not direct_to_data:
-            #     PendingAnswers.objects.create(
-            #         pending_data=obj_data,
-            #         question=answer.get("question"),
-            #         name=name,
-            #         value=value,
-            #         options=option,
-            #         created_by=self.context.get("user"),
-            #         created=data.get("submitedAt") or timezone.now(),
-            #     )
-
-            # # save to form data
-            # if direct_to_data:
-            #     Answers.objects.create(
-            #         data=obj_data,
-            #         question=answer.get("question"),
-            #         name=name,
-            #         value=value,
-            #         options=option,
-            #         created_by=self.context.get("user"),
-            #     )
-
             # save to pending answer
             if not direct_to_data:
                 pending_answers.append(PendingAnswers(
