@@ -65,6 +65,12 @@ def generate_list_of_entities(
     return url
 
 
+def normalize_string(s):
+    if s is None:
+        return ""
+    return s.strip().replace('"', '')
+
+
 def validate_entity_data(filename: str):
     errors = []
     last_level = Levels.objects.all().order_by("level").last()
@@ -109,7 +115,7 @@ def validate_entity_data(filename: str):
                     if not higher_level:
                         higher_level = previous_level
                 else:
-                    row_value = row[level.name]
+                    row_value = normalize_string(row[level.name])
                     adm_names += [row_value]
                     administration = Administration.objects.filter(
                         Q(name__iexact=row_value),
