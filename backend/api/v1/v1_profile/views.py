@@ -107,30 +107,33 @@ class AdministrationViewSet(ModelViewSet):
     pagination_class = Pagination
 
     def get_queryset(self):
-        queryset = Administration.objects.prefetch_related(
-            "parent_administration", "attributes"
+        queryset = Administration.objects.select_related(
+            'level'
+        ).prefetch_related(
+            'parent_administration',
+            'attributes'
         ).all()
+
         search = self.request.query_params.get("search")
         parent_id = self.request.query_params.get("parent")
         level_id = self.request.query_params.get("level")
+
         if search:
             queryset = queryset.filter(
                 Q(name__icontains=search) | Q(code__icontains=search)
             )
+
         if parent_id:
-            try:
-                parent = Administration.objects.get(id=parent_id)
+            if Administration.objects.filter(id=parent_id).exists():
+                parent = Administration.objects.only('path').get(id=parent_id)
                 queryset = queryset.filter(
                     path__startswith=f"{parent.path or ''}{parent.id}."
                 )
-            except Administration.DoesNotExist:
-                pass
+
         if level_id:
-            try:
-                level = Levels.objects.get(id=level_id)
-                queryset = queryset.filter(level=level)
-            except Levels.DoesNotExist:
-                pass
+            if Levels.objects.filter(id=level_id).exists():
+                queryset = queryset.filter(level_id=level_id)
+
         return queryset.order_by("id")
 
     def get_serializer(self, *args, **kwargs):
@@ -348,7 +351,7 @@ def export_prefilled_administrations_template(request: Request, version):
         OpenApiParameter(
             name="entity_ids",
             required=False,
-            type={"entity_ids": "array", "items": {"type": "number"}},
+            type={"type": "array", "items": {"type": "number"}},
             location=OpenApiParameter.QUERY,
             explode=False,
         ),
@@ -394,9 +397,9 @@ def export_entity_data(request: Request, version):
     summary="Export template for Entities data bulk upload",
     parameters=[
         OpenApiParameter(
-            name="entity_ids",
+            name="entity_types",
             required=True,
-            type={"entity_ids": "array", "items": {"type": "number"}},
+            type={"type": "array", "items": {"type": "number"}},
             location=OpenApiParameter.QUERY,
             explode=False,
         ),
@@ -412,7 +415,7 @@ def export_entities_data_template(request: Request, version):
             status=status.HTTP_400_BAD_REQUEST,
         )
     entity_ids = clean_array_param(
-        request.query_params.get("entity_ids", ""), maybe_int
+        request.query_params.get("entity_types", ""), maybe_int
     )
     filepath = generate_entities_data_excel(
         cast(SystemUser, request.user), entity_ids
@@ -437,7 +440,7 @@ def export_entities_data_template(request: Request, version):
         OpenApiParameter(
             name="entity_ids",
             required=False,
-            type={"entity_ids": "array", "items": {"type": "number"}},
+            type={"type": "array", "items": {"type": "number"}},
             location=OpenApiParameter.QUERY,
             explode=False,
         ),

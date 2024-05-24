@@ -64,7 +64,7 @@ const uiText = {
       </Fragment>
     ),
     learnMoreButton: "Learn more",
-    realTime: "Real Time Management Information System",
+    realTime: "Real-Time Monitoring and Information System (RTMIS)",
     reportText: "Report generation and visualizations.",
     frameworkText: "4 M&E Frameworks",
     contactText: "Contact Us",
@@ -787,7 +787,7 @@ const uiText = {
     selectSubCounty: "Select Sub-county",
     selectCertification: "Select certification",
     certificationList: "Certification list",
-    ManageCertificationDataTitle: "Manage Certification Data",
+    ManageCertificationDataTitle: "Manage Grade Certification",
     CertificationDetailTitle: "Certification Detail",
     ManageCertificationDataText: (
       <Fragment>This is where you can view certification data</Fragment>
@@ -795,16 +795,16 @@ const uiText = {
     CertificationDetailText: (
       <Fragment>This is where you can view certification detail</Fragment>
     ),
-    backManageCertificationData: "Back to Manage Certification Data",
-    ManageVerificationDataTitle: "Manage Verification Data",
-    VerificationDetailTitle: "Verification Detail",
+    backManageCertificationData: "Back to Manage Grade Certification",
+    ManageVerificationDataTitle: "Manage Grade Claim",
+    VerificationDetailTitle: "Grade Claim Details",
     ManageVerificationDataText: (
-      <Fragment>This is where you can view verification data</Fragment>
+      <Fragment>This is where you can view Grade Claim</Fragment>
     ),
     VerificationDetailText: (
       <Fragment>This is where you can view verification detail</Fragment>
     ),
-    backManageVerification: "Back to Manage Verification Data",
+    backManageVerification: "Back to Manage Grade Claim",
   },
 
   de: {},
