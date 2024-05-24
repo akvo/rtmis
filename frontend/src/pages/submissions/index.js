@@ -68,7 +68,8 @@ export const columnsBatch = [
     align: "center",
     render: (approvers) => {
       if (approvers?.length) {
-        const status_text = approvers[approvers.length - 1].status_text;
+        const isRejected = approvers.find((a) => a?.status_text === "Rejected");
+        const status_text = isRejected?.status_text || approvers[0].status_text;
         return (
           <span>
             <Tag
