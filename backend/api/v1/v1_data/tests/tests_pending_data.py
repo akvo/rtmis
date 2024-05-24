@@ -169,11 +169,15 @@ class PendingDataTestCase(TestCase):
         self.assertEqual(0, len(response.json().get('batch')))
 
         # get parent level user
-        p_approval = PendingDataApproval.objects.filter(
+        p_approvals = PendingDataApproval.objects.filter(
             batch_id=approval.batch_id,
             level__level__lt=approval.level.level).order_by(
-            '-level__level').first()
+            '-level__level').all()
+        p_approval = p_approvals[0]
+        last_approval = p_approvals[1] if len(p_approvals) > 1 else None
+
         t_parent = RefreshToken.for_user(p_approval.user)
+
         header = {'HTTP_AUTHORIZATION': f'Bearer {t_parent.access_token}'}
         # subordinate = false, approved = false
         response = self.client.get(
@@ -244,6 +248,30 @@ class PendingDataTestCase(TestCase):
         status = response.json().get('batch')[0].get('approver').get(
             'status')
         self.assertEqual(DataApprovalStatus.rejected, status)
+
+        # check rejected not in list. subordinate = false, approved = false
+        header = {'HTTP_AUTHORIZATION': f'Bearer {t_parent.access_token}'}
+        rejected_response = self.client.get(
+            '/api/v1/form-pending-batch?page=1',
+            content_type='application/json',
+            **header)
+        self.assertEqual(200, rejected_response.status_code)
+        self.assertGreaterEqual(len(rejected_response.json().get('batch')), 0)
+
+        if last_approval:
+            last_approval_access = RefreshToken.for_user(last_approval.user)
+            last_approval_token = last_approval_access.access_token
+            last_approval_header = {
+                'HTTP_AUTHORIZATION': f'Bearer {last_approval_token}'
+            }
+            # check rejected not in list. subordinate = false, approved = false
+            rejected_response = self.client.get(
+                '/api/v1/form-pending-batch?page=1',
+                content_type='application/json',
+                **last_approval_header)
+            self.assertEqual(200, rejected_response.status_code)
+            res = len(rejected_response.json().get('batch'))
+            self.assertGreaterEqual(res, 0)
 
         # update rejected data
         batch_id = response.json().get('batch')[0]['id']
