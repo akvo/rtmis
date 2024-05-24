@@ -1,10 +1,8 @@
-import random
 import pandas as pd
 from datetime import datetime, timedelta, time
 from django.core.management import BaseCommand
 from faker import Faker
 
-from django.db.models import Q
 from django.utils.timezone import make_aware
 from api.v1.v1_data.models import (
     FormData,
@@ -12,22 +10,20 @@ from api.v1.v1_data.models import (
     PendingDataBatch,
     PendingDataApproval,
 )
-from api.v1.v1_users.models import SystemUser
-from api.v1.v1_forms.models import UserForms, FormApprovalAssignment
-from api.v1.v1_forms.constants import FormTypes
+from api.v1.v1_forms.models import Forms, FormApprovalAssignment
+from api.v1.v1_forms.constants import FormTypes, SubmissionTypes
 from api.v1.v1_data.management.commands.fake_data_seeder import (
     add_fake_answers,
 )
-from api.v1.v1_profile.models import Administration, Levels
+from api.v1.v1_profile.models import Administration
 from api.v1.v1_data.functions import refresh_materialized_data
 from api.v1.v1_data.tasks import seed_approved_data
-from api.v1.v1_profile.constants import UserRoleTypes
 from api.v1.v1_data.constants import DataApprovalStatus
 
 fake = Faker()
 
 
-def create_new_endpoint(index, form, administration, user):
+def create_registration(index, form, administration, user):
     fake_geo = pd.read_csv("./source/kenya_random_points-2024.csv")
     fake_geo = fake_geo.sample(frac=1).reset_index(drop=True)
     geo = fake_geo.iloc[index].to_dict()
@@ -49,31 +45,17 @@ def create_new_endpoint(index, form, administration, user):
     return data
 
 
-def seed_data(form, user, administrations, repeat, approved):
+def seed_data(form, datapoint, user, repeat, approved):
     pendings = []
-    for index in range(repeat):
-        selected_adm = random.choice(administrations)
-        datapoint = (
-            FormData.objects.filter(
-                administration=selected_adm,
-                created_by_id=user.id,
-                form_id=form.id,
-                parent=None,
-            )
-            .order_by("?")
-            .first()
-        )
-        if not datapoint:
-            datapoint = create_new_endpoint(index, form, selected_adm, user)
-        adm_name = datapoint.administration.name
-        dp_name = fake.sentence(nb_words=3)
+    for i in range(repeat):
         pending_data = PendingFormData.objects.create(
-            name=f"{adm_name} - {dp_name}",
+            name=datapoint.name,
             geo=datapoint.geo,
             uuid=datapoint.uuid,
             form=datapoint.form,
             administration=datapoint.administration,
             created_by=user,
+            submission_type=SubmissionTypes.monitoring,
         )
         add_fake_answers(
             pending_data, form_type=FormTypes.county, pending=True
@@ -90,13 +72,12 @@ def seed_data(form, user, administrations, repeat, approved):
     for administration_id, items in grouped_data.items():
         [dp] = items[:1]
         batch_name = fake.sentence(nb_words=3)
-        approved_value = fake.pybool() if not approved else approved
         batch = PendingDataBatch.objects.create(
             form=dp["instance"].form,
             administration=dp["instance"].administration,
             user=dp["instance"].created_by,
             name=f"{batch_name}-{administration_id}",
-            approved=approved_value,
+            approved=approved,
         )
         batch_items = [i["instance"] for i in items]
         batch.batch_pending_data_batch.add(*batch_items)
@@ -140,7 +121,7 @@ class Command(BaseCommand):
             "--approved",
             nargs="?",
             const=False,
-            default=False,
+            default=True,
             type=bool,
         )
 
@@ -148,37 +129,17 @@ class Command(BaseCommand):
         test = options.get("test")
         repeat = options.get("repeat")
         approved = options.get("approved")
-        lowest_level = Levels.objects.order_by("-id").first()
-        user = (
-            SystemUser.objects.filter(
-                user_access__role=UserRoleTypes.user,
-                user_access__administration__level_id__gte=lowest_level.id - 1,
-            )
-            .order_by("?")
-            .first()
-        )
-        if user:
-            ward_id = user.user_access.administration.id
-            if lowest_level.id == user.user_access.administration.level.id:
-                parent = list(
-                    filter(
-                        lambda p: p,
-                        user.user_access.administration.path.split("."),
-                    )
-                )[-1]
-                ward_id = parent
-                user.user_access.administration_id = parent
-                user.user_access.save()
-            administrations = Administration.objects.filter(
-                Q(parent=ward_id) | Q(pk=ward_id)
-            )
-            user_forms = UserForms.objects.filter(user=user).all()
+
+        forms = Forms.objects.filter(type=FormTypes.county).all()
+        for form in forms:
             if not test:
-                print(f"\nCreated by: {user.email}")
-            for user_form in user_forms:
-                if not test:
-                    print(f"\nSeeding - {user_form.form.name}")
+                print(f"Seeding - {form.name}")
+            for dp in form.form_form_data.all():
                 seed_data(
-                    user_form.form, user, administrations, repeat, approved
+                    form=form,
+                    datapoint=dp,
+                    user=dp.created_by,
+                    repeat=repeat,
+                    approved=approved,
                 )
             refresh_materialized_data()
