@@ -1011,19 +1011,21 @@ def list_pending_batch(request, version):
             queryset = queryset.filter(
                 level_id=F("pending_level"), batch__approved=False
             )
-            queryset = queryset.exclude(
-                batch_id__in=rejected_by_current_user.values_list(
-                    "batch_id", flat=True
+            if rejected_by_current_user:
+                # only run this filter if user has rejected batch
+                queryset = queryset.exclude(
+                    batch_id__in=rejected_by_current_user.values_list(
+                        "batch_id", flat=True
+                    )
                 )
-            )
-            rejected = rejected.exclude(
-                batch_id__in=rejected_by_current_user.values_list(
-                    "batch_id", flat=True
+                rejected = rejected.exclude(
+                    batch_id__in=rejected_by_current_user.values_list(
+                        "batch_id", flat=True
+                    )
                 )
-            )
-            queryset = queryset.union(
-                rejected.values_list("batch_id", flat=True)
-            )
+                queryset = queryset.union(
+                    rejected.values_list("batch_id", flat=True)
+                )
     queryset = queryset.values_list("batch_id", flat=True).order_by("-id")
 
     paginator = PageNumberPagination()

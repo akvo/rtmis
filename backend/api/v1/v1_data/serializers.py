@@ -907,7 +907,10 @@ class ListBatchSerializer(serializers.ModelSerializer):
     )
     def get_approvers(self, instance: PendingDataBatch):
         data = []
-        for approver in instance.batch_approval.all():
+        approvers = instance.batch_approval.order_by(
+            "level"
+        ).all()
+        for approver in approvers:
             approver_administration = approver.user.user_access.administration
             data.append(
                 {
