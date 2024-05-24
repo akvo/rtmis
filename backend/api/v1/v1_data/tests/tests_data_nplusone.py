@@ -44,7 +44,7 @@ class DataNPlusOneTestCase(TestCase):
                 content_type="application/json",
                 **header,
             )
-        self.assertNumQueries(19, call_route)
+        self.assertNumQueries(18, call_route)
 
     def test_parent_query(self):
         def call_route():
