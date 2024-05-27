@@ -400,7 +400,11 @@ const AddAssignment = () => {
                   allowClear
                   loading={loading}
                   fieldNames={{ value: "id", label: "name" }}
-                  options={userForms}
+                  options={
+                    authUser.administration.level === 2 && editAssignment?.forms
+                      ? editAssignment.forms
+                      : userForms
+                  }
                   className="custom-select"
                   tagRender={tagRender}
                 />
