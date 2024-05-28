@@ -62,15 +62,17 @@ def seed_administrations(
         ) -> Union[Administration, None]:
     last_obj = None
     for item in data:
-        level, name = item
+        level, name, code = item
         obj = Administration.objects.filter(
             Q(name__iexact=name),
+            code=code,
             level=level,
             parent=last_obj,
         ).first()
         if not obj:
             obj = Administration.objects.create(
                 name=name.title(),
+                code=code,
                 level=level,
                 parent=last_obj
             )

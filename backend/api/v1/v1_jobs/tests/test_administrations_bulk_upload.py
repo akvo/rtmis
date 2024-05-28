@@ -92,10 +92,15 @@ class SeedDataTestCase(TestCase, ProfileTestHelperMixin):
                 ]
         df.loc[len(df)] = [
                 'Indonesia',
+                '001',
                 'Jakarta',
+                '101',
                 'South Jakarta',
+                '201',
                 'Pasar Minggu',
+                '301',
                 'Jagakarsa',
+                '402',
                 '',
                 'opt #2'
                 ]
@@ -182,9 +187,9 @@ class SeedDataTestCase(TestCase, ProfileTestHelperMixin):
                 'Indonesia',
                 '001',
                 'Jakarta',
-                '201',
+                '101',
                 'South Jakarta',
-                None,
+                '201',
                 '',
                 None,
                 '',
