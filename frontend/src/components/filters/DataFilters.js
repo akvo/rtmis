@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import "./style.scss";
-import { Row, Col, Space, Button } from "antd";
+import { Row, Col, Space, Button, Dropdown } from "antd";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import AdministrationDropdown from "./AdministrationDropdown";
 import FormDropdown from "./FormDropdown.js";
@@ -36,12 +36,12 @@ const DataFilters = ({ loading, showAdm = true, resetFilter = true }) => {
     return uiText[activeLang];
   }, [activeLang]);
 
-  const exportGenerate = () => {
+  const exportGenerate = ({ key }) => {
     setExporting(true);
     const adm_id = takeRight(administration, 1)[0]?.id;
     api
       .get(
-        `download/generate?form_id=${selectedForm}&administration_id=${adm_id}`
+        `download/generate?form_id=${selectedForm}&administration_id=${adm_id}&type=${key}`
       )
       .then(() => {
         notify({
@@ -62,14 +62,30 @@ const DataFilters = ({ loading, showAdm = true, resetFilter = true }) => {
 
   const goToAddForm = () => {
     /***
-     * reset initial value and monitoring
+     * reset initial value
      */
     store.update((s) => {
       s.initialValue = [];
-      s.monitoring = null;
     });
     navigate(`/control-center/form/${selectedForm}`);
   };
+
+  const downloadTypes = [
+    {
+      key: "all",
+      label: "All Data",
+      onClick: (param) => {
+        exportGenerate(param);
+      },
+    },
+    {
+      key: "recent",
+      label: "Latest Data",
+      onClick: (param) => {
+        exportGenerate(param);
+      },
+    },
+  ];
 
   return (
     <>
@@ -88,14 +104,15 @@ const DataFilters = ({ loading, showAdm = true, resetFilter = true }) => {
               </Button>
             </Link>
             {pathname === "/control-center/data" && (
-              <Button
-                shape="round"
-                onClick={exportGenerate}
-                loading={exporting}
-                icon={<DownloadOutlined />}
-              >
-                {text.download}
-              </Button>
+              <Dropdown menu={{ items: downloadTypes }} placement="bottomRight">
+                <Button
+                  icon={<DownloadOutlined />}
+                  shape="round"
+                  loading={exporting}
+                >
+                  {text.download}
+                </Button>
+              </Dropdown>
             )}
             <Button
               shape="round"

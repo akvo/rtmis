@@ -4,9 +4,10 @@ import { Button, ListItem } from '@rneui/themed';
 import PropTypes from 'prop-types';
 import { BaseLayout } from '../../components';
 import { FormState, UIState } from '../../store';
-import { i18n } from '../../lib';
+import { helpers, i18n } from '../../lib';
 import { crudMonitoring } from '../../database/crud';
 import { transformMonitoringData } from '../../form/lib';
+import { SUBMISSION_TYPES } from '../../lib/constants';
 
 const UpdateForm = ({ navigation, route }) => {
   const params = route?.params || null;
@@ -21,6 +22,10 @@ const UpdateForm = ({ navigation, route }) => {
 
   const formId = params?.formId;
   const loadMore = useMemo(() => forms.length < total, [forms, total]);
+  const subTitle = useMemo(() => {
+    const submissionType = route.params?.submission_type || SUBMISSION_TYPES.registration;
+    return helpers.flipObject(SUBMISSION_TYPES)[submissionType]?.toUpperCase();
+  }, [route.params?.submission_type]);
 
   const handleUpdateForm = (item) => {
     const { currentValues, prevAdmAnswer } = transformMonitoringData(
@@ -33,9 +38,8 @@ const UpdateForm = ({ navigation, route }) => {
     });
     navigation.navigate('FormPage', {
       ...route.params,
-      showSubmitted: false,
       newSubmission: true,
-      isMonitoring: true,
+      uuid: item?.uuid,
     });
   };
 
@@ -95,7 +99,7 @@ const UpdateForm = ({ navigation, route }) => {
   return (
     <BaseLayout
       title={total ? `${route?.params?.name} (${total})` : route?.params?.name}
-      subTitle={route.params?.submission_type?.toUpperCase()}
+      subTitle={subTitle}
       rightComponent={false}
       search={{
         show: true,

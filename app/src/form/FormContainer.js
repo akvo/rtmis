@@ -8,14 +8,20 @@ import { FormNavigation, QuestionGroupList } from './support';
 import QuestionGroup from './components/QuestionGroup';
 import { transformForm, generateDataPointName } from './lib';
 import { FormState } from '../store';
-import { i18n } from '../lib';
+import { helpers, i18n } from '../lib';
+import { SUBMISSION_TYPES } from '../lib/constants';
 
 // TODO:: Allow other not supported yet
 // TODO:: Repeat group not supported yet
 
-const checkValuesBeforeCallback = (values) =>
+const checkValuesBeforeCallback = ({ values, hiddenQIds = [] }) =>
   Object.keys(values)
     .map((key) => {
+      // remove value where question is hidden
+      if (hiddenQIds.includes(Number(key))) {
+        return false;
+      }
+      // EOL remove value where question is hidden
       let value = values[key];
       if (typeof value === 'string') {
         value = value.trim();
@@ -67,12 +73,19 @@ LoadingOverlay.propTypes = {
 const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
   const [activeGroup, setActiveGroup] = useState(0);
   const [showQuestionGroupList, setShowQuestionGroupList] = useState(false);
+  const [isDefaultFilled, setIsDefaultFilled] = useState(false);
   const currentValues = FormState.useState((s) => s.currentValues);
   const cascades = FormState.useState((s) => s.cascades);
   const activeLang = FormState.useState((s) => s.lang);
   const trans = i18n.text(activeLang);
   const formLoading = FormState.useState((s) => s.loading);
   const route = useRoute();
+
+  const dependantQuestions =
+    forms?.question_group
+      ?.flatMap((qg) => qg.question)
+      .filter((q) => q?.dependency && q?.dependency?.length)
+      ?.map((q) => ({ id: q.id, dependency: q.dependency })) || [];
 
   const formDefinition = transformForm(
     forms,
@@ -81,6 +94,22 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
     route.params.submission_type,
   );
   const activeQuestions = formDefinition?.question_group?.flatMap((qg) => qg?.question);
+
+  const hiddenQIds = useMemo(
+    () =>
+      forms?.question_group
+        ?.flatMap((qg) => qg?.question)
+        .map((q) => {
+          const subTypeName = helpers.flipObject(SUBMISSION_TYPES)?.[route.params.submission_type];
+          const hidden = q?.hidden ? q.hidden?.submission_type?.includes(subTypeName) : false;
+          if (hidden) {
+            return q.id;
+          }
+          return false;
+        })
+        .filter((x) => x),
+    [forms, route.params.submission_type],
+  );
 
   const currentGroup = useMemo(
     () => formDefinition?.question_group?.[activeGroup] || {},
@@ -91,7 +120,7 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
     const validValues = Object.keys(currentValues)
       .filter((qkey) => activeQuestions.map((q) => `${q.id}`).includes(qkey))
       .reduce((prev, current) => ({ [current]: currentValues[current], ...prev }), {});
-    const results = checkValuesBeforeCallback(validValues);
+    const results = checkValuesBeforeCallback({ values: validValues, hiddenQIds });
     if (onSubmit) {
       const { dpName, dpGeo } = generateDataPointName(forms, validValues, cascades);
       onSubmit({ name: dpName, geo: dpGeo, answers: results });
@@ -133,23 +162,31 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
   };
 
   const handleOnDefaultValue = useCallback(() => {
-    const defaultValues = activeQuestions
-      .filter((aq) => aq?.default_value)
-      .map((aq) => {
-        const key = Object.keys(route.params).find((k) => aq.default_value?.[k]);
-        const defaultValue = aq.default_value?.[key]?.[route.params?.[key]];
-        return {
-          [aq.id]: ['option', 'multiple_option'].includes(aq.type) ? [defaultValue] : defaultValue,
-        };
-      })
-      .reduce((prev, current) => ({ ...prev, ...current }), {});
-
-    if (Object.keys(defaultValues).length) {
-      FormState.update((s) => {
-        s.currentValues = { ...defaultValues, ...s.currentValues };
-      });
+    if (!isDefaultFilled) {
+      setIsDefaultFilled(true);
+      const defaultValues = activeQuestions
+        .filter((aq) => aq?.default_value)
+        .map((aq) => {
+          const submissionType = route.params?.submission_type || SUBMISSION_TYPES.registration;
+          const subTypeName = helpers.flipObject(SUBMISSION_TYPES)[submissionType];
+          const defaultValue = aq?.default_value?.submission_type?.[subTypeName];
+          if (['option', 'multiple_option'].includes(aq.type)) {
+            return {
+              [aq.id]: defaultValue ? [defaultValue] : [],
+            };
+          }
+          return {
+            [aq.id]: defaultValue || Number(defaultValue) === 0 ? defaultValue : '',
+          };
+        })
+        .reduce((prev, current) => ({ ...prev, ...current }), {});
+      if (Object.keys(defaultValues).length) {
+        FormState.update((s) => {
+          s.currentValues = { ...s.currentValues, ...defaultValues };
+        });
+      }
     }
-  }, [activeQuestions, route.params]);
+  }, [activeQuestions, route.params, isDefaultFilled]);
 
   useEffect(() => {
     handleOnDefaultValue();
@@ -165,6 +202,7 @@ const FormContainer = ({ forms, onSubmit, setShowDialogMenu }) => {
               index={activeGroup}
               group={currentGroup}
               activeQuestions={activeQuestions}
+              dependantQuestions={dependantQuestions}
             />
           ) : (
             <QuestionGroupList

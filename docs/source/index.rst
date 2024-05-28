@@ -31,6 +31,12 @@ Real Time Monitoring Information Systems
 
 .. toctree::
    :maxdepth: 2
+   :caption: Mobile App
+
+   mobileApp
+
+.. toctree::
+   :maxdepth: 2
    :caption: Administration
    
    administration
@@ -46,6 +52,12 @@ Real Time Monitoring Information Systems
    :caption: Data Management
 
    dataManagement
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Master Data Management
+
+   MasterDataManagement   
 
 .. toctree::
    :maxdepth: 2

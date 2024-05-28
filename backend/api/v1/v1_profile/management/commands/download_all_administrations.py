@@ -9,12 +9,7 @@ from utils.storage import upload
 class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument(
-            "-t",
-            "--test",
-            nargs="?",
-            const=1,
-            default=False,
-            type=int
+            "-t", "--test", nargs="?", const=1, default=False, type=int
         )
 
     def handle(self, *args, **options):
@@ -22,7 +17,7 @@ class Command(BaseCommand):
         filename = "kenya-administration.csv"
         if test:
             filename = "kenya-administration_test.csv"
-        file_path = './tmp/{0}'.format(filename)
+        file_path = "./tmp/{0}".format(filename)
         if os.path.exists(file_path):
             os.remove(file_path)
         administrations = Administration.objects.filter(level__id__gt=1).all()
@@ -30,12 +25,11 @@ class Command(BaseCommand):
         for adm in administrations:
             columns = {}
             if adm.path:
-                parent_ids = list(filter(
-                    lambda path: path, adm.path.split(".")
-                ))
+                parent_ids = list(
+                    filter(lambda path: path, adm.path.split("."))
+                )
                 parents = Administration.objects.filter(
-                    pk__in=parent_ids,
-                    level__id__gt=1
+                    pk__in=parent_ids, level__id__gt=1
                 ).all()
                 for p in parents:
                     columns[p.level.name.lower()] = p.name
@@ -47,9 +41,10 @@ class Command(BaseCommand):
         levels = Levels.objects.filter(id__gt=1).all()
         for level in levels:
             col_name = f"{level.name.lower()}_id"
-            df[col_name] = pd.to_numeric(df[col_name], errors='coerce')
-            df[col_name] = df[col_name] \
-                .where(df[col_name].notna(), None).astype('Int64')
+            df[col_name] = pd.to_numeric(df[col_name], errors="coerce")
+            df[col_name] = (
+                df[col_name].where(df[col_name].notna(), None).astype("Int64")
+            )
         df.to_csv(file_path, index=False)
         url = upload(file=file_path, folder="master_data")
         self.stdout.write(f"File Created: {url}")

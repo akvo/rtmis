@@ -1,6 +1,7 @@
 from collections import OrderedDict
 import logging
 from django.db import transaction
+from django.db.models import Q
 import pandas as pd
 import numpy as np
 from typing import Any, Dict, List, Tuple, Type, Union
@@ -61,13 +62,18 @@ def seed_administrations(
         ) -> Union[Administration, None]:
     last_obj = None
     for item in data:
-        level, name, code = item
-        obj, _ = Administration.objects.get_or_create(
-            code=code,
-            name=name,
+        level, name = item
+        obj = Administration.objects.filter(
+            Q(name__iexact=name),
             level=level,
-            parent=last_obj
-        )
+            parent=last_obj,
+        ).first()
+        if not obj:
+            obj = Administration.objects.create(
+                name=name.title(),
+                level=level,
+                parent=last_obj
+            )
         last_obj = obj
     return last_obj
 
@@ -117,12 +123,11 @@ def map_column_model(columns, model: Type[Model]):
 
 def validate_administrations_bulk_upload(io_file):
     excel_file = pd.ExcelFile(io_file)
-    sheet_names = ['data']
-    if sheet_names != excel_file.sheet_names:
+    if "data" not in excel_file.sheet_names:
         return [{
             "error": ExcelError.sheet,
             "error_message": ValidationText.template_validation.value,
-            "sheets": ",".join(sheet_names)
+            "sheets": ",".join(excel_file.sheet_names)
         }]
     df = pd.read_excel(io_file, sheet_name='data')
     if df.shape[0] == 0:

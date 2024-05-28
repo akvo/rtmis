@@ -14,3 +14,4 @@ export { default as FormDataDetailsPage } from './FormData/FormDataDetails';
 export { default as AddNewForm } from './Settings/AddNewForm';
 export { default as UpdateForm } from './UpdateForm/UpdateForm';
 export { default as AboutPage } from './About/About';
+export { default as CertificationData } from './Certification/CertificationData';

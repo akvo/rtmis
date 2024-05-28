@@ -52,7 +52,7 @@ const AdministrationDropdown = ({
 
   useEffect(() => {
     fetchUserAdmin();
-  }, [fetchUserAdmin, persist]);
+  }, [fetchUserAdmin]);
 
   useEffect(() => {
     const multiadministration = administration?.find(
@@ -207,7 +207,7 @@ const AdministrationDropdown = ({
           <Row className="form-row">
             <Col span={24}>
               <Checkbox onChange={handleSelectAllVillage} checked={checked}>
-                Select all village
+                Select all villages
               </Checkbox>
             </Col>
           </Row>

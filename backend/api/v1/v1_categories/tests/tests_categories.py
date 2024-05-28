@@ -7,6 +7,7 @@ from django.test.utils import override_settings
 from api.v1.v1_data.models import Answers, Questions
 from api.v1.v1_categories.functions import validate_number, get_valid_list
 from api.v1.v1_categories.models import DataCategory
+from api.v1.v1_data.models import FormData
 
 
 @override_settings(USE_TZ=False)
@@ -21,6 +22,7 @@ class CategoryTestCase(TestCase):
         token = user_response.json().get("token")
 
         call_command("form_seeder", "--test")
+        call_command("demo_approval_flow", "--test", True)
         call_command("fake_data_seeder", "-r", 1, "-t", True)
         self.header = {"HTTP_AUTHORIZATION": f"Bearer {token}"}
 
@@ -50,12 +52,17 @@ class CategoryTestCase(TestCase):
             list(result["data"][0]),
             ["id", "name", "administration", "geo", "data", "categories"],
         )
-        questions_queryset = Questions.objects.filter(form_id=1).values_list(
-            "id", "name"
-        )
+        datapoint = FormData.objects.get(pk=result["data"][0]['id'])
+        questions = [
+            "{0}|{1}".format(
+                a.question.id,
+                a.question.name
+            )
+            for a in datapoint.data_answer.all()
+        ]
         self.assertEqual(
             sorted(list(result["data"][0]["data"])),
-            sorted([f"{str(x[0])}|{x[1]}" for x in list(questions_queryset)]),
+            sorted(questions),
         )
 
         # PRIVATE RAW DATA ACCESS (POWER BI) WITH FILTER
@@ -123,7 +130,8 @@ class CategoryTestCase(TestCase):
             answers = Answers.objects.filter(data_id=data_id).all()
             row_value = df[df["id"] == data_id]
             for a in answers:
-                csv_answer = row_value[f"{a.question.id}|{a.question.name}"][0]
+                csv_answer = row_value[f"{a.question.id}|{a.question.name}"]\
+                    .item()
                 if csv_answer != csv_answer:
                     csv_answer = None
                 db_answer = None

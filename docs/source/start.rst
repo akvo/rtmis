@@ -11,13 +11,12 @@
 User Types & Basic principal
 -----------------------------
 
-* There are three types of users that comprise Platform administrators (Super admins, County admins, sub county PHOs/Approvers), data collectors (Enumerators) and information consumers (National, County, institutional and public )
+* There are two types of users that comprise Platform administrators (Super admins, County admins, sub county PHOs/Approvers), data collectors (Data Entry Supervisor)
 * A user can only be added by authorised users with admin or super admin roles
 * A county admin can only add users for their county
 * A user can only be deleted if there are no approvals or batching operations pending on them
 * Only super admins can add users with an admin role
 * A county admin can only assign questionnaires from the list of questionnaires that they have been assigned
-* A super admin or county admin can both add a  read only user with a region. The county admin can only add for their county or below while the super admin can add for national or below
 * Data entered by super admins is automatically approved
 * Data can be updated for an existing data point. Update is only be possible if that data point is not pending approval
 * Approved data can only be deleted by county admin or super admin
@@ -30,8 +29,8 @@ User Roles and Permissions
 +---------------------------+------------------------+----------------------------------------------+
 | User Roles                | Privileges             | Definitions                                  |
 +===========================+========================+==============================================+
-|| **Data Submitter**       || Data upload, View     || An enumerator can only edit data if the     |
-||                          ||                       || approver has rejected the data              |
+|| **Data Submitter**       || Data upload, View     || A Data Entry Supervisor can only edit       |
+||                          ||                       || data if the  approver has rejected the data |
 +---------------------------+------------------------+----------------------------------------------+
 || **Approver**             || Edit, View, Data      || Approvals restricted by region              |
 ||                          || Approval              ||                                             |
@@ -43,16 +42,6 @@ User Roles and Permissions
 || **Super Administrator**  || Edit, View, Approve,  || National level administrators with country  |
 ||                          || Manage Users, Manage  || wide scope . Will all privileges along with |
 ||                          || survey configurations || managing key system level configurations    |
-+---------------------------+------------------------+----------------------------------------------+
-|| **Institutional User**   || View, download        || A “read only” user whose access can be      |
-||                          || approved datasets     || limited by region and/or Forms. These       |
-||                          ||                       || will be institutional users (UNICEF/        |
-||                          ||                       || Donors, academic institutions etc) . Can    |
-||                          ||                       || only view and download approved             |
-||                          ||                       || datasets                                    |
-+---------------------------+------------------------+----------------------------------------------+
-|| **Public User**          || View auto generated   || Can only view auto generated dash           |
-||                          || dash boards only      || boards only                                 |
 +---------------------------+------------------------+----------------------------------------------+
 
 Setting up Account for the First Time

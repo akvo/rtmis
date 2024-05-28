@@ -110,8 +110,13 @@ const uiText = {
     autoSyncInProgress: 'Auto sync is in progress',
     connectToInternet: 'Connect to the internet to sync',
     loadMore: 'Load more',
-    manageVerification: 'Verification form',
-    manageCertification: 'Certification form',
+    manageVerification: 'Grade Claim form',
+    manageCertification: 'Grade Certification form',
+    updateApp: 'Update application',
+    checkingVersion: 'Checking for update',
+    buttonUpdate: 'Update',
+    noUpdateFound: 'No update found.',
+    newVersionAvailable: 'New version available.',
   },
   fr: {
     latitude: 'Latitude',
@@ -217,6 +222,11 @@ const uiText = {
     loadMore: 'Charger plus',
     manageVerification: 'Formulaire de vérification',
     manageCertification: "Formulaire d'attestation",
+    updateApp: "Met à jour l'application",
+    checkingVersion: 'Vérification des mises à jour',
+    buttonUpdate: 'Mise à jour',
+    noUpdateFound: 'Pas de mise à jour trouvée.',
+    newVersionAvailable: 'Une nouvelle version est disponible.',
   },
 };
 

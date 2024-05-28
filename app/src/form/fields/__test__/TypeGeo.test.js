@@ -271,7 +271,7 @@ describe('TypeGeo', () => {
     });
   });
 
-  it('should show `Low Precission` when accuracy exceeded the threshold', async () => {
+  it('should show `Low Precision` when accuracy exceeded the threshold', async () => {
     Location.requestForegroundPermissionsAsync.mockImplementation(() =>
       Promise.resolve({ status: 'granted' }),
     );
@@ -310,7 +310,7 @@ describe('TypeGeo', () => {
 
     await waitFor(() => {
       expect(Location.getCurrentPositionAsync).toHaveBeenCalledTimes(2);
-      expect(getByText('Low Precission')).toBeDefined();
+      expect(getByText('Low Precision')).toBeDefined();
       expect(values[1]).toEqual([]);
     });
   });

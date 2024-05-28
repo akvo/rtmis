@@ -1,12 +1,13 @@
 import { useCallback, useEffect } from 'react';
-import { BuildParamsState, DatapointSyncState, UIState } from '../store';
+import * as Network from 'expo-network';
+import { BuildParamsState, DatapointSyncState, UIState, UserState } from '../store';
 import { backgroundTask } from '../lib';
 import crudJobs, {
   jobStatus,
   MAX_ATTEMPT,
   SYNC_DATAPOINT_JOB_NAME,
 } from '../database/crud/crud-jobs';
-import { crudDataPoints } from '../database/crud';
+import { crudConfig, crudDataPoints } from '../database/crud';
 import { downloadDatapointsJson, fetchDatapoints } from '../lib/sync-datapoints';
 import { SYNC_FORM_SUBMISSION_TASK_NAME, SYNC_STATUS } from '../lib/constants';
 /**
@@ -16,13 +17,20 @@ const SyncService = () => {
   const isOnline = UIState.useState((s) => s.online);
   const syncInterval = BuildParamsState.useState((s) => s.dataSyncInterval);
   const syncInSecond = parseInt(syncInterval, 10) * 1000;
+  const certifications = UserState.useState((s) => s.certifications);
 
   const onSync = useCallback(async () => {
     const pendingToSync = await crudDataPoints.selectSubmissionToSync();
     const activeJob = await crudJobs.getActiveJob(SYNC_FORM_SUBMISSION_TASK_NAME);
+    const settings = await crudConfig.getConfig();
 
     // eslint-disable-next-line no-console
     console.info('[ACTIVE JOB]', activeJob);
+
+    const { type: networkType } = await Network.getNetworkStateAsync();
+    if (settings?.syncWifiOnly && networkType !== Network.NetworkStateType.WIFI) {
+      return;
+    }
 
     if (activeJob?.status === jobStatus.ON_PROGRESS) {
       if (activeJob.attempt < MAX_ATTEMPT) {
@@ -113,13 +121,46 @@ const SyncService = () => {
       });
 
       try {
-        const allData = await fetchDatapoints();
-        const urls = allData.map(({ url, form_id: formId, last_updated: lastUpdated }) => ({
-          url,
-          formId,
-          lastUpdated,
-        }));
-        await Promise.all(urls.map((u) => downloadDatapointsJson(u)));
+        const monitoringRes = await fetchDatapoints();
+        let apiURLs = monitoringRes.map(
+          ({
+            url,
+            form_id: formId,
+            administration_id: administrationId,
+            last_updated: lastUpdated,
+          }) => ({
+            url,
+            formId,
+            administrationId,
+            lastUpdated,
+          }),
+        );
+
+        if (certifications?.length) {
+          const certifyRes = await fetchDatapoints(true);
+          apiURLs = [
+            ...apiURLs,
+            ...certifyRes.map(
+              ({
+                url,
+                form_id: formId,
+                administration_id: administrationId,
+                last_updated: lastUpdated,
+              }) => ({
+                url,
+                formId,
+                administrationId,
+                lastUpdated,
+                isCertification: true,
+              }),
+            ),
+          ];
+        }
+
+        // console.log(apiURLs?.[0]?.url, 'is ip address same');
+        await Promise.all(
+          apiURLs.map(({ isCertification, ...u }) => downloadDatapointsJson(isCertification, u)),
+        );
         await crudJobs.deleteJob(activeJob.id);
 
         DatapointSyncState.update((s) => {
@@ -143,7 +184,7 @@ const SyncService = () => {
         s.inProgress = false;
       });
     }
-  }, []);
+  }, [certifications?.length]);
 
   useEffect(() => {
     const unsubsDataSync = DatapointSyncState.subscribe(

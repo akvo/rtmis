@@ -3,7 +3,8 @@ import renderer, { act } from 'react-test-renderer';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { useNavigation } from '@react-navigation/native';
 import ManageFormPage from '../ManageForm';
-import { FormState } from '../../store';
+import { FormState, UserState } from '../../store';
+import { SUBMISSION_TYPES } from '../../lib/constants';
 
 jest.mock('@react-navigation/native');
 
@@ -32,7 +33,7 @@ describe('ManageFormPage', () => {
         id: 1,
         name: 'Health Facilities',
         newSubmission: true,
-        submission_type: 'registration',
+        submission_type: SUBMISSION_TYPES.registration,
       },
     };
     const { getByTestId } = render(
@@ -107,7 +108,7 @@ describe('ManageFormPage', () => {
         id: 1,
         name: 'Health Facilities',
         newSubmission: true,
-        submission_type: 'verification',
+        submission_type: SUBMISSION_TYPES.verification,
       },
     };
     const { getByTestId } = render(
@@ -121,5 +122,73 @@ describe('ManageFormPage', () => {
     await waitFor(() => {
       expect(mockNavigation.navigate).toHaveBeenCalledWith('UpdateForm', mockParams.params);
     });
+  });
+
+  it.failing('should not show Certification menu if requirement match', async () => {
+    // UserState certification not defined
+    act(() => {
+      FormState.update((s) => {
+        s.form = {
+          id: 1,
+          name: 'Example Form',
+          draft: 1,
+          submitted: 1,
+          json: '{ "submission_types": [1, 2, 3, 4] }',
+        };
+      });
+    });
+
+    const mockNavigation = useNavigation();
+    const mockParams = {
+      params: {
+        id: 1,
+        name: 'Health Facilities',
+        newSubmission: true,
+        submission_type: SUBMISSION_TYPES.certification,
+      },
+    };
+    const { getByTestId } = render(
+      <ManageFormPage navigation={mockNavigation} route={mockParams} />,
+    );
+
+    const certificationMenu = getByTestId('goto-item-6');
+    expect(certificationMenu).toBeDefined();
+  });
+
+  it('should show Certification menu if requirement match', async () => {
+    // Define UserState certification
+    act(() => {
+      UserState.update((s) => {
+        s.id = 1;
+        s.name = 'John Doe';
+        s.certifications = [12345];
+      });
+
+      FormState.update((s) => {
+        s.form = {
+          id: 1,
+          name: 'Example Form',
+          draft: 1,
+          submitted: 1,
+          json: '{ "submission_types": [1, 2, 3, 4] }',
+        };
+      });
+    });
+
+    const mockNavigation = useNavigation();
+    const mockParams = {
+      params: {
+        id: 1,
+        name: 'Health Facilities',
+        newSubmission: true,
+        submission_type: SUBMISSION_TYPES.certification,
+      },
+    };
+    const { getByTestId } = render(
+      <ManageFormPage navigation={mockNavigation} route={mockParams} />,
+    );
+
+    const certificationMenu = getByTestId('goto-item-6');
+    expect(certificationMenu).toBeDefined();
   });
 });

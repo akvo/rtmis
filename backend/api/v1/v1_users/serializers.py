@@ -41,20 +41,36 @@ class OrganisationAttributeSerializer(serializers.ModelSerializer):
         fields = ['type_id', 'name']
 
 
+class OrganisationAttributeChildrenSerializer(serializers.ModelSerializer):
+    type_id = serializers.ReadOnlyField(source='type')
+    name = serializers.SerializerMethodField()
+    children = serializers.SerializerMethodField()
+
+    @extend_schema_field(OpenApiTypes.STR)
+    def get_name(self, instance: OrganisationAttribute):
+        return OrganisationTypes.FieldStr.get(instance.type)
+
+    @extend_schema_field(OrganisationSerializer(many=True))
+    def get_children(self, instance: OrganisationAttribute):
+        orgs = Organisation.objects.filter(
+            organisation_organisation_attribute__type=instance.type
+        ).all()
+        return OrganisationSerializer(instance=orgs, many=True).data
+
+    class Meta:
+        model = OrganisationAttribute
+        fields = ['type_id', 'name', 'children']
+
+
 class OrganisationListSerializer(serializers.ModelSerializer):
     attributes = serializers.SerializerMethodField()
-    users = serializers.SerializerMethodField()
+    users = serializers.IntegerField(source='user_count')
 
     @extend_schema_field(OrganisationAttributeSerializer(many=True))
     def get_attributes(self, instance: Organisation):
-        attr = OrganisationAttribute.objects.filter(
-            organisation_id=instance.id).all()
+        # Use the prefetched data instead of querying the database again
+        attr = instance.organisation_organisation_attribute.all()
         return OrganisationAttributeSerializer(instance=attr, many=True).data
-
-    @extend_schema_field(OpenApiTypes.INT)
-    def get_users(self, instance: Organisation):
-        return SystemUser.objects.filter(
-            organisation_id=instance.id).count()
 
     class Meta:
         model = Organisation
@@ -189,14 +205,26 @@ class ListAdministrationSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(ListAdministrationChildrenSerializer(many=True))
     def get_children(self, instance: Administration):
+        max_level = self.context.get('max_level')
+        filter_children = self.context.get('filter_children')
+        if max_level:
+            if int(max_level) <= instance.level.level:
+                return []
         filter = self.context.get('filter')
         if filter:
             filtered_administration = Administration.objects.filter(
-                id=filter).all()
+                id=filter).all().order_by('name')
             return ListAdministrationChildrenSerializer(
                 filtered_administration, many=True).data
+        children = instance.parent_administration.all().order_by('name')
+        if len(filter_children):
+            children = instance.parent_administration.filter(
+                pk__in=filter_children
+            ).all().order_by('name')
         return ListAdministrationChildrenSerializer(
-            instance=instance.parent_administration.all(), many=True).data
+            instance=children,
+            many=True
+        ).data
 
     @extend_schema_field(OpenApiTypes.STR)
     def get_children_level_name(self, instance: Administration):

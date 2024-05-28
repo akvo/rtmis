@@ -16,6 +16,7 @@ class MobileDataPointDownloadListSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     form_id = serializers.IntegerField()
     name = serializers.CharField()
+    administration_id = serializers.IntegerField()
     url = serializers.SerializerMethodField()
     last_updated = serializers.SerializerMethodField()
 
@@ -25,10 +26,17 @@ class MobileDataPointDownloadListSerializer(serializers.Serializer):
 
     @extend_schema_field(OpenApiTypes.DATETIME)
     def get_last_updated(self, obj):
-        return obj['updated'] if obj['updated'] else obj['created']
+        return obj["updated"] if obj["updated"] else obj["created"]
 
     class Meta:
-        fields = ["id", "form_id", "name", "url", "last_updated"]
+        fields = [
+            "id",
+            "form_id",
+            "name",
+            "administration_id",
+            "url",
+            "last_updated",
+        ]
 
 
 class MobileFormSerializer(serializers.ModelSerializer):
@@ -95,12 +103,11 @@ class FormsAndEntityValidation(serializers.PrimaryKeyRelatedField):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        request = self.context.get('request')
+        request = self.context.get("request")
         selected_adm = request.data.get("administrations") if request else None
         selected_forms = request.data.get("forms") if request else None
         entity_forms = queryset.filter(
-            pk__in=selected_forms,
-            form_questions__extra__icontains="entity"
+            pk__in=selected_forms, form_questions__extra__icontains="entity"
         ).distinct()
         if entity_forms.exists():
             forms = entity_forms.all()
@@ -112,21 +119,25 @@ class FormsAndEntityValidation(serializers.PrimaryKeyRelatedField):
                         name=q.extra.get("name")
                     ).first()
                     if not entity:
-                        no_data.append({
-                            "form": f.id,
-                            "entity": q.extra.get("name"),
-                            "exists": False
-                        })
+                        no_data.append(
+                            {
+                                "form": f.id,
+                                "entity": q.extra.get("name"),
+                                "exists": False,
+                            }
+                        )
                     if entity and selected_adm:
                         entity_has_data = entity.entity_data.filter(
                             administration__in=selected_adm
                         )
                         if not entity_has_data.exists():
-                            no_data.append({
-                                "form": f.id,
-                                "entity": entity.name,
-                                "exists": True
-                            })
+                            no_data.append(
+                                {
+                                    "form": f.id,
+                                    "entity": entity.name,
+                                    "exists": True,
+                                }
+                            )
             if len(no_data) > 0:
                 raise serializers.ValidationError(no_data)
 
@@ -139,28 +150,28 @@ class MobileAssignmentSerializer(serializers.ModelSerializer):
         queryset=Administration.objects.all(), many=True
     )
     certifications = RelatedAdministrationField(
-        queryset=Administration.objects.all(),
-        many=True,
-        required=False
+        queryset=Administration.objects.all(), many=True, required=False
     )
     passcode = serializers.SerializerMethodField()
-    created_by = serializers.ReadOnlyField(source='user.email')
+    created_by = serializers.ReadOnlyField(source="user.email")
 
     class Meta:
         model = MobileAssignment
         fields = [
-            "id", "name", "passcode", "forms", "administrations",
-            "created_by", "certifications"
+            "id",
+            "name",
+            "passcode",
+            "forms",
+            "administrations",
+            "created_by",
+            "certifications",
         ]
         read_only_fields = ["passcode"]
 
     def create(self, validated_data: Dict[str, Any]):
         user = self.context.get("request").user
         passcode = CustomPasscode().encode(generate_random_string(8))
-        validated_data.update({
-            "user": user,
-            "passcode": passcode
-        })
+        validated_data.update({"user": user, "passcode": passcode})
         return super().create(validated_data)
 
     def get_passcode(self, obj):

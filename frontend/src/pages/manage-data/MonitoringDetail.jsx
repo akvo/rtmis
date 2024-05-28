@@ -11,6 +11,7 @@ import {
   Modal,
   Button,
   Space,
+  Tag,
 } from "antd";
 import {
   LeftCircleOutlined,
@@ -38,7 +39,6 @@ const MonitoringDetail = () => {
   const [deleting, setDeleting] = useState(false);
   const [editedRecord, setEditedRecord] = useState({});
   const [editable, setEditable] = useState(false);
-  const [loadMonitoring, setLoadMonitoring] = useState(false);
   const { form, parentId } = useParams();
   const navigate = useNavigate();
 
@@ -84,6 +84,23 @@ const MonitoringDetail = () => {
       key: "name",
     },
     {
+      title: "Type",
+      dataIndex: "submission_type",
+      key: "submission_type",
+      render: (cell) => {
+        const indexType = Object.values(config?.submissionType).findIndex(
+          (st) => st === cell
+        );
+        const subTypeName =
+          Object.keys(config.submissionType)?.[indexType] || "registration";
+        return (
+          <Tag color={config.submissionTypeColor?.[subTypeName]}>
+            {subTypeName}
+          </Tag>
+        );
+      },
+    },
+    {
       title: "User",
       dataIndex: "created_by",
     },
@@ -120,107 +137,15 @@ const MonitoringDetail = () => {
     }
   };
 
-  const getCascadeAnswerId = async (id, questonAPI, value) => {
-    const { initial, endpoint } = questonAPI;
-    if (initial) {
-      const cascadeID = value || initial;
-      const res = await fetch(
-        `${window.location.origin}${endpoint}/${cascadeID}`
-      );
-      const apiData = await res.json();
-      if (endpoint.includes("administration")) {
-        const parents = apiData?.path?.split(".");
-        const startLevel = authUser?.administration?.level;
-        return {
-          [id]: [...parents, apiData?.id]
-            .filter((a) => a !== "" && a !== "1")
-            .map((a) => parseInt(a, 10))
-            .slice(startLevel),
-        };
-      }
-      return { [id]: [apiData?.id] };
-    }
-    const res = await fetch(window.location.origin + endpoint);
-    const apiData = await res.json();
-    const findCascade = apiData?.find((d) => d?.name === value);
-    return {
-      [id]: findCascade ? [findCascade.id] : [],
-    };
-  };
-
-  const transformValue = (type, value) => {
-    if (type === "option" && Array.isArray(value) && value.length) {
-      return value[0];
-    }
-    if (type === "geo" && Array.isArray(value) && value.length === 2) {
-      const [lat, lng] = value;
-      return { lat, lng };
-    }
-    return typeof value === "undefined" ? "" : value;
-  };
-
   const goToMonitoringForm = async () => {
-    setLoadMonitoring(true);
-    try {
-      const { data: apiData } = await api.get(
-        `form/web/${selectedFormData?.form}`
-      );
-      const questions = apiData?.question_group?.flatMap((qg) => qg?.question);
-      const res = await fetch(
-        `${window.location.origin}/datapoints/${selectedFormData?.uuid}.json`
-      );
-      const { answers } = await res.json();
-      /**
-       * Transform cascade answers
-       */
-      const cascadeAPIs = questions
-        ?.filter((q) => q?.type === "cascade" && q?.api?.endpoint)
-        ?.map((q) => getCascadeAnswerId(q.id, q.api, answers?.[q.id]));
-      const cascadeResponses = await Promise.allSettled(cascadeAPIs);
-      const cascadeValues = cascadeResponses
-        .filter(({ status }) => status === "fulfilled")
-        .map(({ value }) => value)
-        .reduce((prev, curr) => {
-          const [key, value] = Object.entries(curr)[0];
-          prev[key] = value;
-          return prev;
-        }, {});
-      /**
-       * Transform answers to Webform format
-       */
-      const initialValue = questions.map((q) => {
-        return {
-          question: q?.id,
-          value: Object.keys(cascadeValues).includes(`${q?.id}`)
-            ? cascadeValues[q.id]
-            : transformValue(q?.type, answers?.[q.id]),
-        };
-      });
-      store.update((s) => {
-        s.initialValue = initialValue;
-        s.monitoring = selectedFormData;
-      });
-
-      setTimeout(() => {
-        /**
-         * Add a second delay to complete the initial value
-         */
-        setLoadMonitoring(false);
-        navigate(`/control-center/form/${selectedFormData?.form}`);
-      }, 1000);
-    } catch (error) {
-      setLoadMonitoring(false);
-      Modal.error({
-        title: text.updateDataError,
-        content: String(error),
-      });
-    }
+    const { form, uuid } = selectedFormData;
+    navigate(`/control-center/form/${form}/${uuid}`);
   };
 
   useEffect(() => {
     if (form && !updateRecord) {
       setLoading(true);
-      const url = `/form-data/${form}/?page=${currentPage}&parent=${parentId}`;
+      const url = `/form-data/${form}/?page=${currentPage}&parent=${parentId}&submission_type=${config.submissionType.monitoring}`;
       api
         .get(url)
         .then((res) => {
@@ -280,7 +205,6 @@ const MonitoringDetail = () => {
                 shape="round"
                 onClick={goToMonitoringForm}
                 icon={<FormOutlined />}
-                loading={loadMonitoring}
               >
                 {text.updateDataButton}
               </Button>

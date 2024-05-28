@@ -2,8 +2,7 @@ import api from "./api";
 
 const config = {
   siteTitle: "RUSH",
-  siteSubTitle:
-    "Kenya Rural and Urban Sanitation & Hygiene Monitoring Platform",
+  siteSubTitle: "Kenya Rural and Urban Sanitation & Hygiene Monitoring System",
   siteLogo: "/logo.png",
   trainedStatus: [
     {
@@ -36,7 +35,8 @@ const config = {
         "user",
         "control-center",
         "data",
-        "data-claim",
+        "certification-data",
+        "verification-data",
         "visualisation",
         "questionnaires",
         "approvals",
@@ -71,7 +71,8 @@ const config = {
         "user",
         "control-center",
         "data",
-        "data-claim",
+        "certification-data",
+        "verification-data",
         "visualisation",
         "questionnaires",
         "approvals",
@@ -102,7 +103,8 @@ const config = {
         "profile",
         "control-center",
         "data",
-        "data-claim",
+        "certification-data",
+        "verification-data",
         "visualisation",
         "approvals",
         "questionnaires",
@@ -131,7 +133,8 @@ const config = {
         "profile",
         "form",
         "data",
-        "data-claim",
+        "certification-data",
+        "verification-data",
         "visualisation",
         "control-center",
         "reports",
@@ -916,6 +919,12 @@ const config = {
     monitoring: 2,
     verification: 3,
     certification: 4,
+  },
+  submissionTypeColor: {
+    registration: "#2563eb",
+    monitoring: "#0891b2",
+    verification: "#ca8a04",
+    certification: "#ea580c",
   },
 };
 

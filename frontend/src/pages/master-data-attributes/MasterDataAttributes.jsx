@@ -17,8 +17,10 @@ const MasterDataAttributes = () => {
   const [datasetBackup, setdatasetBackup] = useState([]);
   const navigate = useNavigate();
 
-  const { language } = store.useState((s) => s);
+  const { language, filters } = store.useState((s) => s);
   const { active: activeLang } = language;
+
+  const { query, attributeType } = filters;
 
   const text = useMemo(() => {
     return uiText[activeLang];
@@ -84,11 +86,36 @@ const MasterDataAttributes = () => {
     },
   ];
 
-  const fetchData = useCallback(async () => {
+  const filterDataset = (dataset = [], query = null, attributeType = null) => {
+    const filtered = dataset
+      .filter((data) => {
+        if (query) {
+          const nameMatch = data.name
+            .toLowerCase()
+            .includes(query.toLowerCase());
+          return nameMatch;
+        }
+        return data;
+      })
+      .filter((data) => {
+        if (attributeType) {
+          const match = data.type === attributeType;
+          return match;
+        }
+        return data;
+      });
+    setDataset(filtered);
+  };
+
+  const fetchData = useCallback(async (query, attributeType) => {
     try {
       const { data: apiData } = await api.get("/administration-attributes");
-      setDataset(apiData);
       setdatasetBackup(apiData);
+      if (query || attributeType) {
+        filterDataset(apiData, query, attributeType);
+      } else {
+        setDataset(apiData);
+      }
       setLoading(false);
     } catch {
       setLoading(false);
@@ -97,41 +124,43 @@ const MasterDataAttributes = () => {
 
   const handleAttributeFilter = useCallback(
     (value) => {
-      const filteredDataset = datasetBackup.filter(
-        (data) => data.type === value
-      );
-      setDataset(filteredDataset);
+      store.update((s) => {
+        s.filters.attributeType = value;
+      });
+      filterDataset(datasetBackup, query, value);
     },
-    [datasetBackup, setDataset]
+    [datasetBackup, query]
   );
 
   const handleAttributeClearFilter = () => {
+    store.update((s) => {
+      s.filters.query = null;
+      s.filters.attributeType = null;
+    });
     fetchData();
   };
 
   const onSearchChange = useCallback(
     (value) => {
-      const filterDataset = () => {
-        const filtered = dataset.filter((data) => {
-          const nameMatch = data.name
-            .toLowerCase()
-            .includes(value.toLowerCase());
-          return nameMatch;
-        });
-        setDataset(filtered);
-      };
-      if (value !== "") {
-        filterDataset();
-      } else if (value === "") {
+      if (value || attributeType) {
+        filterDataset(datasetBackup, value, attributeType);
+      } else {
         setDataset(datasetBackup);
       }
     },
-    [dataset, setDataset, datasetBackup]
+    [setDataset, datasetBackup, attributeType]
   );
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    if (query) {
+      onSearchChange(query);
+    }
+  }, [query, onSearchChange]);
+
+  useEffect(() => {
+    fetchData(query, attributeType);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div id="masterDataAttributes">
@@ -153,6 +182,13 @@ const MasterDataAttributes = () => {
             handleAttributeFilter={handleAttributeFilter}
             handleAttributeClearFilter={handleAttributeClearFilter}
             onSearchChange={onSearchChange}
+            onChange={(value) => {
+              store.update((s) => {
+                s.filters.query = value;
+              });
+            }}
+            query={query}
+            selectedAttribute={attributeType}
           />
           <Divider />
           <div

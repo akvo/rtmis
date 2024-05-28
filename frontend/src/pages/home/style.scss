@@ -111,8 +111,10 @@
         flex-direction: column;
         gap: 24px;
         .description {
+          z-index: 2;
           h1 {
             margin-bottom: 16px;
+            color: #1651b6;
           }
           p {
             color: $color-dark;
@@ -131,6 +133,10 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            &.inline {
+              display: inline-block;
+              margin-right: 20px;
+            }
             span {
               font-size: 14px;
               font-style: normal;
@@ -148,8 +154,10 @@
       }
 
       .report-visual-wrapper {
+        position: relative;
         width: 100%;
         text-align: right;
+        min-height: 40vh;
         img {
           width: 100%;
           max-width: 600px;

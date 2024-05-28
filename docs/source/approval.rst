@@ -15,6 +15,10 @@
 Submitting Data for Approval
 -----------------------------
 
+.. note::
+  Please note, the approval workflow does not apply to the submission of :ref:`verification<verification_data>` and :ref:`certification<certification_data>` data.
+  This is because both types of submissions do not require revalidation at each administrative level and will be directly saved as data points.
+
 1. All data that is pending submission for approval will appear on the pending submission tab. Note that you will need to select different questionnaires to see :bolditalic:`pending submissions` for each questionnaire. This is to avoid batching data from different questionnaires in one batch for approval which is not valid.
 
   .. image:: ../assests/image37.png
@@ -27,7 +31,7 @@ Submitting Data for Approval
      :alt: Data validation
      :width: 100%
 
-3. In the pop-up window, label your batch with a relevant name and add any comment for your approver. Next, tick the checkbox to :bolditalic:`send a new approval request` and click the :bolditalic:`CREATE A NEW BATCH` button.
+3. In the pop-up window, label your batch with a relevant name and add any comment for your approver. Next, click the :bolditalic:`CREATE A NEW BATCH` button.
 
 .. image:: ../assests/image14.png
     :alt: Data validation
@@ -48,7 +52,7 @@ Approving Data
    :alt: Approving
    :width: 100%
 
-2. All datasets that are pending approval will appear in the :bolditalic:`My Pending Approvals` tab of the Approvals section. Click the :bolditalic:`View All` button to begin the approval process.
+2. All datasets that are pending approval will appear in the :bolditalic:`Verification` section of the Control center. Click the :bolditalic:`View All` button to begin the approval process.
 
 .. image:: ../assests/image38.png
     :alt: Approving
@@ -64,6 +68,12 @@ You can add notes and feedback and the data submitter will receive an email noti
   :width: 100%
 
 .. image:: ../assests/image2.png
+  :alt: Decline
+  :width: 100%
+
+4. Once the data is is approved it will move to the approved tab.  
+
+.. image:: ../assests/image50.png
   :alt: Decline
   :width: 100%
 

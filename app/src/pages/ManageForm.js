@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { ListItem } from '@rneui/themed';
 import PropTypes from 'prop-types';
 import { BaseLayout } from '../components';
-import { UIState, FormState } from '../store';
+import { UIState, FormState, UserState } from '../store';
 import { i18n } from '../lib';
 import { getCurrentTimestamp } from '../form/lib';
 import { SUBMISSION_TYPES } from '../lib/constants';
@@ -12,6 +12,8 @@ import { SUBMISSION_TYPES } from '../lib/constants';
 const ManageForm = ({ navigation, route }) => {
   const activeForm = FormState.useState((s) => s.form);
   const activeLang = UIState.useState((s) => s.lang);
+  const userCertifications = UserState.useState((s) => s.certifications);
+
   const trans = i18n.text(activeLang);
   const subTypesAvailable = useMemo(() => {
     try {
@@ -30,7 +32,7 @@ const ManageForm = ({ navigation, route }) => {
     navigation.navigate('FormPage', {
       ...route?.params,
       newSubmission: true,
-      submission_type: 'registration',
+      submission_type: SUBMISSION_TYPES.registration,
     });
   };
 
@@ -65,7 +67,11 @@ const ManageForm = ({ navigation, route }) => {
             </ListItem>
           )}
           {subTypesAvailable.includes(SUBMISSION_TYPES.monitoring) && (
-            <ListItem key={2} onPress={() => goToUpdateForm('monitoring')} testID="goto-item-2">
+            <ListItem
+              key={2}
+              onPress={() => goToUpdateForm(SUBMISSION_TYPES.monitoring)}
+              testID="goto-item-2"
+            >
               <Icon name="clipboard-edit-outline" color="grey" size={18} />
               <ListItem.Content>
                 <ListItem.Title>{trans.manageUpdate}</ListItem.Title>
@@ -74,7 +80,11 @@ const ManageForm = ({ navigation, route }) => {
             </ListItem>
           )}
           {subTypesAvailable.includes(SUBMISSION_TYPES.verification) && (
-            <ListItem key={5} onPress={() => goToUpdateForm('verification')} testID="goto-item-5">
+            <ListItem
+              key={5}
+              onPress={() => goToUpdateForm(SUBMISSION_TYPES.verification)}
+              testID="goto-item-5"
+            >
               <Icon name="clipboard-check" color="grey" size={18} />
               <ListItem.Content>
                 <ListItem.Title>{trans.manageVerification}</ListItem.Title>
@@ -82,15 +92,25 @@ const ManageForm = ({ navigation, route }) => {
               <ListItem.Chevron />
             </ListItem>
           )}
-          {subTypesAvailable.includes(SUBMISSION_TYPES.certification) && (
-            <ListItem key={6} onPress={() => goToUpdateForm('certification')} testID="goto-item-6">
+          {subTypesAvailable.includes(SUBMISSION_TYPES.certification) &&
+          userCertifications?.length ? (
+            <ListItem
+              key={6}
+              onPress={() =>
+                navigation.navigate('CertificationData', {
+                  ...route?.params,
+                  submission_type: SUBMISSION_TYPES.certification,
+                })
+              }
+              testID="goto-item-6"
+            >
               <Icon name="ribbon" color="grey" size={18} />
               <ListItem.Content>
                 <ListItem.Title>{trans.manageCertification}</ListItem.Title>
               </ListItem.Content>
               <ListItem.Chevron />
             </ListItem>
-          )}
+          ) : null}
           <ListItem
             key={3}
             onPress={() =>

@@ -51,6 +51,9 @@ const CertificationAssignmentForm = () => {
         });
       }
       setSubmitting(false);
+      store.update((s) => {
+        s.administration = s.administration.slice(0, 1);
+      });
       navigate("/control-center/certification");
       notify({
         type: "success",

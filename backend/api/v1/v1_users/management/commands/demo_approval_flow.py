@@ -52,82 +52,90 @@ def create_approver(form, administration, organisation):
 
 
 class Command(BaseCommand):
-    def handle(self, *args, **options):
-        form = Forms.objects.filter(
-            type=FormTypes.county).order_by('?').first()
-        print(f"\nForm Name: {form.name}\n\n")
-        last_level = Levels.objects.order_by('-level')[1:2].first()
-        organisation = Organisation.objects.first()
-        administration = Administration.objects.filter(
-            level=last_level).order_by('?').first()
-        ancestors = administration.ancestors
-        # union the current administration also
-        ancestors |= Administration.objects.filter(id=administration.id)
-        print("Approvers:")
-        for ancestor in ancestors.filter(level__level__gte=1,
-                                         level__level__lte=last_level.level):
-            # check if approval assignment for the path is not available
-            assignment = FormApprovalAssignment.objects.filter(
-                form=form, administration=ancestor).first()
-            if not assignment:
-                assignment = create_approver(
-                    form=form,
-                    administration=ancestor,
-                    organisation=organisation,
-                )
-                last_name = "Admin" if ancestor.level.level == 1 \
-                    else "Approver"
-                print("Level: {} ({})".format(ancestor.level.level,
-                                              ancestor.level.name))
-                print(f"- Administration Name: {ancestor.name}")
-                print("- Approver: {} ({})".format(assignment.user.email,
-                                                   last_name))
-            else:
-                print("Level: {} ({})".format(ancestor.level.level,
-                                              ancestor.level.name))
-                print(f"- Administration Name: {ancestor.name}")
-                print("- Approver: {} ({})".format(assignment.user.email,
-                                                   assignment.user.last_name))
-        # create user
-        email = ("{}{}@user.com").format(
-            re.sub('[^A-Za-z0-9]+', '', administration.name.lower()),
-            administration.id)
-        submitter, created = SystemUser.objects.get_or_create(
-            organisation=organisation,
-            email=email,
-            first_name=administration.name,
-            last_name="User")
-        if created:
-            submitter.set_password("test")
-            submitter.phone_number = fake.msisdn()
-            submitter.designation = UserDesignationTypes.sa
-            submitter.save()
-            Access.objects.create(user=submitter,
-                                  role=UserRoleTypes.user,
-                                  administration=ancestor)
-        UserForms.objects.get_or_create(form=form, user=submitter)
-        print("\nSubmitter:")
-        print(f"- Administration: {administration.full_name}")
-        print("- Email: {}\n".format(submitter.email))
+    def add_arguments(self, parser):
+        parser.add_argument(
+            "-t", "--test", nargs="?", const=False, default=False, type=bool
+        )
 
-        # Create mobile user
-        print("\nMobile assignment:")
-        mobile_assignment = MobileAssignment.objects.create_assignment(
-            user=submitter,
-            name=fake.user_name()
-        )
-        administration_children = Administration.objects.filter(
-            parent=submitter.user_access.administration,
-            level_id=submitter.user_access.administration.level.id + 1
-        ).order_by('?')[:2]
-        mobile_assignment.administrations.add(
-            *administration_children
-        )
-        mobile_assignment.forms.add(form)
-        print("- Username: {}\n".format(mobile_assignment.name))
-        print("- Administrations: {}\n".format(", ".join(
-            [
-                a["name"]
-                for a in mobile_assignment.administrations.values('name')
-            ]
-        )))
+    def handle(self, *args, **options):
+        test = options.get("test")
+        forms = Forms.objects.filter(type=FormTypes.county).all()
+        for form in forms:
+            last_level = Levels.objects.order_by('-level')[1:2].first()
+            administrations = Administration.objects.filter(
+                level=last_level
+            )
+            if test:
+                administrations = administrations.all()
+            else:
+                administrations = administrations.order_by('?')[:2]
+            for administration in administrations:
+                ancestors = administration.ancestors.filter(
+                    level__level__gt=0
+                )
+                ancestors |= Administration.objects.filter(
+                    id=administration.id
+                )
+                organisation = Organisation.objects.order_by('?').first()
+                for ancestor in ancestors:
+                    assignment = FormApprovalAssignment.objects \
+                        .filter(
+                            form=form,
+                            administration=ancestor
+                        ).first()
+                    last_name = "Approver"
+                    if ancestor.level.level == 1:
+                        last_name = "Admin"
+                    if not assignment:
+                        assignment = create_approver(
+                            form=form,
+                            administration=ancestor,
+                            organisation=organisation,
+                        )
+                    if not test:
+                        print("Level: {} ({})".format(
+                            ancestor.level.level,
+                            ancestor.level.name
+                        ))
+                        print(f"- Administration Name: {ancestor.name}")
+                        print("- Approver: {} ({})".format(
+                            assignment.user.email,
+                            last_name
+                        ))
+                # create user
+                email = ("{}{}@user.com").format(
+                        re.sub(
+                            '[^A-Za-z0-9]+', '', administration.name.lower()
+                        ),
+                        administration.id
+                    )
+                submitter, created = SystemUser.objects.get_or_create(
+                    organisation=organisation,
+                    email=email,
+                    first_name=administration.name,
+                    last_name="User")
+                if created:
+                    submitter.set_password("test")
+                    submitter.phone_number = fake.msisdn()
+                    submitter.designation = UserDesignationTypes.sa
+                    submitter.save()
+                    Access.objects.create(
+                        user=submitter,
+                        role=UserRoleTypes.user,
+                        administration=ancestor
+                    )
+                UserForms.objects.get_or_create(form=form, user=submitter)
+                if not test:
+                    print("\nData entry:")
+                    print(f"- Administration: {administration.full_name}")
+                    print("- Email: {}\n".format(submitter.email))
+                mobile_assignment = MobileAssignment.objects.create_assignment(
+                    user=submitter,
+                    name=fake.user_name(),
+                )
+                mobile_adms = administration.parent_administration\
+                    .order_by('?')[:2]
+                mobile_assignment.administrations.add(
+                    *mobile_adms
+                )
+                mobile_assignment.forms.add(form)

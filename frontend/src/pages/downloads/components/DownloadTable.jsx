@@ -7,7 +7,7 @@ import {
   ExclamationCircleOutlined,
   FileMarkdownFilled,
 } from "@ant-design/icons";
-import { api, store, uiText } from "../../../lib";
+import { api, config, store, uiText } from "../../../lib";
 import { useNotification } from "../../../util/hooks";
 import moment from "moment";
 
@@ -134,7 +134,14 @@ const DownloadTable = ({ type = "download" }) => {
         ["Administration List", "Entities"].includes(row.category) ? (
           <FileMarkdownFilled style={{ color: "blue" }} />
         ) : (
-          <FileTextFilled style={{ color: "green" }} />
+          <FileTextFilled
+            style={{
+              color:
+                config.submissionTypeColor?.[
+                  row?.download_type?.toLowerCase()
+                ] || "green",
+            }}
+          />
         ),
       width: 40,
     },
@@ -154,6 +161,11 @@ const DownloadTable = ({ type = "download" }) => {
           <div>
             <strong>{row?.form || row?.category}</strong>
           </div>
+          {row?.download_type && (
+            <span
+              className={`download-filter download-type ${row.download_type.toLowerCase()}`}
+            >{`${row.download_type} Data - `}</span>
+          )}
           {row?.administration ? (
             <div className="download-filter">{row?.administration}</div>
           ) : null}

@@ -60,7 +60,7 @@ const RegistrationForm = (props) => {
           message: text.passwordUpdateSuccess,
         });
         setTimeout(() => {
-          navigate("/profile");
+          navigate("/control-center/profile");
         }, [2000]);
       })
       .catch((err) => {

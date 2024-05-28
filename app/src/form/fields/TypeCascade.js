@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import { FieldLabel } from '../support';
 import styles from '../styles';
-import { FormState } from '../../store';
+import { FormState, UserState } from '../../store';
 import { i18n, cascades } from '../../lib';
 
 const TypeCascade = ({
@@ -31,6 +31,8 @@ const TypeCascade = ({
     cascade_type: cascadeType,
     parent_id: parentId,
   } = source || {};
+  const certifications = UserState.useState((s) => s?.certifications);
+  const isCertification = value?.length && certifications.includes(value[0]);
 
   const groupBy = (array, property) => {
     const gd = array
@@ -81,6 +83,35 @@ const TypeCascade = ({
   };
 
   const initialDropdowns = useMemo(() => {
+    if (isCertification) {
+      const findAdm = dataSource.find((d) => d?.id === value[0]);
+      if (findAdm) {
+        const parentIDs = findAdm.path
+          .split('.')
+          .map((p) => parseInt(p, 10))
+          .filter((p) => p);
+        return parentIDs.map((p, px) => {
+          if (px === 0) {
+            return {
+              options: dataSource?.filter((ds) => ds?.id === p),
+              value: p,
+            };
+          }
+
+          if (px === parentIDs.length - 1) {
+            return {
+              options: dataSource?.filter((ds) => ds?.parent === p),
+              value: value[0],
+            };
+          }
+          return {
+            options: dataSource?.filter((ds) => ds?.parent === parentIDs[px - 1]),
+            value: p,
+          };
+        });
+      }
+      return [];
+    }
     const parentIDs =
       cascadeParent === 'administrator.sqlite' ? prevAdmAnswer || [] : parentId || [0];
     const filterDs = dataSource
@@ -135,7 +166,7 @@ const TypeCascade = ({
         value: answer,
       };
     });
-  }, [dataSource, cascadeParent, cascadeType, parentId, value, prevAdmAnswer]);
+  }, [dataSource, cascadeParent, cascadeType, parentId, value, prevAdmAnswer, isCertification]);
 
   const fetchCascade = useCallback(async () => {
     if (source && value?.length) {
@@ -210,6 +241,9 @@ const TypeCascade = ({
       <View style={styles.cascadeContainer}>
         {dropdownItems.map((item, index) => {
           const hasSearch = item?.options.length > 3;
+          const style = disabled
+            ? { ...styles.dropdownField, ...styles.dropdownFieldDisabled }
+            : styles.dropdownField;
           return (
             <Dropdown
               // eslint-disable-next-line react/no-array-index-key
@@ -222,7 +256,7 @@ const TypeCascade = ({
               searchPlaceholder={trans.searchPlaceholder}
               onChange={({ id: selectedID }) => handleOnChange(index, selectedID)}
               value={item.value}
-              style={[styles.dropdownField]}
+              style={style}
               placeholder={trans.selectItem}
               disable={disabled}
             />
@@ -250,7 +284,7 @@ TypeCascade.propTypes = {
 
 TypeCascade.defaultProps = {
   value: null,
-  requiredSign: "*",
+  requiredSign: '*',
   disabled: false,
   tooltip: null,
 };

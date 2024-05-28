@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Layout, Menu } from "antd";
 const { Sider } = Layout;
-import { store, config } from "../../lib";
+import { store, config, api } from "../../lib";
 import { useNavigate } from "react-router-dom";
 import {
   UserOutlined,
@@ -12,7 +12,7 @@ import {
 } from "@ant-design/icons";
 
 const Sidebar = () => {
-  const { user: authUser } = store.useState((s) => s);
+  const { user: authUser, administration } = store.useState((s) => s);
   const [selectedKey, setSelectedKey] = useState("");
   const [openKeys, setOpenKeys] = useState([]);
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ const Sidebar = () => {
       label: "Manage Mobile Users",
       url: "/control-center/mobile-assignment",
     },
-    data: { label: "Manage Data", url: "/control-center/data" },
+    data: { label: "Manage Routine Data", url: "/control-center/data" },
     "master-data": [
       {
         label: "Administrative List",
@@ -51,9 +51,13 @@ const Sidebar = () => {
       label: "Certification Assignment'",
       url: "/control-center/certification",
     },
-    "data-claim": {
-      label: "Manage Data Claim",
-      url: "/control-center/data-claim",
+    "certification-data": {
+      label: "Manage Grade Certification",
+      url: "/control-center/certification-data",
+    },
+    "verification-data": {
+      label: "Manage Grade Claim",
+      url: "/control-center/verification-data",
     },
   };
 
@@ -70,7 +74,7 @@ const Sidebar = () => {
     "manage-data": {
       label: "Data",
       icon: TableOutlined,
-      childrenKeys: ["data", "data-claim"],
+      childrenKeys: ["data", "certification-data", "verification-data"],
     },
     "manage-master-data": {
       label: "Master Data",
@@ -168,7 +172,34 @@ const Sidebar = () => {
     }
   };
 
+  const handleResetGlobalFilterState = async () => {
+    // reset global filter store when moving page on sidebar click
+    store.update((s) => {
+      s.filters = {
+        trained: null,
+        role: null,
+        organisation: null,
+        query: null,
+        attributeType: null,
+        entityType: [],
+      };
+    });
+    if (authUser?.administration?.id && administration?.length > 1) {
+      try {
+        const { data: apiData } = await api.get(
+          `administration/${authUser.administration.id}`
+        );
+        store.update((s) => {
+          s.administration = [apiData];
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
   const handleMenuClick = ({ key }) => {
+    handleResetGlobalFilterState();
     const url = findUrlByKey(usersMenuItem, key);
     navigate(url);
   };

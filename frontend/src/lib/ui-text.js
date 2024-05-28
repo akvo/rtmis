@@ -25,12 +25,48 @@ const uiText = {
     minute: "Minute",
     second: "Second",
     welcomeCta: "Explore National Data",
+    service1Text:
+      "RTMIS offers real-time data for prompt decision-maker access.",
+    service2Text:
+      "Identifying needs enables targeted interventions and efficient resource deployment.",
+    service3Text:
+      "Real-time insights optimize sanitation metrics for efficient resource allocation.",
     aboutRush: "About RUSH",
-    aboutText:
-      "The Kenya Rural Urban Sanitation and Hygiene (RUSH) platform is a real-time monitoring and information system owned by the Ministry of Health. The platform aggregates quantitative and qualitative data from county and national levels and facilitates data analysis, report generation and visualizations.",
+    aboutText: (
+      <>
+        The Rural Sanitation and Hygiene (RuSH) Protocol was developed by the
+        Ministry of Health (MOH), with support from USAID, the Government of
+        Japan, and UNICEF, followed by an extensive consultation process with
+        stakeholders at national and county levels. The Protocol tracks progress
+        from open defecation to a clean and healthy environment. The RuSH
+        Protocol was designed to build on previous sanitation policies on
+        implementation and monitoring to accelerate and enhance rural sanitation
+        and hygiene services across Kenya.
+        <br />
+        <br />
+        The RUSH protocol has paved the way for developing the Real-time
+        Monitoring Information System (RTMIS) based on a graded system that aims
+        for safely managed sanitation and hygiene services in rural and urban
+        areas. The RTMIS provides real-time information on sanitation and
+        hygiene, aggregates county and national data based on national and
+        global M&E framework (RuSH Protocol, JMP, GLAAS), and facilitates data
+        analysis, report generation, and visualization.
+      </>
+    ),
+    aboutHighlight: (
+      <Fragment>
+        The Kenya Rural Urban Sanitation and Hygiene (RUSH) platform is a
+        real-time monitoring and information system owned by the Ministry of
+        Health. <br />
+        <br /> The platform aggregates quantitative and qualitative data from
+        county and national levels and facilitates data analysis, report
+        generation and visualizations.
+      </Fragment>
+    ),
     learnMoreButton: "Learn more",
-    realTime: "Real Time Management Information System",
+    realTime: "Real-Time Monitoring and Information System (RTMIS)",
     reportText: "Report generation and visualizations.",
+    frameworkText: "4 M&E Frameworks",
     contactText: "Contact Us",
     contactDesText: "Get in touch with us for support or feedback.",
     feedbackBtn: "Send Feedback",
@@ -61,6 +97,8 @@ const uiText = {
     footerAboutTitle: "About Data",
     footerAboutDescription:
       "All the data contained in the RUSH platform is aggregated from both primary and secondary data sources from the 47 counties in Kenya. The data is updated on a monthly basis.",
+    footerDonorSupport:
+      "RTMIS was developed with technical and financial support from UNICEF, USAID, and the Government of Japan. Developed by Akvo.",
     footerContactTitle: "Contacts",
     footerContactAddress:
       "Afya House, Cathedral Road, P.O. Box:30016–00100, Nairobi, Kenya",
@@ -169,10 +207,10 @@ const uiText = {
     valOrgName: "Organization name is required",
     valOrgAttributes: "Please select an Attributes",
     // Control Center
-    manageDataTitle: "Manage Data",
-    manageDataButton: "Manage Data",
+    manageDataTitle: "Manage Routine Data",
+    manageDataButton: "Manage Routine Data",
     newSubmissionBtn: "Add New Submission",
-    finishSubmissionBtn: "Finish and Go to Manage Data",
+    finishSubmissionBtn: "Finish and Go to Manage Routine Data",
     finishSubmissionBatchBtn: "Finish and Go to Batch",
     noFormText: "No data",
     noFormSelectedText: "No form selected",
@@ -225,6 +263,26 @@ const uiText = {
         This is where you :
         <ul>
           <li>Download administration data</li>
+        </ul>
+      </Fragment>
+    ),
+    EntitiesDataUpload: "Entities Data Upload",
+    dataEntitiesUploadText: (
+      <Fragment>
+        This is where you :
+        <ul>
+          <li>Bulk upload entities data</li>
+        </ul>
+      </Fragment>
+    ),
+    EntitiesDataDownload: "Entities Data Download",
+    EntitiesDownloadPageHint:
+      "Uncheck Prefilled if you only want an upload template",
+    dataEntitiesDownloadText: (
+      <Fragment>
+        This is where you :
+        <ul>
+          <li>Download entities data</li>
         </ul>
       </Fragment>
     ),
@@ -395,6 +453,7 @@ const uiText = {
     formSuccessTitle: "Thank you for the submission",
     administrationUploadSuccessTitle:
       "Administration Data has been Successfully Uploaded",
+    entitiesUploadSuccessTitle: "Entities Data has been Successfully Uploaded",
     formSuccessSubTitle:
       "Do note that this data has NOT been sent for approval. If you are ready to send the submissions for approval, please create a batch and send to the approver",
     formSuccessSubTitleForAdmin:
@@ -460,6 +519,8 @@ const uiText = {
       "If you do not already have a template, please download",
     templateDownloadAdministrationHint:
       "If you do not already have a template, please ",
+    templateDownloadEntityHint:
+      "If you do not already have an entity template, please ",
     downloadHere: "download here",
     uploading: "Uploading..",
     dropFile: "Drop your file here",
@@ -695,7 +756,7 @@ const uiText = {
     questionCol: "Question",
     responseCol: "Response",
     lastResponseCol: "Last Response",
-    backManageData: "Back to Manage data",
+    backManageData: "Back to Manage Routine Data",
     monitoringDataTitle: "Monitoring data",
     monitoringDataDescription: (
       <Fragment>
@@ -727,10 +788,24 @@ const uiText = {
     selectSubCounty: "Select Sub-county",
     selectCertification: "Select certification",
     certificationList: "Certification list",
-    ManageDataClaimTitle: "Manage Data Claim",
-    ManageDataClaimText: (
+    ManageCertificationDataTitle: "Manage Grade Certification",
+    CertificationDetailTitle: "Certification Detail",
+    ManageCertificationDataText: (
       <Fragment>This is where you can view certification data</Fragment>
     ),
+    CertificationDetailText: (
+      <Fragment>This is where you can view certification detail</Fragment>
+    ),
+    backManageCertificationData: "Back to Manage Grade Certification",
+    ManageVerificationDataTitle: "Manage Grade Claim",
+    VerificationDetailTitle: "Grade Claim Details",
+    ManageVerificationDataText: (
+      <Fragment>This is where you can view Grade Claim</Fragment>
+    ),
+    VerificationDetailText: (
+      <Fragment>This is where you can view verification detail</Fragment>
+    ),
+    backManageVerification: "Back to Manage Grade Claim",
   },
 
   de: {},

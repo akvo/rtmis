@@ -225,5 +225,4 @@ describe('FormPage component', () => {
       expect(wrapper.queryByText('Your Name')).toBeDefined();
     });
   });
-
 });

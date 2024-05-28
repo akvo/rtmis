@@ -38,9 +38,9 @@ def generate_sqlite(model):
 def update_sqlite(model, data, id=None):
     table_name = model._meta.db_table
     fields = data.keys()
-    field_names = ', '.join([f for f in fields])
-    placeholders = ', '.join(['?' for _ in range(len(fields))])
-    update_placeholders = ', '.join([f"{f} = ?" for f in fields])
+    field_names = ", ".join([f for f in fields])
+    placeholders = ", ".join(["?" for _ in range(len(fields))])
+    update_placeholders = ", ".join([f"{f} = ?" for f in fields])
     params = list(data.values())
     if id:
         params += [id]
@@ -59,14 +59,18 @@ def update_sqlite(model, data, id=None):
                 query = f"INSERT INTO nodes({field_names}) \
                     VALUES ({placeholders})"
                 c.execute(query, params)
+    except sqlite3.OperationalError:
+        generate_sqlite(model=model)
     except Exception as error:
-        logger.error({
-            'context': 'update_sqlite',
-            'error': error,
-            'table_name': table_name,
-            'data': data,
-            'id': id
-        })
+        logger.error(
+            {
+                "context": "update_sqlite",
+                "error": error,
+                "table_name": table_name,
+                "data": data,
+                "id": id,
+            }
+        )
         conn.rollback()
     finally:
         conn.close()
@@ -79,12 +83,9 @@ def administration_csv_add(data: dict, test: bool = False):
         df = pd.read_csv(filepath)
         new_data = {}
         if data.path:
-            parent_ids = list(filter(
-                lambda path: path, data.path.split(".")
-            ))
+            parent_ids = list(filter(lambda path: path, data.path.split(".")))
             parents = Administration.objects.filter(
-                pk__in=parent_ids,
-                level__id__gt=1
+                pk__in=parent_ids, level__id__gt=1
             ).all()
             for p in parents:
                 new_data[p.level.name.lower()] = p.name
@@ -96,10 +97,12 @@ def administration_csv_add(data: dict, test: bool = False):
         df.to_csv(filepath, index=False)
         return filepath
     else:
-        logger.error({
-            'context': 'insert_administration_row_csv',
-            'message': "kenya-administration_test.csv doesn't exists"
-        })
+        logger.error(
+            {
+                "context": "insert_administration_row_csv",
+                "message": "kenya-administration_test.csv doesn't exists",
+            }
+        )
     return None
 
 
@@ -120,12 +123,11 @@ def administration_csv_update(data: dict, test: bool = False):
         index = find_index_by_id(df=df, id=data.pk)
         if index is not None:
             if data.path:
-                parent_ids = list(filter(
-                    lambda path: path, data.path.split(".")
-                ))
+                parent_ids = list(
+                    filter(lambda path: path, data.path.split("."))
+                )
                 parents = Administration.objects.filter(
-                    pk__in=parent_ids,
-                    level__id__gt=1
+                    pk__in=parent_ids, level__id__gt=1
                 ).all()
                 for p in parents:
                     df.loc[index, p.level.name.lower()] = p.name
@@ -135,10 +137,12 @@ def administration_csv_update(data: dict, test: bool = False):
         df.to_csv(filepath, index=False)
         return filepath
     else:
-        logger.error({
-            'context': 'update_administration_row_csv',
-            'message': "kenya-administration_test.csv doesn't exists"
-        })
+        logger.error(
+            {
+                "context": "update_administration_row_csv",
+                "message": "kenya-administration_test.csv doesn't exists",
+            }
+        )
     return None
 
 
@@ -153,8 +157,10 @@ def administration_csv_delete(id: int, test: bool = False):
         df.to_csv(filepath, index=False)
         return filepath
     else:
-        logger.error({
-            'context': 'delete_administration_row_csv',
-            'message': "kenya-administration_test.csv doesn't exists"
-        })
+        logger.error(
+            {
+                "context": "delete_administration_row_csv",
+                "message": "kenya-administration_test.csv doesn't exists",
+            }
+        )
     return None

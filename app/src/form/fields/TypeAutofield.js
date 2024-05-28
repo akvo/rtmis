@@ -27,7 +27,7 @@ const checkDirty = (fnString) =>
 // convert fn string to array
 const fnToArray = (fnString) => {
   // eslint-disable-next-line no-useless-escape
-  const regex = /\#\d+|[(),?;&.'":()+\-*/.]|<=|<|>|>=|!=|==|[||]{2}|=>|\w+| /g;
+  const regex = /\#\d+|[(),?;&.'":()+\-*/.!]|<=|<|>|>=|!=|==|[||]{2}|=>|\w+| /g;
   return fnString.match(regex);
 };
 
@@ -45,6 +45,21 @@ const generateFnBody = (fnMetadata, values) => {
     return false;
   }
 
+  let defaultVal = null;
+  // Replace variables with numeric placeholders
+  let processedString = fnMetadata;
+  // Iterate over keys of the values object and replace placeholders with '0'
+  Object.keys(values).forEach((key) => {
+    processedString = processedString.replace(new RegExp(`#${key}#`, 'g'), '0');
+  });
+
+  // Check if the processed string matches the regular expression
+  const validNumericRegex = /^[\d\s+\-*/().]*$/;
+  if (!validNumericRegex.test(processedString)) {
+    // update defaultVal into empty string for non numeric equation
+    defaultVal = fnMetadata.includes('!') ? String(null) : '';
+  }
+
   const fnMetadataTemp = fnToArray(fnMetadata);
 
   // save defined condition to detect how many condition on fn
@@ -58,7 +73,7 @@ const generateFnBody = (fnMetadata, values) => {
       fnBodyTemp.push(f); // save condition
       let val = values?.[meta[1]];
       if (!val) {
-        return null;
+        return defaultVal;
       }
       if (typeof val === 'object') {
         if (Array.isArray(val)) {
@@ -66,7 +81,7 @@ const generateFnBody = (fnMetadata, values) => {
         } else if (val?.lat) {
           val = `${val.lat},${val.lng}`;
         } else {
-          val = null;
+          val = defaultVal;
         }
       }
       if (typeof val === 'number') {
@@ -86,20 +101,26 @@ const generateFnBody = (fnMetadata, values) => {
 
   // all fn conditions meet, return generated fnBody
   if (!fnBody.filter((x) => !x).length) {
-    return fnBody.map(handeNumericValue).join('');
+    return fnBody
+      .map(handeNumericValue)
+      .join('')
+      .replace(/(?:^|\s)\.includes\(['"][^'"]+['"]\)/g, "''$1")
+      .replace(/''\s*\./g, "''.");
   }
 
   // return false if generated fnBody contains null align with fnBodyTemp
   // or meet the total of condition inside fn string
-  if (fnBody.filter((x) => !x).length === fnBodyTemp.length) {
-    return false;
-  }
+  // if (fnBody.filter((x) => !x).length === fnBodyTemp.length) {
+  //   return false;
+  // }
 
   // remap fnBody if only one fnBody meet the requirements
   return fnBody
     .filter((x) => x)
     .map(handeNumericValue)
-    .join('');
+    .join('')
+    .replace(/(?:^|\s)\.includes\(['"][^'"]+['"]\)/g, " ''$&")
+    .replace(/''\s*\./g, "''.");
 };
 
 const fixIncompleteMathOperation = (expression) => {
@@ -127,6 +148,7 @@ const strToFunction = (id, fnString, values) => {
     // eslint-disable-next-line no-new-func
     return new Function(`return ${fnBody}`);
   } catch (error) {
+    // console.error('[ERROR][TypeAutofield]', id, error, fnBody);
     return false;
   }
 };

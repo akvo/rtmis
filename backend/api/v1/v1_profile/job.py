@@ -58,7 +58,7 @@ def download_master_data(job_id: int, job_type: JobTypes):
     try:
         if job_type == JobTypes.download_administration:
             return generate_administration_template(
-                job_result=job.result,
+                file_path=job.result,
                 attributes=job_info['attributes'],
                 adm_id=job_info['administration'],
             )

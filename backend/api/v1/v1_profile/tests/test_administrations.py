@@ -3,9 +3,10 @@ import typing
 from django.core.management import call_command
 from django.http import HttpResponse
 from django.test import TestCase, override_settings
+from django.urls import reverse
+
 from api.v1.v1_profile.management.commands.administration_seeder import (
         seed_levels, geo_config)
-
 from api.v1.v1_profile.models import (
         Administration, AdministrationAttribute, Levels)
 from api.v1.v1_profile.tests.mixins import ProfileTestHelperMixin
@@ -37,6 +38,13 @@ class AdministrationTestCase(TestCase, ProfileTestHelperMixin):
         self.assertEqual(body.get('total'), len(geo_config) * 2 - 1)
         self.assertEqual(body.get('current'), 1)
         self.assertEqual(body.get('total_page'), 1)
+
+        # check N+1 query
+        def call_route():
+            self.client.get(
+                reverse("administrations-list", kwargs={"version": "v1"})
+            )
+        self.assertNumQueries(1, call_route)
 
     def test_create(self):
         level_2 = Levels.objects.get(level=2)
@@ -118,6 +126,13 @@ class AdministrationTestCase(TestCase, ProfileTestHelperMixin):
         self.assertEqual(data.get('name'), adm.name)
         self.assertEqual(data.get('parent').get('name'), adm.parent.name)
         self.assertEqual(len(data.get('children')), 1)
+
+        # check N+1 query
+        def call_route():
+            self.client.get(
+                reverse("administrations-list", kwargs={"version": "v1"})
+            )
+        self.assertNumQueries(1, call_route)
 
     def test_update(self):
         level_2 = Levels.objects.get(level=2)
@@ -226,6 +241,13 @@ class AdministrationAttributeValueTestCase(TestCase, ProfileTestHelperMixin):
         self.assertEqual(response.status_code, 200)
         body = response.json()
         self.assertEqual(len(body.get('attributes')), 4)
+
+        # check N+1 query
+        def call_route():
+            self.client.get(
+                reverse("administrations-list", kwargs={"version": "v1"})
+            )
+        self.assertNumQueries(1, call_route)
 
     def test_create(self):
         adm = Administration.objects.filter(level__level=1).first()
@@ -541,6 +563,13 @@ class AdministrationListFiltersTestCase(TestCase, ProfileTestHelperMixin):
             ['Cengkareng', 'Cempaka Putih']
         )
 
+        # check N+1 query
+        def call_route():
+            self.client.get(
+                reverse("administrations-list", kwargs={"version": "v1"})
+            )
+        self.assertNumQueries(1, call_route)
+
     def test_filter_search_code(self):
         response = typing.cast(
                 HttpResponse,
@@ -557,6 +586,13 @@ class AdministrationListFiltersTestCase(TestCase, ProfileTestHelperMixin):
             [a['name'] for a in body.get('data')],
             ['Palmerah', 'Pulo Gadung']
         )
+
+        # check N+1 query
+        def call_route():
+            self.client.get(
+                reverse("administrations-list", kwargs={"version": "v1"})
+            )
+        self.assertNumQueries(1, call_route)
 
     def test_filter_parent(self):
         parent = Administration.objects.get(name='Jakarta Timur')
@@ -576,6 +612,13 @@ class AdministrationListFiltersTestCase(TestCase, ProfileTestHelperMixin):
             ['Kramat Jati', 'Makasar', 'Matraman']
         )
 
+        # check N+1 query
+        def call_route():
+            self.client.get(
+                reverse("administrations-list", kwargs={"version": "v1"})
+            )
+        self.assertNumQueries(1, call_route)
+
     def test_filter_level(self):
         level = Levels.objects.get(level=2)
         response = typing.cast(
@@ -592,3 +635,10 @@ class AdministrationListFiltersTestCase(TestCase, ProfileTestHelperMixin):
             [a['name'] for a in body.get('data')],
             ['Jakarta Barat', 'Jakarta Pusat', 'Jakarta Selatan']
         )
+
+        # check N+1 query
+        def call_route():
+            self.client.get(
+                reverse("administrations-list", kwargs={"version": "v1"})
+            )
+        self.assertNumQueries(1, call_route)

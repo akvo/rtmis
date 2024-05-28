@@ -66,7 +66,7 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
               <h1>
                 RUSH
                 <small>
-                  Kenya Rural and Urban Sanitation & Hygiene Monitoring Platform
+                  Kenya Rural and Urban Sanitation & Hygiene Monitoring System
                 </small>
               </h1>
             </div>
@@ -370,6 +370,9 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
           <p>
             All the data contained in the RUSH platform is aggregated from both primary and secondary data sources from the 47 counties in Kenya. The data is updated on a monthly basis.
           </p>
+          <p>
+            RTMIS was developed with technical and financial support from UNICEF, USAID, and the Government of Japan. Developed by Akvo.
+          </p>
         </div>
         <div
           class="ant-col ant-col-4"
@@ -591,7 +594,7 @@ exports[`Login and Registration test if the registration form exists: Registrati
               <h1>
                 RUSH
                 <small>
-                  Kenya Rural and Urban Sanitation & Hygiene Monitoring Platform
+                  Kenya Rural and Urban Sanitation & Hygiene Monitoring System
                 </small>
               </h1>
             </div>
@@ -1010,6 +1013,9 @@ exports[`Login and Registration test if the registration form exists: Registrati
           />
           <p>
             All the data contained in the RUSH platform is aggregated from both primary and secondary data sources from the 47 counties in Kenya. The data is updated on a monthly basis.
+          </p>
+          <p>
+            RTMIS was developed with technical and financial support from UNICEF, USAID, and the Government of Japan. Developed by Akvo.
           </p>
         </div>
         <div

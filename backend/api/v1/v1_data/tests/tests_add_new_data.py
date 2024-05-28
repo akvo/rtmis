@@ -310,3 +310,58 @@ class AddNewDataTestCase(TestCase):
         pending_answers = PendingAnswers.objects.filter(
             pending_data_id=pending_form_data.id).count()
         self.assertGreater(pending_answers, 0)
+
+    def test_add_new_data_by_data_entry_with_some_empty_values(self):
+        call_command("administration_seeder", "--test")
+        user = create_user(3)
+        user = {"email": user.email, "password": "Test105*"}
+        user = self.client.post('/api/v1/login',
+                                user,
+                                content_type='application/json')
+        user = user.json()
+        token = user.get("token")
+        self.assertTrue(token)
+
+        call_command("form_seeder", "--test")
+        form = Forms.objects.first()
+        self.assertEqual(form.id, 1)
+        self.assertEqual(form.name, "Test Form")
+        self.assertEqual(form.type, FormTypes.county)
+        form_id = form.id
+        payload = {
+            "data": {
+                "name": "Testing Data Entry",
+                "administration": 2,
+                "geo": [6.2088, 106.8456],
+                "submission_type": SubmissionTypes.registration,
+            },
+            "answer": [{
+                "question": 101,
+                "value": ""
+            }, {
+                "question": 102,
+                "value": []
+            }, {
+                "question": 103,
+                "value": None
+            }, {
+                "question": 104,
+                "value": 2
+            }, {
+                "question": 105,
+                "value": [6.2088, 106.8456]
+            }, {
+                "question": 106,
+                "value": ["Parent", "Children"]
+            }]
+        }
+        data = self.client.post('/api/v1/form-pending-data/{0}'
+                                .format(form_id),
+                                payload,
+                                content_type='application/json',
+                                **{'HTTP_AUTHORIZATION': f'Bearer {token}'})
+        self.assertEqual(data.status_code, 400)
+        data = data.json()
+        self.assertIn("101", data["message"])
+        self.assertIn("102", data["message"])
+        self.assertIn("value may not be null.", data["message"])
