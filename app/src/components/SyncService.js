@@ -24,9 +24,6 @@ const SyncService = () => {
     const activeJob = await crudJobs.getActiveJob(SYNC_FORM_SUBMISSION_TASK_NAME);
     const settings = await crudConfig.getConfig();
 
-    // eslint-disable-next-line no-console
-    console.info('[ACTIVE JOB]', activeJob);
-
     const { type: networkType } = await Network.getNetworkStateAsync();
     if (settings?.syncWifiOnly && networkType !== Network.NetworkStateType.WIFI) {
       return;
@@ -157,7 +154,6 @@ const SyncService = () => {
           ];
         }
 
-        // console.log(apiURLs?.[0]?.url, 'is ip address same');
         await Promise.all(
           apiURLs.map(({ isCertification, ...u }) => downloadDatapointsJson(isCertification, u)),
         );
