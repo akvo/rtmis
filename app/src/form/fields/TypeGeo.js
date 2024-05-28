@@ -34,7 +34,7 @@ const TypeGeo = ({ keyform, id, label, value, tooltip, required, requiredSign, d
          * accuracy number in meters, doc: https://docs.expo.dev/versions/latest/sdk/location/#locationgeocodedlocation
          */
         setGpsAccuracy(Math.floor(accuracy));
-        // console.info('GPS accuracy:', accuracy, 'GPS Threshold:', gpsThreshold);
+
         FormState.update((s) => {
           s.currentValues = { ...s.currentValues, [id]: [lat, lng] };
         });
