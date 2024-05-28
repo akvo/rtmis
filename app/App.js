@@ -10,7 +10,7 @@ import { ToastAndroid } from 'react-native';
 import * as Location from 'expo-location';
 import { SENTRY_DSN, SENTRY_ENV } from '@env';
 
-import Navigation from './src/navigation';
+import Navigation, { routingInstrumentation } from './src/navigation';
 import { conn, query, tables } from './src/database';
 import { UIState, AuthState, UserState, BuildParamsState } from './src/store';
 import { crudUsers, crudConfig, crudDataPoints } from './src/database/crud';
@@ -94,6 +94,9 @@ Sentry.init({
   // Set it to `false` in production
   environment: SENTRY_ENV,
   debug: false,
+  integrations: [new Sentry.ReactNativeTracing({
+    routingInstrumentation
+  })],
 });
 
 const App = () => {

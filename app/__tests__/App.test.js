@@ -14,6 +14,8 @@ jest.mock('expo-sqlite');
 jest.mock('@sentry/react-native', () => ({
   init: () => jest.fn(),
   wrap: (node) => jest.fn(node),
+  ReactNativeTracing: () => jest.fn(),
+  ReactNavigationInstrumentation: (node) => jest.fn(node),
 }));
 
 jest.mock('../src/database/crud', () => ({

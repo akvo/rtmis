@@ -3,6 +3,8 @@ import { NavigationContainer, useNavigationContainerRef } from '@react-navigatio
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { BackHandler } from 'react-native';
 import * as Notifications from 'expo-notifications';
+import * as Sentry from '@sentry/react-native';
+
 import {
   HomePage,
   ManageFormPage,
@@ -25,6 +27,10 @@ import {
 import { UIState, AuthState, FormState } from '../store';
 import { backgroundTask, notification } from '../lib';
 import { SYNC_FORM_SUBMISSION_TASK_NAME, SYNC_FORM_VERSION_TASK_NAME } from '../lib/constants';
+
+export const routingInstrumentation = new Sentry.ReactNavigationInstrumentation({
+  enableTimeToInitialDisplay: true,
+});
 
 const Stack = createNativeStackNavigator();
 
@@ -117,6 +123,9 @@ const Navigation = () => {
       ref={navigationRef}
       onStateChange={handleOnChangeNavigation}
       testID="navigation-element"
+      onReady={() => {
+        routingInstrumentation.registerNavigationContainer(navigationRef);
+      }}
     >
       <RootNavigator />
     </NavigationContainer>
