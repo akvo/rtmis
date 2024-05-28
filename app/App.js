@@ -5,9 +5,11 @@ import NetInfo from '@react-native-community/netinfo';
 import * as Notifications from 'expo-notifications';
 import * as TaskManager from 'expo-task-manager';
 import * as BackgroundFetch from 'expo-background-fetch';
-
+import * as Sentry from '@sentry/react-native';
 import { ToastAndroid } from 'react-native';
 import * as Location from 'expo-location';
+import { SENTRY_DSN, SENTRY_ENV } from '@env';
+
 import Navigation from './src/navigation';
 import { conn, query, tables } from './src/database';
 import { UIState, AuthState, UserState, BuildParamsState } from './src/store';
@@ -79,6 +81,19 @@ TaskManager.defineTask(SYNC_FORM_SUBMISSION_TASK_NAME, async () => {
     console.error(`[${SYNC_FORM_SUBMISSION_TASK_NAME}] Define task manager failed`, err);
     return BackgroundFetch.Result.Failed;
   }
+});
+
+Sentry.init({
+  dsn: SENTRY_DSN,
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+  enableInExpoDevelopment: true,
+  // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event.
+  // Set it to `false` in production
+  environment: SENTRY_ENV,
+  debug: false,
 });
 
 const App = () => {
@@ -238,4 +253,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Sentry.wrap(App);
