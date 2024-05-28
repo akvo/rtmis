@@ -11,12 +11,6 @@ import { crudSessions, crudUsers, crudConfig } from '../src/database/crud';
 jest.mock('@react-native-community/netinfo', () => mockRNCNetInfo);
 jest.mock('@react-navigation/native-stack');
 jest.mock('expo-sqlite');
-jest.mock('@sentry/react-native', () => ({
-  init: () => jest.fn(),
-  wrap: (node) => jest.fn(node),
-  ReactNativeTracing: () => jest.fn(),
-  ReactNavigationInstrumentation: (node) => jest.fn(node),
-}));
 
 jest.mock('../src/database/crud', () => ({
   crudSessions: {
