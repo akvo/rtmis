@@ -2,6 +2,8 @@ import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { View } from 'react-native';
 import { ListItem, Switch } from '@rneui/themed';
 import * as Crypto from 'expo-crypto';
+import * as Sentry from '@sentry/react-native';
+
 import PropTypes from 'prop-types';
 import { BaseLayout } from '../../components';
 import { config } from './config';
@@ -103,6 +105,8 @@ const SettingsForm = ({ route }) => {
       await backgroundTask.unregisterBackgroundTask('sync-form-submission');
       await backgroundTask.registerBackgroundTask('sync-form-submission', parseInt(v, 10));
     } catch (error) {
+      Sentry.captureMessage('[SettingsForm] handleOnRestarTask failed');
+      Sentry.captureException(error);
       Promise.reject(error);
     }
   };
