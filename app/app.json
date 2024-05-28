@@ -53,7 +53,8 @@
           "url": "https://sentry.io/",
           "note": "Use SENTRY_AUTH_TOKEN env to authenticate with Sentry.",
           "organization": "akvo-foundation",
-          "project": "rtmis-mobile"
+          "project": "rtmis-mobile",
+          "setCommits": true
         }
       ]
     ],
