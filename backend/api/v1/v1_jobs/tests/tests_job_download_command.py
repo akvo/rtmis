@@ -8,6 +8,7 @@ from api.v1.v1_jobs.job import (
 )
 from api.v1.v1_users.models import SystemUser
 from api.v1.v1_profile.constants import UserRoleTypes
+from api.v1.v1_profile.models import Administration
 
 
 @override_settings(USE_TZ=False)
@@ -41,6 +42,34 @@ class JobDownloadUnitTestCase(TestCase):
 
         job = Jobs.objects.get(pk=result)
         self.assertEqual(job.info.get("download_type"), "all")
+
+        url = job_generate_data_download(job_id=job.id, **job.info)
+        self.assertTrue("download-test_form" in url)
+
+    def test_download_recent_data_with_administration(self):
+        form = Forms.objects.get(pk=1)
+        admin = SystemUser.objects.filter(
+            user_access__role=UserRoleTypes.admin
+        ).first()
+
+        ward = Administration.objects.filter(
+            level__name="Ward"
+        ).order_by("?").first()
+
+        result = call_command(
+            "job_download",
+            form.id,
+            admin.id,
+            "-a",
+            ward.id,
+            "-t",
+            "recent",
+        )
+        self.assertTrue(result)
+
+        job = Jobs.objects.get(pk=result)
+        self.assertEqual(job.info.get("download_type"), "recent")
+        self.assertEqual(job.info.get("administration"), ward.id)
 
         url = job_generate_data_download(job_id=job.id, **job.info)
         self.assertTrue("download-test_form" in url)

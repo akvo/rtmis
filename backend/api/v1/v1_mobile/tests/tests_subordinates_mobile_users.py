@@ -35,8 +35,9 @@ class SubordinatesMobileUsersTestCase(TestCase, ProfileTestHelperMixin):
             administration=administration.parent
         )
         self.token = self.get_auth_token(self.user.email)
-        form = Forms.objects.first()
+        form = Forms.objects.get(pk=1)
         self.form = form
+        self.form2 = Forms.objects.get(pk=2)
         UserForms.objects.get_or_create(form=form, user=self.user)
         UserForms.objects.get_or_create(form=form, user=self.approver)
 
@@ -105,3 +106,39 @@ class SubordinatesMobileUsersTestCase(TestCase, ProfileTestHelperMixin):
         body = response.json()
         self.assertEqual(len(body['data']), 1)
         self.assertTrue(True)
+
+
+def test_subordinates_with_diff_forms(self):
+    payload = {
+        'name': 'user3 assignment',
+        'forms': [self.form2.id],
+        'administrations': [self.user.user_access.administration.id],
+    }
+
+    response = typing.cast(
+        HttpResponse,
+        self.client.post(
+            '/api/v1/mobile-assignments',
+            payload,
+            content_type="application/json",
+            HTTP_AUTHORIZATION=f'Bearer {self.token}'
+        )
+    )
+
+    self.assertEqual(response.status_code, 201)
+
+    # Login as Sub-county user
+    t = RefreshToken.for_user(self.approver)
+
+    response = typing.cast(
+        HttpResponse,
+        self.client.get(
+            '/api/v1/mobile-assignments',
+            content_type="application/json",
+            HTTP_AUTHORIZATION=f'Bearer {t.access_token}'
+        )
+    )
+    self.assertEqual(response.status_code, 200)
+    body = response.json()
+    # Get all sub-ordinate mobile users
+    self.assertEqual(len(body['data']), 2)

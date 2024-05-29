@@ -22,8 +22,9 @@ def generate_template(
     attributes: List[int] = [],
 ):
     level_headers = [
-        f"{lvl.id}|{lvl.name}"
-        for lvl in Levels.objects.order_by("level").all()
+        col
+        for lvl in Levels.objects.order_by('level').all()
+        for col in [f'{lvl.id}|{lvl.name}', f'{lvl.id}|{lvl.name} Code']
     ]
     attribute_headers = generate_attribute_headers(
         AdministrationAttribute.objects.filter(id__in=attributes).order_by(
