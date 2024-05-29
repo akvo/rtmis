@@ -16,6 +16,9 @@ services:
     environment:
       - BACKEND_IP_ADDRESS=${IP_ADDRESS}
       - EXPO_TOKEN
+      - SENTRY_ENV=${SENTRY_MOBILE_ENV}
+      - SENTRY_DSN=${SENTRY_MOBILE_DSN}
+      - SENTRY_AUTH_TOKEN=${SENTRY_MOBILE_AUTH_TOKEN}
     network_mode: service:mainnetwork
 volumes:
   rtmis-docker-mobile-sync:

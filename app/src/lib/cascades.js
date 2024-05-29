@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import * as FileSystem from 'expo-file-system';
 import * as SQLite from 'expo-sqlite';
+import * as Sentry from '@sentry/react-native';
 import { conn, query } from '../database';
 
 const DIR_NAME = 'SQLite';
@@ -17,7 +18,6 @@ const createSqliteDir = async () => {
 const download = async (downloadUrl, fileUrl, update = false) => {
   const fileSql = fileUrl?.split('/')?.pop(); // get last segment as filename
   const pathSql = `${DIR_NAME}/${fileSql}`;
-  console.info('Downloading...', downloadUrl);
   const { exists } = await FileSystem.getInfoAsync(FileSystem.documentDirectory + pathSql);
   if (exists && update) {
     const existingDB = SQLite.openDatabase(fileSql);
@@ -32,12 +32,18 @@ const download = async (downloadUrl, fileUrl, update = false) => {
 };
 
 const loadDataSource = async (source, id = null) => {
-  const { file: cascadeName } = source;
-  const db = SQLite.openDatabase(cascadeName);
-  const readQuery = id ? query.read('nodes', { id }) : query.read('nodes');
-  const readParam = id ? [id] : [];
-  const result = await conn.tx(db, readQuery, readParam);
-  return result;
+  try {
+    const { file: cascadeName } = source;
+    const db = SQLite.openDatabase(cascadeName);
+    const readQuery = id ? query.read('nodes', { id }) : query.read('nodes');
+    const readParam = id ? [id] : [];
+    const result = await conn.tx(db, readQuery, readParam);
+    return result;
+  } catch (error) {
+    Sentry.captureMessage('[cascades] Unable to load cascade sqlite');
+    Sentry.captureException(error);
+    return Promise.reject(error);
+  }
 };
 
 const dropFiles = async () => {

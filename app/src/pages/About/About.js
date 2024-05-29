@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useCallback } from 'react';
 import { View, Linking, Alert } from 'react-native';
 import { ListItem, Icon, Dialog, Text } from '@rneui/themed';
+import * as Sentry from '@sentry/react-native';
 import { BaseLayout } from '../../components';
 import { config } from './config';
 import { BuildParamsState, UIState } from '../../store';
@@ -34,6 +35,8 @@ const AboutHome = () => {
       })
       .catch((e) => {
         // no update
+        Sentry.captureMessage('[About] Unable to fetch app version');
+        Sentry.captureException(e);
         setUpdateInfo({ status: e?.response?.status || 500, text: trans.noUpdateFound });
       })
       .finally(() => {
