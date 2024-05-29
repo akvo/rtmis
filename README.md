@@ -41,6 +41,9 @@ SENTRY_MOBILE_DSN="<<your_sentry_mobile_DSN>>"
 SENTRY_MOBILE_AUTH_TOKEN="<<your_sentry_mobile_auth_token>>"
 ```
 
+
+You can generate a Sentry auth token by following [this official Sentry documentation](https://docs.sentry.io/account/auth-tokens/).
+
 #### Start
 
 For initial run, you need to create a new docker volume.
