@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { View } from 'react-native';
 import { Input } from '@rneui/themed';
 import PropTypes from 'prop-types';
+import * as Sentry from '@sentry/react-native';
 
 import { FieldLabel } from '../support';
 import styles from '../styles';
@@ -148,7 +149,8 @@ const strToFunction = (id, fnString, values) => {
     // eslint-disable-next-line no-new-func
     return new Function(`return ${fnBody}`);
   } catch (error) {
-    // console.error('[ERROR][TypeAutofield]', id, error, fnBody);
+    Sentry.captureMessage(`[TypeAutofield] question ID: ${id}`);
+    Sentry.captureException(error);
     return false;
   }
 };

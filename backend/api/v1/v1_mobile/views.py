@@ -393,35 +393,34 @@ class MobileAssignmentViewSet(ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        adm_path = user.user_access.administration.path
-        adm_path += f"{user.user_access.administration.id}"
         mobile_users = MobileAssignment.objects.prefetch_related(
             "administrations", "forms"
         ).filter(user=user)
 
-        user_form_subquery = UserForms.objects.filter(
-            user=user,
-            form_id=OuterRef("forms__pk"),
-        ).values("form_id")
-
-        exclude_ids = (
-            MobileAssignment.objects.filter(
-                administrations__path__startswith=adm_path
-            )
-            .annotate(has_matching_user_form=Exists(user_form_subquery))
-            .filter(has_matching_user_form=False)
-            .distinct()
-        )
-
-        mobile_users |= (
-            MobileAssignment.objects.prefetch_related(
+        user_adm = user.user_access.administration
+        adm_path = f"{user_adm.path}{user_adm.id}"
+        descendant_users = MobileAssignment.objects.prefetch_related(
                 "administrations", "forms"
-            )
+            ) \
             .filter(
                 administrations__path__startswith=adm_path,
             )
-            .exclude(pk__in=exclude_ids)
-        )
+        if user_adm.level.level > 2:
+            # Check if the user is under Sub-County
+            user_form_subquery = UserForms.objects.filter(
+                user=user,
+                form_id=OuterRef("forms__pk"),
+            ).values("form_id")
+            exclude_ids = (
+                MobileAssignment.objects.filter(
+                    administrations__path__startswith=adm_path
+                )
+                .annotate(has_matching_user_form=Exists(user_form_subquery))
+                .filter(has_matching_user_form=False)
+                .distinct()
+            )
+            descendant_users = descendant_users.exclude(pk__in=exclude_ids)
+        mobile_users |= descendant_users
         return mobile_users.order_by("-id").distinct()
 
 

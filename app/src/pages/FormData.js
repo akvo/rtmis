@@ -5,6 +5,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import * as Network from 'expo-network';
+import * as Sentry from '@sentry/react-native';
+
 import { UserState, UIState, FormState } from '../store';
 import { BaseLayout } from '../components';
 import { crudDataPoints } from '../database/crud';
@@ -172,6 +174,8 @@ const FormDataPage = ({ navigation, route }) => {
         await runSyncSubmision();
       }
     } catch (error) {
+      Sentry.captureMessage('[FormData] unable to sync submission manually');
+      Sentry.captureException(error);
       setData(data);
       setSyncing(false);
       ToastAndroid.show(`${error?.errorCode}: ${error?.message}`, ToastAndroid.LONG);

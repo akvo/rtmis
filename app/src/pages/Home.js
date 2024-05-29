@@ -7,6 +7,8 @@ import * as Notifications from 'expo-notifications';
 import * as Location from 'expo-location';
 import PropTypes from 'prop-types';
 import * as Network from 'expo-network';
+import * as Sentry from '@sentry/react-native';
+
 import { BaseLayout } from '../components';
 import {
   FormState,
@@ -95,6 +97,8 @@ const Home = ({ navigation, route }) => {
         s.isManualSynced = true;
       });
     } catch (error) {
+      Sentry.captureMessage('[Home] Unable sync all forms');
+      Sentry.captureException(error);
       Promise.reject(error);
     }
   };
@@ -146,6 +150,8 @@ const Home = ({ navigation, route }) => {
       setSyncLoading(false);
     } catch (error) {
       ToastAndroid.show(`[ERROR SYNC DATAPOINT]: ${error}`, ToastAndroid.LONG);
+      Sentry.captureMessage('[Home] Unable to sync data-points');
+      Sentry.captureException(error);
       setSyncLoading(false);
     }
   };
@@ -184,6 +190,8 @@ const Home = ({ navigation, route }) => {
         setData(forms);
         setloading(false);
       } catch (error) {
+        Sentry.captureMessage("[Home] Unable to refresh user's forms");
+        Sentry.captureException(error);
         if (Platform.OS === 'android') {
           ToastAndroid.show(`SQL: ${error}`, ToastAndroid.SHORT);
         }
@@ -245,7 +253,6 @@ const Home = ({ navigation, route }) => {
           timeInterval,
         },
         (res) => {
-          console.info('[CURRENT LOC]', res?.coords);
           UserState.update((s) => {
             s.currentLocation = res;
           });

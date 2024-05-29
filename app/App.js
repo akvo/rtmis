@@ -1,14 +1,15 @@
-/* eslint-disable no-console */
 import React, { useCallback, useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import NetInfo from '@react-native-community/netinfo';
 import * as Notifications from 'expo-notifications';
 import * as TaskManager from 'expo-task-manager';
 import * as BackgroundFetch from 'expo-background-fetch';
-
+import * as Sentry from '@sentry/react-native';
 import { ToastAndroid } from 'react-native';
 import * as Location from 'expo-location';
-import Navigation from './src/navigation';
+import { SENTRY_DSN, SENTRY_ENV } from '@env';
+
+import Navigation, { routingInstrumentation } from './src/navigation';
 import { conn, query, tables } from './src/database';
 import { UIState, AuthState, UserState, BuildParamsState } from './src/store';
 import { crudUsers, crudConfig, crudDataPoints } from './src/database/crud';
@@ -34,7 +35,6 @@ TaskManager.defineTask(SYNC_FORM_SUBMISSION_TASK_NAME, async () => {
   try {
     const pendingToSync = await crudDataPoints.selectSubmissionToSync();
     const activeJob = await crudJobs.getActiveJob(SYNC_FORM_SUBMISSION_TASK_NAME);
-    console.info('[BACKGROUND ACTIVE JOB]', activeJob);
 
     if (activeJob?.status === jobStatus.ON_PROGRESS) {
       if (activeJob.attempt < MAX_ATTEMPT && pendingToSync.length) {
@@ -76,9 +76,28 @@ TaskManager.defineTask(SYNC_FORM_SUBMISSION_TASK_NAME, async () => {
     }
     return BackgroundFetch.BackgroundFetchResult.NewData;
   } catch (err) {
-    console.error(`[${SYNC_FORM_SUBMISSION_TASK_NAME}] Define task manager failed`, err);
+    Sentry.captureMessage(`[${SYNC_FORM_SUBMISSION_TASK_NAME}] Define task manager failed`);
+    Sentry.captureException(err);
     return BackgroundFetch.Result.Failed;
   }
+});
+
+Sentry.init({
+  dsn: SENTRY_DSN,
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+  enableInExpoDevelopment: true,
+  // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event.
+  // Set it to `false` in production
+  environment: SENTRY_ENV,
+  debug: false,
+  integrations: [
+    new Sentry.ReactNativeTracing({
+      routingInstrumentation,
+    }),
+  ],
 });
 
 const App = () => {
@@ -94,7 +113,6 @@ const App = () => {
     crudUsers
       .getActiveUser()
       .then((user) => {
-        console.info('Users =>', user);
 
         const page = 'Home';
         return { user, page };
@@ -153,7 +171,7 @@ const App = () => {
         s.syncWifiOnly = configExist?.syncWifiOnly;
       });
     }
-    console.info('[CONFIG] Server URL', serverURL);
+
   }, [geoLocationTimeout, gpsAccuracyLevel, gpsThreshold, serverURLState, syncValue]);
 
   const handleInitDB = useCallback(async () => {
@@ -172,7 +190,8 @@ const App = () => {
       await handleInitConfig();
       handleCheckSession();
     } catch (error) {
-      console.error(`[INITIAL DB]: ${error}`);
+      Sentry.captureMessage(`[INITIAL DB]`);
+      Sentry.captureException(error);
       ToastAndroid.show(`[INITIAL DB]: ${error}`, ToastAndroid.LONG);
     }
   }, [handleInitConfig, handleCheckSession]);
@@ -197,15 +216,15 @@ const App = () => {
   const handleOnRegisterTask = useCallback(async () => {
     try {
       const allTasks = await TaskManager.getRegisteredTasksAsync();
-      console.log('allTasks', allTasks);
+
       allTasks.forEach(async (a) => {
         if ([SYNC_FORM_SUBMISSION_TASK_NAME, SYNC_FORM_VERSION_TASK_NAME].includes(a.taskName)) {
-          console.info(`[${a.taskName}] IS REGISTERED`);
           await backgroundTask.registerBackgroundTask(a.taskName);
         }
       });
     } catch (error) {
-      console.error('TASK REGISTER ERROR', error);
+      Sentry.captureMessage(`handleOnRegisterTask`);
+      Sentry.captureException(error);
     }
   }, []);
 
@@ -238,4 +257,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Sentry.wrap(App);

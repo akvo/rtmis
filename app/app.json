@@ -45,6 +45,29 @@
           "enabled": true
         }
       ]
+    },
+    "plugins": [
+      [
+        "sentry-expo",
+        {
+          "url": "https://sentry.io/",
+          "note": "Use SENTRY_AUTH_TOKEN env to authenticate with Sentry.",
+          "organization": "akvo-foundation",
+          "project": "rtmis-mobile",
+          "setCommits": true
+        }
+      ]
+    ],
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "akvo-foundation",
+            "project": "rtmis-mobile"
+          }
+        }
+      ]
     }
   }
 }

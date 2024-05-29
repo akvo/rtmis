@@ -3,6 +3,8 @@ import React from 'react';
 import { Asset } from 'expo-asset';
 import { View, StyleSheet, Platform, ToastAndroid } from 'react-native';
 import { Input, Button, Text, Dialog } from '@rneui/themed';
+import * as Sentry from '@sentry/react-native';
+
 import { CenterLayout, Image } from '../components';
 import { api, cascades, i18n } from '../lib';
 import { AuthState, UserState, UIState } from '../store';
@@ -37,17 +39,15 @@ const AuthByPassForm = ({ navigation }) => {
           const bearerToken = 'NO TOKEN';
           const lastSession = await crudSessions.selectLastSession();
           if (!lastSession && lastSession?.token !== bearerToken) {
-            console.info('Saving tokens...');
             await crudSessions.addSession({ token: bearerToken, passcode: 'NO PASSCODE' });
           }
           await cascades.createSqliteDir();
           // save forms
-          const savedForm = await crudForms.addForm({
+          await crudForms.addForm({
             id: data.id,
             version: data.version,
             formJSON: data,
           });
-          console.info('Saved Forms...', data.id, savedForm);
           // download cascades files
           if (data?.cascades?.length) {
             data.cascades.forEach((cascadeFile) => {
@@ -76,7 +76,10 @@ const AuthByPassForm = ({ navigation }) => {
             goTo('Home');
           }
         } catch (err) {
-          console.error(err);
+          Sentry.captureMessage(
+            `[AuthByPassForm] Unable to store session, activeUser & redirect to Homepage`,
+          );
+          Sentry.captureException(err);
         }
       })
       .catch((err) => {

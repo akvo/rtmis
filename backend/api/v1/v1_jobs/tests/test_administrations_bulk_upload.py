@@ -78,19 +78,29 @@ class SeedDataTestCase(TestCase, ProfileTestHelperMixin):
             self.option_att.id])
         df.loc[len(df)] = [
                 'Indonesia',
+                '001',
                 'Jakarta',
+                '101',
                 'South Jakarta',
+                '201',
                 'Pasar Minggu',
+                '301',
                 'Lenteng Agung',
+                '401',
                 'y',
                 'opt #1'
                 ]
         df.loc[len(df)] = [
                 'Indonesia',
+                '001',
                 'Jakarta',
+                '101',
                 'South Jakarta',
+                '201',
                 'Pasar Minggu',
+                '301',
                 'Jagakarsa',
+                '402',
                 '',
                 'opt #2'
                 ]
@@ -117,10 +127,15 @@ class SeedDataTestCase(TestCase, ProfileTestHelperMixin):
             self.aggregate_att.id])
         df.loc[len(df)] = [
                 'Indonesia',
+                '001',
                 'Jakarta',
+                '101',
                 'South Jakarta',
+                '201',
                 'Pasar Minggu',
+                '301',
                 'Lenteng Agung',
+                '401',
                 '1',
                 'opt #1',
                 'opt #1 | opt #2',
@@ -156,19 +171,29 @@ class SeedDataTestCase(TestCase, ProfileTestHelperMixin):
             self.option_att.id])
         df.loc[len(df)] = [
                 'Indonesia',
+                '001',
                 'Jakarta',
+                '101',
                 'South Jakarta',
+                '201',
                 'Pasar Minggu',
+                '301',
                 'Lenteng Agung',
+                '401',
                 'y',
                 'opt #1'
                 ]
         df.loc[len(df)] = [
                 'Indonesia',
+                '001',
                 'Jakarta',
+                '101',
                 'South Jakarta',
+                '201',
                 '',
+                None,
                 '',
+                None,
                 'y',
                 ''
                 ]
@@ -180,6 +205,45 @@ class SeedDataTestCase(TestCase, ProfileTestHelperMixin):
 
         level3 = Administration.objects.get(name='South Jakarta')
         self.assertEqual(1, level3.attributes.count())
+
+    def test_update_existing_attribute_values(self):
+        df = generate_inmemory_template([
+            self.value_att.id,
+            self.option_att.id,
+            self.aggregate_att.id])
+        df.loc[len(df)] = [
+            'Indonesia',
+            '001',
+            'Jakarta',
+            '101',
+            'South Jakarta',
+            '201',
+            'Pasar Minggu',
+            '301',
+            'Lenteng Agung',
+            '401',
+            '999',
+            'opt #2',
+            '47',
+            '53',
+        ]
+        upload_file = write_inmemory_excel_file(df)
+        seed_administration_data(upload_file)
+
+        adm1 = Administration.objects.get(name='Lenteng Agung')
+        self.assertEqual(3, adm1.attributes.count())
+
+        value_att = adm1.attributes.get(attribute=self.value_att)
+        self.assertEqual('999', value_att.value.get('value'))
+
+        option_att = adm1.attributes.get(attribute=self.option_att)
+        self.assertEqual('opt #2', option_att.value.get('value'))
+
+        aggregate_att = adm1.attributes.get(attribute=self.aggregate_att)
+        self.assertEqual(
+            {'opt #1': '47', 'opt #2': '53'},
+            aggregate_att.value.get('value')
+        )
 
 
 class ValidateBulkUploadTestCase(TestCase, ProfileTestHelperMixin):
@@ -324,10 +388,15 @@ class ValidateBulkUploadTestCase(TestCase, ProfileTestHelperMixin):
             self.aggregate_att.id])
         df.loc[len(df)] = [
                 'Indonesia',
+                '001',
                 'Jakarta',
+                '101',
                 'South Jakarta',
+                '201',
                 'Pasar Minggu',
+                '301',
                 'Lenteng Agung',
+                '401',
                 '1',
                 'invalid',
                 'opt #1 | invalid',

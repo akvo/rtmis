@@ -1,7 +1,7 @@
-/* eslint-disable no-console */
 import * as BackgroundFetch from 'expo-background-fetch';
 import * as TaskManager from 'expo-task-manager';
 import * as Network from 'expo-network';
+import * as Sentry from '@sentry/react-native';
 import api from './api';
 import { crudForms, crudDataPoints, crudUsers, crudConfig } from '../database/crud';
 import notification from './notification';
@@ -35,19 +35,16 @@ const syncFormVersion = async ({
           return false;
         }
         if (showNotificationOnly) {
-          console.info('[bgTask]New form:', form.id, form.version);
           return { id: form.id, version: form.version };
         }
         const formRes = await api.get(form.url);
         // update previous form latest value to 0
         await crudForms.updateForm({ ...form });
-        console.info('[syncForm]Updated Forms...', form.id);
         const savedForm = await crudForms.addForm({
           ...form,
           userId: session?.id,
           formJSON: formRes?.data,
         });
-        console.info('[syncForm]Saved Forms...', form.id);
         return savedForm;
       });
       Promise.all(promises).then((r) => {
@@ -59,7 +56,8 @@ const syncFormVersion = async ({
       });
     });
   } catch (err) {
-    console.error('[bgTask]sycnFormVersion failed:', err);
+    Sentry.captureMessage('[background-task] syncFormVersion failed');
+    Sentry.captureException(err);
   }
 };
 
@@ -88,9 +86,8 @@ const unregisterBackgroundTask = async (TASK_NAME) => {
 };
 
 const backgroundTaskStatus = async (TASK_NAME) => {
-  const status = await BackgroundFetch.getStatusAsync();
-  const isRegistered = await TaskManager.isTaskRegisteredAsync(TASK_NAME);
-  console.info(`[${TASK_NAME}] Status`, status, isRegistered);
+  await BackgroundFetch.getStatusAsync();
+  await TaskManager.isTaskRegisteredAsync(TASK_NAME);
 };
 
 const handleOnUploadPhotos = async (data) => {
@@ -146,7 +143,6 @@ const syncFormSubmission = async (activeJob = {}) => {
   }
   try {
     let sendNotification = false;
-    console.info('[syncFormSubmision] SyncData started => ', new Date());
     // get token
     const session = await crudUsers.getActiveUser();
     // set token
@@ -157,7 +153,6 @@ const syncFormSubmission = async (activeJob = {}) => {
      * Upload all photo of questions first
      */
     const photos = await handleOnUploadPhotos(data);
-    console.info('[syncFormSubmision] data point to sync:', data.length);
     const syncProcess = data.map(async (d) => {
       const geo = d.geo ? d.geo.split('|')?.map((x) => parseFloat(x)) : [];
 
@@ -184,10 +179,8 @@ const syncFormSubmission = async (activeJob = {}) => {
       if (!syncData?.uuid && uuidv4Regex.test(activeJob?.info)) {
         syncData.uuid = activeJob.info;
       }
-      console.info('[syncFormSubmision] SyncData:', syncData);
       // sync data point
       const res = await api.post('/sync', syncData);
-      console.info('[syncFormSubmision] post sync data point:', res.status);
       if (res.status === 200) {
         // update data point
         await crudDataPoints.updateDataPoint({
@@ -196,7 +189,6 @@ const syncFormSubmission = async (activeJob = {}) => {
           syncedAt: new Date().toISOString(),
         });
         sendNotification = true;
-        console.info('[syncFormSubmision] updated data point syncedAt:', d.id);
       }
       return {
         datapoint: d.id,
@@ -204,7 +196,6 @@ const syncFormSubmission = async (activeJob = {}) => {
       };
     });
     await Promise.all(syncProcess);
-    console.info('[syncFormSubmision] Finish: ', new Date());
 
     UIState.update((s) => {
       // TODO: rename isManualSynced w/ isSynced to refresh the Homepage stats
@@ -225,6 +216,8 @@ const syncFormSubmission = async (activeJob = {}) => {
       await crudJobs.deleteJob(activeJob.id);
     }
   } catch (error) {
+    Sentry.captureMessage(`[background-task] syncFormSubmission failed`);
+    Sentry.captureException(error);
     const { status: errorCode } = error?.response || {};
     if (activeJob?.id) {
       const updatePayload =
@@ -256,7 +249,8 @@ export const defineSyncFormVersionTask = () =>
       });
       return BackgroundFetch.BackgroundFetchResult.NewData;
     } catch (err) {
-      console.error(`[${SYNC_FORM_VERSION_TASK_NAME}] Define task manager failed`, err);
+      Sentry.captureMessage(`[${SYNC_FORM_VERSION_TASK_NAME}] defineSyncFormVersionTask failed`);
+      Sentry.captureException(err);
       return BackgroundFetch.Result.Failed;
     }
   });
@@ -267,7 +261,8 @@ export const defineSyncFormSubmissionTask = () => {
       await syncFormSubmission();
       return BackgroundFetch.BackgroundFetchResult.NewData;
     } catch (err) {
-      console.error(`[${SYNC_FORM_SUBMISSION_TASK_NAME}] Define task manager failed`, err);
+      Sentry.captureMessage(`[${SYNC_FORM_SUBMISSION_TASK_NAME}] defineSyncFormSubmissionTask failed`);
+      Sentry.captureException(err);
       return BackgroundFetch.Result.Failed;
     }
   });

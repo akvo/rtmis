@@ -311,7 +311,9 @@ class ListFormDataSerializer(serializers.ModelSerializer):
     )
     def get_pending_data(self, instance: FormData):
         batch = None
-        pending_data = PendingFormData.objects.filter(data=instance.pk).first()
+        pending_data = PendingFormData.objects.select_related(
+            "created_by"
+        ).filter(data=instance.pk).first()
         if pending_data:
             batch = PendingDataBatch.objects.filter(
                 pk=pending_data.batch_id
@@ -905,7 +907,10 @@ class ListBatchSerializer(serializers.ModelSerializer):
     )
     def get_approvers(self, instance: PendingDataBatch):
         data = []
-        for approver in instance.batch_approval.all():
+        approvers = instance.batch_approval.order_by(
+            "level"
+        ).all()
+        for approver in approvers:
             approver_administration = approver.user.user_access.administration
             data.append(
                 {

@@ -58,6 +58,7 @@ describe('Homepage', () => {
   beforeAll(() => {
     UserState.update((s) => {
       s.id = 1;
+      s.syncWifiOnly = 0;
     });
     UIState.update((s) => {
       s.online = true;
@@ -206,13 +207,15 @@ describe('Homepage', () => {
   });
 
   it('should disable sync datapoint button when syncWifiOnly is true & network type cellular', async () => {
-    const { getByTestId } = render(<HomePage navigation={mockNavigation} />);
-
     act(() => {
       UserState.update((s) => {
         s.syncWifiOnly = 1;
       });
+    });
 
+    const { getByTestId } = render(<HomePage navigation={mockNavigation} />);
+
+    act(() => {
       UIState.update((s) => {
         s.networkType = 'CELLULAR';
       });

@@ -12,6 +12,8 @@ import { Button, Dialog, Text } from '@rneui/themed';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as SQLite from 'expo-sqlite';
 import PropTypes from 'prop-types';
+import * as Sentry from '@sentry/react-native';
+
 import FormContainer from '../form/FormContainer';
 import { SaveDialogMenu, SaveDropdownMenu } from '../form/support';
 import { BaseLayout } from '../components';
@@ -104,6 +106,8 @@ const FormPage = ({ navigation, route }) => {
       refreshForm();
       navigation.navigate('Home', { ...route?.params });
     } catch (error) {
+      Sentry.captureMessage('[FormPage] Cannot save draft submissions');
+      Sentry.captureException(error);
       if (Platform.OS === 'android') {
         ToastAndroid.show(`SQL: ${error}`, ToastAndroid.LONG);
       }
@@ -178,6 +182,8 @@ const FormPage = ({ navigation, route }) => {
       refreshForm();
       navigation.navigate('Home', { ...route?.params });
     } catch (error) {
+      Sentry.captureMessage('[FormPage] Cannot submit submissions');
+      Sentry.captureException(error);
       if (Platform.OS === 'android') {
         ToastAndroid.show(`SQL: ${error}`, ToastAndroid.LONG);
       }
@@ -210,7 +216,10 @@ const FormPage = ({ navigation, route }) => {
 
   useEffect(() => {
     if (!isNewSubmission) {
-      fetchSavedSubmission().catch((e) => console.error('[Fetch Data Point Failed]: ', e));
+      fetchSavedSubmission().catch((e) => {
+        Sentry.captureMessage('[FormPage] Fetch data-point failed');
+        Sentry.captureException(e);
+      });
     }
   }, [isNewSubmission, fetchSavedSubmission]);
 

@@ -190,10 +190,11 @@ class FormDataAddListView(APIView):
             )
             queryset = queryset.order_by("-created")
             instance = paginator.paginate_queryset(queryset, request)
+            total = queryset.count()
             data = {
                 "current": int(request.GET.get("page", "1")),
-                "total": queryset.count(),
-                "total_page": ceil(queryset.count() / page_size),
+                "total": total,
+                "total_page": ceil(total / page_size),
                 "data": ListFormDataSerializer(
                     instance=instance,
                     context={
@@ -211,9 +212,10 @@ class FormDataAddListView(APIView):
             .annotate(latest_id=Max("id"))
             .values_list("latest_id", flat=True)
         )
-        filter_data = {}
-        filter_data["pk__in"] = latest_ids_per_uuid
-        filter_data["submission_type"] = submission_type
+        filter_data = {
+            "pk__in": latest_ids_per_uuid,
+            "submission_type": submission_type,
+        }
 
         access = request.user.user_access
 
@@ -239,24 +241,25 @@ class FormDataAddListView(APIView):
             filter_data["administration__path__startswith"] = user_path
 
         # Advance filter
-        data_ids = None
-        if request.GET.getlist("options"):
-            data_ids = get_advance_filter_data_ids(
-                form_id=form_id,
-                administration_id=request.GET.get("administration"),
-                options=request.GET.getlist("options"),
-            )
-            filter_data["pk__in"] = data_ids
+        # data_ids = None
+        # if request.GET.getlist("options"):
+        #     data_ids = get_advance_filter_data_ids(
+        #         form_id=form_id,
+        #         administration_id=request.GET.get("administration"),
+        #         options=request.GET.getlist("options"),
+        #     )
+        #     filter_data["pk__in"] = data_ids
 
         queryset = form.form_form_data.filter(**filter_data).order_by(
             "-created"
         )
 
         instance = paginator.paginate_queryset(queryset, request)
+        total = queryset.count()
         data = {
             "current": int(request.GET.get("page", "1")),
-            "total": queryset.count(),
-            "total_page": ceil(queryset.count() / page_size),
+            "total": total,
+            "total_page": ceil(total / page_size),
             "data": ListFormDataSerializer(
                 instance=instance,
                 context={
@@ -1008,19 +1011,21 @@ def list_pending_batch(request, version):
             queryset = queryset.filter(
                 level_id=F("pending_level"), batch__approved=False
             )
-            queryset = queryset.exclude(
-                batch_id__in=rejected_by_current_user.values_list(
-                    "batch_id", flat=True
+            if rejected_by_current_user:
+                # only run this filter if user has rejected batch
+                queryset = queryset.exclude(
+                    batch_id__in=rejected_by_current_user.values_list(
+                        "batch_id", flat=True
+                    )
                 )
-            )
-            rejected = rejected.exclude(
-                batch_id__in=rejected_by_current_user.values_list(
-                    "batch_id", flat=True
+                rejected = rejected.exclude(
+                    batch_id__in=rejected_by_current_user.values_list(
+                        "batch_id", flat=True
+                    )
                 )
-            )
-            queryset = queryset.union(
-                rejected.values_list("batch_id", flat=True)
-            )
+                queryset = queryset.union(
+                    rejected.values_list("batch_id", flat=True)
+                )
     queryset = queryset.values_list("batch_id", flat=True).order_by("-id")
 
     paginator = PageNumberPagination()

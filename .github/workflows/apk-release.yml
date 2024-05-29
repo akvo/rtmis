@@ -25,6 +25,12 @@ jobs:
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          echo "SENTRY_ENV='production'" >> $GITHUB_ENV
+        env:
+          SENTRY_ENV: ${{ env.SENTRY_ENV }}
+          SENTRY_DSN: ${{ secrets.SENTRY_MOBILE_DSN }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_MOBILE_AUTH_TOKEN }}
 
       - name: 📦 Install dependencies
         run: |
@@ -101,6 +107,9 @@ jobs:
         env:
           APK_VERSION: ${{ env.APK_VERSION }}
           SECRET: ${{ secrets.APK_UPLOAD_SECRET }}
+          SENTRY_ENV: ${{ env.SENTRY_ENV }}
+          SENTRY_DSN: ${{ secrets.SENTRY_MOBILE_DSN }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_MOBILE_AUTH_TOKEN }}
         run: |
           curl -X 'POST' \
             'https://rtmis.akvotest.org/api/v1/device/apk/upload' \
