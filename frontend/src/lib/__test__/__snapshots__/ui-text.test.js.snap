@@ -111,6 +111,7 @@ Object {
     "backManageCertificationData": "Back to Manage Grade Certification",
     "backManageData": "Back to Manage Routine Data",
     "backManageVerification": "Back to Manage Grade Claim",
+    "backToAdmLabel": "Back to Administrative List",
     "backToCenterLabel": "Back to Control Center",
     "batchDatasets": "Batch Datasets",
     "batchHintDesc": "The operation of merging datasets cannot be undone, and will Create a new batch that will require approval from you admin",
