@@ -149,7 +149,7 @@ const strToFunction = (id, fnString, values) => {
     // eslint-disable-next-line no-new-func
     return new Function(`return ${fnBody}`);
   } catch (error) {
-    Sentry.captureMessage(`[TypeAutofield] ${fnBody}`);
+    Sentry.captureMessage(`[TypeAutofield] question ID: ${id}`);
     Sentry.captureException(error);
     return false;
   }
