@@ -197,9 +197,8 @@ class FormCertificationAssignmentViewSet(ModelViewSet):
             )
         else:
             allowed_path = self.request.user.user_access.administration.path
-            allowed_path += (
-                f"{user_administration_id}" if user_administration_id else ""
-            )
+            if user_administration_id:
+                allowed_path += f"{user_administration_id}"
             queryset = (
                 FormCertificationAssignment.objects.prefetch_related(
                     "administrations"
