@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Platform, ToastAndroid } from 'react-native';
 import { Input, Button, Text, Dialog } from '@rneui/themed';
+import * as Sentry from '@sentry/react-native';
+
 import { BaseLayout } from '../../components';
 import { i18n, api, cascades } from '../../lib';
 import { UIState } from '../../store';
@@ -30,12 +32,11 @@ const AddNewForm = ({ navigation }) => {
           const { data } = res;
           await cascades.createSqliteDir();
           // save forms
-          const savedForm = await crudForms.addForm({
+          await crudForms.addForm({
             id: data.id,
             version: data.version,
             formJSON: data,
           });
-          console.info('Saved Forms...', data.id, savedForm);
           // download cascades files
           if (data?.cascades?.length) {
             data.cascades.forEach((cascadeFile) => {
@@ -47,10 +48,15 @@ const AddNewForm = ({ navigation }) => {
             navigation.navigate('Home');
           }, 100);
         } catch (err) {
-          console.error(err);
+          Sentry.captureMessage(
+            '[AddNewForm] Unable to store forms details (cascade, questions, etc)',
+          );
+          Sentry.captureException(err);
         }
       })
       .catch((err) => {
+        Sentry.captureMessage('[AddNewForm] Unable to fetch forms details');
+        Sentry.captureException(err);
         const { status: errStatus } = err?.response || {};
         if ([400, 401].includes(errStatus)) {
           setError(trans.authErrorPasscode);

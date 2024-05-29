@@ -11,8 +11,6 @@ import { UIState } from '../../store';
 jest.mock('../../lib/api');
 jest.mock('../../database/crud');
 jest.mock('../../lib/cascades');
-// mock console error
-global.console.error = jest.fn();
 
 describe('AuthByPassForm', () => {
   test('it renders correctly', () => {

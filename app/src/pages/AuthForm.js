@@ -5,6 +5,8 @@ import { Asset } from 'expo-asset';
 import { View, StyleSheet, Platform, ToastAndroid } from 'react-native';
 import { Input, Button, Text, Dialog } from '@rneui/themed';
 import PropTypes from 'prop-types';
+import * as Sentry from '@sentry/react-native';
+
 import { CenterLayout, Image } from '../components';
 import { api, cascades, i18n } from '../lib';
 import { AuthState, UserState, UIState, BuildParamsState } from '../store';
@@ -84,12 +86,11 @@ const AuthForm = ({ navigation }) => {
         });
         // insert all forms to database
         const form = formsUrl?.[index];
-        const savedForm = await crudForms.addForm({
+        await crudForms.addForm({
           ...form,
           userId: userID,
           formJSON: apiData,
         });
-        console.info('Saved Forms...', form.id, savedForm);
       }
     });
   };
@@ -138,6 +139,8 @@ const AuthForm = ({ navigation }) => {
           setError(`${errorCode}: ${trans.authErrorPasscode}`);
         } else {
           setError(`${errorCode}: ${err?.message}`);
+          Sentry.captureMessage('[AuthForm] unable to sign-in with passcode');
+          Sentry.captureException(err);
         }
       })
       .finally(() => setLoading(false));
