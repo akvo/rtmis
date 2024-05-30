@@ -79,7 +79,7 @@
           "required": true,
           "rule": {
             "max": 7,
-            "min": 0
+            "min": 1
           }
         },
         {
@@ -123,6 +123,14 @@
             {
               "label": "Friday",
               "value": "fri"
+            },
+            {
+              "label": "Saturday",
+              "value": "sat"
+            },
+            {
+              "label": "Sunday",
+              "value": "sun"
             }
           ]
         }
