@@ -108,10 +108,6 @@ jobs:
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
-        env:
-          SENTRY_ENV: production
-          SENTRY_DSN: ${{ secrets.SENTRY_MOBILE_DSN }}
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_MOBILE_AUTH_TOKEN }}
 
       - name: 📦 Install dependencies
         run: |
