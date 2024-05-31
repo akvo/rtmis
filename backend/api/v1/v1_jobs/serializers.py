@@ -75,7 +75,9 @@ class DownloadListSerializer(serializers.ModelSerializer):
             "adm_id"
         )
         if admin_id:
-            return Administration.objects.get(pk=admin_id).full_name
+            adm = Administration.objects.get(pk=admin_id)
+            if adm:
+                return adm.full_name
         return None
 
     @extend_schema_field(OpenApiTypes.STR)
