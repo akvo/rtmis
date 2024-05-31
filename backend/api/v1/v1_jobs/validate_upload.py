@@ -185,20 +185,23 @@ def validate_dependency(
         return default
     if question.dependency:
         # check if the answer is required or should be blank
-        question_dependency = question.dependency[0]
         question_is_appear = False
-        if dependency_answer:
-            if "options" in question_dependency:
-                for daw in dependency_answer.split("|"):
-                    if daw in question_dependency["options"]:
-                        question_is_appear = True
-            if "min" in question_dependency:
-                if dependency_answer >= question_dependency["min"]:
-                    question_is_appear = True
-            if "max" in question_dependency:
-                if dependency_answer <= question_dependency["max"]:
-                    question_is_appear = True
-
+        all_deps_match = []
+        for question_dependency in question.dependency:
+            if question_dependency["id"] in dependency_answer:
+                da = dependency_answer[question_dependency["id"]]
+                if "options" in question_dependency:
+                    for daw in da.split("|"):
+                        if daw in question_dependency["options"]:
+                            all_deps_match.append(True)
+                if "min" in question_dependency and isinstance(da, int):
+                    if int(da) >= int(question_dependency["min"]):
+                        all_deps_match.append(True)
+                if "max" in question_dependency and isinstance(da, int):
+                    if int(da) <= int(question_dependency["max"]):
+                        all_deps_match.append(True)
+        if len(all_deps_match) == len(question.dependency):
+            question_is_appear = True
         # answer should be blank
         if answered and not question_is_appear:
             msg = f"{question.name} {ValidationText.should_be_empty.value}"
@@ -358,21 +361,25 @@ def validate(form: int, administration: int, file: str):
             # EOL validate submission type not empty
             question = questions.filter(name=header).first()
             if question:
-                dependencies = False
+                dependencies = []
                 if question.dependency:
-                    dependency = questions.filter(
-                        id=question.dependency[0].get("id")
-                    ).first()
-                    if dependency.name in list(df):
-                        dependencies = list(df[dependency.name])
+                    for qd in question.dependency:
+                        dependency = questions.filter(
+                            id=qd.get("id")
+                        ).first()
+                        dependencies.append({
+                            "id": dependency.id,
+                            "name": dependency.name
+                        })
                 answers = list(df[header])
                 for i, answer in enumerate(answers):
                     ix = i + 2
-                    dependency_answer = False
-                    if dependencies:
-                        dependency_answer = dependencies[i]
-                        if dependency_answer != dependency_answer:
-                            dependency_answer = False
+                    dependency_answer = {}
+                    for dn in dependencies:
+                        if dn["name"] in list(df):
+                            dependency_answer[dn["id"]] = list(
+                                df[dn["name"]]
+                            )[i]
                     errors = validate_row_data(
                         f"{col}{ix}", answer, dependency_answer, question, adm
                     )

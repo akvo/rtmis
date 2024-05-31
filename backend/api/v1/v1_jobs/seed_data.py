@@ -31,6 +31,32 @@ from uuid import uuid4
 # logger.warning("This is log message")
 
 
+def get_geo_value(aw):
+    geo = aw
+    if isinstance(aw, str):
+        aw = aw.strip().replace("|", ",")
+        geo = [float(g) for g in aw.split(",")]
+    return geo
+
+
+def get_administration(aw: str) -> Administration:
+    adms = aw.split("|")
+    adm_list = []
+    adm = None
+    for ix, adm in enumerate(adms):
+        find_adm = Administration.objects.filter(name=adm).first()
+        if len(adm_list):
+            parent = adm_list[ix - 1]
+            find_adm = Administration.objects.filter(
+                name=adm, parent_id=parent.id
+            ).first()
+        if find_adm:
+            adm_list.append(find_adm)
+    if len(adm_list):
+        adm = adm_list[-1]
+    return adm
+
+
 def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
     # check if prev submission exist
     prev_form_data = None
@@ -39,8 +65,12 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
 
     is_super_admin = user.user_access.role == UserRoleTypes.super_admin
     names = []
-    administration = None
-    geo = None
+    administration = dp["administration"]
+    if isinstance(administration, str):
+        adm = get_administration(aw=administration)
+        if adm:
+            administration = adm.id
+    geo = get_geo_value(aw=dp["geolocation"])
     answerlist = []
     answer_history_list = []
 
@@ -56,6 +86,8 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
 
     for a in dp:
         if a in ["data_id", "submission_type"]:
+            continue
+        if a not in qs:
             continue
         aw = dp[a]
         q = qs[a]
@@ -100,21 +132,12 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
         answer = PendingAnswers(question_id=q.id, created_by=user)
         if q.type == QuestionTypes.administration:
             if isinstance(aw, str):
-                adms = aw.split("|")
-                adm_list = []
-                for ix, adm in enumerate(adms):
-                    find_adm = Administration.objects.filter(name=adm).first()
-                    if len(adm_list):
-                        parent = adm_list[ix - 1]
-                        find_adm = Administration.objects.filter(
-                            name=adm, parent_id=parent.id
-                        ).first()
-                    if find_adm:
-                        adm_list.append(find_adm)
-                administration = adm_list[-1].id
-                answer.value = administration
-                if q.meta:
-                    names.append(adm_list[-1].name)
+                adm = get_administration(aw=aw)
+                if adm:
+                    administration = adm.id
+                    answer.value = administration
+                    if q.meta:
+                        names.append(adm.name)
             else:
                 adm = Administration.objects.get(pk=aw)
                 administration = aw
@@ -124,12 +147,7 @@ def collect_answers(user: SystemUser, dp: dict, qs: dict, data_id):
 
         if q.type == QuestionTypes.geo:
             if aw:
-                if isinstance(aw, str):
-                    aw = aw.strip().replace("|", ",")
-                    geo = [float(g) for g in aw.split(",")]
-                else:
-                    geo = aw
-                answer.options = geo
+                answer.options = get_geo_value(aw=aw)
             else:
                 valid = False
         if q.type == QuestionTypes.text:
@@ -356,8 +374,6 @@ def seed_excel_data(job: Jobs, test: bool = False):
         "updated_at",
         "updated_by",
         "datapoint_name",
-        "administration",
-        "geolocation",
     ]
     df = df[list(filter(lambda x: x not in non_questions, list(df)))]
     questions = {}
@@ -423,7 +439,8 @@ def seed_excel_data(job: Jobs, test: bool = False):
             send_email(context=context, type=EmailTypes.unchanged_data)
         if not is_super_admin:
             batch.delete()
-        os.remove(file)
+        if not test:
+            os.remove(file)
         return None
     if not is_super_admin:
         path = "{0}{1}".format(

@@ -1,0 +1,140 @@
+{
+  "id": 3,
+  "form": "Test Form 3",
+  "type": 1,
+  "submission_types": [
+    "registration",
+    "monitoring"
+  ],
+  "question_groups": [
+    {
+      "id": 30,
+      "order": 1,
+      "name": "profile",
+      "label": "School profile",
+      "questions": [
+        {
+          "id": 301,
+          "order": 1,
+          "name": "school_name",
+          "label": "School name",
+          "meta": true,
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": 302,
+          "order": 2,
+          "name": "school_location",
+          "label": "School Location",
+          "short_label": null,
+          "meta": false,
+          "type": "administration",
+          "required": true
+        },
+        {
+          "id": 303,
+          "order": 3,
+          "name": "school_geolocation",
+          "label": "School Geolocation",
+          "short_label": null,
+          "meta": false,
+          "type": "geo",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "order": 1,
+      "name": "sanitation_level",
+      "label": "School Sanitation and Hygiene",
+      "questions": [
+        {
+          "id": 311,
+          "order": 1,
+          "name": "regular_cleaning_schedule",
+          "label": "Is there a regular cleaning schedule in the classrooms?",
+          "meta": false,
+          "type": "option",
+          "required": true,
+          "options": [
+            {
+              "label": "Yes",
+              "value": "yes"
+            },
+            {
+              "label": "No",
+              "value": "no"
+            }
+          ]
+        },
+        {
+          "id": 312,
+          "order": 2,
+          "name": "how_often_cleaned",
+          "label": "How many times a week are the classrooms cleaned?",
+          "meta": false,
+          "type": "number",
+          "required": true,
+          "rule": {
+            "max": 7,
+            "min": 1
+          }
+        },
+        {
+          "id": 313,
+          "order": 3,
+          "name": "which_days_classrooms_cleaned",
+          "label": "On which days are the classrooms cleaned?",
+          "short_label": null,
+          "meta": false,
+          "type": "multiple_option",
+          "required": true,
+          "dependency": [
+            {
+              "id": 311,
+              "options": [
+                "yes"
+              ]
+            },
+            {
+              "id": 312,
+              "max": 6
+            }
+          ],
+          "options": [
+            {
+              "label": "Monday",
+              "value": "mon"
+            },
+            {
+              "label": "Tuesday",
+              "value": "tue"
+            },
+            {
+              "label": "Wednesday",
+              "value": "wed"
+            },
+            {
+              "label": "Thursday",
+              "value": "thu"
+            },
+            {
+              "label": "Friday",
+              "value": "fri"
+            },
+            {
+              "label": "Saturday",
+              "value": "sat"
+            },
+            {
+              "label": "Sunday",
+              "value": "sun"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

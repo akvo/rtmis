@@ -316,3 +316,63 @@ class BulkUploadDataTestCase(TestCase, ProfileTestHelperMixin):
         ).count()
 
         self.assertGreater(data_count, 1)
+
+    def test_upload_error_multi_dependency(self):
+        form3 = Forms.objects.get(pk=3)
+        upload_file = "{0}/test-error-multi-dependency.xlsx".format(
+            self.test_folder
+        )
+
+        administration = Administration.objects.filter(
+            name="Cawang"
+        ).first()
+        output = validate(
+            form=form3,
+            administration=administration.id,
+            file=upload_file
+        )
+
+        self.assertEqual(len(output), 1)
+        self.assertEqual(
+            output[0]["error_message"],
+            "which_days_classrooms_cleaned {0}".format(
+                ValidationText.should_be_empty.value
+            )
+        )
+
+    def test_upload_success_multi_dependency(self):
+        form3 = Forms.objects.get(pk=3)
+        upload_file = "{0}/test-success-multi-dependency.xlsx".format(
+            self.test_folder
+        )
+
+        administration = Administration.objects.filter(
+            name="Cawang"
+        ).first()
+        validation = validate(
+            form=form3,
+            administration=administration.id,
+            file=upload_file
+        )
+
+        self.assertEqual(len(validation), 0)
+
+        job = Jobs.objects.create(
+            type=JobTypes.seed_data,
+            status=JobStatus.done,
+            user=self.user,
+            info={
+                "file": upload_file,
+                "form": form3.id,
+                "is_update": False,
+            },
+        )
+        seed_excel_data(job=job, test=True)
+        name1 = "SD Cawang 1"
+        dp1 = form3.form_form_data.filter(
+            name=name1
+        ).first()
+        self.assertTrue(dp1)
+
+        all = form3.form_form_data.count()
+        self.assertEqual(all, 2)
