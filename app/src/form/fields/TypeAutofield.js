@@ -145,14 +145,8 @@ const fixIncompleteMathOperation = (expression) => {
 const strToFunction = (id, fnString, values) => {
   const fnStr = checkDirty(fnString);
   const fnBody = fixIncompleteMathOperation(generateFnBody(fnStr, values));
-  try {
-    // eslint-disable-next-line no-new-func
-    return new Function(`return ${fnBody}`);
-  } catch (error) {
-    Sentry.captureMessage(`[TypeAutofield] question ID: ${id}`);
-    Sentry.captureException(error);
-    return false;
-  }
+  // eslint-disable-next-line no-new-func
+  return new Function(`return ${fnBody}`);
 };
 
 const TypeAutofield = ({
@@ -182,15 +176,20 @@ const TypeAutofield = ({
 
   useEffect(() => {
     const unsubsValues = FormState.subscribe(({ currentValues }) => {
-      const automateValue = strToFunction(id, fnString, currentValues);
-      if (typeof automateValue === 'function') {
-        const answer = automateValue();
-        if (answer !== value && (answer || answer === 0)) {
-          setValue(answer);
-          if (fnColor?.[answer]) {
-            setFieldColor(fnColor[answer]);
+      try {
+        const automateValue = strToFunction(id, fnString, currentValues);
+        if (typeof automateValue === 'function') {
+          const answer = automateValue();
+          if (answer !== value && (answer || answer === 0)) {
+            setValue(answer);
+            if (fnColor?.[answer]) {
+              setFieldColor(fnColor[answer]);
+            }
           }
         }
+      } catch (error) {
+        Sentry.captureMessage(`[TypeAutofield] question ID: ${id}`);
+        Sentry.captureException(error);
       }
     });
 
