@@ -75,7 +75,7 @@ class DownloadListSerializer(serializers.ModelSerializer):
             "adm_id"
         )
         if admin_id:
-            adm = Administration.objects.get(pk=admin_id)
+            adm = Administration.objects.filter(pk=admin_id).first()
             if adm:
                 return adm.full_name
         return None
