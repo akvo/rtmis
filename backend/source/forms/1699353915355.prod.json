@@ -2178,6 +2178,10 @@
           "meta": false,
           "dependency": [
             {
+              "id": 1699422286091,
+              "options": ["g1_toilet_observed"]
+            },
+            {
               "id": 1699428072669,
               "options": [
                 "g0_do_not_use_toilet_practice_od",
@@ -2187,12 +2191,6 @@
             }
           ],
           "options": [
-            {
-              "order": 1,
-              "label": "No toilet",
-              "value": "g0_no_toilet",
-              "color": "#DB3B3B"
-            },
             {
               "order": 2,
               "label": "Non-functional toilet",
@@ -2233,6 +2231,10 @@
           "meta": false,
           "dependency": [
             {
+              "id": 1699422286091,
+              "options": ["g1_toilet_observed"]
+            },
+            {
               "id": 1699428072669,
               "options": [
                 "g0_do_not_use_toilet_practice_od",
@@ -2242,12 +2244,6 @@
             }
           ],
           "options": [
-            {
-              "order": 1,
-              "label": "No toilet",
-              "value": "g0_no_toilet",
-              "color": "#DB3B3B"
-            },
             {
               "order": 2,
               "label": "No toilet privacy",
@@ -2287,12 +2283,6 @@
           "required": true,
           "meta": false,
           "options": [
-            {
-              "order": 1,
-              "label": "No toilet",
-              "value": "g0_no_toilet",
-              "color": "#DB3B3B"
-            },
             {
               "order": 1,
               "label": "Open pit (uncovered or large openings)",
@@ -2344,6 +2334,10 @@
           ],
           "dependency": [
             {
+              "id": 1699422286091,
+              "options": ["g1_toilet_observed"]
+            },
+            {
               "id": 1699428072669,
               "options": [
                 "g0_do_not_use_toilet_practice_od",
@@ -2372,12 +2366,6 @@
           "required": true,
           "meta": false,
           "options": [
-            {
-              "order": 1,
-              "label": "No toilet",
-              "value": "g0_no_toilet",
-              "color": "#DB3B3B"
-            },
             {
               "order": 2,
               "label": "No pit or tank (open discharge)",
@@ -2465,6 +2453,10 @@
           ],
           "dependency": [
             {
+              "id": 1699422286091,
+              "options": ["g1_toilet_observed"]
+            },
+            {
               "id": 1699428072669,
               "options": [
                 "g0_do_not_use_toilet_practice_od",
@@ -2516,12 +2508,6 @@
           "required": true,
           "meta": false,
           "options": [
-            {
-              "order": 1,
-              "label": "No toilet",
-              "value": "g0_no_toilet",
-              "color": "#DB3B3B"
-            },
             {
               "order": 2,
               "label": "Inadequate or missing cover on latrine hole",
@@ -2591,6 +2577,10 @@
           ],
           "dependency": [
             {
+              "id": 1699422286091,
+              "options": ["g1_toilet_observed"]
+            },
+            {
               "id": 1699428072669,
               "options": [
                 "g0_do_not_use_toilet_practice_od",
@@ -2620,12 +2610,6 @@
           "meta": false,
           "options": [
             {
-              "order": 1,
-              "label": "No toilet",
-              "value": "g0_no_toilet",
-              "color": "#DB3B3B"
-            },
-            {
               "order": 2,
               "label": "NOT clean: heavy traces of faeces or soiled cleaning materials",
               "value": "g0_not_clean_heavy_traces_of_faeces_or_soiled_cleaning_materials",
@@ -2651,6 +2635,10 @@
             }
           ],
           "dependency": [
+            {
+              "id": 1699422286091,
+              "options": ["g1_toilet_observed"]
+            },
             {
               "id": 1699428072669,
               "options": [
@@ -2682,12 +2670,6 @@
           "options": [
             {
               "order": 1,
-              "label": "No toilet",
-              "value": "g0_no_toilet",
-              "color": "#DB3B3B"
-            },
-            {
-              "order": 1,
               "label": "NOT clean: heavy traces of faeces",
               "value": "g0_not_clean_heavy_traces_of_faeces",
               "color": "#DB3B3B"
@@ -2712,6 +2694,10 @@
             }
           ],
           "dependency": [
+            {
+              "id": 1699422286091,
+              "options": ["g1_toilet_observed"]
+            },
             {
               "id": 1699428072669,
               "options": [
@@ -2741,12 +2727,6 @@
           "required": true,
           "meta": false,
           "options": [
-            {
-              "order": 1,
-              "label": "No toilet",
-              "value": "g0_no_toilet",
-              "color": "#DB3B3B"
-            },
             {
               "order": 2,
               "label": "No slab (open pit, faeces not contained)",
@@ -2816,6 +2796,10 @@
           ],
           "dependency": [
             {
+              "id": 1699422286091,
+              "options": ["g1_toilet_observed"]
+            },
+            {
               "id": 1699428072669,
               "options": [
                 "g0_do_not_use_toilet_practice_od",
@@ -2844,12 +2828,6 @@
           "required": true,
           "meta": false,
           "options": [
-            {
-              "order": 1,
-              "label": "No toilet",
-              "value": "g0_no_toilet_or_no_containment_or_collection_system",
-              "color": "#DB3B3B"
-            },
             {
               "order": 2,
               "label": "No pit or tank (open discharge)",
@@ -2900,6 +2878,10 @@
             }
           ],
           "dependency": [
+            {
+              "id": 1699422286091,
+              "options": ["g1_toilet_observed"]
+            },
             {
               "id": 1699428072669,
               "options": [
