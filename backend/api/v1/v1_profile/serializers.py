@@ -17,6 +17,8 @@ from utils.custom_generator import (
     administration_csv_add,
     administration_csv_update,
 )
+from django.db.models import F, Value
+from django.db.models.functions import Substr, Concat, Length
 
 
 class RelatedAdministrationField(serializers.PrimaryKeyRelatedField):
@@ -88,11 +90,11 @@ class AdministrationAttributeValueSerializer(serializers.ModelSerializer):
         return data
 
     def _validate_value_attribute(self, attribute, value):
-        if type(value) == dict:
+        if isinstance(value, dict):
             raise serializers.ValidationError(
                 self.INVALID_VALUE_ERROR.format(attribute.name)
             )
-        if type(value) == list and len(value) > 0:
+        if isinstance(value, list) and len(value) > 0:
             raise serializers.ValidationError(
                 self.INVALID_VALUE_ERROR.format(attribute.name)
             )
@@ -104,7 +106,7 @@ class AdministrationAttributeValueSerializer(serializers.ModelSerializer):
             )
 
     def _validate_multiple_option_attribute(self, attribute, value):
-        if type(value) != list:
+        if not isinstance(value, list):
             raise serializers.ValidationError(
                 self.INVALID_VALUE_ERROR.format(attribute.name)
             )
@@ -115,7 +117,7 @@ class AdministrationAttributeValueSerializer(serializers.ModelSerializer):
                 )
 
     def _validate_aggregate_attribute(self, attribute, value):
-        if type(value) != dict:
+        if not isinstance(value, dict):
             raise serializers.ValidationError(
                 self.INVALID_VALUE_ERROR.format(attribute.name)
             )
@@ -211,6 +213,30 @@ class AdministrationSerializer(serializers.ModelSerializer):
         attributes = validated_data.pop("attributes", [])
         self._assign_level(validated_data)
         instance = super().update(instance, validated_data)
+
+        adm_parent = validated_data.get("parent")
+        if (adm_parent and str(adm_parent.id) not in instance.path):
+            old_path = instance.path
+            new_path = "{0}{1}.".format(
+                adm_parent.path,
+                adm_parent.id
+            )
+            instance.path = new_path
+            instance.save()
+
+            old_path_length = len(old_path)
+            Administration.objects.filter(
+                path__startswith=old_path
+            ).update(
+                path=Concat(
+                    Value(new_path),
+                    Substr(
+                        F('path'),
+                        old_path_length + 1,
+                        Length(F('path')) - old_path_length
+                    )
+                )
+            )
         for it in attributes:
             attribute = it.pop("attribute")
             data = dict(attribute=attribute)
