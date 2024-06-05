@@ -65,7 +65,6 @@ def seed_administrations(
         level, name, code = item
         obj = Administration.objects.filter(
             Q(name__iexact=name),
-            code=code,
             level=level,
             parent=last_obj,
         ).first()
