@@ -7,15 +7,6 @@ import Countdown from "react-countdown";
 import moment from "moment";
 import { uiText, store } from "../../lib";
 
-const styles = {
-  banner: {
-    backgroundImage: `url("/assets/rtmis-hero.jpeg")`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-  },
-};
-
 const Banner = () => {
   const { pathname } = useLocation();
   const { language } = store.useState((s) => s);
@@ -180,7 +171,7 @@ const Banner = () => {
   };
 
   return (
-    <div style={styles.banner}>
+    <div className="hero">
       <Row className="banner" align="middle">
         <Col span={20}>
           {pathname === "/not-found" ? (
