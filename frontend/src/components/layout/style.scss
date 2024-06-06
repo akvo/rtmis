@@ -29,30 +29,30 @@
     .banner {
       // min-height: calc(100vh - #{$layout-padding});
       min-height: calc(100vh - 198px);
-      background: linear-gradient(
-        94deg,
-        #faf5f5 18.83%,
-        rgba(217, 217, 217, 0) 68.45%
-      );
+      // background: linear-gradient(
+      //   94deg,
+      //   #faf5f5 18.83%,
+      //   rgba(217, 217, 217, 0) 68.45%
+      // );
 
       .countdown {
         text-align: center;
 
         .countdown-col {
           margin-left: 5px;
-          background: rgba($blue, 0.05);
+          background: rgba($blue, 1);
           border-radius: 16px;
-          border: 1px solid $blue-light;
+          // border: 1px solid $blue-light;
 
           .countdown-timer {
-            color: $blue;
+            color: $color-light;
             font-size: 22px;
             font-weight: $font-weight-bold;
             padding-top: 10px;
           }
 
           .countdown-text {
-            color: $color-dark;
+            color: $color-light;
             font-size: 14px;
             min-width: 80px;
             font-weight: 500;
@@ -63,7 +63,7 @@
 
       h1 {
         margin-top: 24px;
-        color: $blue;
+        color: $color-light;
         font-family: "Montserrat";
         font-weight: $font-weight-semi-bold;
         font-size: $font-size-super-large;
@@ -218,7 +218,7 @@
       padding-bottom: 4rem;
 
       h4 {
-        color: $color-dark;
+        color: $color-light;
         font-family: "Montserrat";
         margin: 2rem 0;
       }
@@ -307,6 +307,25 @@
           width: 100%;
           //margin-bottom: 32px;
         }
+      }
+    }
+
+    .hero {
+      position: relative;
+      width: 100%;
+      background-image: url("../../../public/assets/rtmis-hero.jpeg");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+        background-color: rgba(0, 0, 0, 0.7);
       }
     }
   }
