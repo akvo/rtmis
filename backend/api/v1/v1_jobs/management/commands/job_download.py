@@ -16,11 +16,15 @@ class Command(BaseCommand):
         parser.add_argument(
             "-a", "--administration", nargs="?", default=0, type=int
         )
-        parser.add_argument("-t", "--type", nargs="?", default="all", type=str)
+        parser.add_argument(
+            "-t", "--type", nargs="?", default="all", type=str
+        )
         parser.add_argument(
             "-s", "--submission_type", nargs="?", default=None, type=int
         )
-        parser.add_argument("-l", "--use_label", nargs="?", default=0, type=int)
+        parser.add_argument(
+            "-l", "--use_label", nargs="?", default=0, type=int
+        )
 
     def handle(self, *args, **options):
         administration = options.get("administration")
