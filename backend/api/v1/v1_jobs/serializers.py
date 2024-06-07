@@ -27,6 +27,7 @@ class DownloadDataRequestSerializer(serializers.Serializer):
     submission_type = CustomChoiceField(
         choices=SubmissionTypes.FieldStr, required=False
     )
+    use_label = serializers.BooleanField(required=False)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

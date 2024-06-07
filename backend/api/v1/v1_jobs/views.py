@@ -69,6 +69,12 @@ from utils.custom_serializer_fields import validate_serializers_message
             type=OpenApiTypes.NUMBER,
             location=OpenApiParameter.QUERY,
         ),
+        OpenApiParameter(
+            name="use_label",
+            required=False,
+            type=OpenApiTypes.BOOL,
+            default=False,
+        ),
     ],
     responses={
         (200, "application/json"): inline_serializer(
@@ -105,6 +111,8 @@ def download_generate(request, version):
         serializer.validated_data.get("type"),
         "-s",
         submission_type,
+        "-l",
+        1 if serializer.validated_data.get("use_label") else 0,
     )
     job = Jobs.objects.get(pk=result)
     data = {
@@ -278,10 +286,11 @@ def upload_excel(request, form_id, version):
     request=UploadExcelSerializer,
     responses={
         (200, "application/json"): inline_serializer(
-            "UploadExcel", fields={
+            "UploadExcel",
+            fields={
                 "task_id": serializers.CharField(),
-                "filename": serializers.CharField()
-            }
+                "filename": serializers.CharField(),
+            },
         )
     },
 )
@@ -310,14 +319,15 @@ def upload_bulk_administrators(request, version):
         request.user.id,
         timezone.now(),
         task_name="administrator_bulk_upload",
-        hook=(
-            "api.v1.v1_jobs.job." "handle_master_data_bulk_upload_failure"
-        ),
+        hook=("api.v1.v1_jobs.job." "handle_master_data_bulk_upload_failure"),
     )
-    return Response({
-        "task_id": task_id,
-        "filename": filename,
-    }, status=status.HTTP_200_OK)
+    return Response(
+        {
+            "task_id": task_id,
+            "filename": filename,
+        },
+        status=status.HTTP_200_OK,
+    )
 
 
 @extend_schema(
@@ -330,7 +340,7 @@ def upload_bulk_administrators(request, version):
             fields={
                 "task_id": serializers.CharField(),
                 "filename": serializers.CharField(),
-            }
+            },
         )
     },
 )
@@ -359,11 +369,12 @@ def upload_bulk_entities(request, version):
         request.user.id,
         timezone.now(),
         task_name="entities_bulk_upload",
-        hook=(
-            "api.v1.v1_jobs.job." "handle_master_data_bulk_upload_failure"
-        ),
+        hook=("api.v1.v1_jobs.job." "handle_master_data_bulk_upload_failure"),
     )
-    return Response({
-        "task_id": task_id,
-        "filename": filename,
-    }, status=status.HTTP_200_OK)
+    return Response(
+        {
+            "task_id": task_id,
+            "filename": filename,
+        },
+        status=status.HTTP_200_OK,
+    )

@@ -164,6 +164,7 @@ def job_generate_data_download(job_id, **kwargs):
         administration_ids=administration_ids,
         submission_type=submission_type,
         download_type=download_type,
+        use_label=job.info.get("use_label"),
     )
 
     context = [
