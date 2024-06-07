@@ -21,9 +21,13 @@ class Command(BaseCommand):
         parser.add_argument(
             "--latest", "-l", nargs="?", default=False, type=bool
         )
+        parser.add_argument(
+            "--use-label", "-lb", nargs="?", default=False, type=bool
+        )
 
     def handle(self, *args, **options):
         submission_type = options.get("submission")
+        use_label = options.get("use_label")
         download_type = "all" if not options.get("latest") else "recent"
         if submission_type:
             submission_type = submission_types_obj.get(submission_type)
@@ -41,7 +45,7 @@ class Command(BaseCommand):
             administration_ids=None,
             submission_type=submission_type,
             download_type=download_type,
-            use_label=True,
+            use_label=use_label,
         )
         writer.save()
 

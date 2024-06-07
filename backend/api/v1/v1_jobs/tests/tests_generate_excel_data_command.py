@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.test.utils import override_settings
 from api.v1.v1_forms.models import Forms
 from api.v1.v1_jobs.management.commands.generate_excel_data import (
-    CRONJOB_RESULT_DIR
+    CRONJOB_RESULT_DIR,
 )
 from utils import storage
 
@@ -16,9 +16,9 @@ class JobGenerateExcelDataCommand(TestCase):
         call_command("administration_seeder", "--test")
         call_command("demo_approval_flow", "--test", True)
         user = {"email": "admin@rush.com", "password": "Test105*"}
-        user = self.client.post('/api/v1/login',
-                                user,
-                                content_type='application/json')
+        user = self.client.post(
+            "/api/v1/login", user, content_type="application/json"
+        )
         call_command("fake_data_seeder", "-r", 2, "--test", True)
         call_command("fake_data_claim_seeder", "-r", 2, "-t", True)
 
@@ -35,12 +35,7 @@ class JobGenerateExcelDataCommand(TestCase):
         self.assertTrue(storage.check(result_file))
         storage.delete(result_file)
 
-        call_command(
-            "generate_excel_data",
-            form.id,
-            "--latest",
-            True
-        )
+        call_command("generate_excel_data", form.id, "--latest", True)
 
         result_file = f"{CRONJOB_RESULT_DIR}/{form_name}-routine-latest.xlsx"
         # self.assertTrue(storage.check(result_file))
@@ -57,16 +52,19 @@ class JobGenerateExcelDataCommand(TestCase):
         # Test download data by submission type verification and certification
         for submission_type in ["verification", "certification"]:
             call_command(
-                "generate_excel_data",
-                form.id,
-                "--submission",
-                submission_type
+                "generate_excel_data", form.id, "--submission", submission_type
             )
             form_name = form.name.replace(" ", "_").lower()
             result_file = "{0}/{1}-{2}.xlsx".format(
-                CRONJOB_RESULT_DIR,
-                form_name,
-                submission_type
+                CRONJOB_RESULT_DIR, form_name, submission_type
             )
             self.assertTrue(storage.check(result_file))
             storage.delete(result_file)
+
+    def call_generate_excel_data_use_label(self):
+        form = Forms.objects.get(pk=1)
+        call_command("generate_excel_data", form.id, "--use-label", True)
+        form_name = form.name.replace(" ", "_").lower()
+        result_file = f"{CRONJOB_RESULT_DIR}/{form_name}-routine.xlsx"
+        self.assertTrue(storage.check(result_file))
+        storage.delete(result_file)
