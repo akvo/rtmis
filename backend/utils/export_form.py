@@ -3,9 +3,17 @@ import pandas as pd
 from api.v1.v1_forms.models import Forms, Questions
 
 
-meta_columns = ["id", "created_at", "created_by", "updated_at",
-                "updated_by", "datapoint_name", "administration",
-                "geolocation", "submission_type"]
+meta_columns = [
+    "id",
+    "created_at",
+    "created_by",
+    "updated_at",
+    "updated_by",
+    "datapoint_name",
+    "administration",
+    "geolocation",
+    "submission_type",
+]
 
 
 def get_question_names(form: Forms):
@@ -13,9 +21,9 @@ def get_question_names(form: Forms):
     question_groups = form.form_question_group.all().order_by("order")
     for q in question_groups:
         questions.extend(
-            q.question_group_question.all().order_by(
-                "order").values_list(
-                    "name", flat=True)
+            q.question_group_question.all()
+            .order_by("order")
+            .values_list("id", "name", "type")
         )
     return questions
 
@@ -131,8 +139,7 @@ def blank_data_template(form: Forms, writer: pd.ExcelWriter):
         .all()
     )
     data = pd.DataFrame(
-        columns=[q.name for q in questions] + meta_columns,
-        index=[0]
+        columns=[q.name for q in questions] + meta_columns, index=[0]
     )
     cols = list(data)
     col_names = rearrange_definition_columns(cols)
