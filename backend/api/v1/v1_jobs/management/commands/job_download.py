@@ -16,19 +16,21 @@ class Command(BaseCommand):
         parser.add_argument(
             "-a", "--administration", nargs="?", default=0, type=int
         )
-        parser.add_argument("-t", "--type", nargs="?", default="all", type=str)
         parser.add_argument(
-            "-s",
-            "--submission_type",
-            nargs="?",
-            default=None,
-            type=int
+            "-t", "--type", nargs="?", default="all", type=str
+        )
+        parser.add_argument(
+            "-s", "--submission_type", nargs="?", default=None, type=int
+        )
+        parser.add_argument(
+            "-l", "--use_label", nargs="?", default=0, type=int
         )
 
     def handle(self, *args, **options):
         administration = options.get("administration")
         arg_type = options.get("type")
         submission_type = options.get("submission_type")
+        use_label = options.get("use_label")
         download_type = "all"
         if arg_type:
             download_type = arg_type
@@ -38,7 +40,8 @@ class Command(BaseCommand):
             "form_id": options.get("form")[0],
             "administration": administration if administration > 0 else None,
             "download_type": download_type,
-            "submission_type": submission_type
+            "submission_type": submission_type,
+            "use_label": True if use_label else False,
         }
         form = Forms.objects.get(pk=options.get("form")[0])
         form_name = form.name.replace(" ", "_").lower()

@@ -14,28 +14,20 @@ submission_types_obj = {
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
+        parser.add_argument("form_id", nargs="?", type=int)
         parser.add_argument(
-            "form_id",
-            nargs="?",
-            type=int
+            "--submission", "-s", nargs="?", default=None, type=str
         )
         parser.add_argument(
-            "--submission",
-            "-s",
-            nargs="?",
-            default=None,
-            type=str
+            "--latest", "-l", nargs="?", default=False, type=bool
         )
         parser.add_argument(
-            "--latest",
-            "-l",
-            nargs="?",
-            default=False,
-            type=bool
+            "--use-label", "-lb", nargs="?", default=False, type=bool
         )
 
     def handle(self, *args, **options):
         submission_type = options.get("submission")
+        use_label = options.get("use_label")
         download_type = "all" if not options.get("latest") else "recent"
         if submission_type:
             submission_type = submission_types_obj.get(submission_type)
@@ -52,22 +44,28 @@ class Command(BaseCommand):
             form=form,
             administration_ids=None,
             submission_type=submission_type,
-            download_type=download_type
+            download_type=download_type,
+            use_label=use_label,
         )
         writer.save()
 
-        out_file = "-".join(list(filter(lambda x: x, [
-            form_name,
-            options.get("submission") or "routine",
-            "latest" if options.get("latest") else None,
-        ])))
+        out_file = "-".join(
+            list(
+                filter(
+                    lambda x: x,
+                    [
+                        form_name,
+                        options.get("submission") or "routine",
+                        "latest" if options.get("latest") else None,
+                    ],
+                )
+            )
+        )
 
         out_file = f"{out_file}.xlsx"
 
         url = upload(
-            file=process_file,
-            folder=CRONJOB_RESULT_DIR,
-            filename=out_file
+            file=process_file, folder=CRONJOB_RESULT_DIR, filename=out_file
         )
         print(f"File uploaded to {url}")
         os.remove(process_file)
