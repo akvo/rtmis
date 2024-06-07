@@ -40,7 +40,7 @@
 
         .countdown-col {
           margin-left: 5px;
-          background: rgba($blue, 1);
+          background: $blue;
           border-radius: 16px;
           // border: 1px solid $blue-light;
 
@@ -325,7 +325,7 @@
         right: 0px;
         bottom: 0px;
         left: 0px;
-        background-color: rgba(0, 0, 0, 0.7);
+        background-color: rgba(0, 0, 0, 0.5);
       }
     }
   }
