@@ -291,14 +291,14 @@
         {
           "id": 1718094177,
           "order": 8,
-          "name": "age_consent",
+          "name": "consent_by_guardian",
           "label": "Has consent to interview the minor been given?",
           "meta": false,
           "required": true,
           "dependency": [
             {
               "id": "hh_head_age",
-              "min": 17
+              "max": 17
             }
           ],
           "type": "option",
@@ -314,8 +314,27 @@
           ]
         },
         {
-          "id": 1718096628,
+          "id": 1718102108,
           "order": 9,
+          "name": "consent_name",
+          "label": "Name of person providing consent",
+          "short_label": "Code",
+          "type": "text",
+          "tooltip": null,
+          "required": false,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": "hh_head_age",
+              "max": 17
+            }
+          ],
+          "meta_uuid": true
+        },
+        {
+          "id": 1718096628,
+          "order": 10,
           "name": "consent_given_by",
           "label": "Who has given consent for the minor to be interviewed?",
           "meta": false,
@@ -323,7 +342,11 @@
           "dependency": [
             {
               "id": "hh_head_age",
-              "min": 17
+              "max": 17
+            },
+            {
+              "id": "minor_consent",
+              "options": ["yes"]
             }
           ],
           "type": "option",
@@ -347,8 +370,33 @@
           ]
         },
         {
+          "id": 1718102282,
+          "order": 11,
+          "name": "consent_by_minor",
+          "label": "Consent from the child head of household?",
+          "meta": false,
+          "required": true,
+          "dependency": [
+            {
+              "id": "hh_head_age",
+              "max": 17
+            }
+          ],
+          "type": "option",
+          "options": [
+            {
+              "label": "Yes",
+              "value": "yes"
+            },
+            {
+              "label": "No",
+              "value": "no"
+            }
+          ]
+        },
+        {
           "id": 1699419861172,
-          "order": 10,
+          "order": 12,
           "name": "males_0_5",
           "label": "How many males (0-5 years) live permanently in this house",
           "short_label": null,
@@ -367,7 +415,7 @@
         },
         {
           "id": 1699419951523,
-          "order": 10,
+          "order": 13,
           "name": "females_0_5",
           "label": "How many females (0-5 years) live permanently in this house",
           "short_label": null,
@@ -386,7 +434,7 @@
         },
         {
           "id": 1712229529,
-          "order": 11,
+          "order": 14,
           "name": "total_children_under_5",
           "label": "Total number of children under 5 who live permanently in this house",
           "short_label": null,
@@ -404,7 +452,7 @@
         },
         {
           "id": 1699419994672,
-          "order": 12,
+          "order": 15,
           "name": "males_6_18",
           "label": "How many males (6-18 years) live permanently in this house",
           "short_label": null,
