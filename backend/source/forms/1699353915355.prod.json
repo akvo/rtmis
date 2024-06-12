@@ -295,13 +295,13 @@
           "label": "Has consent to interview the minor been given?",
           "meta": false,
           "required": true,
+          "type": "option",
           "dependency": [
             {
-              "id": "hh_head_age",
+              "id": 1699419815660,
               "max": 17
             }
           ],
-          "type": "option",
           "options": [
             {
               "label": "Yes",
@@ -318,19 +318,24 @@
           "order": 9,
           "name": "consent_name",
           "label": "Name of person providing consent",
-          "short_label": "Code",
+          "short_label": null,
           "type": "text",
-          "tooltip": null,
-          "required": false,
-          "meta": false,
-          "options": null,
           "dependency": [
             {
-              "id": "hh_head_age",
+              "id": 1699419815660,
               "max": 17
+            },
+            {
+              "id": 1718094177,
+              "options": ["yes"]
             }
           ],
-          "meta_uuid": true
+          "tooltip": null,
+          "required": true,
+          "meta": true,
+          "options": null,
+          "rule": null,
+          "fn": null
         },
         {
           "id": 1718096628,
@@ -341,11 +346,11 @@
           "required": true,
           "dependency": [
             {
-              "id": "hh_head_age",
+              "id": 1699419815660,
               "max": 17
             },
             {
-              "id": "minor_consent",
+              "id": 1718094177,
               "options": ["yes"]
             }
           ],
@@ -376,13 +381,13 @@
           "label": "Consent from the child head of household?",
           "meta": false,
           "required": true,
+          "type": "option",
           "dependency": [
             {
-              "id": "hh_head_age",
+              "id": 1699419815660,
               "max": 17
             }
           ],
-          "type": "option",
           "options": [
             {
               "label": "Yes",
