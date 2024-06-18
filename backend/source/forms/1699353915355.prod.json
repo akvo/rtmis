@@ -400,6 +400,31 @@
           ]
         },
         {
+          "id": 1718342386,
+          "order": 12,
+          "name": "consent",
+          "label": "Please exit the survey if no consent is given",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "dependency": [
+            {
+              "id": 1699419815660,
+              "max": 17
+            }
+          ],
+          "options": null,
+          "fn": {
+            "fnColor": {
+              "Consent given": "#FD3F31"
+            },
+            "fnString": "(!#consent_by_guardian# || #consent_by_guardian#.includes(\"no\")) && (!#consent_by_minor# || #consent_by_minor#.includes(\"no\")) ? \" \" : \" Consent\"",
+            "multiline": false
+          }
+        },
+        {
           "id": 1699419861172,
           "order": 12,
           "name": "males_0_5",
