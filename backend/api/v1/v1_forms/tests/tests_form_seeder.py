@@ -60,6 +60,7 @@ class FormSeederTestCase(TestCase):
             "Community Monitoring Form",
             "School WASH Form",
             "Household Monitoring Form",
+            "Short HH",
             "Institution Form",
             "Healthcare Facility WASH Form",
             "Governance Form",
@@ -104,9 +105,10 @@ class FormSeederTestCase(TestCase):
                 **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
             )
             self.assertEqual(200, response.status_code)
-        # Community Monitoring Form
+
+        # TEST USING ./source/short-test-form.test.json
         response = self.client.get(
-            "/api/v1/form/web/1699354006503",
+            "/api/v1/form/web/16993539153551",
             follow=True,
             content_type="application/json",
             **{"HTTP_AUTHORIZATION": f"Bearer {token}"},
@@ -116,7 +118,7 @@ class FormSeederTestCase(TestCase):
         administration_found = False
         for qg in response["question_group"]:
             for q in qg["question"]:
-                if q["id"] == 1699951210638:
+                if q["id"] == 16993548493821:
                     self.assertEqual("cascade", q["type"])
                     self.assertEqual(
                         {
@@ -129,17 +131,19 @@ class FormSeederTestCase(TestCase):
                     administration_found = True
 
                 hidden_key = True if "hidden" in q else False
-                if hidden_key and q["id"] == 1716283778:
+                if q["id"] == 169995172789999:
+                    self.assertTrue(hidden_key)
                     self.assertEqual(
                         {
                             "submission_type": [
                                 "registration",
                                 "monitoring",
-                                "certification",
                             ]
                         },
                         q["hidden"],
                     )
+                else:
+                    self.assertFalse(hidden_key)
 
         self.assertTrue(administration_found)
 
