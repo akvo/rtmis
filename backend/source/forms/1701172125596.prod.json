@@ -1175,7 +1175,7 @@
               "G1 Non-durable handwashing services": "#FDC74B",
               "G3 Permanent handwashing services": "#4088F4"
             },
-            "fnString": "#handwashing_facility_institution#.includes(\"g0\") && #water_available_institutional_HWF#.includes(\"g0\") && #soap_available_institutional_HWF#.includes(\"g0\") && #institutional_HWF_type#.includes(\"g0\") && #hands_free_operation_institutional_HWF#.includes(\"g0\") && #adequate_drainage_washing_water#.includes(\"g0\") ? \"G0 No or inadequate handwashing services\" : (#institutional_HWF_type#.includes(\"g3\") && #hands_free_operation_institutional_HWF#.includes(\"g3\") && #adequate_drainage_washing_water#.includes(\"g3\")) ? \"G3 Permanent handwashing services\" : \"G1 Non-durable handwashing services\"",
+            "fnString": "#handwashing_facility_institution#.includes(\"g0\") && #water_available_institutional_HWF#.includes(\"g0\") && #soap_available_institutional_HWF#.includes(\"g0\") && #institutional_HWF_type#.includes(\"g0\") && #hands_free_operation_institutional_HWF#.includes(\"g0\") && #adequate_drainage_washing_water#.includes(\"g0\") ? \"G0 No or inadequate handwashing services\" : #institutional_HWF_type#.includes(\"g3\") && #hands_free_operation_institutional_HWF#.includes(\"g3\") && #adequate_drainage_washing_water#.includes(\"g3\") ? \"G3 Permanent handwashing services\" : \"G1 Non-durable handwashing services\"",
             "multiline": false
           }
         }
