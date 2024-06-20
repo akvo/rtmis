@@ -142,7 +142,7 @@ const fixIncompleteMathOperation = (expression) => {
   return expression;
 };
 
-const strToFunction = (id, fnString, values) => {
+const strToFunction = (fnString, values) => {
   const fnStr = checkDirty(fnString);
   const fnBody = fixIncompleteMathOperation(generateFnBody(fnStr, values));
   // eslint-disable-next-line no-new-func
@@ -175,9 +175,15 @@ const TypeAutofield = ({
   }, [nameFnString, questions]);
 
   useEffect(() => {
-    const unsubsValues = FormState.subscribe(({ currentValues }) => {
+    const unsubsValues = FormState.subscribe(({ currentValues, surveyStart }) => {
+      if (!surveyStart) {
+        /**
+         * When the survey session ends, `fnString` will not be re-executed.
+         * */
+        return;
+      }
       try {
-        const automateValue = strToFunction(id, fnString, currentValues);
+        const automateValue = strToFunction(fnString, currentValues);
         if (typeof automateValue === 'function') {
           const answer = automateValue();
           if (answer !== value && (answer || answer === 0)) {
