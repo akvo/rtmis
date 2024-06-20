@@ -63,6 +63,7 @@ const FormPage = ({ navigation, route }) => {
     });
 
     FormState.update((s) => {
+      s.surveyStart = null;
       s.currentValues = {};
       s.visitedQuestionGroup = [];
       s.cascades = {};
