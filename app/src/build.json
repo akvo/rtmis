@@ -6,7 +6,7 @@
   "dataSyncInterval": 30,
   "errorHandling": true,
   "loggingLevel": "verbose",
-  "appVersion": "4.0.7",
+  "appVersion": "4.0.8",
   "lang": "en",
   "gpsThreshold": 30
 }
