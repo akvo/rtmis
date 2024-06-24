@@ -410,11 +410,21 @@
           "required": true,
           "meta": false,
           "options": null,
+          "dependency": [
+            {
+              "id": 1718094177,
+              "options": ["no"]
+            },
+            {
+              "id": 1718102282,
+              "options": ["no"]
+            }
+          ],
           "fn": {
             "fnColor": {
               "Consent given": "#FD3F31"
             },
-            "fnString": "(#consent_by_guardian# || #consent_by_guardian#.includes(\"no\")) && (#consent_by_minor# || #consent_by_minor#.includes(\"no\")) ? \"\" : \"Consent given\"",
+            "fnString": "(#consent_by_guardian# || #consent_by_guardian#.includes(\"yes\")) && (#consent_by_minor# || #consent_by_minor#.includes(\"yes\")) ? \"Consent given or not required\" : \"\"",
             "multiline": false
           }
         },
