@@ -125,9 +125,7 @@ const DownloadEntitiesData = () => {
   };
 
   const disableDownload = useMemo(() => {
-    if (level || isPrefilled) {
-      return level - 1 === selectedAdm?.level ? false : true;
-    }
+    return level - 1 !== selectedAdm?.level && isPrefilled;
   }, [level, selectedAdm, isPrefilled]);
 
   return (
