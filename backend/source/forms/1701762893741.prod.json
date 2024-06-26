@@ -544,7 +544,7 @@
               "Inpatient: More than 20 inpatients to each USABLE inpatient toilet": "#DB3B3B",
               "Inpatient: 20 or less inpatients to each USABLE inpatient toilet": "#38A15A"
             },
-            "fnString": "(#total_beds_inpatients_HCF# / #total_usable_inpatient_toilets#) <= 20 ? \"Inpatient: 20 or less inpatients to each USABLE inpatient toilet\" : \"Inpatient: More than 20 inpatients to each USABLE inpatient toilet\"",
+            "fnString": "!#total_usable_inpatient_toilets# ? \"Inpatient: More than 20 inpatients to each USABLE inpatient toilet\" : (#total_beds_inpatients_HCF# / #total_usable_inpatient_toilets#) <= 20 ? \"Inpatient: 20 or less inpatients to each USABLE inpatient toilet\" : \"Inpatient: More than 20 inpatients to each USABLE inpatient toilet\"",
             "multiline": false
           }
         },
@@ -564,7 +564,7 @@
               "Outpatient: Less than 2 USABLE outpatient toilets": "#DB3B3B",
               "Outpatient: 2 or more USABLE outpatient toilets": "#38A15A"
             },
-            "fnString": "#total_usable_outpatient_toilets# > 1 ? \"Outpatient: 2 or more USABLE outpatient toilets\" : \"Outpatient: Less than 2 USABLE outpatient toilets\"",
+            "fnString": "(!#total_usable_outpatient_toilets# || #total_usable_outpatient_toilets# < 1) ? \"Outpatient: Less than 2 USABLE outpatient toilets\" : \"Outpatient: 2 or more USABLE outpatient toilets\"",
             "multiline": false
           }
         },
