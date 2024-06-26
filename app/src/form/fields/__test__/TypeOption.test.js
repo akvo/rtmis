@@ -16,7 +16,7 @@ describe('TypeOption component', () => {
   test('renders dropdown options correctly', async () => {
     const setFieldValueMock = jest.fn();
     const onChangeMock = jest.fn();
-    const values = {};
+    const values = null;
     const option = [
       { name: 'option1', label: 'Option 1' },
       { name: 'option2', label: 'Option 2' },
@@ -32,6 +32,8 @@ describe('TypeOption component', () => {
         label="Dropdown Field"
         option={option}
         setFieldValue={setFieldValueMock}
+        keyform={1}
+        required
       />,
     );
 
@@ -41,11 +43,9 @@ describe('TypeOption component', () => {
 
   it('should translate option dropdown text', async () => {
     const setFieldValueMock = jest.fn();
-    const values = {};
+    const values = null;
 
-    const onChangeMock = jest.fn((fieldName, value) => {
-      values[fieldName] = value;
-    });
+    const onChangeMock = jest.fn();
     const option = [
       {
         id: 1681108456316,
@@ -112,6 +112,8 @@ describe('TypeOption component', () => {
         setFieldValue={setFieldValueMock}
         id="maindrinking"
         label="What is the main drinking water point provided by the school?"
+        keyform={1}
+        required
       />,
     );
 
@@ -139,14 +141,29 @@ describe('TypeOption component', () => {
   });
 
   it('should not show required sign if required param is false and requiredSign is not defined', () => {
-    const wrapper = render(<TypeOption id="dropdownField" label="Dropdown" required={false} />);
+    const wrapper = render(
+      <TypeOption
+        id="dropdownField"
+        label="Dropdown"
+        required={false}
+        onChange={jest.fn()}
+        keyform={1}
+      />,
+    );
     const requiredIcon = wrapper.queryByTestId('field-required-icon');
     expect(requiredIcon).toBeFalsy();
   });
 
   it('should not show required sign if required param is false but requiredSign is defined', () => {
     const wrapper = render(
-      <TypeOption id="dropdownField" label="Dropdown" required={false} requiredSign="*" />,
+      <TypeOption
+        id="dropdownField"
+        label="Dropdown"
+        required={false}
+        requiredSign="*"
+        onChange={jest.fn()}
+        keyform={1}
+      />,
     );
     const requiredIcon = wrapper.queryByTestId('field-required-icon');
     expect(requiredIcon).toBeFalsy();
@@ -154,7 +171,14 @@ describe('TypeOption component', () => {
 
   it('should not show required sign if required param is true and requiredSign defined', () => {
     const wrapper = render(
-      <TypeOption id="dropdownField" label="Dropdown" required requiredSign="*" />,
+      <TypeOption
+        id="dropdownField"
+        label="Dropdown"
+        required
+        requiredSign="*"
+        onChange={jest.fn()}
+        keyform={1}
+      />,
     );
     const requiredIcon = wrapper.queryByTestId('field-required-icon');
     expect(requiredIcon).toBeTruthy();
@@ -162,7 +186,14 @@ describe('TypeOption component', () => {
 
   it('should show required sign with custom requiredSign', () => {
     const wrapper = render(
-      <TypeOption id="dropdownField" label="Dropdown" required requiredSign="**" />,
+      <TypeOption
+        id="dropdownField"
+        label="Dropdown"
+        required
+        requiredSign="**"
+        onChange={jest.fn()}
+        keyform={1}
+      />,
     );
     const requiredIcon = wrapper.getByText('**');
     expect(requiredIcon).toBeTruthy();

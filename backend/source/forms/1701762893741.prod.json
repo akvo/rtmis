@@ -48,7 +48,7 @@
         },
         {
           "id": 1701770366286,
-          "order": 1,
+          "order": 2,
           "name": "HCF_location",
           "label": "What is the location of the Healthcare Facility?",
           "short_label": null,
@@ -57,7 +57,28 @@
             "text": "This question contains a list of possible HCF locations, starting with government are or district, down to community and specific HCF."
           },
           "required": false,
+          "meta": true,
+          "disabled": {
+            "submission_type": ["monitoring"]
+          }
+        },
+        {
+          "id": 1712770366286,
+          "order": 3,
+          "name": "hcf_cascade",
+          "label": "Healthcare Facility",
+          "short_label": null,
           "meta": false,
+          "required": false,
+          "type": "cascade",
+          "api": {
+            "endpoint": "/api/v1/entity-data/2/list/"
+          },
+          "extra": {
+            "type": "entity",
+            "name": "Health Care Facilities",
+            "parentId": 1701770366286
+          },
           "disabled": {
             "submission_type": ["monitoring"]
           }

@@ -289,8 +289,148 @@
           "fn": null
         },
         {
-          "id": 1699419861172,
+          "id": 1718094177,
           "order": 8,
+          "name": "consent_by_guardian",
+          "label": "Has consent to interview the minor been given?",
+          "meta": false,
+          "required": true,
+          "type": "option",
+          "dependency": [
+            {
+              "id": 1699419815660,
+              "max": 17
+            }
+          ],
+          "options": [
+            {
+              "label": "Yes",
+              "value": "yes"
+            },
+            {
+              "label": "No",
+              "value": "no"
+            }
+          ]
+        },
+        {
+          "id": 1718102108,
+          "order": 9,
+          "name": "consent_name",
+          "label": "Name of person providing consent",
+          "short_label": null,
+          "type": "text",
+          "dependency": [
+            {
+              "id": 1699419815660,
+              "max": 17
+            },
+            {
+              "id": 1718094177,
+              "options": ["yes"]
+            }
+          ],
+          "tooltip": null,
+          "required": true,
+          "meta": true,
+          "options": null,
+          "rule": null,
+          "fn": null
+        },
+        {
+          "id": 1718096628,
+          "order": 10,
+          "name": "consent_given_by",
+          "label": "Who has given consent for the minor to be interviewed?",
+          "meta": false,
+          "required": true,
+          "dependency": [
+            {
+              "id": 1699419815660,
+              "max": 17
+            },
+            {
+              "id": 1718094177,
+              "options": ["yes"]
+            }
+          ],
+          "type": "option",
+          "options": [
+            {
+              "label": "Chief",
+              "value": "chief"
+            },
+            {
+              "label": "Village elder",
+              "value": "village_elder"
+            },
+            {
+              "label": "Relative",
+              "value": "relative"
+            },
+            {
+              "label": "Other",
+              "value": "other"
+            }
+          ]
+        },
+        {
+          "id": 1718102282,
+          "order": 11,
+          "name": "consent_by_minor",
+          "label": "Consent from the child head of household?",
+          "meta": false,
+          "required": true,
+          "type": "option",
+          "dependency": [
+            {
+              "id": 1699419815660,
+              "max": 17
+            }
+          ],
+          "options": [
+            {
+              "label": "Yes",
+              "value": "yes"
+            },
+            {
+              "label": "No",
+              "value": "no"
+            }
+          ]
+        },
+        {
+          "id": 1718342386,
+          "order": 12,
+          "name": "consent",
+          "label": "Please exit the survey if no consent is given",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 1718094177,
+              "options": ["no"]
+            },
+            {
+              "id": 1718102282,
+              "options": ["no"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "Consent given": "#FD3F31"
+            },
+            "fnString": "(#consent_by_guardian# || #consent_by_guardian#.includes(\"yes\")) && (#consent_by_minor# || #consent_by_minor#.includes(\"yes\")) ? \"Consent given or not required\" : \"\"",
+            "multiline": false
+          }
+        },
+        {
+          "id": 1699419861172,
+          "order": 13,
           "name": "males_0_5",
           "label": "How many males (0-5 years) live permanently in this house",
           "short_label": null,
@@ -309,7 +449,7 @@
         },
         {
           "id": 1699419951523,
-          "order": 9,
+          "order": 14,
           "name": "females_0_5",
           "label": "How many females (0-5 years) live permanently in this house",
           "short_label": null,
@@ -328,7 +468,7 @@
         },
         {
           "id": 1712229529,
-          "order": 10,
+          "order": 15,
           "name": "total_children_under_5",
           "label": "Total number of children under 5 who live permanently in this house",
           "short_label": null,
@@ -346,7 +486,7 @@
         },
         {
           "id": 1699419994672,
-          "order": 11,
+          "order": 16,
           "name": "males_6_18",
           "label": "How many males (6-18 years) live permanently in this house",
           "short_label": null,
@@ -363,7 +503,7 @@
         },
         {
           "id": 1699420051321,
-          "order": 12,
+          "order": 17,
           "name": "females_6_18",
           "label": "How many females (6-18 years) live permanently in this house",
           "short_label": null,
@@ -380,7 +520,7 @@
         },
         {
           "id": 1699420070055,
-          "order": 13,
+          "order": 18,
           "name": "males_19_59",
           "label": "How many males (19-59 years) live permanently in this house",
           "short_label": null,
@@ -397,7 +537,7 @@
         },
         {
           "id": 1699420103720,
-          "order": 14,
+          "order": 19,
           "name": "females_19_59",
           "label": "How many females (19-59 years) live permanently in this house",
           "short_label": null,
@@ -414,7 +554,7 @@
         },
         {
           "id": 1699420121397,
-          "order": 15,
+          "order": 20,
           "name": "males_60_plus",
           "label": "How many males (60 years and above) live permanently in this house",
           "short_label": null,
@@ -431,7 +571,7 @@
         },
         {
           "id": 1699420137191,
-          "order": 16,
+          "order": 21,
           "name": "females_60_plus",
           "label": "How many females (60 years and above) live permanently in this house",
           "short_label": null,
@@ -448,7 +588,7 @@
         },
         {
           "id": 1703265705460,
-          "order": 17,
+          "order": 22,
           "name": "total_males",
           "label": "Total number of males who live permanently in this house",
           "short_label": null,
@@ -466,7 +606,7 @@
         },
         {
           "id": 1703265879204,
-          "order": 18,
+          "order": 23,
           "name": "total_females",
           "label": "Total number of females who live permanently in this house",
           "short_label": null,
@@ -484,7 +624,7 @@
         },
         {
           "id": 1712234331,
-          "order": 19,
+          "order": 24,
           "name": "total_menstruating_women_or_girls",
           "label": "Total number of potentially menstruating girls or women who live permanently in this house",
           "short_label": null,
@@ -502,7 +642,7 @@
         },
         {
           "id": 1712234349,
-          "order": 20,
+          "order": 25,
           "name": "total_household_size",
           "label": "Total household size",
           "short_label": null,
@@ -520,7 +660,7 @@
         },
         {
           "id": 1699420621840,
-          "order": 21,
+          "order": 26,
           "name": "hh_in_any_atrisk_categories",
           "label": "Household: in any at-risk categories?",
           "short_label": null,
@@ -650,7 +790,7 @@
         },
         {
           "id": 1710829091,
-          "order": 22,
+          "order": 27,
           "name": "animals_kept_in_household_compound",
           "label": "Do you keep animals in the household compound?",
           "short_label": "Animals in houselhold compound",
@@ -677,7 +817,7 @@
         },
         {
           "id": 1703073469466,
-          "order": 23,
+          "order": 28,
           "name": "Unique_hh_characteristics",
           "label": "Address or any unique household identifier",
           "short_label": null,
@@ -2516,8 +2656,8 @@
             },
             {
               "order": 3,
-              "label": "VIP vent pipe with insect screen",
-              "value": "g0_vip_vent_pipe_with_insect_screen",
+              "label": "VIP vent pipe without insect screen",
+              "value": "g0_vip_vent_pipe_without_insect_screen",
               "color": "#DB3B3B"
             },
             {
@@ -2552,7 +2692,7 @@
             },
             {
               "order": 9,
-              "label": "VIP vent pipe without insect screen",
+              "label": "VIP vent pipe with insect screen",
               "value": "g1_vip_vent_pipe_with_insect_screen",
               "color": "#38A15A"
             },
@@ -3000,7 +3140,7 @@
               "G1 Flyproof toilet": "#FDC74B",
               "G0 Toilet NOT flyproof": "#FD3F31"
             },
-            "fnString": "(!#toilet_interface# || #toilet_interface#.includes(\"g0\")) && (!#containment_or_collection_system# || #containment_or_collection_system#.includes(\"g0\")) && (!#flyproof_toilet# || #flyproof_toilet#.includes(\"g0\")) ? \"G0 Toilet NOT flyproof\": \"G1 Flyproof toilet\"",
+            "fnString": "(!#toilet_interface# || #toilet_interface#.includes(\"g1\")) && (!#containment_or_collection_system# || #containment_or_collection_system#.includes(\"g1\")) && (!#flyproof_toilet# || #flyproof_toilet#.includes(\"g1\")) ? \"G1 Flyproof toilet\": \"G0 Toilet NOT flyproof\"",
             "multiline": false
           }
         },
@@ -3029,7 +3169,7 @@
           "id": 1711434672,
           "order": 5,
           "name": "o_r_flyproof_and_clean_toilet",
-          "label": "G1-1.5 OUTCOME RESULT - Use of flyproof and clean toilet",
+          "label": "G1-1 OUTCOME RESULT - Use of flyproof and clean toilet",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -3042,7 +3182,7 @@
               "G1 Use of flyproof and clean toilet": "#FDC74B",
               "G0 Toilet NOT flyproof and clean": "#FD3F31"
             },
-            "fnString": "(!#o_r_flyproof_toilet_type# || #o_r_flyproof_toilet_type#.includes(\"G0\")) && (!#o_r_toilet_use_by_all_hh_members# || #o_r_toilet_use_by_all_hh_members#.includes(\"G0\")) && (!#o_r_functional_toilet_with_privacy# || #o_r_functional_toilet_with_privacy#.includes(\"G0\")) && (!#o_r_clean_toilet# || #o_r_clean_toilet#.includes(\"G0\")) ? \"G0 Toilet NOT flyproof and clean\" : \"G1 Use of flyproof and clean toilet\"",
+            "fnString": "(!#o_r_flyproof_toilet_type# || #o_r_flyproof_toilet_type#.includes(\"G1\")) && (!#o_r_toilet_use_by_all_hh_members# || #o_r_toilet_use_by_all_hh_members#.includes(\"G1\")) && (!#o_r_functional_toilet_with_privacy# || #o_r_functional_toilet_with_privacy#.includes(\"G1\")) && (!#o_r_clean_toilet# || #o_r_clean_toilet#.includes(\"G1\")) ? \"G1 Use of flyproof and clean toilet\" : \"G0 Toilet NOT flyproof and clean\"",
             "multiline": false
           }
         },
@@ -3071,7 +3211,7 @@
           "id": 1702283171680,
           "order": 7,
           "name": "o_r_durable_toilet",
-          "label": "G2-1.2 OUTCOME RESULT - Durable toilet slab",
+          "label": "G2-1.2 OUTCOME RESULT - Durable toilet",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -3083,7 +3223,7 @@
               "G2 Durable toilet": "#93D371",
               "G0 Toilet NOT durable": "#FD3F31"
             },
-            "fnString": "(!#od_or_toilet_use# || #od_or_toilet_use#.includes(\"g0\")) && (!#durable_toilet_slab# || #durable_toilet_slab#.includes(\"g0\")) && (!#durable_toilet_containment_collection_system# || #durable_toilet_containment_collection_system#.includes(\"g0\")) ? \"G0 Toilet NOT durable\" : \"G2 Durable toilet\"",
+            "fnString": "(!#od_or_toilet_use# || #od_or_toilet_use#.includes(\"g2\")) && (!#durable_toilet_slab# || #durable_toilet_slab#.includes(\"g2\")) && (!#durable_toilet_containment_collection_system# || #durable_toilet_containment_collection_system#.includes(\"g2\")) ? \"G2 Durable toilet\": \"G0 Toilet NOT durable\"",
             "multiline": false
           }
         },
@@ -3123,7 +3263,7 @@
               "G2 Durable toilet with safe containment": "#93D371",
               "G0 Toilet NOT durable and with safe no containment": "#FD3F31"
             },
-            "fnString": "#o_r_individual_use_of_own_hh_toilet#.includes(\"G2\") && #o_r_durable_toilet#.includes(\"G2\") && #o_r_toilet_with_safe_containment#.includes(\"G2\") ? \"G2 Durable toilet with safe containment\" : \"G0 Toilet NOT durable and with no safe containment\"",
+            "fnString": "#o_r_individual_use_of_own_hh_toilet#.includes(\"G2\") && #o_r_durable_toilet#.includes(\"G2\") && #o_r_toilet_with_safe_containment#.includes(\"G2\") ? \"G2 Durable toilet with safe containment\" : \"G0 Toilet NOT durable or with unsafe containment\"",
             "multiline": false
           }
         },
@@ -3131,7 +3271,7 @@
           "id": 1702285668136,
           "order": 10,
           "name": "o_r_use_of_safely_managed_sanitation_services",
-          "label": "G3-1.1 OUTCOME RESULT - Safe management of faecal sludge",
+          "label": "G3-1.1 OUTCOME RESULT - G3-1 Safely managed sanitation services",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,

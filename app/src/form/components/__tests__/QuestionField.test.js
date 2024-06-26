@@ -55,7 +55,8 @@ describe('QuestionField component', () => {
     const keyform = 1;
     const field = {
       id: 1,
-      name: 'Your Name',
+      name: 'full_name',
+      label: 'Your Name',
       order: 1,
       type: 'input',
       required: true,
@@ -89,7 +90,8 @@ describe('QuestionField component', () => {
     const keyform = 1;
     const field = {
       id: 1,
-      name: 'Sanitation',
+      name: 'sanitation',
+      label: 'Sanitation',
       order: 1,
       type: 'input',
       required: true,
@@ -138,7 +140,8 @@ describe('QuestionField component', () => {
     const keyform = 1;
     const field = {
       id: 1,
-      name: 'Your Name',
+      name: 'full_name',
+      label: 'Your Name',
       order: 1,
       type: 'input',
       required: true,
@@ -312,6 +315,7 @@ describe('QuestionField component', () => {
     };
     act(() => {
       FormState.update((s) => {
+        s.surveyStart = '2024-06-26-14.50.35.123';
         s.form = {
           json: JSON.stringify(example).replace(/'/g, "''"),
         };
