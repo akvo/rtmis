@@ -143,10 +143,14 @@ const fixIncompleteMathOperation = (expression) => {
 };
 
 const strToFunction = (fnString, values) => {
-  const fnStr = checkDirty(fnString);
-  const fnBody = fixIncompleteMathOperation(generateFnBody(fnStr, values));
-  // eslint-disable-next-line no-new-func
-  return new Function(`return ${fnBody}`);
+  try {
+    const fnStr = checkDirty(fnString);
+    const fnBody = fixIncompleteMathOperation(generateFnBody(fnStr, values));
+    // eslint-disable-next-line no-new-func
+    return new Function(`return ${fnBody}`);
+  } catch (error) {
+    return null;
+  }
 };
 
 const TypeAutofield = ({
