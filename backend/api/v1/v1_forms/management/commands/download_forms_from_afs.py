@@ -1,6 +1,7 @@
 import requests as r
 import json
 import pandas as pd
+import re
 
 from django.core.management import BaseCommand
 
@@ -14,9 +15,51 @@ forms = [
 question_types = {'input': 'text', 'image': 'photo'}
 
 
+def to_snake_case(s):
+    # Remove special characters (except underscore and space)
+    s = re.sub(r'[^\w\s]', '', s)
+    # Replace whitespace and hyphens with underscores
+    s = re.sub(r'[\s-]+', '_', s)
+    # Convert camelCase to snake_case
+    s = re.sub(r'(?<!^)(?=[A-Z])', '_', s).lower()
+    # Ensure no double underscores
+    s = re.sub(r'_+', '_', s)
+    return s
+
+
+def option_mapping(row):
+    if row[0] != row[0]:
+        return row[0]
+    options = [
+        {
+            'value': r.get(
+                'value',
+                r.get('code', to_snake_case(r.get('name')))
+            ),
+            'label': r.get('label', r.get('name')),
+            **{
+                k: v for k, v in r.items()
+                if k not in ['value', 'label', 'code', 'name']
+            }
+        }
+        for r in row[0]
+    ]
+    return options
+
+
 def question_mapping(row):
     qs = pd.DataFrame(row[0])\
-        .rename(columns={'name': 'question', 'option': 'options'})
+        .rename(columns={'option': 'options'})
+
+    if 'label' not in qs.columns:
+        qs.insert(2, 'label', qs['name'])
+        qs['name'] = qs['name'].apply(to_snake_case)
+
+    if 'options' in qs.columns:
+        qs['options'] = pd.DataFrame(qs['options']).apply(
+            option_mapping, axis=1
+        )
+
     qs = qs.where(pd.notnull(qs), None)
     qs = qs.to_dict('records')
     qs = list(map(
@@ -38,9 +81,12 @@ def generate_form(form_id: int, data: list, test: bool = False):
     })
     df2 = pd.DataFrame(df['question_groups'][0])
     df2 = df2.rename(columns={
-        'name': 'question_group',
         'question': 'questions'
     })
+    if 'label' not in df2.columns:
+        df2.insert(2, 'label', df2['name'])
+        df2['name'] = df2['name'].apply(to_snake_case)
+
     df2['questions'] = pd.DataFrame(df2['questions'])\
         .apply(question_mapping, axis=1)
     qg = df2.to_dict('records')

@@ -244,3 +244,25 @@ To reset the application, follow these steps:
 .. image:: ../assests/mobile-logout.png
     :alt: Mobile geolocation settings
     :width: 100%
+
+
+==============
+Update the App
+==============
+
+.. note::
+    By regularly updating your app, you ensure optimal performance and access to the latest enhancements.
+
+Keeping your app up-to-date ensures you have the latest features, improvements, and security updates. Follow these steps to update the app to the newest version.
+
+#. In the Settings menu, find and select the About section. This section contains information about the app, including the current version.
+#. Click on the **Update application** button. The app will then check the server for the latest version available.
+#. If a new version is available, you will see an option to update.
+    #. Click the **Update** button to start downloading the latest version of the app.
+    #. Wait patiently while the app downloads the new version. The time this takes may vary depending on your internet connection speed.
+    #. Once the download is complete, follow the on-screen instructions to install the new version of the app.
+#. Otherwise, click the **Cancel** button to close the dialog.
+
+.. image:: ../assests/mobile-update-version.png
+    :alt: Mobile update version
+    :width: 100%
