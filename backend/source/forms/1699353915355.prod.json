@@ -430,7 +430,7 @@
         },
         {
           "id": 1699419861172,
-          "order": 12,
+          "order": 13,
           "name": "males_0_5",
           "label": "How many males (0-5 years) live permanently in this house",
           "short_label": null,
@@ -449,7 +449,7 @@
         },
         {
           "id": 1699419951523,
-          "order": 13,
+          "order": 14,
           "name": "females_0_5",
           "label": "How many females (0-5 years) live permanently in this house",
           "short_label": null,
@@ -468,7 +468,7 @@
         },
         {
           "id": 1712229529,
-          "order": 14,
+          "order": 15,
           "name": "total_children_under_5",
           "label": "Total number of children under 5 who live permanently in this house",
           "short_label": null,
@@ -486,7 +486,7 @@
         },
         {
           "id": 1699419994672,
-          "order": 15,
+          "order": 16,
           "name": "males_6_18",
           "label": "How many males (6-18 years) live permanently in this house",
           "short_label": null,
@@ -503,7 +503,7 @@
         },
         {
           "id": 1699420051321,
-          "order": 13,
+          "order": 17,
           "name": "females_6_18",
           "label": "How many females (6-18 years) live permanently in this house",
           "short_label": null,
@@ -520,7 +520,7 @@
         },
         {
           "id": 1699420070055,
-          "order": 14,
+          "order": 18,
           "name": "males_19_59",
           "label": "How many males (19-59 years) live permanently in this house",
           "short_label": null,
@@ -537,7 +537,7 @@
         },
         {
           "id": 1699420103720,
-          "order": 15,
+          "order": 19,
           "name": "females_19_59",
           "label": "How many females (19-59 years) live permanently in this house",
           "short_label": null,
@@ -554,7 +554,7 @@
         },
         {
           "id": 1699420121397,
-          "order": 16,
+          "order": 20,
           "name": "males_60_plus",
           "label": "How many males (60 years and above) live permanently in this house",
           "short_label": null,
@@ -571,7 +571,7 @@
         },
         {
           "id": 1699420137191,
-          "order": 17,
+          "order": 21,
           "name": "females_60_plus",
           "label": "How many females (60 years and above) live permanently in this house",
           "short_label": null,
@@ -588,7 +588,7 @@
         },
         {
           "id": 1703265705460,
-          "order": 18,
+          "order": 22,
           "name": "total_males",
           "label": "Total number of males who live permanently in this house",
           "short_label": null,
@@ -606,7 +606,7 @@
         },
         {
           "id": 1703265879204,
-          "order": 19,
+          "order": 23,
           "name": "total_females",
           "label": "Total number of females who live permanently in this house",
           "short_label": null,
@@ -624,7 +624,7 @@
         },
         {
           "id": 1712234331,
-          "order": 20,
+          "order": 24,
           "name": "total_menstruating_women_or_girls",
           "label": "Total number of potentially menstruating girls or women who live permanently in this house",
           "short_label": null,
@@ -642,7 +642,7 @@
         },
         {
           "id": 1712234349,
-          "order": 21,
+          "order": 25,
           "name": "total_household_size",
           "label": "Total household size",
           "short_label": null,
@@ -660,7 +660,7 @@
         },
         {
           "id": 1699420621840,
-          "order": 22,
+          "order": 26,
           "name": "hh_in_any_atrisk_categories",
           "label": "Household: in any at-risk categories?",
           "short_label": null,
@@ -790,7 +790,7 @@
         },
         {
           "id": 1710829091,
-          "order": 23,
+          "order": 27,
           "name": "animals_kept_in_household_compound",
           "label": "Do you keep animals in the household compound?",
           "short_label": "Animals in houselhold compound",
@@ -817,7 +817,7 @@
         },
         {
           "id": 1703073469466,
-          "order": 24,
+          "order": 28,
           "name": "Unique_hh_characteristics",
           "label": "Address or any unique household identifier",
           "short_label": null,
