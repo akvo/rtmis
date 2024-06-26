@@ -148,7 +148,7 @@ const strToFunction = (fnString, values) => {
     const fnBody = fixIncompleteMathOperation(generateFnBody(fnStr, values));
     // eslint-disable-next-line no-new-func
     return new Function(`return ${fnBody}`);
-  } catch (error) {
+  } catch {
     return null;
   }
 };
@@ -198,6 +198,7 @@ const TypeAutofield = ({
           }
         }
       } catch (error) {
+        console.error('er', error);
         Sentry.captureMessage(`[TypeAutofield] question ID: ${id}`);
         Sentry.captureException(error);
       }

@@ -4,7 +4,35 @@ import TypeAutofield from '../TypeAutofield';
 import { FormState } from '../../../store';
 
 describe('TypeAutofield component', () => {
+  beforeAll(() => {
+    FormState.update((s) => {
+      s.surveyStart = '2024-06-26-14.50.35.123';
+    });
+  });
+
   test('it gives the correct value', () => {
+    const mockFormQuestions = [
+      {
+        name: 'household_location',
+        label: 'HOUSEHOLD: Location',
+        question: [
+          {
+            id: 1,
+            order: 1,
+            name: 'total_male',
+            label: 'Total Male',
+            type: 'number',
+          },
+          {
+            id: 2,
+            order: 2,
+            name: 'total_female',
+            label: 'Total Female',
+            type: 'number',
+          },
+        ],
+      },
+    ];
     const values = {
       1: 2,
       2: 3,
@@ -17,11 +45,11 @@ describe('TypeAutofield component', () => {
     const id = 3;
     const name = 'Auto Field';
     const fn = {
-      fnString: '#1 * #2',
+      fnString: '#total_male# + #total_female#',
     };
 
     const { getByText, getByTestId } = render(
-      <TypeAutofield id={id} label={name} fn={fn} keyform={1} />,
+      <TypeAutofield id={id} label={name} fn={fn} keyform={1} questions={mockFormQuestions} />,
     );
 
     const autoFieldLabel = getByText(`1. ${name}`);
@@ -29,7 +57,7 @@ describe('TypeAutofield component', () => {
 
     const autoField = getByTestId('type-autofield');
     expect(autoField).toBeDefined();
-    expect(autoField.props.value).toBe('6');
+    expect(autoField.props.value).toBe('5');
   });
 
   test('it gives null value', () => {
