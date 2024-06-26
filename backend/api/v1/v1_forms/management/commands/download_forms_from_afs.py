@@ -16,6 +16,8 @@ question_types = {'input': 'text', 'image': 'photo'}
 
 
 def to_snake_case(s):
+    if not s:
+        return s
     # Remove special characters (except underscore and space)
     s = re.sub(r'[^\w\s]', '', s)
     # Replace whitespace and hyphens with underscores
