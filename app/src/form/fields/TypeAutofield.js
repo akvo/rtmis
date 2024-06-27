@@ -198,7 +198,6 @@ const TypeAutofield = ({
           }
         }
       } catch (error) {
-        console.error('er', error);
         Sentry.captureMessage(`[TypeAutofield] question ID: ${id}`);
         Sentry.captureException(error);
       }
