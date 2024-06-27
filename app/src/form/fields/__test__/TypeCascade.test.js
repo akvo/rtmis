@@ -1071,7 +1071,7 @@ describe('TypeCascade | Entity', () => {
     );
 
     await waitFor(() => {
-      const option1 = queryByTestId('dropdown-cascade-0');      
+      const option1 = queryByTestId('dropdown-cascade-0');
       expect(option1).toBeNull();
     });
   });
