@@ -113,7 +113,7 @@ const TypeCascade = ({
       return [];
     }
     const parentIDs =
-      cascadeParent === 'administrator.sqlite' ? prevAdmAnswer || [] : parentId || [0];
+      cascadeParent === 'administrator.sqlite' ? prevAdmAnswer?.slice(-1) || [] : parentId || [0];
     const filterDs = dataSource
       ?.filter((ds) => {
         if (cascadeParent) {
