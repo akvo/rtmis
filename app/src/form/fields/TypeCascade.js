@@ -133,11 +133,22 @@ const TypeCascade = ({
         return ds;
       });
 
+    if (cascadeParent === 'administrator.sqlite') {
+      if (filterDs?.length) {
+        return [
+          {
+            options: filterDs,
+            value: value?.[0] || null,
+          },
+        ];
+      }
+      return [];
+    }
     const groupedDs = groupBy(filterDs, 'parent');
     if (parentIDs.length > 1 && Object.keys(groupedDs).length > 1) {
-      const parentOptions = Object.keys(groupedDs).map((keyID) =>
-        dataSource.find((d) => d?.id === parseInt(keyID, 10)),
-      );
+      const parentOptions = Object.keys(groupedDs)
+        .map((keyID) => dataSource.find((d) => d?.id === parseInt(keyID, 10)))
+        .filter((d) => d);
       return value
         ? value.map((val, vx) => {
             const options = dataSource?.filter((d) =>

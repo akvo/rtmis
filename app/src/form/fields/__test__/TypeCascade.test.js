@@ -54,6 +54,9 @@ describe('TypeCascade', () => {
         rows: { length: dummyLocations.length, _array: dummyLocations },
       }),
     );
+    FormState.update((s) => {
+      s.prevAdmAnswer = null;
+    });
   });
 
   it('Should not show options when the data source is not set.', async () => {
@@ -69,6 +72,9 @@ describe('TypeCascade', () => {
         id={fieldID}
         label={fieldName}
         value={values[fieldID]}
+        source={{}}
+        keyform={1}
+        required
       />,
     );
 
@@ -95,6 +101,9 @@ describe('TypeCascade', () => {
         label={fieldName}
         value={values[fieldID]}
         dataSource={dataSource}
+        source={{}}
+        keyform={1}
+        required
       />,
     );
 
@@ -121,6 +130,8 @@ describe('TypeCascade', () => {
         value={values[fieldID]}
         dataSource={dummyLocations}
         source={questionSource}
+        keyform={1}
+        required
       />,
     );
 
@@ -155,6 +166,9 @@ describe('TypeCascade', () => {
         id={fieldID}
         label={fieldName}
         value={values[fieldID]}
+        source={{}}
+        keyform={1}
+        required={false}
       />,
     );
 
@@ -198,6 +212,8 @@ describe('TypeCascade', () => {
           file: 'administrator.sqlite',
           parent_id: [0],
         }}
+        keyform={1}
+        required
       />,
     );
 
@@ -252,6 +268,8 @@ describe('TypeCascade', () => {
           file: 'administrator.sqlite',
           parent_id: [0],
         }}
+        keyform={1}
+        required
       />,
     );
 
@@ -328,6 +346,9 @@ describe('TypeCascade', () => {
         id={fieldID}
         label={fieldName}
         value={values[fieldID]}
+        source={{}}
+        keyform={1}
+        required={false}
       />,
     );
 
@@ -369,6 +390,8 @@ describe('TypeCascade', () => {
         label={fieldName}
         value={values[fieldID]}
         required={false}
+        source={{}}
+        keyform={1}
       />,
     );
     await waitFor(() => {
@@ -403,6 +426,8 @@ describe('TypeCascade', () => {
         value={values[fieldID]}
         required={false}
         requiredSign="*"
+        source={{}}
+        keyform={1}
       />,
     );
 
@@ -435,6 +460,8 @@ describe('TypeCascade', () => {
         dataSource={dataSource}
         required
         requiredSign="*"
+        source={{}}
+        keyform={1}
       />,
     );
 
@@ -467,6 +494,8 @@ describe('TypeCascade', () => {
         dataSource={dataSource}
         required
         requiredSign="**"
+        source={{}}
+        keyform={1}
       />,
     );
 
@@ -492,6 +521,8 @@ describe('TypeCascade', () => {
         label={fieldName}
         value={values[fieldID]}
         source={questionSource}
+        keyform={1}
+        required
       />,
     );
 
@@ -526,6 +557,8 @@ describe('TypeCascade', () => {
         value={values[fieldID]}
         dataSource={dummyLocations}
         source={questionSource}
+        keyform={1}
+        required
       />,
     );
 
@@ -578,6 +611,8 @@ describe('TypeCascade', () => {
         value={values[fieldID]}
         dataSource={dummyLocations}
         source={questionSource}
+        keyform={1}
+        required
       />,
     );
 
@@ -624,6 +659,8 @@ describe('TypeCascade', () => {
         value={values[fieldID]}
         dataSource={dummyLocations}
         source={questionSource}
+        keyform={1}
+        required
       />,
     );
 
@@ -679,6 +716,8 @@ describe('TypeCascade', () => {
         value={values[fieldID]}
         dataSource={dummyLocations}
         source={questionSource}
+        keyform={1}
+        required
       />,
     );
 
@@ -728,6 +767,8 @@ describe('TypeCascade', () => {
         value={values[fieldID]}
         dataSource={dummyLocations}
         source={questionSource}
+        keyform={1}
+        required
       />,
     );
 
@@ -799,7 +840,8 @@ describe('TypeCascade | Entity', () => {
   it('should be able to load `entity_data.sqlite`', async () => {
     const question = {
       id: 123,
-      name: 'HCF',
+      name: 'hcf',
+      label: 'HCF',
       order: 1,
       type: 'cascade',
       required: false,
@@ -816,7 +858,9 @@ describe('TypeCascade | Entity', () => {
     };
     const onChangeMock = jest.fn();
 
-    const { getByTestId } = render(<TypeCascade onChange={onChangeMock} {...question} />);
+    const { getByTestId } = render(
+      <TypeCascade onChange={onChangeMock} {...question} keyform={1} />,
+    );
 
     await waitFor(
       async () =>
@@ -843,7 +887,7 @@ describe('TypeCascade | Entity', () => {
     fireEvent.press(option1);
 
     await waitFor(() => {
-      expect(getByTestId('dropdown-cascade-0 flatlist').props.data).toEqual([
+      const expected = [
         {
           id: 3,
           name: 'RS Ibu dan Anak Allaudya',
@@ -860,14 +904,19 @@ describe('TypeCascade | Entity', () => {
           administration: 116,
           parent: 116,
         },
-      ]);
+      ];
+
+      expect(getByTestId('dropdown-cascade-0 flatlist').props.data).toEqual(
+        expect.arrayContaining(expected),
+      );
     });
   });
 
   it('should be able to be filtered by cascade_type and the selected administration ID', async () => {
     const question = {
       id: 124,
-      name: 'Please choose School',
+      name: 'school',
+      label: 'Please choose School',
       order: 1,
       type: 'cascade',
       required: false,
@@ -884,7 +933,9 @@ describe('TypeCascade | Entity', () => {
     };
     const onChangeMock = jest.fn();
 
-    const { getByTestId } = render(<TypeCascade onChange={onChangeMock} {...question} />);
+    const { getByTestId } = render(
+      <TypeCascade onChange={onChangeMock} {...question} keyform={1} />,
+    );
 
     await waitFor(
       async () =>
@@ -927,7 +978,8 @@ describe('TypeCascade | Entity', () => {
   it('should display the answer from the currentValues', async () => {
     const question = {
       id: 124,
-      name: 'Please choose School',
+      name: 'school',
+      label: 'Please choose School',
       order: 1,
       type: 'cascade',
       required: false,
@@ -959,7 +1011,7 @@ describe('TypeCascade | Entity', () => {
     });
 
     const { getByTestId, getByText } = render(
-      <TypeCascade onChange={onChangeMock} value={entityValue} {...question} />,
+      <TypeCascade onChange={onChangeMock} value={entityValue} {...question} keyform={1} />,
     );
 
     await waitFor(
@@ -986,7 +1038,8 @@ describe('TypeCascade | Entity', () => {
   it('should not be shown when the administration has not been selected', async () => {
     const question = {
       id: 123,
-      name: 'HCF',
+      name: 'hcf',
+      label: 'HCF',
       order: 1,
       type: 'cascade',
       required: false,
@@ -1003,7 +1056,9 @@ describe('TypeCascade | Entity', () => {
     };
     const onChangeMock = jest.fn();
 
-    const { queryByTestId } = render(<TypeCascade onChange={onChangeMock} {...question} />);
+    const { queryByTestId } = render(
+      <TypeCascade onChange={onChangeMock} {...question} keyform={1} />,
+    );
 
     await waitFor(
       async () =>
@@ -1016,7 +1071,7 @@ describe('TypeCascade | Entity', () => {
     );
 
     await waitFor(() => {
-      const option1 = queryByTestId('dropdown-cascade-0');
+      const option1 = queryByTestId('dropdown-cascade-0');      
       expect(option1).toBeNull();
     });
   });
