@@ -5936,7 +5936,7 @@
               "order": 2,
               "label": "Some with dirty hands",
               "value": "g2_some_with_dirty_hands",
-              "color": "#38A15A"
+              "color": "#ffa57d"
             },
             {
               "order": 3,
@@ -6611,9 +6611,9 @@
           ],
           "fn": {
             "fnColor": {
-              "G0": "#FD3F31",
-              "G2": "#93D371",
-              "G1": "#FDC74B"
+              "G0 Food not clean and not safely stored": "#FD3F31",
+              "G2 Clean and safely stored food": "#93D371",
+              "G1 Food not adequately washed, or not safely stored": "#FDC74B"
             },
             "fnString": "#o_r_clean_and_safely_stored_food#.includes(\"G0\") && #o_r_clean_and_safely_stored_kitchen_utensils#.includes(\"G0\") && #o_r_clean_and_safely_stored_milk_containers#.includes(\"G0\") ? \"G0\" : #o_r_clean_and_safely_stored_food#.includes(\"G2\") && #o_r_clean_and_safely_stored_milk_containers#.includes(\"G2\") && #o_r_clean_and_safely_stored_kitchen_utensils#.includes(\"G2\") ? \"G2\" : \"G1\"",
             "multiline": false
@@ -6908,9 +6908,9 @@
           ],
           "fn": {
             "fnColor": {
-              "G1": "#FDC74B",
-              "G2": "#93D371",
-              "G3": "#4088F4"
+              "G1 Liquid wastes UNSAFELY managed": "#FDC74B",
+              "G2 Inadequate management of liquid wastes": "#93D371",
+              "G3 Safe management of liquid wastes": "#4088F4"
             },
             "fnString": "#o_r_safe_management_of_liquid_wastes#.includes(\"G1\") && #o_r_safe_management_of_solid_wastes#.includes(\"G1\") && #o_r_good_vector_control_in_compound#.includes(\"G1\") ? \"G1\" : #o_r_safe_management_of_liquid_wastes#.includes(\"G3\") && #o_r_safe_management_of_solid_wastes#.includes(\"G3\") && #o_r_good_vector_control_in_compound#.includes(\"G3\") ? \"G3\" : \"G2\"",
             "multiline": false
@@ -7148,9 +7148,9 @@
           ],
           "fn": {
             "fnColor": {
-              "G1": "#FDC74B",
-              "G2": "#93D371",
-              "G3": "#4088F4"
+              "G1 Low nutrition or protection": "#FDC74B",
+              "G2 Inadequate nutrition or protection": "#93D371",
+              "G3 Good nutrition and protection": "#4088F4"
             },
             "fnString": "(!#o_r_fully_immunized_children# || #o_r_fully_immunized_children#.includes(\"G1\")) && (!#o_r_vitamin_a_supplements# || #o_r_vitamin_a_supplements#.includes(\"G1\")) && (!#o_r_exclusive_breastfeeding# || #o_r_exclusive_breastfeeding#.includes(\"G1\")) && (!#o_r_nutritious_diet# || #o_r_nutritious_diet#.includes(\"G1\")) ? \"G1\" : (!#o_r_fully_immunized_children# || #o_r_fully_immunized_children#.includes(\"G3\")) && (!#o_r_vitamin_a_supplements# || #o_r_vitamin_a_supplements#.includes(\"G3\")) && (!#o_r_exclusive_breastfeeding# || #o_r_exclusive_breastfeeding#.includes(\"G3\")) && (!#o_r_nutritious_diet# || #o_r_nutritious_diet#.includes(\"G3\")) ? \"G3\" : \"G2\"",
             "multiline": false
@@ -7245,9 +7245,9 @@
           ],
           "fn": {
             "fnColor": {
-              "G1": "#FDC74B",
-              "G2": "#93D371",
-              "G3": "#4088F4"
+              "G1 No malaria protection": "#FDC74B",
+              "G2 Inadequate malaria protection": "#93D371",
+              "G3 Malaria-safe home": "#4088F4"
             },
             "fnString": "#o_r_malariasafe_homes#.includes(\"G1\") && #o_r_dewormed_homes#.includes(\"G1\") ? \"G1 No deworming\" : #o_r_malariasafe_homes#.includes(\"G3\") && #o_r_dewormed_homes#.includes(\"G3\") ? \"G3\" : \"G2\"",
             "multiline": false
