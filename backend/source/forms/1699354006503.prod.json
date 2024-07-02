@@ -234,6 +234,11 @@
           "meta": false,
           "options": [
             {
+              "order": 1,
+              "label": "Low drainage soil (fine sand, silt or clay)",
+              "value": "low_drainage_soil_fine_sand_silt_clay"
+            },
+            {
               "order": 2,
               "label": "Medium drainage soil (medium sand, weathered rock)",
               "value": "medium_drainage_soil_sand_weathered_rock"
@@ -242,11 +247,6 @@
               "order": 3,
               "label": "High drainage soil (coarse sand & gravel, fractured sandstone or limestone)",
               "value": "high_drainage_soil_coarse_sand_gravel_fractured_sandstone_limestone"
-            },
-            {
-              "order": 1,
-              "label": "Low drainage soil (fine sand, silt or clay)",
-              "value": "low_drainage_soil_fine_sand_silt_clay"
             }
           ],
           "fn": null
