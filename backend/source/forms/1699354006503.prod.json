@@ -993,7 +993,7 @@
           "id": 1699960354498,
           "order": 11,
           "name": "stormwater_drainage_communal_areas",
-          "label": "4.11 G3-3.1C Drainage for stormwater in communal areas",
+          "label": "G3-3.1C Drainage for stormwater in communal areas",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1054,7 +1054,7 @@
           "id": 1699960411329,
           "order": 13,
           "name": "no_visible_solid_wastes_communal_areas",
-          "label": "4.13 G3-3.2C No visible solid wastes in communal areas",
+          "label": "G3-3.2C No visible solid wastes in communal areas",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1109,7 +1109,7 @@
           "id": 1699960488230,
           "order": 15,
           "name": "no_standing_water_communal_areas",
-          "label": "4.15 G3-3.3C No standing water in communal areas",
+          "label": "G3-3.3C No standing water in communal areas",
           "short_label": null,
           "type": "option",
           "tooltip": {
