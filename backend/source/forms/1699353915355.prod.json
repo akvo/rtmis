@@ -3223,7 +3223,7 @@
               "G2 Durable toilet": "#93D371",
               "G0 Toilet NOT durable": "#FD3F31"
             },
-            "fnString": "(!#od_or_toilet_use# || #od_or_toilet_use#.includes(\"g2\")) && (!#durable_toilet_slab# || #durable_toilet_slab#.includes(\"g2\")) && (!#durable_toilet_containment_collection_system# || #durable_toilet_containment_collection_system#.includes(\"g2\")) ? \"G2 Durable toilet\": \"G0 Toilet NOT durable\"",
+            "fnString": "(!#od_or_toilet_use# || #od_or_toilet_use#.includes(\"g1\")) && (!#durable_toilet_slab# || #durable_toilet_slab#.includes(\"g2\")) && (!#durable_toilet_containment_collection_system# || #durable_toilet_containment_collection_system#.includes(\"g2\")) ? \"G2 Durable toilet\": \"G0 Toilet NOT durable\"",
             "multiline": false
           }
         },
