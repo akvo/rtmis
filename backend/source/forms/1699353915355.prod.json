@@ -7291,13 +7291,13 @@
           "displayOnly": false,
           "fn": {
             "fnColor": {
-              "G0 Open Defecation": "#FD3F31",
-              "G1 Open Defecation Free": "#FDC74B",
-              "G2 Safe and Sustainable": "#93D371",
-              "G3 Clean and Healthy": "#4088F4"
+              "G0 OPEN DEFECATION": "#FD3F31",
+              "G1 OPEN DEFECATION FREE": "#FDC74B",
+              "G2 SAFE AND SUSTAINABLE": "#93D371",
+              "G3 CLEAN AND HEALTHY": "#4088F4"
             },
             "multiline": false,
-            "fnString": "(!#o_r_flyproof_and_clean_toilet# || #o_r_flyproof_and_clean_toilet#.includes(\"G1\")) ? 'G1 Open Defecation Free': (!#o_r_flyproof_and_clean_toilet# || #o_r_flyproof_and_clean_toilet#.includes(\"G1\")) && (!#o_r_durable_toilet_with_safe_containment# || #o_r_durable_toilet_with_safe_containment#.includes(\"G2\")) ? 'G2 Safe and Sustainable': (!#o_r_flyproof_and_clean_toilet# || #o_r_flyproof_and_clean_toilet#.includes(\"G1\")) && (!#o_r_durable_toilet_with_safe_containment# || #o_r_durable_toilet_with_safe_containment#.includes(\"G2\")) && (!#o_r_use_of_safely_managed_sanitation_services# || #o_r_use_of_safely_managed_sanitation_services#.includes(\"G3\")) ? 'G3 Clean and Healthy': 'G0 Open Defecation'"
+            "fnString": "(!#o_r_flyproof_and_clean_toilet# || #o_r_flyproof_and_clean_toilet#.includes(\"G1\")) ? 'G1 OPEN DEFECATION FREE': (!#o_r_flyproof_and_clean_toilet# || #o_r_flyproof_and_clean_toilet#.includes(\"G1\")) && (!#o_r_durable_toilet_with_safe_containment# || #o_r_durable_toilet_with_safe_containment#.includes(\"G2\")) ? 'G2 SAFE AND SUSTAINABLE': (!#o_r_flyproof_and_clean_toilet# || #o_r_flyproof_and_clean_toilet#.includes(\"G1\")) && (!#o_r_durable_toilet_with_safe_containment# || #o_r_durable_toilet_with_safe_containment#.includes(\"G2\")) && (!#o_r_use_of_safely_managed_sanitation_services# || #o_r_use_of_safely_managed_sanitation_services#.includes(\"G3\")) ? 'G3 CLEAN AND HEALTHY': 'G0 OPEN DEFECATION'"
           }
         },
         {
@@ -7312,13 +7312,13 @@
           "displayOnly": false,
           "fn": {
             "fnColor": {
-              "G0 Inadequate or no handwashing facility": "#FD3F31",
-              "G1 Handwashing facility with soap and water": "#FDC74B",
-              "G2 Safe and Sustainable": "#93D371",
-              "G3 Clean and Healthy": "#4088F4"
+              "G0 INADEQUATE OR NO HANDWASHING FACILITY": "#FD3F31",
+              "G1 HANDWASHING FACILITY WITH SOAP AND WATER": "#FDC74B",
+              "G2 SAFE AND SUSTAINABLE": "#93D371",
+              "G3 CLEAN AND HEALTHY": "#4088F4"
             },
             "multiline": false,
-            "fnString": "(!#o_r_hwf_with_water_and_soap# || #o_r_hwf_with_water_and_soap#.includes(\"G1\")) ? 'G1 Handwashing facility with soap and water' : ((!#o_r_hwf_with_water_and_soap# || #o_r_hwf_with_water_and_soap#.includes(\"G1\")) && (!#o_r_handwashing_with_soap_at_critical_times# || #o_r_handwashing_with_soap_at_critical_times#.includes(\"G2\"))) ? 'G2 Safe and Sustainable' : ((!#o_r_hwf_with_water_and_soap# || #o_r_hwf_with_water_and_soap#.includes(\"G1\")) && (!#o_r_handwashing_with_soap_at_critical_times# || #o_r_handwashing_with_soap_at_critical_times#.includes(\"G2\")) && (!#o_r_permanent_handwashing_station# || #o_r_permanent_handwashing_station#.includes(\"G3\"))) ? 'G3 Clean and Healthy' : 'G0 Inadequate or no handwashing facility'"
+            "fnString": "(!#o_r_hwf_with_water_and_soap# || #o_r_hwf_with_water_and_soap#.includes(\"G1\")) ? 'G1 HANDWASHING FACILITY WITH SOAP AND WATER' : ((!#o_r_hwf_with_water_and_soap# || #o_r_hwf_with_water_and_soap#.includes(\"G1\")) && (!#o_r_handwashing_with_soap_at_critical_times# || #o_r_handwashing_with_soap_at_critical_times#.includes(\"G2\"))) ? 'G2 SAFE AND SUSTAINABLE' : ((!#o_r_hwf_with_water_and_soap# || #o_r_hwf_with_water_and_soap#.includes(\"G1\")) && (!#o_r_handwashing_with_soap_at_critical_times# || #o_r_handwashing_with_soap_at_critical_times#.includes(\"G2\")) && (!#o_r_permanent_handwashing_station# || #o_r_permanent_handwashing_station#.includes(\"G3\"))) ? 'G3 CLEAN AND HEALTHY' : 'G0 INADEQUATE OR NO HANDWASHING FACILITY'"
           }
         },
         {
@@ -7334,12 +7334,12 @@
           "displayOnly": false,
           "fn": {
             "fnColor": {
-              "G0": "#FD3F31",
-              "G1": "#FDC74B",
-              "G2": "#93D371",
-              "G3": "#4088F4"
+              "G0 INADEQUATE ENVIRONMENTAL HEALTH": "#FD3F31",
+              "G1 SAFE MANAGEMENT OF EXCRETA AND DIAPERS": "#FDC74B",
+              "G2 SAFE FOOD, WATER AND ANIMAL MANAGEMENT": "#93D371",
+              "G3 GOOD NUTRITION, PERSONAL HYGIENE AND WASTE MANAGEMENT": "#4088F4"
             },
-            "fnString": "(!#o_r_safe_management_of_child_excreta_and_diapers# || #o_r_safe_management_of_child_excreta_and_diapers#.includes(\"G3\")) && (!#o_r_safe_food_hygiene# || #o_r_safe_food_hygiene#.includes(\"G3\")) && (!#o_r_safe_water_management# || #o_r_safe_water_management#.includes(\"G3\")) && (!#o_r_safe_management_of_animals_wastes# || #o_r_safe_management_of_animals_wastes#.includes(\"G3\")) && (!#o_r_safe_waste_management# || #o_r_safe_waste_management#.includes(\"G3\")) && (!#o_r_good_personal_hygiene# || #o_r_good_personal_hygiene#.includes(\"G3\")) && (!#o_r_good_nutrition# || #o_r_good_nutrition#.includes(\"G3\")) && (!#o_r_endemic# || #o_r_endemic#.includes(\"G1\")) ? \"G3\" : (!#o_r_safe_management_of_child_excreta_and_diapers# || #o_r_safe_management_of_child_excreta_and_diapers#.includes(\"G3\")) && (!#o_r_safe_food_hygiene# || #o_r_safe_food_hygiene#.includes(\"G1\")) && (!#o_r_safe_water_management# || #o_r_safe_water_management#.includes(\"G1\")) && (!#o_r_safe_management_of_animals_wastes# || #o_r_safe_management_of_animals_wastes#.includes(\"G1\")) && (!#o_r_safe_waste_management# || #o_r_safe_waste_management#.includes(\"G1\")) && (!#o_r_good_personal_hygiene# || #o_r_good_personal_hygiene#.includes(\"G1\")) && (!#o_r_good_nutrition# || #o_r_good_nutrition#.includes(\"G1\")) && (!#o_r_endemic# || #o_r_endemic#.includes(\"G1\")) ? \"G3\" : (!#o_r_safe_management_of_child_excreta_and_diapers# || #o_r_safe_management_of_child_excreta_and_diapers#.includes(\"G1\")) && (!#o_r_safe_food_hygiene# || #o_r_safe_food_hygiene#.includes(\"G1\")) && (!#o_r_safe_water_management# || #o_r_safe_water_management#.includes(\"G1\")) && (!#o_r_safe_management_of_animals_wastes# || #o_r_safe_management_of_animals_wastes#.includes(\"G1\")) && (!#o_r_safe_waste_management# || #o_r_safe_waste_management#.includes(\"G1\")) && (!#o_r_good_personal_hygiene# || #o_r_good_personal_hygiene#.includes(\"G1\")) && (!#o_r_good_nutrition# || #o_r_good_nutrition#.includes(\"G1\")) && (!#o_r_endemic# || #o_r_endemic#.includes(\"G1\")) ? \"G1\" : (!#o_r_safe_management_of_child_excreta_and_diapers# || #o_r_safe_management_of_child_excreta_and_diapers#.includes(\"G1\")) && (!#o_r_safe_food_hygiene# || #o_r_safe_food_hygiene#.includes(\"G2\")) && (!#o_r_safe_water_management# || #o_r_safe_water_management#.includes(\"G2\")) && (!#o_r_safe_management_of_animals_wastes# || #o_r_safe_management_of_animals_wastes#.includes(\"G2\")) && (!#o_r_safe_waste_management# || #o_r_safe_waste_management#.includes(\"G1\")) && (!#o_r_good_personal_hygiene# || #o_r_good_personal_hygiene#.includes(\"G1\")) && (!#o_r_good_nutrition# || #o_r_good_nutrition#.includes(\"G1\")) && (!#o_r_endemic# || #o_r_endemic#.includes(\"G1\")) ? \"G2\" : \"G0\"",
+            "fnString": "(!#o_r_safe_management_of_child_excreta_and_diapers# || #o_r_safe_management_of_child_excreta_and_diapers#.includes(\"G3\")) && (!#o_r_safe_food_hygiene# || #o_r_safe_food_hygiene#.includes(\"G3\")) && (!#o_r_safe_water_management# || #o_r_safe_water_management#.includes(\"G3\")) && (!#o_r_safe_management_of_animals_wastes# || #o_r_safe_management_of_animals_wastes#.includes(\"G3\")) && (!#o_r_safe_waste_management# || #o_r_safe_waste_management#.includes(\"G3\")) && (!#o_r_good_personal_hygiene# || #o_r_good_personal_hygiene#.includes(\"G3\")) && (!#o_r_good_nutrition# || #o_r_good_nutrition#.includes(\"G3\")) && (!#o_r_endemic# || #o_r_endemic#.includes(\"G1\")) ? \"G3 GOOD NUTRITION, PERSONAL HYGIENE AND WASTE MANAGEMENT\" : (!#o_r_safe_management_of_child_excreta_and_diapers# || #o_r_safe_management_of_child_excreta_and_diapers#.includes(\"G3\")) && (!#o_r_safe_food_hygiene# || #o_r_safe_food_hygiene#.includes(\"G1\")) && (!#o_r_safe_water_management# || #o_r_safe_water_management#.includes(\"G1\")) && (!#o_r_safe_management_of_animals_wastes# || #o_r_safe_management_of_animals_wastes#.includes(\"G1\")) && (!#o_r_safe_waste_management# || #o_r_safe_waste_management#.includes(\"G1\")) && (!#o_r_good_personal_hygiene# || #o_r_good_personal_hygiene#.includes(\"G1\")) && (!#o_r_good_nutrition# || #o_r_good_nutrition#.includes(\"G1\")) && (!#o_r_endemic# || #o_r_endemic#.includes(\"G1\")) ? \"G3\" : (!#o_r_safe_management_of_child_excreta_and_diapers# || #o_r_safe_management_of_child_excreta_and_diapers#.includes(\"G1\")) && (!#o_r_safe_food_hygiene# || #o_r_safe_food_hygiene#.includes(\"G1\")) && (!#o_r_safe_water_management# || #o_r_safe_water_management#.includes(\"G1\")) && (!#o_r_safe_management_of_animals_wastes# || #o_r_safe_management_of_animals_wastes#.includes(\"G1\")) && (!#o_r_safe_waste_management# || #o_r_safe_waste_management#.includes(\"G1\")) && (!#o_r_good_personal_hygiene# || #o_r_good_personal_hygiene#.includes(\"G1\")) && (!#o_r_good_nutrition# || #o_r_good_nutrition#.includes(\"G1\")) && (!#o_r_endemic# || #o_r_endemic#.includes(\"G1\")) ? \"G1 SAFE MANAGEMENT OF EXCRETA AND DIAPERS\" : (!#o_r_safe_management_of_child_excreta_and_diapers# || #o_r_safe_management_of_child_excreta_and_diapers#.includes(\"G1\")) && (!#o_r_safe_food_hygiene# || #o_r_safe_food_hygiene#.includes(\"G2\")) && (!#o_r_safe_water_management# || #o_r_safe_water_management#.includes(\"G2\")) && (!#o_r_safe_management_of_animals_wastes# || #o_r_safe_management_of_animals_wastes#.includes(\"G2\")) && (!#o_r_safe_waste_management# || #o_r_safe_waste_management#.includes(\"G1\")) && (!#o_r_good_personal_hygiene# || #o_r_good_personal_hygiene#.includes(\"G1\")) && (!#o_r_good_nutrition# || #o_r_good_nutrition#.includes(\"G1\")) && (!#o_r_endemic# || #o_r_endemic#.includes(\"G1\")) ? \"G2 SAFE FOOD, WATER AND ANIMAL MANAGEMENT\" : \"G0 INADEQUATE ENVIRONMENTAL HEALTH\"",
             "multiline": false
           }
         },
@@ -7356,12 +7356,12 @@
           "displayOnly": false,
           "fn": {
             "fnColor": {
-              "G0": "#DB3B3B",
-              "G1": "#FDC74B",
-              "G2": "#93D371",
-              "G3": "#4088F4"
+              "G0 HOUSEHOLD WITH UNSAFELY MANAGED SERVICES": "#DB3B3B",
+              "G1 ODF HOUSEHOLD": "#FDC74B",
+              "G2 SAFE AND SUSTAINABLE HOUSEHOLD": "#93D371",
+              "G3 CLEAN AND HEALTHY HOUSEHOLD": "#4088F4"
             },
-            "fnString": "((!#overall_toilet_outcome#||#overall_toilet_outcome#.includes(\"G1\"))&&(!#overall_hygiene_outcome#||#overall_hygiene_outcome#.includes(\"G1\"))&&(!#overall_other_outcome#||#overall_other_outcome#.includes(\"G1\")))?'G1':((!#overall_toilet_outcome#||#overall_toilet_outcome#.includes(\"G2\"))&&(!#overall_hygiene_outcome#||#overall_hygiene_outcome#.includes(\"G2\"))&&(!#overall_other_outcome#||#overall_other_outcome#.includes(\"G2\")))?'G2':((!#overall_toilet_outcome#||#overall_toilet_outcome#.includes(\"G3\"))&&(!#overall_hygiene_outcome#||#overall_hygiene_outcome#.includes(\"G3\"))&&(!#overall_other_outcome#||#overall_other_outcome#.includes(\"G3\")))?'G3':'G0'",
+            "fnString": "((!#overall_toilet_outcome#||#overall_toilet_outcome#.includes(\"G1\"))&&(!#overall_hygiene_outcome#||#overall_hygiene_outcome#.includes(\"G1\"))&&(!#overall_other_outcome#||#overall_other_outcome#.includes(\"G1\")))?'G1 ODF HOUSEHOLD':((!#overall_toilet_outcome#||#overall_toilet_outcome#.includes(\"G2\"))&&(!#overall_hygiene_outcome#||#overall_hygiene_outcome#.includes(\"G2\"))&&(!#overall_other_outcome#||#overall_other_outcome#.includes(\"G2\")))?'G2 SAFE AND SUSTAINABLE HOUSEHOLD':((!#overall_toilet_outcome#||#overall_toilet_outcome#.includes(\"G3\"))&&(!#overall_hygiene_outcome#||#overall_hygiene_outcome#.includes(\"G3\"))&&(!#overall_other_outcome#||#overall_other_outcome#.includes(\"G3\")))?'G3 CLEAN AND HEALTHY HOUSEHOLD':'G0 HOUSEHOLD WITH UNSAFELY MANAGED SERVICES'",
             "multiline": false
           }
         }
