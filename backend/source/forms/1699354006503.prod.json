@@ -541,8 +541,44 @@
           "fn": null
         },
         {
-          "id": 1702324544574,
+          "id": 1720074309,
           "order": 7,
+          "name": "community_monitoring_not_at-risk_households",
+          "label": "COMMUNITY LEVEL ASSESSMENT: Monitoring of other (NOT at-risk) households",
+          "short_label": null,
+          "type": "option",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": [
+            {
+              "order": 1,
+              "label": "No monitoring data available",
+              "value": "g0_at_risk_hh_no_disaggregated_data_available",
+              "color": "#DB3B3B"
+            },
+            {
+              "order": 2,
+              "label": "More than 5% difference in monitoring data",
+              "value": "g0_at_risk_hh_not_reliable_more_than_5_percent_difference",
+              "color": "#FDC74B"
+            },
+            {
+              "order": 3,
+              "label": "Less than 5% difference in monitoring data",
+              "value": "g1g2_at_rish_hh_system_functional_less_than_5_percent_difference",
+              "color": "#38A15A"
+            }
+          ],
+          "pre": {
+            "new_or_update": {
+              "new": ["g0_at_risk_hh_no_disaggregated_data_available"]
+            }
+          }
+        },
+        {
+          "id": 1702324544574,
+          "order": 8,
           "name": "community_monitoring_at-risk_households",
           "label": "COMMUNITY LEVEL ASSESSMENT: Monitoring of at-risk households",
           "short_label": null,
@@ -578,7 +614,7 @@
         },
         {
           "id": 1699958670124,
-          "order": 8,
+          "order": 9,
           "name": "action_plan_G2_status",
           "label": "Action plan for G2 status",
           "short_label": null,
@@ -611,7 +647,7 @@
         },
         {
           "id": 1699958822791,
-          "order": 9,
+          "order": 10,
           "name": "action_plan_G3_status",
           "label": "Action plan for G3 status",
           "short_label": null,
