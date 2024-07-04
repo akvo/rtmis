@@ -3261,7 +3261,7 @@
           "fn": {
             "fnColor": {
               "G2 Durable toilet with safe containment": "#93D371",
-              "G0 Toilet NOT durable and with safe no containment": "#FD3F31"
+              "G0 Toilet NOT durable or with unsafe containment": "#FD3F31"
             },
             "fnString": "#o_r_individual_use_of_own_hh_toilet#.includes(\"G2\") && #o_r_durable_toilet#.includes(\"G2\") && #o_r_toilet_with_safe_containment#.includes(\"G2\") ? \"G2 Durable toilet with safe containment\" : \"G0 Toilet NOT durable or with unsafe containment\"",
             "multiline": false
