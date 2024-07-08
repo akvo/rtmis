@@ -234,6 +234,11 @@
           "meta": false,
           "options": [
             {
+              "order": 1,
+              "label": "Low drainage soil (fine sand, silt or clay)",
+              "value": "low_drainage_soil_fine_sand_silt_clay"
+            },
+            {
               "order": 2,
               "label": "Medium drainage soil (medium sand, weathered rock)",
               "value": "medium_drainage_soil_sand_weathered_rock"
@@ -242,11 +247,6 @@
               "order": 3,
               "label": "High drainage soil (coarse sand & gravel, fractured sandstone or limestone)",
               "value": "high_drainage_soil_coarse_sand_gravel_fractured_sandstone_limestone"
-            },
-            {
-              "order": 1,
-              "label": "Low drainage soil (fine sand, silt or clay)",
-              "value": "low_drainage_soil_fine_sand_silt_clay"
             }
           ],
           "fn": null
@@ -541,8 +541,44 @@
           "fn": null
         },
         {
-          "id": 1702324544574,
+          "id": 1720074309,
           "order": 7,
+          "name": "community_monitoring_not_at-risk_households",
+          "label": "COMMUNITY LEVEL ASSESSMENT: Monitoring of other (NOT at-risk) households",
+          "short_label": null,
+          "type": "option",
+          "tooltip": null,
+          "required": true,
+          "meta": false,
+          "options": [
+            {
+              "order": 1,
+              "label": "No monitoring data available",
+              "value": "g0_at_risk_hh_no_disaggregated_data_available",
+              "color": "#DB3B3B"
+            },
+            {
+              "order": 2,
+              "label": "More than 5% difference in monitoring data",
+              "value": "g0_at_risk_hh_not_reliable_more_than_5_percent_difference",
+              "color": "#FDC74B"
+            },
+            {
+              "order": 3,
+              "label": "Less than 5% difference in monitoring data",
+              "value": "g1g2_at_rish_hh_system_functional_less_than_5_percent_difference",
+              "color": "#38A15A"
+            }
+          ],
+          "pre": {
+            "new_or_update": {
+              "new": ["g0_at_risk_hh_no_disaggregated_data_available"]
+            }
+          }
+        },
+        {
+          "id": 1702324544574,
+          "order": 8,
           "name": "community_monitoring_at-risk_households",
           "label": "COMMUNITY LEVEL ASSESSMENT: Monitoring of at-risk households",
           "short_label": null,
@@ -578,7 +614,7 @@
         },
         {
           "id": 1699958670124,
-          "order": 8,
+          "order": 9,
           "name": "action_plan_G2_status",
           "label": "Action plan for G2 status",
           "short_label": null,
@@ -611,7 +647,7 @@
         },
         {
           "id": 1699958822791,
-          "order": 9,
+          "order": 10,
           "name": "action_plan_G3_status",
           "label": "Action plan for G3 status",
           "short_label": null,
@@ -993,7 +1029,7 @@
           "id": 1699960354498,
           "order": 11,
           "name": "stormwater_drainage_communal_areas",
-          "label": "4.11 G3-3.1C Drainage for stormwater in communal areas",
+          "label": "G3-3.1C Drainage for stormwater in communal areas",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1054,7 +1090,7 @@
           "id": 1699960411329,
           "order": 13,
           "name": "no_visible_solid_wastes_communal_areas",
-          "label": "4.13 G3-3.2C No visible solid wastes in communal areas",
+          "label": "G3-3.2C No visible solid wastes in communal areas",
           "short_label": null,
           "type": "option",
           "tooltip": {
@@ -1109,7 +1145,7 @@
           "id": 1699960488230,
           "order": 15,
           "name": "no_standing_water_communal_areas",
-          "label": "4.15 G3-3.3C No standing water in communal areas",
+          "label": "G3-3.3C No standing water in communal areas",
           "short_label": null,
           "type": "option",
           "tooltip": {
