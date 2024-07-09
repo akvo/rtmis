@@ -136,7 +136,6 @@ const AddAttribute = () => {
         <div className="table-wrapper">
           <Tabs size="large" activeKey={activeTab} onChange={setActiveTab}>
             <TabPane tab="Administration" key="administration" />
-            <TabPane tab="Entity" key="entity" disabled />
           </Tabs>
           <Form
             name="adm-form"
