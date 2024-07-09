@@ -1,15 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import {
-  Button,
-  Col,
-  Form,
-  Input,
-  Modal,
-  Row,
-  Select,
-  Space,
-  Tabs,
-} from "antd";
+import { Button, Col, Form, Input, Modal, Row, Select, Space } from "antd";
 import { Breadcrumbs, DescriptionPanel } from "../../components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useNotification } from "../../util/hooks";
@@ -17,12 +7,9 @@ import { MinusCircleOutlined, PlusCircleFilled } from "@ant-design/icons";
 // import "./style.scss";
 import { api, config, store, uiText } from "../../lib";
 
-const { TabPane } = Tabs;
-
 const AddAttribute = () => {
   const initialValues = store.useState((s) => s.masterData.attribute);
   const [submitting, setSubmitting] = useState(false);
-  const [activeTab, setActiveTab] = useState("administration");
   const [attrType, setAttrType] = useState(initialValues?.type || null);
 
   const { language } = store.useState((s) => s);
@@ -134,9 +121,6 @@ const AddAttribute = () => {
       </div>
       <div className="table-section">
         <div className="table-wrapper">
-          <Tabs size="large" activeKey={activeTab} onChange={setActiveTab}>
-            <TabPane tab="Administration" key="administration" />
-          </Tabs>
           <Form
             name="adm-form"
             form={form}
