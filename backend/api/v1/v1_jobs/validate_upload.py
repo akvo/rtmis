@@ -136,7 +136,7 @@ def validate_date(answer):
 def validate_option(options, answer):
     options = [o.value for o in options]
     lower_options = [o.lower() for o in options]
-    answer = answer.split("|")
+    answer = str(answer).split("|")
     invalid_value = []
     invalid_case = []
     invalid = False
