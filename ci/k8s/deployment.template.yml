@@ -177,8 +177,8 @@ spec:
               cpu: "100m"
               memory: "256Mi"
             limits:
-              cpu: "1000m"
-              memory: "1024Mi"
+              cpu: "2000m"
+              memory: "2048Mi"
         - name: worker
           image: eu.gcr.io/akvo-lumen/rtmis/worker:${CI_COMMIT}
           env:
