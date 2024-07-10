@@ -7,6 +7,9 @@ from api.v1.v1_users.models import Organisation, OrganisationAttribute
 
 @override_settings(USE_TZ=False)
 class OrganisationTestCase(TestCase):
+    def setUp(self):
+        call_command("administration_seeder", "--test")
+
     def test_get_organisation(self):
         call_command("fake_organisation_seeder", "--repeat", 5)
         self.assertEqual(5, Organisation.objects.count())
@@ -20,6 +23,37 @@ class OrganisationTestCase(TestCase):
         self.assertEqual(["type_id", "name"],
                          list(organisations[0]["attributes"][0]))
 
+    def test_get_details_organisation(self):
+        user_payload = {"email": "admin@rush.com", "password": "Test105*"}
+        user_response = self.client.post(
+            '/api/v1/login',
+            user_payload,
+            content_type='application/json'
+        )
+        user = user_response.json()
+        token = user.get('token')
+        header = {'HTTP_AUTHORIZATION': f'Bearer {token}'}
+
+        req = self.client.post(
+            '/api/v1/organisation',
+            {"name": "Akvo", "attributes": [1]},
+            content_type='application/json',
+            **header
+        )
+        self.assertEqual(req.status_code, 200)
+
+        org = Organisation.objects.order_by('?').first()
+        res = self.client.get(
+            f'/api/v1/organisation/{org.id}',
+            content_type='application/json',
+            **header
+        )
+        self.assertEqual(res.status_code, 200)
+
+        res = res.json()
+        self.assertEqual(org.id, res["id"])
+        self.assertEqual(org.name, res["name"])
+
     def test_add_edit_delete_organisation(self):
         payload = {"name": "Test", "attributes": [1]}
 
@@ -28,7 +62,6 @@ class OrganisationTestCase(TestCase):
                                content_type='application/json')
         self.assertEqual(req.status_code, 401)
 
-        call_command("administration_seeder", "--test")
         user_payload = {"email": "admin@rush.com", "password": "Test105*"}
         user_response = self.client.post('/api/v1/login',
                                          user_payload,

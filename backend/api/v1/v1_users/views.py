@@ -853,7 +853,12 @@ class OrganisationEditDeleteView(APIView):
         summary="To get organisation details",
     )
     def get(self, request, organisation_id, version):
-        instance = get_object_or_404(Organisation, pk=organisation_id)
+        instance = get_object_or_404(
+            Organisation.objects.annotate(
+                user_count=Count('user_organisation')
+            ),
+            pk=organisation_id
+        )
         return Response(
             OrganisationListSerializer(instance=instance).data,
             status=status.HTTP_200_OK,
