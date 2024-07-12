@@ -191,7 +191,7 @@ def validate_dependency(
             if question_dependency["id"] in dependency_answer:
                 da = dependency_answer[question_dependency["id"]]
                 if "options" in question_dependency:
-                    for daw in da.split("|"):
+                    for daw in str(da).split("|"):
                         if daw in question_dependency["options"]:
                             all_deps_match.append(True)
                 if "min" in question_dependency and isinstance(da, int):
