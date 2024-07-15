@@ -1,0 +1,13 @@
+---
+services:
+  db:
+    env_file: "./db.env"
+    image: postgres:12-alpine
+    restart: unless-stopped
+    volumes:
+      - ../db/docker-entrypoint-initdb.d.prod:/docker-entrypoint-initdb.d
+      - pg-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+volumes:
+  pg-data:

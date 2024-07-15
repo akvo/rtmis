@@ -1,0 +1,83 @@
+---
+services:
+  mainnetwork:
+    image: alpine:3.14
+    command: ["tail", "-f", "/dev/null"]
+    ports:
+      - 8000:8000 # backend port
+      - 5050:5050 # pgAdmin port
+      - 80:80 # traefik port http
+      - 443:443 # traefik port https
+      - 81:81 # frontend port
+  traefik:
+    image: traefik:v3.0
+    container_name: traefik
+    env_file: "./app.env"
+    environment:
+      - TRAEFIK_PROVIDERS_FILE_FILENAME=/traefik-config/dynamic.yml
+      - TRAEFIK_PROVIDERS_FILE_WATCH=true
+      - TRAEFIK_ENTRYPOINTS_WEB_ADDRESS=:80
+      - TRAEFIK_ENTRYPOINTS_WEBSECURE_ADDRESS=:443
+      - TRAEFIK_CERTIFICATESRESOLVERS_MYRESOLVER_ACME_EMAIL=anjar@akvo.org
+      - TRAEFIK_CERTIFICATESRESOLVERS_MYRESOLVER_ACME_STORAGE=/letsencrypt/acme.json
+      - TRAEFIK_CERTIFICATESRESOLVERS_MYRESOLVER_ACME_TLSCHALLENGE=true
+      - TRAEFIK_LOG_LEVEL=DEBUG
+      - TRAEFIK_LOG=true
+      - TRAEFIK_LOG_FORMAT=common
+      - TRAEFIK_ACCESSLOG=false
+      - TRAEFIK_ACCESSLOG_FILEPATH=/var/log/traefik/access.log
+      - TRAEFIK_ACCESSLOG_FORMAT=common
+    entrypoint: ["sh", "-c", "/generate_dynamic_config.sh && traefik"]
+    volumes:
+      - "traefik-certificates:/letsencrypt"
+      - "./generate_dynamic_config.sh:/generate_dynamic_config.sh:ro"
+      - "/traefik-config"
+    network_mode: service:mainnetwork
+
+  backend:
+    container_name: backend
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    env_file: "./app.env"
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - ../backend:/app:delegated
+      - rtmis-data:/app/storage
+    network_mode: service:mainnetwork
+
+  worker:
+    container_name: worker
+    build:
+      context: ../backend
+      dockerfile: Dockerfile.worker
+    env_file: "./app.env"
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - ../backend:/app:delegated
+      - rtmis-data:/app/storage
+    network_mode: service:mainnetwork
+    depends_on:
+      - backend
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    env_file: "./app.env"
+    restart: unless-stopped
+    working_dir: /app
+    command: /bin/sh -c "sed -i '/listen/s/80/81/g' /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+    volumes:
+      - ../frontend:/app:delegated
+      - rtmis-data:/usr/share/nginx/html/storage
+    network_mode: service:mainnetwork
+    depends_on:
+      - backend
+
+volumes:
+  rtmis-data:
+  traefik-certificates:
