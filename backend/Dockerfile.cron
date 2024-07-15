@@ -1,0 +1,24 @@
+FROM python:3.8.5
+
+WORKDIR /app
+
+COPY requirements.txt /app/
+
+#Install Cron
+RUN apt-get update
+RUN apt-get -y install cron
+
+RUN set -e; \
+    pip -q install --upgrade pip && \
+    pip -q install --no-cache-dir -r requirements.txt && \
+    pip check
+
+copy . /app/
+
+# Add the cron job
+RUN crontab /app/rtmis-cron
+
+# Create the log file to be able to run tail
+RUN touch /app/cron.log
+
+CMD cron && tail -f /app/cron.log

@@ -18,7 +18,6 @@ services:
       - TRAEFIK_PROVIDERS_FILE_WATCH=true
       - TRAEFIK_ENTRYPOINTS_WEB_ADDRESS=:80
       - TRAEFIK_ENTRYPOINTS_WEBSECURE_ADDRESS=:443
-      - TRAEFIK_CERTIFICATESRESOLVERS_MYRESOLVER_ACME_EMAIL=anjar@akvo.org
       - TRAEFIK_CERTIFICATESRESOLVERS_MYRESOLVER_ACME_STORAGE=/letsencrypt/acme.json
       - TRAEFIK_CERTIFICATESRESOLVERS_MYRESOLVER_ACME_TLSCHALLENGE=true
       - TRAEFIK_LOG_LEVEL=DEBUG
@@ -77,6 +76,18 @@ services:
     network_mode: service:mainnetwork
     depends_on:
       - backend
+
+  backend-cron:
+    container_name: backend-cron
+    build:
+      context: ../backend
+      dockerfile: Dockerfile.cron
+    env_file: "./app.env"
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - rtmis-data:/app/storage
+    network_mode: service:mainnetwork
 
 volumes:
   rtmis-data:
