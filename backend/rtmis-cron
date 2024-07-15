@@ -1,0 +1,2 @@
+00 23 * * * cat /proc/1/environ | tr '\0' '\n' > /etc/environment
+01 23 * * * date >> /app/cron.log && cd /app/ && bash -l ./job.sh >> /app/cron.log 2>&1

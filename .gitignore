@@ -9,3 +9,5 @@ notify.team.sh
 .vscode/dryrun.log
 .vscode/settings.json
 .vscode/targets.log
+**/app.env
+**/db.env
