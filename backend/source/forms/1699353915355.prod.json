@@ -6578,6 +6578,10 @@
           "options": null,
           "dependency": [
             {
+              "id": 1710829091,
+              "options": ["yes_animals_kept_in_household_compound"]
+            },
+            {
               "id": 16994260598422,
               "options": ["yes"]
             }
@@ -6588,7 +6592,7 @@
               "G2 Clean and safely stored milk containers": "#93D371",
               "G1 Milk containers not adequately washed, or not safely stored": "#FDC74B"
             },
-            "fnString": "#clean_milk_containers#.includes(\"g0\") && #covered_container_storage#.includes(\"g0\") && #raised_container_storage#.includes(\"g0\") ? \"G0 Milk containers not clean and not safely stored\" : #clean_milk_containers#.includes(\"g2\") && #covered_container_storage#.includes(\"g2\") && #raised_container_storage#.includes(\"g2\") ? \"G2 Clean and safely stored milk containers\" : \"G1 Milk containers not adequately washed, or not safely stored\"",
+            "fnString": "#clean_milk_containers#.includes(\"g1\") && #covered_container_storage#.includes(\"g1\") && #raised_container_storage#.includes(\"g1\") ? \"G1 Milk containers not adequately washed, or not safely stored\" : #clean_milk_containers#.includes(\"g2\") && #covered_container_storage#.includes(\"g2\") && #raised_container_storage#.includes(\"g2\") ? \"G2 Clean and safely stored milk containers\" : \"G0 Milk containers not clean and not safely stored\"",
             "multiline": false
           }
         },
