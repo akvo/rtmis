@@ -1,0 +1,97 @@
+name: RTMIS Build and Deploy Prod
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_deploy_jobs:
+    name: RTMIS Build and Deploy Jobs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set short git commit SHA
+        id: vars
+        run: |
+          shortSha=$(git rev-parse --short ${{ github.sha }})
+          echo "COMMIT_SHORT_SHA=$shortSha" >> $GITHUB_ENV
+
+
+      - name: Docker compose rebuild
+        uses: ./.github/composite-actions/ssh-docker-compose
+        with:
+          server-ip:  ${{ secrets.SERVER_IP }}
+          server-ssh-port:  ${{ secrets.SERVER_SSH_PORT }}
+          server-ssh-secret-key:  ${{ secrets.SERVER_SSH_SECRET_KEY }}
+          server-ssh-user:  ${{ secrets.SERVER_SSH_USER }}
+          docker-compose-file: ${{ secrets.DOCKER_COMPOSE_FILE }}
+          docker-compose-file-frontend-build: ${{ secrets.DOCKER_COMPOSE_FILE_FRONTEND_BUILD }}
+          ci_commit: ${{ env.COMMIT_SHORT_SHA }}
+
+  mobile-app-release:
+    name: Mobile App Build
+    needs: build_and_deploy_jobs
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🗄️  Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 🧰 Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: 🏗  Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: 📦 Install dependencies
+        run: |
+          cd ./app/
+          cp ./src/build.prod.js ./src/build.js
+          npm install
+
+      - name: 🚀 Release to Expo Dev
+        id: eas_release
+        working-directory: ./app
+        run: |
+          npm run eas:release > output.txt
+          cat output.txt
+          echo "APK_URL=$(tail -n 1 output.txt)" >> $GITHUB_ENV
+
+      - name: Set short git commit SHA
+        id: vars
+        run: |
+          shortSha=$(git rev-parse --short ${{ github.sha }})
+          echo "COMMIT_SHORT_SHA=$shortSha" >> $GITHUB_ENV
+
+      - name: Get App Version
+        id: get_version
+        run: |
+          cd app
+          apk_version=$(grep '"version":' package.json | sed -E 's/.*"version": *"([^"]+)".*/\1/')
+          echo "APK_VERSION=$apk_version" >> $GITHUB_ENV
+
+      - name: 🌟 Send APK
+        env:
+          APK_VERSION: ${{ env.APK_VERSION }}
+          SECRET: ${{ secrets.APK_UPLOAD_SECRET }}
+          SENTRY_ENV: production
+          SENTRY_DSN: ${{ secrets.SENTRY_MOBILE_DSN }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_MOBILE_AUTH_TOKEN }}
+        run: |
+          curl -X 'POST' \
+            'https://rtmis.akvo.org/api/v1/device/apk/upload' \
+            -H 'accept: */*' \
+            -H 'Content-Type: application/json' \
+            -d '{
+              "apk_url": "'"$APK_URL"'",
+              "apk_version": "'"$APK_VERSION"'",
+              "secret": "'"$SECRET"'"
+            }'
