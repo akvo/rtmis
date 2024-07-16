@@ -1113,7 +1113,7 @@
             },
             {
               "order": 3,
-              "label": "Clean compound with no visible solid wastes in communal areas",
+              "label": "No visible solid wastes in communal areas",
               "value": "g3_clean_compound_with_no_visible_solid_wastes_communal_areas",
               "color": "#38A15A"
             }
