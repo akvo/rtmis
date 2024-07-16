@@ -4,6 +4,8 @@ services:
     image: akvo/akvo-node-17-alpine:20220121.024749.f30b815
     container_name: frontend_build
     working_dir: /app
+    environment:
+      - CI_COMMIT=${CI_COMMIT}
     command:
       - /bin/bash
       - -c
@@ -11,6 +13,6 @@ services:
         echo "PUBLIC_URL=/" > .env
         sed 's/"warn"/"error"/g' < .eslintrc.json > .eslintrc.prod.json
         sed "s/\"##CACHE_VERSION##\"/\"${CI_COMMIT}\"/g" < public/service-worker.template.js > public/service-worker.js
-        sh release.sh
+        sh release.prod.sh
     volumes:
       - ../frontend:/app:delegated

@@ -1,4 +1,8 @@
 #!/bin/sh
+
+# Remove 'https://' from WEBDOMAIN if present
+WEBDOMAIN=${WEBDOMAIN#https://}
+
 cat << EOF > /traefik-config/dynamic.yml
 http:
   routers:
