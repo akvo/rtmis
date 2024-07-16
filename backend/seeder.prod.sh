@@ -18,33 +18,11 @@ if [[ "${add_account}" == 'y' || "${add_account}" == 'Y' ]]; then
     fi
 fi
 
-echo "Seed Fake User? [y/n]"
-read -r fake_user
-if [[ "${fake_user}" == 'y' || "${fake_user}" == 'Y' ]]; then
-    echo "Creating User for Admin with email admin@akvo.org"
-    python manage.py createsuperuser \
-        --email admin@akvo.org --first_name Admin --last_name One
-    python manage.py assign_access admin@akvo.org --admin
-    # python manage.py fake_user_seeder --repeat 50
-fi
-
 echo "Seed Form? [y/n]"
 read -r seed_form
 if [[ "${seed_form}" == 'y' || "${seed_form}" == 'Y' ]]; then
     python manage.py form_seeder
     python manage.py generate_config
-fi
-
-echo "Seed Fake Data? [y/n]"
-read -r seed_fake_data
-if [[ "${seed_fake_data}" == 'y' || "${seed_fake_data}" == 'Y' ]]; then
-    python manage.py fake_data_seeder
-fi
-
-echo "Seed Fake Data Claim? [y/n]"
-read -r seed_fake_data_claim
-if [[ "${seed_fake_data_claim}" == 'y' || "${seed_fake_data_claim}" == 'Y' ]]; then
-    python manage.py fake_data_claim_seeder
 fi
 
 echo "Seed Organisation? [y/n]"
