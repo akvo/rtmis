@@ -4,6 +4,8 @@ services:
     image: akvo/akvo-node-17-alpine:20220121.024749.f30b815
     container_name: frontend_build
     working_dir: /app
+    environment:
+      - CI_COMMIT=${CI_COMMIT}
     command:
       - /bin/bash
       - -c
