@@ -1,0 +1,47 @@
+name: Docker Compose Build and Restart
+
+inputs:
+  server-ip:
+    description: 'Server IP address'
+    required: true
+  server-ssh-port:
+    description: 'Server SSH port'
+    required: true
+  server-ssh-secret-key:
+    description: 'The SSH secret key from server'
+    required: true
+  server-ssh-user:
+    description: 'SSH User'
+    required: true
+  docker-compose-file:
+    description: 'Docker compose file location'
+    required: true
+  docker-compose-file-frontend-build:
+    description: 'Docker compose for frontend build file location'
+    required: true
+  ci_commit:
+    description: 'Commit ID'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Write secret to file
+      run: echo "${{ inputs.server-ssh-secret-key }}" > priv.key && chmod 600 priv.key
+      shell: bash
+
+    - name: Git Pull
+      run: .github/composite-actions/ssh-docker-compose/git-pull.sh ${{ inputs.server-ip }} ${{ inputs.server-ssh-port }} ${{ inputs.server-ssh-user }}
+      shell: bash
+
+    - name: Rebuild Frontend
+      run: .github/composite-actions/ssh-docker-compose/frontend-build.sh ${{ inputs.server-ip }} ${{ inputs.server-ssh-port }} ${{ inputs.server-ssh-user }} ${{ inputs.docker-compose-file-frontend-build }} ${{ inputs.ci_commit }}
+      shell: bash
+
+    - name: Rebuild
+      run: .github/composite-actions/ssh-docker-compose/build.sh ${{ inputs.server-ip }} ${{ inputs.server-ssh-port }} ${{ inputs.server-ssh-user }} ${{ inputs.docker-compose-file }} ${{ inputs.ci_commit }}
+      shell: bash
+
+    - name: Up
+      run: .github/composite-actions/ssh-docker-compose/up.sh ${{ inputs.server-ip }} ${{ inputs.server-ssh-port }} ${{ inputs.server-ssh-user }} ${{ inputs.docker-compose-file }}
+      shell: bash
