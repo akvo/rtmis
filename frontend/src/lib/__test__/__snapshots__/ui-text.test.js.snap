@@ -285,12 +285,12 @@ Object {
     "footerAboutDescription": "All the data contained in the RUSH platform is aggregated from both primary and secondary data sources from the 47 counties in Kenya. The data is updated on a monthly basis.",
     "footerAboutTitle": "About Data",
     "footerContactAddress": "Afya House, Cathedral Road, P.O. Box:30016–00100, Nairobi, Kenya",
-    "footerContactEmail": "xxx@health.go.ke",
+    "footerContactEmail": "rushrtmis.system@health.go.ke",
     "footerContactFeedback": Object {
       "text": "Feedback Form",
       "url": "https://docs.google.com/forms/d/e/1FAIpQLSf5rjD66CCcMWYgFwkNp8Xb1lRJoec1CwhhPnjOd-mU84ktPA/viewform",
     },
-    "footerContactPhone": "+25x-xx-xxxxx",
+    "footerContactPhone": "+254-20-2717077",
     "footerContactTitle": "Contacts",
     "footerDonorSupport": "RTMIS was developed with technical and financial support from UNICEF, USAID, and the Government of Japan. Developed by Akvo.",
     "footerExternalLinkItems": Array [

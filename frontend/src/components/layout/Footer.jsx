@@ -64,6 +64,7 @@ const Footer = ({ className = "footer", ...props }) => {
                 target="_blank"
                 rel="noreferrer"
                 href={`tel:${text?.footerContactPhone}`}
+                style={{ paddingLeft: 3 }}
               >
                 {text?.footerContactPhone}
               </a>
@@ -74,6 +75,7 @@ const Footer = ({ className = "footer", ...props }) => {
                 target="_blank"
                 rel="noreferrer"
                 href={`mailto:${text?.footerContactEmail}`}
+                style={{ paddingLeft: 3 }}
               >
                 {text?.footerContactEmail}
               </a>

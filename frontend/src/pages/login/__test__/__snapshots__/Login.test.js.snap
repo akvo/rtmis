@@ -459,21 +459,23 @@ exports[`Login and Registration test if the login form exists: LoginPage 1`] = `
             <li>
               Phone:
               <a
-                href="tel:+25x-xx-xxxxx"
+                href="tel:+254-20-2717077"
                 rel="noreferrer"
+                style="padding-left: 3px;"
                 target="_blank"
               >
-                +25x-xx-xxxxx
+                +254-20-2717077
               </a>
             </li>
             <li>
               Email:
               <a
-                href="mailto:xxx@health.go.ke"
+                href="mailto:rushrtmis.system@health.go.ke"
                 rel="noreferrer"
+                style="padding-left: 3px;"
                 target="_blank"
               >
-                xxx@health.go.ke
+                rushrtmis.system@health.go.ke
               </a>
             </li>
           </ul>
@@ -1103,21 +1105,23 @@ exports[`Login and Registration test if the registration form exists: Registrati
             <li>
               Phone:
               <a
-                href="tel:+25x-xx-xxxxx"
+                href="tel:+254-20-2717077"
                 rel="noreferrer"
+                style="padding-left: 3px;"
                 target="_blank"
               >
-                +25x-xx-xxxxx
+                +254-20-2717077
               </a>
             </li>
             <li>
               Email:
               <a
-                href="mailto:xxx@health.go.ke"
+                href="mailto:rushrtmis.system@health.go.ke"
                 rel="noreferrer"
+                style="padding-left: 3px;"
                 target="_blank"
               >
-                xxx@health.go.ke
+                rushrtmis.system@health.go.ke
               </a>
             </li>
           </ul>
