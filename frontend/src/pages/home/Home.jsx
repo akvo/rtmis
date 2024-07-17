@@ -231,8 +231,14 @@ const Home = () => {
             mapValues={mapValues}
             setMapValues={setMapValues}
           /> */}
-          {/* TODO Visualisation */}
         </div>
+      </div>
+      <div className="home-even power-bi">
+        <iframe
+          title="Landing page"
+          src="https://app.powerbi.com/view?r=eyJrIjoiNjY0ODMwZTQtMGRhZS00ZTU5LWEzNzUtM2IyMzY3ZjBiN2M0IiwidCI6ImIxNzBlMTE1LWRjM2QtNGU5Mi04NWJlLWU0YjMwMDljNWRjMiIsImMiOjl9&navContentPaneEnabled=false"
+          allowFullScreen={true}
+        />
       </div>
       <div className="home-odd contact">
         <h2>{text.contactText}</h2>
