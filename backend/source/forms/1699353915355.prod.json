@@ -1094,8 +1094,8 @@
             {
               "order": 4,
               "label": "Use other household toilet (shared)",
-              "value": "hh_member_1_g0_toilet_shaerd_other",
-              "color": "#DB3B3B"
+              "value": "hh_member_2_g1_use_other_hh_toilet_shared`",
+              "color": "#ffa57d"
             },
             {
               "order": 5,
@@ -3140,7 +3140,7 @@
               "G1 Flyproof toilet": "#FDC74B",
               "G0 Toilet NOT flyproof": "#FD3F31"
             },
-            "fnString": "(!#toilet_interface# || #toilet_interface#.includes(\"g1\")) && (!#containment_or_collection_system# || #containment_or_collection_system#.includes(\"g1\")) && (!#flyproof_toilet# || #flyproof_toilet#.includes(\"g1\")) ? \"G1 Flyproof toilet\": \"G0 Toilet NOT flyproof\"",
+            "fnString": "#toilet_interface#.includes(\"g1\") && #containment_or_collection_system#.includes(\"g1\") && #flyproof_toilet#.includes(\"g1\") ? \"G1 Flyproof toilet\": \"G0 Toilet NOT flyproof\"",
             "multiline": false
           }
         },
@@ -4078,7 +4078,7 @@
               "G1 Handwashing facility with soap and water": "#FDC74B",
               "G0 Inadequate or no handwashing facility": "#FD3F31"
             },
-            "fnString": "(!#handwashing_facility_observed# || #handwashing_facility_observed#.includes(\"g0\")) && (!#water_available_at_hwf# || #water_available_at_hwf#.includes(\"g0\")) && (!#soap_available_at_hwf# || #soap_available_at_hwf#.includes(\"g0\")) ? \"G0 Inadequate or no handwashing facility\" : \"G1 Handwashing facility with soap and water\"",
+            "fnString": "(!#handwashing_facility_observed# || #handwashing_facility_observed#.includes(\"g1\")) && (!#water_available_at_hwf# || #water_available_at_hwf#.includes(\"g1\")) && (!#soap_available_at_hwf# || #soap_available_at_hwf#.includes(\"g1\")) ? \"G1 Handwashing facility with soap and water\" : \"G0 Inadequate or no handwashing facility\"",
             "multiline": false
           }
         },
@@ -4099,7 +4099,7 @@
               "G2 Handwashing with soap at ALL critical times": "#93D371",
               "G0 No or inadequate handwashing services": "#FD3F31"
             },
-            "fnString": "(!#handwashing_critical_infant_times# || #handwashing_critical_infant_times#.includes(\"g0\")) && (!#handwashing_critical_toilet_times# || #handwashing_critical_toilet_times#.includes(\"g0\")) && (!#handwashing_critical_food_times# || #handwashing_critical_food_times#.includes(\"g0\")) ? \"G0 No or inadequate handwashing services\" : (!#handwashing_critical_infant_times# || #handwashing_critical_infant_times#.includes(\"g2\")) && (!#handwashing_critical_toilet_times# || #handwashing_critical_toilet_times#.includes(\"g2\")) && (!#handwashing_critical_food_times# || #handwashing_critical_food_times#.includes(\"g2\")) ? \"G2 Handwashing with soap at ALL critical times\" : \"G1 Some critical handwashing times NOT mentioned\"",
+            "fnString": "(!#handwashing_critical_infant_times# || #handwashing_critical_infant_times#.includes(\"g1\")) && (!#handwashing_critical_toilet_times# || #handwashing_critical_toilet_times#.includes(\"g1\")) && (!#handwashing_critical_food_times# || #handwashing_critical_food_times#.includes(\"g1\")) ? \"G1 Some critical handwashing times NOT mentioned\" : (!#handwashing_critical_infant_times# || #handwashing_critical_infant_times#.includes(\"g2\")) && (!#handwashing_critical_toilet_times# || #handwashing_critical_toilet_times#.includes(\"g2\")) && (!#handwashing_critical_food_times# || #handwashing_critical_food_times#.includes(\"g2\")) ? \"G2 Handwashing with soap at ALL critical times\" : \"G0 No or inadequate handwashing services\"",
             "multiline": false
           }
         },
@@ -4120,7 +4120,7 @@
               "G3 Permanent handwashing services": "#4088F4",
               "G1 Non-durable handwashing services": "#FDC74B"
             },
-            "fnString": "(!#handwashing_facility_type# || #handwashing_facility_type#.includes(\"g0\")) && (!#handsfree_operation_of_handwashing_facility# || #handsfree_operation_of_handwashing_facility#.includes(\"g0\")) && (!#adequate_drainage_of_washing_water# || #adequate_drainage_of_washing_water#.includes(\"g0\")) ? \"G0 No or inadequate handwashing services\" : (!#handwashing_facility_observed# || #handwashing_facility_observed#.includes(\"g1\")) && (!#handwashing_facility_type# || #handwashing_facility_type#.includes(\"g3\")) && (!#handsfree_operation_of_handwashing_facility# || #handsfree_operation_of_handwashing_facility#.includes(\"g3\")) && (!#adequate_drainage_of_washing_water# || #adequate_drainage_of_washing_water#.includes(\"g3\")) ? \"G3 Permanent handwashing services\" : \"G1 Non-durable handwashing services\"",
+            "fnString": "(!#handwashing_facility_type# || #handwashing_facility_type#.includes(\"g1\")) && (!#handsfree_operation_of_handwashing_facility# || #handsfree_operation_of_handwashing_facility#.includes(\"g1\")) && (!#adequate_drainage_of_washing_water# || #adequate_drainage_of_washing_water#.includes(\"g1\")) ? \"G1 Non-durable handwashing services\" : (!#handwashing_facility_observed# || #handwashing_facility_observed#.includes(\"g1\")) && (!#handwashing_facility_type# || #handwashing_facility_type#.includes(\"g3\")) && (!#handsfree_operation_of_handwashing_facility# || #handsfree_operation_of_handwashing_facility#.includes(\"g3\")) && (!#adequate_drainage_of_washing_water# || #adequate_drainage_of_washing_water#.includes(\"g3\")) ? \"G3 Permanent handwashing services\" : \"G0 No or inadequate handwashing services\"",
             "multiline": false
           }
         }
@@ -6937,7 +6937,7 @@
         },
         {
           "id": 1702298863458,
-          "order": 16,
+          "order": 18,
           "name": "o_r_clean_face_and_hands",
           "label": "G3-4.1 OUTCOME RESULT - Clean face and hands",
           "short_label": null,
@@ -6968,7 +6968,7 @@
         },
         {
           "id": 1702301820095,
-          "order": 17,
+          "order": 19,
           "name": "o_r_good_menstrual_health",
           "label": "G3-4.2 OUTCOME RESULT - Good menstrual health",
           "short_label": null,
@@ -6999,7 +6999,7 @@
         },
         {
           "id": 1712644557,
-          "order": 18,
+          "order": 20,
           "name": "o_r_good_personal_hygiene",
           "label": "G3-4 OUTCOME RESULT - Good personal hygiene",
           "short_label": null,
@@ -7026,7 +7026,7 @@
         },
         {
           "id": 1702302041022,
-          "order": 19,
+          "order": 21,
           "name": "o_r_fully_immunized_children",
           "label": "G3-5.1 OUTCOME RESULT - Fully immunized children",
           "short_label": null,
@@ -7057,7 +7057,7 @@
         },
         {
           "id": 1702302232732,
-          "order": 17,
+          "order": 22,
           "name": "o_r_vitamin_a_supplements",
           "label": "G3-5.2 OUTCOME RESULT - Vitamin A supplements",
           "short_label": null,
@@ -7088,7 +7088,7 @@
         },
         {
           "id": 1702302427536,
-          "order": 18,
+          "order": 23,
           "name": "o_r_exclusive_breastfeeding",
           "label": "G3-5.3 OUTCOME RESULT - Exclusive breastfeeding",
           "short_label": null,
@@ -7119,7 +7119,7 @@
         },
         {
           "id": 1702302507816,
-          "order": 19,
+          "order": 24,
           "name": "o_r_nutritious_diet",
           "label": "G3-5.4 OUTCOME RESULT - Nutritious diet",
           "short_label": null,
@@ -7150,9 +7150,9 @@
         },
         {
           "id": 1712644710,
-          "order": 20,
+          "order": 25,
           "name": "o_r_good_nutrition",
-          "label": "G3-5.4 OUTCOME RESULT - Good Nutrition",
+          "label": "G3-5 OUTCOME RESULT - Good Nutrition",
           "short_label": null,
           "type": "autofield",
           "tooltip": null,
@@ -7180,78 +7180,8 @@
           }
         },
         {
-          "id": 1702299714872,
-          "order": 21,
-          "name": "o_r_malariasafe_homes",
-          "label": "G3-E1 OUTCOME RESULT - Malaria-endemic counties: Malaria-safe homes",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": false,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 16994260598423,
-              "options": ["yes"]
-            },
-            {
-              "id": 1699435455818,
-              "options": [
-                "g1_no_protection_no_bed_nets_and_no_insect_screen",
-                "g2_inadequate_protection_some_beds_without_nets_or_some_openings_unprotected",
-                "g3_malariasafe_home"
-              ]
-            }
-          ],
-          "fn": {
-            "fnColor": {
-              "G1 No malaria protection": "#FDC74B",
-              "G2 Inadequate malaria protection": "#93D371",
-              "G3 Malaria-safe home": "#4088F4"
-            },
-            "fnString": "#malariasafe_home#.includes(\"g1\") ? \"G1 No malaria protection\"  : (#malariasafe_home#.includes(\"g3\") ? \"G3 Malaria-safe home\" : \"G2 Inadequate malaria protection\")",
-            "multiline": false
-          }
-        },
-        {
-          "id": 1702299918738,
-          "order": 22,
-          "name": "o_r_dewormed_homes",
-          "label": "G3-E2 OUTCOME RESULT - STH-endemic counties: Dewormed homes",
-          "short_label": null,
-          "type": "autofield",
-          "tooltip": null,
-          "required": false,
-          "meta": false,
-          "options": null,
-          "dependency": [
-            {
-              "id": 16994260598423,
-              "options": ["yes"]
-            },
-            {
-              "id": 1699435526190,
-              "options": [
-                "g1_no_deworming_no_children_or_adults_treated",
-                "g2_inadequate_deworming_some_children_or_adults_not_treated",
-                "g3_dewormed_home_all_treated_in_last_12_months"
-              ]
-            }
-          ],
-          "fn": {
-            "fnColor": {
-              "G1 No deworming": "#FDC74B",
-              "G2 Inadequate deworming": "#93D371",
-              "G3 Dewormed home": "#4088F4"
-            },
-            "fnString": "#dewormed_home#.includes(\"g1\") ? \"G1 No deworming\" : #dewormed_home#.includes(\"g3\") ? \"G3 Dewormed home\" : \"G2 Inadequate deworming\"",
-            "multiline": false
-          }
-        },
-        {
           "id": 1712657830,
-          "order": 23,
+          "order": 26,
           "name": "o_r_endemic",
           "label": "G3-E OUTCOME RESULT - Endemic outcomes",
           "short_label": null,
