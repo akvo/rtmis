@@ -3261,9 +3261,10 @@
           "fn": {
             "fnColor": {
               "G2 Durable toilet with safe containment": "#93D371",
-              "G0 Toilet NOT durable or with unsafe containment": "#FD3F31"
+              "G0 Toilet NOT durable or with unsafe containment": "#FD3F31",
+              "G1 Toilet NOT used, NOT durable or inadequate containment":"#FDC74B"
             },
-            "fnString": "#o_r_individual_use_of_own_hh_toilet#.includes(\"G2\") && #o_r_durable_toilet#.includes(\"G2\") && #o_r_toilet_with_safe_containment#.includes(\"G2\") ? \"G2 Durable toilet with safe containment\" : \"G0 Toilet NOT durable or with unsafe containment\"",
+            "fnString": "#o_r_individual_use_of_own_hh_toilet#.includes(\"G2\") && #o_r_durable_toilet#.includes(\"G2\") && #o_r_toilet_with_safe_containment#.includes(\"G2\") ? \"G2 Durable toilet with safe containment\" : #o_r_individual_use_of_own_hh_toilet#.includes(\"G0\") && #o_r_durable_toilet#.includes(\"G0\") && #o_r_toilet_with_safe_containment#.includes(\"G0\") ? \"G0 Toilet NOT durable or with unsafe containment\": \"G1 Toilet NOT used, NOT durable or inadequate containment\"",
             "multiline": false
           }
         },
