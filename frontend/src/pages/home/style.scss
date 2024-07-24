@@ -183,17 +183,5 @@
         text-align: center;
       }
     }
-
-    .power-bi {
-      height: 1566px;
-      overflow: hidden;
-      iframe {
-        width: 100%;
-        height: 100%;
-        min-height: 480px;
-        border: none;
-        zoom: 4;
-      }
-    }
   }
 }
