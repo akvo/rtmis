@@ -7179,6 +7179,33 @@
             "fnString": "(!#o_r_fully_immunized_children# || #o_r_fully_immunized_children#.includes(\"G1\")) && (!#o_r_vitamin_a_supplements# || #o_r_vitamin_a_supplements#.includes(\"G1\")) && (!#o_r_exclusive_breastfeeding# || #o_r_exclusive_breastfeeding#.includes(\"G1\")) && (!#o_r_nutritious_diet# || #o_r_nutritious_diet#.includes(\"G1\")) ? \"G1 Low nutrition or protection\" : (!#o_r_fully_immunized_children# || #o_r_fully_immunized_children#.includes(\"G3\")) && (!#o_r_vitamin_a_supplements# || #o_r_vitamin_a_supplements#.includes(\"G3\")) && (!#o_r_exclusive_breastfeeding# || #o_r_exclusive_breastfeeding#.includes(\"G3\")) && (!#o_r_nutritious_diet# || #o_r_nutritious_diet#.includes(\"G3\")) ? \"G3 Good nutrition and protection\" : \"G2 Inadequate nutrition or protection\"",
             "multiline": false
           }
+        },
+        {
+          "id": 1712657830,
+          "order": 26,
+          "name": "o_r_endemic",
+          "label": "G3-E OUTCOME RESULT - Endemic outcomes",
+          "short_label": null,
+          "type": "autofield",
+          "tooltip": null,
+          "required": false,
+          "meta": false,
+          "options": null,
+          "dependency": [
+            {
+              "id": 16994260598423,
+              "options": ["yes"]
+            }
+          ],
+          "fn": {
+            "fnColor": {
+              "G1 No deworming": "#FDC74B",
+              "G2 Inadequate deworming": "#93D371",
+              "G3 dewormed home": "#4088F4"
+            },
+            "fnString": "#malariasafe_home#.includes(\"g1\") && #dewormed_home#.includes(\"g1\") ? \"G1 No deworming\" : #malariasafe_home#.includes(\"g3\") && #dewormed_home#.includes(\"g3\") ? \"G3 dewormed home\" : \"G2 Inadequate deworming\"",
+            "multiline": false
+          }
         }
       ]
     },
