@@ -1,0 +1,18 @@
+---
+services:
+  documentation_build:
+    image: akvo/akvo-sphinx:20220525.082728.594558b
+    container_name: documentation_build
+    working_dir: /docs
+    environment:
+      - CI_COMMIT=${CI_COMMIT}
+    command:
+      - /bin/bash
+      - -c
+      - |
+        ls -la
+        make html
+        cp -r build/html ../frontend/public/documentation
+    volumes:
+      - ../docs:/docs:delegated
+      - ../frontend:/frontend:delegated

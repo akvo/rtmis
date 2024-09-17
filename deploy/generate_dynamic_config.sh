@@ -20,6 +20,8 @@ http:
       service: frontend-service
       tls:
         certResolver: myresolver
+      middlewares:
+        - redirect-documentation
 
   middlewares:
     redirect-to-https:
@@ -27,6 +29,11 @@ http:
         scheme: "https"
         permanent: true
 
+    redirect-documentation:
+      redirectRegex:
+        regex: "^https://${WEBDOMAIN}/documentation$"
+        replacement: "https://${WEBDOMAIN}/documentation/"
+        permanent: true
 
   services:
     frontend-service:
