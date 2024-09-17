@@ -19,6 +19,9 @@ inputs:
   docker-compose-file-frontend-build:
     description: 'Docker compose for frontend build file location'
     required: true
+  docker-compose-file-documentation-build:
+    description: 'Docker compose for documentation build file location'
+    required: true
   ci_commit:
     description: 'Commit ID'
     required: true
@@ -32,6 +35,10 @@ runs:
 
     - name: Git Pull
       run: .github/composite-actions/ssh-docker-compose/git-pull.sh ${{ inputs.server-ip }} ${{ inputs.server-ssh-port }} ${{ inputs.server-ssh-user }}
+      shell: bash
+
+    - name: Rebuild Documentation
+      run: .github/composite-actions/ssh-docker-compose/documentation-build.sh ${{ inputs.server-ip }} ${{ inputs.server-ssh-port }} ${{ inputs.server-ssh-user }} ${{ inputs.docker-compose-file-documentation-build }} ${{ inputs.ci_commit }}
       shell: bash
 
     - name: Rebuild Frontend
