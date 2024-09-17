@@ -51,7 +51,7 @@ Bulk Upload
     :alt: Update
     :width: 100%
 
-3. Select the questionnaire and village you would like to bulk upload data against and select the spreadsheet file on your computer.
+3. Select the questionnaire and village you would like to bulk upload data against and select the spreadsheet file on your computer. If the upload is successfully completed the user should receive an email notification of this and if the data is not valid a list of the validation errors will be sent to the users email.
 
 .. image:: ../assests/image27.png
     :alt: Update
