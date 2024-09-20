@@ -30,6 +30,7 @@ jobs:
           server-ssh-user:  ${{ secrets.SERVER_SSH_USER }}
           docker-compose-file: ${{ secrets.DOCKER_COMPOSE_FILE }}
           docker-compose-file-frontend-build: ${{ secrets.DOCKER_COMPOSE_FILE_FRONTEND_BUILD }}
+          docker-compose-file-documentation-build: ${{ secrets.DOCKER_COMPOSE_FILE_DOCUMENTATION_BUILD }}
           ci_commit: ${{ env.COMMIT_SHORT_SHA }}
 
   mobile-app-release:

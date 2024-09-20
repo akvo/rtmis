@@ -32,20 +32,6 @@
       }
     },
     "owner": "akvo",
-    "backgroundFetch": {
-      "jobs": [
-        {
-          "jobName": "sync-form-version",
-          "minimumInterval": 3600,
-          "enabled": true
-        },
-        {
-          "jobName": "sync-form-submission",
-          "minimumInterval": 1,
-          "enabled": true
-        }
-      ]
-    },
     "plugins": [
       [
         "sentry-expo",
@@ -55,6 +41,19 @@
           "organization": "akvo-foundation",
           "project": "rtmis-mobile",
           "setCommits": true
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "34.0.0"
+          },
+          "ios": {
+            "deploymentTarget": "13.4"
+          }
         }
       ]
     ],
