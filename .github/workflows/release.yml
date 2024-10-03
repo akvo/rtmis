@@ -188,7 +188,7 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_MOBILE_AUTH_TOKEN }}
         run: |
           curl -X 'POST' \
-            'https://rtmis.akvo.org/api/v1/device/apk/upload' \
+            'https://rush.health.go.ke/api/v1/device/apk/upload' \
             -H 'accept: */*' \
             -H 'Content-Type: application/json' \
             -d '{

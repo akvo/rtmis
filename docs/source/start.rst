@@ -47,7 +47,7 @@ User Roles and Permissions
 Setting up Account for the First Time
 ---------------------------------------
 
-Users who have been registered in the RUSH platform will receive an invitation email to complete the account setup process. Click the Set Password button to activate your account. Make sure you are on the testing url rtmis.akvo.org. Set a strong password and click Set New Password to login to your account.
+Users who have been registered in the RUSH platform will receive an invitation email to complete the account setup process. Click the Set Password button to activate your account. Make sure you are on the testing url rush.health.go.ke. Set a strong password and click Set New Password to login to your account.
 
 .. image:: ../assests/image10.png
    :alt: Sign up
