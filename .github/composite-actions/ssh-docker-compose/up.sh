@@ -15,4 +15,10 @@ ssh -i priv.key -o BatchMode=yes \
     -p "${server_port}" \
     -o UserKnownHostsFile=/dev/null \
     -o StrictHostKeyChecking=no \
+    "${server_user}"@"${server_ip}" "cd src/deploy && docker compose -f ${docker_compose_file} exec -u root frontend sh -c 'rm -rf /var/tmp/cache/*'"
+
+ssh -i priv.key -o BatchMode=yes \
+    -p "${server_port}" \
+    -o UserKnownHostsFile=/dev/null \
+    -o StrictHostKeyChecking=no \
     "${server_user}"@"${server_ip}" "cd src/deploy && docker compose -f ${docker_compose_file} stop && docker compose -f ${docker_compose_file} up -d"
