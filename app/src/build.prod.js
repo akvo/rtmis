@@ -2,8 +2,8 @@ import buildJson from './build.json';
 
 const defaultBuildParams = {
   ...buildJson,
-  serverURL: 'https://rtmis.akvo.org/api/v1/device',
-  apkURL: 'https://rtmis.akvo.org/app',
+  serverURL: 'https://rush.health.go.ke/api/v1/device',
+  apkURL: 'https://rush.health.go.ke/app',
 };
 
 export default defaultBuildParams;
