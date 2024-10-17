@@ -8,7 +8,6 @@ on:
 jobs:
   mobile-app-release:
     name: Mobile App Build
-    needs: build_and_deploy_jobs
     runs-on: ubuntu-latest
     steps:
       - name: 🗄️  Checkout repository
