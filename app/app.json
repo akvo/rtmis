@@ -28,10 +28,10 @@
     },
     "extra": {
       "eas": {
-        "projectId": "fa1e4fb6-cc4f-4fad-8b6f-1c1189819532"
+        "projectId": "4a950404-b4b3-4e45-b5f5-1d1dc296fa4e"
       }
     },
-    "owner": "akvo",
+    "owner": "rtmisadmin",
     "plugins": [
       [
         "sentry-expo",
