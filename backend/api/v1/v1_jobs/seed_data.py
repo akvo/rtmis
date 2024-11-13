@@ -26,10 +26,6 @@ from api.v1.v1_profile.constants import UserRoleTypes
 from utils.email_helper import send_email, EmailTypes
 from uuid import uuid4
 
-# import logging
-# logger = logging.getLogger("rtmis")
-# logger.warning("This is log message")
-
 
 def get_geo_value(aw):
     geo = aw
