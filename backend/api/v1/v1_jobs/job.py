@@ -273,6 +273,35 @@ def seed_data_job_result(task):
     job.save()
 
 
+def notify_sheet_data_error(
+    user: SystemUser,
+    title: str,
+    upload_time=None
+):
+    if not upload_time:
+        upload_time = timezone.now()
+    send_email(
+        context={
+            "send_to": [user.email],
+            "listing": [
+                {
+                    "name": "Upload Date",
+                    "value": upload_time.strftime("%m-%d-%Y, %H:%M:%S"),
+                },
+                {
+                    "name": "Questionnaire",
+                    "value": title,
+                },
+                {
+                    "name": "Error",
+                    "value": 'Sheet "data" not found',
+                },
+            ],
+        },
+        type=EmailTypes.upload_error,
+    )
+
+
 def validate_excel(job_id):
     job = Jobs.objects.get(pk=job_id)
     storage.download(f"upload/{job.info.get('file')}")
@@ -286,6 +315,13 @@ def validate_excel(job_id):
         form_id = job.info.get("form")
         form = Forms.objects.filter(pk=int(form_id)).first()
         file = job.info.get("file")
+        xlsx = pd.ExcelFile(f"./tmp/{file}")
+        if "data" not in xlsx.sheet_names:
+            notify_sheet_data_error(
+                user=job.user,
+                title=form.name,
+            )
+            return
         df = pd.read_excel(f"./tmp/{file}", sheet_name="data")
         error_list = pd.DataFrame(data)
         error_list = error_list[
@@ -349,26 +385,10 @@ def handle_administrations_bulk_upload(filename, user_id, upload_time):
     errors = validate_administrations_bulk_upload(file_path)
     xlsx = pd.ExcelFile(file_path)
     if "data" not in xlsx.sheet_names:
-        logger.error(f"Sheet 'data' not found in {filename}")
-        send_email(
-            context={
-                "send_to": [user.email],
-                "listing": [
-                    {
-                        "name": "Upload Date",
-                        "value": upload_time.strftime("%m-%d-%Y, %H:%M:%S"),
-                    },
-                    {
-                        "name": "Questionnaire",
-                        "value": "Administrative List",
-                    },
-                    {
-                        "name": "Error",
-                        "value": 'Sheet "data" not found',
-                    },
-                ],
-            },
-            type=EmailTypes.upload_error,
+        notify_sheet_data_error(
+            user=user,
+            title="Administrative List",
+            upload_time=upload_time
         )
         return
     df = pd.read_excel(file_path, sheet_name="data")
@@ -387,7 +407,6 @@ def handle_administrations_bulk_upload(filename, user_id, upload_time):
         ],
     }
     if len(errors):
-        logger.error(errors)
         error_file = (
             "./tmp/administration-error-"
             f"{upload_time.strftime('%Y%m%d%H%M%S')}-{user.id}.csv"
@@ -429,7 +448,6 @@ def handle_entities_error_upload(
     user: SystemUser,
     upload_time: timezone.datetime,
 ):
-    logger.error(errors)
     error_file = (
         "./tmp/entity-error-"
         f"{upload_time.strftime('%Y%m%d%H%M%S')}-{user.id}.csv"
