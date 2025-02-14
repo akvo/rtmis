@@ -137,6 +137,23 @@ docker volume create rtmis-mobile-docker-sync
 3. Open The Expo Go
 4. Enter URL Manually: `Your_IP_Address:19000`
 
+### Troubleshooting
+
+#### APK Build Failed
+
+If the release to Expo fails and shows the following message:
+
+> Found eas-cli in your project dependencies.
+> It's recommended to use the "cli.version" field in eas.json to enforce the eas-cli version for your project.
+> Learn more: [Expo EAS CLI Documentation](https://github.com/expo/eas-cli#enforcing-eas-cli-version-for-your-project)
+
+This issue is usually caused by an outdated `eas-cli` version. To resolve it, upgrade `eas-cli` in the mobile container by running the following commands:
+
+```sh
+./dc-mobile.sh exec mobileapp sh
+yarn upgrade eas-cli --ignore-scripts
+```
+
 #### Teardown Mobile App
 
 ```bash
